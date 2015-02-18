@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-.controller('LoginCtrl', ['$scope', '$rootScope', 'AUTH_EVENTS', 'AuthService', '$http', 'Restangular', '$cookies', 'Perfil', 'App', ($scope, $rootScope, AUTH_EVENTS, AuthService, $http, Restangular, $cookies, Perfil, App)->
+.controller('LoginCtrl', ['$scope', '$rootScope', 'AUTH_EVENTS', 'AuthService', '$location', 'Restangular', '$cookies', 'Perfil', 'App', ($scope, $rootScope, AUTH_EVENTS, AuthService, $location, Restangular, $cookies, Perfil, App)->
 	
 	animation_speed = 300
 	$scope.logueando = true
@@ -13,6 +13,8 @@ angular.module('myvcFrontApp')
 		username: ''
 		password: ''
 
+
+	$scope.host = $location.host()
 
 	$scope.login = (credentials)->
 		user = AuthService.login_credentials(credentials)
