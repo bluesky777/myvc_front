@@ -1,0 +1,57 @@
+.row
+	.col-xs-12.col-md-8
+		.well.with-header.with-footer
+			.header.bordered-yellow Alumnos
+			#grid1.grid(ui-grid="gridOptions")
+
+			table.table.table-hover
+				thead
+					tr
+						th #
+						th Class Name
+						th Column
+						th Column
+						th Column
+				tbody
+					tr.active
+						td 1
+						td active
+						td Column heading
+						td Column heading
+						td Column heading
+
+					tr.danger
+						td 4
+						td danger
+						td Column heading
+						td Column heading
+						td Column heading
+
+			.footer
+				code &lt; tr class="active/success/danger/warning" &gt;
+	.col-xs-12.col-md-4
+		.well.with-header.with-footer
+			.header.bordered-sky Contextual Columns
+			table.table.table-bordered.table-hover
+				thead
+					tr
+						th #
+						th Column
+						th Column
+						th Column
+						th Column
+				tbody
+					tr
+						td 3
+						td active
+						td success
+						td.warning warning
+						td danger
+					tr
+						td 4
+						td active
+						td.success success
+						td warning
+						td danger
+			.footer
+				code &lt; td class="active/success/danger/warning" &gt;

@@ -1,0 +1,317 @@
+<!-- Loading Container -->
+loader(ng-if="bigLoader")
+<!--  /Loading Container -->
+<!-- Navbar -->
+.navbar
+	.navbar-inner
+		.navbar-container
+			<!-- Navbar Barnd -->
+			.navbar-header.pull-left
+				a.navbar-brand(ui-sref="panel")
+					small
+						img(src="http://localhost/myvc/public/views/app/images/MyVc-1.gif" alt="")
+
+			<!-- /Navbar Barnd -->
+			<!-- Sidebar Collapse -->
+			#sidebar-collapse(ng-click="toggleCompactMenu()" ng-class="{'active': menucompacto, 'sidebar-collapse': true}")
+				i.collapse-icon.fa.fa-bars
+			<!-- /Sidebar Collapse -->
+
+
+			<!-- Account Area and Settings -->
+			.navbar-header.pull-right
+				.navbar-account
+					ul.account-area
+
+						<!-- Periodo Dropdown-->
+						li.dropdown-periodos(my-drop-down ng-click="toggleOpen()" is-open="false" ng-if="false")
+							a.dropdown-toggle#link-dropdown-periodos(data-toggle="dropdown" title="Tasks" href="")
+								i.icon.fa.fa-ioxhost  Per 1
+								span.badge
+							<!--Tasks Dropdown-->
+							ul.pull-right.dropdown-menu.dropdown-tasks.dropdown-arrow
+								li.dropdown-header.bordered-blueberry
+									i.fa.fa-ioxhost Periodos
+								li
+									a(href="")
+										.clearfix
+											span.pull-left Periodo 1
+											span.pull-right 65%
+										.progress.progress-xs
+											.progress-bar(style="width:65%")
+								li
+									a(href="")
+										.clearfix
+											span.pull-left Periodo 2
+											span.pull-right 05%
+										.progress.progress-xs
+											.progress-bar.progress-bar-success(style="width:05%")
+										
+							<!--/ Periodo Dropdown-->
+						li(my-drop-down ng-click="toggleOpen()" is-open="false" evitar-cierre="true" ng-if="false")
+							a.dropdown-toggle(data-toggle="dropdown" title="Año" href="")
+								i.icon  2015
+							<!-- Año Dropdown-->
+							ul.pull-right.dropdown-menu.dropdown-arrow.dropdown-notifications
+								li
+									a(href="")
+										.clearfix
+											.notification-icon
+												i.fa.fa-check.bg-themeprimary.white
+											.notification-body
+												span.title 2015
+											.notification-extra
+												i.fa.fa-calendar  Actual 
+												i.fa.fa-clock-o.themeprimary
+								li
+									a(href="")
+										.clearfix
+											.notification-icon
+												i.fa.fa-check.bg-warning.white
+											.notification-body
+												span.title 2016
+											.notification-extra
+												i.fa.fa-clock-o.darkorange
+								li
+									a(href="")
+										.clearfix
+											.notification-icon
+												i.fa.fa-check.bg-warning.white
+											.notification-body
+												span.title 2017
+											.notification-extra
+												i.fa.fa-clock-o.darkorange
+								li.dropdown-footer
+									span Hoy, Enero 17
+									span.pull-right 10°c
+										i.wi.wi-cloudy
+							<!--/ Año Dropdown-->
+
+						li(my-drop-down ng-click="toggleOpen()" is-open="false" evitar-cierre="true" ng-if="false")
+							a.dropdown-toggle(data-toggle="dropdown" title="Ayuda" href="")
+								i.icon.fa.fa-warning
+							<!--Notification Dropdown-->
+							ul.pull-right.dropdown-menu.dropdown-arrow.dropdown-notifications
+								li
+									a(href="")
+										.clearfix
+											.notification-icon
+												i.fa.fa-phone.bg-themeprimary.white
+											.notification-body
+												span.title Llamada de Miguel
+												span.description 01:00 pm
+											.notification-extra
+												i.fa.fa-clock-o.themeprimary
+												spa.description oficina
+								li
+									a(href="")
+										.clearfix
+											.notification-icon
+												i.fa.fa-check.bg-darkorange.white
+											.notification-body
+												span.title Periodo 3 habilitado
+												span.description 10 ene - 15 mar
+											.notification-extra
+												i.fa.fa-clock-o.darkorange
+								li
+									a(href="")
+										.clearfix
+											.notification-icon
+												i.fa.fa-gift.bg-warning.white
+											.notification-body
+												span.title Cumple Venus Ibica
+												span.description 08:30 pm
+											.notification-extra
+												i.fa.fa-calendar Atención
+												i.fa.fa-clock-o.warning
+												span.description En el colegio
+								li
+									a(href="")
+										.clearfix
+											.notification-icon
+												i.fa.fa-glass.bg-success.white
+											.notification-body
+												span.title Fin del periodo 2
+												span.description 10:30 pm
+								li.dropdown-footer
+									span Hoy, Enero 17
+									span.pull-right 10°c
+										i.wi.wi-cloudy
+							<!--/Notification Dropdown-->
+						li(my-drop-down ng-click="toggleOpen()" is-open="false" ng-if="false")
+							a.wave.in.dropdown-toggle(data-toggle="dropdown" title="Mensajes" href="")
+								i.icon.fa.fa-envelope
+								span.badge 3
+							<!--Messages Dropdown-->
+							ul.pull-right.dropdown-menu.dropdown-arrow.dropdown-messages
+								li
+									a(href="")
+										img(src="http://localhost/myvc/public/views/app/images/perfil/default_male.jpg" class="message-avatar" alt="Armando Maradona")
+										div.message
+											span.message-sender Armando Maradona
+											span.message-time Hace 2 minutos
+											span.message-subject La mano de Dios
+											span.message-body Me parece increíble que me hayan valido ese gol de la mano de oro, que arbitro tan tonto.
+								li
+									a(href="")
+										img(src="http://localhost/myvc/public/views/app/images/perfil/default_female.jpg" class="message-avatar" alt="Administrador LAL")
+										div.message
+											span.message-sender Administrador LAL
+											span.message-time Ayer
+											span.message-subject Documento actualizado
+											span.message-body Le adjunto el documento acerca de lo que usted quiera, ya que no sé que copiar.
+								li
+									a(href="")
+										img(src="http://localhost/myvc/public/views/app/images/perfil/default_male.jpg" class="message-avatar" alt="Nicolás")
+										div.message
+											span.message-sender Nicolás
+											span.message-time Viernes, Enero 2
+											span.message-subject Mira esta camara
+											span.message-body Esta cámara es muy bacana!! el problema es que no la han inventado, por lo que yo estoy copiando barrabasadas :)
+							<!--/Messages Dropdown-->
+
+						li(my-drop-down ng-click="toggleOpen()" is-open="false" ng-if="false")
+							a.dropdown-toggle(data-toggle="dropdown" title="Tasks" href="")
+								i.icon.fa.fa-tasks
+								span.badge
+							<!--Tasks Dropdown-->
+							ul.pull-right.dropdown-menu.dropdown-tasks.dropdown-arrow
+								li.dropdown-header.bordered-darkorange
+									i.fa.fa-tasks 4 Tareas en proceso
+								li
+									a(href="")
+										.clearfix
+											span.pull-left Notas del periodo
+											span.pull-right 65%
+										.progress.progress-xs
+											.progress-bar(style="width:65%")
+								li
+									a(href="")
+										.clearfix
+											span.pull-left Datos personales
+											span.pull-right 35%
+										.progress.progress-xs
+											.progress-bar.progress-bar-success(style="width:35%")
+										
+							<!--/Tasks Dropdown-->
+						li(my-drop-down ng-click="toggleOpen()" is-open="false" evitar-cierre="login-area-noclose")
+							a.login-area.dropdown-toggle(data-toggle="dropdown")
+								.avatar(title="Ver tu perfil público")
+									img(ng-src="{{ imagenPrincipal }}")
+								section
+									h2
+										span.profile
+											span {{nameToShow()}}
+							<!--Login Area Dropdown-->
+							ul.pull-right.dropdown-menu.dropdown-arrow.dropdown-login-area#login-area-noclose
+								li.username
+									a {{currentUser.username}}
+								li.email
+									a {{currentUser.email}}
+								<!--Avatar Area-->
+								li
+									.avatar-area
+										img.avatar(ng-src="{{ imagenOficial }}")
+										span.caption(ng-click="goFileManager()") Cambiar fotos
+								<!--Avatar Area-->
+								li(ng-if="false").edit
+									a.pull-left(href="profile.html") Perfil
+									a.pull-right(href="") Configuración
+								<!--Theme Selector Area-->
+								li(ng-if="false").theme-area
+									ul.colorpicker#skin-changer
+										li
+											a.colorpick-btn(href="" style="background-color:#5DB2FF;" rel="assets/css/skins/blue.min.css")
+										li
+											a.colorpick-btn(href="" style="background-color:#2dc3e8;" rel="assets/css/skins/azure.min.css")
+										li
+											a.colorpick-btn(href="" style="background-color:#03B3B2;" rel="assets/css/skins/teal.min.css")
+										li
+											a.colorpick-btn(href="" style="background-color:#53a93f;" rel="assets/css/skins/green.min.css")
+										li
+											a.colorpick-btn(href="" style="background-color:#FF8F32;" rel="assets/css/skins/orange.min.css")
+										li
+											a.colorpick-btn(href="" style="background-color:#cc324b;" rel="assets/css/skins/pink.min.css")
+										li
+											a.colorpick-btn(href="" style="background-color:#AC193D;" rel="assets/css/skins/darkred.min.css")
+										li
+											a.colorpick-btn(href="" style="background-color:#8C0095;" rel="assets/css/skins/purple.min.css")
+										li
+											a.colorpick-btn(href="" style="background-color:#0072C6;" rel="assets/css/skins/darkblue.min.css")
+										li
+											a.colorpick-btn(href="" style="background-color:#585858;" rel="assets/css/skins/gray.min.css")
+										li
+											a.colorpick-btn(href="" style="background-color:#474544;" rel="assets/css/skins/black.min.css")
+										li
+											a.colorpick-btn(href="" style="background-color:#001940;" rel="assets/css/skins/deepblue.min.css")
+								<!--/Theme Selector Area-->
+								li.dropdown-footer
+									a(href="" ng-click="logout()") Cerrar sesión
+							<!--/Login Area Dropdown-->
+						<!-- /Account Area -->
+						<!--Note: notice that setting div must start right after account area list. no space must be between these elements-->
+						<!-- Settings -->
+					.setting
+						a#btn-setting(title="Setting" href="")
+							i.icon.glyphicon.glyphicon-cog
+					.setting-container
+						label
+							input#checkbox_fixednavbar(type="checkbox")
+							span.text Fixed Navbar
+						label
+							input#checkbox_fixedsidebar(type="checkbox")
+							span.text Fixed SideBar
+						label
+							input#checkbox_fixedbreadcrumbs(type="checkbox")
+							span.text Fixed BreadCrumbs
+						label
+							input#checkbox_fixedheader(type="checkbox")
+							span.text Fixed Header
+					<!-- Settings -->
+			<!-- /Account Area and Settings -->
+<!-- /Navbar -->
+
+<!-- Main Container -->
+.main-container.container-fluid
+	<!-- Page Container -->
+	.page-container
+		#sidebar(ng-class="{'menu-compact': menucompacto, 'page-sidebar': true}")
+			
+			<!-- Page Sidebar Header-->
+			.sidebar-header-wrapper
+				input.searchinput(type="text")
+				i.searchicon.fa.fa-search
+				.searchhelper Aún no puedes buscar en el sitio.
+
+			<!-- /Page Sidebar Header -->
+			
+			<!-- Sidebar Menu ************************************* -->
+			sidebar-menu
+			<!-- /Sidebar Menu ************************************ -->
+
+		<!-- /Page Sidebar -->
+
+		<!-- Page Content -->
+		.page-content
+
+			<!-- Page Breadcrumb -->
+			ui-breadcrumbs(displayname-property="data.displayName")
+			<!-- /Page Breadcrumb -->
+
+			<!-- Page Header ************************************** -->
+			.page-header.position-relative(ui-view="headerContent")
+			<!-- /Page Header ************************************* -->
+
+			<!-- Page Body -->
+			.page-body
+
+				//databoxes-container.row
+					
+				<!-- Main Content ************************************* -->
+				div(ui-view="maincontent")
+				<!-- /Main Content ************************************ -->
+				
+		<!-- /Page Content -->
+
+	<!-- /Page Container -->
+<!-- /Main Container -->

@@ -1,0 +1,202 @@
+.col-lg-6.col-sm-6.col-xs-12
+	.widget
+		.widget-header.bordered-bottom.bordered-blue
+			span.widget-caption Editar alumno
+		.widget-body
+			div
+				form(role="form" ng-submit="guardar()")
+					tabset
+						tab(heading="Información")
+							.widget
+								.widget-header.bordered-bottom.bordered-pink
+									span.widget-caption Básica
+								.widget-body 
+									.form-group
+										label(for="alumno-no-matr") Número Matrícula
+										input.form-control#alumno-no-matr(type="text" ng-model="alumno.no_matricula" placeholder="Número de matrícula")
+									.form-group
+										label(for="alumno-nombres") Nombres
+										input.form-control#alumno-nombres(type="text" ng-model="alumno.nombres" placeholder="Nombres")
+									.form-group
+										label(for="alumno-apellidos") Apellidos
+										input#alumno-apellidos.form-control(type="text" ng-model="alumno.apellidos" placeholder="Apellidos")
+									.form-group
+										label Sexo
+										.row
+											.col-lg-3.col-sm-4.col-xs-6
+												.radio
+													label
+														input.inverted(type="radio" name="sexo" value="M" ng-model="alumno.sexo")
+														span.text Masculino
+											.col-lg-4.col-sm-4.col-xs-6
+												.radio
+													label
+														input.inverted(type="radio" name="sexo" value="F" ng-model="alumno.sexo")
+														span.text Femenino
+									
+							.widget
+								.widget-header.bordered-bottom.bordered-pink
+									span.widget-caption Nacimiento
+								.widget-body 
+
+									.form-group
+										label(for="alumno-fecha-nac") Fecha de nacimiento
+										.controls
+											.input-group
+												span.input-group-addon
+													i.fa.fa-calendar
+												input.form-control.active#alumno-fecha-nac(type="text" datepicker-popup="dd-MMMM-yyyy" ng-model="alumno.fecha_nac" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2015-06-22'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha nacimiento")
+									
+									.form-group
+										label Pais
+										ui-select(ng-model="alumno.pais_nac" on-select="paisNacSelect($item, $model)" theme="select2" style="min-width: 200px;")
+											ui-select-match(placeholder="Pais nacimiento") {{$select.selected.pais}} ({{$select.selected.abrev}})
+											ui-select-choices(repeat="pais in paises | filter: $select.search")
+												div(ng-bind-html="pais.pais | highlight: $select.search")
+												small {{ pais.departamento | highlight: $select.search}}
+									.form-group
+										label Departamento
+										ui-select(ng-model="alumno.departamento_nac" on-select="departNacSelect($item, $model)" theme="select2" style="min-width: 200px;")
+											ui-select-match(placeholder="Departamento nacimiento") {{$select.selected.departamento}}
+											ui-select-choices(repeat="departamento in departamentosNac | filter: $select.search")
+												div(ng-bind-html="departamento.departamento | highlight: $select.search")
+
+									.form-group
+										label Ciudad
+										ui-select(ng-model="alumno.ciudad_nac" theme="select2" style="min-width: 200px;")
+											ui-select-match(placeholder="Ciudad nacimiento" allow-clear="true") {{$select.selected.ciudad}}
+											ui-select-choices(repeat="ciudad in ciudadesNac | filter: $select.search")
+												div(ng-bind-html="ciudad.ciudad | highlight: $select.search")
+								
+
+							.widget
+								.widget-header.bordered-bottom.bordered-red
+									span.widget-caption Matricular
+								.widget-body
+									label Grupo
+									ui-select(ng-model="alumno.grupo" theme="select2" style="min-width: 200px;")
+										ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}}
+										ui-select-choices(repeat="grupo in grupos | filter: $select.search")
+											div(ng-bind-html="grupo.nombre | highlight: $select.search")
+
+
+
+							.widget
+								.widget-header.bordered-bottom.bordered-pink
+									span.widget-caption Documento
+								.widget-body 
+									.form-group
+										label Tipo documento
+										ui-select(ng-model="alumno.tipo_doc" theme="select2" style="min-width: 300px;")
+											ui-select-match(placeholder="Tipo de documento" allow-clear="true") {{$select.selected.tipo}}{{ ' ('+$select.selected.abrev+')'}}
+											ui-select-choices(repeat="tipo_doc in tipos_doc")
+												div(ng-bind-html="tipo_doc.tipo | highlight: $select.search")
+												small {{ tipo_doc.abrev}}
+									.form-group
+										label(for="alumno-documento") Número documento
+										input#alumno-documento.form-control(type="text" ng-model="alumno.documento" placeholder="Documento")
+									
+									hr.wide
+									.form-group
+										label Pais
+										ui-select(ng-model="alumno.pais_doc" on-select="paisSelecionado($item, $model)" theme="select2" style="min-width: 200px;")
+											ui-select-match(placeholder="Pais documento") {{$select.selected.pais}} ({{$select.selected.abrev}})
+											ui-select-choices(repeat="pais in paises | filter: $select.search")
+												div(ng-bind-html="pais.pais | highlight: $select.search")
+												small {{ pais.departamento | highlight: $select.search}}
+									.form-group
+										label Departamento
+										ui-select(ng-model="alumno.departamento_doc" on-select="departSeleccionado($item, $model)" theme="select2" style="min-width: 200px;")
+											ui-select-match(placeholder="Departamento documento") {{$select.selected.departamento}}
+											ui-select-choices(repeat="departamento in departamentos | filter: $select.search")
+												div(ng-bind-html="departamento.departamento | highlight: $select.search")
+
+									.form-group
+										label Ciudad
+										ui-select(ng-model="alumno.ciudad_doc" theme="select2" style="min-width: 200px;")
+											ui-select-match(placeholder="Ciudad documento" allow-clear="true") {{$select.selected.ciudad}}
+											ui-select-choices(repeat="ciudad in ciudades | filter: $select.search")
+												div(ng-bind-html="ciudad.ciudad | highlight: $select.search")
+
+						tab(heading="Datos extras")
+							.form-group
+								label(for="alumno-tipo-sangre") Tipo de sangre
+								ui-select(ng-model="alumno.tipo_sangre" theme="select2" style="min-width: 100px;")
+									ui-select-match(placeholder="Tipo de sangre" allow-clear="true") {{$select.selected.sangre}}
+									ui-select-choices(repeat="sangre in sangres | filter: $select.search")
+										div(ng-bind-html="sangre.sangre | highlight: $select.search")
+
+							.form-group
+								label(for="alumno-eps") EPS
+								input#alumno-eps.form-control(type="text" ng-model="alumno.eps" placeholder="EPS")
+							.form-group
+								label(for="alumno-telefono") Teléfono
+								input#alumno-telefono.form-control(type="text" ng-model="alumno.telefono" placeholder="Teléfono")
+							.form-group
+								label(for="alumno-celular") Celular
+								input#alumno-celular.form-control(type="text" ng-model="alumno.celular" placeholder="Celular")
+							.form-group
+								label(for="alumno-direccion") Direccion
+								input#alumno-direccion.form-control(type="text" ng-model="alumno.direccion" placeholder="Direccion")
+							.form-group
+								label(for="alumno-barrio") Barrio
+								input#alumno-barrio.form-control(type="text" ng-model="alumno.barrio" placeholder="Barrio")
+							
+							.form-group
+								label(for="alumno-estrato") Estrato
+								.spinner.spinner-horizontal
+									input.spinner-input.form-control#alumno-estrato(type="text" minlength="0" maxlength="10" ng-model="alumno.estrato")
+									.spinner-buttons.btn-group
+										button.btn.spinner-down.blueberry(type="button" ng-click="restarEstrato()")
+											i.fa.fa-minus
+										button.btn.spinner-up.purple(type="button" ng-click="sumarEstrato()")
+											i.fa.fa-plus
+							.form-group
+								label(for="alumno-ciudad_resid") Ciudad residencia
+								input#alumno-ciudad-resid.form-control(type="text" ng-model="alumno.ciudad_resid" placeholder="Ciudad residencia")
+							.form-group
+								label(for="alumno-religion") Religión
+								input#alumno-religion.form-control(type="text" ng-model="alumno.religion" placeholder="Religión")
+							.form-group
+								label(for="alumno-email") E-mail
+								input#alumno-email.form-control(type="text" ng-model="alumno.email" placeholder="E-mail")
+							.form-group
+								label(for="alumno-facebook") Facebook
+								input#alumno-facebook.form-control(type="text" ng-model="alumno.facebook" placeholder="Facebook")
+							.form-group
+								label(for="alumno-foto") Foto oficial
+								input#alumno-foto.form-control(type="text" ng-model="alumno.foto" placeholder="Foto oficial")
+							.form-group
+								label ¿Está a paz y salvo?
+								label
+									input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="alumno.pazysalvo")
+									span.text.si-no
+							.form-group
+								label(for="alumno-deuda") Deuda
+								input#alumno-deuda.form-control(type="text" ng-model="alumno.deuda" placeholder="Deuda")
+
+
+						tab(heading="Usuario")
+							.form-group
+								label(for="alumno-username") Nombre de usuario
+								input#alumno-username.form-control(type="text" ng-model="alumno.username" placeholder="Nombre usuario")
+							.form-group
+								label(for="alumno-password") Contraseña
+								input#alumno-password.form-control(type="password" ng-model="alumno.password" placeholder="Contraseña")
+							.form-group
+								label(for="alumno-password2") Verificar contraseña
+								input#alumno-password2.form-control(type="password" ng-model="alumno.password2" placeholder="Verificar contraseña")
+							.form-group
+								label(for="alumno-email2") Correo electrónico
+								input#alumno-email2.form-control(type="email" ng-model="alumno.email2" placeholder="Correo electrónico")
+							.form-group
+								label ¿Es Super usuario?
+								label
+									input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="alumno.superuser")
+									span.text.si-no
+					br
+					input.btn.btn-primary.btn-lg.shiny(type="submit" ng-submit="guardar()" value="Guardar cambios") 
+
+
+					
+

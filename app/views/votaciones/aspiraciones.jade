@@ -1,0 +1,47 @@
+<!-- Page Header ************************************** -->
+.page-header.position-relative
+<!-- /Page Header ************************************* -->
+
+<!-- Page Body -->
+.page-body
+	.row
+		.col-lg-12.col-sm-12.col-xs-12
+			h5.row-title
+				i.fa.fa-list-alt.darkorange
+				| Aspiraciones - {{votacion.nombre}}
+			.row
+				.col-lg-6.col-sm-6.col-xs-12
+					.well.with-header
+						.header.bordered-purple Tabla aspiraciones
+						#grid1.grid(ui-grid="gridOptions" ui-grid-edit external-scopes="$scope" ui-grid-resize-columns)
+
+				.col-lg-6.col-sm-6.col-xs-12(ng-if="editing")
+					.well.with-header
+						.header.bordered-sky Editar aspiración
+						form(role="form" ng-submit="guardar()")
+							.form-group
+								label(for="aspiracionedit-nombre") Nombre de la aspiración
+								input.form-control#aspiracionedit-aspiracion(type="text" ng-model="aspiracionEdit.aspiracion" placeholder="Nombre la aspiración")
+							.form-group
+								label(for="aspiracion-abrev") Abreviatura
+								input.form-control#aspiracionedit-abrev(type="text" ng-model="aspiracionEdit.abrev" placeholder="Abreviatura")
+							
+
+							br
+							input.btn.btn-primary.btn-lg.shiny(type="submit" ng-submit="guardar()" value="Guardar aspiración") 
+
+
+				.col-lg-6.col-sm-6.col-xs-12
+					.well.with-header
+						.header.bordered-sky Nueva aspiración
+						form(role="form" ng-submit="crear()")
+							.form-group
+								label(for="aspiracion-nombre") Nombre de la aspiración
+								input.form-control#aspiracion-aspiracion(type="text" ng-model="aspiracion.aspiracion" placeholder="Nombre la aspiración")
+							.form-group
+								label(for="aspiracion-abrev") Abreviatura
+								input.form-control#aspiracion-abrev(type="text" ng-model="aspiracion.abrev" placeholder="Abreviatura")
+							
+
+							br
+							input.btn.btn-primary.btn-lg.shiny(type="submit" ng-submit="crear()" value="Crear") 

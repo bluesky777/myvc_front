@@ -1,0 +1,19 @@
+
+<div class="modal-header">
+  <h3 class="modal-title">¿Seguro que deseas eliminar?</h3>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-lg-12 col-xs-12 text-center"><img ng-src="{{imagesPath+imagen.nombre}}" style="width:200px; height:200px;" class="img-thumbnail"></div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6 col-xs-12">
+      <div style="text-overflow: ellipsis">{{imagen.nombre}}</div>
+      <h5>Pertenece a: {{imagen.user_id}}</h5>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button ng-click="ok()" class="btn btn-labeled btn-danger">Eliminar<i class="btn-label glyphicon glyphicon-remove"></i></button>
+  <button ng-click="cancel()" class="btn btn-yellow">Cancelar</button>
+</div>

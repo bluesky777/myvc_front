@@ -1,0 +1,150 @@
+<!-- Loading Container -->
+loader(ng-if="bigLoader")
+<!--  /Loading Container -->
+<!-- Navbar -->
+.navbar
+	.navbar-inner
+		.navbar-container
+			<!-- Navbar Barnd -->
+			.navbar-header.pull-left
+				a.navbar-brand(ui-sref="panel")
+					small
+						img(src="http://localhost/myvc/public/views/app/images/MyVc-1.gif" alt="")
+
+			<!-- /Navbar Barnd -->
+			<!-- Sidebar Collapse -->
+			#sidebar-collapse(ng-click="toggleCompactMenu()" ng-class="{'active': menucompacto, 'sidebar-collapse': true}")
+				i.collapse-icon.fa.fa-bars
+			<!-- /Sidebar Collapse -->
+
+
+			<!-- Account Area and Settings -->
+			.navbar-header.pull-right
+				.navbar-account
+					ul.account-area
+
+						<!-- Periodo Dropdown-->
+						li.dropdown-periodos(my-drop-down ng-click="toggleOpen()" is-open="false")
+							a.dropdown-toggle#link-dropdown-periodos(data-toggle="dropdown" title="Tasks" href="")
+								i.icon.fa.fa-ioxhost  Sistema de Votaciones
+								span.badge
+							
+						<!--/ Periodo Dropdown-->
+						
+						li(my-drop-down ng-click="toggleOpen()" is-open="false" evitar-cierre="login-area-noclose")
+							a.login-area.dropdown-toggle(data-toggle="dropdown")
+								.avatar(title="Ver tu perfil público")
+									img(src="http://localhost/myvc/public/views/app/images/perfil/default_male.jpg")
+								section
+									h2
+										span.profile
+											span {{USER.username}}
+							<!--Login Area Dropdown-->
+							ul.pull-right.dropdown-menu.dropdown-arrow.dropdown-login-area#login-area-noclose
+								li.username
+									a {{USER.username}}
+								li.email
+									a brad.pitt@gmail.com
+								<!--Avatar Area-->
+								li
+									.avatar-area
+										img.avatar(src="http://localhost/myvc/public/views/app/images/perfil/default_female.jpg")
+										span.caption Cambiar foto
+								<!--Avatar Area-->
+								li.dropdown-footer
+									a(ui-sref="logout") Cerrar sesión
+							<!--/Login Area Dropdown-->
+						<!-- /Account Area -->
+			<!-- /Account Area and Settings -->
+<!-- /Navbar -->
+
+<!-- Main Container -->
+.main-container.container-fluid
+	<!-- Page Container -->
+	.page-container
+		#sidebar(ng-class="{'menu-compact': menucompacto, 'page-sidebar': true}")
+			
+
+
+			<!-- Sidebar Menu ************************************* -->
+			
+			ul.nav.sidebar-menu
+				<!--Dashboard-->
+				li(ui-sref-active-eq="active")
+					a(ui-sref="panel")
+						i.menu-icon.fa.fa-institution.themesecondary
+						span.menu-text Volver a MyVc
+				<!--Dashboard-->
+				li(ui-sref-active-eq="active")
+					a(ui-sref="votaciones")
+						i.menu-icon.glyphicon.glyphicon-home.themesecondary
+						span.menu-text Votaciones
+				<!--Configuración-->
+				li(ui-sref-active="active")
+					a(ui-sref="votaciones.config")
+						i.menu-icon.fa.fa-user.themesecondary
+						span.menu-text Configuración
+				<!--Aspiraciones-->
+				li(ui-sref-active="active")
+					a(ui-sref="votaciones.aspiraciones")
+						i.menu-icon.fa.fa-cloud.themesecondary
+						span.menu-text Aspiraciones
+				<!--Participantes-->
+				li(ui-sref-active="active")
+					a(ui-sref="votaciones.participantes")
+						i.menu-icon.fa.fa-child.themesecondary
+						span.menu-text Participantes
+				<!--Candidatos-->
+				li(ui-sref-active="active")
+					a(ui-sref="votaciones.candidatos")
+						i.menu-icon.fa.fa-legal.themesecondary
+						span.menu-text Candidatos
+				<!-- Votar -->
+				li(ui-sref-active="active")
+					a(ui-sref="votaciones.votar")
+						i.menu-icon.fa.fa-graduation-cap.themesecondary
+						span.menu-text Votar
+				<!-- Resultados -->
+				li(ui-sref-active="active")
+					a(ui-sref="votaciones.resultados")
+						i.menu-icon.fa.fa-bar-chart.themesecondary
+						span.menu-text Resultados
+
+				<!-- Ayuda -->
+				li(ng-click="toggleOpen()" is-open="false")
+					a.menu-dropdown(href="")
+						i.menu-icon.fa.fa-question-circle.themesecondary
+						span.menu-text Ayuda
+						i.menu-expand
+
+					ul.submenu
+						li
+							a(href="tables-simple.html" stop-event="click")
+								span.menu-text Agregar notas
+						li
+							a(href="tables-data.html" stop-event="click")
+								span.menu-text Configurar colegio
+
+
+			<!-- /Sidebar Menu ************************************ -->
+
+
+
+
+		<!-- /Page Sidebar -->
+
+		<!-- Page Content -->
+		.page-content
+			
+			<!-- Main Content ************************************* -->
+			div(ui-view="maincontent")
+
+				h1 Bienvenido a las votaciones.
+				h2 Primero debes Configurar todos los datos.
+
+			<!-- /Main Content ************************************ -->
+				
+		<!-- /Page Content -->
+
+	<!-- /Page Container -->
+<!-- /Main Container -->

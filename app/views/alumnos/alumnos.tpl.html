@@ -1,0 +1,20 @@
+
+<div ui-view="edit_alumno" class="row"></div>
+<div class="row">
+  <div class="col-xs-12 col-md-12">
+    <div class="well with-header with-footer">
+      <div class="header bordered-yellow">Alumnos <a ui-sref="panel.alumnos.nuevo" tooltip="Ingresa datos de un nuevo alumno" class="btn btn-info shiny">Crear alumno</a></div>
+      <div class="form-group">
+        <label>Grupo en el cual matricular</label>
+        <ui-select ng-model="dato.grupo" theme="select2" style="min-width: 200px;">
+          <ui-select-match placeholder="Grupo a matricular">{{$select.selected.nombre}}</ui-select-match>
+          <ui-select-choices repeat="grupo in grupos | filter: $select.search">
+            <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+      <div id="grid1" ui-grid="gridOptions" ui-grid-edit external-scopes="$scope" ui-grid-resize-columns style="height: 600px" class="grid"></div>
+      <div class="footer">Puedes editar con doble click sobre el dato deseado.</div>
+    </div>
+  </div>
+</div>

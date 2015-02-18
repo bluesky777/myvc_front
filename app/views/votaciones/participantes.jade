@@ -1,0 +1,69 @@
+<!-- Page Header ************************************** -->
+.page-header.position-relative
+<!-- /Page Header ************************************* -->
+
+<!-- Page Body -->
+.page-body
+	.row
+		.col-lg-12.col-sm-12.col-xs-12
+			h5.row-title
+				i.fa.fa-list-alt.darkorange
+				| Participantes - {{ votacion.nombre }}
+			.row
+				.col-lg-6.col-sm-6.col-xs-12
+					.well.with-header
+						.header.bordered-purple Tabla de paticipantes
+						#grid1.grid(ui-grid="gridOptions" ui-grid-edit external-scopes="$scope" ui-grid-resize-columns)
+
+				.col-lg-6.col-sm-6.col-xs-12(ng-if="editing")
+					.well.with-header
+						.header.bordered-yellow Editar participante
+						form(role="form" ng-submit="guardar()")
+							.form-group
+								label Usuario: 
+								label {{participanteEdit.user_id}} 
+							.form-group
+								label ¿Bloqueado?
+								label
+									input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="participanteEdit.locked")
+									span.text.si-no
+							
+							.form-group
+								label(for="participante-intentos") Intentos: {{ participante.intentos }}
+							
+
+							br
+							input.btn.btn-primary.btn-lg.shiny(type="submit" ng-submit="guardar()" value="Editar inscripción") 
+
+
+
+				.col-lg-6.col-sm-6.col-xs-12
+					.well.with-header
+						.header.bordered-yellow Inscribir participante
+						form(role="form" ng-submit="crear()")
+							.form-group
+								label Usuario
+								ui-select(ng-model="participante.user" theme="select2" style="min-width: 200px;")
+									ui-select-match(placeholder="Usuario" allow-clear="true") {{$select.selected.username}}
+									ui-select-choices(repeat="user in usuarios | filter: $select.search")
+										div(ng-bind-html="user.username | highlight: $select.search")
+							.form-group
+								label ¿Bloqueado?
+								label
+									input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="participante.locked")
+									span.text.si-no
+							
+							input.btn.btn-primary.btn-lg.shiny(type="submit" ng-submit="crear()" value="Inscribir participante") 
+
+						hr.wide
+						form(role="form" ng-submit="inscribirGrupo()")
+							.form-group
+								label Inscribir grupo entero
+								ui-select(ng-model="grupoInscribir.grupo" theme="select2" style="min-width: 200px;")
+									ui-select-match(placeholder="Usuario" allow-clear="true") {{$select.selected.nombre}}
+									ui-select-choices(repeat="grupo in grupos | filter: $select.search")
+										div(ng-bind-html="grupo.nombre | highlight: $select.search")
+							br
+							input.btn.btn-primary.btn-lg.shiny(type="submit" ng-submit="inscribirGrupo()" value="Inscribir grupo") 
+
+

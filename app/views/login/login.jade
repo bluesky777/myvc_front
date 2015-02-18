@@ -1,0 +1,22 @@
+form.login-container.animated.fadeInDown(ng-submit="login(credentials)" name="loginForm")
+	.loginbox.bg-white
+		.loginbox-title Entrar
+		.loginbox-social
+			.social-title Bienvenido a tu Virtual College
+			small
+				img(ng-src="{{logoPath}}" alt="")
+
+		.loginbox-or
+			.or-line
+			.or Datos
+		.loginbox-textbox
+			input.form-control(type='text', placeholder='Usuario' ng-model="credentials.username")
+		.loginbox-textbox
+			input.form-control(type='password', placeholder='Contraseña' ng-model="credentials.password")
+		.loginbox-forgot
+			a(href='') ¿Olvidaste tu contraseña?
+		.loginbox-submit
+			input.btn.btn-primary.btn-block(type='submit', value='Login')
+		.loginbox-signup
+			a(href='help.html') Aún estamos en construcción
+		.logobox

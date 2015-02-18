@@ -1,0 +1,7 @@
+.page-breadcrumbs
+	ul.breadcrumb
+		li(ng-repeat="crumb in breadcrumbs" ng-if="!$last")
+			i(class="{{crumb.icon_fa}}")
+			a(ui-sref="{{ crumb.route }}" data-toggle="tooltip" data-placement="top" data-original-title="{{crumb.displayName}}") {{ crumb.displayName }}
+		
+		li.active(ng-repeat="crumb in breadcrumbs" ng-show="$last") {{ crumb.displayName }}

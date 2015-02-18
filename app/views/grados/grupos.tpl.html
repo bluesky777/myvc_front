@@ -1,0 +1,11 @@
+
+<div ui-view="edit_grupo" class="row"></div>
+<div class="row">
+  <div class="col-xs-12 col-md-12">
+    <div class="well with-header with-footer">
+      <div class="header bordered-yellow">Grupo <a ui-sref="panel.grupos.nuevo" tooltip="Ingresa datos de un nuevo grupo" class="btn btn-info shiny">Crear grupo</a></div>
+      <div id="grid1" ui-grid="gridOptions" ui-grid-edit external-scopes="$scope" ui-grid-resize-columns class="grid"></div>
+      <div class="footer">Puedes editar con doble click sobre el dato deseado.</div>
+    </div>
+  </div>
+</div>

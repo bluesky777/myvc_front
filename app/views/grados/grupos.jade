@@ -1,0 +1,13 @@
+.row(ui-view="edit_grupo")
+
+
+.row
+	.col-xs-12.col-md-12
+		.well.with-header.with-footer
+			.header.bordered-yellow Grupo 
+				a.btn.btn-info.shiny(ui-sref="panel.grupos.nuevo" tooltip="Ingresa datos de un nuevo grupo") Crear grupo
+			#grid1.grid(ui-grid="gridOptions" ui-grid-edit external-scopes="$scope" ui-grid-resize-columns)
+
+
+			.footer
+				| Puedes editar con doble click sobre el dato deseado.

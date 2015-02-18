@@ -1,0 +1,95 @@
+.col-sm-12
+	tabset
+		tab(heading="Mis imágenes")
+			.form-title Subir imagen
+			.row
+				.col-lg-2.col-xs-12
+					.btn.btn-success(ng-file-select ng-file-change="upload($files)" 
+						ng-multiple="true" ng-accept="'image/*'")
+						i.fa.fa-upload
+						|Subir imágenes
+
+				.col-lg-10.col-xs-12
+					.tickets-container
+						ul.tickets-list
+							li(ng-show="imgFiles.length==0") No has seleccionado ningún archivo
+							li(ng-show="errorMsg!=''") {{errorMsg}}
+							li.ticket-item(ng-repeat="file in imgFiles")
+								.row
+									.ticket-user.col-lg-5.col-sm-12
+										img.user-avatar(ng-src="{{file.dataUrl}}")
+										span.user-name {{file.name}}
+										span.user-company - {{(file.size / 1000000) | number:1 }}MB
+									.ticket-time.col-lg-5.col-sm-6.col-xs-12
+										.divider.hidden-md.hidden-sm.hidden-xs
+										progressbar.progress-xlg.progress-striped.active( value="file.porcentaje")
+											b {{file.porcentaje}}% Completado
+
+									.ticket-type.col-lg-2.col-sm-6.col-xs-1
+										span.divider.hidden-xs
+										span.type(ng-show="file.porcentaje==100") Completado
+										span.type(ng-show="file.porcentaje<100") Subiendo...
+										span.type(ng-show="file.porcentaje==undefined") problema.
+									.ticket-state.bg-palegreen(ng-show="file.porcentaje==100")
+										i.fa.fa-check
+									.ticket-state.bg-palegreen(ng-show="file.porcentaje<100")
+										i.fa.fa-cloud-upload
+									.ticket-state.bg-yellow(ng-show="file.porcentaje==undefined")
+										i.fa.fa-info
+			
+			hr.wide
+			.row
+				.col-lg-12.col-xs-12
+					form(ng-submit="pedirCambioUsuario(dato.imgUsuario)")
+						.form-group
+							label Imagen de usuario
+							ui-select(ng-model="dato.imgUsuario" on-select="imagenSelect($item, $model)" theme="select2" style="min-width: 200px;")
+								ui-select-match(placeholder="Imagen usuario") 
+									img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
+									small(ng-bind-html="' ' + $select.selected.nombre")
+								ui-select-choices(repeat="imagen in imagenes | filter: {nombre: $select.search}")
+									img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
+									small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
+
+							input.btn.btn-primary.shiny(type="submit" ng-submit="pedirCambioUsuario(dato.imgUsuario)" value="Cambiar perfil") 
+					
+					form(ng-submit="pedirCambioOficial(dato.imgOficial)")
+						.form-group
+							label Imagen oficial
+							ui-select(ng-model="dato.imgOficial" on-select="imagenSelect($item, $model)" theme="select2" style="min-width: 200px;")
+								ui-select-match(placeholder="Imagen usuario") 
+									img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
+									small(ng-bind-html="' ' + $select.selected.nombre")
+								ui-select-choices(repeat="imagen in imagenes | filter: {nombre: $select.search}")
+									img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
+									small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
+
+							input.btn.btn-primary.shiny(type="submit" ng-submit="pedirCambioUsuario(dato.imgOficial)" value="Pedir para oficial") 
+					
+
+			hr.wide
+			.row
+				.col-lg-12.col-xs-12
+
+					.widget
+						.widget-header.bordered-bottom.bordered-blue
+							span.widget-caption Imágenes subidas
+							input(ng-model="imageFilter.nombre" placeholder="Filtrar")
+						.widget-body.imagenes-content
+							.row
+
+								.col-lg-3.col-sm-4.col-xs-12.puntero(ng-repeat="imagen in imagenes | filter: imageFilter" ng-click="selectImage(imagen)")
+									.databox.databox-graded.radius-bordered.databox-shadowed
+										.databox-left.no-padding
+											img.img-responsive(ng-src="{{perfilPath + imagen.nombre}}" style="width:65px; height:65px;")
+										.databox-right.padding-top-10.bordered-thick.bordered-sky
+											.databox-text.lightcarbon {{imagen.nombre}}
+											.databox-text.darkgray
+												a.btn.btn-darkorange.btn-xs(ng-click="borrarImagen(imagen)")
+													i.fa.fa-times
+													|Delete
+											//.databox-stat.radius-bordered(ng-class="candidato.iluminado ? 'bg-darkorange stat-over' : 'bg-sky'")
+												.stat-text Algo
+												i.stat-icon.fa.fa-apple
+
+

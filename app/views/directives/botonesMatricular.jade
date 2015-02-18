@@ -1,0 +1,14 @@
+div(ng-if="row.entity.currentyear==-1" style="text-align:right; color: #ccc;" tooltip="No se encuentra matricula hasta el año pasado" tooltip-placement="left") N/A 
+	a.btn.btn-info.btn-xs.shiny(ng-click="getExternalScopes().matricularUno(row.entity); row.entity.currentyear = 1; row.entity.nombregrupo = getExternalScopes().dato.grupo.nombre;" tooltip="Matricular en \n <<{{getExternalScopes().dato.grupo.nombre| uppercase}}>>" tooltip-placement="right" href="") 
+		| Matricular
+
+div(ng-if="row.entity.currentyear==1" style="text-align:right;") {{row.entity.nombregrupo}}
+	a.btn.btn-success.btn-xs.shiny(ng-click="getExternalScopes().matricularUno(row.entity); row.entity.currentyear = 1; row.entity.nombregrupo = getExternalScopes().dato.grupo.nombre;" tooltip="Matricular en \n <<{{getExternalScopes().dato.grupo.nombre| uppercase}}>>" tooltip-placement="right" href="") 
+		| Cambiar
+	a.btn.btn-default.btn-xs.shiny.icon-only.danger(ng-click="getExternalScopes().eliminarMatricula(row.entity); row.entity.currentyear = -1;" tooltip="Eliminar matrícula" tooltip-placement="right" href="") 
+		i.fa.fa-times
+
+div(ng-if="row.entity.currentyear==0" style="text-align:right; color: #ccc;")
+	span(tooltip="Último grupo en que ha estado" tooltip-placement="left")
+		| ({{row.entity.abrevgrupo}})
+	a.btn.btn-info.btn-xs.shiny(ng-click="getExternalScopes().matricularUno(row.entity); row.entity.currentyear = 1; row.entity.nombregrupo = getExternalScopes().dato.grupo.nombre;" tooltip="Matricular en \n <<{{getExternalScopes().dato.grupo.nombre| uppercase}}>>" tooltip-placement="right" href="") Matricular

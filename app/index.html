@@ -1,0 +1,193 @@
+<!doctype html>
+<html class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script type="text/javascript">
+    FileAPI = {
+        debug: true,
+        //forceLoad: true, html5: false //to debug flash in HTML5 browsers
+        //wrapInsideDiv: true, //experimental for fixing css issues
+        //only one of jsPath or jsUrl.
+        //jsPath: '/js/FileAPI.min.js/folder/', 
+        //jsUrl: 'yourcdn.com/js/FileAPI.min.js',
+
+        //only one of staticPath or flashUrl.
+        //staticPath: '/flash/FileAPI.flash.swf/folder/'
+        //flashUrl: 'yourcdn.com/js/FileAPI.flash.swf'
+    };
+    </script>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css" />
+    <link rel="stylesheet" href="bower_components/angular-ui-grid/ui-grid.css" />
+    <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
+    <link rel="stylesheet" href="bower_components/components-font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="bower_components/angular-toastr/dist/angular-toastr.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/beyond.css">
+    <!-- endbuild -->
+
+    <!--Fonts-->
+    <!--<link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300" rel="stylesheet" type="text/css">
+    -->
+    
+  </head>
+  <body ng-app="myvcFrontApp">
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Site or application content  <div login-dialog ng-if="!isLoginPage"></div>-->
+    <div ng-controller="ApplicationController">
+        
+        <div ui-view="principal"></div>
+       
+
+    </div>
+    
+
+
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+     <!--<script>
+       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+       ga('create', 'UA-XXXXX-X');
+       ga('send', 'pageview');
+    </script>
+    -->
+    <!-- build:js(.) scripts/oldieshim.js -->
+    <!--[if lt IE 9]>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.js"></script>
+    <![endif]-->
+    <!-- endbuild -->
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-aria/angular-aria.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/lodash/dist/lodash.compat.js"></script>
+    <script src="bower_components/restangular/dist/restangular.js"></script>
+    <script src="bower_components/angular-translate/angular-translate.js"></script>
+    <script src="bower_components/angular-translate-loader-partial/angular-translate-loader-partial.js"></script>
+    <script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
+    <script src="bower_components/ckeditor/ckeditor.js"></script>
+    <script src="bower_components/ng-ckeditor/ng-ckeditor.js"></script>
+    <script src="bower_components/angular-http-auth/src/http-auth-interceptor.js"></script>
+    <script src="bower_components/angular-ui-grid/ui-grid.js"></script>
+    <script src="bower_components/angular-ui-select/dist/select.js"></script>
+    <script src="bower_components/ng-file-upload/angular-file-upload.js"></script>
+    <script src="bower_components/ng-file-upload-shim/angular-file-upload-shim.js"></script>
+    <script src="bower_components/angular-toastr/dist/angular-toastr.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/beyond.js"></script>
+        <script src="scripts/app.js"></script>
+        <script src="scripts/main/MYVCConfig.js"></script>
+        <script src="scripts/main/MYVCRun.js"></script>
+        <script src="scripts/main/ApplicationController.js"></script>
+        <script src="scripts/main/main.js"></script>
+        <script src="scripts/panel/PanelCtrl.js"></script>
+        <script src="scripts/panel/PanelConfig.js"></script>
+        <script src="scripts/panel/PanelHeaderCtrl.js"></script>
+        <script src="scripts/colegio/YearsCtrl.js"></script>
+        <script src="scripts/colegio/PeriodosCtrl.js"></script>
+        <script src="scripts/alumnos/AlumnosConfig.js"></script>
+        <script src="scripts/alumnos/AlumnosCtrl.js"></script>
+        <script src="scripts/alumnos/AlumnosNewCtrl.js"></script>
+        <script src="scripts/alumnos/AlumnosEditCtrl.js"></script>
+        <script src="scripts/notas/NotasCtrl.js"></script>
+        <script src="scripts/profesores/ProfesoresConfig.js"></script>
+        <script src="scripts/profesores/ProfesoresCtrl.js"></script>
+        <script src="scripts/profesores/ProfesoresNewCtrl.js"></script>
+        <script src="scripts/profesores/ProfesoresEditCtrl.js"></script>
+        <script src="scripts/materias/MateriasCtrl.js"></script>
+        <script src="scripts/areas/AreasCtrl.js"></script>
+        <script src="scripts/login/LoginCtrl.js"></script>
+        <script src="scripts/login/loginDialog.js"></script>
+        <script src="scripts/login/logoutCtrl.js"></script>
+        <script src="scripts/grados/GradosConfig.js"></script>
+        <script src="scripts/grados/GradosCtrl.js"></script>
+        <script src="scripts/grados/GradosNewCtrl.js"></script>
+        <script src="scripts/grados/GradosEditCtrl.js"></script>
+        <script src="scripts/grados/GruposCtrl.js"></script>
+        <script src="scripts/grados/GruposNewCtrl.js"></script>
+        <script src="scripts/grados/GruposEditCtrl.js"></script>
+        <script src="scripts/grados/NivelesCtrl.js"></script>
+        <script src="scripts/grados/NivelesNewCtrl.js"></script>
+        <script src="scripts/grados/NivelesEditCtrl.js"></script>
+        <script src="scripts/paises/PaisesCtrl.js"></script>
+        <script src="scripts/ciudades/CiudadesCtrl.js"></script>
+        <script src="scripts/mensajes/MensajesCtrl.js"></script>
+        <script src="scripts/fileManager/FileManagerConfig.js"></script>
+        <script src="scripts/fileManager/FileManagerCtrl.js"></script>
+        <script src="scripts/fileManager/RemoveImageCtrl.js"></script>
+
+        <script src="scripts/votaciones/VotacionesConfig.js"></script>
+        <script src="scripts/votaciones/VotacionesCtrl.js"></script>
+        <script src="scripts/votaciones/InicioCtrl.js"></script>
+        <script src="scripts/votaciones/AspiracionesCtrl.js"></script>
+        <script src="scripts/votaciones/CandidatosCtrl.js"></script>
+        <script src="scripts/votaciones/ParticipantesCtrl.js"></script>
+        <script src="scripts/votaciones/UsuariosCtrl.js"></script>
+        <script src="scripts/votaciones/VotarCtrl.js"></script>
+        <script src="scripts/votaciones/ResultadosCtrl.js"></script>
+
+
+        <script src="scripts/directives/loader.js"></script>
+        <script src="scripts/directives/uiBreadcrumbs.js"></script>
+        <script src="scripts/directives/databoxesContainer.js"></script>
+        <script src="scripts/directives/sidebarMenu.js"></script>
+
+        <script src="scripts/services/Perfil.js"></script>
+        <script src="scripts/services/AuthService.js"></script>
+        <script src="scripts/services/RUsers.js"></script>
+        <script src="scripts/services/RAlumnos.js"></script>
+        <script src="scripts/services/RAsignaturas.js"></script>
+        <script src="scripts/services/RCiudades.js"></script>
+        <script src="scripts/services/RDefinicionesComportamiento.js"></script>
+        <script src="scripts/services/RFrases.js"></script>
+        <script src="scripts/services/RGrados.js"></script>
+        <script src="scripts/services/RMaterias.js"></script>
+        <script src="scripts/services/RImages.js"></script>
+        <script src="scripts/services/RNotas.js"></script>
+        <script src="scripts/services/RNotasComportamiento.js"></script>
+        <script src="scripts/services/RPeriodos.js"></script>
+        <script src="scripts/services/RProfesores.js"></script>
+        <script src="scripts/services/RSubunidades.js"></script>
+        <script src="scripts/services/RUnidades.js"></script>
+        <script src="scripts/services/RYears.js"></script>
+        <script src="scripts/services/RVotaciones.js"></script>
+
+        <script src="scripts/services/GruposServ.js"></script>
+
+        
+        
+
+        <!-- endbuild -->
+
+        <script src="http://code.angularjs.org/1.0.8/i18n/angular-locale_es-es.js"></script>
+</body>
+</html>

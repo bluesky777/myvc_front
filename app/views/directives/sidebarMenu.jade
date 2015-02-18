@@ -1,0 +1,157 @@
+ul.nav.sidebar-menu
+	<!--Dashboard-->
+	li(ui-sref-active-eq="active")
+		a(ui-sref="panel")
+			i.menu-icon.glyphicon.glyphicon-home
+			span.menu-text Inicio
+	<!--Alumnos-->
+	li(ui-sref-active="active")
+		a(ui-sref="panel.alumnos")
+			i.menu-icon.fa.fa-child
+			span.menu-text Alumnos
+	<!-- Profesores-->
+	li(sub-menu ng-click="toggleOpen()" ng-class="{open:$state.includes('panel.profesores')}")
+		a.menu-dropdown(href="")
+			i.menu-icon.fa.fa-graduation-cap
+			span.menu-text Profesores
+			i.menu-expand
+
+		ul.submenu
+			li( ui-sref-active="active")
+				a(ui-sref="panel.profesores" stop-event="click")
+					span.menu-text Todos
+			li
+				a(href="" stop-event="click")
+					span.menu-text Asbel Camacho
+			li
+				a(href="" stop-event="click")
+					span.menu-text Rafael Camacho
+			li
+				a(href="" stop-event="click")
+					span.menu-text Estiven Castillo
+			li
+				a(href="" stop-event="click")
+					span.menu-text Mayerli Trejos
+	<!-- Notas-->
+	li(sub-menu ng-click="toggleOpen()" ng-class="{open:$state.includes('panel.notas')}")
+		a.menu-dropdown(href="")
+			i.menu-icon.fa.fa-apple
+			span.menu-text Notas
+			i.menu-expand
+
+		ul.submenu
+			li(ui-sref-active="active")
+				a(href="" stop-event="click")
+					span.menu-text(ui-sref="panel.notas") Notas
+			li(ui-sref-active="active")
+				a(href="" stop-event="click")
+					span.menu-text Competencias
+			li(ui-sref-active="active")
+				a(href="" stop-event="click")
+					span.menu-text Indicadores
+			li(ui-sref-active="active")
+				a(href="" stop-event="click")
+					span.menu-text Por alumno
+
+	<!-- Grupos-->
+	li(sub-menu ng-click="toggleOpen()" ng-class="{open:$state.includes('panel.niveles')||$state.includes('panel.grados')||$state.includes('panel.grupos')}")
+		a.menu-dropdown(href="")
+			i.menu-icon.fa.fa-apple
+			span.menu-text Grupos
+			i.menu-expand
+
+		ul.submenu
+			li(ui-sref-active="active")
+				a(ui-sref="panel.niveles" stop-event="click")
+					span.menu-text Niveles educativos
+			li(ui-sref-active="active")
+				a(ui-sref="panel.grados" stop-event="click")
+					span.menu-text Grados
+			li(ui-sref-active="active")
+				a(ui-sref="panel.grupos" stop-event="click")
+					span.menu-text Grupos
+
+	<!-- Informes-->
+	li(sub-menu ng-click="toggleOpen()" menu-is-open="false" ng-class="{active:$state.is('panel')}")
+		a.menu-dropdown(href="")
+			i.menu-icon.glyphicon.glyphicon-print
+			span.menu-text Informes
+			i.menu-expand
+
+		ul.submenu
+			li
+				a(href="" stop-event="click")
+					span.menu-text Puestos
+
+			li
+				a(href="" stop-event="click")
+					span.menu-text 3 primeros
+			li
+				a(href="" stop-event="click")
+					span.menu-text Boletines
+			li
+				a(href="" stop-event="click")
+					span.menu-text Boletines finales
+			li
+				a(href="" stop-event="click")
+					span.menu-text Por alumno
+	<!-- Colegio-->
+	li(sub-menu ng-click="toggleOpen()")
+		a.menu-dropdown(href="")
+			i.menu-icon.fa.fa-institution
+			span.menu-text Colegio
+			i.menu-expand
+
+		ul.submenu
+			li
+				a(href="" stop-event="click")
+					span.menu-text Configuración
+			li(sub-menu ng-click="toggleOpen()" stop-event="click" hija="true" menu-is-open="true")
+				a.menu-dropdown(href="")
+					span.menu-text Lugares
+					i.menu-expand
+
+				ul.submenu
+					li
+						a(href="" ui-sref="panel.paises" stop-event="click")
+							i.menu-icon.fa.fa-rocket
+							span.menu-text Paises
+					li
+						a(href="" ui-sref="panel.ciudades"  stop-event="click")
+							i.menu-icon.glyphicon.glyphicon-stats
+							span.menu-text Cuidades
+			li(ng-class="{active:$state.includes('years')}")
+				a(href="" stop-event="click" ui-sref="panel.years")
+					span.menu-text Años
+			li(ng-class="{active:$state.includes('periodos')}")
+				a(href="" stop-event="click" ui-sref="panel.periodos")
+					span.menu-text Periodos
+			li
+				a(href="" stop-event="click")
+					span.menu-text Usuarios
+			li
+				a(href="" stop-event="click")
+					span.menu-text Anuncios
+			li(ng-class="{active:$state.includes('mensajes')}")
+				a(ui-sref="panel.mensajes" stop-event="click")
+					span.menu-text  Mensajes
+			li(ng-class="{active:$state.includes('horario')}")
+				a(ui-sref="horarios" stop-event="click")
+					span.menu-text  Horarios
+			li(ng-class="{active:$state.includes('votaciones')}")
+				a(ui-sref="votaciones" stop-event="click")
+					span.menu-text  Votaciones
+	<!-- Ayuda -->
+	li(sub-menu ng-click="toggleOpen()" menu-is-open="false" ng-if="false")
+		a.menu-dropdown(href="")
+			i.menu-icon.fa.fa-question-circle.themesecondary
+			span.menu-text Ayuda
+			i.menu-expand
+
+		ul.submenu
+			li
+				a(href="tables-simple.html" stop-event="click")
+					span.menu-text Agregar notas
+			li
+				a(href="tables-data.html" stop-event="click")
+					span.menu-text Configurar colegio

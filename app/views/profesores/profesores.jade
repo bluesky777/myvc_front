@@ -1,0 +1,14 @@
+.row(ui-view="edit_profesor")
+
+
+.row
+	.col-xs-12.col-md-12
+		.well.with-header.with-footer
+			.header.bordered-yellow Profesores
+			a.btn.btn-info.shiny(ui-sref="panel.profesores.nuevo" tooltip="Ingresa datos de un nuevo alumno") Nuevo profesor
+			#grid1.grid(ui-grid="gridOptions" ui-grid-edit external-scopes="$scope" ui-grid-resize-columns)
+
+
+			.footer
+				| Edite los datos de forma individual o conjunta.
+	

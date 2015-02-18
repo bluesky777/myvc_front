@@ -1,0 +1,63 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   'contrib-jade' ]
+2 info using npm@1.3.24
+3 info using node@v0.10.25
+4 warn package.json myvcfront@0.0.0 No description
+5 warn package.json myvcfront@0.0.0 No repository field.
+6 warn package.json myvcfront@0.0.0 No README data
+7 verbose readDependencies using package.json deps
+8 verbose cache add [ 'contrib-jade', null ]
+9 verbose cache add name=undefined spec="contrib-jade" args=["contrib-jade",null]
+10 verbose parsed url { protocol: null,
+10 verbose parsed url   slashes: null,
+10 verbose parsed url   auth: null,
+10 verbose parsed url   host: null,
+10 verbose parsed url   port: null,
+10 verbose parsed url   hostname: null,
+10 verbose parsed url   hash: null,
+10 verbose parsed url   search: null,
+10 verbose parsed url   query: null,
+10 verbose parsed url   pathname: 'contrib-jade',
+10 verbose parsed url   path: 'contrib-jade',
+10 verbose parsed url   href: 'contrib-jade' }
+11 silly lockFile 4121ff2f-contrib-jade contrib-jade
+12 verbose lock contrib-jade /Users/user/.npm/4121ff2f-contrib-jade.lock
+13 silly lockFile 4121ff2f-contrib-jade contrib-jade
+14 silly lockFile 4121ff2f-contrib-jade contrib-jade
+15 verbose addNamed [ 'contrib-jade', '' ]
+16 verbose addNamed [ null, '*' ]
+17 silly lockFile fdf94962-contrib-jade contrib-jade@
+18 verbose lock contrib-jade@ /Users/user/.npm/fdf94962-contrib-jade.lock
+19 silly addNameRange { name: 'contrib-jade', range: '*', hasData: false }
+20 verbose url raw contrib-jade
+21 verbose url resolving [ 'https://registry.npmjs.org/', './contrib-jade' ]
+22 verbose url resolved https://registry.npmjs.org/contrib-jade
+23 info trying registry request attempt 1 at 09:25:22
+24 http GET https://registry.npmjs.org/contrib-jade
+25 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND
+26 info trying registry request attempt 2 at 09:25:32
+27 http GET https://registry.npmjs.org/contrib-jade
+28 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND
+29 info trying registry request attempt 3 at 09:26:32
+30 http GET https://registry.npmjs.org/contrib-jade
+31 silly lockFile fdf94962-contrib-jade contrib-jade@
+32 silly lockFile fdf94962-contrib-jade contrib-jade@
+33 error network getaddrinfo ENOTFOUND
+33 error network This is most likely not a problem with npm itself
+33 error network and is related to network connectivity.
+33 error network In most cases you are behind a proxy or have bad network settings.
+33 error network
+33 error network If you are behind a proxy, please make sure that the
+33 error network 'proxy' config is set properly.  See: 'npm help config'
+34 error System Darwin 14.0.0
+35 error command "/usr/local/bin/node" "/usr/local/bin/npm" "install" "contrib-jade"
+36 error cwd /Applications/XAMPP/xamppfiles/htdocs/myvc/public/views
+37 error node -v v0.10.25
+38 error npm -v 1.3.24
+39 error syscall getaddrinfo
+40 error code ENOTFOUND
+41 error errno ENOTFOUND
+42 verbose exit [ 1, true ]

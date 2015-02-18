@@ -1,0 +1,110 @@
+<!-- Page Header ************************************** -->
+<div class="page-header position-relative"></div><!-- /Page Header ************************************* -->
+<!-- Page Body -->
+<div class="page-body">
+  <div class="row">
+    <div class="col-lg-12 col-sm-12 col-xs-12">
+      <h5 class="row-title"><i class="fa fa-list-alt darkorange"></i>Votaciones</h5>
+      <div class="row">
+        <div class="col-lg-6 col-sm-6 col-xs-12">
+          <div class="well with-header">
+            <div class="header bordered-purple">Tabla de eventos</div>
+            <div id="grid1" ui-grid="gridOptions" ui-grid-edit external-scopes="$scope" ui-grid-resize-columns class="grid"></div>
+          </div>
+        </div>
+        <div ng-if="editing" class="col-lg-6 col-sm-6 col-xs-12">
+          <div class="well with-header">
+            <div class="header bordered-yellow">Editar evento</div>
+            <form role="form" ng-submit="guardar()">
+              <div class="form-group">
+                <label for="votacionedit-nombre">Nombre del evento</label>
+                <input id="votacionedit-nombre" type="text" ng-model="votacionEdit.nombre" placeholder="Nombre del evento" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>¿Bloqueado?</label>
+                <label>
+                  <input type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="votacionEdit.locked" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                </label>
+              </div>
+              <div class="form-group">
+                <label>¿Actual?</label>
+                <label>
+                  <input type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="votacionEdit.actual" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                </label>
+              </div>
+              <div class="form-group">
+                <label>¿En acción?</label>
+                <label>
+                  <input type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="votacionEdit.in_action" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                </label>
+              </div>
+              <div class="form-group">
+                <label for="votacionedit-fecha-ini">Fecha de inicio</label>
+                <div class="controls">
+                  <div class="input-group"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input id="votacionEdit-fecha-ini" type="date" datepicker-popup="dd-MMMM-yyyy" ng-model="votacionEdit.fecha_inicio" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2015-06-22'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha de inicio" class="form-control active">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="votacionedit-fecha-fin">Fecha de finalización</label>
+                <div class="controls">
+                  <div class="input-group"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input id="votacionedit-fecha-fin" type="date" datepicker-popup="dd-MMMM-yyyy" ng-model="votacionEdit.fecha_fin" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2015-06-22'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha fin" class="form-control active">
+                  </div>
+                </div>
+              </div><br>
+              <input type="submit" ng-submit="guardar()" value="Guardar evento" class="btn btn-primary btn-lg shiny">
+            </form>
+          </div>
+        </div>
+        <div class="col-lg-6 col-sm-6 col-xs-12">
+          <div class="well with-header">
+            <div class="header bordered-sky">Nuevo evento</div>
+            <form role="form" ng-submit="crear()">
+              <div class="form-group">
+                <label for="votacion-nombre">Nombre del evento</label>
+                <input id="votacion-nombre" type="text" ng-model="votacion.nombre" placeholder="Nombre del evento" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>¿Bloqueado?</label>
+                <label>
+                  <input type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="votacion.locked" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                </label>
+              </div>
+              <div class="form-group">
+                <label>¿Actual?</label>
+                <label>
+                  <input type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="votacion.actual" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                </label>
+              </div>
+              <div class="form-group">
+                <label>¿En acción?</label>
+                <label>
+                  <input type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="votacion.in_action" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                </label>
+              </div>
+              <div class="form-group">
+                <label for="votacion-fecha-ini">Fecha de inicio</label>
+                <div class="controls">
+                  <div class="input-group"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input id="votacion-fecha-ini" type="date" datepicker-popup="dd-MMMM-yyyy" ng-model="votacion.fecha_inicio" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2015-06-22'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha de inicio" class="form-control active">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="votacion-fecha-fin">Fecha de finalización</label>
+                <div class="controls">
+                  <div class="input-group"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input id="votacion-fecha-fin" type="date" datepicker-popup="dd-MMMM-yyyy" ng-model="votacion.fecha_fin" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2015-06-22'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha fin" class="form-control active">
+                  </div>
+                </div>
+              </div><br>
+              <input type="submit" ng-submit="crear()" value="Crear" class="btn btn-primary btn-lg shiny">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+<!-- Page Header ************************************** -->
+.page-header.position-relative
+<!-- /Page Header ************************************* -->
+
+<!-- Page Body -->
+.page-body
+	.row
+		.col-lg-12.col-sm-12.col-xs-12
+			h5.row-title
+				i.fa.fa-bar-chart.darkorange
+				| Resultados - {{votacion.nombre}}
+			.row
+				.col-lg-12.col-sm-12.col-xs-12
+					.well.with-header
+						.header.bordered-purple Tabla de Resultados
+						table.table.table-hover
+							thead.bordered-darkorange
+								tr
+									th
+										|#
+									th
+										|Aspiración
+									th
+										|Abreviatura
+									th
+										|Total votos
+							tbody
+								tr(ng-repeat-start="aspiracion in aspiraciones")
+									td
+										|4
+									td
+										|{{aspiracion.aspiracion}}
+									td
+										|{{aspiracion.abrev}}
+									td
+										|marim
+								tr(ng-repeat-end)
+									td(colspan="4")
+										table.table.table-hover
+											thead.bordered-darkorange
+												tr(ng-repeat="candidato in aspiracion.candidatos")
+													th
+														|Hooo
+
+
