@@ -13,11 +13,9 @@
 				.col-lg-12.col-sm-12.col-xs-12
 					.well.with-header
 						.header.bordered-purple Tabla de Resultados
-						table.table.table-hover
+						table.table
 							thead.bordered-darkorange
 								tr
-									th
-										|#
 									th
 										|Aspiración
 									th
@@ -27,19 +25,30 @@
 							tbody
 								tr(ng-repeat-start="aspiracion in aspiraciones")
 									td
-										|4
-									td
 										|{{aspiracion.aspiracion}}
 									td
 										|{{aspiracion.abrev}}
-									td
-										|marim
+									td.success
+										|{{aspiracion.candidatos[1].cantidad}}
 								tr(ng-repeat-end)
 									td(colspan="4")
-										table.table.table-hover
-											thead.bordered-darkorange
-												tr(ng-repeat="candidato in aspiracion.candidatos")
+										table.table.table-hover.table-bordered
+											thead
+												tr
 													th
-														|Hooo
+														|No
+													th
+														|nombre
+													th
+														|Votos
+											tbody
+												tr(ng-repeat="candidato in aspiracion.candidatos")
+													td
+														|{{$index+1}}
+													td
+														|{{ candidato.nombres + ' ' + candidato.apellidos }}
+													td
+														|{{candidato.cantidad}}
+
 
 

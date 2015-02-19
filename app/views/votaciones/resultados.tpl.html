@@ -9,10 +9,9 @@
         <div class="col-lg-12 col-sm-12 col-xs-12">
           <div class="well with-header">
             <div class="header bordered-purple">Tabla de Resultados</div>
-            <table class="table table-hover">
+            <table class="table">
               <thead class="bordered-darkorange">
                 <tr>
-                  <th>#</th>
                   <th>Aspiración</th>
                   <th>Abreviatura</th>
                   <th>Total votos</th>
@@ -20,19 +19,27 @@
               </thead>
               <tbody>
                 <tr ng-repeat-start="aspiracion in aspiraciones">
-                  <td>4</td>
                   <td>{{aspiracion.aspiracion}}</td>
                   <td>{{aspiracion.abrev}}</td>
-                  <td>marim</td>
+                  <td class="success">{{aspiracion.candidatos[1].cantidad}}</td>
                 </tr>
                 <tr ng-repeat-end>
                   <td colspan="4">
-                    <table class="table table-hover">
-                      <thead class="bordered-darkorange">
-                        <tr ng-repeat="candidato in aspiracion.candidatos">
-                          <th>Hooo</th>
+                    <table class="table table-hover table-bordered">
+                      <thead>
+                        <tr>
+                          <th>No</th>
+                          <th>nombre</th>
+                          <th>Votos</th>
                         </tr>
                       </thead>
+                      <tbody>
+                        <tr ng-repeat="candidato in aspiracion.candidatos">
+                          <td>{{$index+1}}</td>
+                          <td>{{ candidato.nombres + ' ' + candidato.apellidos }}</td>
+                          <td>{{candidato.cantidad}}</td>
+                        </tr>
+                      </tbody>
                     </table>
                   </td>
                 </tr>

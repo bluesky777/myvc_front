@@ -18,10 +18,10 @@ angular.module('myvcFrontApp')
 
 	ingresar = ()->
 		#- Si lastState es null, quiere decir que hemos entrado directamente a login sin ser redireccionados.
-		if $rootScope.lastState == null
+		if $rootScope.lastState == null or $rootScope.lastState == 'login' or $rootScope.lastState == '/'
 			$state.transitionTo 'panel' #- Por lo tanto nos vamos a panel después de autenticarnos.
 		else
-			$state.transitionTo $rootScope.lastState #- Si no es null, Nos vamos al último estado.
+			$state.transitionTo $rootScope.lastState #- Si no es null ni login, Nos vamos al último estado.
 		console.log 'Funcion ingresar. lastState: ', $rootScope.lastState
 
 	#- Evento ejecutado cuando nos logueamos despues del servidor haber pedido autenticación.

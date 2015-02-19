@@ -7,7 +7,7 @@ angular.module('myvcFrontApp')
 	$scope.logueando = true
 	$scope.recuperando = false
 	$scope.registrando = false
-	$scope.logoPath = App.images + 'MyVc-1.gif'
+	$scope.logoPath = 'images/MyVc-1.gif'
 
 	$scope.credentials = 
 		username: ''

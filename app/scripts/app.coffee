@@ -27,9 +27,10 @@ angular.module('myvcFrontApp', [
 #- Valores que usaremos para nuestro proyecto
 .constant('App', (()->
 
-	dominio = 'http://lalvirtual.com/' # Pruebas en mi localhost
-	#server = dominio + 'myvc_server/public/'
-	server = ''
+	#dominio = 'http://lalvirtual.com/' 
+	dominio = 'http://localhost/' # Pruebas en mi localhost
+	server = dominio + 'myvc_server/public/'
+	#server = ''
 	frontapp = dominio + 'myvc_front/'
 
 	return {

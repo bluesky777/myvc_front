@@ -13,11 +13,14 @@ angular.module('myvcFrontApp')
 	$httpProvider.defaults.useXDomain = true
 	$httpProvider.defaults.xsrfCookieName = 'csrftoken';
 	$httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+	delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
 
 
 
 	#- Definimos los estados
+	$urlRouter.otherwise('/')
+	
 	$state
 	.state('main', { #- Estado raiz que no necesita autenticación.
 		url: '/'
