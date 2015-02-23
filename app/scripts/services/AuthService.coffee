@@ -1,6 +1,6 @@
 angular.module('myvcFrontApp')
 
-.factory('AuthService', ['Restangular', '$state', '$http', '$cookies', 'Perfil', '$rootScope', 'AUTH_EVENTS', '$q', (Restangular, $state, $http, $cookies, Perfil, $rootScope, AUTH_EVENTS, $q)->
+.factory('AuthService', ['Restangular', '$state', '$http', '$cookies', 'Perfil', '$rootScope', 'AUTH_EVENTS', '$q', '$filter', (Restangular, $state, $http, $cookies, Perfil, $rootScope, AUTH_EVENTS, $q, $filter)->
 	authService = {}
 
 	authService.verificar = ()->
@@ -142,6 +142,24 @@ angular.module('myvcFrontApp')
 	authService.borrarToken = ()->
 		delete $cookies.xtoken
 		delete $http.defaults.headers.common['Authorization']
+
+	authService.hasRoleOrPerm = (ReqRoles, RedPermis)->
+		if (!angular.isArray(ReqRoles))
+			if ReqRoles
+				ReqRoles = [ReqRoles]
+			else
+				return false;
+
+		rolesFound = []
+		
+		_.each(ReqRoles, (elem)->
+			rolesFoundTemp = $filter('filter')(Perfil.User().roles, {name: elem})
+
+			if rolesFoundTemp.length > 0
+				rolesFound.push elem
+		)
+		return (rolesFound.length > 0)
+
 
 
 	return authService;

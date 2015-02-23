@@ -2,11 +2,12 @@
 
 angular.module("myvcFrontApp")
 
-.controller('AlumnosCtrl', ['$scope', 'App', '$rootScope', '$state', '$interval', 'RAlumnos', 'Restangular', 'uiGridConstants', 'GruposServ', ($scope, App, $rootScope, $state, $interval, RAlumnos, Restangular, uiGridConstants, GruposServ)->
+.controller('AlumnosCtrl', ['$scope', 'App', '$rootScope', '$state', '$interval', 'RAlumnos', 'Restangular', 'uiGridConstants', 'GruposServ', '$modal', '$filter', ($scope, App, $rootScope, $state, $interval, RAlumnos, Restangular, uiGridConstants, GruposServ, $modal, $filter)->
 
 	$scope.bigLoader = true
 	$scope.dato = {}
-	$scope.$scope = $scope # Para getExternalScopes de ui-Grid
+	$scope.dato.mostrartoolgrupo = true
+	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
 
 	stop = $interval( ()->
 		$scope.bigLoader = false
@@ -20,25 +21,42 @@ angular.module("myvcFrontApp")
 
 	$scope.editar = (row)->
 		console.log 'Presionado para editar fila: ', row
-		$state.go('panel.alumnos.editar', {alumno_id: row.id})
+		$state.go('panel.alumnos.editar', {alumno_id: row.alumno_id})
 
 	$scope.eliminar = (row)->
 		console.log 'Presionado para eliminar fila: ', row
 
+		modalInstance = $modal.open({
+			templateUrl: App.views + 'alumnos/removeAlumno.tpl.html'
+			controller: 'RemoveAlumnoCtrl'
+			size: 'sm',
+			resolve: 
+				alumno: ()->
+					row
+		})
+		modalInstance.result.then( (alum)->
+			$scope.gridOptions.data = $filter('filter')($scope.gridOptions.data, {alumno_id: '!'+alum.alumno_id})
+			console.log 'Resultado del modal: ', alum
+		)
+
 	$scope.matricularUno = (row)->
+		if not $scope.dato.grupo.id
+			$scope.toastr.warning 'Falta grupo', 'Debes definir el grupo al que vas a matricular.'
+			return
+		
 		datos = {alumno_id: row.alumno_id, grupo_id: $scope.dato.grupo.id}
 		
 		console.log 'Argumentos: ', datos
 
 		Restangular.all('matriculas/matricularuno/'+datos.alumno_id+'/'+datos.grupo_id).post().then((r)->
 			console.log 'Matriculado. ', r
-			#row.matricula_id = r.id
-			#row.grupo_id = r.grupo_id
-			#row.nombregrupo = $scope.dato.grupo.nombre
-			#row.abrevgrupo = $scope.dato.grupo.abrev
-			#row.actual = 1
-			#return row
+			row.matricula_id = r.id
+			row.grupo_id = r.grupo_id
+			row.nombregrupo = $scope.dato.grupo.nombre
+			row.abrevgrupo = $scope.dato.grupo.abrev
+			row.actual = 1
 			$scope.toastr.success 'Matriculado', 'Alumno matriculado con éxito'
+			return row
 		, (r2)->
 			console.log 'Falla al matricularlo. ', r2
 			$scope.toastr.error 'Error', 'No se pudo matricular el alumno.'
@@ -56,8 +74,8 @@ angular.module("myvcFrontApp")
 			console.log 'No se pudo desmatricular.', r2
 		)
 
-	btGrid1 = '<a tooltip="Editar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="getExternalScopes().editar(row.entity)"><i class="fa fa-edit "></i></a>'
-	btGrid2 = '<a tooltip="X Eliminar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only danger" ng-click="getExternalScopes().eliminar(row.entity)"><i class="fa fa-times "></i></a>'
+	btGrid1 = '<a tooltip="Editar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
+	btGrid2 = '<a tooltip="X Eliminar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-trash "></i></a>'
 	btMatricular = "#{App.views}directives/botonesMatricular.tpl.html"
 
 	headerGroup = """
@@ -66,7 +84,7 @@ angular.module("myvcFrontApp")
 				<div class="ui-grid-cell-contents {{col.headerClass}}" col-index="renderIndex">
 					{{ col.displayName CUSTOM_FILTERS }}
 					<br>
-					<select ng-model="getExternalScopes().value[col.field]" ng-change="$event.stopPropagation();getExternalScopes().yourFilterFunction(col.field)">
+					<select ng-model="grid.appScope.value[col.field]" ng-change="$event.stopPropagation();grid.appScope.yourFilterFunction(col.field)">
 					</select>
 				</div></div></div>
 				"""
@@ -114,3 +132,22 @@ angular.module("myvcFrontApp")
 
 	return
 ])
+
+.controller('RemoveAlumnoCtrl', ['$scope', '$modalInstance', 'alumno', 'Restangular', 'toastr', ($scope, $modalInstance, alumno, Restangular, toastr)->
+	$scope.alumno = alumno
+
+	$scope.ok = ()->
+
+		Restangular.all('alumnos/destroy/'+alumno.alumno_id).remove().then((r)->
+			toastr.success 'Eliminado', 'Alumno eliminado con éxito.'
+		, (r2)->
+			toastr.warning 'No se pudo eliminar al alumno.', 'Problema'
+			console.log 'Error eliminando alumno: ', r2
+		)
+		$modalInstance.close(alumno)
+
+	$scope.cancel = ()->
+		$modalInstance.dismiss('cancel')
+
+])
+

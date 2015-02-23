@@ -32,8 +32,13 @@ angular.module("myvcFrontApp")
 	
 
 	$scope.crear = ()->
-		RProfesores.post($scope.profesor).then((r)->
+		Restangular.one('profesores/store').customPOST($scope.profesor).then((r)->
 			console.log 'Se hizo el post del profesor', r
+			$scope.toastr.success 'Profesor creado con éxito'
+			$scope.$emit 'profesorcreado', r
+		, (r2)->
+			console.log 'No se guardó el profesor, ', r2
+			$scope.toastr.error 'Profesor NO creado', 'Problema'
 		)
 
 

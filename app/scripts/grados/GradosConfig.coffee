@@ -70,7 +70,14 @@ angular.module('myvcFrontApp')
 						resolve:
 							titulo: [->
 								'Grados'
-							]
+							],
+				resolve: {
+					niveles: ['RNiveles', (RNiveles)->
+						RNiveles.getList().then((data)->
+							return data
+						)
+					]
+				}
 				data: 
 					displayName: 'Grados'
 					icon_fa: 'fa fa-graduation-cap'
@@ -127,6 +134,17 @@ angular.module('myvcFrontApp')
 							titulo: [->
 								'Grupos'
 							]
+				resolve:
+					grados: ['RGrados', (RGrados)->
+						RGrados.getList().then((data)->
+							return data
+						)
+					],
+					profesores: ['RProfesores', (RProfesores)->
+						RProfesores.getList().then((data)->
+							return data
+						)
+					]
 				data: 
 					displayName: 'Grupos'
 					icon_fa: 'fa fa-graduation-cap'

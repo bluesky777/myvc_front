@@ -4,8 +4,9 @@ angular.module('myvcFrontApp')
 .controller 'PanelCtrl', ['$scope', '$http', 'Restangular', '$state', '$cookies', '$rootScope', 'AuthService', 'Perfil', 'App', 'resolved_user', ($scope, $http, Restangular, $state, $cookies, $rootScope, AuthService, Perfil, App, resolved_user) ->
 
 	$scope.USER = resolved_user
-	console.log 'Entré al panel, resolved_user es: ', resolved_user
 	$scope.pageTitle = $rootScope.pageTitle
+	$scope.logoPath = 'images/MyVc-1.gif'
+	$scope.paramuser = {'username': $scope.USER.username }
 
 	$scope.verificar_acceso()
 
@@ -24,11 +25,7 @@ angular.module('myvcFrontApp')
 	$scope.setImagenPrincipal()
 	
 	
-	$scope.nameToShow = ()->
-		if $scope.USER.tipo == 'Usu'
-			return $scope.USER.username.toUpperCase()
-		else
-			return $scope.USER.nombres + ' ' + $scope.USER.apellidos
+	$scope.nameToShow = Perfil.nameToShow
 
 
 

@@ -15342,6 +15342,7 @@ body {
 .modal-backdrop {
   bottom: 0;
   z-index: 100000 !important;
+  height: 3000px;
 }
 /*VIENE DE BEYOND*/
 /*.modal-backdrop {
@@ -15363,4 +15364,10 @@ body {
 */
 .body-404 .container{
     max-width: 1170px!important;
+}
+.ui-grid-cell{
+    overflow: visible;
+}
+.wizard .actions{
+    z-index: 199!important;
 }

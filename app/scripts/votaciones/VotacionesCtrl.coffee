@@ -7,7 +7,7 @@ angular.module("myvcFrontApp")
 
 	$scope.data = {} # Para el popup del Datapicker
 	$scope.editing = false
-	$scope.$scope = $scope # Para getExternalScopes de ui-Grid
+	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
 	$scope.votacionEdit = {}
 
 	$scope.votacion = {
@@ -30,8 +30,8 @@ angular.module("myvcFrontApp")
 			console.log 'No se pudo eliminar.', r2
 		)
 
-	btGrid1 = '<a tooltip="Editar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only info" ng-click="getExternalScopes().editar(row.entity)"><i class="fa fa-edit "></i></a>'
-	btGrid2 = '<a tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="getExternalScopes().eliminar(row.entity)"><i class="fa fa-times "></i></a>'
+	btGrid1 = '<a tooltip="Editar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
+	btGrid2 = '<a tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-times "></i></a>'
 	$scope.gridOptions = 
 		enableSorting: true,
 		enebleGridColumnMenu: false,

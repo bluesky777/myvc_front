@@ -20,6 +20,9 @@ angular.module('myvcFrontApp')
 
 	#- Definimos los estados
 	$urlRouter.otherwise('/')
+	$urlRouter.when('/user/:username', ['$match', '$state', ($match, $state)->
+		$state.transitionTo 'panel.user.resumen', $match
+	])
 	
 	$state
 	.state('main', { #- Estado raiz que no necesita autenticación.

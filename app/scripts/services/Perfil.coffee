@@ -24,6 +24,11 @@ angular.module('myvcFrontApp')
 	setOficial: (foto_id, foto_nombre)->
 		user.foto_id = foto_id
 		user.foto_nombre =foto_nombre
-		
+	nameToShow: ()->
+		if user.tipo == 'Usu'
+			return user.username.toUpperCase()
+		else
+			return user.nombres + ' ' + user.apellidos
+
 
 ])

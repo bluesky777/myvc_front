@@ -9,7 +9,7 @@ loader(ng-if="bigLoader")
 			.navbar-header.pull-left
 				a.navbar-brand(ui-sref="panel")
 					small
-						img(src="http://localhost/myvc/public/views/app/images/MyVc-1.gif" alt="")
+						img(ng-src="{{logoPath}}")
 
 			<!-- /Navbar Barnd -->
 			<!-- Sidebar Collapse -->
@@ -34,22 +34,22 @@ loader(ng-if="bigLoader")
 						li(my-drop-down ng-click="toggleOpen()" is-open="false" evitar-cierre="login-area-noclose")
 							a.login-area.dropdown-toggle(data-toggle="dropdown")
 								.avatar(title="Ver tu perfil público")
-									img(src="http://localhost/myvc/public/views/app/images/perfil/default_male.jpg")
+									img(ng-src="{{ imagenPrincipal }}")
 								section
 									h2
 										span.profile
-											span {{USER.username}}
+											span {{nameToShow()}}
 							<!--Login Area Dropdown-->
 							ul.pull-right.dropdown-menu.dropdown-arrow.dropdown-login-area#login-area-noclose
 								li.username
 									a {{USER.username}}
 								li.email
-									a brad.pitt@gmail.com
+									a {{USER.email}}
 								<!--Avatar Area-->
 								li
 									.avatar-area
-										img.avatar(src="http://localhost/myvc/public/views/app/images/perfil/default_female.jpg")
-										span.caption Cambiar foto
+										img.avatar(ng-src="{{ imagenOficial }}")
+										span.caption(ng-click="goFileManager()") Cambiar fotos
 								<!--Avatar Area-->
 								li.dropdown-footer
 									a(ui-sref="logout") Cerrar sesión
@@ -75,27 +75,27 @@ loader(ng-if="bigLoader")
 						i.menu-icon.fa.fa-institution.themesecondary
 						span.menu-text Volver a MyVc
 				<!--Dashboard-->
-				li(ui-sref-active-eq="active")
+				li(ui-sref-active-eq="active" ng-show="hasRoleOrPerm('admin')")
 					a(ui-sref="votaciones")
 						i.menu-icon.glyphicon.glyphicon-home.themesecondary
 						span.menu-text Votaciones
 				<!--Configuración-->
-				li(ui-sref-active="active")
+				li(ui-sref-active="active" ng-show="hasRoleOrPerm('admin')")
 					a(ui-sref="votaciones.config")
 						i.menu-icon.fa.fa-user.themesecondary
 						span.menu-text Configuración
 				<!--Aspiraciones-->
-				li(ui-sref-active="active")
+				li(ui-sref-active="active" ng-show="hasRoleOrPerm('admin')")
 					a(ui-sref="votaciones.aspiraciones")
 						i.menu-icon.fa.fa-cloud.themesecondary
 						span.menu-text Aspiraciones
 				<!--Participantes-->
-				li(ui-sref-active="active")
+				li(ui-sref-active="active" ng-show="hasRoleOrPerm('admin')")
 					a(ui-sref="votaciones.participantes")
 						i.menu-icon.fa.fa-child.themesecondary
 						span.menu-text Participantes
 				<!--Candidatos-->
-				li(ui-sref-active="active")
+				li(ui-sref-active="active" ng-show="hasRoleOrPerm('admin')")
 					a(ui-sref="votaciones.candidatos")
 						i.menu-icon.fa.fa-legal.themesecondary
 						span.menu-text Candidatos
@@ -105,13 +105,13 @@ loader(ng-if="bigLoader")
 						i.menu-icon.fa.fa-graduation-cap.themesecondary
 						span.menu-text Votar
 				<!-- Resultados -->
-				li(ui-sref-active="active")
+				li(ui-sref-active="active" ng-show="hasRoleOrPerm('admin')")
 					a(ui-sref="votaciones.resultados")
 						i.menu-icon.fa.fa-bar-chart.themesecondary
 						span.menu-text Resultados
 
 				<!-- Ayuda -->
-				li(ng-click="toggleOpen()" is-open="false")
+				li(ng-click="toggleOpen()" is-open="false" ng-show="hasRoleOrPerm('admin')")
 					a.menu-dropdown(href="")
 						i.menu-icon.fa.fa-question-circle.themesecondary
 						span.menu-text Ayuda

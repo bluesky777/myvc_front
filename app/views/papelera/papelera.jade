@@ -1,0 +1,33 @@
+.row
+	.col-lg-12.col-sm-12.col-xs-12
+		.widget
+			.widget-header
+				span.widget-caption Alumnos eliminados
+
+				.widget-buttons
+					a(href="")
+						i.fa.fa-minus
+					a(href="" ng-show="false")
+						i.fa.fa-plus
+					a(ng-show="false" href="")
+						i.fa.fa-times
+			.widget-body
+				#grid1.grid(ui-grid="gridAlumnos" ui-grid-resize-columns style="height: 400px")
+
+.row
+	.col-lg-12.col-sm-12.col-xs-12
+		.widget
+			.widget-header
+				span.widget-caption Grupos eliminados
+
+				.widget-buttons
+					a(href="")
+						i.fa.fa-minus
+					a(href="" ng-show="false")
+						i.fa.fa-plus
+					a(ng-show="false" href="")
+						i.fa.fa-times
+			.widget-body
+				#grid2.grid(ui-grid="gridGrupos" ui-grid-resize-columns style="height: 400px")
+
+

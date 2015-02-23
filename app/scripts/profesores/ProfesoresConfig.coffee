@@ -27,7 +27,7 @@ angular.module('myvcFrontApp')
 				views: 
 					'edit_profesor':
 						templateUrl: "#{App.views}profesores/profesoresEdit.tpl.html"
-						controller: 'AlumnosEditCtrl'
+						controller: 'ProfesoresEditCtrl'
 					'headerContent':
 						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'

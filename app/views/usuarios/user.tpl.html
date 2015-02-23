@@ -1,0 +1,46 @@
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="profile-container">
+      <div class="profile-header row">
+        <div class="col-lg-2 col-md-4 col-sm-12 text-center"><img ng-src="{{ imagenPrincipal }}" alt="" class="header-avatar"></div>
+        <div class="col-lg-5 col-md-8 col-sm-12 profile-info">
+          <div class="header-fullname">{{nameToShow()}}</div><a href="" ng-if="false" class="btn btn-palegreen btn-sm btn-follow"><i class="fa fa-check"></i>Siguiendo</a>
+          <div class="header-information">Aquí irá el último estado que hayas compartido</div>
+        </div>
+        <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12 profile-stats">
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 stats-col">
+              <div class="stats-value pink">0</div>
+              <div class="stats-title">COMPAÑEROS</div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 stats-col">
+              <div class="stats-value pink">0</div>
+              <div class="stats-title">PROFESORES</div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 stats-col">
+              <div class="stats-value pink">0</div>
+              <div class="stats-title">ASIGNATURAS</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 inlinestats-col"><i class="glyphicon glyphicon-map-marker"></i>{{perfilactual.ciudad_nac}}</div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 inlinestats-col">Grado: <strong>0</strong></div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 inlinestats-col">Cumple: <strong>{{perfilactual.fecha_nac}}</strong></div>
+          </div>
+        </div>
+      </div>
+      <div class="profile-body">
+        <div class="col-lg-12">
+          <div class="tabbable">
+            <ul class="nav nav-tabs tabs-flat nav-justified">
+              <li ui-sref-active="active"><a ui-sref="panel.user.resumen">Resumen</a></li>
+              <li ui-sref-active="active"><a ui-sref="panel.user.configuracion">Configuración</a></li>
+            </ul>
+          </div>
+          <div ui-view="user_detail" class="tab-content tabs-flat"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

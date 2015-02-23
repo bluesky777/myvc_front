@@ -9,7 +9,7 @@ loader(ng-if="bigLoader")
 			.navbar-header.pull-left
 				a.navbar-brand(ui-sref="panel")
 					small
-						img(src="http://localhost/myvc/public/views/app/images/MyVc-1.gif" alt="")
+						img(ng-src="{{logoPath}}" alt="")
 
 			<!-- /Navbar Barnd -->
 			<!-- Sidebar Collapse -->
@@ -146,7 +146,7 @@ loader(ng-if="bigLoader")
 							ul.pull-right.dropdown-menu.dropdown-arrow.dropdown-messages
 								li
 									a(href="")
-										img(src="http://localhost/myvc/public/views/app/images/perfil/default_male.jpg" class="message-avatar" alt="Armando Maradona")
+										img(ng-src="images/perfil/default_male.jpg" class="message-avatar" alt="Armando Maradona")
 										div.message
 											span.message-sender Armando Maradona
 											span.message-time Hace 2 minutos
@@ -154,7 +154,7 @@ loader(ng-if="bigLoader")
 											span.message-body Me parece increíble que me hayan valido ese gol de la mano de oro, que arbitro tan tonto.
 								li
 									a(href="")
-										img(src="http://localhost/myvc/public/views/app/images/perfil/default_female.jpg" class="message-avatar" alt="Administrador LAL")
+										img(ng-src="images/perfil/default_female.jpg" class="message-avatar" alt="Administrador LAL")
 										div.message
 											span.message-sender Administrador LAL
 											span.message-time Ayer
@@ -162,7 +162,7 @@ loader(ng-if="bigLoader")
 											span.message-body Le adjunto el documento acerca de lo que usted quiera, ya que no sé que copiar.
 								li
 									a(href="")
-										img(src="http://localhost/myvc/public/views/app/images/perfil/default_male.jpg" class="message-avatar" alt="Nicolás")
+										img(ng-src="images/perfil/default_male.jpg" class="message-avatar" alt="Nicolás")
 										div.message
 											span.message-sender Nicolás
 											span.message-time Viernes, Enero 2
@@ -214,9 +214,9 @@ loader(ng-if="bigLoader")
 										img.avatar(ng-src="{{ imagenOficial }}")
 										span.caption(ng-click="goFileManager()") Cambiar fotos
 								<!--Avatar Area-->
-								li(ng-if="false").edit
-									a.pull-left(href="profile.html") Perfil
-									a.pull-right(href="") Configuración
+								li.edit
+									a.pull-left(ui-sref='panel.user.resumen({{paramuser}})') Perfil
+									a.pull-right(ui-sref='panel.user.configuracion({{paramuser}})') Configuración
 								<!--Theme Selector Area-->
 								li(ng-if="false").theme-area
 									ul.colorpicker#skin-changer
@@ -306,9 +306,12 @@ loader(ng-if="bigLoader")
 			.page-body
 
 				//databoxes-container.row
-					
+
 				<!-- Main Content ************************************* -->
 				div(ui-view="maincontent")
+					h1 Entra a Votar
+					button.btn.btn-primary.btn-lg(ui-sref="votaciones.votar") VOTAR
+
 				<!-- /Main Content ************************************ -->
 				
 		<!-- /Page Content -->

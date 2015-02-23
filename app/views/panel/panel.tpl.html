@@ -4,7 +4,7 @@
 <div class="navbar">
   <div class="navbar-inner">
     <div class="navbar-container"><!-- Navbar Barnd -->
-      <div class="navbar-header pull-left"><a ui-sref="panel" class="navbar-brand"><small><img src="http://localhost/myvc/public/views/app/images/MyVc-1.gif" alt=""></small></a></div><!-- /Navbar Barnd -->
+      <div class="navbar-header pull-left"><a ui-sref="panel" class="navbar-brand"><small><img ng-src="{{logoPath}}" alt=""></small></a></div><!-- /Navbar Barnd -->
       <!-- Sidebar Collapse -->
       <div id="sidebar-collapse" ng-click="toggleCompactMenu()" ng-class="{'active': menucompacto, 'sidebar-collapse': true}"><i class="collapse-icon fa fa-bars"></i></div><!-- /Sidebar Collapse -->
       <!-- Account Area and Settings -->
@@ -81,11 +81,11 @@
             </li>
             <li my-drop-down ng-click="toggleOpen()" is-open="false" ng-if="false"><a data-toggle="dropdown" title="Mensajes" href="" class="wave in dropdown-toggle"><i class="icon fa fa-envelope"></i><span class="badge">3</span></a><!--Messages Dropdown-->
               <ul class="pull-right dropdown-menu dropdown-arrow dropdown-messages">
-                <li><a href=""><img src="http://localhost/myvc/public/views/app/images/perfil/default_male.jpg" alt="Armando Maradona" class="message-avatar">
+                <li><a href=""><img ng-src="images/perfil/default_male.jpg" alt="Armando Maradona" class="message-avatar">
                     <div class="message"><span class="message-sender">Armando Maradona</span><span class="message-time">Hace 2 minutos</span><span class="message-subject">La mano de Dios</span><span class="message-body">Me parece increíble que me hayan valido ese gol de la mano de oro, que arbitro tan tonto.</span></div></a></li>
-                <li><a href=""><img src="http://localhost/myvc/public/views/app/images/perfil/default_female.jpg" alt="Administrador LAL" class="message-avatar">
+                <li><a href=""><img ng-src="images/perfil/default_female.jpg" alt="Administrador LAL" class="message-avatar">
                     <div class="message"><span class="message-sender">Administrador LAL</span><span class="message-time">Ayer</span><span class="message-subject">Documento actualizado</span><span class="message-body">Le adjunto el documento acerca de lo que usted quiera, ya que no sé que copiar.</span></div></a></li>
-                <li><a href=""><img src="http://localhost/myvc/public/views/app/images/perfil/default_male.jpg" alt="Nicolás" class="message-avatar">
+                <li><a href=""><img ng-src="images/perfil/default_male.jpg" alt="Nicolás" class="message-avatar">
                     <div class="message"><span class="message-sender">Nicolás</span><span class="message-time">Viernes, Enero 2</span><span class="message-subject">Mira esta camara</span><span class="message-body">Esta cámara es muy bacana!! el problema es que no la han inventado, por lo que yo estoy copiando barrabasadas :)</span></div></a></li>
               </ul><!--/Messages Dropdown-->
             </li>
@@ -115,7 +115,7 @@
                 <li>
                   <div class="avatar-area"><img ng-src="{{ imagenOficial }}" class="avatar"><span ng-click="goFileManager()" class="caption">Cambiar fotos</span></div>
                 </li><!--Avatar Area-->
-                <li ng-if="false" class="edit"><a href="profile.html" class="pull-left">Perfil</a><a href="" class="pull-right">Configuración</a></li><!--Theme Selector Area-->
+                <li class="edit"><a ui-sref="panel.user.resumen({{paramuser}})" class="pull-left">Perfil</a><a ui-sref="panel.user.configuracion({{paramuser}})" class="pull-right">Configuración</a></li><!--Theme Selector Area-->
                 <li ng-if="false" class="theme-area">
                   <ul id="skin-changer" class="colorpicker">
                     <li><a href="" style="background-color:#5DB2FF;" rel="assets/css/skins/blue.min.css" class="colorpick-btn"></a></li>
@@ -177,7 +177,10 @@
       <!-- Page Body -->
       <div class="page-body">
         <!--databoxes-container.row--><!-- Main Content ************************************* -->
-        <div ui-view="maincontent"></div><!-- /Main Content ************************************ -->
+        <div ui-view="maincontent">
+          <h1>Entra a Votar</h1>
+          <button ui-sref="votaciones.votar" class="btn btn-primary btn-lg">VOTAR</button>
+        </div><!-- /Main Content ************************************ -->
       </div>
     </div><!-- /Page Content -->
   </div><!-- /Page Container -->

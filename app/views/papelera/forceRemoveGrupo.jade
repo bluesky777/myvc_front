@@ -1,0 +1,14 @@
+.modal-header
+	h3.modal-title ¿Seguro que deseas eliminar?
+.modal-body
+	.row
+		.col-lg-12.col-xs-12
+			h5 Si continua eliminará por completo este registro y toda la información relacionada con él
+			h4 Grupo: 
+			div(style="text-overflow: ellipsis") {{grupo.nombre}} {{grupo.abrev}}
+			h5 Id: {{grupo.id}}
+
+.modal-footer
+	button.btn.btn-labeled.btn-danger(ng-click="ok()") Eliminar
+		i.btn-label.glyphicon.glyphicon-remove
+	button.btn.btn-yellow(ng-click="cancel()") Cancelar

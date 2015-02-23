@@ -12,7 +12,7 @@ angular.module("myvcFrontApp")
 		if $scope.nivel.orden > 0
 			$scope.nivel.orden = $scope.nivel.orden - 1
 	$scope.sumarOrden = ()->
-		if $scope.nivel.orden < 10
+		if $scope.nivel.orden < 40
 			$scope.nivel.orden = $scope.nivel.orden + 1
 
 	$scope.crear = ()->

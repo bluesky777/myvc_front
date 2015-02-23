@@ -23,24 +23,6 @@ angular.module('myvcFrontApp')
 					Permissions: [PERMISSIONS.can_see_alumnos]
 
 
-			.state 'panel.usuarios',
-				url: '^/users'
-				views: 
-					'maincontent':
-						templateUrl: "#{App.views}usuarios/usuarios.tpl.html"
-						controller: 'UsuariosCtrl'
-					'headerContent':
-						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
-						controller: 'PanelHeaderCtrl'
-						resolve: 
-							titulo: [->
-								'Usuarios'
-							]
-				data: 
-					displayName: 'Usuarios'
-					icon_fa: 'fa fa-users'
-					Permissions: [PERMISSIONS.can_see_usuarios]
-
 
 			.state 'panel.mensajes',
 				url: '^/mensajes'

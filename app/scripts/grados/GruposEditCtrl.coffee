@@ -26,7 +26,7 @@ angular.module("myvcFrontApp")
 		if $scope.grupo.orden > 0
 			$scope.grupo.orden = $scope.grupo.orden - 1
 	$scope.sumarOrden = ()->
-		if $scope.grupo.orden < 10
+		if $scope.grupo.orden < 40
 			$scope.grupo.orden = $scope.grupo.orden + 1
 
 

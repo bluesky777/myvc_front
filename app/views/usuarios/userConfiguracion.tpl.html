@@ -1,0 +1,106 @@
+
+<div class="tab-pane active">
+  <form role="form" ng-submit="guardar()">
+    <div class="form-title">Información personal</div>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="alumno-no-matr">Nombres</label><span class="input-icon icon-right">
+            <input type="text" placeholder="Nombres" ng-model="perfilactual.nombres" class="form-control"><i class="fa fa-user blue"></i></span>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="alumno-no-matr">Apellidos</label><span class="input-icon icon-right">
+            <input type="text" placeholder="Apellidos" ng-model="perfilactual.apellidos" class="form-control"><i class="fa fa-user blue"></i></span>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label>Sexo
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="sexo" value="M" ng-model="perfilactual.sexo" class="inverted"><span class="text">Masculino</span>
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="sexo" value="F" ng-model="perfilactual.sexo" class="inverted"><span class="text">Femenino</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="alumno-fecha-nac">Fecha de nacimiento
+            <div class="controls">
+              <div class="input-group">
+                <input id="alumno-fecha-nac" type="text" datepicker-popup="dd-MMMM-yyyy" ng-model="perfilactual.fecha_nac" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2015-06-22'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha nacimiento" class="form-control active"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+              </div>
+            </div>
+          </label>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="perfilcelular">Celular</label><span class="input-icon icon-right">
+            <input id="perfilcelular" type="text" placeholder="Celular" ng-model="perfilactual.celular" class="form-control"><i class="glyphicon glyphicon-phone palegreen"></i></span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="perfilcelular">Correo electrónico</label><span class="input-icon icon-right">
+            <input type="text" placeholder="Correo electrónico" ng-model="perfilactual.email" class="form-control"><i class="fa fa-envelope purple"></i></span>
+        </div>
+      </div>
+    </div>
+    <button type="submit" ng-submit="guardar()" class="btn btn-primary">Guardar cambios</button>
+  </form>
+  <form role="form" ng-submit="CambiarUsername()">
+    <hr class="wide">
+    <div class="row">
+      <div class="col-sm-7">
+        <div class="form-group">
+          <div class="alert alert-info fade in">Usuario actual: <strong> {{perfilactual.username}}</strong></div>
+          <label>Nombre de usuario</label><span class="input-icon icon-right">
+            <input ng-blur="comprobarusername()" type="text" placeholder="Nombre de usuario" typeahead-on-select="comprobarusername()" typeahead="nombresusu as nombresusu.username for nombresusu in nombresdeusuario | filter:{username:$viewValue} | limitTo:8" ng-model="newusername" class="form-control"><i class="fa fa-user azure"></i></span><br><br>
+          <button ng-click="comprobarusername()" class="btn btn-warning"><span ng-hide="comprobando">Comprobar </span><span ng-show="comprobando">Comprobando <i class="fa fa-spinner fa-spin"></i></span></button>
+          <div ng-show="mostrarErrorUsername" class="alert alert-warning fade in">
+            <div class="fa-fw fa fa-warning"></div><span ng-show="newusername!=perfilactual.username">Usuario no disponible.</span><span ng-show="newusername==perfilactual.username">Ya es tu nombre de usuario actual.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="submit" ng-submit="CambiarUsername()" ng-class="{disabled:mostrarErrorUsername || newusername==''}" class="btn btn-primary">Guardar usuario</button>
+  </form>
+  <form role="form" ng-submit="CambiarPass()">
+    <hr class="wide">
+    <div class="row">
+      <div class="col-sm-7">
+        <div class="form-group">
+          <label>Contraseña antigua</label><span class="input-icon icon-right">
+            <input type="password" placeholder="Contraseña antigua" ng-model="passantiguo" class="form-control"><i class="fa fa-user azure"></i></span>
+        </div>
+        <div class="form-group">
+          <label>Contraseña nueva</label><span class="input-icon icon-right">
+            <input type="password" placeholder="Contraseña nueva" ng-model="newpass" class="form-control"><i class="fa fa-user azure"></i></span>
+          <div ng-show="mostrarErrorPassword" class="alert alert-warning fade in">La contraseña debe ser repetida exactamente</div>
+          <label>Repita la contraseña nueva</label><span class="input-icon icon-right">
+            <input type="password" placeholder="Verificar contraseña nueva" ng-model="newpassverif" class="form-control"><i class="fa fa-user azure"></i></span>
+        </div>
+      </div>
+    </div>
+    <button type="submit" ng-submit="CambiarPass()" class="btn btn-primary">Cambiar contraseña</button>
+  </form>
+</div>

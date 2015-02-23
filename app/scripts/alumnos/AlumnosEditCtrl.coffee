@@ -9,10 +9,11 @@ angular.module("myvcFrontApp")
 
 	$scope.sangres = [{sangre: 'O+'},{sangre: 'O-'}, {sangre: 'A+'}, {sangre: 'A-'}, {sangre: 'B+'}, {sangre: 'B-'}, {sangre: 'AB+'}, {sangre: 'AB-'}]
 
-	Restangular.one('alumnos', $state.params.alumno_id).get().then (r)->
+	Restangular.one('alumnos/show', $state.params.alumno_id).get().then (r)->
 		$scope.alumno = r
-		$scope.alumno.username = r.user.username
-		$scope.alumno.email2 = r.user.email
+		console.log 'Llega: ', $scope.alumno
+		$scope.alumno.username = r.user.username if r.user
+		$scope.alumno.email2 = r.user.email if r.user
 
 		if $scope.alumno.ciudad_nac == null
 			$scope.alumno.pais_nac = {id: 1, pais: 'COLOMBIA', abrev: 'CO'}
@@ -48,10 +49,13 @@ angular.module("myvcFrontApp")
 	
 	
 	$scope.guardar = ()->
-		$scope.alumno.put().then((r)->
+		console.log 'A guardar: ', $scope.alumno
+		Restangular.one('alumnos/update', $scope.alumno.id).customPUT($scope.alumno).then((r)->
 			console.log 'Se guardó alumno', r
+			$scope.toastr.success 'Alumno actualizado correctamente'
 		, (r2)->
 			console.log 'Falló al intentar guardar: ', r2
+			$scope.toastr.error 'No se pudo guardar el alumno'
 		)
 
 

@@ -1,0 +1,29 @@
+.row
+	.col-lg-6.col-sm-6.col-xs-12
+		.widget
+			.widget-header
+				span.widget-caption Bitácora
+
+				.widget-buttons
+					a(href="#" data-toggle="collapse")
+						i.fa.fa-minus
+					a(ng-show="false" href="#" data-toggle="dispose")
+						i.fa.fa-times
+			.widget-body
+				table.table
+					thead.bordered-darkorange
+						tr
+							th
+								|Aspiración
+							th
+								|Abreviatura
+							th
+								|Total votos
+					tbody
+						tr(ng-repeat-start="aspiracion in aspiraciones")
+							td
+								|Buu
+							td
+								|vaaa
+							td.success
+								|rtt

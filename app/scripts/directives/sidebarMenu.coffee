@@ -1,6 +1,6 @@
 angular.module('myvcFrontApp')
 
-.directive('sidebarMenu',['App', '$rootScope', (App, $rootScope)-> 
+.directive('sidebarMenu',['App', '$rootScope', 'AuthService', (App, $rootScope, AuthService)-> 
 
 	restrict: 'E'
 	replace: true
@@ -14,6 +14,7 @@ angular.module('myvcFrontApp')
 	controller: ($scope, $attrs)->
 		# This array keeps track of the accordion groups
 		this.groups = []
+		$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
 
 		$scope.$state = $rootScope.$state
 
@@ -51,7 +52,6 @@ angular.module('myvcFrontApp')
 		scope.menuIsOpen = if iAttrs.menuIsOpen then scope.$eval(iAttrs.menuIsOpen) else false
 
 		if iAttrs.hija
-
 			if scope.menuIsOpen == true
 					iElem.addClass 'open'
 
@@ -62,6 +62,7 @@ angular.module('myvcFrontApp')
 				else
 					iElem.removeClass 'open'
 					scope.menuIsOpen = false
+				console.log 'Valor de scope.menuIsOpen: ', scope.menuIsOpen
 		else
 
 			sidebarMenuCtrl.addGroup(scope)

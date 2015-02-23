@@ -47,8 +47,10 @@ angular.module("myvcFrontApp")
 	
 	
 	$scope.crear = ()->
-		RAlumnos.post($scope.alumno).then((r)->
+
+		Restangular.all('alumnos/store').post($scope.alumno).then((r)->
 			console.log 'Se hizo el post del alumno', r
+			$scope.toastr.success 'Alumno '+r.nombres+' creado'
 		, (r2)->
 			console.log 'Falló al intentar guardar: ', r2
 		)
