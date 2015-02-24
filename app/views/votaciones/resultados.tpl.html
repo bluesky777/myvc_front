@@ -21,7 +21,7 @@
                 <tr ng-repeat-start="aspiracion in aspiraciones">
                   <td>{{aspiracion.aspiracion}}</td>
                   <td>{{aspiracion.abrev}}</td>
-                  <td class="success">{{aspiracion.candidatos[1].cantidad}}</td>
+                  <td class="success">{{aspiracion.candidatos[0].total}}</td>
                 </tr>
                 <tr ng-repeat-end>
                   <td colspan="4">
@@ -34,7 +34,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr ng-repeat="candidato in aspiracion.candidatos">
+                        <tr ng-repeat="candidato in aspiracion.candidatos | orderBy:'cantidad':true">
                           <td>{{$index+1}}</td>
                           <td>{{ candidato.nombres + ' ' + candidato.apellidos }}</td>
                           <td>{{candidato.cantidad}}</td>
@@ -45,6 +45,34 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+          <div class="well with-header">
+            <div class="header bordered-purple">Ganadores</div>
+            <div class="row">
+              <div ng-repeat="aspiracion in aspiraciones" class="col-lg-6 col-sm-12 col-xs-12 puntero">
+                <div ng-repeat="candidato in aspiracion.candidatos | orderBy:'cantidad':true" ng-if="$index==0" class="databox databox-xlg databox-graded radius-bordered databox-shadowed">
+                  <div class="databox-left no-padding"><img ng-src="{{imagesPath + candidato.imagen_nombre}}" style="width:170px; height:170px;" class="img-responsive"></div>
+                  <div class="databox-right padding-top-5 bordered-thick bordered-sky">
+                    <div class="databox-row row-5 bordered-bottom bordered-platinum padding-10">
+                      <div class="databox-title lightcarbon">{{candidato.nombres + ' ' +candidato.apellidos}}</div>
+                      <div class="databox-stat radius-bordered bg-sky">
+                        <div class="stat-text">{{candidato.nombre_grupo}}</div>
+                      </div>
+                    </div>
+                    <div class="databox-row row-4 bordered-bottom bordered-platinum">
+                      <div class="databox-title">{{aspiracion.aspiracion}} - {{candidato.cantidad}} votos</div>
+                    </div>
+                    <div class="databox-row row-3">
+                      <div class="databox-text darkgray">Plancha {{candidato.plancha}} - Número {{candidato.numero}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

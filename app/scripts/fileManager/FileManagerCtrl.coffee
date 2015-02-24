@@ -21,10 +21,11 @@ angular.module("myvcFrontApp")
 	$scope.imgFiles = []
 	$scope.errorMsg = ''
 	$scope.fileReaderSupported = window.FileReader != null && (window.FileAPI == null || FileAPI.html5 != false);
-
+	$scope.dato.usuarioElegido = []
 
 	RImages.getList().then((r)->
 		$scope.imagenes = r
+		$scope.dato.imgParaUsuario = r[0]
 	, (r2)->
 		console.log 'No se trajeron las imágenes.', r2
 	)
@@ -74,8 +75,8 @@ angular.module("myvcFrontApp")
 			file.porcentaje = progressPercentage
 			console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name, evt.config)
 		).success( (data, status, headers, config)->
-			$scope.imagenes.push data.config
-			console.log('Success file ' + config.file + '   -uploaded: ', data, status)
+			$scope.imagenes.push data
+			console.log('Success file ', config.file, '   -uploaded: ', data, status)
 		).error((r2)->
 			console.log 'Falla uploading: ', r2
 		).xhr((xhr)->
@@ -89,8 +90,10 @@ angular.module("myvcFrontApp")
 
 			Perfil.setImagen(r.imagen_id, imgUsu.nombre)
 			$scope.$emit 'cambianImgs', {image: r}
+			$scope.toastr.success 'Imagen principal cambiada'
 		, (r2)->
 			console.log 'NO Se pedirCambioUsuario: ', r2
+			$scope.toastr.error 'No se pudo cambiar imagen', 'Problema'
 		)
 
 	$scope.pedirCambioOficial = (imgOfi)->
@@ -98,8 +101,10 @@ angular.module("myvcFrontApp")
 
 			Perfil.setOficial(r.foto_id, imgOfi.nombre)
 			$scope.$emit 'cambianImgs', {foto: r}
+			$scope.toastr.success 'Foto oficial cambiada'
 		, (r2)->
 			console.log 'NO Se pedirCambioOficial: ', r2
+			$scope.toastr.error 'No se pudo cambiar foto', 'Problema'
 		)
 
 	$scope.imagenSelect = (item, model)->
@@ -119,6 +124,41 @@ angular.module("myvcFrontApp")
 			$scope.imagenes = $filter('filter')($scope.imagenes, {id: '!'+imag.id})
 			console.log 'Resultado del modal: ', imag
 		)
+
+
+	Restangular.all('perfiles/usuariosall').getList().then((r)->
+		$scope.usuariosall = r
+		$scope.dato.usuarioElegido = r[0]
+	, (r2)->
+		console.log 'No se pudo traer los usuarios'
+	)
+
+	$scope.cambiarImgUnUsuario = (usuarioElegido, imgParaUsuario)->
+		console.log 'Vamos a guardar el cambio de imagen', usuarioElegido, imgParaUsuario
+		aEnviar = {
+			imgParaUsuario: imgParaUsuario.id
+		}
+		Restangular.one('perfiles/cambiarimgunusuario', usuarioElegido.user_id).customPUT(aEnviar).then((r)->
+
+			usuarSelect = $filter('filter')($scope.usuariosall, {user_id: usuarioElegido.user_id})
+			usuarSelect[0].imagen_id = imgParaUsuario.id
+			usuarSelect[0].imagen_nombre = imgParaUsuario.nombre
+
+			$scope.toastr.success 'Imagen asignada con éxito'
+			console.log r
+		, (r2)->
+			console.log 'Error al asignar imagen a usuario', r2
+			$scope.toastr.error 'Error al asignar imagen a usuario', 'Problema'
+		)
+
+	$scope.usuarioSelect = (item, model)->
+		$scope.dato.selectUsuarioModel = item
+
+
+	$scope.cambiarFotoAlumno = (imgOficialAlumno)->
+		console.log 'Vamos a guardar el cambio de foto'
+
+
 
 	return
 ])

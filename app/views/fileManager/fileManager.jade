@@ -53,7 +53,7 @@
 
 							input.btn.btn-primary.shiny(type="submit" ng-submit="pedirCambioUsuario(dato.imgUsuario)" value="Cambiar perfil") 
 					
-					form(ng-submit="pedirCambioOficial(dato.imgOficial)")
+					form(ng-submit="pedirCambioOficial(dato.imgOficial)" ng-show="!hasRoleOrPerm('admin')")
 						.form-group
 							label Imagen oficial
 							ui-select(ng-model="dato.imgOficial" on-select="imagenSelect($item, $model)" theme="select2" style="min-width: 200px;")
@@ -92,4 +92,84 @@
 												.stat-text Algo
 												i.stat-icon.fa.fa-apple
 
+		tab(heading="Imágenes de usuarios" ng-show="hasRoleOrPerm('admin')")
+			.form-title Cambiar una imagen de usuario
+			.row
+				.col-lg-12.col-xs-12
+					form(ng-submit="cambiarImgUnUsuario(dato.usuarioElegido, dato.imgParaUsuario)")
+						.form-group
+							label Usuario
+							ui-select(ng-model="dato.usuarioElegido" on-select="usuarioSelect($item, $model)" theme="select2" style="min-width: 200px;")
+								ui-select-match(placeholder="Imagen usuario") 
+									img(ng-src="{{perfilPath + $select.selected.imagen_nombre}}" style="width:25px; height:25px;")
+									small(ng-bind-html="' ' + $select.selected.nombres + ' ' + $select.selected.apellidos + ' - ' + $select.selected.username")
+								ui-select-choices(repeat="usuario in usuariosall | filter: {nombre: $select.search}")
+									img(ng-src="{{perfilPath + usuario.imagen_nombre}}" style="width:25px; height:25px;")
+									small(ng-bind-html="' ' + usuario.nombres + ' ' + usuario.apellidos + ' - ' + usuario.username | highlight: $select.search")
 
+						.form-group
+							label Imagen
+							ui-select(ng-model="dato.imgParaUsuario" on-select="imagenSelect($item, $model)" theme="select2" style="min-width: 200px;")
+								ui-select-match(placeholder="Imagen usuario") 
+									img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
+									small(ng-bind-html="' ' + $select.selected.nombre")
+								ui-select-choices(repeat="imagen in imagenes | filter: {nombre: $select.search}")
+									img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
+									small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
+
+							input.btn.btn-primary.shiny(type="submit" ng-submit="cambiarImgUnUsuario(dato.usuarioElegido, dato.imgParaUsuario)" value="Establecer imagen") 
+
+			hr.wide
+			.form-title Cambiar una foto oficial de Alumno
+			.row
+				.col-lg-12.col-xs-12
+					form(ng-submit="cambiarFotoAlumno(dato.imgOficialAlumno)")
+						.form-group
+							label Usuario
+							ui-select(ng-model="dato.imgOficialAlumno" on-select="imagenSelect($item, $model)" theme="select2" style="min-width: 200px;")
+								ui-select-match(placeholder="Imagen usuario") 
+									img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
+									small(ng-bind-html="' ' + $select.selected.nombre")
+								ui-select-choices(repeat="imagen in imagenes | filter: {nombre: $select.search}")
+									img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
+									small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
+
+						.form-group
+							label Imagen
+							ui-select(ng-model="dato.imgOficialAlumno" on-select="imagenSelect($item, $model)" theme="select2" style="min-width: 200px;")
+								ui-select-match(placeholder="Foto alumno") 
+									img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
+									small(ng-bind-html="' ' + $select.selected.nombre")
+								ui-select-choices(repeat="imagen in imagenes | filter: {nombre: $select.search}")
+									img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
+									small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
+
+							input.btn.btn-primary.shiny(type="submit" ng-submit="pedirCambioUsuario(dato.imgOficial)" value="Pedir para oficial") 
+
+			hr.wide
+			.form-title Cambiar una foto oficial de Profesor
+			.row
+				.col-lg-12.col-xs-12
+					form(ng-submit="pedirCambioOficial(dato.imgOficial)")
+						.form-group
+							label Usuario
+							ui-select(ng-model="dato.imgOficial" on-select="imagenSelect($item, $model)" theme="select2" style="min-width: 200px;")
+								ui-select-match(placeholder="Imagen usuario") 
+									img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
+									small(ng-bind-html="' ' + $select.selected.nombre")
+								ui-select-choices(repeat="imagen in imagenes | filter: {nombre: $select.search}")
+									img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
+									small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
+
+						.form-group
+							label Imagen
+							ui-select(ng-model="dato.imgOficial" on-select="imagenSelect($item, $model)" theme="select2" style="min-width: 200px;")
+								ui-select-match(placeholder="Imagen usuario") 
+									img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
+									small(ng-bind-html="' ' + $select.selected.nombre")
+								ui-select-choices(repeat="imagen in imagenes | filter: {nombre: $select.search}")
+									img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
+									small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
+
+							input.btn.btn-primary.shiny(type="submit" ng-submit="pedirCambioUsuario(dato.imgOficial)" value="Pedir para oficial") 
+					

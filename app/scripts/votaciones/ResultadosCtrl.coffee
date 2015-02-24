@@ -10,6 +10,7 @@ angular.module("myvcFrontApp")
 		fecha_fin: ''
 	}
 
+	$scope.imagesPath = App.images + 'perfil/'
 
 	Restangular.one('votaciones/actual').get().then((r)->
 		$scope.votacion = r

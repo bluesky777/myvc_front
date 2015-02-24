@@ -25,7 +25,7 @@
                 <div ng-repeat="aspiracion in aspiraciones" ng-class="{active:wzStep==$index}" class="step-pane">
                   <div class="row">
                     <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12">
-                      <alert type="warning" ng-show="aspiracion.votado.length&gt;0"><i class="fa-fw fa fa-warning"></i>Ya votaste en por {{aspiracion.aspiracion}}. Puedes continuar.</alert>
+                      <alert type="warning" ng-show="aspiracion.votado.length&gt;0"><i class="fa-fw fa fa-warning"></i>Ya votaste por {{aspiracion.aspiracion}}. Puedes continuar.</alert>
                       <div ng-repeat="candidato in aspiracion.candidatos" ng-mouseenter="mostrarImagen(candidato)" ng-mouseleave="ocultarImagen(candidato)" ng-click="open(candidato, aspiracion)" class="col-lg-4 col-sm-12 col-xs-12 puntero">
                         <div class="databox databox-graded radius-bordered databox-shadowed">
                           <div class="databox-left no-padding"><img ng-src="{{imagesPath + candidato.imagen_nombre}}" style="width:65px; height:65px;" ng-class="{'transparente':!candidato.iluminado}" class="img-responsive"></div>

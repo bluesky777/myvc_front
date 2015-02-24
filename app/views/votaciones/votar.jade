@@ -52,7 +52,7 @@
 
 											alert(type="warning" ng-show="aspiracion.votado.length>0")
 												i.fa-fw.fa.fa-warning
-												| Ya votaste en por {{aspiracion.aspiracion}}. Puedes continuar.
+												| Ya votaste por {{aspiracion.aspiracion}}. Puedes continuar.
 											.col-lg-4.col-sm-12.col-xs-12.puntero(ng-repeat="candidato in aspiracion.candidatos" ng-mouseenter="mostrarImagen(candidato)" ng-mouseleave="ocultarImagen(candidato)" ng-click="open(candidato, aspiracion)")
 												.databox.databox-graded.radius-bordered.databox-shadowed
 													.databox-left.no-padding

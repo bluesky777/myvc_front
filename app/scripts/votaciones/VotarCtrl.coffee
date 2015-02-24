@@ -28,12 +28,14 @@ angular.module("myvcFrontApp")
 		$scope.aspiraciones = r
 	, (r2)->
 		console.log 'No se pudo traer aspiraciones. ', r2
+		$scope.toastr.error 'No se pudo traer las aspiraciones', 'Problema'
 	)
 
 	Restangular.all('participantes/allinscritos').getList().then((r)->
 		$scope.allinscritos = r
 	, (r2)->
 		console.log 'No se pudo con aspiraciones. ', r2
+		$scope.toastr.error 'No se pudo traer los inscritos', 'Problema'
 	)
 
 
@@ -75,6 +77,8 @@ angular.module("myvcFrontApp")
 		modalInstance.result.then( (selectedItem)->
 			aspiracion.votado.push selectedItem
 			console.log 'Resultado del modal: ', selectedItem
+			$scope.toastr.success 'Voto guardado con éxito'
+			$scope.nextAspiracion()
 		, ()->
 			console.log 'Modal dismissed at: ' + new Date()
 		)

@@ -41,7 +41,7 @@ angular.module("myvcFrontApp")
 
 	$scope.matricularUno = (row)->
 		if not $scope.dato.grupo.id
-			$scope.toastr.warning 'Falta grupo', 'Debes definir el grupo al que vas a matricular.'
+			$scope.toastr.warning 'Debes definir el grupo al que vas a matricular.', 'Falta grupo'
 			return
 		
 		datos = {alumno_id: row.alumno_id, grupo_id: $scope.dato.grupo.id}
@@ -55,11 +55,11 @@ angular.module("myvcFrontApp")
 			row.nombregrupo = $scope.dato.grupo.nombre
 			row.abrevgrupo = $scope.dato.grupo.abrev
 			row.actual = 1
-			$scope.toastr.success 'Matriculado', 'Alumno matriculado con éxito'
+			$scope.toastr.success 'Alumno matriculado con éxito', 'Matriculado'
 			return row
 		, (r2)->
 			console.log 'Falla al matricularlo. ', r2
-			$scope.toastr.error 'Error', 'No se pudo matricular el alumno.'
+			$scope.toastr.error 'No se pudo matricular el alumno.', 'Error'
 
 		)
 
@@ -69,9 +69,11 @@ angular.module("myvcFrontApp")
 		Restangular.all('matriculas/destroy/'+row.matricula_id).remove().then((r)->
 			console.log 'Desmatriculado. ', r
 			row.currentyear = 0
+			$scope.toastr.success 'Alumno desmatriculado'
 			return row
 		, (r2)->
 			console.log 'No se pudo desmatricular.', r2
+			$scope.toastr.error 'No se pudo desmatricular', 'Problema'
 		)
 
 	btGrid1 = '<a tooltip="Editar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
@@ -121,14 +123,15 @@ angular.module("myvcFrontApp")
 	$scope.borrar = (alum)->
 		alum.delete().then((r)->
 			console.log 'Eliminado con éxito', r
-			$scope.toastr.success 'Exito', 'El alumno fue eliminado'
+			$scope.toastr.success 'El alumno fue eliminado', 'Exito'
 		, (r)->
 			console.log 'No se pudo eliminar', r
-			$scope.toastr.success 'Error', 'No se pudo eliminar el alumno'
+			$scope.toastr.error 'No se pudo eliminar el alumno', 'Error'
 		)
 
 
-	#$scope.gridOptions.data = data;
+	$scope.$on 'alumnoguardado', (data, alum)->
+		$scope.gridOptions.data.push alum
 
 	return
 ])

@@ -120,10 +120,9 @@
 								label(for="profesor-barrio") Barrio
 								input#profesor-barrio.form-control(type="text" ng-model="profesor.barrio" placeholder="Barrio")
 							.form-group
-								label(for="profesor-direccion") Direccion
+								label(for="profesor-direccion") Dirección
 								input#profesor-direccion.form-control(type="text" ng-model="profesor.direccion" placeholder="Direccion")
-						
-						
+
 						tab(heading="Usuario")
 							.form-group
 								label(for="profesor-username") Nombre de usuario
@@ -145,6 +144,7 @@
 
 
 					br
-					input.btn.btn-primary.btn-lg.shiny(type="submit" ng-submit="crear()" value="Crear") 
+					input.btn.btn-primary.btn-lg.shiny(type="submit" ng-submit="crear()" value="Crear")
+					a.btn.btn-danger.btn-lg.shiny(type="button" ui-sref="panel.profesores") Ocultar
 
 

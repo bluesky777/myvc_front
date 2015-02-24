@@ -13,12 +13,14 @@ angular.module("myvcFrontApp")
 		$scope.aspiraciones = r
 	, (r2)->
 		console.log 'No se pudo con aspiraciones. ', r2
+		$scope.toastr.error 'No se pudo traer las aspiraciones', 'Problema'
 	)
 
 	Restangular.all('participantes/allinscritos').getList().then((r)->
 		$scope.allinscritos = r
 	, (r2)->
-		console.log 'No se pudo con aspiraciones. ', r2
+		console.log 'No se pudo con los inscritos. ', r2
+		$scope.toastr.error 'No se pudo traer los inscritos', 'Problema'
 	)
 
 	$scope.crearCandidato = (aspiracion)->
@@ -40,16 +42,25 @@ angular.module("myvcFrontApp")
 
 			aspiracion.candidatos.push r
 			aspiracion.newParticip = null
+
+			$scope.toastr.success 'Candidato creado con éxito'
 		, (r2)->
-			console.log 'Error al crear candidato. ', r2
+			if r2.error.message == 'Candidato ya inscrito.'
+				$scope.toastr.warning 'Candidato ya inscrito en esta aspiración'
+			else
+			
+				console.log 'Error al crear candidato. ', r2
+				$scope.toastr.warning 'No se pudo crear el candidato', 'Problema'
 		)
 
 	$scope.eliminarCandidato = (candidato_id, aspiracion)->
 		Restangular.all('candidatos/destroy/'+candidato_id).remove().then((r)->
 			console.log 'Candidatura quitada.', r
 			aspiracion.candidatos = $filter('filter')(aspiracion.candidatos, {candidato_id: '!'+candidato_id})
+			$scope.toastr.success 'Candidato removido de la candidatura'
 		, (r2)->
 			console.log 'No se pudo quitar de la candidatura', r2
+			$scope.toastr.error 'No se pudo quitar de la candidatura', 'Problema'
 		)
 
 	return

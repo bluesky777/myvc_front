@@ -16,18 +16,19 @@ angular.module("myvcFrontApp")
 
 
 	btGrid1 = '<a tooltip="Editar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
-	btGrid2 = '<a tooltip="X Eliminar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-times "></i></a>'
+	btGrid2 = '<a tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-times "></i></a>'
 	$scope.gridOptions = 
 		enableSorting: true,
 		enableFiltering: true,
 		enebleGridColumnMenu: false,
 		columnDefs: [
+			{ name: 'id', displayName:'Id', maxWidth: 50, enableFiltering: false, enableCellEdit: false}
 			{ name: 'edicion', displayName:'Edición', maxWidth: 50, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2, enableCellEdit: false}
 			{ field: 'nombres', enableHiding: false }
 			{ field: 'apellidos' }
 			{ field: 'sexo', maxWidth: 20 }
 			{ field: 'fecha_nac', displayName: 'Nacimiento'  }
-			{ field: 'user_id', displayName: 'Usuario', enableCellEdit: false }
+			{ field: 'username', displayName: 'Usuario', enableCellEdit: false }
 			{ field: 'facebook'  }
 			{ field: 'celular' }
 		]
@@ -53,6 +54,7 @@ angular.module("myvcFrontApp")
 	)
 
 	$scope.$on 'profesorcreado', (data, prof)->
+		console.log 'profesorcreado, ', data, prof
 		$scope.gridOptions.data.push prof
 		console.log $scope.gridOptions.data
 

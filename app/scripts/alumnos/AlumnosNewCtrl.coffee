@@ -6,25 +6,25 @@ angular.module("myvcFrontApp")
 	$scope.data = {} # Para el popup del Datapicker
 
 	$scope.alumno = 
-		'no_matricula'	: '879656'
-		'nombres'		: 'MIGUELITO SANTO'
-		'apellidos'		: 'QUESO QUEZADA'
+		'no_matricula'	: ''
+		'nombres'		: ''
+		'apellidos'		: ''
 		'sexo'			: 'M'
-		'documento'		: '99817333'
+		'documento'		: ''
 		'fecha_nac'		: '2000-06-26'
 		'tipo_sangre'	: {}
-		'eps'			: 'SALUCOOP'
-		'telefono'		: '8886242'
-		'celular'		: '3216478754'
-		'direccion'		: 'CRR 45 NO 30-23'
-		'barrio'		: 'MORICHAL'
-		'estrato'		: 2
+		'eps'			: ''
+		'telefono'		: ''
+		'celular'		: ''
+		'direccion'		: ''
+		'barrio'		: ''
+		'estrato'		: 1
 		'religion'		: 'PENTECOSTAL UNIDA'
-		'email'			: 'miguelito@gmail.com'
-		'facebook'		: 'miguelito@gmail.com'
+		'email'			: '@gmail.com'
+		'facebook'		: '@gmail.com'
 		'foto'			: 'perfil/default_male.jpg'
 		'pazysalvo'		: true
-		'deuda'			: 6600
+		'deuda'			: 0
 		'pais_nac'		: {id: 1, pais: 'COLOMBIA', abrev: 'CO' }
 
 	$scope.sangres = [{sangre: 'O+'},{sangre: 'O-'}, {sangre: 'A+'}, {sangre: 'A-'}, {sangre: 'B+'}, {sangre: 'B-'}, {sangre: 'AB+'}, {sangre: 'AB-'}]
@@ -51,6 +51,7 @@ angular.module("myvcFrontApp")
 		Restangular.all('alumnos/store').post($scope.alumno).then((r)->
 			console.log 'Se hizo el post del alumno', r
 			$scope.toastr.success 'Alumno '+r.nombres+' creado'
+			$scope.$emit 'alumnoguardado', r
 		, (r2)->
 			console.log 'Falló al intentar guardar: ', r2
 		)

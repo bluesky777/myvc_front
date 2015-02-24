@@ -10,6 +10,7 @@ angular.module('myvcFrontApp')
 
 	$scope.verificar_acceso = AuthService.verificar_acceso
 	$scope.isAuthorized = AuthService.isAuthorized
+	$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
 
 	$scope.USER_ROLES = USER_ROLES
 
