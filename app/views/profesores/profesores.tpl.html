@@ -3,9 +3,14 @@
 <div class="row">
   <div class="col-xs-12 col-md-12">
     <div class="well with-header with-footer">
-      <div class="header bordered-yellow">Profesores</div><a ui-sref="panel.profesores.nuevo" tooltip="Ingresa datos de un nuevo alumno" class="btn btn-info shiny">Nuevo profesor</a>
-      <div id="grid1" ui-grid="gridOptions" ui-grid-edit external-scopes="$scope" ui-grid-resize-columns class="grid"></div>
-      <div class="footer">Edite los datos de forma individual o conjunta.</div>
+      <div class="header bordered-yellow">Profesores</div>
+      <div class="form-title">Todos los profesores: <a href="" ng-click="ocultarTodos()" ng-show="mostrandoTodos">Ocultar</a><a href="" ng-click="mostrarTodos()" ng-show="!mostrandoTodos">Mostrar</a></div>
+      <div ng-show="mostrandoTodos"><a ui-sref="panel.profesores.nuevo" tooltip="Ingresa datos de un nuevo alumno" class="btn btn-info shiny">Nuevo profesor</a>
+        <div id="grid1" ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns class="grid"></div>
+      </div><br><br>
+      <div class="form-title">Profesores contratados este año {{USER.year.year}}:</div>
+      <div id="grid2" ui-grid="gridCurrentOptions" ui-grid-edit ui-grid-resize-columns class="grid"></div>
+      <div class="footer">Puedes ver todos los profesores de años anteriores y el presente.</div>
     </div>
   </div>
 </div>

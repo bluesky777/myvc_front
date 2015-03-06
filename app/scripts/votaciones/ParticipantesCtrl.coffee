@@ -36,17 +36,33 @@ angular.module("myvcFrontApp")
 	btGrid2 = '<a tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-times "></i></a>'
 	$scope.gridOptions = 
 		enableSorting: true,
+		enableFiltering: true,
 		enebleGridColumnMenu: false,
 		columnDefs: [
 			{ name: 'edicion', displayName:'Edición', maxWidth: 50, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2, enableCellEdit: false}
-			{ field: 'username', displayName: 'Usuario' }
+			{ field: 'nombres', displayName: 'nombres', enableCellEdit: false }
+			{ field: 'apellidos', displayName: 'apellidos', enableCellEdit: false }
+			{ field: 'username', displayName: 'Usuario', enableCellEdit: false }
+			{ field: 'votados', displayName: 'Votados', enableCellEdit: false}
+			{ field: 'completo', displayName: 'Completo', enableCellEdit: false}
 			{ field: 'locked', displayName: 'Bloqueado'}
-			{ field: 'intentos', displayName: 'Intentos'}
 		],
 		multiSelect: false,
 		#filterOptions: $scope.filterOptions,
 		onRegisterApi: ( gridApi ) ->
 			$scope.gridApi = gridApi
+			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
+				console.log 'Fila editada, ', rowEntity, ' Column:', colDef, ' newValue:' + newValue + ' oldValue:' + oldValue ;
+				
+				if newValue != oldValue
+					Restangular.one('participantes/update', rowEntity.id).customPUT(rowEntity).then((r)->
+						$scope.toastr.success 'Participante actualizado con éxito', 'Actualizado'
+					, (r2)->
+						$scope.toastr.error 'Cambio no guardado', 'Error'
+						console.log 'Falló al intentar guardar: ', r2
+					)
+				$scope.$apply()
+			)
 
 	RParticipantes.getList().then((data)->
 		$scope.gridOptions.data = data;

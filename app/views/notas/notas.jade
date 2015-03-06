@@ -1,2 +1,77 @@
-h1 Notas
-h2 Matemáticas - Estiven
+.col-lg-12
+	.widget
+		.widget-header.bordered-bottom.bordered-blue
+			span.widget-caption {{asignatura.materia + ' - ' + asignatura.nombre_grupo + ' - ' + asignatura.nombres_profesor}}
+		.widget-body
+			div
+				a.btn.btn-info.btn-lg(ui-sref="panel.unidades({asignatura_id: asignatura_id})") Volver a unidades
+
+
+			div.table-responsive
+				br
+				br
+				hr.wide
+				br
+				.row
+					.col-lg-4.col-xs-8
+						label Filtrar alumnos
+						input.form-control(type="text" ng-model="searchAlum" placeholder="Escribe algún texto")
+				br
+				br
+				
+
+				table.table.table-hover.table-condensed.table-striped.tablenot100
+					thead
+						tr
+							th(rowspan="2" style="width: 20px; line-height: 3;")
+								div No
+							th.text-center(rowspan="2" style="min-width: 50px; line-height: 3;") 
+								div Nombres
+							th(ng-repeat="unidad in unidades" colspan="{{unidad.subunidades.length}}")
+								div.text-center.nombresellipsis(tooltip="{{unidad.porcentaje}}% {{unidad.definicion}}" tooltip-popup-delay="1000" ng-class="'maxwidth' + unidad.subunidades.length" ) {{$index + 1}}. {{unidad.definicion}}
+							th(rowspan="2" style="line-height: 3;")
+								div Total
+						
+						tr
+							th(ng-repeat="subunidad in subunidadesunidas")
+								div.text-center.nombresellipsis(tooltip="{{subunidad.porcentaje}}% {{subunidad.definicion}}" tooltip-popup-delay="1000" ng-hide="subunidad.empty") {{$index + 1}}
+								div.text-center(tooltip="No hay subunidad" tooltip-popup-delay="1000" ng-show="subunidad.empty")
+									i.fa.fa-frown-o
+
+					tbody
+						tr(ng-repeat="alumno in alumnos | filter:searchAlum" ng-class="{'danger': promedioTotal(alumno.id) < 70}")
+							td
+								div {{$index+1}}
+							td
+								.nombresellipsis( popover="<img src='{{perfilPath + alumno.userData.foto_nombre}}' style='width: 100px; height: 100px;'><img src='{{perfilPath + alumno.userData.imagen_nombre}}' style='width: 100px; height: 100px;'><br>Facebook: {{alumno.facebook}}<br>Username: {{alumno.userData.username}}" 
+									popover-popup-delay="1000" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-animation="true" 
+									popover-trigger="mouseenter" ) 
+									img(ng-src="{{perfilPath + alumno.userData.foto_nombre}}" style="width: 20px; height: 20px;")
+									| {{alumno.apellidos + ' ' + alumno.nombres}}
+							
+							td(ng-repeat="subunidad in subunidadesunidas")
+								div.text-center(ng-class="{'inputnota-perdida': subunidad.notas[$parent.$index].nota < 70, 'inputnota-superior': subunidad.notas[$parent.$index].nota > 90}" ng-hide="subunidad.empty")
+									input(tooltip="{{subunidad.porcentaje}}% {{subunidad.definicion}}" tooltip-popup-delay="1000" type="number" min="0" max="100" 
+										ng-model="subunidad.notas[$parent.$index].nota" ng-change="cambiaNota(subunidad.notas[$parent.$index])"
+										ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }")
+
+								div.text-center(tooltip="No hay subunidad" tooltip-popup-delay="1000" ng-show="subunidad.empty")
+									i.fa.fa-frown-o
+							td
+								div(ng-bind-html="promedioTotal(alumno.id)")
+
+
+				br
+				br
+				br
+				hr.wide
+br
+br
+br
+.col-lg-12
+	.widget
+		.widget-header.bordered-bottom.bordered-blue
+			span.widget-caption Algunas opciones
+		.widget-body
+			div
+				a.btn.btn-default.btn.lg Hacer algo

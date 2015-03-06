@@ -16,7 +16,7 @@ angular.module('myvcFrontApp')
 					]
 				}
 				data:
-					needed_permissions: [PERMISSIONS.can_see_panel] #Si puede ver el panel, puede ver Votaciones
+					pageTitle: 'Votaciones - MyVc'
 
 		.state 'votaciones.config',
 				url: '/config'
@@ -24,6 +24,9 @@ angular.module('myvcFrontApp')
 					'maincontent':
 						templateUrl: "#{App.views}votaciones/votaciones.tpl.html"
 						controller: 'VotacionesCtrl'
+				data:
+					needed_permissions: [PERMISSIONS.can_edit_votaciones]
+					pageTitle: 'Configurar votación - MyVc'
 
 		.state 'votaciones.aspiraciones',
 				url: '/aspiraciones'
@@ -31,6 +34,9 @@ angular.module('myvcFrontApp')
 					'maincontent':
 						templateUrl: "#{App.views}votaciones/aspiraciones.tpl.html"
 						controller: 'AspiracionesCtrl'
+				data:
+					needed_permissions: [PERMISSIONS.can_edit_aspiraciones]
+					pageTitle: 'Aspiraciones - MyVc'
 
 		.state 'votaciones.candidatos',
 				url: '/candidatos'
@@ -38,6 +44,9 @@ angular.module('myvcFrontApp')
 					'maincontent':
 						templateUrl: "#{App.views}votaciones/candidatos.tpl.html"
 						controller: 'CandidatosCtrl'
+				data:
+					needed_permissions: [PERMISSIONS.can_edit_candidatos]
+					pageTitle: 'Candidatos - MyVc'
 
 		.state 'votaciones.participantes',
 				url: '/participantes'
@@ -45,6 +54,9 @@ angular.module('myvcFrontApp')
 					'maincontent':
 						templateUrl: "#{App.views}votaciones/participantes.tpl.html"
 						controller: 'ParticipantesCtrl'
+				data:
+					needed_permissions: [PERMISSIONS.can_edit_participantes]
+					pageTitle: 'Participantes - MyVc'
 
 		.state 'votaciones.votar',
 				url: '/votar/:maxi'
@@ -52,6 +64,8 @@ angular.module('myvcFrontApp')
 					'maincontent':
 						templateUrl: "#{App.views}votaciones/votar.tpl.html"
 						controller: 'VotarCtrl'
+				data:
+					pageTitle: 'Votar - MyVc'
 
 		.state 'votaciones.resultados',
 				url: '/resultados'
@@ -59,6 +73,8 @@ angular.module('myvcFrontApp')
 					'maincontent':
 						templateUrl: "#{App.views}votaciones/resultados.tpl.html"
 						controller: 'ResultadosCtrl'
+				data:
+					pageTitle: 'Resultados - MyVc'
 
 
 		return

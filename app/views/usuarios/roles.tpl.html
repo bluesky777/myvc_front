@@ -1,0 +1,37 @@
+
+<div class="col-xs-12 col-md-12">
+  <div class="well with-header with-footer">
+    <div class="header bordered-yellow">Roles</div>
+    <div class="dd dd-draghandle darker">
+      <ol class="dd-list">
+        <li data-id="$index" ng-repeat="rol in roles" class="dd-item dd2-item">
+          <button data-action="collapse" ng-click="collapse(rol)" type="button" ng-show="rol.mostrandoPermisos">Colapsar</button>
+          <button data-action="expand" ng-click="expand(rol)" type="button" ng-show="!rol.mostrandoPermisos">Expandir</button>
+          <div class="dd-handle dd2-handle"><i class="normal-icon fa fa-meh-o"></i><i class="drag-icon fa fa-arrows-alt"></i></div>
+          <div class="dd2-content">{{rol.name}} ({{rol.perms.length}})</div>
+          <ol ng-show="rol.mostrandoPermisos" class="dd-list">
+            <li class="dd-item dd2-item bordered-blue">
+              <div class="dd-handle">
+                <form ng-submit="addPermissions(rol)">
+                  <label>Permiso: </label>
+                  <ui-select ng-model="rol.newperm" theme="select2" style="min-width: 300px;">
+                    <ui-select-match placeholder="Seleccione permiso" allow-clear="true">{{$select.selected.display_name}}</ui-select-match>
+                    <ui-select-choices repeat="permission in permissions | filter: $select.search">
+                      <div ng-bind-html="permission.display_name | highlight: $select.search" tooltip="{{permission.name}}" tooltip-placement="top" ng-show="$index&gt;1"></div>
+                      <div ng-bind-html="permission.display_name | highlight: $select.search" tooltip="{{permission.name}}" tooltip-placement="bottom" ng-show="$index==0||$index==1"></div>
+                    </ui-select-choices>
+                  </ui-select>
+                  <input type="submit" ng-submit="addPermissions(rol)" value="Añadir permiso" class="btn btn-primary btn-sm shiny">
+                </form>
+              </div>
+            </li>
+            <li data-id="2" ng-repeat="perm in rol.perms" class="dd-item dd2-item">
+              <div ng-click="removePermission(rol, perm)" class="dd-handle dd2-handle"><i class="normal-icon fa fa-times"></i><i class="drag-icon fa fa-arrows-alt"></i></div>
+              <div class="dd2-content">{{perm.display_name}} ({{perm.description}})</div>
+            </li>
+          </ol>
+        </li>
+      </ol><a ui-sref="panel.usuarios">Volver</a>
+    </div>
+  </div>
+</div>

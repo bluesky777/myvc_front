@@ -1,6 +1,6 @@
 angular.module('myvcFrontApp')
 
-.directive('sidebarMenu',['App', '$rootScope', 'AuthService', (App, $rootScope, AuthService)-> 
+.directive('sidebarMenu',['App', '$rootScope', 'AuthService', 'Restangular', '$modal', 'Perfil', (App, $rootScope, AuthService, Restangular, $modal, Perfil)-> 
 
 	restrict: 'E'
 	replace: true
@@ -17,6 +17,32 @@ angular.module('myvcFrontApp')
 		$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
 
 		$scope.$state = $rootScope.$state
+		$scope.persona_id = Perfil.User().persona_id
+
+		if $scope.hasRoleOrPerm(['Admin', 'Profesor'])
+
+			Restangular.all('grupos').getList().then((r)->
+				$scope.grupos = r
+			, (r2)->
+				console.log 'No se pudo traer los grupos: ', r2
+			)
+
+		Restangular.all('contratos').getList().then((r)->
+			$scope.profesores = r
+		, (r2)->
+			console.log 'No se pudo traer los profesores: ', r2
+		)
+
+		$scope.listarAsignaturas = ()->
+
+			modalInstance = $modal.open({
+				templateUrl: App.views + 'areas/listasignaturasPop.tpl.html'
+				controller: 'ListasignaturasPopCtrl'
+			})
+			modalInstance.result.then( (r)->
+				console.log 'Resultado del modal: ', r
+			)
+
 
 		this.clikeando = ->
 			console.log 'Menu compacto', $rootScope.menucompacto
@@ -40,6 +66,10 @@ angular.module('myvcFrontApp')
 			index = this.groups.indexOf(group)
 			if ( index != -1 )
 				this.groups.splice(index, 1)
+
+
+
+
 ])
 
 .directive('subMenu',[ ()-> 
@@ -171,3 +201,24 @@ angular.module('myvcFrontApp')
 		scope.$on '$destroy', ()->
 			elem.off()
 			removeElement(groupName, elem)
+
+
+.controller('ListasignaturasPopCtrl', ['$scope', '$modalInstance', 'Restangular', 'toastr', '$state', 'Perfil', ($scope, $modalInstance, Restangular, toastr, $state, Perfil)->
+	
+	$scope.selectAsignatura = (asig_id)->
+		console.log asig_id
+		$state.go 'panel.notas', {asignatura_id: asig_id}
+		$modalInstance.close(asig_id)
+
+	Restangular.all('asignaturas/listasignaturas').getList().then((r)->
+		$scope.asignaturas = r
+	, (r2)->
+		console.log 'No se pudo traer tus asignaturas, ', r2
+	)
+
+	$scope.cancel = ()->
+		$modalInstance.dismiss('cancel')
+
+])
+
+

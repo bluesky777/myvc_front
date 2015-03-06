@@ -20,7 +20,8 @@ angular.module('myvcFrontApp')
 				data: 
 					displayName: 'Alumnos'
 					icon_fa: 'fa fa-male'
-					Permissions: [PERMISSIONS.can_see_alumnos]
+					needed_permissions: [PERMISSIONS.can_edit_alumnos]
+					pageTitle: 'Alumnos - MyVc'
 
 
 
@@ -42,7 +43,7 @@ angular.module('myvcFrontApp')
 					icon_fa: 'fa fa-envelope'
 
 			.state 'panel.notas',
-				url: '^/notas'
+				url: '^/notas/:asignatura_id'
 				views: 
 					'maincontent':
 						templateUrl: "#{App.views}notas/notas.tpl.html"
@@ -54,10 +55,62 @@ angular.module('myvcFrontApp')
 							titulo: [->
 								'Notas'
 							]
+				resolve: 
+					notas: ['NotasServ', '$stateParams', (NotasServ, $stateParams)->
+						NotasServ.detalladas($stateParams.asignatura_id)
+					]
 				data: 
 					displayName: 'Notas'
 					icon_fa: 'fa fa-graduation-cap'
-					Permissions: [PERMISSIONS.can_see_notas]
+					needed_permissions: [PERMISSIONS.can_work_like_teacher, PERMISSIONS.can_work_like_admin, PERMISSIONS.can_edit_notas]
+					pageTitle: 'Notas - MyVc'
+
+			.state 'panel.ausencias',
+				url: '^/ausencias/:asignatura_id'
+				views: 
+					'maincontent':
+						templateUrl: "#{App.views}notas/ausencias.tpl.html"
+						controller: 'AusenciasCtrl'
+					'headerContent':
+						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						controller: 'PanelHeaderCtrl'
+						resolve: 
+							titulo: [->
+								'Ausencias'
+							]
+				resolve: 
+					ausencias: ['AusenciasServ', '$stateParams', (AusenciasServ, $stateParams)->
+						AusenciasServ.detalladas($stateParams.asignatura_id)
+					]
+				data: 
+					displayName: 'Ausencias'
+					icon_fa: 'fa fa-apple'
+					needed_permissions: [PERMISSIONS.can_work_like_teacher, PERMISSIONS.can_work_like_admin, PERMISSIONS.can_edit_notas]
+					pageTitle: 'Ausencias - MyVc'
+
+
+			.state 'panel.comportamiento',
+				url: '^/comportamiento/:grupo_id'
+				views: 
+					'maincontent':
+						templateUrl: "#{App.views}notas/comportamiento.tpl.html"
+						controller: 'ComportamientoCtrl'
+					'headerContent':
+						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						controller: 'PanelHeaderCtrl'
+						resolve: 
+							titulo: [->
+								'Comportamiento'
+							]
+				resolve: 
+					comportamiento: ['ComportamientoServ', '$stateParams', (ComportamientoServ, $stateParams)->
+						ComportamientoServ.detallados($stateParams.grupo_id)
+					]
+				data: 
+					displayName: 'Comportamiento'
+					icon_fa: 'fa fa-street-view'
+					needed_permissions: [PERMISSIONS.can_work_like_teacher, PERMISSIONS.can_work_like_admin, PERMISSIONS.can_edit_notas]
+					pageTitle: 'Comportamiento - MyVc'
 
 
 			.state 'panel.years',
@@ -76,7 +129,8 @@ angular.module('myvcFrontApp')
 				data: 
 					displayName: 'Años'
 					icon_fa: 'fa fa-graduation-cap'
-					Permissions: [PERMISSIONS.can_see_years]
+					needed_permissions: [PERMISSIONS.can_work_like_admin]
+					pageTitle: 'Años - MyVc'
 
 
 
@@ -96,7 +150,8 @@ angular.module('myvcFrontApp')
 				data: 
 					displayName: 'Periodos'
 					icon_fa: 'fa fa-graduation-cap'
-					Permissions: [PERMISSIONS.can_see_periodos]
+					needed_permissions: [PERMISSIONS.can_work_like_admin]
+					pageTitle: 'Periodos - MyVc'
 
 
 
@@ -117,7 +172,8 @@ angular.module('myvcFrontApp')
 				data: 
 					displayName: 'Paises'
 					icon_fa: 'fa fa-flag-checkered'
-					Permissions: [PERMISSIONS.can_see_paises]
+					needed_permissions: [PERMISSIONS.can_work_like_admin]
+					pageTitle: 'Paises - MyVc'
 
 
 
@@ -137,7 +193,8 @@ angular.module('myvcFrontApp')
 				data: 
 					displayName: 'Profesores'
 					icon_fa: 'fa fa-graduation-cap'
-					Permissions: [PERMISSIONS.can_see_all_paises]
+					needed_permissions: [PERMISSIONS.can_work_like_admin]
+					pageTitle: 'Profesores - MyVc'
 
 
 			.state 'panel.ciudades',
@@ -156,7 +213,8 @@ angular.module('myvcFrontApp')
 				data: 
 					displayName: 'Ciudades'
 					icon_fa: 'fa fa-map-marker'
-					Permissions: [PERMISSIONS.can_see_ciudades]
+					needed_permissions: [PERMISSIONS.can_work_like_admin]
+					pageTitle: 'Ciudades - MyVc'
 
 
 			.state 'panel.disciplinas',
@@ -175,7 +233,7 @@ angular.module('myvcFrontApp')
 				data: 
 					displayName: 'Disciplinas'
 					icon_fa: 'fa fa-align-justify'
-					Permissions: [PERMISSIONS.can_see_disciplinas]
+					pageTitle: 'Disciplinas - MyVc'
 
 			.state 'panel.eventos',
 				url: '/eventos'
@@ -193,6 +251,7 @@ angular.module('myvcFrontApp')
 				data: 
 					displayName: 'Eventos'
 					icon_fa: 'fa fa-laptop'
-					Permissions: [PERMISSIONS.can_see_eventos]
+					needed_permissions: [PERMISSIONS.can_work_like_admin]
+					pageTitle: 'Eventos - MyVc'
 		return
 	]

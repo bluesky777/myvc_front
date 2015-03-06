@@ -45,6 +45,15 @@ angular.module('myvcFrontApp')
 		$rootScope.pageTitle = $state.current.name;
 
 
+	#- Evento cuando falla la carga del estado, por un resolve rechazado o algo así.
+	$rootScope.$on '$stateChangeError', (event, toState, toParams, fromState, fromParams)->
+		#$rootScope.lastState = fromState.name if fromState.name != ''
+		#-if $state.current.name == 'login' then cfpLoadingBar.complete() # No me funciona :(
+		toastr.warning 'Lo sentimos, hubo un error o no puedes acceder a esta vista'
+		if $rootScope.lastState != 'panel'
+			$state.transitionTo 'panel'
+
+
 	#- Se ejecuta cuando se trae un nuevo trozo de traducciones
 	$rootScope.$on '$translatePartialLoaderStructureChanged', () ->
 		$translate.refresh()
@@ -72,14 +81,15 @@ angular.module('myvcFrontApp')
 		
 
 	$rootScope.$on AUTH_EVENTS.notAuthenticated, (ev)->
-		$state.transitionTo 'login'
 		toastr.warning 'No está autorizado.', 'Acceso exclusivo'
 		console.log 'Evento notAuthenticated: ', ev
+		$state.transitionTo 'login'
 		
 
 
 	$rootScope.$on AUTH_EVENTS.notAuthorized, (ev)->
-		$state.go 'login'
+		toastr.warning 'No está autorizado para entrar a esta vista', 'Restringido'
+		$state.go 'panel'
 		console.log 'Evento notAuthorized: ', ev, $rootScope.lastState
 
 ]

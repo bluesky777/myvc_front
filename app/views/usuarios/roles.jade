@@ -1,0 +1,35 @@
+.col-xs-12.col-md-12
+	.well.with-header.with-footer
+		.header.bordered-yellow Roles
+		.dd.dd-draghandle.darker
+			ol.dd-list
+				li.dd-item.dd2-item(data-id="$index" ng-repeat="rol in roles")
+					button(data-action="collapse" ng-click="collapse(rol)" type="button" ng-show="rol.mostrandoPermisos")
+						| Colapsar
+					button(data-action="expand" ng-click="expand(rol)" type="button" ng-show="!rol.mostrandoPermisos")
+						| Expandir
+					.dd-handle.dd2-handle
+						i.normal-icon.fa.fa-meh-o
+						i.drag-icon.fa.fa-arrows-alt
+					.dd2-content {{rol.name}} ({{rol.perms.length}})
+
+					ol.dd-list(ng-show="rol.mostrandoPermisos")
+						li.dd-item.dd2-item.bordered-blue
+							.dd-handle
+								form(ng-submit="addPermissions(rol)")
+									label Permiso: 
+									ui-select(ng-model="rol.newperm" theme="select2" style="min-width: 300px;")
+										ui-select-match(placeholder="Seleccione permiso" allow-clear="true") {{$select.selected.display_name}}
+										ui-select-choices(repeat="permission in permissions | filter: $select.search")
+											div(ng-bind-html="permission.display_name | highlight: $select.search" tooltip="{{permission.name}}" tooltip-placement="top" ng-show="$index>1")
+											div(ng-bind-html="permission.display_name | highlight: $select.search" tooltip="{{permission.name}}" tooltip-placement="bottom" ng-show="$index==0||$index==1")
+
+									input.btn.btn-primary.btn-sm.shiny(type="submit" ng-submit="addPermissions(rol)" value="Añadir permiso") 
+
+
+						li.dd-item.dd2-item(data-id="2" ng-repeat="perm in rol.perms")
+							.dd-handle.dd2-handle(ng-click="removePermission(rol, perm)")
+								i.normal-icon.fa.fa-times
+								i.drag-icon.fa.fa-arrows-alt
+							.dd2-content {{perm.display_name}} ({{perm.description}})
+			a(ui-sref="panel.usuarios") Volver

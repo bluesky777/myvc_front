@@ -1,0 +1,23 @@
+.modal-header
+	h3.modal-title Elige la asignatura
+.modal-body
+	.row
+		.col-lg-12.col-xs-12(ng-if="asignaturas.length>0")
+			h2 Asignaturas: 
+			table.table.table-hover
+				thead.bordered-darkorange
+					tr
+						th 
+						th Asignatura
+						th Créditos
+				tbody
+					tr(ng-click="selectAsignatura(asignatura.asignatura_id)" ng-repeat="asignatura in asignaturas" style="cursor: pointer;")
+						td {{$index+1}}
+						td {{asignatura.nombre_grupo}} {{asignatura.materia}}
+						td {{asignatura.creditos}}
+
+		.col-lg-12.col-xs-12(ng-if="asignaturas.length==0")
+			h3 No tienes asignada ninguna materia.
+
+.modal-footer
+	button.btn.btn-yellow(ng-click="cancel()") Cancelar

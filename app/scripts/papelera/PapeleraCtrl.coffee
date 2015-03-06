@@ -37,7 +37,7 @@ angular.module("myvcFrontApp")
 		enebleGridColumnMenu: false,
 		columnDefs: [
 			{ field: 'alumno_id', displayName:'Id', maxWidth: 40}
-			{ name: 'edicion', displayName:'Edición', maxWidth: 50, enableSorting: false, enableFiltering: false, cellTemplate: btGridAlum1 + btGridAlum2}
+			{ name: 'edicion', displayName:'Edición', minWidth: 95, enableSorting: false, enableFiltering: false, cellTemplate: btGridAlum1 + btGridAlum2}
 			{ field: 'nombres', enableHiding: false }
 			{ field: 'apellidos' }
 			{ field: 'sexo', maxWidth: 20 }

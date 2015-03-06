@@ -1,0 +1,3 @@
+
+<div ng-if="row.entity.year_id==grid.appScope.current_year" style="text-align:right;"><a ng-click="grid.appScope.quitarContrato(row.entity.contrato_id);" tooltip="Contratado año {{grid.appScope.USER.year.year}}" tooltip-placement="right" href="" class="btn btn-default btn-xs shiny danger">Dar de baja</a></div>
+<div ng-if="row.entity.year_id!=grid.appScope.current_year" style="text-align:right;"><a ng-click="grid.appScope.contratar(row.entity);" tooltip="Contrato del año {{grid.appScope.USER.year.year}}" tooltip-placement="right" href="" class="btn btn-success btn-xs shiny">Contratar</a></div>

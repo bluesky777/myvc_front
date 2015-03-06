@@ -1,0 +1,32 @@
+
+<div ng-show="creando" class="row">
+  <div class="col-xs-12 col-md-12">
+    <form role="form" ng-submit="crear()" class="well with-header with-footer form">
+      <div class="header bordered-yellow">Nueva frase</div>
+      <div class="row">
+        <div class="col-md-5">
+          <input type="text" ng-model="currentFrase.frase" placeholder="Frase" class="form-control">
+          <div class="horizontal-space"></div>
+        </div>
+        <div class="col-md-4">
+          <select ng-model="currentFrase.tipo_frase" class="form-control">
+            <option ng-selected="{{operator.value == currentFrase.tipo_frase}}" ng-repeat="tipo in tipos" value="{{tipo.tipo_frase}}">{{tipo.tipo_frase}}</option>
+          </select>
+          <div class="horizontal-space"></div>
+        </div>
+      </div>
+      <div class="footer">
+        <input type="submit" value="Crear" class="btn btn-primary"><a ng-click="cancelarCrear()" class="btn btn-warning">Ocultar</a>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12 col-md-12">
+    <div class="well with-header with-footer">
+      <div class="header bordered-yellow">Frases del año</div><a ng-click="creando=true" class="btn btn-primary">Crear nueva</a>
+      <div id="grid1" ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns class="grid"></div>
+      <div class="footer">Puedes editar con doble click sobre el dato deseado.</div>
+    </div>
+  </div>
+</div>

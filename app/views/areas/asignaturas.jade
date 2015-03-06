@@ -1,0 +1,80 @@
+.row(ng-show="creando")
+	.col-xs-12.col-md-12
+		form.well.with-header.with-footer.form(role="form" ng-submit="crear()")
+			.header.bordered-yellow Nueva asignatura
+			.row
+				.col-md-6
+					ui-select(ng-model="currentasignatura.materia" heme="select2" style="min-width: 200px;")
+						ui-select-match(placeholder="Materia" allow-clear="true") {{$select.selected.materia}} ({{$select.selected.alias}})
+						ui-select-choices(repeat="materia in materias | filter: $select.search")
+							div(ng-bind-html="materia.materia | highlight: $select.search")
+							small {{ materia.alias | highlight: $select.search}}
+					.horizontal-space
+				.col-md-6
+					ui-select(ng-model="currentasignatura.grupo" heme="select2" style="min-width: 200px;")
+						ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}} ({{$select.selected.abrev}})
+						ui-select-choices(repeat="grupo in grupos | filter: $select.search")
+							div(ng-bind-html="grupo.nombre + ' - ' + grupo.abrev | highlight: $select.search")
+					.horizontal-space
+			.row
+				.col-md-6
+					ui-select(ng-model="currentasignatura.profesor" heme="select2" style="min-width: 200px;")
+						ui-select-match(placeholder="Profesor" allow-clear="true") {{$select.selected.nombres}} {{$select.selected.apellidos}}
+						ui-select-choices(repeat="profe in profesores | filter: $select.search")
+							div(ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
+					.horizontal-space
+				.col-md-3
+					input.form-control(type="number" ng-model="currentasignatura.creditos" placeholder="Créditos")
+					.horizontal-space
+				.col-md-3
+					input.form-control(type="number" ng-model="currentasignatura.orden" placeholder="Orden")				
+					.horizontal-space
+			.footer
+				input.btn.btn-primary(type="submit" value="Crear")
+				a.btn.btn-warning(ng-click="cancelarCrear()") Ocultar
+
+.row(ng-show="editando")
+	.col-xs-12.col-md-12
+		form.well.with-header.with-footer.form(role="form" ng-submit="guardar()")
+			.header.bordered-yellow Editar asignatura
+			.row
+				.col-md-6
+					ui-select(ng-model="currentasignaturaEdit.materia" heme="select2" style="min-width: 200px;")
+						ui-select-match(placeholder="Materia" allow-clear="true") {{$select.selected.materia}} ({{$select.selected.alias}})
+						ui-select-choices(repeat="materia in materias | filter: $select.search")
+							div(ng-bind-html="materia.materia | highlight: $select.search")
+							small {{ materia.alias | highlight: $select.search}}
+					.horizontal-space
+				.col-md-6
+					ui-select(ng-model="currentasignaturaEdit.grupo" heme="select2" style="min-width: 200px;")
+						ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}} ({{$select.selected.abrev}})
+						ui-select-choices(repeat="grupo in grupos | filter: $select.search")
+							div(ng-bind-html="grupo.nombre + ' - ' + grupo.abrev | highlight: $select.search")
+					.horizontal-space
+			.row
+				.col-md-6
+					ui-select(ng-model="currentasignaturaEdit.profesor" heme="select2" style="min-width: 200px;")
+						ui-select-match(placeholder="Profesor" allow-clear="true") {{$select.selected.nombres}} {{$select.selected.apellidos}}
+						ui-select-choices(repeat="profe in profesores | filter: $select.search")
+							div(ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
+					.horizontal-space
+				.col-md-3
+					input.form-control(type="number" ng-model="currentasignaturaEdit.creditos" placeholder="Créditos")
+					.horizontal-space
+				.col-md-3
+					input.form-control(type="number" ng-model="currentasignaturaEdit.orden" placeholder="Orden")				
+					.horizontal-space
+			.footer
+				input.btn.btn-primary(type="submit" value="Guardar cambios")
+				a.btn.btn-warning(ng-click="cancelarEdit()") Ocultar
+.row
+	.col-xs-12.col-md-12
+		.well.with-header.with-footer
+			.header.bordered-yellow Asignaturas
+
+			a.btn.btn-primary(ng-click="creando=true") Crear nueva
+
+			#grid1.grid(ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns)
+
+			.footer
+				| Puedes editar con doble click sobre el dato deseado.

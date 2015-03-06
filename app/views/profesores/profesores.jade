@@ -5,10 +5,19 @@
 	.col-xs-12.col-md-12
 		.well.with-header.with-footer
 			.header.bordered-yellow Profesores
-			a.btn.btn-info.shiny(ui-sref="panel.profesores.nuevo" tooltip="Ingresa datos de un nuevo alumno") Nuevo profesor
-			#grid1.grid(ui-grid="gridOptions" ui-grid-edit external-scopes="$scope" ui-grid-resize-columns)
 
+			.form-title Todos los profesores: 
+				a(href="" ng-click="ocultarTodos()" ng-show="mostrandoTodos") Ocultar
+				a(href="" ng-click="mostrarTodos()" ng-show="!mostrandoTodos") Mostrar
+			div(ng-show="mostrandoTodos")
+				a.btn.btn-info.shiny(ui-sref="panel.profesores.nuevo" tooltip="Ingresa datos de un nuevo alumno") Nuevo profesor
+				#grid1.grid(ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns)
+
+			br
+			br
+			.form-title Profesores contratados este año {{USER.year.year}}:
+			#grid2.grid(ui-grid="gridCurrentOptions" ui-grid-edit ui-grid-resize-columns)
 
 			.footer
-				| Edite los datos de forma individual o conjunta.
+				| Puedes ver todos los profesores de años anteriores y el presente.
 	

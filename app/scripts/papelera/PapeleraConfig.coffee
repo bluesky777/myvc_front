@@ -19,5 +19,6 @@ angular.module('myvcFrontApp')
 				displayName: 'Papelera'
 				icon_fa: 'fa fa-trash'
 				#Permissions: [PERMISSIONS.can_see_alumnos]
+				pageTitle: 'Papelera - MyVc'
 
 ]

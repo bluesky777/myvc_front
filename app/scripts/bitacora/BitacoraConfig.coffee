@@ -18,6 +18,7 @@ angular.module('myvcFrontApp')
 			data: 
 				displayName: 'Bitacora'
 				icon_fa: 'fa fa-male'
+				pageTitle: 'Bitácora - MyVc'
 
 
 ]

@@ -39,7 +39,7 @@
 									li(ui-sref-active='active')
 										a(ui-sref='panel.user.resumen')
 											| Resumen
-									li(ui-sref-active='active')
+									li(ui-sref-active='active' ng-if="canConfig")
 										a(ui-sref='panel.user.configuracion')
 											| Configuración
 							.tab-content.tabs-flat(ui-view='user_detail')

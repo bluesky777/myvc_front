@@ -1,6 +1,6 @@
 angular.module('myvcFrontApp')
 
-.factory('AuthService', ['Restangular', '$state', '$http', '$cookies', 'Perfil', '$rootScope', 'AUTH_EVENTS', '$q', '$filter', (Restangular, $state, $http, $cookies, Perfil, $rootScope, AUTH_EVENTS, $q, $filter)->
+.factory('AuthService', ['Restangular', '$state', '$http', '$cookies', 'Perfil', '$rootScope', 'AUTH_EVENTS', '$q', '$filter', 'toastr', (Restangular, $state, $http, $cookies, Perfil, $rootScope, AUTH_EVENTS, $q, $filter, toastr)->
 	authService = {}
 
 	authService.verificar = ()->
@@ -15,6 +15,7 @@ angular.module('myvcFrontApp')
 						Perfil.setUser usuario
 						d.resolve usuario
 					, (r2)->
+						console.log 'No se logueó from token'
 						d.reject r2
 					)
 				else
@@ -24,22 +25,22 @@ angular.module('myvcFrontApp')
 			else
 				console.log 'No hay token'
 				d.resolve 'No hay token.'
-				$state.go 'login'
-				#$rootScope.$broadcast(AUTH_EVENTS.notAuthenticated)
+				#$state.go 'login'
+				$rootScope.$broadcast(AUTH_EVENTS.notAuthenticated)
 		return d.promise
 
 
 	authService.verificar_acceso = ()->
 		if !Perfil.User().user_id
 			$state.go 'login'
+
 		next = $state.current
-		console.log 'Verficar accesso: ', $state.current, next.data
+
 		if next.data.needed_permissions
 			needed_permissions = next.data.needed_permissions 
-			console.log 'needed_permissions: ', needed_permissions, next
 
 			if (!authService.isAuthorized(needed_permissions))
-				event.preventDefault()
+				#event.preventDefault()
 				console.log 'No tiene permisos, y... '
 				
 				$rootScope.lastState = next.name
@@ -52,7 +53,8 @@ angular.module('myvcFrontApp')
 					#$rootScope.$broadcast(AUTH_EVENTS.notAuthenticated)
 					console.log '...NO está Autenticado.'
 					$state.transitionTo 'login'
-		
+		else
+			return true
 
 
 
@@ -68,7 +70,7 @@ angular.module('myvcFrontApp')
 				$cookies.xtoken = user.token
 				
 				$http.defaults.headers.common['Authorization'] = 'Bearer ' + $cookies.xtoken
-				
+
 				Perfil.setUser user
 
 				console.log 'Usuario traido: ', user
@@ -109,39 +111,42 @@ angular.module('myvcFrontApp')
 
 
 	authService.logout = (credentials)->
-		Restangular.one('logout').get();
-		delete $http.defaults.headers.common['Authorization']
-		delete $cookies['xtoken']
+		#Restangular.one('logout').get();
+		$rootScope.lastScope = null
+		$rootScope.lastStateParam = null
+		authService.borrarToken()
+		Perfil.deleteUser()
 		$state.transitionTo 'login'
+
+	authService.borrarToken = ()->
+		delete $cookies.xtoken
+		delete $http.defaults.headers.common['Authorization']
 
 	authService.isAuthenticated = ()->
 		return !!Perfil.User().user_id;
 
 	authService.isAuthorized = (neededPermissions)->
-		console.log 'Perfil.User().is_superuser', Perfil.User().is_superuser
-		if Perfil.User().is_superuser ==1
+
+		user = Perfil.User()
+		if user.is_superuser
 			return true
 
 		if (!angular.isArray(neededPermissions))
 			neededPermissions = [neededPermissions]
 
-		if (!angular.isArray(Perfil.User().perms))
+		if (!angular.isArray(user.perms))
 			if neededPermissions.length > 0
-				return true;
+				return false; # Hay permisos requeridos pero el usuario no tiene ninguno
 			else
-				return false;
+				return true; # El usuarios no tiene permisos pero no se requiere ninguno
 
 		newArr = []
 		_.each(neededPermissions, (elem)->
-			if (Perfil.User().perms.indexOf(elem)) != -1
+			if (user.perms.indexOf(elem)) != -1
 				newArr.push elem
 		)
-		console.log 'Perfil.User().perms: ' , Perfil.User().perms, neededPermissions, newArr, newArr.length > 0
 		return (authService.isAuthenticated() and (newArr.length > 0))
 
-	authService.borrarToken = ()->
-		delete $cookies.xtoken
-		delete $http.defaults.headers.common['Authorization']
 
 	authService.hasRoleOrPerm = (ReqRoles, RedPermis)->
 		if (!angular.isArray(ReqRoles))
@@ -153,10 +158,12 @@ angular.module('myvcFrontApp')
 		rolesFound = []
 		
 		_.each(ReqRoles, (elem)->
+			rolesFoundTemp = []
 			rolesFoundTemp = $filter('filter')(Perfil.User().roles, {name: elem})
 
-			if rolesFoundTemp.length > 0
-				rolesFound.push elem
+			if rolesFoundTemp
+				if rolesFoundTemp.length > 0
+					rolesFound.push elem
 		)
 		return (rolesFound.length > 0)
 

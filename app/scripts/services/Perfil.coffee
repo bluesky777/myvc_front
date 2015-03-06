@@ -14,7 +14,7 @@ angular.module('myvcFrontApp')
 	save: ->
 		user.save()
 	id: ->
-		user.id
+		user.user_id
 	idioma: ->
 		user.idioma_system
 
@@ -25,10 +25,12 @@ angular.module('myvcFrontApp')
 		user.foto_id = foto_id
 		user.foto_nombre =foto_nombre
 	nameToShow: ()->
-		if user.tipo == 'Usu'
+		if user.tipo == 'Us'
 			return user.username.toUpperCase()
 		else
 			return user.nombres + ' ' + user.apellidos
 
+	deleteUser: ()->
+		user = {}
 
 ])

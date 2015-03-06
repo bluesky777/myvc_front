@@ -34,6 +34,7 @@ angular.module('myvcFrontApp')
 		data: 
 			displayName: 'principal'
 			icon_fa: ''
+			pageTitle: 'Construcción - MyVc'
 	})
 	.state('login', { 
 		url: '/login'
@@ -44,6 +45,7 @@ angular.module('myvcFrontApp')
 		data: 
 			displayName: 'Login'
 			icon_fa: 'fa fa-user'
+			pageTitle: 'Ingresar a MyVc'
 
 	})
 	.state('logout', { 
@@ -65,14 +67,13 @@ angular.module('myvcFrontApp')
 				controller: 'PanelCtrl'
 		resolve: { 
 			resolved_user: ['AuthService', (AuthService)->
-				console.log 'Entra al resolve'
 				AuthService.verificar()
 			]
 		}
 		data: 
 			displayName: 'Inicio'
 			icon_fa: 'fa fa-home'
-			needed_permissions: [PERMISSIONS.can_see_panel]
+			pageTitle: 'Bienvenido - MyVc'
 	})
 
 	$rootScopeProvider.bigLoader = true

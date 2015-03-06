@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-	.config ['$stateProvider', 'App', ($state, App) ->
+	.config ['$stateProvider', 'App', 'PERMISSIONS', ($state, App, PERMISSIONS) ->
 
 		$state
 			.state 'panel.alumnos.nuevo',
@@ -20,6 +20,7 @@ angular.module('myvcFrontApp')
 				data: 
 					displayName: 'Nuevo'
 					icon_fa: 'fa fa-male'
+					pageTitle: 'Nuevo alumno - MyVc'
 
 
 			.state 'panel.alumnos.editar',
@@ -38,6 +39,29 @@ angular.module('myvcFrontApp')
 				data: 
 					displayName: 'Editar'
 					icon_fa: 'fa fa-users'
+					pageTitle: 'Editar alumno - MyVc'
+
+
+			.state 'panel.listalumnos',
+				url: '^/listalumnos/:grupo_id'
+				param:
+					grupo_id: null
+				views: 
+					'maincontent':
+						templateUrl: "#{App.views}alumnos/listAlumnos.tpl.html"
+						controller: 'ListAlumnosCtrl'
+					'headerContent':
+						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						controller: 'PanelHeaderCtrl'
+						resolve: 
+							titulo: [->
+								'Listado de alumnos'
+							]
+				data: 
+					displayName: 'Listado'
+					icon_fa: 'fa fa-users'
+					pageTitle: 'Listado alumnos - MyVc'
+					needed_permissions: [PERMISSIONS.can_work_like_teacher]
 
 
 		return

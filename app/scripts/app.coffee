@@ -23,12 +23,15 @@ angular.module('myvcFrontApp', [
 	'ui.grid.exporter'
 	'ui.grid.selection'
 	'angularFileUpload'
+	'FBAngular'
+	'ui.sortable'
+	'Chronicle'
 ])
 #- Valores que usaremos para nuestro proyecto
 .constant('App', (()->
 
 	#dominio = 'http://lalvirtual.com/' 
-	dominio = 'http://localhost/' # Pruebas en mi localhost
+	dominio = 'http://lalvirtual.com/' # Pruebas en mi localhost
 	server = dominio + 'myvc_server/public/'
 	#server = ''
 	frontapp = dominio + 'myvc_front/'
@@ -57,21 +60,26 @@ angular.module('myvcFrontApp', [
 	guest: 'guest'
 })
 .constant('PERMISSIONS', {
-	can_see_panel:			'can_see_panel'
-	can_edit_alumnos:		'can_edit_alumnos'
-	can_edit_usuarios:		'can_edit_usuarios'
-	can_edit_notas:			'can_edit_notas'
-	can_edit_years:			'can_edit_years'
-	can_edit_periodos:		'can_edit_periodos'
-	can_edit_paises:		'can_edit_paises'
-	can_edit_ciudades:		'can_edit_ciudades'
-	can_edit_disciplinas:	'can_edit_disciplinas'
-	can_edit_profesores:	'can_edit_profesores'
-	can_edit_eventos:		'can_edit_eventos'
-	can_edit_votaciones:	'can_edit_votaciones'
-	can_edit_aspiraciones:	'can_edit_aspiraciones'
-	can_edit_participantes:	'can_edit_participantes'
-	can_edit_candidatos: 	'can_edit_candidatos'
+	can_work_like_admin:		'can_work_like_admin'
+	can_work_like_teacher:		'can_work_like_teacher'
+	can_work_like_student:		'can_work_like_student'
+	can_work_like_acudiente:	'can_work_like_acudiente'
+	can_accept_images:			'can_accept_images'
+	can_edit_alumnos:			'can_edit_alumnos'
+	can_edit_usuarios:			'can_edit_usuarios'
+	can_edit_notas:				'can_edit_notas'
+	can_edit_years:				'can_edit_years'
+	can_edit_periodos:			'can_edit_periodos'
+	can_edit_paises:			'can_edit_paises'
+	can_edit_ciudades:			'can_edit_ciudades'
+	can_edit_disciplinas:		'can_edit_disciplinas'
+	can_edit_profesores:		'can_edit_profesores'
+	can_edit_eventos:			'can_edit_eventos'
+	can_edit_votaciones:		'can_edit_votaciones'
+	can_edit_aspiraciones:		'can_edit_aspiraciones'
+	can_edit_participantes:		'can_edit_participantes'
+	can_edit_candidatos:		'can_edit_candidatos'
+	can_edit_unidades_subunidades:	'can_edit_unidades_subunidades'
 })
 
 

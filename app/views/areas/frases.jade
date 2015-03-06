@@ -1,0 +1,30 @@
+.row(ng-show="creando")
+	.col-xs-12.col-md-12
+		form.well.with-header.with-footer.form(role="form" ng-submit="crear()")
+			.header.bordered-yellow Nueva frase
+			.row
+				.col-md-5
+					input.form-control(type="text" ng-model="currentFrase.frase" placeholder="Frase")
+					.horizontal-space
+				.col-md-4
+					select.form-control(ng-model="currentFrase.tipo_frase")
+						option(ng-selected="{{operator.value == currentFrase.tipo_frase}}"
+								ng-repeat="tipo in tipos"
+								value="{{tipo.tipo_frase}}")
+							{{tipo.tipo_frase}}
+					.horizontal-space
+			.footer
+				input.btn.btn-primary(type="submit" value="Crear")
+				a.btn.btn-warning(ng-click="cancelarCrear()") Ocultar
+
+.row
+	.col-xs-12.col-md-12
+		.well.with-header.with-footer
+			.header.bordered-yellow Frases del año
+
+			a.btn.btn-primary(ng-click="creando=true") Crear nueva
+
+			#grid1.grid(ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns)
+
+			.footer
+				| Puedes editar con doble click sobre el dato deseado.

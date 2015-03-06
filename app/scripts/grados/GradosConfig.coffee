@@ -20,6 +20,7 @@ angular.module('myvcFrontApp')
 				data: 
 					displayName: 'Niveles'
 					icon_fa: 'fa fa-graduation-cap'
+					pageTitle: 'Niveles - MyVc'
 
 		$state
 			.state 'panel.niveles.nuevo',
@@ -38,6 +39,7 @@ angular.module('myvcFrontApp')
 				data: 
 					displayName: 'Nuevo'
 					icon_fa: 'fa fa-graduation-cap'
+					pageTitle: 'Nivel nuevo - MyVc'
 
 		$state
 			.state 'panel.niveles.editar',
@@ -56,6 +58,7 @@ angular.module('myvcFrontApp')
 				data: 
 					displayName: 'Editar'
 					icon_fa: 'fa fa-graduation-cap'
+					pageTitle: 'Editar nivel - MyVc'
 
 		$state
 			.state 'panel.grados',
@@ -81,6 +84,7 @@ angular.module('myvcFrontApp')
 				data: 
 					displayName: 'Grados'
 					icon_fa: 'fa fa-graduation-cap'
+					pageTitle: 'Grados - MyVc'
 
 		$state
 			.state 'panel.grados.nuevo',
@@ -99,6 +103,7 @@ angular.module('myvcFrontApp')
 				data: 
 					displayName: 'Nuevo'
 					icon_fa: 'fa fa-graduation-cap'
+					pageTitle: 'Grado nuevo - MyVc'
 
 
 		$state
@@ -118,6 +123,7 @@ angular.module('myvcFrontApp')
 				data: 
 					displayName: 'Editar'
 					icon_fa: 'fa fa-graduation-cap'
+					pageTitle: 'Editar grado - MyVc'
 
 
 		$state
@@ -148,6 +154,7 @@ angular.module('myvcFrontApp')
 				data: 
 					displayName: 'Grupos'
 					icon_fa: 'fa fa-graduation-cap'
+					pageTitle: 'Grupos - MyVc'
 
 		$state
 			.state 'panel.grupos.nuevo',
@@ -166,6 +173,7 @@ angular.module('myvcFrontApp')
 				data: 
 					displayName: 'Nuevo'
 					icon_fa: 'fa fa-graduation-cap'
+					pageTitle: 'Grupo nuevo - MyVc'
 
 
 		$state
@@ -185,6 +193,7 @@ angular.module('myvcFrontApp')
 				data: 
 					displayName: 'Editar'
 					icon_fa: 'fa fa-graduation-cap'
+					pageTitle: 'Editar grupo - MyVc'
 
 
 

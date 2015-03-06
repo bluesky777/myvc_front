@@ -21,6 +21,10 @@ angular.module("myvcFrontApp")
 
 	Restangular.one('votaciones/actual').get().then((r)->
 		$scope.votacion = r
+		if $scope.votacion.locked
+			$scope.toastr.warning 'La votación actual está bloqueada'
+			$state.transitionTo 'panel'
+		
 	)
 	
 
@@ -76,18 +80,17 @@ angular.module("myvcFrontApp")
 		})
 		modalInstance.result.then( (selectedItem)->
 			aspiracion.votado.push selectedItem
-			console.log 'Resultado del modal: ', selectedItem
-			$scope.toastr.success 'Voto guardado con éxito'
+			console.log selectedItem
 			$scope.nextAspiracion()
 		, ()->
-			console.log 'Modal dismissed at: ' + new Date()
+			#console.log 'Modal dismissed at: ' + new Date()
 		)
 
 
 	return
 ])
 
-.controller('chooseCandidatoCtrl', ['$scope', 'Restangular', '$modalInstance', 'App', 'candidato', 'aspiracion', ($scope, Restangular, $modalInstance, App, candidato, aspiracion)->
+.controller('chooseCandidatoCtrl', ['$scope', 'Restangular', '$modalInstance', 'App', 'candidato', 'aspiracion', 'toastr', ($scope, Restangular, $modalInstance, App, candidato, aspiracion, toastr)->
 
 	$scope.candidato = candidato
 	$scope.aspiracion = aspiracion
@@ -97,13 +100,13 @@ angular.module("myvcFrontApp")
 		datos = {}
 		datos.candidato_id = candidato.candidato_id
 
-		console.log 'Los datos ', datos, candidato
-
 		Restangular.all('votos/store').post('', datos).then((r)->
 			console.log 'Voto guardado.', r
+			toastr.success 'Voto guardado con éxito'
 			$modalInstance.close(r)
 		, (r2)->
 			console.log 'No se pudo guardar el voto.', r2
+			toastr.error r2.data.msg # Mensaje que me devuelve el servidor
 			$modalInstance.dismiss('Error al guardar')
 		)
 

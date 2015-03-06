@@ -1,0 +1,51 @@
+//.col-lg-12.col-xs-12
+	.widget
+		.widget-header.bordered-bottom.bordered-blue
+			span.widget-caption Asignaturas
+		.widget-body
+			.row
+h6.row-title.before-blue(ng-if="profesor_id")
+	| Profesor: {{profesor.nombres + ' ' + profesor.apellidos}}
+
+.row
+	.col-lg-6.col-xs-12(ng-repeat="asignatura in asignaturas")
+		.databox.databox-graded.radius-bordered.databox-shadowed.puntero(ng-click="open(asignatura, aspiracion)")
+			.databox-left.bg-azure
+				.databox-piechart
+					.easyPieChart(style="width: 47px; height: 47px; line-height: 47px;")
+						.white.font-150
+							{{asignatura.abrev_grupo}}
+			.databox-right.padding-top-5.radius-bordered.bg-white
+				.databox-title.lightcarbon {{ asignatura.materia }}
+				.databox-text.darkgray
+					.btn-group
+						a.btn.btn-default.btn-sm(ui-sref="panel.unidades({asignatura_id: asignatura.asignatura_id})") Unidades
+						a.btn.btn-default.btn-sm(ui-sref="panel.ausencias({asignatura_id: asignatura.asignatura_id})") Ausencias
+				.databox-stat.radius-bordered.bg-azure
+					.stat-text {{asignatura.nombre_grupo}}
+					//i.stat-icon.fa.fa-apple
+
+h6.row-title.before-blue(ng-show="gruposcomportamientos.length > 0")
+	| Grupos de titularía
+
+h6.row-title.before-blue(ng-show="gruposcomportamientos.length == 0")
+	| No tiene asignada ninguna titularía
+
+.row
+	.col-lg-6.col-xs-12(ng-repeat="grupo in gruposcomportamientos")
+		.databox.databox-graded.radius-bordered.databox-shadowed.puntero(ng-click="openComportamiento(grupo.id)")
+			.databox-left.bg-azure
+				.databox-piechart
+					.easyPieChart(style="width: 47px; height: 47px; line-height: 47px;")
+						.white.font-150
+							{{grupo.abrev}}
+			.databox-right.padding-top-5.radius-bordered.bg-white
+				.databox-title.lightcarbon {{ grupo.nombre }}
+				.databox-text.darkgray
+					.btn-group
+						a.btn.btn-default.btn-sm(ui-sref="panel.comportamiento({grupo_id: grupo.id})") Comportamiento
+						a.btn.btn-default.btn-sm(ui-sref="panel.comportamiento({grupo_id: grupo.id})") Libro rojo
+					//i.stat-icon.fa.fa-apple
+
+
+

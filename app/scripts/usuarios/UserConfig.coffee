@@ -18,9 +18,9 @@ angular.module('myvcFrontApp')
 			data: 
 				displayName: 'Usuarios'
 				icon_fa: 'fa fa-user'
-				Permissions: [PERMISSIONS.can_see_alumnos]
+				needed_permissions: [PERMISSIONS.can_edit_usuarios]
+				pageTitle: 'Usuarios - MyVc'
 
-	$state
 		.state 'panel.user',
 			url: '^/user/:username'
 			views: 
@@ -37,9 +37,7 @@ angular.module('myvcFrontApp')
 			data: 
 				displayName: 'Perfil'
 				icon_fa: 'fa fa-user'
-				Permissions: [PERMISSIONS.can_see_alumnos]
 
-	$state
 		.state 'panel.user.resumen',
 			url: '/r'
 			views: 
@@ -49,9 +47,7 @@ angular.module('myvcFrontApp')
 			data: 
 				displayName: 'Resumen'
 				icon_fa: 'fa fa-user'
-				Permissions: [PERMISSIONS.can_see_alumnos]
 
-	$state
 		.state 'panel.user.configuracion',
 			url: '/c'
 			views: 
@@ -59,9 +55,22 @@ angular.module('myvcFrontApp')
 					templateUrl: "#{App.views}usuarios/userConfiguracion.tpl.html"
 					controller: 'UserConfiguracionCtrl'
 			data: 
-				displayName: 'Configuración'
+				displayName: 'Configuración de perfil'
 				icon_fa: 'fa fa-user'
-				Permissions: [PERMISSIONS.can_see_alumnos]
+
+
+		.state 'panel.usuarios.roles',
+			url: '/roles'
+			views: 
+				'user_roles':
+					templateUrl: "#{App.views}usuarios/roles.tpl.html"
+					controller: 'RolesCtrl'
+			data: 
+				displayName: 'Roles'
+				icon_fa: 'fa fa-user-secret'
 
 	return
 ])
+
+
+

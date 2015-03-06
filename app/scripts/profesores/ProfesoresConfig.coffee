@@ -20,6 +20,7 @@ angular.module('myvcFrontApp')
 				data: 
 					displayName: 'Nuevo'
 					icon_fa: 'fa fa-graduation-cap'
+					pageTitle: 'Profesor nuevo - MyVc'
 
 
 			.state 'panel.profesores.editar',
@@ -38,6 +39,7 @@ angular.module('myvcFrontApp')
 				data: 
 					displayName: 'Editar'
 					icon_fa: 'fa fa-graduation-cap'
+					pageTitle: 'Editar profesor - MyVc'
 
 
 		return

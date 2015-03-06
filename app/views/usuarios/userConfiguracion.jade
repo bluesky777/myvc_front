@@ -1,106 +1,135 @@
 .tab-pane.active
-	form(role='form' ng-submit="guardar()")
-		.form-title
-			| Información personal
-		.row
-			.col-sm-6
-				.form-group
-					label(for="alumno-no-matr") Nombres
-					span.input-icon.icon-right
-						input.form-control(type='text', placeholder='Nombres' ng-model="perfilactual.nombres")
-						i.fa.fa-user.blue
-			.col-sm-6
-				.form-group
-					label(for="alumno-no-matr") Apellidos
-					span.input-icon.icon-right
-						input.form-control(type='text', placeholder='Apellidos' ng-model="perfilactual.apellidos")
-						i.fa.fa-user.blue
-			.col-sm-6
-				.form-group
-					label Sexo
-						.row
-							.col-sm-6
-								.radio
-									label
-										input.inverted(type="radio" name="sexo" value="M" ng-model="perfilactual.sexo")
-										span.text Masculino
-							.col-sm-6
-								.radio
-									label
-										input.inverted(type="radio" name="sexo" value="F" ng-model="perfilactual.sexo")
-										span.text Femenino
-		.row
-			.col-sm-6
-				.form-group
-					label(for="alumno-fecha-nac") Fecha de nacimiento
-						.controls
-							.input-group
-								input.form-control.active#alumno-fecha-nac(type="text" datepicker-popup="dd-MMMM-yyyy" ng-model="perfilactual.fecha_nac" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2015-06-22'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha nacimiento")
-								span.input-group-addon
-									i.fa.fa-calendar
-									
-			.col-sm-6
-				.form-group
-					label(for="perfilcelular") Celular
-					span.input-icon.icon-right
-						input#perfilcelular.form-control(type='text', placeholder='Celular' ng-model="perfilactual.celular")
-						i.glyphicon.glyphicon-phone.palegreen
-		.row
-			.col-sm-6
-				.form-group
-					label(for="perfilcelular") Correo electrónico
-					span.input-icon.icon-right
-						input.form-control(type='text', placeholder='Correo electrónico' ng-model="perfilactual.email")
-						i.fa.fa-envelope.purple
+	.widget
+		.widget-header.bordered-bottom.bordered-blue
+			span.widget-caption Información personal
+		.widget-body
+			form(role='form' ng-submit="guardar()")
+				.form-title
+					| Información personal
+				.row
+					.col-sm-6
+						.form-group
+							label(for="alumno-no-matr") Nombres
+							span.input-icon.icon-right
+								input.form-control(type='text', placeholder='Nombres' ng-model="perfilactual.nombres")
+								i.fa.fa-user.blue
+					.col-sm-6
+						.form-group
+							label(for="alumno-no-matr") Apellidos
+							span.input-icon.icon-right
+								input.form-control(type='text', placeholder='Apellidos' ng-model="perfilactual.apellidos")
+								i.fa.fa-user.blue
+					.col-sm-6
+						.form-group
+							label Sexo
+								.row
+									.col-sm-6
+										.radio
+											label
+												input.inverted(type="radio" name="sexo" value="M" ng-model="perfilactual.sexo")
+												span.text Masculino
+									.col-sm-6
+										.radio
+											label
+												input.inverted(type="radio" name="sexo" value="F" ng-model="perfilactual.sexo")
+												span.text Femenino
+				.row
+					.col-sm-6
+						.form-group
+							label(for="alumno-fecha-nac") Fecha de nacimiento
+								.controls
+									.input-group
+										input.form-control.active#alumno-fecha-nac(type="text" datepicker-popup="dd-MMMM-yyyy" ng-model="perfilactual.fecha_nac" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2015-06-22'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha nacimiento")
+										span.input-group-addon
+											i.fa.fa-calendar
+											
+					.col-sm-6
+						.form-group
+							label(for="perfilcelular") Celular
+							span.input-icon.icon-right
+								input#perfilcelular.form-control(type='text', placeholder='Celular' ng-model="perfilactual.celular")
+								i.glyphicon.glyphicon-phone.palegreen
+				.row
+					.col-sm-6
+						.form-group
+							label(for="perfilcelular") Correo electrónico
+							span.input-icon.icon-right
+								input.form-control(type='text', placeholder='Correo electrónico' ng-model="perfilactual.email_persona")
+								i.fa.fa-envelope.purple
 
-		button.btn.btn-primary(type='submit' ng-submit="guardar()") Guardar cambios
-
-
-	form(role="form" ng-submit="CambiarUsername()")
-		hr.wide
-		.row
-			.col-sm-7
-				.form-group
-					.alert.alert-info.fade.in
-						|Usuario actual: 
-						strong  {{perfilactual.username}}
-					label Nombre de usuario
-					span.input-icon.icon-right
-						input.form-control(ng-blur="comprobarusername()" type='text' placeholder='Nombre de usuario' typeahead-on-select='comprobarusername()' typeahead="nombresusu as nombresusu.username for nombresusu in nombresdeusuario | filter:{username:$viewValue} | limitTo:8" ng-model="newusername")
-						i.fa.fa-user.azure
-					br
-					br
-					button.btn.btn-warning(ng-click="comprobarusername()")
-						span(ng-hide="comprobando")
-							|Comprobar 
-						span(ng-show="comprobando")
-							|Comprobando 
-							i.fa.fa-spinner.fa-spin
-					.alert.alert-warning.fade.in(ng-show="mostrarErrorUsername")
-						.fa-fw.fa.fa-warning
-						span(ng-show="newusername!=perfilactual.username") Usuario no disponible.
-						span(ng-show="newusername==perfilactual.username") Ya es tu nombre de usuario actual.
-		button.btn.btn-primary(type='submit' ng-submit="CambiarUsername()" ng-class="{disabled:mostrarErrorUsername || newusername==''}") Guardar usuario
+				button.btn.btn-primary(type='submit' ng-submit="guardar()") Guardar cambios
 
 
-	form(role="form" ng-submit="CambiarPass()")
-		hr.wide
-		.row
-			.col-sm-7
-				.form-group
-					label Contraseña antigua
-					span.input-icon.icon-right
-						input.form-control(type='password' placeholder='Contraseña antigua' ng-model="passantiguo")
-						i.fa.fa-user.azure
-				.form-group
-					label Contraseña nueva
-					span.input-icon.icon-right
-						input.form-control(type='password' placeholder='Contraseña nueva' ng-model="newpass")
-						i.fa.fa-user.azure
-					.alert.alert-warning.fade.in(ng-show="mostrarErrorPassword")
-						|La contraseña debe ser repetida exactamente
-					label Repita la contraseña nueva
-					span.input-icon.icon-right
-						input.form-control(type='password' placeholder='Verificar contraseña nueva' ng-model="newpassverif")
-						i.fa.fa-user.azure
-		button.btn.btn-primary(type='submit' ng-submit="CambiarPass()") Cambiar contraseña
+	.widget
+		.widget-header.bordered-bottom.bordered-blue
+			span.widget-caption Cambiar nombre de usuario
+		.widget-body
+			form(role="form" ng-submit="CambiarUsername()")
+				.row
+					.col-sm-7
+						.form-group
+							.alert.alert-info.fade.in
+								|Usuario actual: 
+								strong  {{perfilactual.username}}
+							label Nombre de usuario
+							span.input-icon.icon-right
+								input.form-control(ng-blur="comprobarusername()" type='text' placeholder='Nombre de usuario' typeahead-on-select='comprobarusername()' typeahead="nombresusu as nombresusu.username for nombresusu in nombresdeusuario | filter:{username:$viewValue} | limitTo:8" ng-model="newusername")
+								i.fa.fa-user.azure
+							br
+							br
+							button.btn.btn-warning(ng-click="comprobarusername()")
+								span(ng-hide="comprobando")
+									|Comprobar 
+								span(ng-show="comprobando")
+									|Comprobando 
+									i.fa.fa-spinner.fa-spin
+							.alert.alert-warning.fade.in(ng-show="mostrarErrorUsername")
+								.fa-fw.fa.fa-warning
+								span(ng-show="newusername!=perfilactual.username") Usuario no disponible.
+								span(ng-show="newusername==perfilactual.username") Ya es tu nombre de usuario actual.
+				button.btn.btn-primary(type='submit' ng-submit="CambiarUsername()" ng-class="{disabled:mostrarErrorUsername || newusername==''}") Guardar usuario
+
+
+	.widget
+		.widget-header.bordered-bottom.bordered-blue
+			span.widget-caption Cambiar contraseña
+		.widget-body
+			form(role="form" ng-submit="CambiarPass()")
+				.row
+					.col-sm-7
+						.form-group
+							label Contraseña antigua
+							span.input-icon.icon-right
+								input.form-control(type='password' placeholder='Contraseña antigua' ng-model="passantiguo")
+								i.fa.fa-user.azure
+						.form-group
+							label Contraseña nueva
+							span.input-icon.icon-right
+								input.form-control(type='password' required placeholder='Contraseña nueva' ng-model="newpass")
+								i.fa.fa-user.azure
+							.alert.alert-warning.fade.in(ng-show="mostrarErrorPassword")
+								|La contraseña debe ser repetida exactamente
+							br
+							br
+							label Repita la contraseña nueva
+							span.input-icon.icon-right
+								input.form-control(type='password' placeholder='Verificar contraseña nueva' ng-model="newpassverif")
+								i.fa.fa-user.azure
+				button.btn.btn-primary(type='submit' ng-submit="CambiarPass()") Cambiar contraseña
+			br
+			br
+			br
+			form(role="form" ng-submit="CambiarCorreoRestore()")
+				.row
+					.col-sm-7
+						.form-group
+							label(for="useremailrestore") Correo electrónico para recuperar contraseña
+							span.input-icon.icon-right
+								input#useremailrestore.form-control(type='email' required placeholder='Correo electrónico de restauración' ng-model="perfilactual.email_restore")
+								i.fa.fa-envelope.purple
+				button.btn.btn-primary(type='submit' ng-submit="CambiarCorreoRestore()") Cambiar email de restauración
+
+.tab-pane.active(ng-if="!$parent.canConfig")
+	.row
+		.col-sm-6
+			h2(ng-bind-html="'Lo sentimos, no puedes entrar a esta vista'")

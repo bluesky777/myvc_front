@@ -1,0 +1,108 @@
+
+<div ng-show="creando" class="row">
+  <div class="col-xs-12 col-md-12">
+    <form role="form" ng-submit="crear()" class="well with-header with-footer form">
+      <div class="header bordered-yellow">Nueva asignatura</div>
+      <div class="row">
+        <div class="col-md-6">
+          <ui-select ng-model="currentasignatura.materia" heme="select2" style="min-width: 200px;">
+            <ui-select-match placeholder="Materia" allow-clear="true">{{$select.selected.materia}} ({{$select.selected.alias}})</ui-select-match>
+            <ui-select-choices repeat="materia in materias | filter: $select.search">
+              <div ng-bind-html="materia.materia | highlight: $select.search"></div><small>{{ materia.alias | highlight: $select.search}}</small>
+            </ui-select-choices>
+          </ui-select>
+          <div class="horizontal-space"></div>
+        </div>
+        <div class="col-md-6">
+          <ui-select ng-model="currentasignatura.grupo" heme="select2" style="min-width: 200px;">
+            <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}} ({{$select.selected.abrev}})</ui-select-match>
+            <ui-select-choices repeat="grupo in grupos | filter: $select.search">
+              <div ng-bind-html="grupo.nombre + ' - ' + grupo.abrev | highlight: $select.search"></div>
+            </ui-select-choices>
+          </ui-select>
+          <div class="horizontal-space"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <ui-select ng-model="currentasignatura.profesor" heme="select2" style="min-width: 200px;">
+            <ui-select-match placeholder="Profesor" allow-clear="true">{{$select.selected.nombres}} {{$select.selected.apellidos}}</ui-select-match>
+            <ui-select-choices repeat="profe in profesores | filter: $select.search">
+              <div ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search"></div>
+            </ui-select-choices>
+          </ui-select>
+          <div class="horizontal-space"></div>
+        </div>
+        <div class="col-md-3">
+          <input type="number" ng-model="currentasignatura.creditos" placeholder="Créditos" class="form-control">
+          <div class="horizontal-space"></div>
+        </div>
+        <div class="col-md-3">
+          <input type="number" ng-model="currentasignatura.orden" placeholder="Orden" class="form-control">
+          <div class="horizontal-space"></div>
+        </div>
+      </div>
+      <div class="footer">
+        <input type="submit" value="Crear" class="btn btn-primary"><a ng-click="cancelarCrear()" class="btn btn-warning">Ocultar</a>
+      </div>
+    </form>
+  </div>
+</div>
+<div ng-show="editando" class="row">
+  <div class="col-xs-12 col-md-12">
+    <form role="form" ng-submit="guardar()" class="well with-header with-footer form">
+      <div class="header bordered-yellow">Editar asignatura</div>
+      <div class="row">
+        <div class="col-md-6">
+          <ui-select ng-model="currentasignaturaEdit.materia" heme="select2" style="min-width: 200px;">
+            <ui-select-match placeholder="Materia" allow-clear="true">{{$select.selected.materia}} ({{$select.selected.alias}})</ui-select-match>
+            <ui-select-choices repeat="materia in materias | filter: $select.search">
+              <div ng-bind-html="materia.materia | highlight: $select.search"></div><small>{{ materia.alias | highlight: $select.search}}</small>
+            </ui-select-choices>
+          </ui-select>
+          <div class="horizontal-space"></div>
+        </div>
+        <div class="col-md-6">
+          <ui-select ng-model="currentasignaturaEdit.grupo" heme="select2" style="min-width: 200px;">
+            <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}} ({{$select.selected.abrev}})</ui-select-match>
+            <ui-select-choices repeat="grupo in grupos | filter: $select.search">
+              <div ng-bind-html="grupo.nombre + ' - ' + grupo.abrev | highlight: $select.search"></div>
+            </ui-select-choices>
+          </ui-select>
+          <div class="horizontal-space"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <ui-select ng-model="currentasignaturaEdit.profesor" heme="select2" style="min-width: 200px;">
+            <ui-select-match placeholder="Profesor" allow-clear="true">{{$select.selected.nombres}} {{$select.selected.apellidos}}</ui-select-match>
+            <ui-select-choices repeat="profe in profesores | filter: $select.search">
+              <div ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search"></div>
+            </ui-select-choices>
+          </ui-select>
+          <div class="horizontal-space"></div>
+        </div>
+        <div class="col-md-3">
+          <input type="number" ng-model="currentasignaturaEdit.creditos" placeholder="Créditos" class="form-control">
+          <div class="horizontal-space"></div>
+        </div>
+        <div class="col-md-3">
+          <input type="number" ng-model="currentasignaturaEdit.orden" placeholder="Orden" class="form-control">
+          <div class="horizontal-space"></div>
+        </div>
+      </div>
+      <div class="footer">
+        <input type="submit" value="Guardar cambios" class="btn btn-primary"><a ng-click="cancelarEdit()" class="btn btn-warning">Ocultar</a>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12 col-md-12">
+    <div class="well with-header with-footer">
+      <div class="header bordered-yellow">Asignaturas</div><a ng-click="creando=true" class="btn btn-primary">Crear nueva</a>
+      <div id="grid1" ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns class="grid"></div>
+      <div class="footer">Puedes editar con doble click sobre el dato deseado.</div>
+    </div>
+  </div>
+</div>

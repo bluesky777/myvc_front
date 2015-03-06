@@ -1,0 +1,68 @@
+
+<div class="col-lg-12">
+  <div class="widget">
+    <div class="widget-header bordered-bottom bordered-blue"><span class="widget-caption">{{grupo.nombre + ' - ' + grupo.abrev}}</span></div>
+    <div class="widget-body">
+      <div>
+        <div class="btn-group btn-lg"><a ui-sref="panel.listasignaturas({asignatura_id: asignatura.profesor_id})" class="btn btn-success">Volver a las asignaturas</a><a ui-sref="panel.frases" class="btn btn-info">Frases</a></div>
+      </div>
+      <div class="table-responsive"><br><br>
+        <hr class="wide">
+        <div class="row">
+          <div class="col-lg-4 col-xs-8">
+            <label>Filtrar alumnos</label>
+            <input type="text" ng-model="searchAlum" placeholder="Escribe algún texto" class="form-control">
+          </div>
+        </div><br><br>
+        <table class="table table-hover table-condensed table-striped">
+          <thead>
+            <tr>
+              <th style="width: 20px;">
+                <div>No</div>
+              </th>
+              <th style="min-width: 600px;" class="text-center">
+                <div>Nombres</div>
+              </th>
+              <th>
+                <div>Nota</div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="alumno in alumnos | filter:searchAlum">
+              <td>
+                <div>{{$index+1}}</div>
+              </td>
+              <td>
+                <h5 popover="&lt;img src='{{perfilPath + alumno.userData.foto_nombre}}' style='width: 100px; height: 100px;'&gt;&lt;img src='{{perfilPath + alumno.userData.imagen_nombre}}' style='width: 100px; height: 100px;'&gt;&lt;br&gt;Facebook: {{alumno.facebook}}&lt;br&gt;Username: {{alumno.userData.username}}" popover-popup-delay="1000" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-animation="true" popover-trigger="mouseenter" class="nombresellipsis"><img ng-src="{{perfilPath + alumno.userData.foto_nombre}}" style="width: 20px; height: 20px;">{{alumno.nombres + ' ' + alumno.apellidos}}</h5>
+                <ul>
+                  <li ng-repeat="definicion in alumno.definiciones"><a tooltip="X Eliminar" tooltip-placement="right" ng-click="quitarFrase(definicion, alumno)" class="btn btn-default btn-xs shiny icon-only danger"><i class="fa fa-trash"></i></a> {{definicion.tipo_frase + ' - ' + definicion.frase}}</li>
+                </ul>
+                <label>Frase
+                  <ui-select ng-model="alumno.newfrase" theme="select2" style="min-width: 500px;">
+                    <ui-select-match placeholder="Frase" allow-clear="true">{{$select.selected.frase}}</ui-select-match>
+                    <ui-select-choices repeat="frase in frases | filter: $select.search">
+                      <div ng-bind-html="frase.tipo_frase + ' - ' + frase.frase | highlight: $select.search"></div>
+                    </ui-select-choices>
+                  </ui-select><a ng-click="addFrase(alumno)" class="btn btn-primary">Agregar</a>
+                </label>
+              </td>
+              <td>
+                <input ng-model="alumno.nota.nota" type="number" min="0" max="100" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }" ng-change="cambiaNota(alumno.nota)">
+              </td>
+            </tr>
+          </tbody>
+        </table><br><br><br>
+        <hr class="wide">
+      </div>
+    </div>
+  </div>
+</div><br><br><br>
+<div class="col-lg-12">
+  <div class="widget">
+    <div class="widget-header bordered-bottom bordered-blue"><span class="widget-caption">Algunas opciones</span></div>
+    <div class="widget-body">
+      <div><a class="btn btn-default btn lg">Hacer algo</a></div>
+    </div>
+  </div>
+</div>

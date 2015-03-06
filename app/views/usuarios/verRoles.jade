@@ -1,0 +1,23 @@
+.modal-header
+	h3.modal-title Roles del usuario
+.modal-body
+	.row
+		.col-lg-12.col-xs-12
+			h4 Usuario: 
+			div(style="text-overflow: ellipsis") {{usuario.nombres}} {{usuario.apellidos}}
+			h5 Id: {{usuario.user_id}}
+			.horizontal-space
+			.form-group
+				label Elija Roles
+				ui-select(multiple ng-model="datos.selecteds" theme="select2" style="width:100%"
+						on-select="seleccionando($item, $model)" on-remove="quitando($item, $model)")
+					ui-select-match(placeholder="Selecciona roles..."){{$item.name}}
+					ui-select-choices(repeat="rol in roles | filter: $select.search.name")
+						div(ng-bind-html="rol.name | highlight: $select.search")
+
+
+
+.modal-footer
+	button.btn.btn-labeled.btn-danger(ng-click="ok()") Aceptar
+		i.btn-label.glyphicon.glyphicon-remove
+	button.btn.btn-yellow(ng-click="cancel()") Cancelar

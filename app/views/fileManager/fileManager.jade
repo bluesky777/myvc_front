@@ -103,7 +103,7 @@
 								ui-select-match(placeholder="Imagen usuario") 
 									img(ng-src="{{perfilPath + $select.selected.imagen_nombre}}" style="width:25px; height:25px;")
 									small(ng-bind-html="' ' + $select.selected.nombres + ' ' + $select.selected.apellidos + ' - ' + $select.selected.username")
-								ui-select-choices(repeat="usuario in usuariosall | filter: {nombre: $select.search}")
+								ui-select-choices(repeat="usuario in usuariosall | filter: {nombres: $select.search, username: $select.search}")
 									img(ng-src="{{perfilPath + usuario.imagen_nombre}}" style="width:25px; height:25px;")
 									small(ng-bind-html="' ' + usuario.nombres + ' ' + usuario.apellidos + ' - ' + usuario.username | highlight: $select.search")
 

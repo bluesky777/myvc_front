@@ -1,12 +1,16 @@
 angular.module('myvcFrontApp')
 .controller('UserConfiguracionCtrl', ['$scope', '$http', 'Restangular', '$state', '$rootScope', 'AuthService', 'Perfil', 'App', ($scope, $http, Restangular, $state, $rootScope, AuthService, Perfil, App) ->
 
+	AuthService.verificar_acceso()
+
 	$scope.data = {} # Para el popup del Datapicker
 	$scope.comprobando = false
 	$scope.mostrarErrorUsername = false
 	$scope.mostrarErrorPassword = false
 	$scope.newusername = ''
 	$scope.passantiguo = ''
+	$scope.newpass = ''
+	$scope.newpassverif = ''
 
 	$scope.nombresdeusuario=[]
 
@@ -45,8 +49,8 @@ angular.module('myvcFrontApp')
 			sexo:		$scope.perfilactual.sexo
 			fecha_nac:	$scope.perfilactual.fecha_nac
 			celular:	$scope.perfilactual.celular
-			email:		$scope.perfilactual.email
 			tipo:		$scope.perfilactual.tipo
+			email_persona:	$scope.perfilactual.email_persona
 
 		Restangular.one('perfiles/update', $scope.perfilactual.persona_id).customPUT(datos).then((r)->
 			console.log 'Datos guardados, ', r
@@ -66,7 +70,8 @@ angular.module('myvcFrontApp')
 		)
 
 	$scope.CambiarPass = ()->
-		if $scope.newpass != $scope.newpassverif
+
+		if $scope.newpass not in [$scope.newpassverif]
 			$scope.toastr.warning 'Las contraseñas no coinciden'
 			return
 		if $scope.newpass.length < 4
@@ -74,8 +79,25 @@ angular.module('myvcFrontApp')
 			return
 
 		datos = {'password':$scope.newpassverif, 'oldpassword': $scope.passantiguo }
+
 		console.log datos
 		Restangular.one('perfiles/cambiarpassword', $scope.perfilactual.user_id).customPUT(datos).then((r)->
+			console.log 'Contraseña cambiada, ', r
+			$scope.toastr.success 'Contraseña cambiada.'
+		, (r2)->
+			if r2.error.message == 'Contraseña antigua es incorrecta'
+				$scope.toastr.warning r2.error.message
+			else
+				console.log 'No se pudo cambiar la contraseña, ', r2
+				$scope.toastr.error 'No se pudo cambiar la contraseña.'
+		)
+
+	$scope.CambiarCorreoRestore = ()->
+
+		datos = { 'email_restore': $scope.email_restore }
+
+		console.log datos
+		Restangular.one('perfiles/cambiaremailrestore', $scope.perfilactual.user_id).customPUT(datos).then((r)->
 			console.log 'Contraseña cambiada, ', r
 			$scope.toastr.success 'Contraseña cambiada.'
 		, (r2)->

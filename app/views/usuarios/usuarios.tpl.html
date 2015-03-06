@@ -1,4 +1,19 @@
 
 <div class="row">
-  <bottom ng-click="crearTodosLosUsuarios()" class="btn btn-primary">Crear todos los usuarios</bottom>
+  <div class="col-xs-12 col-md-12">
+    <div class="well with-header with-footer">
+      <div class="header bordered-yellow">Crear usuario <a ui-sref="panel.usuario.nuevo" tooltip="Ingresa datos de un nuevo usuario" class="btn btn-info shiny">Crear usuario</a></div>
+      <div id="grid1" ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns style="height: 600px" class="grid"></div>
+    </div>
+  </div>
 </div>
+<div class="row">
+  <div class="col-xs-12 col-md-12">
+    <div class="well with-header with-footer">
+      <div class="header bordered-yellow">Opciones </div>
+      <button ng-click="crearTodosLosUsuarios()" class="btn btn-primary">Crear todos los usuarios</button>
+      <button ui-sref="panel.usuarios.roles" class="btn btn-primary">Roles</button>
+    </div>
+  </div>
+</div>
+<div ui-view="user_roles" class="row"></div>

@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-.controller('GruposCtrl', ['$scope', '$filter', '$rootScope', '$state', '$interval', 'RGrupos', 'grados', 'profesores', '$modal', 'App', ($scope, $filter, $rootScope, $state, $interval, RGrupos, grados, profesores, $modal, App) ->
+.controller('GruposCtrl', ['$scope', '$filter', '$rootScope', '$state', '$interval', 'RGrupos', 'grados', 'profesores', '$modal', 'App', 'Restangular', ($scope, $filter, $rootScope, $state, $interval, RGrupos, grados, profesores, $modal, App, Restangular) ->
 
 	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
 
@@ -18,7 +18,6 @@ angular.module('myvcFrontApp')
 		modalInstance = $modal.open({
 			templateUrl: App.views + 'grados/removeGrupo.tpl.html'
 			controller: 'RemoveGrupoCtrl'
-			size: 'sm',
 			resolve: 
 				grupo: ()->
 					row
@@ -30,15 +29,16 @@ angular.module('myvcFrontApp')
 		)
 
 
-	btGrid1 = '<a tooltip="Editar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
+	btGrid1 = '<a tooltip="Editar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
 	btGrid2 = '<a tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-trash "></i></a>'
+	btGrid3 = '<a tooltip="Listado de alumnos" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only info" ui-sref="panel.listalumnos({grupo_id: row.entity.id})"><i class="fa fa-users "></i></a>'
 	$scope.gridOptions = 
 		enableSorting: true,
 		enableFiltering: true,
 		enebleGridColumnMenu: false,
 		columnDefs: [
 			{ field: 'orden', type: 'number', maxWidth: 50 }
-			{ name: 'edicion', displayName:'Edición', maxWidth: 50, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2, enableCellEdit: false}
+			{ name: 'edicion', displayName:'Edición', maxWidth: 50, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2 + btGrid3, enableCellEdit: false}
 			{ field: 'nombre', enableHiding: false }
 			{ field: 'abrev', displayName:'Abreviatura', maxWidth: 50, enableSorting: false }
 			{ field: 'titular_id', displayName: 'Titular', editDropdownOptionsArray: profesores, cellFilter: 'mapProfesores:grid.appScope.profesores', editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'id', editDropdownValueLabel: 'nombres' }
@@ -53,7 +53,14 @@ angular.module('myvcFrontApp')
 				console.log 'Fila editada, ', rowEntity, ' Column:', colDef, ' newValue:' + newValue + ' oldValue:' + oldValue ;
 				
 				if newValue != oldValue
-					rowEntity.put().then((r)->
+					dato = 
+						abrev:		rowEntity.abrev
+						grado_id:	rowEntity.grado_id
+						nombre:		rowEntity.nombre
+						orden:		rowEntity.orden
+						titular_id:	rowEntity.titular_id
+
+					Restangular.one('grupos/update', rowEntity.id).customPUT(dato).then((r)->
 						$scope.toastr.success 'Grupo actualizado con éxito', 'Actualizado'
 					, (r2)->
 						$scope.toastr.error 'Cambio no guardado', 'Error'
@@ -103,7 +110,7 @@ angular.module('myvcFrontApp')
 		Restangular.all('grupos/destroy/'+grupo.id).remove().then((r)->
 			toastr.success 'Grupo '+grupo.nombre+' eliminado con éxito.', 'Eliminado'
 		, (r2)->
-			toastr.warning 'Problema', 'No se pudo eliminar al grupo.'
+			toastr.warning 'No se pudo eliminar al grupo.', 'Problema'
 			console.log 'Error eliminando grupo: ', r2
 		)
 		$modalInstance.close(grupo)

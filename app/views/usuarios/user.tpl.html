@@ -35,7 +35,7 @@
           <div class="tabbable">
             <ul class="nav nav-tabs tabs-flat nav-justified">
               <li ui-sref-active="active"><a ui-sref="panel.user.resumen">Resumen</a></li>
-              <li ui-sref-active="active"><a ui-sref="panel.user.configuracion">Configuración</a></li>
+              <li ui-sref-active="active" ng-if="canConfig"><a ui-sref="panel.user.configuracion">Configuración</a></li>
             </ul>
           </div>
           <div ui-view="user_detail" class="tab-content tabs-flat"></div>

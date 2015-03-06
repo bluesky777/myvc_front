@@ -19,18 +19,23 @@ ul.nav.sidebar-menu
 		ul.submenu
 			li( ui-sref-active="active")
 				a(ui-sref="panel.profesores" stop-event="click")
+					span.menu-text Editar
+
+			li(sub-menu ng-click="toggleOpen()" hija="true" stop-event="click")
+				a.menu-dropdown(href="")
 					span.menu-text Todos
-			li
-				a(href="" stop-event="click")
-					span.menu-text Rafael Camacho
-			li
-				a(href="" stop-event="click")
-					span.menu-text Estiven Castillo
-			li
-				a(href="" stop-event="click")
-					span.menu-text Mayerli Trejos
-	<!-- Notas-->
-	li(sub-menu ng-click="toggleOpen()" ng-show="hasRoleOrPerm('admin')" ng-class="{open:$state.includes('panel.notas')}")
+					i.menu-expand
+
+				ul.submenu
+					li(ng-repeat="profe in profesores")
+						a(ui-sref="panel.user({username: profe.username})" stop-event="click")
+							//i.menu-icon.fa.fa-rocket
+							span.menu-text {{profe.nombres}} {{profe.apellidos}}
+					li(ng-if="profesores.length==0")
+						a(ui-sref="panel.profesores" stop-event="click")
+							span.menu-text Profes no contratados
+	<!-- Notas visto por profesor-->
+	li(sub-menu ng-click="toggleOpen()" ng-show="hasRoleOrPerm(['profesor'])" ng-class="{open:$state.includes('panel.notas')||$state.includes('panel.listasignaturas')}")
 		a.menu-dropdown(href="")
 			i.menu-icon.fa.fa-apple
 			span.menu-text Notas
@@ -38,35 +43,95 @@ ul.nav.sidebar-menu
 
 		ul.submenu
 			li(ui-sref-active="active")
-				a(href="" stop-event="click")
-					span.menu-text(ui-sref="panel.notas") Notas
+				a(ng-click="listarAsignaturas()" href="" stop-event="click")
+					span.menu-text Notas
 			li(ui-sref-active="active")
-				a(href="" stop-event="click")
-					span.menu-text Competencias
-			li(ui-sref-active="active")
-				a(href="" stop-event="click")
-					span.menu-text Indicadores
-			li(ui-sref-active="active")
-				a(href="" stop-event="click")
-					span.menu-text Por alumno
+				a(ui-sref="panel.listasignaturas" stop-event="click")
+					span.menu-text Asignaturas
 
-	<!-- Grupos-->
-	li(sub-menu ng-click="toggleOpen()" ng-show="hasRoleOrPerm('admin')" ng-class="{open:$state.includes('panel.niveles')||$state.includes('panel.grados')||$state.includes('panel.grupos')}")
+	<!-- Notas visto por el admin-->
+	li(sub-menu ng-click="toggleOpen()" ng-show="hasRoleOrPerm(['admin'])" ng-class="{open:$state.includes('panel.listasignaturas')||$state.includes('panel.unidades')||$state.includes('panel.notas')}")
 		a.menu-dropdown(href="")
 			i.menu-icon.fa.fa-apple
+			span.menu-text Notas
+			i.menu-expand
+
+		ul.submenu
+			li(ui-sref-active="active" ng-repeat="profe in profesores")
+				a(ui-sref="panel.listasignaturas({profesor_id: profe.profesor_id})" stop-event="click")
+					span.menu-text {{profe.nombres}} {{profe.apellidos}}
+			li(ng-if="profesores.length==0")
+				a(ui-sref="panel.profesores" stop-event="click")
+					span.menu-text Profes no contratados
+
+	<!-- Profesores visto por un profesor-->
+	li(sub-menu ng-click="toggleOpen()" ng-show="hasRoleOrPerm(['profesor'])")
+		a.menu-dropdown(href="")
+			i.menu-icon.fa.fa-graduation-cap
+			span.menu-text Compañeros
+			i.menu-expand
+
+		ul.submenu
+			li(ui-sref-active="active" ng-repeat="profe in profesores" ng-if="profe.profesor_id!=persona_id")
+				a(ui-sref="panel.user.resumen({username: profe.username})" stop-event="click")
+					span.menu-text {{profe.nombres}} {{profe.apellidos}}
+			li(ng-if="profesores.length==0")
+				a(ui-sref="panel.profesores" stop-event="click")
+					span.menu-text Profes no contratados
+
+	<!-- Grados-->
+	li(sub-menu ng-click="toggleOpen()" ng-if="!hasRoleOrPerm(['admin']) && hasRoleOrPerm(['profesor'])" 
+		ng-class="{open:$state.includes('panel.niveles')||$state.includes('panel.grados')||$state.includes('panel.grupos')||$state.includes('panel.areas')||$state.includes('panel.materias')||$state.includes('panel.asignaturas')}")
+		a.menu-dropdown(href="")
+			i.menu-icon.fa.fa-th-large
 			span.menu-text Grupos
 			i.menu-expand
 
 		ul.submenu
-			li(ui-sref-active="active")
+			li(ui-sref-active="active" ng-repeat="grupo in grupos")
+				a(ui-sref="panel.listalumnos({grupo_id: grupo.id})" stop-event="click")
+					span.menu-text {{grupo.nombre}}
+
+
+	<!-- Grados-->
+	li(sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm(['admin'])" 
+		ng-class="{open:$state.includes('panel.niveles')||$state.includes('panel.grados')||$state.includes('panel.grupos')||$state.includes('panel.areas')||$state.includes('panel.materias')||$state.includes('panel.asignaturas')}")
+		a.menu-dropdown(href="")
+			i.menu-icon.fa.fa-th-large
+			span.menu-text Grados y Áreas
+			i.menu-expand
+
+		ul.submenu
+			li(ui-sref-active="active" ng-if="hasRoleOrPerm(['admin'])")
 				a(ui-sref="panel.niveles" stop-event="click")
 					span.menu-text Niveles educativos
-			li(ui-sref-active="active")
+			li(ui-sref-active="active" ng-if="hasRoleOrPerm(['admin'])")
 				a(ui-sref="panel.grados" stop-event="click")
 					span.menu-text Grados
-			li(ui-sref-active="active")
+			li(ui-sref-active="active" ng-if="hasRoleOrPerm(['admin'])")
 				a(ui-sref="panel.grupos" stop-event="click")
+					span.menu-text Editar Grupos
+			li(sub-menu ng-click="toggleOpen()" hija="true" stop-event="click")
+				a.menu-dropdown(href="")
 					span.menu-text Grupos
+					i.menu-expand
+
+				ul.submenu
+					li(ng-repeat="grupo in grupos")
+						a(ui-sref="panel.listalumnos({grupo_id: grupo.id})" stop-event="click")
+							//i.menu-icon.fa.fa-rocket
+							span.menu-text {{grupo.nombre}}
+
+
+			li(ui-sref-active="active" ng-if="hasRoleOrPerm(['admin'])")
+				a.menu-dropdown(ui-sref="panel.areas")
+					span.menu-text Areas
+			li(ui-sref-active="active" ng-if="hasRoleOrPerm(['admin'])")
+				a.menu-dropdown(ui-sref="panel.materias")
+					span.menu-text Materias
+			li(ui-sref-active="active" ng-if="hasRoleOrPerm(['admin'])")
+				a.menu-dropdown(ui-sref="panel.asignaturas")
+					span.menu-text Asignaturas
 
 	<!-- Informes-->
 	li(sub-menu ng-show="hasRoleOrPerm('admin')" ng-click="toggleOpen()" menu-is-open="false" ng-class="{active:$state.is('panel')}")
@@ -93,16 +158,22 @@ ul.nav.sidebar-menu
 				a(href="" stop-event="click")
 					span.menu-text Por alumno
 	<!-- Colegio-->
-	li(sub-menu ng-click="toggleOpen()" ng-show="hasRoleOrPerm('admin')")
+	li(sub-menu ng-click="toggleOpen()" ng-show="hasRoleOrPerm('admin')" ng-class="{open:$state.includes('panel.years')||$state.includes('panel.usuarios')||$state.includes('panel.papelera')}")
 		a.menu-dropdown(href="")
 			i.menu-icon.fa.fa-institution
 			span.menu-text Colegio
 			i.menu-expand
 
 		ul.submenu
-			li
-				a(href="" stop-event="click")
+			li(ui-sref-active="active")
+				a(stop-event="click" ui-sref="panel.years")
 					span.menu-text Configuración
+			li(ui-sref-active="active")
+				a(ui-sref='panel.usuarios' stop-event="click")
+					span.menu-text Usuarios
+			li(ui-sref-active="active")
+				a(ui-sref='panel.usuarios.roles' stop-event="click")
+					span.menu-text Roles
 
 			li(sub-menu ng-click="toggleOpen()" hija="true" stop-event="click")
 				a.menu-dropdown(href="")
@@ -119,31 +190,26 @@ ul.nav.sidebar-menu
 							i.menu-icon.glyphicon.glyphicon-stats
 							span.menu-text Ciudades
 
-			li(ng-class="{active:$state.includes('years')}")
-				a(href="" stop-event="click" ui-sref="panel.years")
-					span.menu-text Años
-			li(ng-class="{active:$state.includes('periodos')}")
-				a(href="" stop-event="click" ui-sref="panel.periodos")
+			
+			li(ui-sref-active="active")
+				a(ui-sref="panel.periodos" stop-event="click")
 					span.menu-text Periodos
-			li
-				a(href="" stop-event="click")
-					span.menu-text Usuarios
-			li
+			li(ui-sref="panel.anuncios" stop-event="click")
 				a(href="" stop-event="click")
 					span.menu-text Anuncios
-			li(ng-class="{active:$state.includes('mensajes')}")
+			li(ui-sref-active="active")
 				a(ui-sref="panel.mensajes" stop-event="click")
 					span.menu-text  Mensajes
-			li(ng-class="{active:$state.includes('panel.bitacora')}")
+			li(ui-sref-active="active")
 				a(ui-sref="panel.bitacora" stop-event="click")
 					span.menu-text  Bitacora
-			li(ng-class="{active:$state.includes('panel.horario')}")
+			li(ui-sref-active="active")
 				a(ui-sref="panel.bitacora" stop-event="click")
 					span.menu-text  Horarios
-			li(ng-class="{active:$state.includes('votaciones')}")
+			li(ui-sref-active="active")
 				a(ui-sref="votaciones" stop-event="click")
 					span.menu-text  Votaciones
-			li(ng-class="{active:$state.includes('panel.papelera')}")
+			li(ui-sref-active="active")
 				a(ui-sref="panel.papelera" stop-event="click")
 					span.menu-text  Papelera
 					i.menu-icon.fa.fa-trash.themesecondary

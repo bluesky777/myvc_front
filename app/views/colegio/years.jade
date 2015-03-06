@@ -1,1 +1,25 @@
-h1 Years
+.col-lg-12.col-xs-12
+	.widget.flat.radius-bordered
+		.widget-header.bg-blue
+			span.widget-caption Colegio
+		.widget-body
+			#registration-form
+				form(role='form')
+					.form-title
+						| Contact Us
+					.row
+						.col-sm-6
+							.form-group
+								label(for='exampleInputEmail2') Nombre del colegio
+								span.input-icon.icon-right
+									input#exampleInputEmail2.form-control(type='text', placeholder='Nombre del colegio')
+									i.fa.fa-envelope.blue
+						.col-sm-6
+							.form-group
+								label(for='exampleInputName2') Name
+								span.input-icon.icon-right
+									input#exampleInputName2.form-control(type='text', placeholder='Name')
+									i.glyphicon.glyphicon-user.palegreen
+
+					
+					button.btn.btn-primary(type="submit") Submit

@@ -2,7 +2,9 @@
 
 angular.module("myvcFrontApp")
 
-.controller('AlumnosCtrl', ['$scope', 'App', '$rootScope', '$state', '$interval', 'RAlumnos', 'Restangular', 'uiGridConstants', 'GruposServ', '$modal', '$filter', ($scope, App, $rootScope, $state, $interval, RAlumnos, Restangular, uiGridConstants, GruposServ, $modal, $filter)->
+.controller('AlumnosCtrl', ['$scope', 'App', '$rootScope', '$state', '$interval', 'RAlumnos', 'Restangular', 'uiGridConstants', 'GruposServ', '$modal', '$filter', 'AuthService', ($scope, App, $rootScope, $state, $interval, RAlumnos, Restangular, uiGridConstants, GruposServ, $modal, $filter, AuthService)->
+
+	AuthService.verificar_acceso()
 
 	$scope.bigLoader = true
 	$scope.dato = {}
@@ -29,7 +31,6 @@ angular.module("myvcFrontApp")
 		modalInstance = $modal.open({
 			templateUrl: App.views + 'alumnos/removeAlumno.tpl.html'
 			controller: 'RemoveAlumnoCtrl'
-			size: 'sm',
 			resolve: 
 				alumno: ()->
 					row
@@ -114,6 +115,18 @@ angular.module("myvcFrontApp")
 		#filterOptions: $scope.filterOptions,
 		onRegisterApi: ( gridApi ) ->
 			$scope.gridApi = gridApi
+			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
+				console.log 'Fila editada, ', rowEntity, ' Column:', colDef, ' newValue:' + newValue + ' oldValue:' + oldValue ;
+				
+				if newValue != oldValue
+					Restangular.one('alumnos/update', rowEntity.alumno_id).customPUT(rowEntity).then((r)->
+						$scope.toastr.success 'Área actualizado con éxito', 'Actualizado'
+					, (r2)->
+						$scope.toastr.error 'Cambio no guardado', 'Error'
+						console.log 'Falló al intentar guardar: ', r2
+					)
+				$scope.$apply()
+			)
 
 	
 	RAlumnos.getList().then((data)->
@@ -142,7 +155,7 @@ angular.module("myvcFrontApp")
 	$scope.ok = ()->
 
 		Restangular.all('alumnos/destroy/'+alumno.alumno_id).remove().then((r)->
-			toastr.success 'Eliminado', 'Alumno eliminado con éxito.'
+			toastr.success 'Alumno eliminado con éxito.', 'Eliminado'
 		, (r2)->
 			toastr.warning 'No se pudo eliminar al alumno.', 'Problema'
 			console.log 'Error eliminando alumno: ', r2

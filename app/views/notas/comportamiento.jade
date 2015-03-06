@@ -1,0 +1,76 @@
+.col-lg-12
+	.widget
+		.widget-header.bordered-bottom.bordered-blue
+			span.widget-caption {{grupo.nombre + ' - ' + grupo.abrev}}
+		.widget-body
+			div
+				.btn-group.btn-lg
+					a.btn.btn-success(ui-sref="panel.listasignaturas({asignatura_id: asignatura.profesor_id})") Volver a las asignaturas
+					a.btn.btn-info(ui-sref="panel.frases") Frases
+
+
+			div.table-responsive
+				br
+				br
+				hr.wide
+				.row
+					.col-lg-4.col-xs-8
+						label Filtrar alumnos
+						input.form-control(type="text" ng-model="searchAlum" placeholder="Escribe algún texto")
+				br
+				br
+				table.table.table-hover.table-condensed.table-striped
+					thead
+						tr
+							th(style="width: 20px;")
+								div No
+							th.text-center(style="min-width: 600px;") 
+								div Nombres
+							th
+								div Nota
+
+					tbody
+						tr(ng-repeat="alumno in alumnos | filter:searchAlum")
+							td
+								div {{$index+1}}
+							td
+								h5.nombresellipsis( popover="<img src='{{perfilPath + alumno.userData.foto_nombre}}' style='width: 100px; height: 100px;'><img src='{{perfilPath + alumno.userData.imagen_nombre}}' style='width: 100px; height: 100px;'><br>Facebook: {{alumno.facebook}}<br>Username: {{alumno.userData.username}}" 
+									popover-popup-delay="1000" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-animation="true" 
+									popover-trigger="mouseenter" ) 
+									img(ng-src="{{perfilPath + alumno.userData.foto_nombre}}" style="width: 20px; height: 20px;")
+									| {{alumno.nombres + ' ' + alumno.apellidos}}
+
+								ul
+									li(ng-repeat="definicion in alumno.definiciones")
+										a.btn.btn-default.btn-xs.shiny.icon-only.danger(tooltip="X Eliminar" tooltip-placement="right" 
+											ng-click="quitarFrase(definicion, alumno)")
+											i.fa.fa-trash 
+										|  {{definicion.tipo_frase + ' - ' + definicion.frase}}
+
+								label Frase
+									ui-select(ng-model="alumno.newfrase" theme="select2" style="min-width: 500px;")
+										ui-select-match(placeholder="Frase" allow-clear="true") {{$select.selected.frase}}
+										ui-select-choices(repeat="frase in frases | filter: $select.search")
+											div(ng-bind-html="frase.tipo_frase + ' - ' + frase.frase | highlight: $select.search")
+									a.btn.btn-primary(ng-click="addFrase(alumno)") Agregar
+
+							td
+								input(ng-model="alumno.nota.nota" type="number" min="0" max="100" 
+									ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }"
+									 ng-change="cambiaNota(alumno.nota)")
+
+
+				br
+				br
+				br
+				hr.wide
+br
+br
+br
+.col-lg-12
+	.widget
+		.widget-header.bordered-bottom.bordered-blue
+			span.widget-caption Algunas opciones
+		.widget-body
+			div
+				a.btn.btn-default.btn.lg Hacer algo
