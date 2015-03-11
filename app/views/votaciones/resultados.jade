@@ -46,7 +46,10 @@
 													td
 														|{{$index+1}}
 													td
-														|{{ candidato.nombres + ' ' + candidato.apellidos }}
+														.nombresellipsis( popover="<img src='{{imagesPath + candidato.imagen_nombre}}' style='width: 100px; height: 100px;'><br>Facebook: {{candidato.facebook}}<br>Username: {{candidato.username}}" 
+															popover-popup-delay="1000" popover-title="{{candidato.nombres + ' ' + candidato.apellidos}}" popover-animation="true" 
+															popover-trigger="mouseenter" )
+															|{{ candidato.nombres + ' ' + candidato.apellidos }}
 													td
 														|{{candidato.cantidad}}
 			.row

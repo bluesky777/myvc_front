@@ -1,6 +1,8 @@
 angular.module('myvcFrontApp')
 .controller('UnidadesCtrl', ['$scope', '$modal', 'Restangular', '$state', '$filter', '$rootScope', 'AuthService', 'toastr', 'App', 'resolved_user', ($scope, $modal, Restangular, $state, $filter, $rootScope, AuthService, toastr, App, resolved_user) ->
 
+	AuthService.verificar_acceso()
+
 	$scope.asignatura = {}
 	$scope.asignatura_id = $state.params.asignatura_id
 	$scope.datos = {}

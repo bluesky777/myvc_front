@@ -1,17 +1,53 @@
 angular.module("myvcFrontApp")
 
-.controller('AsignaturasCtrl', ['$scope', '$rootScope', '$interval', 'Restangular', 'RAsignaturas', 'materias', 'grupos', 'profesores', '$modal', '$filter', ($scope, $rootScope, $interval, Restangular, RAsignaturas, materias, grupos, profesores, $modal, $filter)->
+.controller('AsignaturasCtrl', ['$scope', '$rootScope', '$interval', 'Restangular', 'RAsignaturas', 'materias', 'grupos', 'profesores', '$modal', '$filter', 'App', 'AuthService', ($scope, $rootScope, $interval, Restangular, RAsignaturas, materias, grupos, profesores, $modal, $filter, App, AuthService)->
+
+	AuthService.verificar_acceso()
 
 	$scope.creando = false
 	$scope.editando = false
-	$scope.currentasignatura = {}
+	$scope.currentasignatura = {grupo: undefined, profesor: undefined}
 	$scope.currenasignaturaEdit = {}
+
+	$scope.asignaturas = []
 
 	$scope.materias = materias
 	$scope.grupos = grupos
 	$scope.profesores = profesores
 
 	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
+
+	$scope.seleccionaGrupo = (item, model)->
+		item =  if item is undefined then {id:'!'} else item
+		$scope.gridOptions.data = $filter('filter')($scope.asignaturas, {grupo_id: item.id}, true)
+		
+		if $scope.currentasignatura.profesor != undefined
+			profeSearch = $scope.currentasignatura.profesor.id
+			$scope.gridOptions.data = $filter('filter')($scope.gridOptions.data, {profesor_id: profeSearch}, true)
+
+
+	$scope.seleccionaProfe = (item, model)->
+		item =  if item is undefined then {id:'!'} else item
+		$scope.gridOptions.data = $filter('filter')($scope.asignaturas, {profesor_id: item.id}, true)
+		
+		if $scope.currentasignatura.grupo != undefined
+			grupoSearch = $scope.currentasignatura.grupo.id
+			$scope.gridOptions.data = $filter('filter')($scope.gridOptions.data, {grupo_id: grupoSearch}, true)
+
+
+	$scope.filtrarAsignaturas = ()->
+
+		$scope.gridOptions.data = $scope.asignaturas
+
+		if $scope.currentasignatura.grupo != undefined
+			grupoSearch = $scope.currentasignatura.grupo.id
+			$scope.gridOptions.data = $filter('filter')($scope.gridOptions.data, {grupo_id: grupoSearch}, true)
+
+		if $scope.currentasignatura.profesor != undefined
+			profeSearch = $scope.currentasignatura.profesor.id
+			$scope.gridOptions.data = $filter('filter')($scope.gridOptions.data, {profesor_id: profeSearch}, true)
+
+
 
 	$scope.cancelarCrear = ()->
 		$scope.creando = false
@@ -21,9 +57,11 @@ angular.module("myvcFrontApp")
 
 	$scope.crear = ()->
 		RAsignaturas.post($scope.currentasignatura).then((r)->
-			$scope.gridOptions.data.push r
+			$scope.asignaturas.push r
+			$scope.filtrarAsignaturas()
 			$scope.cancelarCrear()
 			$scope.toastr.success 'Asignatura creada con éxito'
+			console.log r, $scope.asignaturas
 		, (r2)->
 			console.log 'No se pudo crear', r2
 			$scope.toastr.error 'Error creando', 'Problema'
@@ -40,9 +78,9 @@ angular.module("myvcFrontApp")
 		)
 
 	$scope.editar = (row)->
-		row.materia =	$filter('filter')(materias,	id: row.area_id)[0]
-		row.grupo =		$filter('filter')(grupo,	id: row.grupo_id)[0]
-		row.profesor =	$filter('filter')(profesor,	id: row.profesor_id)[0]
+		row.materia =	$filter('filter')(materias,		id: row.materia_id, true)[0]
+		row.grupo =		$filter('filter')(grupos,		id: row.grupo_id, true)[0]
+		row.profesor =	$filter('filter')(profesores,	id: row.profesor_id, true)[0]
 
 		console.log row
 		$scope.currentasignaturaEdit = row
@@ -51,7 +89,7 @@ angular.module("myvcFrontApp")
 	$scope.eliminar = (row)->
 
 		modalInstance = $modal.open({
-			templateUrl: App.views + 'asignaturas/removeAsignatura.tpl.html'
+			templateUrl: App.views + 'areas/removeAsignatura.tpl.html'
 			controller: 'RemoveAsignaturaCtrl'
 			resolve: 
 				asignatura: ()->
@@ -62,22 +100,47 @@ angular.module("myvcFrontApp")
 			console.log 'Resultado del modal: ', asignatura
 		)
 
-	btGrid1 = '<a tooltip="Editar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
-	btGrid2 = '<a tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-times "></i></a>'
+	btGrid1 = '<a tooltip="Editar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
+	btGrid2 = '<a tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-trash "></i></a>'
 	$scope.gridOptions = 
 		enableSorting: true,
 		enableFiltering: true,
 		enebleGridColumnMenu: false,
 		enableCellEditOnFocus: true,
 		columnDefs: [
-			{ field: 'id', type: 'number', maxWidth: 50, enableFiltering: false }
-			{ name: 'edicion', displayName:'Edición', maxWidth: 40, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2, enableCellEdit: false}
+			{ field: 'id', type: 'number', width: 60, enableFiltering: false, enableCellEdit: false, enableColumnMenu: false }
+			{ name: 'edicion', displayName:'Edición', width: 70, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2, enableCellEdit: false, enableColumnMenu: false}
 			{ field: 'orden', displayName:'Orden', type: 'number', maxWidth: 50, enableFiltering: false }
-			{ field: 'materia_id',	displayName: 'Materia',		editDropdownOptionsArray: materias,		cellFilter: 'mapMaterias:grid.appScope.materias',		editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'id', editDropdownValueLabel: 'materia' }
-			{ field: 'grupo_id',	displayName: 'Grupos',		editDropdownOptionsArray: grupos,		cellFilter: 'mapGrupos:grid.appScope.grupos',			editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'id', editDropdownValueLabel: 'nombre' }
-			{ field: 'profesor_id',	displayName: 'Profesor',	editDropdownOptionsArray: profesores,	cellFilter: 'mapProfesores:grid.appScope.profesores',	editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'id', editDropdownValueLabel: 'nombres' }
-			{ field: 'creditos', displayName:'Créditos', type: 'number', maxWidth: 50, enableFiltering: false }
-			{ name: 'nn', displayName: '', maxWidth: 20, enableSorting: false, enableFiltering: false }
+			
+			{ field: 'materia_id',	displayName: 'Materia',		editDropdownOptionsArray: materias,		cellFilter: 'mapMaterias:grid.appScope.materias',
+			filter: {
+				condition: (searchTerm, cellValue)->
+					foundMaterias 	= $filter('filter')(materias, {materia: searchTerm})
+					actual 			= $filter('filter')(foundMaterias, {id: cellValue}, true)
+					return actual.length > 0;
+			}
+			editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'id', editDropdownValueLabel: 'materia', enableCellEditOnFocus: true }
+			
+			{ field: 'grupo_id',	displayName: 'Grupos',		editDropdownOptionsArray: grupos,		cellFilter: 'mapGrupos:grid.appScope.grupos',
+			filter: {
+				condition: (searchTerm, cellValue)->
+					foundG 	= $filter('filter')(grupos, {nombre: searchTerm})
+					actual 			= $filter('filter')(foundG, {id: cellValue}, true)
+					return actual.length > 0;
+			}
+			editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'id', editDropdownValueLabel: 'nombre', enableCellEditOnFocus: true }
+			
+			{ field: 'profesor_id',	displayName: 'Profesor',	editDropdownOptionsArray: profesores,	cellFilter: 'mapProfesores:grid.appScope.profesores',
+			filter: {
+				condition: (searchTerm, cellValue)->
+					foundP 	= $filter('filter')(profesores, {nombres: searchTerm, apellidos: searchTerm})
+					actual 			= $filter('filter')(foundP, {id: cellValue}, true)
+					return actual.length > 0;
+			}
+			editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'id', editDropdownValueLabel: 'nombres', enableCellEditOnFocus: true }
+			
+			{ field: 'creditos', displayName:'Créditos', type: 'number', maxWidth: 50 }
+			{ name: 'nn', displayName: '', width: 10, enableSorting: false, enableFiltering: false, enableColumnMenu: false }
 		],
 		multiSelect: false,
 		#filterOptions: $scope.filterOptions,
@@ -95,7 +158,8 @@ angular.module("myvcFrontApp")
 	
 
 	RAsignaturas.getList().then((data)->
-		$scope.gridOptions.data = data
+		$scope.asignaturas = data
+		$scope.gridOptions.data = $scope.asignaturas
 	)
 ])
 
@@ -105,7 +169,7 @@ angular.module("myvcFrontApp")
 		if not input
 			return 'Elija...'
 		else
-			mater = $filter('filter')(materias, {id: input})[0]
+			mater = $filter('filter')(materias, {id: input}, true)[0]
 			return  mater.materia
 ])
 
@@ -115,7 +179,7 @@ angular.module("myvcFrontApp")
 		if not input
 			return 'Elija...'
 		else
-			grupo = $filter('filter')(grupos, {id: input})[0]
+			grupo = $filter('filter')(grupos, {id: input}, true)[0]
 			return  grupo.nombre
 ])
 
@@ -125,7 +189,7 @@ angular.module("myvcFrontApp")
 		if not input
 			return 'Elija...'
 		else
-			profe = $filter('filter')(profesores, {id: input})[0]
+			profe = $filter('filter')(profesores, {id: input}, true)[0]
 			return  profe.nombres
 ])
 

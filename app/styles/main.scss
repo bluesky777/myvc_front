@@ -11168,7 +11168,7 @@ input[type=checkbox].checkbox-slider.colored-maroon.toggle+.text:after {
     -moz-osx-font-smoothing: grayscale;
 }
 .select2-search-choice-close:before {
-    color: #fff;
+    //color: #fff;
     content: "";
     font-size: 14px;
 }
@@ -15452,4 +15452,31 @@ body {
     box-shadow: none;
     background-color: #f9fcff;
 }
+.cursorcopy{
+    cursor: copy;
+}
+.cursorcell input:hover{
+    cursor: cell;
+    border-color: #fecf49;
+    color: #f4b400;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    background-color: #fefbf1;
+}
 
+
+.container-carta, .container-oficio{
+    max-width: 30cm!important;
+    border: #E6E6E6 solid;
+}
+.container-carta{
+    width: 22cm;
+}
+.container-oficio{
+    width: 22cm;
+}
+@media print {
+    /* Your styles here */
+
+}

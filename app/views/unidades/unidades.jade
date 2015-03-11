@@ -2,16 +2,17 @@
 	.well.with-header.with-footer
 		.header.bordered-yellow {{asignatura.materia + ' - ' + asignatura.nombre_grupo + ' - ' + asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}
 
-		a.btn.btn-success.btn-lg(ui-sref="panel.listasignaturas({profesor_id: asignatura.profesor_id})") Volver a asignaturas
+		.btn-group
+			a.btn.btn-success.btn-lg(ui-sref="panel.listasignaturas({profesor_id: asignatura.profesor_id})") Volver a asignaturas
 
-		a.btn.btn-primary.btn-lg(ng-show="unidades.length > 0" ui-sref="panel.notas({asignatura_id: asignatura_id})") NOTAS
+			a.btn.btn-primary.btn-lg(ng-show="unidades.length > 0" ui-sref="panel.notas({asignatura_id: asignatura_id})") NOTAS
 
 		hr.wide
 
 
 		form.form-inline(ng-submit="crearUnidad()" role="form")
-			input.form-control(required ng-model="newunidad.definicion" type="text" placeholder="{{UNIDAD}} nuevo(a)" style="min-width: 400px")
-			input.form-control(required ng-model="newunidad.porcentaje" min="0" max="100" type="number" placeholder="Porcentaje")
+			input.form-control(required ng-model="newunidad.definicion" type="text" placeholder="{{UNIDAD}} nuevo(a)" style="min-width: 400px" tooltip="Definición" tooltip-popup-delay="1000")
+			input.form-control(required ng-model="newunidad.porcentaje" min="0" max="100" type="number" placeholder="Porcentaje" tooltip="Porcentaje" tooltip-popup-delay="1000")
 			input.btn.btn-primary(type="submit" ng-submit="crearUnidad()" value="Crear {{UNIDAD}}")
 
 		hr.wide
@@ -25,12 +26,12 @@
 					.dd2-content() 
 						.row(ng-show="unidad.editando")
 							form.form-inline(role="form" ng-submit="actualizarUnidad(unidad)")
-								.form-group.unidadporcentaje.col-lg-1.col-md-2.col-sm-3
-									label.sr-only Porcentaje
-									input.form-control(required type="number" min="0" max="100" ng-model="unidad.porcentaje" placeholder="Edite el porcentaje" tooltip="Porcentaje" tooltip-popup-delay="1000")
-								.form-group.unidaddefinicion.col-lg-9.col-sm-12
+								.form-group.unidaddefinicion.col-lg-6.col-sm-12
 									label.sr-only Edite la definición
 									textarea.form-control(required ng-model="unidad.definicion" placeholder="Edite la definición" tooltip="Definición" tooltip-popup-delay="1000")
+								.form-group.unidadporcentaje.col-lg-2.col-md-3.col-sm-12
+									label.sr-only Porcentaje
+									input.form-control(required type="number" min="0" max="100" ng-model="unidad.porcentaje" placeholder="Edite el porcentaje" tooltip="Porcentaje" tooltip-popup-delay="1000")
 								button.btn.btn-default(type="button" ng-click="unidad.editando=false") Cancelar
 								button.btn.btn-primary(type="submit" ng-submit="actualizarUnidad(unidad)") Guardar
 						div(ng-show="!unidad.editando")
@@ -47,12 +48,12 @@
 							.dd2-content
 								.row(no-drag)
 									form.form-inline(ng-submit="addSubunidad(unidad)")
-										.form-group.unidaddefinicion.col-lg-7.col-sm-12
+										.form-group.unidaddefinicion.col-lg-6.col-sm-12
 											label.sr-only Nuevo(a) {{SUBUNIDAD}}: 
 											textarea.form-control(required ng-model="unidad.newsubunidad.definicion" placeholder="Crea nuevo(a) {{SUBUNIDAD}}" tooltip="Definición del nuevo(a) {{SUBUNIDAD}}" tooltip-popup-delay="1000")
-										.form-group.unidadporcentaje.col-lg-1.col-md-2.col-sm-3
+										.form-group.unidadporcentaje.col-lg-2.col-md-3.col-sm-12
 											input.form-control(required ng-model="unidad.newsubunidad.porcentaje" min="0" max="100" type="number" placeholder="%Porcentaje" tooltip="Porcentaje del {{SUBUNIDAD}}" tooltip-popup-delay="1000")
-										.form-group.col-lg-1.col-md-2.col-sm-3
+										.form-group.col-lg-2.col-md-3.col-sm-4
 											input.form-control(required ng-model="unidad.newsubunidad.nota_default" min="0" max="100" type="number" placeholder="Nota por defecto" tooltip="Nota por defecto del {{SUBUNIDAD}}" tooltip-popup-delay="1000")
 
 										input.btn.btn-primary(type="submit" ng-submit="addSubunidad(unidad)" value="Añadir {{SUBUNIDAD}}") 
@@ -65,14 +66,14 @@
 							.dd2-content
 								.row(ng-show="subunidad.editando")
 									form.form-inline(role="form" ng-submit="actualizarSubunidad(subunidad)")
-										.form-group.unidadporcentaje.col-lg-1.col-md-2.col-sm-3
-											label.sr-only Porcentaje
-											input.form-control(required type="number" min="0" max="100" ng-model="subunidad.porcentaje" placeholder="%Porcentaje" tooltip="Edite el porcentaje" tooltip-popup-delay="1000")
-										.form-group.unidaddefinicion.col-lg-9.col-sm-12
+										.form-group.unidaddefinicion.col-lg-6.col-sm-12
 											label.sr-only Edite la definición
 											textarea.form-control(required ng-model="subunidad.definicion" placeholder="Edite la definición" tooltip="Definición")
-										.form-group.col-lg-1.col-md-2.col-sm-3
-											input.form-control(required ng-model="subunidad.nota_default" min="0" max="100" type="number" placeholder="Nota por defecto" tooltip="Nota por defecto del {{SUBUNIDAD}}" tooltip-popup-delay="1000")
+										.form-group.unidadporcentaje.col-lg-2.col-md-3.col-sm-12
+											label.sr-only Porcentaje
+											input.form-control(required type="number" min="0" max="100" ng-model="subunidad.porcentaje" placeholder="%Porcentaje" tooltip="Edite el porcentaje" tooltip-popup-delay="1000")
+										.form-group.col-lg-2.col-md-3.col-sm-12
+											input.form-control(required ng-model="subunidad.nota_default" min="0" max="100" type="number" placeholder="Nota por defecto" tooltip="Nota por defecto de {{SUBUNIDAD}}" tooltip-popup-delay="1000")
 
 										button.btn.btn-default(type="button" ng-click="subunidad.editando=false") Cancelar
 										button.btn.btn-primary(type="submit" ng-submit="actualizarSubunidad(subunidad)") Guardar

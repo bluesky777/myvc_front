@@ -31,10 +31,13 @@ angular.module('myvcFrontApp', [
 .constant('App', (()->
 
 	#dominio = 'http://lalvirtual.com/' 
-	dominio = 'http://lalvirtual.com/' # Pruebas en mi localhost
+	dominio = 'http://localhost/' # Pruebas en mi localhost
 	server = dominio + 'myvc_server/public/'
 	#server = ''
 	frontapp = dominio + 'myvc_front/'
+
+	if(location.hostname.match('lalvirtual'))
+		dominio = 'http://lalvirtual.com'
 
 	return {
 		Server: server

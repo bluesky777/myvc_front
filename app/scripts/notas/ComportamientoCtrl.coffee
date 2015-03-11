@@ -1,5 +1,7 @@
 angular.module('myvcFrontApp')
-.controller('ComportamientoCtrl', ['$scope', '$filter', '$rootScope', '$state', '$interval', 'RGrupos', 'comportamiento', '$modal', 'App', 'Restangular', ($scope, $filter, $rootScope, $state, $interval, RGrupos, comportamiento, $modal, App, Restangular) ->
+.controller('ComportamientoCtrl', ['$scope', '$filter', '$rootScope', '$state', '$interval', 'RGrupos', 'comportamiento', '$modal', 'App', 'Restangular', AuthService, ($scope, $filter, $rootScope, $state, $interval, RGrupos, comportamiento, $modal, App, Restangular, AuthService) ->
+
+	AuthService.verificar_acceso()
 
 	$scope.perfilPath = App.images+'perfil/'
 
@@ -16,6 +18,7 @@ angular.module('myvcFrontApp')
 
 			Restangular.one('definiciones_comportamiento/store').customPOST(dato).then((r)->
 				$scope.toastr.success 'Frase agregada con éxito'
+				alumno.newfrase.definicion_id = r.id
 				alumno.definiciones.push alumno.newfrase
 				alumno.newfrase = null
 			, (r2)->
@@ -26,27 +29,18 @@ angular.module('myvcFrontApp')
 			$scope.toastr.warning 'Debe seleccionar frase'
 			return
 
-	$scope.updateNota = (alumno)->
-		
-		dato = 
-			alumno_id:	alumno.id
-			nota:		alumno.nota.nota
-
-		Restangular.one('nota_comportamiento/update').customPOST(dato).then((r)->
-			$scope.toastr.success 'Comportamiento modificado con éxito'
-			alumno.definiciones.push r
-		, (r2)->
-			$scope.toastr.error 'No se pudo cambiar comportamiento', 'Problema'
-			console.log 'No se pudo cambiar comportamiento', r2
-		)
-
 
 	$scope.cambiaNota = (nota)->
+		console.log nota
+
+		temp = nota.nota
+
 		Restangular.one('nota_comportamiento/update', nota.id).customPUT({nota: nota.nota}).then((r)->
 			$scope.toastr.success 'Nota cambiada: ' + nota.nota
 		, (r2)->
 			console.log 'No pudimos guardar la nota ', nota
 			$scope.toastr.error 'No pudimos guardar la nota ' + nota.nota
+			nota.nota = temp
 		)
 
 	$scope.quitarFrase = (definicion, alumno)->

@@ -40,7 +40,7 @@
     
     
   </head>
-  <body>
+  <body keypress-events>
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -103,11 +103,14 @@
     <script src="bower_components/angular-fullscreen/src/angular-fullscreen.js"></script>
     <script src="bower_components/ng-sortable/dist/ng-sortable.js"></script>
     <script src="bower_components/chronicle/chronicle.js"></script>
+    <script src="bower_components/pdfmake/build/pdfmake.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/jquery-ui.js"></script>
         <script src="scripts/beyond.js"></script>
+        <script src="scripts/vfs_fonts.js"></script>
         <script src="scripts/app.js"></script>
         <script src="scripts/main/MYVCConfig.js"></script>
         <script src="scripts/main/MYVCRun.js"></script>
@@ -159,6 +162,7 @@
         <script src="scripts/fileManager/RemoveImageCtrl.js"></script>
         <script src="scripts/papelera/PapeleraConfig.js"></script>
         <script src="scripts/papelera/PapeleraCtrl.js"></script>
+        <script src="scripts/papelera/ForceRemovePapelera.js"></script>
         <script src="scripts/bitacora/BitacoraConfig.js"></script>
         <script src="scripts/bitacora/BitacoraCtrl.js"></script>
         <script src="scripts/usuarios/UserConfig.js"></script>
@@ -170,6 +174,7 @@
         <script src="scripts/usuarios/PermissionsCtrl.js"></script>
         <script src="scripts/unidades/UnidadesConfig.js"></script>
         <script src="scripts/unidades/UnidadesCtrl.js"></script>
+        <script src="scripts/informes/InformesCtrl.js"></script>
 
         <script src="scripts/votaciones/VotacionesConfig.js"></script>
         <script src="scripts/votaciones/VotacionesCtrl.js"></script>
@@ -186,6 +191,7 @@
         <script src="scripts/directives/databoxesContainer.js"></script>
         <script src="scripts/directives/sidebarMenu.js"></script>
         <script src="scripts/directives/updateTitle.js"></script>
+        <script src="scripts/directives/notaRapida.js"></script>
 
         <script src="scripts/services/Perfil.js"></script>
         <script src="scripts/services/AuthService.js"></script>

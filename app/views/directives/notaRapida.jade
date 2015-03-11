@@ -1,0 +1,29 @@
+draggable
+	.widget( options="{addClasses: false, opacity: 0.35}" ng-init="opened=true" ng-show="opened")
+		.widget-header(style="cursor:move")
+			span.widget-caption Nota rápida
+
+			.widget-buttons
+				a(href="" ng-init="minimized = true" ng-click="minimized = !minimized")
+					i.fa(ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimized]")
+				a(href="" ng-click="opened=false")
+					i.fa.fa-times
+		.widget-body
+
+			table.table.table-hover.table-condensed.table-striped(ng-class="{'ng-hide':minimized}")
+				tr(ng-repeat="escala in escalas")
+					td
+						{{escala.valoracion}}
+					td
+						.btn-group
+							a.btn.btn-xs(ng-repeat="n in [] | range:escala.porc_inicial:escala.porc_final" 
+								ng-class="escala.perdido ? 'btn-danger':'btn-default'"
+								ng-click="setValor(n)")
+								{{n}}
+
+			.form-inline
+				.form-group
+					label Nota:
+					input.form-control(type="number" ng-model="valorNotaRapida" cambiamodel placeholder="Nota" max="100" min="0")
+				button.btn.btn-default(ng-click="activar()" ng-class="activado?'ng-hide':''") Activar
+				button.btn.btn-danger(ng-click="desactivar()" ng-class="activado==false ? 'ng-hide':'' ") Desactivar

@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('FileManagerCtrl', ['$scope', '$upload', '$timeout', '$filter', 'App', 'RImages', 'Restangular', 'Perfil', '$modal', 'resolved_user', ($scope, $upload, $timeout, $filter, App, RImages, Restangular, Perfil, $modal, resolved_user)->
+.controller('FileManagerCtrl', ['$scope', '$upload', '$timeout', '$filter', 'App', 'RImages', 'Restangular', 'Perfil', '$modal', 'resolved_user', 'GruposServ', ($scope, $upload, $timeout, $filter, App, RImages, Restangular, Perfil, $modal, resolved_user, GruposServ)->
 	
 	$scope.USER = resolved_user
 
@@ -46,8 +46,8 @@ angular.module("myvcFrontApp")
 
 	generateThumbAndUpload = (file)->
 		$scope.errorMsg = null
-		$scope.generateThumb(file)
 		uploadUsing$upload(file)
+		$scope.generateThumb(file)
 
 	$scope.generateThumb = (file)->
 		if file != null
@@ -67,7 +67,7 @@ angular.module("myvcFrontApp")
 			return
 
 		$upload.upload({
-			url: App.Server + '/myimages/store',
+			url: App.Server + 'myimages/store',
 			#fields: {'username': $scope.username},
 			file: file
 		}).progress( (evt)->
@@ -110,6 +110,32 @@ angular.module("myvcFrontApp")
 	$scope.imagenSelect = (item, model)->
 		console.log 'imagenSelect: ', item, model
 
+	$scope.fotoSelect = (item, model)->
+		console.log 'imagenSelect: ', item, model
+
+	$scope.grupoSelect = (item, model)->
+		console.log 'grupoSelect: ', item, model
+
+		Restangular.all('grupos/listado/'+item.id).getList().then((r)->
+			$scope.alumnos = r
+			$scope.dato.alumnoElegido = r[0]
+		, (r2)->
+			console.log 'No se pudo traer los usuarios'
+		)
+
+	$scope.rotarImagen = (imagen)->
+		Restangular.one('myimages/rotarimagen', imagen.id).customPUT().then((r)->
+			imagen.nombre = ''
+			console.log 'Imagen rotada con éxito.'
+			$scope.toastr.success 'Imagen rotada'
+			imagen.nombre = r + '?' + new Date().getTime()
+		, (r2)->
+			console.log 'No se pudo rotar la imagen.', r2
+			$scope.toastr.error 'Imagen no rotada'
+		)
+
+
+
 	$scope.borrarImagen = (imagen)->
 
 		modalInstance = $modal.open({
@@ -131,6 +157,12 @@ angular.module("myvcFrontApp")
 		$scope.dato.usuarioElegido = r[0]
 	, (r2)->
 		console.log 'No se pudo traer los usuarios'
+	)
+
+
+
+	GruposServ.getGrupos().then((r)->
+		$scope.grupos = r
 	)
 
 	$scope.cambiarImgUnUsuario = (usuarioElegido, imgParaUsuario)->
@@ -155,8 +187,23 @@ angular.module("myvcFrontApp")
 		$scope.dato.selectUsuarioModel = item
 
 
-	$scope.cambiarFotoAlumno = (imgOficialAlumno)->
-		console.log 'Vamos a guardar el cambio de foto'
+	$scope.cambiarFotoUnAlumno = (alumnoElegido, imgOficialAlumno)->
+		console.log 'Vamos a guardar el cambio de foto', alumnoElegido, imgOficialAlumno
+		aEnviar = {
+			imgOficialAlumno: imgOficialAlumno.id
+		}
+		Restangular.one('perfiles/cambiarimgunalumno', alumnoElegido.alumno_id).customPUT(aEnviar).then((r)->
+
+			usuarSelect = $filter('filter')($scope.alumnos, {id: alumnoElegido.id})
+			usuarSelect[0].foto_id = imgOficialAlumno.id
+			usuarSelect[0].foto_nombre = imgOficialAlumno.nombre
+
+			$scope.toastr.success 'Foto oficial asignada con éxito'
+			console.log r
+		, (r2)->
+			console.log 'Error al asignar foto al alumno', r2
+			$scope.toastr.error 'Error al asignar foto al alumno', 'Problema'
+		)
 
 
 

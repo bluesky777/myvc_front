@@ -50,9 +50,9 @@
 									| {{alumno.apellidos + ' ' + alumno.nombres}}
 							
 							td(ng-repeat="dia in dias")
-								a.btn.btn-default.btn-xs.icon-only(ng-click="showAddAusencia(alumno, dia)" ng-hide="hasAusencias(alumno, dia)")
+								a.btn.btn-default.btn-xs.icon-only(ng-click="showAddAusencia(alumno, dia)" ng-class="hasAusencias(alumno, dia) ? 'ng-hide':''")
 									i.fa.fa-smile-o
-								a.btn.btn-danger.btn-xs.icon-only(ng-click="deleteAusencia(alumno, dia)" ng-show="hasAusencias(alumno, dia)")
+								a.btn.btn-danger.btn-xs.icon-only(ng-click="deleteAusencia(alumno, dia)" ng-class="hasAusencias(alumno, dia) ? '':'ng-hide'")
 									i.fa.fa-frown-o
 
 								//

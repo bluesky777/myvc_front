@@ -105,7 +105,7 @@ loader(ng-if="bigLoader")
 						i.menu-icon.fa.fa-graduation-cap.themesecondary
 						span.menu-text Votar
 				<!-- Resultados -->
-				li(ui-sref-active="active" ng-show="hasRoleOrPerm('admin')")
+				li(ui-sref-active="active" ng-show="hasRoleOrPerm(['Admin', 'Profesor'])")
 					a(ui-sref="votaciones.resultados")
 						i.menu-icon.fa.fa-bar-chart.themesecondary
 						span.menu-text Resultados

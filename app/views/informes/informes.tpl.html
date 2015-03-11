@@ -1,0 +1,30 @@
+
+<div class="container container-carta">
+  <div ng-init="opened=true" ng-show="opened" class="row">
+    <div class="col-lg-12 col-xs-12">
+      <div class="widget">
+        <div class="widget-header bg-blue"><i class="widget-icon fa fa-bar-chart"></i>
+          <div class="widget-caption">Informes</div>
+          <div class="widget-buttons"><a href="" ng-init="minimized = false" ng-click="minimized = !minimized"><i ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimized]" class="fa"></i></a><a href="" ng-click="opened=false"><i class="fa fa-times"></i></a></div>
+        </div>
+        <div ng-class="{'ng-hide':minimized}" class="widget-body">
+          <tabset class="widget-main">
+            <tab heading="Boletines">
+              <label>Grupo</label>
+              <ui-select ng-model="datos.grupo" theme="select2" style="min-width: 200px;">
+                <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
+                <ui-select-choices repeat="grupo in grupos | filter: $select.search">
+                  <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
+                </ui-select-choices>
+              </ui-select><a href="" ng-click="verBoletines()" class="btn btn-default">Cargar boletines</a><br><br>
+              <button ng-click="pdfMaker()" class="btn btn-default">Prueba pdf</button>
+            </tab>
+          </tabset>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="report-content">
+    <h5 style="text-align: center">Aquí saldrán tus resportes</h5>
+  </div>
+</div>

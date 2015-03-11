@@ -67,9 +67,23 @@ angular.module("myvcFrontApp")
 		columnDefs: [
 			{ field: 'id', type: 'number', maxWidth: 50, enableFiltering: false }
 			{ name: 'edicion', displayName:'Edición', maxWidth: 40, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2, enableCellEdit: false}
-			{ field: 'materia', enableHiding: false, enableCellEditOnFocus: true }
+			{ field: 'materia', enableHiding: false, 
+			filter: {
+				condition: (searchTerm, cellValue, row)->
+					foundG 	= $filter('filter')($scope.gridOptions.data, {materia: searchTerm})
+					actual 	= $filter('filter')(foundG, {materia: cellValue})
+					return actual.length > 0;
+			}
+			enableCellEditOnFocus: true }
 			{ field: 'alias', displayName:'Alias', enableCellEditOnFocus: true }
-			{ field: 'area_id', displayName: 'Area', editDropdownOptionsArray: areas, cellFilter: 'mapAreas:grid.appScope.areas', editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'id', editDropdownValueLabel: 'nombre' }
+			{ field: 'area_id', displayName: 'Area', editDropdownOptionsArray: areas, cellFilter: 'mapAreas:grid.appScope.areas', editableCellTemplate: 'ui-grid/dropdownEditor', 
+			filter: {
+				condition: (searchTerm, cellValue)->
+					foundG 	= $filter('filter')($scope.areas, {nombre: searchTerm})
+					actual 	= $filter('filter')(foundG, {id: cellValue}, true)
+					return actual.length > 0;
+			}
+			editDropdownIdLabel: 'id', editDropdownValueLabel: 'nombre' }
 			{ name: 'nn', displayName: '', maxWidth: 20, enableSorting: false, enableFiltering: false }
 		],
 		multiSelect: false,

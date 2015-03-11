@@ -124,35 +124,11 @@ angular.module('myvcFrontApp')
 			iElem.addClass 'open'
 
 		scope.toggleOpen = ()->
-			if scope.menuIsOpen == false
+			#debugger
+			console.log 'scope.menuIsOpen', scope.menuIsOpen, scope.menuIsOpen == false
+			if scope.menuIsOpen == true
 				iElem.addClass 'open'
 				scope.menuIsOpen = true
-				###
-				iElem.bind 'click', (event)->
-					event.stopPropagation()
-					console.log 'Previne la propagación'
-				###
-				$document.bind 'click', (event)->
-					isClickedElementChildOfPopup = iElem.find(event.target).length > 0;
-					if (isClickedElementChildOfPopup)
-
-						###
-						console.log 'iAttrs.evitarCierre', $(event.target).parents(iAttrs.evitarCierre).length==1
-						hasParent = $(event.target).parents(iAttrs.evitarCierre)
-						if iAttrs.evitarCierre
-							if hasParent.length==1
-								scope.menuIsOpen = false
-								iElem.removeClass 'open'
-								scope.$apply()
-							console.log 'Tiene el evitar!'
-						###
-						return
-
-					
-
-					scope.menuIsOpen = false
-					iElem.removeClass 'open'
-					scope.$apply()
 			else
 				iElem.removeClass 'open'
 				scope.menuIsOpen = false

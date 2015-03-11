@@ -1,0 +1,33 @@
+.container.container-carta
+	.row(ng-init="opened=true" ng-show="opened")
+		.col-lg-12.col-xs-12
+			.widget
+				.widget-header.bg-blue
+					i.widget-icon.fa.fa-bar-chart
+					.widget-caption
+						|Informes
+					.widget-buttons
+						a(href="" ng-init="minimized = false" ng-click="minimized = !minimized")
+							i.fa(ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimized]")
+						a(href="" ng-click="opened=false")
+							i.fa.fa-times
+				.widget-body(ng-class="{'ng-hide':minimized}")
+					
+					tabset.widget-main
+						tab(heading="Boletines")
+
+							label Grupo
+							ui-select(ng-model="datos.grupo" theme="select2" style="min-width: 200px;")
+								ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}}
+								ui-select-choices(repeat="grupo in grupos | filter: $select.search")
+									div(ng-bind-html="grupo.nombre | highlight: $select.search")
+							a.btn.btn-default(href="" ng-click="verBoletines()") Cargar boletines
+
+							br
+							br
+							button.btn.btn-default(ng-click="pdfMaker()")
+								|Prueba pdf
+
+
+	.report-content
+		h5(style="text-align: center") Aquí saldrán tus resportes

@@ -1,33 +1,44 @@
-.row
+.row(ng-init="openedUnidades=true" ng-show="openedUnidades")
 	.col-lg-12.col-sm-12.col-xs-12
 		.widget
 			.widget-header
-				span.widget-caption Alumnos eliminados
-
+				span.widget-caption Unidades eliminadas ({{gridUnidad.data.length}}) 
+				
 				.widget-buttons
-					a(href="")
-						i.fa.fa-minus
-					a(href="" ng-show="false")
-						i.fa.fa-plus
-					a(ng-show="false" href="")
+					a(href="" ng-init="minimizedUnidades = true" ng-click="minimizedUnidades = !minimizedUnidades")
+						i.fa(ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimizedUnidades]")
+					a(href="" ng-click="openedUnidades=false")
 						i.fa.fa-times
-			.widget-body
-				#grid1.grid(ui-grid="gridAlumnos" ui-grid-resize-columns style="height: 400px")
+			.widget-body(ng-class="{'ng-hide':minimizedUnidades}")
+				#gridUnidades.grid(ui-grid="gridUnidad" ui-grid-resize-columns style="height: 400px")
 
-.row
+
+.row(ng-init="openedAlumnos=true" ng-show="openedAlumnos")
 	.col-lg-12.col-sm-12.col-xs-12
 		.widget
 			.widget-header
-				span.widget-caption Grupos eliminados
+				span.widget-caption Alumnos eliminados ({{gridAlumnos.data.length}})
 
 				.widget-buttons
-					a(href="")
-						i.fa.fa-minus
-					a(href="" ng-show="false")
-						i.fa.fa-plus
-					a(ng-show="false" href="")
+					a(href="" ng-init="minimizedAlumnos = true" ng-click="minimizedAlumnos = !minimizedAlumnos")
+						i.fa(ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimizedAlumnos]")
+					a(href="" ng-click="openedAlumnos=false")
 						i.fa.fa-times
-			.widget-body
-				#grid2.grid(ui-grid="gridGrupos" ui-grid-resize-columns style="height: 400px")
+			.widget-body(ng-class="{'ng-hide':minimizedAlumnos}")
+				#gridAlumnos.grid(ui-grid="gridAlumnos" ui-grid-resize-columns style="height: 400px")
+
+.row(ng-init="openedGrupos=true" ng-show="openedGrupos")
+	.col-lg-12.col-sm-12.col-xs-12
+		.widget
+			.widget-header
+				span.widget-caption Grupos eliminados ({{gridGrupos.data.length}})
+				
+				.widget-buttons
+					a(href="" ng-init="minimizedGrupos = true" ng-click="minimizedGrupos = !minimizedGrupos")
+						i.fa(ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimizedGrupos]")
+					a(href="" ng-click="openedGrupos=false")
+						i.fa.fa-times
+			.widget-body(ng-class="{'ng-hide':minimizedGrupos}")
+				#gridGrupos.grid(ui-grid="gridGrupos" ui-grid-resize-columns style="height: 400px")
 
 

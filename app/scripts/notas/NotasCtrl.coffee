@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-.controller('NotasCtrl', ['$scope', 'toastr', 'Restangular', '$state', 'notas', '$rootScope', '$filter', 'App', 'AuthService', ($scope, toastr, Restangular, $state, notas, $rootScope, $filter, App, AuthService) ->
+.controller('NotasCtrl', ['$scope', 'toastr', 'Restangular', '$state', 'notas', '$rootScope', '$filter', 'App', 'AuthService', '$timeout', ($scope, toastr, Restangular, $state, notas, $rootScope, $filter, App, AuthService, $timeout) ->
 
 	AuthService.verificar_acceso()
 
@@ -41,6 +41,7 @@ angular.module('myvcFrontApp')
 	$scope.cambiaNota = (nota)->
 		Restangular.one('notas/update', nota.id).customPUT({nota: nota.nota}).then((r)->
 			toastr.success 'Nota cambiada: ' + nota.nota
+			console.log 'Cuando la nota cambia, el objeto nota: ', nota
 		, (r2)->
 			console.log 'No pudimos guardar la nota ', nota
 			toastr.error 'No pudimos guardar la nota ' + nota.nota
@@ -59,7 +60,8 @@ angular.module('myvcFrontApp')
 			for subunidad in unidad.subunidades
 
 				porcSub = subunidad.porcentaje
-
+				#console.log subunidad.notas, alumno_id, $filter('filter')(subunidad.notas, {'alumno_id': alumno_id})[0]
+				
 				notaTemp = $filter('filter')(subunidad.notas, {'alumno_id': alumno_id})[0]
 				valorNota = parseInt(notaTemp.nota) * parseInt(porcSub) / 100
 				acumSub = acumSub + valorNota
@@ -70,11 +72,34 @@ angular.module('myvcFrontApp')
 		return $filter('number')(acumUni, 2);
 
 
+	$scope.verifClickNotaRapida = (notaObject)->
+		console.log notaObject
+
+		$timeout(()->
+			if $rootScope.notaRapida.enable
+				if notaObject.backup
+					if $rootScope.notaRapida.valorNota != notaObject.nota
+						notaObject.backup = notaObject.nota
+						notaObject.nota = $rootScope.notaRapida.valorNota
+					else
+						temp = notaObject.backup
+						notaObject.backup = notaObject.nota
+						notaObject.nota = temp
+				else
+					notaObject.backup = notaObject.nota
+					notaObject.nota = $rootScope.notaRapida.valorNota
+		
+				$scope.cambiaNota(notaObject)
+			
+		)
+		return
+
+
 	#console.log Restangular.all('disciplinas').getList()
 	return
 ])
 
-
+###
 .directive('celdasDefinicionesSubunidades', ['App', (App)-> 
 
 	restrict: 'A'
@@ -90,5 +115,8 @@ angular.module('myvcFrontApp')
 		scope.subunidades = scope.celdasDefinicionesSubunidades.subunidades
 
 ])
+
+
+###
 
 

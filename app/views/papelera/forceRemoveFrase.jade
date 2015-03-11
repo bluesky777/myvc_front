@@ -1,0 +1,16 @@
+.modal-header
+	h3.modal-title ¿Seguro que deseas eliminar?
+.modal-body
+	.row
+		.col-lg-12.col-xs-12
+			h5 Si continúas eliminarás por completo este registro y toda la información relacionada con él
+			h4 Frase: 
+			div(style="text-overflow: ellipsis") {{frase.frase}}
+			h4 Tipo:
+			div(style="text-overflow: ellipsis"){{frase.tipo_frase}}
+			h5 Id: {{frase.id}}
+
+.modal-footer
+	button.btn.btn-labeled.btn-danger(ng-click="ok()") Eliminar
+		i.btn-label.glyphicon.glyphicon-remove
+	button.btn.btn-yellow(ng-click="cancel()") Cancelar

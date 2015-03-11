@@ -23,7 +23,7 @@ angular.module("myvcFrontApp")
 		$scope.votacion = r
 		if $scope.votacion.locked
 			$scope.toastr.warning 'La votación actual está bloqueada'
-			$state.transitionTo 'panel'
+			#$state.transitionTo 'panel'
 		
 	)
 	
@@ -67,24 +67,28 @@ angular.module("myvcFrontApp")
 
 
 	$scope.open = (candidato, aspiracion)->
+		
+		if $scope.votacion.locked
+			$scope.toastr.warning 'La votación actual está bloqueada'
+			return
+		else
+			modalInstance = $modal.open({
+				templateUrl: App.views + 'votaciones/chooseCandidato.tpl.html'
+				controller: 'chooseCandidatoCtrl'
+				resolve: 
+					candidato: ()->
+						candidato
+					aspiracion: ()->
+						aspiracion.aspiracion
 
-		modalInstance = $modal.open({
-			templateUrl: App.views + 'votaciones/chooseCandidato.tpl.html'
-			controller: 'chooseCandidatoCtrl'
-			resolve: 
-				candidato: ()->
-					candidato
-				aspiracion: ()->
-					aspiracion.aspiracion
-
-		})
-		modalInstance.result.then( (selectedItem)->
-			aspiracion.votado.push selectedItem
-			console.log selectedItem
-			$scope.nextAspiracion()
-		, ()->
-			#console.log 'Modal dismissed at: ' + new Date()
-		)
+			})
+			modalInstance.result.then( (selectedItem)->
+				aspiracion.votado.push selectedItem
+				console.log selectedItem
+				$scope.nextAspiracion()
+			, ()->
+				#console.log 'Modal dismissed at: ' + new Date()
+			)
 
 
 	return

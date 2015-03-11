@@ -103,7 +103,7 @@
                       <div style="width:35%" class="progress-bar progress-bar-success"></div>
                     </div></a></li>
               </ul><!--/Tasks Dropdown-->
-            </li>
+            </li><!--  Área de usuario -->
             <li my-drop-down ng-click="toggleOpen()" is-open="false" evitar-cierre="login-area-noclose"><a data-toggle="dropdown" class="login-area dropdown-toggle">
                 <div title="Ver tu perfil público" class="avatar"><img ng-src="{{ imagenPrincipal }}"></div>
                 <section>
@@ -178,8 +178,8 @@
       <div class="page-body">
         <!--databoxes-container.row--><!-- Main Content ************************************* -->
         <div ui-view="maincontent">
-          <h1>Entra a Votar</h1>
-          <button ui-sref="votaciones.votar({maxi:true})" class="btn btn-primary btn-lg">VOTAR</button>
+          <h1>Entra a los resultados</h1>
+          <button ui-sref="votaciones.resultados()" class="btn btn-primary btn-lg">VOTACIONES</button>
         </div><!-- /Main Content ************************************ -->
       </div>
     </div><!-- /Page Content -->

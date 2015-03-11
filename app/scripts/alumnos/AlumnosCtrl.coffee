@@ -15,7 +15,7 @@ angular.module("myvcFrontApp")
 		$scope.bigLoader = false
 	, 1000)
 
-	$scope.dato.grupo = {nombre: ''}
+	$scope.dato.grupo = ''
 	GruposServ.getGrupos().then((r)->
 		$scope.grupos = r
 
@@ -78,7 +78,7 @@ angular.module("myvcFrontApp")
 		)
 
 	btGrid1 = '<a tooltip="Editar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
-	btGrid2 = '<a tooltip="X Eliminar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-trash "></i></a>'
+	btGrid2 = '<a tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-trash "></i></a>'
 	btMatricular = "#{App.views}directives/botonesMatricular.tpl.html"
 
 	headerGroup = """
@@ -97,15 +97,22 @@ angular.module("myvcFrontApp")
 		enableFiltering: true,
 		enebleGridColumnMenu: false,
 		columnDefs: [
-			{ field: 'no_matricula', type: 'number', maxWidth: 50, enableSorting: false }
-			{ name: 'edicion', displayName:'Edición', maxWidth: 50, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2, enableCellEdit: false}
-			{ field: 'nombres', enableHiding: false }
-			{ field: 'apellidos' }
-			{ field: 'sexo', maxWidth: 20 }
-			{ field: 'username', displayName: 'Usuario', headerCellTemplate: headerGroup}
+			{ field: 'alumno_id', displayName:'Id', width: 50, enableCellEdit: false, enableColumnMenu: false}
+			{ field: 'no_matricula', maxWidth: 50, enableSorting: false, enableColumnMenu: false }
+			{ name: 'edicion', displayName:'Edición', width: 60, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2, enableCellEdit: false, enableColumnMenu: false}
+			{ field: 'nombres', 
+			filter: {
+				condition: (searchTerm, cellValue, row)->
+					entidad = row.entity
+					return (entidad.nombres.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1)
+			}
+			enableHiding: false }
+			{ field: 'apellidos', filter: { condition: uiGridConstants.filter.CONTAINS }}
+			{ field: 'sexo', width: 60 }
+			{ field: 'username', filter: { condition: uiGridConstants.filter.CONTAINS }, displayName: 'Usuario'}
 			{ field: 'abrevgrupo', displayName: 'Grupo', enableCellEdit: false, cellTemplate: btMatricular, filter: {
 					condition: uiGridConstants.filter.CONTAINS,
-					placeholder: 'Abreviatura. Ej: 8A'
+					placeholder: 'Ej: 8A'
 				}, 
 			}
 			{ field: 'fecha_nac', displayName:'Nacimiento', cellFilter: "date:mediumDate", type: 'date'}
@@ -120,7 +127,7 @@ angular.module("myvcFrontApp")
 				
 				if newValue != oldValue
 					Restangular.one('alumnos/update', rowEntity.alumno_id).customPUT(rowEntity).then((r)->
-						$scope.toastr.success 'Área actualizado con éxito', 'Actualizado'
+						$scope.toastr.success 'Alumno actualizado con éxito', 'Actualizado'
 					, (r2)->
 						$scope.toastr.error 'Cambio no guardado', 'Error'
 						console.log 'Falló al intentar guardar: ', r2

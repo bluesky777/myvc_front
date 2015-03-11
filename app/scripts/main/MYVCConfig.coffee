@@ -76,6 +76,23 @@ angular.module('myvcFrontApp')
 			pageTitle: 'Bienvenido - MyVc'
 	})
 
+	.state('informes', { #- Estado admin.
+		url: '/informes'
+		views:
+			'principal':
+				templateUrl: "#{App.views}informes/informes.tpl.html"
+				controller: 'InformesCtrl'
+		resolve: { 
+			resolved_user: ['AuthService', (AuthService)->
+				AuthService.verificar()
+			]
+		}
+		data: 
+			displayName: 'Inicio'
+			icon_fa: 'fa fa-home'
+			pageTitle: 'Informes - MyVc'
+	})
+
 	$rootScopeProvider.bigLoader = true
 
 	# Agrego la función findByValues a loDash.

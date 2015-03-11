@@ -44,7 +44,7 @@
         <li ui-sref-active="active" ng-show="hasRoleOrPerm('admin')"><a ui-sref="votaciones.participantes"><i class="menu-icon fa fa-child themesecondary"></i><span class="menu-text">Participantes</span></a></li><!--Candidatos-->
         <li ui-sref-active="active" ng-show="hasRoleOrPerm('admin')"><a ui-sref="votaciones.candidatos"><i class="menu-icon fa fa-legal themesecondary"></i><span class="menu-text">Candidatos</span></a></li><!-- Votar -->
         <li ui-sref-active="active"><a ui-sref="votaciones.votar"><i class="menu-icon fa fa-graduation-cap themesecondary"></i><span class="menu-text">Votar</span></a></li><!-- Resultados -->
-        <li ui-sref-active="active" ng-show="hasRoleOrPerm('admin')"><a ui-sref="votaciones.resultados"><i class="menu-icon fa fa-bar-chart themesecondary"></i><span class="menu-text">Resultados</span></a></li><!-- Ayuda -->
+        <li ui-sref-active="active" ng-show="hasRoleOrPerm(['Admin', 'Profesor'])"><a ui-sref="votaciones.resultados"><i class="menu-icon fa fa-bar-chart themesecondary"></i><span class="menu-text">Resultados</span></a></li><!-- Ayuda -->
         <li ng-click="toggleOpen()" is-open="false" ng-show="hasRoleOrPerm('admin')"><a href="" class="menu-dropdown"><i class="menu-icon fa fa-question-circle themesecondary"></i><span class="menu-text">Ayuda</span><i class="menu-expand"></i></a>
           <ul class="submenu">
             <li><a href="tables-simple.html" stop-event="click"><span class="menu-text">Agregar notas</span></a></li>

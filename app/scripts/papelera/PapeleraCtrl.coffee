@@ -17,7 +17,6 @@ angular.module("myvcFrontApp")
 		modalInstance = $modal.open({
 			templateUrl: App.views + 'papelera/forceRemoveAlumno.tpl.html'
 			controller: 'ForceRemoveAlumnoCtrl'
-			size: 'sm',
 			resolve: 
 				alumno: ()->
 					alum
@@ -68,7 +67,6 @@ angular.module("myvcFrontApp")
 		modalInstance = $modal.open({
 			templateUrl: App.views + 'papelera/forceRemoveGrupo.tpl.html'
 			controller: 'ForceRemoveGrupoCtrl'
-			size: 'sm',
 			resolve: 
 				grupo: ()->
 					grupo
@@ -110,40 +108,68 @@ angular.module("myvcFrontApp")
 		console.log 'No se pudo traer los grupos eliminados.', r2
 	)
 
-])
 
-.controller('ForceRemoveAlumnoCtrl', ['$scope', '$modalInstance', 'alumno', 'Restangular', 'toastr', ($scope, $modalInstance, alumno, Restangular, toastr)->
-	$scope.alumno = alumno
 
-	$scope.ok = ()->
 
-		Restangular.all('alumnos/forcedelete/'+alumno.alumno_id).remove().then((r)->
-			toastr.success 'Alumno eliminado con éxito.', 'Eliminado'
+
+
+
+	# UNIDADES
+
+	$scope.restaurarUnidad = (unidad)->
+		Restangular.one('unidades/restore', unidad.id).customPUT().then(()->
+			$scope.gridUnidad.data = $filter('filter')($scope.gridUnidad.data, {id: '!'+unidad.id})
+			$scope.toastr.success 'Éxito', 'Unidad restaurada'
 		, (r2)->
-			toastr.warning 'No se pudo eliminar al alumno.', 'Problema'
-			console.log 'Error eliminando alumno: ', r2
+			console.log 'No se pudo restaurar unidad.', unidad, r2
+			$scope.toastr.error 'No se restauró la unidad', 'Error'
 		)
-		$modalInstance.close(alumno)
+	$scope.elimUnidad = (unidad)->
+		console.log 'Presionado para eliminar fila: ', unidad
 
-	$scope.cancel = ()->
-		$modalInstance.dismiss('cancel')
-
-])
-
-.controller('ForceRemoveGrupoCtrl', ['$scope', '$modalInstance', 'grupo', 'Restangular', 'toastr', ($scope, $modalInstance, grupo, Restangular, toastr)->
-	$scope.grupo = grupo
-
-	$scope.ok = ()->
-
-		Restangular.all('grupos/forcedelete/'+grupo.id).remove().then((r)->
-			toastr.success 'Grupo eliminado con éxito.', 'Eliminado'
-		, (r2)->
-			toastr.warning 'No se pudo eliminar al grupo.', 'Problema'
-			console.log 'Error eliminando grupo: ', r2
+		modalInstance = $modal.open({
+			templateUrl: App.views + 'papelera/forceRemoveUnidad.tpl.html'
+			controller: 'ForceRemoveUnidadCtrl'
+			resolve: 
+				unidad: ()->
+					unidad
+		})
+		modalInstance.result.then( (unidad)->
+			$scope.gridUnidad.data = $filter('filter')($scope.gridUnidad.data, {id: '!'+unidad.id})
+			console.log 'Resultado del modal: ', unidad
 		)
-		$modalInstance.close(grupo)
 
-	$scope.cancel = ()->
-		$modalInstance.dismiss('cancel')
+	btGridUnidad1 = '<a class="btn btn-default btn-xs shiny info" ng-click="grid.appScope.restaurarUnidad(row.entity)"><i class="fa fa-refresh "></i>Restaurar</a>'
+	btGridUnidad2 = '<a tooltip="¡Eliminar completamente!" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.elimUnidad(row.entity)"><i class="fa fa-times "></i></a>'
+
+	$scope.gridUnidad = 
+		enableSorting: true,
+		enableFiltering: true,
+		enebleGridColumnMenu: false,
+		columnDefs: [
+			{ field: 'id', displayName:'Id', maxWidth: 40}
+			{ name: 'edicion', displayName:'Edición', maxWidth: 50, enableSorting: false, enableFiltering: false, cellTemplate: btGridUnidad1 + btGridUnidad2}
+			{ field: 'definicion', displayName:'Definición', enableHiding: false }
+			{ field: 'alias_materia', displayName: 'Materia'}
+			{ field: 'abrev_grupo', displayName: 'Grupo'}
+			{ field: 'numero_periodo', displayName: 'Per', maxWidth: 20 }
+			{ field: 'porcentaje', displayName:'Porc' }
+		],
+		multiSelect: false,
+		#filterOptions: $scope.filterOptions,
+		onRegisterApi: ( gridApi ) ->
+			$scope.gridApi = gridApi
+
+
+	Restangular.all('unidades/trashed').getList().then((data)->
+		$scope.gridUnidad.data = data;
+	, (r2)->
+		console.log 'No se pudo traer las unidades eliminados.', r2
+	)
+	Restangular.all('unidades/trashed').getList().then((data)->
+		$scope.gridUnidad.data = data;
+	, (r2)->
+		console.log 'No se pudo traer las unidades eliminadas.', r2
+	)
 
 ])

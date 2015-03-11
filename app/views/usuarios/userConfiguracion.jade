@@ -34,7 +34,7 @@
 												input.inverted(type="radio" name="sexo" value="F" ng-model="perfilactual.sexo")
 												span.text Femenino
 				.row
-					.col-sm-6
+					.col-sm-6(ng-if="false")
 						.form-group
 							label(for="alumno-fecha-nac") Fecha de nacimiento
 								.controls
@@ -49,7 +49,6 @@
 							span.input-icon.icon-right
 								input#perfilcelular.form-control(type='text', placeholder='Celular' ng-model="perfilactual.celular")
 								i.glyphicon.glyphicon-phone.palegreen
-				.row
 					.col-sm-6
 						.form-group
 							label(for="perfilcelular") Correo electrónico

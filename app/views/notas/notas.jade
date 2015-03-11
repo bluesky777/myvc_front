@@ -7,15 +7,16 @@
 				a.btn.btn-info.btn-lg(ui-sref="panel.unidades({asignatura_id: asignatura_id})") Volver a unidades
 
 
-			div.table-responsive
+			div.table-responsive(ng-class="{cursorcopy:notaRapida.enable}")
 				br
 				br
 				hr.wide
 				br
 				.row
-					.col-lg-4.col-xs-8
+					.col-lg-2.col-xs-8
 						label Filtrar alumnos
 						input.form-control(type="text" ng-model="searchAlum" placeholder="Escribe algún texto")
+
 				br
 				br
 				
@@ -48,23 +49,28 @@
 									popover-trigger="mouseenter" ) 
 									img(ng-src="{{perfilPath + alumno.userData.foto_nombre}}" style="width: 20px; height: 20px;")
 									| {{alumno.apellidos + ' ' + alumno.nombres}}
-							
-							td(ng-repeat="subunidad in subunidadesunidas")
-								div.text-center(ng-class="{'inputnota-perdida': subunidad.notas[$parent.$index].nota < 70, 'inputnota-superior': subunidad.notas[$parent.$index].nota > 90}" ng-hide="subunidad.empty")
-									input(tooltip="{{subunidad.porcentaje}}% {{subunidad.definicion}}" tooltip-popup-delay="1000" type="number" min="0" max="100" 
-										ng-model="subunidad.notas[$parent.$index].nota" ng-change="cambiaNota(subunidad.notas[$parent.$index])"
-										ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }")
+							div
+								td(ng-repeat="subunidad in subunidadesunidas")
+									div.text-center(ng-class="{'inputnota-perdida': subunidad.notas[$parent.$index].nota < 70, 'inputnota-superior': subunidad.notas[$parent.$index].nota > 90, 'cursorcell': notaRapida.enable == true}" 
+										ng-hide="subunidad.empty")
+										input(tooltip="{{subunidad.porcentaje}}% {{subunidad.definicion}}" tooltip-popup-delay="1000" 
+											type="number" min="0" max="100" 
+											ng-model="subunidad.notas[$parent.$index].nota" 
+											ng-change="cambiaNota(subunidad.notas[$parent.$index])"
+											ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }"
+											ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])")
 
-								div.text-center(tooltip="No hay subunidad" tooltip-popup-delay="1000" ng-show="subunidad.empty")
-									i.fa.fa-frown-o
-							td
-								div(ng-bind-html="promedioTotal(alumno.id)")
+									div.text-center(tooltip="No hay subunidad" tooltip-popup-delay="1000" ng-show="subunidad.empty")
+										i.fa.fa-frown-o
+								td
+									div(ng-bind-html="promedioTotal(alumno.id)")
 
-
+				br
+				.col-lg-5.col-xs-12
+					div(nota-rapida)
 				br
 				br
 				br
-				hr.wide
 br
 br
 br
@@ -74,4 +80,4 @@ br
 			span.widget-caption Algunas opciones
 		.widget-body
 			div
-				a.btn.btn-default.btn.lg Hacer algo
+				a.btn.btn-default.btn.lg Aun en construcción

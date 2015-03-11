@@ -36,7 +36,9 @@
                       <tbody>
                         <tr ng-repeat="candidato in aspiracion.candidatos | orderBy:'cantidad':true">
                           <td>{{$index+1}}</td>
-                          <td>{{ candidato.nombres + ' ' + candidato.apellidos }}</td>
+                          <td>
+                            <div popover="&lt;img src='{{imagesPath + candidato.imagen_nombre}}' style='width: 100px; height: 100px;'&gt;&lt;br&gt;Facebook: {{candidato.facebook}}&lt;br&gt;Username: {{candidato.username}}" popover-popup-delay="1000" popover-title="{{candidato.nombres + ' ' + candidato.apellidos}}" popover-animation="true" popover-trigger="mouseenter" class="nombresellipsis">{{ candidato.nombres + ' ' + candidato.apellidos }}</div>
+                          </td>
                           <td>{{candidato.cantidad}}</td>
                         </tr>
                       </tbody>

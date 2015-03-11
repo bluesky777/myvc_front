@@ -194,6 +194,8 @@ loader(ng-if="bigLoader")
 											.progress-bar.progress-bar-success(style="width:35%")
 										
 							<!--/Tasks Dropdown-->
+
+						<!--  Área de usuario -->
 						li(my-drop-down ng-click="toggleOpen()" is-open="false" evitar-cierre="login-area-noclose")
 							a.login-area.dropdown-toggle(data-toggle="dropdown")
 								.avatar(title="Ver tu perfil público")
@@ -309,8 +311,8 @@ loader(ng-if="bigLoader")
 
 				<!-- Main Content ************************************* -->
 				div(ui-view="maincontent")
-					h1 Entra a Votar
-					button.btn.btn-primary.btn-lg(ui-sref="votaciones.votar({maxi:true})") VOTAR
+					h1 Entra a los resultados
+					button.btn.btn-primary.btn-lg(ui-sref="votaciones.resultados()") VOTACIONES
 
 				<!-- /Main Content ************************************ -->
 				

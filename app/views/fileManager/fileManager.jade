@@ -85,9 +85,13 @@
 										.databox-right.padding-top-10.bordered-thick.bordered-sky
 											.databox-text.lightcarbon {{imagen.nombre}}
 											.databox-text.darkgray
-												a.btn.btn-darkorange.btn-xs(ng-click="borrarImagen(imagen)")
-													i.fa.fa-times
-													|Delete
+												.btn-group
+													a.btn.btn-darkorange.btn-xs(ng-click="borrarImagen(imagen)")
+														i.fa.fa-times
+														|Delete
+													a.btn.btn-default.btn-xs(ng-click="rotarImagen(imagen)")
+														i.fa.fa-rotate-right
+														|Rotar
 											//.databox-stat.radius-bordered(ng-class="candidato.iluminado ? 'bg-darkorange stat-over' : 'bg-sky'")
 												.stat-text Algo
 												i.stat-icon.fa.fa-apple
@@ -99,7 +103,7 @@
 					form(ng-submit="cambiarImgUnUsuario(dato.usuarioElegido, dato.imgParaUsuario)")
 						.form-group
 							label Usuario
-							ui-select(ng-model="dato.usuarioElegido" on-select="usuarioSelect($item, $model)" theme="select2" style="min-width: 200px;")
+							ui-select(ng-model="dato.usuarioElegido" on-select="usuarioSelect($item, $model)" theme="select2" style="min-width: 300px;")
 								ui-select-match(placeholder="Imagen usuario") 
 									img(ng-src="{{perfilPath + $select.selected.imagen_nombre}}" style="width:25px; height:25px;")
 									small(ng-bind-html="' ' + $select.selected.nombres + ' ' + $select.selected.apellidos + ' - ' + $select.selected.username")
@@ -109,7 +113,7 @@
 
 						.form-group
 							label Imagen
-							ui-select(ng-model="dato.imgParaUsuario" on-select="imagenSelect($item, $model)" theme="select2" style="min-width: 200px;")
+							ui-select(ng-model="dato.imgParaUsuario" on-select="imagenSelect($item, $model)" theme="select2" style="min-width: 300px;")
 								ui-select-match(placeholder="Imagen usuario") 
 									img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
 									small(ng-bind-html="' ' + $select.selected.nombre")
@@ -123,20 +127,29 @@
 			.form-title Cambiar una foto oficial de Alumno
 			.row
 				.col-lg-12.col-xs-12
-					form(ng-submit="cambiarFotoAlumno(dato.imgOficialAlumno)")
+					form(ng-submit="cambiarFotoUnAlumno(dato.alumnoElegido, dato.imgOficialAlumno)")
 						.form-group
-							label Usuario
-							ui-select(ng-model="dato.imgOficialAlumno" on-select="imagenSelect($item, $model)" theme="select2" style="min-width: 200px;")
-								ui-select-match(placeholder="Imagen usuario") 
-									img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
-									small(ng-bind-html="' ' + $select.selected.nombre")
-								ui-select-choices(repeat="imagen in imagenes | filter: {nombre: $select.search}")
-									img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
-									small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
+							label Grupo
+							div
+								span(tooltip="Debe seleccionar un grupo" tooltip-placement="right")
+									ui-select(ng-model="dato.grupo" theme="select2" style="min-width: 200px;" on-select="grupoSelect($item, $model)" )
+										ui-select-match(placeholder="Grupo a matricular") {{$select.selected.nombre}}
+										ui-select-choices(repeat="grupo in grupos | filter: $select.search")
+											div(ng-bind-html="grupo.nombre | highlight: $select.search")
 
 						.form-group
-							label Imagen
-							ui-select(ng-model="dato.imgOficialAlumno" on-select="imagenSelect($item, $model)" theme="select2" style="min-width: 200px;")
+							label Usuario
+							ui-select(ng-model="dato.alumnoElegido" on-select="alumSelect($item, $model)" theme="select2" style="min-width: 300px;")
+								ui-select-match(placeholder="Imagen usuario") 
+									img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;")
+									small(ng-bind-html="' ' + $select.selected.nombres")
+								ui-select-choices(repeat="alumno in alumnos | filter: {nombres: $select.search}")
+									img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
+									small(ng-bind-html="' ' + alumno.nombres | highlight: $select.search")
+
+						.form-group
+							label Foto
+							ui-select(ng-model="dato.imgOficialAlumno" on-select="fotoSelect($item, $model)" theme="select2" style="min-width: 200px;")
 								ui-select-match(placeholder="Foto alumno") 
 									img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
 									small(ng-bind-html="' ' + $select.selected.nombre")
@@ -144,7 +157,7 @@
 									img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
 									small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
 
-							input.btn.btn-primary.shiny(type="submit" ng-submit="pedirCambioUsuario(dato.imgOficial)" value="Pedir para oficial") 
+							input.btn.btn-primary.shiny(type="submit" ng-submit="pedirCambioUsuario(dato.alumnoElegido, dato.imgOficialAlumno)" value="Pedir para oficial") 
 
 			hr.wide
 			.form-title Cambiar una foto oficial de Profesor

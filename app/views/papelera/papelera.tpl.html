@@ -1,24 +1,36 @@
 
-<div class="row">
+<div ng-init="openedUnidades=true" ng-show="openedUnidades" class="row">
   <div class="col-lg-12 col-sm-12 col-xs-12">
     <div class="widget">
-      <div class="widget-header"><span class="widget-caption">Alumnos eliminados</span>
-        <div class="widget-buttons"><a href=""><i class="fa fa-minus"></i></a><a href="" ng-show="false"><i class="fa fa-plus"></i></a><a ng-show="false" href=""><i class="fa fa-times"></i></a></div>
+      <div class="widget-header"><span class="widget-caption">Unidades eliminadas ({{gridUnidad.data.length}}) </span>
+        <div class="widget-buttons"><a href="" ng-init="minimizedUnidades = true" ng-click="minimizedUnidades = !minimizedUnidades"><i ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimizedUnidades]" class="fa"></i></a><a href="" ng-click="openedUnidades=false"><i class="fa fa-times"></i></a></div>
       </div>
-      <div class="widget-body">
-        <div id="grid1" ui-grid="gridAlumnos" ui-grid-resize-columns style="height: 400px" class="grid"></div>
+      <div ng-class="{'ng-hide':minimizedUnidades}" class="widget-body">
+        <div id="gridUnidades" ui-grid="gridUnidad" ui-grid-resize-columns style="height: 400px" class="grid"></div>
       </div>
     </div>
   </div>
 </div>
-<div class="row">
+<div ng-init="openedAlumnos=true" ng-show="openedAlumnos" class="row">
   <div class="col-lg-12 col-sm-12 col-xs-12">
     <div class="widget">
-      <div class="widget-header"><span class="widget-caption">Grupos eliminados</span>
-        <div class="widget-buttons"><a href=""><i class="fa fa-minus"></i></a><a href="" ng-show="false"><i class="fa fa-plus"></i></a><a ng-show="false" href=""><i class="fa fa-times"></i></a></div>
+      <div class="widget-header"><span class="widget-caption">Alumnos eliminados ({{gridAlumnos.data.length}})</span>
+        <div class="widget-buttons"><a href="" ng-init="minimizedAlumnos = true" ng-click="minimizedAlumnos = !minimizedAlumnos"><i ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimizedAlumnos]" class="fa"></i></a><a href="" ng-click="openedAlumnos=false"><i class="fa fa-times"></i></a></div>
       </div>
-      <div class="widget-body">
-        <div id="grid2" ui-grid="gridGrupos" ui-grid-resize-columns style="height: 400px" class="grid"></div>
+      <div ng-class="{'ng-hide':minimizedAlumnos}" class="widget-body">
+        <div id="gridAlumnos" ui-grid="gridAlumnos" ui-grid-resize-columns style="height: 400px" class="grid"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div ng-init="openedGrupos=true" ng-show="openedGrupos" class="row">
+  <div class="col-lg-12 col-sm-12 col-xs-12">
+    <div class="widget">
+      <div class="widget-header"><span class="widget-caption">Grupos eliminados ({{gridGrupos.data.length}})</span>
+        <div class="widget-buttons"><a href="" ng-init="minimizedGrupos = true" ng-click="minimizedGrupos = !minimizedGrupos"><i ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimizedGrupos]" class="fa"></i></a><a href="" ng-click="openedGrupos=false"><i class="fa fa-times"></i></a></div>
+      </div>
+      <div ng-class="{'ng-hide':minimizedGrupos}" class="widget-body">
+        <div id="gridGrupos" ui-grid="gridGrupos" ui-grid-resize-columns style="height: 400px" class="grid"></div>
       </div>
     </div>
   </div>

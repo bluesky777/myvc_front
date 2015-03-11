@@ -85,10 +85,14 @@ angular.module('myvcFrontApp')
 			console.log 'Contraseña cambiada, ', r
 			$scope.toastr.success 'Contraseña cambiada.'
 		, (r2)->
-			if r2.error.message == 'Contraseña antigua es incorrecta'
-				$scope.toastr.warning r2.error.message
+			if r2.$error
+			
+				if r2.error.message == 'Contraseña antigua es incorrecta'
+					$scope.toastr.warning r2.error.message
+				else
+					console.log 'No se pudo cambiar la contraseña, ', r2
+					$scope.toastr.error 'No se pudo cambiar la contraseña.'
 			else
-				console.log 'No se pudo cambiar la contraseña, ', r2
 				$scope.toastr.error 'No se pudo cambiar la contraseña.'
 		)
 

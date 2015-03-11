@@ -8,6 +8,7 @@ angular.module('myvcFrontApp')
 	$rootScope.$stateParams = $stateParams;
 	$rootScope.lastState = null; #- Para saber de qué viene cuando se redireccione automáticamente al login.
 	$rootScope.lastStateParam = null;
+	$rootScope.notaRapida = {enable: false, valorNota: 0}
 
 	$rootScope.menucompacto = false
 

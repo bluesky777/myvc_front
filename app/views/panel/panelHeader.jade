@@ -11,8 +11,8 @@ a.btn.btn-info.shiny(ng-show="$state.includes('panel.alumnos')" title="Administr
 	//
 		a.sidebar-toggler(href="")
 			i.fa.fa-arrows-h
-	a.refresh#refresh-toggler(href="" ng-click="reload()" tooltip="Recargar los datos")
+	a.refresh(href="" ng-click="reload()" tooltip="Recargar los datos")
 		i.glyphicon.glyphicon-refresh
-	a.fullscreen#fullscreen-toggler(href="" ng-click="reload(setFullScreen())" tooltip="Ver en pantalla completa")
+	a.fullscreen(href="" ng-click="reload(setFullScreen())" tooltip="Ver en pantalla completa")
 		i.glyphicon.glyphicon-fullscreen
 	<!--Header Buttons End-->

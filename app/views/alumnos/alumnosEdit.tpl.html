@@ -57,7 +57,7 @@
                   <div class="form-group">
                     <label>Pais</label>
                     <ui-select ng-model="alumno.pais_nac" on-select="paisNacSelect($item, $model)" theme="select2" style="min-width: 200px;">
-                      <ui-select-match placeholder="Pais nacimiento">{{$select.selected.pais}} ({{$select.selected.abrev}})</ui-select-match>
+                      <ui-select-match placeholder="Pais nacimiento" allow-clear="true">{{$select.selected.pais}} ({{$select.selected.abrev}})</ui-select-match>
                       <ui-select-choices repeat="pais in paises | filter: $select.search">
                         <div ng-bind-html="pais.pais | highlight: $select.search"></div><small>{{ pais.departamento | highlight: $select.search}}</small>
                       </ui-select-choices>
@@ -66,7 +66,7 @@
                   <div class="form-group">
                     <label>Departamento</label>
                     <ui-select ng-model="alumno.departamento_nac" on-select="departNacSelect($item, $model)" theme="select2" style="min-width: 200px;">
-                      <ui-select-match placeholder="Departamento nacimiento">{{$select.selected.departamento}}</ui-select-match>
+                      <ui-select-match placeholder="Departamento nacimiento" allow-clear="true">{{$select.selected.departamento}}</ui-select-match>
                       <ui-select-choices repeat="departamento in departamentosNac | filter: $select.search">
                         <div ng-bind-html="departamento.departamento | highlight: $select.search"></div>
                       </ui-select-choices>
@@ -115,7 +115,7 @@
                   <div class="form-group">
                     <label>Pais</label>
                     <ui-select ng-model="alumno.pais_doc" on-select="paisSelecionado($item, $model)" theme="select2" style="min-width: 200px;">
-                      <ui-select-match placeholder="Pais documento">{{$select.selected.pais}} ({{$select.selected.abrev}})</ui-select-match>
+                      <ui-select-match placeholder="Pais documento" allow-clear="true">{{$select.selected.pais}} ({{$select.selected.abrev}})</ui-select-match>
                       <ui-select-choices repeat="pais in paises | filter: $select.search">
                         <div ng-bind-html="pais.pais | highlight: $select.search"></div><small>{{ pais.departamento | highlight: $select.search}}</small>
                       </ui-select-choices>
@@ -124,7 +124,7 @@
                   <div class="form-group">
                     <label>Departamento</label>
                     <ui-select ng-model="alumno.departamento_doc" on-select="departSeleccionado($item, $model)" theme="select2" style="min-width: 200px;">
-                      <ui-select-match placeholder="Departamento documento">{{$select.selected.departamento}}</ui-select-match>
+                      <ui-select-match placeholder="Departamento documento" allow-clear="true">{{$select.selected.departamento}}</ui-select-match>
                       <ui-select-choices repeat="departamento in departamentos | filter: $select.search">
                         <div ng-bind-html="departamento.departamento | highlight: $select.search"></div>
                       </ui-select-choices>

@@ -112,7 +112,7 @@ angular.module('myvcFrontApp')
 
 	authService.logout = (credentials)->
 		#Restangular.one('logout').get();
-		$rootScope.lastScope = null
+		$rootScope.lastState = null
 		$rootScope.lastStateParam = null
 		authService.borrarToken()
 		Perfil.deleteUser()

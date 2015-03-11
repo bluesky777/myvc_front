@@ -1,6 +1,8 @@
 angular.module("myvcFrontApp")
 
-.controller('FrasesCtrl', ['$scope', '$rootScope', '$filter', 'Restangular', '$modal', 'App', ($scope, $rootScope, $filter, Restangular, $modal, App)->
+.controller('FrasesCtrl', ['$scope', '$rootScope', '$filter', 'Restangular', '$modal', 'App', 'AuthService', ($scope, $rootScope, $filter, Restangular, $modal, App, AuthService)->
+
+	AuthService.verificar_acceso()
 
 	$scope.currentFrase = {}
 	$scope.currentFraseEdit = {}
@@ -9,6 +11,7 @@ angular.module("myvcFrontApp")
 
 	$scope.tipos = [
 		{tipo_frase:	'Debilidad'}
+		{tipo_frase:	'Amenaza'}
 		{tipo_frase:	'Oportunidad'}
 		{tipo_frase:	'Fortaleza'}
 	]
@@ -54,18 +57,17 @@ angular.module("myvcFrontApp")
 		)
 
 	btGrid1 = '<a tooltip="Editar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
-	btGrid2 = '<a tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-times "></i></a>'
+	btGrid2 = '<a tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-trash "></i></a>'
 	$scope.gridOptions = 
 		enableSorting: true,
 		enableFiltering: true,
 		enebleGridColumnMenu: false,
 		enableCellEditOnFocus: true,
 		columnDefs: [
-			{ field: 'id', type: 'number', maxWidth: 50, enableCellEdit: false }
-			{ name: 'edicion', displayName:'Edición', maxWidth: 40, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1, enableCellEdit: false}
-			{ field: 'tipo_frase', displayName:'Tipo', maxWidth: 50 }
-			{ field: 'frase', displayName:'Frase' }
-			{ name: 'nn', displayName: '', maxWidth: 20, enableSorting: false, enableFiltering: false, enableCellEdit: false }
+			{ field: 'id', type: 'number', width: 70, enableCellEdit: false }
+			{ name: 'edicion', displayName:'Edición', width: 60, enableSorting: false, enableFiltering: false, cellTemplate: btGrid2, enableCellEdit: false}
+			{ field: 'tipo_frase', displayName:'Tipo', width: 90, enableCellEdit: false }
+			{ field: 'frase', displayName:'Frase', minWidth: 300 }
 		],
 		multiSelect: false,
 		#filterOptions: $scope.filterOptions,
