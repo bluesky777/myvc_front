@@ -2,7 +2,7 @@ angular.module('myvcFrontApp')
 
 
 # Configuración principal de nuestra aplicación.
-.config(['$cookiesProvider', '$stateProvider', '$urlRouterProvider', '$httpProvider', 'App', 'PERMISSIONS', 'RestangularProvider', '$intervalProvider', '$rootScopeProvider', 'USER_ROLES', 'toastrConfig', ($cookies, $state, $urlRouter, $httpProvider, App, PERMISSIONS, Restangular, $intervalProvider, $rootScopeProvider, USER_ROLES, toastrConfig)->
+.config(['$cookiesProvider', '$stateProvider', '$urlRouterProvider', '$httpProvider', 'App', 'PERMISSIONS', 'RestangularProvider', '$intervalProvider', '$rootScopeProvider', 'USER_ROLES', 'toastrConfig', 'uiSelectConfig', ($cookies, $state, $urlRouter, $httpProvider, App, PERMISSIONS, Restangular, $intervalProvider, $rootScopeProvider, USER_ROLES, toastrConfig, uiSelectConfig)->
 
 	Restangular.setBaseUrl App.Server # Url a la que se harán todas las llamadas.
 	
@@ -16,6 +16,8 @@ angular.module('myvcFrontApp')
 	delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
 
+	uiSelectConfig.theme = 'bootstrap'
+	uiSelectConfig.resetSearchInput = true
 
 
 	#- Definimos los estados
@@ -88,7 +90,7 @@ angular.module('myvcFrontApp')
 			]
 		}
 		data: 
-			displayName: 'Inicio'
+			displayName: 'Informes'
 			icon_fa: 'fa fa-home'
 			pageTitle: 'Informes - MyVc'
 	})
@@ -107,14 +109,14 @@ angular.module('myvcFrontApp')
 		closeButton: true,
 		closeHtml: '<button>&times;</button>',
 		containerId: 'toast-container',
-		extendedTimeOut: 2000,
+		extendedTimeOut: 1000,
 		iconClasses: {
 			error: 'toast-error',
 			info: 'toast-info',
 			success: 'toast-success',
 			warning: 'toast-warning'
 		},
-		maxOpened: 6,
+		maxOpened: 3,
 		messageClass: 'toast-message',
 		newestOnTop: true,
 		onHidden: null,
@@ -122,11 +124,20 @@ angular.module('myvcFrontApp')
 		positionClass: 'toast-top-right',
 		tapToDismiss: true,
 		target: 'body',
-		timeOut: 5000,
+		timeOut: 4000,
 		titleClass: 'toast-title',
 		toastClass: 'toast'
 	})
 
 	@
-	])
+])
+
+
+.filter('capitalize', ()->
+	(input, all)->
+		return if !!input then input.replace(/([^\W_]+[^\s-]*) */g, (txt)-> txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()) else ''
+)
+
+
+
 

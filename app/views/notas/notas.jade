@@ -28,6 +28,8 @@
 								div No
 							th.text-center(rowspan="2" style="min-width: 50px; line-height: 3;") 
 								div Nombres
+							th.text-center(rowspan="2" style="min-width: 50px; line-height: 3;") 
+								div 
 							th(ng-repeat="unidad in unidades" colspan="{{unidad.subunidades.length}}")
 								div.text-center.nombresellipsis(tooltip="{{unidad.porcentaje}}% {{unidad.definicion}}" tooltip-popup-delay="1000" ng-class="'maxwidth' + unidad.subunidades.length" ) {{$index + 1}}. {{unidad.definicion}}
 							th(rowspan="2" style="line-height: 3;")
@@ -40,7 +42,7 @@
 									i.fa.fa-frown-o
 
 					tbody
-						tr(ng-repeat="alumno in alumnos | filter:searchAlum" ng-class="{'danger': promedioTotal(alumno.id) < 70}")
+						tr(ng-repeat="alumno in alumnos | filter:searchAlum" ng-class="{'danger': promedioTotal(alumno.alumno_id) < 70}")
 							td
 								div {{$index+1}}
 							td
@@ -49,6 +51,9 @@
 									popover-trigger="mouseenter" ) 
 									img(ng-src="{{perfilPath + alumno.userData.foto_nombre}}" style="width: 20px; height: 20px;")
 									| {{alumno.apellidos + ' ' + alumno.nombres}}
+							td
+								a.btn.btn-default.btn-xs(href="" ng-click="showFrases(alumno)" tooltip="Información para el alumno")
+									i.fa.fa-info
 							div
 								td(ng-repeat="subunidad in subunidadesunidas")
 									div.text-center(ng-class="{'inputnota-perdida': subunidad.notas[$parent.$index].nota < 70, 'inputnota-superior': subunidad.notas[$parent.$index].nota > 90, 'cursorcell': notaRapida.enable == true}" 
@@ -57,13 +62,13 @@
 											type="number" min="0" max="100" 
 											ng-model="subunidad.notas[$parent.$index].nota" 
 											ng-change="cambiaNota(subunidad.notas[$parent.$index])"
-											ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }"
+											ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
 											ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])")
 
 									div.text-center(tooltip="No hay subunidad" tooltip-popup-delay="1000" ng-show="subunidad.empty")
 										i.fa.fa-frown-o
 								td
-									div(ng-bind-html="promedioTotal(alumno.id)")
+									div(ng-bind-html="promedioTotal(alumno.alumno_id)")
 
 				br
 				.col-lg-5.col-xs-12

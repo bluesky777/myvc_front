@@ -36,7 +36,7 @@ angular.module('myvcFrontApp', [
 	console.log 'Entra al dominio: ', location.hostname
 	
 	if(location.hostname.match('lalvirtual'))
-		dominio = 'http://lalvirtual.com'
+		dominio = 'http://lalvirtual.com/'
 	
 	server = dominio + 'myvc_server/public/'
 	#server = ''

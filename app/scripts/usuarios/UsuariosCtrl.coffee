@@ -61,6 +61,7 @@ angular.module('myvcFrontApp')
 	
 
 	$scope.gridOptions = 
+		showGridFooter: true,
 		enableSorting: true,
 		enableFiltering: true,
 		enebleGridColumnMenu: false,
@@ -176,10 +177,11 @@ angular.module('myvcFrontApp')
 
 .controller('ResetPassCtrl', ['$scope', '$modalInstance', 'usuario', 'Restangular', 'toastr', ($scope, $modalInstance, usuario, Restangular, toastr)->
 	$scope.usuario = usuario
+	$scope.newpassword = ''
 
 	$scope.ok = ()->
 
-		Restangular.one('perfiles/cambiarpassword/'+usuario.user_id).customPUT({password: $scope.newpassword}).then((r)->
+		Restangular.one('perfiles/reset-password/'+usuario.user_id).customPUT({password: $scope.newpassword}).then((r)->
 			toastr.success 'Contraseña cambiada.'
 		, (r2)->
 			toastr.warning 'No se pudo cambiar contraseña.', 'Problema'

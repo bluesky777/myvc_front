@@ -1,5 +1,5 @@
 .row
-	.col-lg-6.col-sm-6.col-xs-12
+	.col-lg-12.col-xs-12
 		.widget
 			.widget-header
 				span.widget-caption Bitácora
@@ -10,20 +10,13 @@
 					a(ng-show="false" href="#" data-toggle="dispose")
 						i.fa.fa-times
 			.widget-body
-				table.table
-					thead.bordered-darkorange
-						tr
-							th
-								|Aspiración
-							th
-								|Abreviatura
-							th
-								|Total votos
-					tbody
-						tr(ng-repeat-start="aspiracion in aspiraciones")
-							td
-								|Buu
-							td
-								|vaaa
-							td.success
-								|rtt
+
+				.row
+					.col-md-6
+						ui-select(ng-model="data.profesor" heme="select2" style="width: 100%;" on-select="seleccionaProfe($item, $model)")
+							ui-select-match(placeholder="Profesor" allow-clear="true") {{$select.selected.nombres}} {{$select.selected.apellidos}}
+							ui-select-choices(repeat="profe in contratos | filter: $select.search")
+								div(ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
+						.horizontal-space
+
+				#grid1.grid(ui-grid="gridOptions" ui-grid-resize-columns)

@@ -96,13 +96,16 @@ angular.module("myvcFrontApp")
 					row
 		})
 		modalInstance.result.then( (asignatura)->
-			$scope.gridOptions.data = $filter('filter')($scope.asignaturas, {id: '!'+asignatura.id})
+			$scope.asignaturas = $filter('filter')($scope.asignaturas, {id: '!'+asignatura.id})
+			$scope.gridOptions.data = $scope.asignaturas
+			$scope.filtrarAsignaturas()
 			console.log 'Resultado del modal: ', asignatura
 		)
 
 	btGrid1 = '<a tooltip="Editar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
 	btGrid2 = '<a tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-trash "></i></a>'
 	$scope.gridOptions = 
+		showGridFooter: true,
 		enableSorting: true,
 		enableFiltering: true,
 		enebleGridColumnMenu: false,

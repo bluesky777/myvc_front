@@ -1,26 +1,33 @@
 angular.module('myvcFrontApp')
-.controller('InformesCtrl', ['$scope', 'Restangular', '$state', '$rootScope', '$filter', 'App', 'AuthService', 'GruposServ', '$timeout', ($scope, Restangular, $state, $rootScope, $filter, App, AuthService, GruposServ, $timeout) ->
+.controller('InformesCtrl', ['$scope', 'Restangular', '$state', '$stateParams', '$rootScope', '$filter', 'App', 'AuthService', 'GruposServ', '$timeout', ($scope, Restangular, $state, $stateParams, $rootScope, $filter, App, AuthService, GruposServ, $timeout) ->
 
 	AuthService.verificar_acceso()
 	$scope.rowsAlum = [] 
+	$scope.orientacion = 'vertical'
 
 	$scope.datos = {grupo: ''}
 
 
 	GruposServ.getGrupos().then((r)->
 		$scope.grupos = r
+
+		$tempParam = parseInt($state.params.grupo_id)
+
+		if $state.params.grupo_id
+			$scope.datos.grupo = $filter('filter')($scope.grupos, {id: $tempParam}, true)[0]
+			console.log 'Cambiamos a ', $scope.datos.grupo
+
+	
 	)
 
 	$scope.verBoletines = ()->
+		console.log $scope.datos.grupo
+		$state.go 'informes.boletines_periodo', {grupo_id: $scope.datos.grupo.id}, {reload: true}
 
-		Restangular.one('alumnos/detailed-notas', $scope.datos.grupo.id).getList().then((r)->
-			$scope.alumnos = r
-			for alum in $scope.alumnos
-				$scope.rowsAlum.push alum
-			
-		, (r2)->
-			console.log 'No se trajo los alumnos', r2
-		)
+
+	$scope.selectGrupo = (item)->
+		console.log item
+
 
 	$scope.pdfMaker = ()->
 		

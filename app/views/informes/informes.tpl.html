@@ -1,6 +1,6 @@
 
-<div class="container container-carta">
-  <div ng-init="opened=true" ng-show="opened" class="row">
+<div ng-class="{'container-carta': orientacion=='horizontal', 'container-carta-vertical': orientacion=='vertical'}" class="container container-carta">
+  <div ng-init="opened=true" ng-show="opened" class="row hidden-print">
     <div class="col-lg-12 col-xs-12">
       <div class="widget">
         <div class="widget-header bg-blue"><i class="widget-icon fa fa-bar-chart"></i>
@@ -11,7 +11,7 @@
           <tabset class="widget-main">
             <tab heading="Boletines">
               <label>Grupo</label>
-              <ui-select ng-model="datos.grupo" theme="select2" style="min-width: 200px;">
+              <ui-select ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;">
                 <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
                 <ui-select-choices repeat="grupo in grupos | filter: $select.search">
                   <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
@@ -20,11 +20,27 @@
               <button ng-click="pdfMaker()" class="btn btn-default">Prueba pdf</button>
             </tab>
           </tabset>
+          <hr class="wide">
+          <h5>Orientación de la página:</h5>
+          <div class="control-group">
+            <div class="radio">
+              <label>
+                <input type="radio" ng-model="orientacion" value="horizontal">
+                <div class="text">Horizontal</div>
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" ng-model="orientacion" value="vertical">
+                <div class="text">Vertical</div>
+              </label>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="report-content">
+  <div ui-view="report_content" class="informes-pages">
     <h5 style="text-align: center">Aquí saldrán tus resportes</h5>
   </div>
 </div>

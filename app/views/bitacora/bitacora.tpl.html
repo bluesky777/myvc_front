@@ -1,27 +1,23 @@
 
 <div class="row">
-  <div class="col-lg-6 col-sm-6 col-xs-12">
+  <div class="col-lg-12 col-xs-12">
     <div class="widget">
       <div class="widget-header"><span class="widget-caption">Bitácora</span>
         <div class="widget-buttons"><a href="#" data-toggle="collapse"><i class="fa fa-minus"></i></a><a ng-show="false" href="#" data-toggle="dispose"><i class="fa fa-times"></i></a></div>
       </div>
       <div class="widget-body">
-        <table class="table">
-          <thead class="bordered-darkorange">
-            <tr>
-              <th>Aspiración</th>
-              <th>Abreviatura</th>
-              <th>Total votos</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat-start="aspiracion in aspiraciones">
-              <td>Buu</td>
-              <td>vaaa</td>
-              <td class="success">rtt</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="row">
+          <div class="col-md-6">
+            <ui-select ng-model="data.profesor" heme="select2" style="width: 100%;" on-select="seleccionaProfe($item, $model)">
+              <ui-select-match placeholder="Profesor" allow-clear="true">{{$select.selected.nombres}} {{$select.selected.apellidos}}</ui-select-match>
+              <ui-select-choices repeat="profe in contratos | filter: $select.search">
+                <div ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search"></div>
+              </ui-select-choices>
+            </ui-select>
+            <div class="horizontal-space"></div>
+          </div>
+        </div>
+        <div id="grid1" ui-grid="gridOptions" ui-grid-resize-columns class="grid"></div>
       </div>
     </div>
   </div>

@@ -107,6 +107,16 @@ angular.module("myvcFrontApp")
 			$scope.toastr.error 'No se pudo cambiar foto', 'Problema'
 		)
 
+	$scope.cambiarLogoColegio = (imgLogo)->
+		Restangular.one('myimages/cambiarlogocolegio').put({logo_id: imgLogo.id}).then((r)->
+
+			#$scope.$emit 'cambianImgs', {foto: r}
+			$scope.toastr.success 'Logo del colegio cambiado'
+		, (r2)->
+			console.log 'No se cambió logo: ', r2
+			$scope.toastr.error 'No se pudo cambiar el logo', 'Problema'
+		)
+
 	$scope.imagenSelect = (item, model)->
 		console.log 'imagenSelect: ', item, model
 

@@ -35,7 +35,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="alumno in alumnos | filter:searchAlum" ng-class="{'danger': promedioTotal(alumno.id) &lt; 70}">
+            <tr ng-repeat="alumno in alumnos | filter:searchAlum" ng-class="{'danger': promedioTotal(alumno.alumno_id) &lt; 70}">
               <td>
                 <div>{{$index+1}}</div>
               </td>

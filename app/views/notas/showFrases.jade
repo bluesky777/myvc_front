@@ -1,0 +1,41 @@
+.modal-header
+	h3.modal-title Frases para alumno en la asignatura
+.modal-body
+	.row
+		.col-lg-12.col-xs-12
+			h4(style="text-overflow: ellipsis")
+				{{alumno.nombres}} {{alumno.apellidos}}
+			ul
+				li(ng-repeat="frase in frases_asignatura")
+					a.btn.btn-default.btn-xs.shiny.icon-only.danger(tooltip="Quitar frase" tooltip-placement="right" 
+						ng-click="quitarFrase(frase)")
+						i.fa.fa-trash 
+					|   {{frase.frase}}
+
+			hr.wide
+
+			
+			form.form.form-inline(ng-submit="addFrase()")
+				.row
+					.col-lg-2.col-xs-12
+						label Escribe frase...
+					.col-lg-7.col-xs-12
+						input.form-control(type="text" ng-model="alumno.newFrase" placeholder="Escribe la frase" style="width: 500px;")
+					.col-lg-1.col-xs-12
+						input.btn.btn-primary(type="submit" value="Agregar")
+			br
+			br
+			.row
+				.col-lg-2.col-xs-2
+					label ...ó elige la frase
+				.col-lg-7.col-xs-12
+					ui-select(ng-model="alumno.newFrase_by_id" style="width: 500px;")
+						ui-select-match(placeholder="Frase" allow-clear="true") {{$select.selected.frase}}
+						ui-select-choices(repeat="frase in frases | filter: $select.search")
+							div(ng-bind-html="frase.tipo_frase + ' - ' + frase.frase | highlight: $select.search")
+				.col-lg-1.col-xs-12
+					a.btn.btn-primary(ng-click="addFrase_id()") Agregar
+
+
+.modal-footer
+	button.btn.btn-success(ng-click="ok()") Aceptar

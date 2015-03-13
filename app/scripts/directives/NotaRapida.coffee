@@ -17,9 +17,10 @@ angular.module('myvcFrontApp')
 		scope.activado = false
 
 		scope.activar = ()->
-			scope.activado = true
-			$rootScope.notaRapida.enable = scope.activado
-			toastr.info 'Nota rápida activada', 'ACTIVADA'
+			if !scope.activado
+				scope.activado = true
+				$rootScope.notaRapida.enable = scope.activado
+				toastr.info 'Nota rápida activada', 'ACTIVADA'
 
 		scope.desactivar = ()->
 			scope.activado = false

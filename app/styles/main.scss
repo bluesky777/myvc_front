@@ -15470,13 +15470,152 @@ body {
     max-width: 30cm!important;
     border: #E6E6E6 solid;
 }
-.container-carta{
+.container-carta, .container-oficio{
     width: 22cm;
 }
-.container-oficio{
-    width: 22cm;
+
+.container-carta-horizontal{
+    width: 31cm;
 }
+.container-oficio-horizontal{
+    width: 31cm;
+}
+
+.boletin-page-vertical, .boletin-page-horizontal{
+    background-color: white;
+    page-break-after: always;
+    padding: 10px;
+
+    .boletin-page-vertical{
+        size:21cm 30cm; 
+    }
+
+    .boletin-page-horizontal{
+        size:30cm 21cm; 
+    }
+}
+
+@page cartahorizontal { 
+    size:30cm 21cm; 
+    margin: 2cm;
+    background-color: white;
+    page-break-after: always;
+}
+
+@page cartavertical { 
+    size:21cm 30cm; 
+    margin: 2cm;
+    background-color: white;
+    page-break-after: always;
+}
+
+.boletin-page-vertical{
+    page: cartavertical;
+    width: 21cm;
+}
+.boletin-page-horizontal{
+    page: cartahorizontal;
+    width: 30cm;
+    }
+
+
 @media print {
-    /* Your styles here */
+
+    @page cartahorizontal { 
+        size:30cm 21cm; 
+        margin: 2cm;
+        background-color: white;
+        page-break-after: always;
+    }
+
+    @page cartavertical { 
+        size:21cm 30cm; 
+        margin: 2cm;
+        background-color: white;
+        page-break-after: always;
+    }
+
+    .boletin-page-vertical{
+        page: cartavertical;
+        width: 21cm;
+    }
+    .boletin-page-horizontal{
+        page: cartahorizontal;
+        width: 30cm;
+    }
 
 }
+.boletin-alumno .encabezado-boletin{
+    .logo-colegio{
+        width: 70px;
+    }
+    .title-encabezado-boletin{
+        //width: 600px;
+        text-align: center;
+        .nombre-colegio h4, .title-descripcion{
+            font-weight: bold!important;
+        }
+    }
+    .nombre-alumno, .foto-alumno{
+        text-align: right;
+        .foto-alumno{
+            width: 70px;
+        }
+    }
+}
+
+.materia-item{
+    padding: 5px;
+
+    .materia-profesor{
+        font-size: 7pt;
+    }
+
+    .materia-title, .unidades-list{
+        border: 1px solid;
+        margin: 0px 10px 0px 10px;
+    }
+
+    .materia-title{
+        border-radius: 5px 5px 0 0;
+    }
+    .unidades-list{
+        border-radius: 0 0 5px 5px;
+        border-top: none;
+    }
+}
+.unidad-definicion, .unidad-porc, .unidad-nota{
+    font-size: 8pt;
+    font-style: italic;
+    font-weight: bold;
+}
+.subunidades-list{
+    padding-left: 5px;
+    font-size: 7pt;
+
+    .subunidad-definicion{
+        
+    }
+    .subunidad-porc{
+        
+    }
+    .subunidad-nota{
+        
+    }
+}
+.comentarios-asignatura{
+    font-size: 7pt;
+    border-top: 1px solid;
+    margin-left: -7px;
+    margin-right: -7px;
+    margin-top: 5px;
+    .comentario-title{
+        text-align: center;
+        font-weight: bold;
+    }
+    .comentario-item{
+        padding-left: 5px;
+    }
+}
+
+

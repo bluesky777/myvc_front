@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-.controller('NotasCtrl', ['$scope', 'toastr', 'Restangular', '$state', 'notas', '$rootScope', '$filter', 'App', 'AuthService', '$timeout', ($scope, toastr, Restangular, $state, notas, $rootScope, $filter, App, AuthService, $timeout) ->
+.controller('NotasCtrl', ['$scope', 'toastr', 'Restangular', '$modal', '$state', 'notas', '$rootScope', '$filter', 'App', 'AuthService', '$timeout', ($scope, toastr, Restangular, $modal, $state, notas, $rootScope, $filter, App, AuthService, $timeout) ->
 
 	AuthService.verificar_acceso()
 
@@ -40,11 +40,31 @@ angular.module('myvcFrontApp')
 
 	$scope.cambiaNota = (nota)->
 		Restangular.one('notas/update', nota.id).customPUT({nota: nota.nota}).then((r)->
-			toastr.success 'Nota cambiada: ' + nota.nota
+			toastr.success 'Cambiada: ' + nota.nota
 			console.log 'Cuando la nota cambia, el objeto nota: ', nota
 		, (r2)->
 			console.log 'No pudimos guardar la nota ', nota
 			toastr.error 'No pudimos guardar la nota ' + nota.nota
+		)
+
+
+	$scope.showFrases = (alumno)->
+		console.log 'Presionado para eliminar fila: ', alumno
+
+		modalInstance = $modal.open({
+			templateUrl: App.views + 'notas/showFrases.tpl.html'
+			controller: 'ShowFrasesCtrl'
+			size: 'lg'
+			resolve: 
+				alumno: ()->
+					alumno
+				frases: ()->
+					Restangular.all('frases').getList()
+				asignatura: ()->
+					$scope.asignatura
+		})
+		modalInstance.result.then( (alum)->
+			console.log 'Resultado del modal: ', alum
 		)
 
 
@@ -99,24 +119,80 @@ angular.module('myvcFrontApp')
 	return
 ])
 
-###
-.directive('celdasDefinicionesSubunidades', ['App', (App)-> 
 
-	restrict: 'A'
-	template: '<th ng-repeat="subunidad in subunidades" ><div class="text-center nombresellipsis" tooltip="{{subunidad.porcentaje}}% {{subunidad.definicion}}" tooltip-popup-delay="1000"> {{$index + 1}}</div></th>'
-	transclude: true
-	scope: 
-		celdasDefinicionesSubunidades: "="
+.controller('ShowFrasesCtrl', ['$scope', '$modalInstance', 'alumno', 'frases', 'asignatura', 'Restangular', 'toastr', '$filter', ($scope, $modalInstance, alumno, frases, asignatura, Restangular, toastr, $filter)->
+	$scope.alumno = alumno
+	$scope.frases = frases
+	$scope.asignatura = asignatura
 
-	link: (scope, iElem, iAttrs)->
-		# Debo agregar la clase .loading-inactive para que desaparezca el loader de la pantalla.
-		# y eso lo puedo hacer con el ng-if
-		console.log 'Entré a la directiva. ', scope.celdasDefinicionesSubunidades
-		scope.subunidades = scope.celdasDefinicionesSubunidades.subunidades
+	$scope.alumno.newFrase = ''
+
+	console.log alumno
+
+	Restangular.all('frases_asignatura/show/'+alumno.alumno_id+'/'+asignatura.asignatura_id).getList().then((r)->
+		$scope.frases_asignatura = r
+	, (r2)->
+		toastr.warning 'No se pudo traer frases.', 'Problema'
+		console.log 'Error añadiendo frase: ', r2
+	)
+	
+
+
+	$scope.addFrase = ()->
+		
+		if $scope.alumno.newFrase != ''
+			dato = 
+				alumno_id:		alumno.alumno_id
+				frase:			$scope.alumno.newFrase
+				asignatura_id:	$scope.asignatura.asignatura_id
+
+			Restangular.all('frases_asignatura/store').customPOST(dato).then((r)->
+				toastr.success 'Frase añadida.'
+				$scope.frases_asignatura = r
+			, (r2)->
+				toastr.warning 'No se pudo añadir frase.', 'Problema'
+				console.log 'Error añadiendo frase: ', r2
+			)
+		else
+			console.log 'No ha copiado ninguna frase'
+			toastr.warning 'No ha copiado ninguna frase'
+
+
+	$scope.addFrase_id = ()->
+
+		if $scope.alumno.newFrase_by_id
+			dato = 
+				alumno_id:		alumno.alumno_id
+				frase_id:		$scope.alumno.newFrase_by_id.id
+				asignatura_id:	$scope.asignatura.asignatura_id
+
+			Restangular.all('frases_asignatura/store/'+$scope.alumno.newFrase_by_id.id).customPOST(dato).then((r)->
+				toastr.success 'Frase añadida.'
+				$scope.frases_asignatura = r
+			, (r2)->
+				toastr.warning 'No se pudo añadir frase.', 'Problema'
+				console.log 'Error añadiendo frase: ', r2
+			)
+		else
+			console.log 'No ha seleccionado frase'
+			toastr.warning 'No ha seleccionado frase'
+
+
+	$scope.quitarFrase = (fraseasig)->
+		Restangular.all('frases_asignatura/destroy/'+fraseasig.id).remove().then((r)->
+			toastr.success 'Frase quitada'
+			$scope.frases_asignatura = $filter('filter')($scope.frases_asignatura, {id: '!'+fraseasig.id})
+		, (r2)->
+			toastr.warning 'No se pudo quitar la frase.', 'Problema'
+			console.log 'Error quitando frase: ', r2
+		)
+
+
+	$scope.ok = ()->
+		$modalInstance.close(alumno)
+
 
 ])
 
-
-###
 
 

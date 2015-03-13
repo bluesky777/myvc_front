@@ -106,7 +106,7 @@ angular.module('myvcFrontApp')
 
 		dato = 
 			asignatura_id: $scope.asignatura_id
-			alumno_id: alumno.id
+			alumno_id: alumno.alumno_id
 			cantidad_ausencia: 1
 			fecha_hora: new Date(numYearActual, parseInt($scope.dato.mes), dia)
 
@@ -152,7 +152,7 @@ angular.module('myvcFrontApp')
 
 		dato = 
 			asignatura_id: asignatura_id
-			alumno_id: alumno.id
+			alumno_id: alumno.alumno_id
 			cantidad_ausencia: 1
 
 		Restangular.one('ausencias/store').customPOST().then((r)->

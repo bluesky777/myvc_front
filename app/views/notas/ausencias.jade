@@ -39,7 +39,7 @@
 								div Total
 
 					tbody
-						tr(ng-repeat="alumno in alumnos | filter:searchAlum" ng-class="{'danger': promedioTotal(alumno.id) < 70}")
+						tr(ng-repeat="alumno in alumnos | filter:searchAlum" ng-class="{'danger': promedioTotal(alumno.alumno_id) < 70}")
 							td
 								div {{$index+1}}
 							td
