@@ -16,7 +16,7 @@ angular.module('myvcFrontApp')
 	delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
 
-	uiSelectConfig.theme = 'bootstrap'
+	uiSelectConfig.theme = 'select2'
 	uiSelectConfig.resetSearchInput = true
 
 

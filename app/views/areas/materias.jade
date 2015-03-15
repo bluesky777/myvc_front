@@ -10,11 +10,11 @@
 					input.form-control(type="text" ng-model="currentmateria.alias" placeholder="Alias")
 					.horizontal-space
 				.col-md-4
-					ui-select(ng-model="currentmateria.area" heme="select2" style="min-width: 200px;")
+					ui-select(ng-model="currentmateria.area" theme="select2" style="width: 100%;")
 						ui-select-match(placeholder="Área" allow-clear="true") {{$select.selected.nombre}} ({{$select.selected.alias}})
 						ui-select-choices(repeat="area in areas | filter: $select.search")
 							div(ng-bind-html="area.nombre | highlight: $select.search")
-							small {{ area.alias | highlight: $select.search}}
+							small(ng-bind-html="area.alias | highlight: $select.search")
 					.horizontal-space
 			.footer
 				input.btn.btn-primary(type="submit" value="Crear")

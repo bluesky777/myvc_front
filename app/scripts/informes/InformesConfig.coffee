@@ -11,6 +11,10 @@ angular.module('myvcFrontApp')
 					resolve:
 						alumnos: ['Restangular', '$stateParams', (Restangular, $stateParams)->
 							Restangular.one('alumnos/detailed-notas', $stateParams.grupo_id).getList()
+						],
+						escalas: ['EscalasValorativasServ', (EscalasValorativasServ)->
+							#debugger
+							EscalasValorativasServ.escalas()
 						]
 			data: 
 				pageTitle: 'Boletines periodo - MyVc'

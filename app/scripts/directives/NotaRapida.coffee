@@ -1,6 +1,6 @@
 angular.module('myvcFrontApp')
 
-.directive('notaRapida',['App', '$rootScope', 'Restangular', 'toastr', (App, $rootScope, Restangular, toastr)-> 
+.directive('notaRapida',['App', '$rootScope', 'Restangular', 'toastr', 'EscalasValorativasServ', (App, $rootScope, Restangular, toastr, EscalasValorativasServ)-> 
 
 	restrict: 'AE'
 	transclude: true,
@@ -32,7 +32,7 @@ angular.module('myvcFrontApp')
 			scope.desactivar()
 		)
 
-		Restangular.all('escalas').getList().then((r)->
+		EscalasValorativasServ.escalas().then((r)->
 			scope.escalas = r
 		, (r2)->
 			console.log 'No se trajeron las escalas valorativas', r2

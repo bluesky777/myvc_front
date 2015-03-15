@@ -5,11 +5,9 @@
       <div class="row encabezado-boletin">
         <div class="col-lg-12 col-xs-12">
           <div class="row">
-            <div class="col-lg-1 col-xs-1"><img ng-src="{{perfilPath + year.logo}}" class="logo-colegio"></div>
-            <div class="col-lg-9 col-xs-9 title-encabezado-boletin">
-              <div class="nombre-colegio">
-                <h4 class="title">{{year.nombre_colegio + ' - ' + year.abrev_colegio}}</h4>
-              </div>
+            <div class="col-lg-2 col-xs-2"><img ng-src="{{perfilPath + year.logo}}" class="img-responsive logo-colegio"></div>
+            <div class="col-lg-8 col-xs-8 title-encabezado-boletin">
+              <div class="nombre-colegio">{{year.nombre_colegio + ' - ' + year.abrev_colegio}}</div>
               <div class="resolucion-colegio">{{year.resolucion}}</div>
               <div class="title-descripcion">Boletin periodo {{USER.periodo_actual}} - {{USER.year}}</div>
             </div>
@@ -17,11 +15,12 @@
           </div>
           <div class="row descripcion-encabezado">
             <div class="col-lg-6 col-xs-6">
-              <div class="grupo-alumno">Grupo: <b>{{grupo.nombre_grupo}}</b></div>
-              <div class="titular-grupo">titular: Pr. {{grupo.nombres_profesor}}</div>
+              <div class="grupo-alumno">Grupo: <b>{{grupo.nombre_grupo | capitalize}}</b></div>
+              <div popover="&lt;img src='{{perfilPath + grupo.foto_nombre}}' style='width: 150px; height: 150px;'&gt;" popover-popup-delay="1000" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true" popover-trigger="mouseenter" class="titular-grupo">Titular: Pr. {{grupo.nombres_profesor | capitalize}}</div>
             </div>
             <div class="col-lg-6 col-xs-6">
               <h5 class="nombre-alumno">{{alumno.nombres + ' ' + alumno.apellidos}}</h5>
+              <div class="promedio-alumno">Puntaje: {{alumno.promedio | number:1}}% - Puesto: {{alumno.puesto}}/{{grupo.cantidad_alumnos}}</div>
             </div>
           </div>
         </div>
@@ -30,10 +29,12 @@
         <div class="col-lg-12 col-xs-12 matierias">
           <div ng-repeat="asignatura in alumno.asignaturas" class="materia-item">
             <div class="row materia-title">
-              <div class="col-lg-10 col-xs-10"><span class="user-name">{{asignatura.materia}}</span><span class="materia-profesor">- Pr. {{asignatura.nombres_profesor | capitalize}}</span></div>
-              <div class="col-lg-2 col-xs-2">
+              <div class="col-lg-8 col-xs-8"><span class="user-name">{{asignatura.materia}}</span><span class="materia-profesor">- Pr. {{asignatura.nombres_profesor | capitalize}}</span></div>
+              <div class="col-lg-1 col-xs-1"><i class="fa fa-clock-o"> {{asignatura.total_ausencias}} </i></div>
+              <div class="col-lg-2 col-xs-2 nota-perdida">SUPERIOR</div>
+              <div class="col-lg-1 col-xs-1">
                 <div class="divider"></div>
-                <div class="type">{{asignatura.unidades.length}}</div>
+                <div class="type nota-perdida-bold">{{asignatura.nota_asignatura}}</div>
               </div>
             </div>
             <div class="row unidades-list">
@@ -43,33 +44,68 @@
                     <div class="row">
                       <div class="col-lg-10 col-xs-10 unidad-definicion">{{unidad.definicion_unidad}}</div>
                       <div class="col-lg-1 col-xs-1 unidad-porc">{{unidad.porcentaje_unidad}}%</div>
-                      <div class="col-lg-1 col-xs-1 unidad-nota">{{unidad.subunidades.length}}</div>
+                      <div class="col-lg-1 col-xs-1 unidad-nota">{{unidad.nota_unidad}}</div>
                     </div>
                     <div ng-repeat="subunidad in unidad.subunidades" class="row subunidades-list">
                       <div class="col-lg-12 col-xs-12">
                         <div class="row">
                           <div class="col-lg-10 col-xs-10 subunidad-definicion">{{subunidad.definicion_subunidad}}</div>
                           <div class="col-lg-1 col-xs-1 subunidad-porc">{{subunidad.porcentaje_subunidad}}%</div>
-                          <div class="col-lg-1 col-xs-1 subunidad-nota">{{subunidad.nota.nota}}</div>
+                          <div class="col-lg-1 col-xs-1 subunidad-nota puntero">
+                            <!--i.fa.fa-warning(ng-show="subunidad.nota.nota<70")--><span ng-show="subunidad.nota.nota&gt;69" tooltip="Valor nota: {{subunidad.nota.valor}}">{{subunidad.nota.nota}}</span>
+                            <!--span.label.label-darkpink(ng-show="subunidad.nota.nota<70" style="padding: 2px"){{subunidad.nota.nota}}--><span ng-show="subunidad.nota.nota&lt;70" tooltip="Valor nota: {{subunidad.nota.valor}}" class="nota-perdida-bold">{{subunidad.nota.nota}}</span><span ng-show="!subunidad.nota.nota" tooltip="Aún sin nota" class="nota-perdida"><i class="fa fa-warning"></i></span>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="row comentarios-asignatura">
+                <div ng-show="asignatura.frases.length&gt;0" class="row comentarios-asignatura">
                   <div class="col-lg-12 col-xs-12">
-                    <div class="comentario-title">Comentarios: </div>
-                    <div ng-repeat="frase in asignatura.frases" style="padding-left: 5px;" class="row comentario-item">{{frase.frase}} <span ng-show="frase.frase_id" class="tipo-frase">- {{frase.tipo_frase}}</span></div>
+                    <div class="comentario-title">Observaciones</div>
+                    <div ng-repeat="frase in asignatura.frases" class="row comentario-item">{{frase.frase}} <span ng-show="frase.frase_id" class="tipo-frase">- {{frase.tipo_frase}}</span></div>
                   </div>
                 </div>
               </div>
-              <div class="col-lg-2 col-xs-2"><span>{{unidad.subunidades.length}}</span></div>
+              <div class="col-lg-2 col-xs-2"><span>{{unidad.nota_unidad}}</span></div>
             </div>
           </div>
         </div>
       </div>
-      <div class="footer-boletin">
-        <h5>Firma directivos</h5>
+      <div class="row comportamiento-boletin">
+        <div class="col-lg-12 col-xs-12">
+          <div class="row comportamiento-head">
+            <div class="col-lg-10 col-xs-10 comportamiento-title">Comportamiento</div>
+            <div class="col-lg-1 col-xs-1 comportamiento-desempenio">SUPERIOR</div>
+            <div class="col-lg-1 col-xs-1 comportamiento-nota">{{alumno.comportamiento.nota}}</div>
+          </div>
+          <div class="row comportamiento-body">
+            <div class="col-lg-10 col-xs-10 comportamiento-frases">
+              <div ng-repeat="definicion in alumno.comportamiento.definiciones" class="row">
+                <div class="col-lg-12 col-xs-12">{{definicion.frase}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row footer-boletin">
+        <div class="col-lg-12 col-xs-12">
+          <div class="row">
+            <div ng-show="config.show_firma_rector" style="background-image: url({{perfilPath + alumno.foto_nombre}});" class="col-lg-6 col-xs-6 rector-firma"></div>
+            <div ng-hide="config.show_firma_rector" class="col-lg-6 col-xs-6 rector-firma"></div>
+            <div ng-show="config.show_firma_titular" style="background-image: url({{perfilPath + alumno.foto_nombre}});" class="col-lg-6 col-xs-6 titular-firma"></div>
+            <div ng-hide="config.show_firma_rector" class="col-lg-6 col-xs-6 rector-firma"></div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 col-xs-6 nombre-rector-firma">{{year.nombres_rector}} {{year.apellidos_rector}}</div>
+            <div class="col-lg-6 col-xs-6 nombre-titular-firma">{{grupo.nombres_profesor}} {{grupo.apellidos_profesor}}</div>
+          </div>
+          <div class="row">
+            <div ng-show="year.sexo_rector=='M'" class="col-lg-6 col-xs-6 nombre-rector-firma">Rector</div>
+            <div ng-show="year.sexo_rector=='F'" class="col-lg-6 col-xs-6 nombre-rector-firma">Rectora</div>
+            <div class="col-lg-6 col-xs-6 nombre-titular-firma">Titular</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

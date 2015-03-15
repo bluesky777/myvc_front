@@ -4,12 +4,11 @@ div(ng-class="{'boletin-page-horizontal': config.orientacion=='horizontal', 'bol
 			.row.encabezado-boletin
 				.col-lg-12.col-xs-12
 					.row
-						.col-lg-1.col-xs-1
-							img.logo-colegio(ng-src="{{perfilPath + year.logo}}")
-						.col-lg-9.col-xs-9.title-encabezado-boletin
+						.col-lg-2.col-xs-2
+							img.img-responsive.logo-colegio(ng-src="{{perfilPath + year.logo}}")
+						.col-lg-8.col-xs-8.title-encabezado-boletin
 							.nombre-colegio
-								h4.title
-									{{year.nombre_colegio + ' - ' + year.abrev_colegio}}
+								{{year.nombre_colegio + ' - ' + year.abrev_colegio}}
 							.resolucion-colegio
 								{{year.resolucion}}
 							.title-descripcion
@@ -21,22 +20,29 @@ div(ng-class="{'boletin-page-horizontal': config.orientacion=='horizontal', 'bol
 						.col-lg-6.col-xs-6
 							.grupo-alumno
 								|Grupo: 
-								b {{grupo.nombre_grupo}}
-							.titular-grupo
-								|titular: Pr. {{grupo.nombres_profesor}}
+								b {{grupo.nombre_grupo | capitalize}}
+							.titular-grupo(popover="<img src='{{perfilPath + grupo.foto_nombre}}' style='width: 150px; height: 150px;'>" 
+									popover-popup-delay="1000" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true" 
+									popover-trigger="mouseenter")
+								|Titular: Pr. {{grupo.nombres_profesor | capitalize}}
 						.col-lg-6.col-xs-6
 							h5.nombre-alumno {{alumno.nombres + ' ' + alumno.apellidos}}
+							.promedio-alumno Puntaje: {{alumno.promedio | number:1}}% - Puesto: {{alumno.puesto}}/{{grupo.cantidad_alumnos}}
 			.row.body-boletin
 				.col-lg-12.col-xs-12.matierias
 					.materia-item(ng-repeat="asignatura in alumno.asignaturas")
 						.row.materia-title
-							.col-lg-10.col-xs-10
+							.col-lg-8.col-xs-8
 								span.user-name {{asignatura.materia}}
 								span.materia-profesor - Pr. {{asignatura.nombres_profesor | capitalize}}
-							.col-lg-2.col-xs-2
+							.col-lg-1.col-xs-1
+								i.fa.fa-clock-o  {{asignatura.total_ausencias}} 
+							.col-lg-2.col-xs-2.nota-perdida
+								| SUPERIOR
+							.col-lg-1.col-xs-1
 								.divider
-								.type
-									{{asignatura.unidades.length}}
+								.type.nota-perdida-bold
+									{{asignatura.nota_asignatura}}
 						.row.unidades-list
 							.col-lg-12.col-xs-12
 								.row.unidades-item(ng-repeat="unidad in asignatura.unidades")
@@ -47,28 +53,72 @@ div(ng-class="{'boletin-page-horizontal': config.orientacion=='horizontal', 'bol
 											.col-lg-1.col-xs-1.unidad-porc
 												{{unidad.porcentaje_unidad}}%
 											.col-lg-1.col-xs-1.unidad-nota
-												{{unidad.subunidades.length}}
+												{{unidad.nota_unidad}}
 										.row.subunidades-list(ng-repeat="subunidad in unidad.subunidades")
 											.col-lg-12.col-xs-12
 												.row
 													.col-lg-10.col-xs-10.subunidad-definicion
 														{{subunidad.definicion_subunidad}}
-													.col-lg-1.col-xs-1.subunidad-porc
+													.col-lg-1.col-xs-1.subunidad-porc()
 														{{subunidad.porcentaje_subunidad}}%
-													.col-lg-1.col-xs-1.subunidad-nota
-														{{subunidad.nota.nota}}
+													.col-lg-1.col-xs-1.subunidad-nota.puntero
+														//i.fa.fa-warning(ng-show="subunidad.nota.nota<70")
+														span(ng-show="subunidad.nota.nota>69" tooltip="Valor nota: {{subunidad.nota.valor}}"){{subunidad.nota.nota}}
+														//span.label.label-darkpink(ng-show="subunidad.nota.nota<70" style="padding: 2px"){{subunidad.nota.nota}}
+														span.nota-perdida-bold(ng-show="subunidad.nota.nota<70" tooltip="Valor nota: {{subunidad.nota.valor}}"){{subunidad.nota.nota}}
+														span.nota-perdida(ng-show="!subunidad.nota.nota" tooltip="Aún sin nota")
+															i.fa.fa-warning
 
-								.row.comentarios-asignatura
+								.row.comentarios-asignatura(ng-show="asignatura.frases.length>0")
 									.col-lg-12.col-xs-12
-										.comentario-title Comentarios: 
-										.row.comentario-item(ng-repeat="frase in asignatura.frases" style="padding-left: 5px;")
+										.comentario-title Observaciones
+										.row.comentario-item(ng-repeat="frase in asignatura.frases")
 											{{frase.frase}} 
 											span.tipo-frase(ng-show="frase.frase_id") - {{frase.tipo_frase}}
 
 							.col-lg-2.col-xs-2
 								span
-									{{unidad.subunidades.length}}
+									{{unidad.nota_unidad}}
+
+			.row.comportamiento-boletin
+				.col-lg-12.col-xs-12
+					.row.comportamiento-head
+						.col-lg-10.col-xs-10.comportamiento-title
+							|Comportamiento
+						.col-lg-1.col-xs-1.comportamiento-desempenio
+							|SUPERIOR
+						.col-lg-1.col-xs-1.comportamiento-nota
+							|{{alumno.comportamiento.nota}}
+					.row.comportamiento-body
+						.col-lg-10.col-xs-10.comportamiento-frases
+							.row(ng-repeat="definicion in alumno.comportamiento.definiciones")
+								.col-lg-12.col-xs-12
+									{{definicion.frase}}
 
 
-			.footer-boletin
-				h5 Firma directivos
+
+			.row.footer-boletin
+				.col-lg-12.col-xs-12
+					.row
+						.col-lg-6.col-xs-6.rector-firma(ng-show="config.show_firma_rector" style="background-image: url({{perfilPath + alumno.foto_nombre}});")
+						.col-lg-6.col-xs-6.rector-firma(ng-hide="config.show_firma_rector")
+						.col-lg-6.col-xs-6.titular-firma(ng-show="config.show_firma_titular" style="background-image: url({{perfilPath + alumno.foto_nombre}});")
+						.col-lg-6.col-xs-6.rector-firma(ng-hide="config.show_firma_rector")
+					.row
+						.col-lg-6.col-xs-6.nombre-rector-firma
+							{{year.nombres_rector}} {{year.apellidos_rector}}
+						.col-lg-6.col-xs-6.nombre-titular-firma
+							{{grupo.nombres_profesor}} {{grupo.apellidos_profesor}}
+
+					.row
+						.col-lg-6.col-xs-6.nombre-rector-firma(ng-show="year.sexo_rector=='M'")
+							|Rector
+						.col-lg-6.col-xs-6.nombre-rector-firma(ng-show="year.sexo_rector=='F'")
+							|Rectora
+
+						.col-lg-6.col-xs-6.nombre-titular-firma
+							|Titular
+
+
+
+

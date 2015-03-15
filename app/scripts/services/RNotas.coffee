@@ -23,6 +23,29 @@ angular.module('myvcFrontApp')
 
 ])
 
+.factory('EscalasValorativasServ', ['Restangular', '$q', (Restangular, $q) ->
+	escalas = []
+
+	escalas.escalas = (asignatura_id)->
+		d = $q.defer();
+
+		if escalas.length > 0
+			d.resolve escalas
+		else
+			Restangular.all('escalas').getList().then((r)->
+				escalas = r
+				d.resolve escalas
+			, (r2)->
+				console.log 'No se trajeron las escalas. ', r2
+				d.reject r2
+			)
+
+		return d.promise
+
+	return escalas
+
+])
+
 .factory('AusenciasServ', ['Restangular', '$q', (Restangular, $q) ->
 	ausencias = {}
 

@@ -12,9 +12,25 @@ angular.module('myvcFrontApp')
 					templateUrl: "#{App.views}panel/panelHeader.tpl.html"
 					controller: 'PanelHeaderCtrl'
 					resolve:
-						titulo: [->
-							'Unidades'
+						titulo: ['AuthService', '$q', (AuthService, $q)->
+							d = $q.defer()
+
+							console.log 'Entra al resolve de unidades'
+							AuthService.verificar().then((r)->
+								d.resolve r.unidades_displayname
+							, (r2)->
+								console.log 'No se resolvió en Unidades, ', r2
+								d.resolve 'Unidades'
+
+							)
+
+							return d.promise
 						]
+			resolve:
+				usuario: ['AuthService', (AuthService)->
+					AuthService.verificar()
+				]
+
 			data: 
 				displayName: 'Unidades'
 				icon_fa: 'fa fa-graduation-cap'

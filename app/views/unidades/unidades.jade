@@ -11,11 +11,22 @@
 
 
 		form.form-inline(ng-submit="crearUnidad()" role="form")
-			input.form-control(required ng-model="newunidad.definicion" type="text" placeholder="{{UNIDAD}} nuevo(a)" style="min-width: 400px" tooltip="Definición" tooltip-popup-delay="1000")
+			input.form-control(required ng-model="newunidad.definicion" type="text" placeholder="{{UNIDAD}} {{ GENERO_UNI=='M' ? 'nuevo' : 'nueva' }}" style="min-width: 400px" tooltip="Definición" tooltip-popup-delay="1000")
 			input.form-control(required ng-model="newunidad.porcentaje" min="0" max="100" type="number" placeholder="Porcentaje" tooltip="Porcentaje" tooltip-popup-delay="1000")
 			input.btn.btn-primary(type="submit" ng-submit="crearUnidad()" value="Crear {{UNIDAD}}")
 
 		hr.wide
+
+		.alert.alert-danger.fade.in(ng-show="unidades.porc_unidades>100")
+			i.fa-fw.fa.fa-warning
+			strong Porcentaje incorrecto 
+			| - Sobra un {{unidades.porc_unidades-100}} porciento
+
+		.alert.alert-warning.fade.in(ng-show="unidades.porc_unidades<100")
+			i.fa-fw.fa.fa-warning
+			strong Porcentaje incorrecto 
+			| - Falta un {{100-unidades.porc_unidades}} porciento
+
 
 		.dd.dd-draghandle.darker.ddlarga.bordered
 			ol.dd-list
@@ -41,6 +52,19 @@
 							.btn-group
 								button.btn.btn-default.btn-xs(type="button" ng-click="unidad.editando=true") Editar
 								button.btn.btn-danger.btn-xs(type="button" ng-click="removeUnidad(unidad)") Eliminar
+
+
+							.alert.alert-danger.fade.in(ng-show="unidad.subunidades.porc_subunidades>100")
+								i.fa-fw.fa.fa-warning
+								strong Porcentaje incorrecto 
+								| - Sobra un {{unidad.subunidades.porc_unidades}} porciento
+
+							.alert.alert-warning.fade.in(ng-show="unidad.subunidades.porc_unidades<100")
+								i.fa-fw.fa.fa-warning
+								strong Porcentaje incorrecto 
+								| - Falta un {{unidad.subunidades.porc_unidades}} porciento
+
+
 							
 
 					ol.dd-list.dd-contener(as-sortable="datos.dragSubunidadesListeners" ng-model="unidad.ordensubunidades")
@@ -49,12 +73,12 @@
 								.row(no-drag)
 									form.form-inline(ng-submit="addSubunidad(unidad)")
 										.form-group.unidaddefinicion.col-lg-6.col-sm-12
-											label.sr-only Nuevo(a) {{SUBUNIDAD}}: 
-											textarea.form-control(required ng-model="unidad.newsubunidad.definicion" placeholder="Crea nuevo(a) {{SUBUNIDAD}}" tooltip="Definición del nuevo(a) {{SUBUNIDAD}}" tooltip-popup-delay="1000")
+											label.sr-only {{ GENERO_SUB=='M' ? 'Nuevo' : 'Nueva' }} {{SUBUNIDAD}}: 
+											textarea.form-control(required ng-model="unidad.newsubunidad.definicion" placeholder="Crea {{ GENERO_SUB=='M' ? 'nuevo' : 'nueva' }} {{SUBUNIDAD}}" tooltip="Definición del {{ GENERO_SUB=='M' ? 'nuevo' : 'nueva' }} {{SUBUNIDAD}}" tooltip-popup-delay="1000")
 										.form-group.unidadporcentaje.col-lg-2.col-md-3.col-sm-12
-											input.form-control(required ng-model="unidad.newsubunidad.porcentaje" min="0" max="100" type="number" placeholder="%Porcentaje" tooltip="Porcentaje del {{SUBUNIDAD}}" tooltip-popup-delay="1000")
+											input.form-control(required ng-model="unidad.newsubunidad.porcentaje" min="0" max="100" type="number" placeholder="%Porcentaje" tooltip="Porcentaje {{ GENERO_SUB=='M' ? 'del' : 'de la' }} {{SUBUNIDAD}}" tooltip-popup-delay="1000")
 										.form-group.col-lg-2.col-md-3.col-sm-4
-											input.form-control(required ng-model="unidad.newsubunidad.nota_default" min="0" max="100" type="number" placeholder="Nota por defecto" tooltip="Nota por defecto del {{SUBUNIDAD}}" tooltip-popup-delay="1000")
+											input.form-control(required ng-model="unidad.newsubunidad.nota_default" min="0" max="100" type="number" placeholder="Nota por defecto" tooltip="Nota por defecto {{ GENERO_SUB=='M' ? 'del' : 'de la' }} {{SUBUNIDAD}}" tooltip-popup-delay="1000")
 
 										input.btn.btn-primary(type="submit" ng-submit="addSubunidad(unidad)" value="Añadir {{SUBUNIDAD}}") 
 

@@ -50,6 +50,7 @@ angular.module('myvcFrontApp')
 	$rootScope.$on '$stateChangeError', (event, toState, toParams, fromState, fromParams)->
 		#$rootScope.lastState = fromState.name if fromState.name != ''
 		#-if $state.current.name == 'login' then cfpLoadingBar.complete() # No me funciona :(
+		console.log 'Evento fallido: ', event
 		toastr.warning 'Lo sentimos, hubo un error o no puedes acceder a esta vista'
 		if $rootScope.lastState != 'panel'
 			$state.transitionTo 'panel'
