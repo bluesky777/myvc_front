@@ -58,6 +58,7 @@
       <li ui-sref-active="active" ng-if="hasRoleOrPerm(['admin'])"><a ui-sref="panel.asignaturas" class="menu-dropdown"><span class="menu-text">Asignaturas</span></a></li>
     </ul>
   </li><!-- Informes-->
+  <li ui-sref-active="active" ng-if="!hasRoleOrPerm(['admin']) &amp;&amp; hasRoleOrPerm(['profesor'])"><a ui-sref="informes"><i class="menu-icon glyphicon glyphicon-print"></i><span class="menu-text">Informes</span></a></li>
   <li sub-menu ng-show="hasRoleOrPerm('admin')" ng-click="toggleOpen()" menu-is-open="false" ng-class="{active:$state.is('panel')}"><a href="" class="menu-dropdown"><i class="menu-icon glyphicon glyphicon-print"></i><span class="menu-text">Informes</span><i class="menu-expand"></i></a>
     <ul class="submenu">
       <li><a ui-sref="informes" stop-event="click"><span class="menu-text">Informes</span></a></li>

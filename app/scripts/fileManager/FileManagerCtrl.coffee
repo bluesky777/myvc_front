@@ -164,6 +164,7 @@ angular.module("myvcFrontApp")
 
 	Restangular.all('perfiles/usuariosall').getList().then((r)->
 		$scope.usuariosall = r
+		$scope.usuariosprofes = $filter('filter')(r, {tipo: 'Pr'}, true)
 		$scope.dato.usuarioElegido = r[0]
 	, (r2)->
 		console.log 'No se pudo traer los usuarios'
@@ -215,7 +216,39 @@ angular.module("myvcFrontApp")
 			$scope.toastr.error 'Error al asignar foto al alumno', 'Problema'
 		)
 
+	
+
+	$scope.cambiarFotoUnProfe = (profeElegido, imgOficialProfe)->
+		console.log 'Vamos a guardar el cambio de foto', profeElegido, imgOficialProfe
+		aEnviar = {
+			imgOficialProfe: imgOficialProfe.id
+		}
+		Restangular.one('perfiles/cambiarimgunprofe', profeElegido.persona_id).customPUT(aEnviar).then((r)->
+			$scope.toastr.success 'Foto oficial asignada con éxito'
+			console.log r
+		, (r2)->
+			console.log 'Error al asignar foto al profesor', r2
+			$scope.toastr.error 'Error al asignar foto al profesor', 'Problema'
+		)
+
+
+
+	$scope.pedirCambioFirma = (profeElegido, imgFirmaProfe)->
+		console.log 'Cambiaremos firma ', profeElegido, imgFirmaProfe
+
+		aEnviar = {
+			imgFirmaProfe: imgFirmaProfe.id
+		}
+		Restangular.one('perfiles/cambiarfirmaunprofe', profeElegido.persona_id).customPUT(aEnviar).then((r)->
+			$scope.toastr.success 'Firma asignada con éxito'
+			console.log r
+		, (r2)->
+			console.log 'Error al asignar foto al profesor', r2
+			$scope.toastr.error 'Error al asignar foto al profesor', 'Problema'
+		)
+
 
 
 	return
 ])
+

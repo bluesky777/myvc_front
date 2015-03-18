@@ -17,7 +17,7 @@
         <tbody>
           <tr ng-click="selectAsignatura(asignatura.asignatura_id)" ng-repeat="asignatura in asignaturas" style="cursor: pointer;">
             <td>{{$index+1}}</td>
-            <td>{{asignatura.nombre_grupo}} {{asignatura.materia}}</td>
+            <td><b>{{asignatura.nombre_grupo}}: </b>{{asignatura.materia | lowercase}}</td>
             <td>{{asignatura.creditos}}</td>
           </tr>
         </tbody>

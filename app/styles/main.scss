@@ -15439,7 +15439,7 @@ body {
     max-width: 700px;
 }
 .inputnota-perdida input{
-    border-color: #e7bebe;
+    border-color: #FF6F6F;
     color: #e46f61;
     box-shadow: none;
     background-color: #fffafa;
@@ -15551,7 +15551,7 @@ body {
     }
 
     .materia-title, .unidades-list{
-        border: 1px solid #ccc;
+        border: 1px solid #ccc!important;
         margin: 0px 10px 0px 10px;
     }
     
@@ -15560,16 +15560,30 @@ body {
         border-top: none;
     }
     .nota-perdida-bold{
-        color: #f00;
+        color: #f00!important;
         font-weight: bold;
         -webkit-print-color-adjust: exact;
     }
 
     .nota-perdida{
-        color: #f00;
+        color: #f00!important;
         -webkit-print-color-adjust: exact;
     }
-
+    table{
+        border: 1px solid #ddd!important;
+    }
+    table > thead > tr > td{
+        border-bottom-width: 2px!important;
+        border-bottom-color: #f00!important;
+        font-weight: bold;
+        -webkit-print-color-adjust: exact;
+    }
+    table > thead > tr{
+        background-color: #eee!important;
+        background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgeG1sbnM9Imh0d…0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2xlc3NoYXQtZ2VuZXJhdGVkKSIgLz48L3N2Zz4=)!important;
+        background-image: linear-gradient(to bottom, #f2f2f2 0, #fafafa 100%);
+        -webkit-print-color-adjust: exact;
+    }
 
     @page cartahorizontal { 
         size:30cm 21cm; 
@@ -15589,9 +15603,16 @@ body {
 }
 .boletin-alumno .encabezado-boletin{
     padding: 15px;
+    padding-top: 10px;
     
     .logo-colegio{
         width: 80%;
+    }
+    .descripcion-encabezado{
+        font-size: 8pt;
+    }
+    .grupo-alumno{
+        font-size: 10pt;
     }
     .titular-grupo{
         font-size: 8pt;
@@ -15601,16 +15622,15 @@ body {
         text-align: center;
         .nombre-colegio, .title-descripcion{
             font-weight: bold!important;
-
-            .nombre-colegio{
-                font-size: 10pt;
-            }
-            .title-descripcion{
-                font-size: 9pt;
-            }
+        }
+        .nombre-colegio{
+            font-size: 12pt;
+        }
+        .title-descripcion{
+            font-size: 11pt;
         }
         .resolucion-colegio{
-            font-size: 7pt;
+            font-size: 8pt;
         }
     }
     .nombre-alumno, .foto-alumno, .promedio-alumno{
@@ -15622,22 +15642,30 @@ body {
         width: 80%;
     }
     .promedio-alumno{
-        font-size: 7pt;
+        font-size: 8pt;
         padding-right: 20px;
     }
     .nombre-alumno{
         padding-right: 15px;
         font-size: 10pt;
+        font-weight: bold!important;
     }
 }
 
 .materia-item{
     padding: 5px;
 
-    .materia-profesor{
-        font-size: 7pt;
+    .materia-title{
+        font-size: 8pt;
+        font-weight: bold;
     }
 
+    .icon-tardanza{
+        //margin-left: 5px;
+    }
+    .text-tardanza{
+        padding-left: 5px;
+    }
     .materia-title, .unidades-list{
         border: 1px solid #ccc;
         margin: 0px 10px 0px 10px;
@@ -15655,7 +15683,7 @@ body {
     }
 }
 .unidad-definicion, .unidad-porc, .unidad-nota{
-    font-size: 8pt;
+    font-size: 7pt;
     font-style: italic;
     font-weight: bold;
 }
@@ -15689,12 +15717,12 @@ body {
     }
 }
 .nota-perdida-bold{
-    color: red;
+    color: #f00;
     font-weight: bold;
 }
 
 .nota-perdida{
-    color: red;
+    color: #f00;
 }
 
 
@@ -15728,13 +15756,39 @@ body {
     }
 }
 
+.resumen-perdidas{
+    margin: 10px;
+    font-size: 8pt;
+
+    .resumen-title{
+        padding: 5px;
+        padding-left: 15px;
+        font-weight: bold;
+        //text-align: center;
+    }
+    table > thead > tr > td{
+        border-bottom-width: 2px;
+        border-bottom-color: #f00;
+        font-weight: bold;
+    }
+    table > thead > tr{
+        background-color: #eee;
+        background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgeG1sbnM9Imh0d…0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2xlc3NoYXQtZ2VuZXJhdGVkKSIgLz48L3N2Zz4=);
+        background-image: linear-gradient(to bottom, #f2f2f2 0, #fafafa 100%);
+    }
+
+    td{
+        padding: 3px;
+    }
+}
+
 .footer-boletin{
     text-align: center;
     .rector-firma, .titular-firma{
         height:200px;
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-size: contain;
+    }
+    .rector-firma img, .titular-firma img{
+        height:200px;
     }
 }
 

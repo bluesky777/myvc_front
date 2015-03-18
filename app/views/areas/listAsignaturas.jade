@@ -9,8 +9,8 @@ h6.row-title.before-blue(ng-if="profesor_id")
 
 .row
 	.col-lg-6.col-xs-12(ng-repeat="asignatura in asignaturas")
-		.databox.databox-graded.radius-bordered.databox-shadowed.puntero(ng-click="open(asignatura, aspiracion)")
-			.databox-left.bg-azure
+		.databox.databox-graded.radius-bordered.databox-shadowed(popover-template="{{views + 'popoverInfoUnidades.tpl.html'}}" popover-trigger="mouseenter")
+			.databox-left(ng-class="{'bg-azure': asignatura.unidades.items.length>0 && asignatura.unidades.porc_unidades==100 && asignatura.unidades.porc_subunidades_incorrecto==false && asignatura.unidades.porc_notas_incorrecto==false, 'bg-danger': asignatura.unidades.items.length==0 || asignatura.unidades.porc_unidades!=100 || asignatura.unidades.porc_notas_incorrecto || asignatura.unidades.porc_subunidades_incorrecto}")
 				.databox-piechart
 					.easyPieChart(style="width: 47px; height: 47px; line-height: 47px;")
 						.white.font-150
@@ -19,8 +19,11 @@ h6.row-title.before-blue(ng-if="profesor_id")
 				.databox-title.lightcarbon {{ asignatura.materia }}
 				.databox-text.darkgray
 					.btn-group
-						a.btn.btn-default.btn-sm(ui-sref="panel.unidades({asignatura_id: asignatura.asignatura_id})") Unidades
+						a.btn.btn-default.btn-sm(ui-sref="panel.unidades({asignatura_id: asignatura.asignatura_id})") {{UNIDADES}}
 						a.btn.btn-default.btn-sm(ui-sref="panel.ausencias({asignatura_id: asignatura.asignatura_id})") Ausencias
+						span  {{UNIDADES}}: {{asignatura.unidades.items.length}} 
+						span(ng-show="asignatura.unidades.porc_subunidades_incorrecto") - {{SUBUNIDADES}} incorrectos. 
+						span(ng-show="asignatura.unidades.porc_notas_incorrecto") - notas NO agregadas.
 				.databox-stat.radius-bordered.bg-azure
 					.stat-text {{asignatura.nombre_grupo}}
 					//i.stat-icon.fa.fa-apple
@@ -33,7 +36,7 @@ h6.row-title.before-blue(ng-show="gruposcomportamientos.length == 0")
 
 .row
 	.col-lg-6.col-xs-12(ng-repeat="grupo in gruposcomportamientos")
-		.databox.databox-graded.radius-bordered.databox-shadowed.puntero(ng-click="openComportamiento(grupo.id)")
+		.databox.databox-graded.radius-bordered.databox-shadowed(ng-click="openComportamiento(grupo.id)")
 			.databox-left.bg-azure
 				.databox-piechart
 					.easyPieChart(style="width: 47px; height: 47px; line-height: 47px;")
@@ -44,7 +47,7 @@ h6.row-title.before-blue(ng-show="gruposcomportamientos.length == 0")
 				.databox-text.darkgray
 					.btn-group
 						a.btn.btn-default.btn-sm(ui-sref="panel.comportamiento({grupo_id: grupo.id})") Comportamiento
-						a.btn.btn-default.btn-sm(ui-sref="panel.comportamiento({grupo_id: grupo.id})") Libro rojo
+						a.btn.btn-default.btn-sm.disabled(ui-sref="panel.comportamiento({grupo_id: grupo.id})") Libro rojo
 					//i.stat-icon.fa.fa-apple
 
 

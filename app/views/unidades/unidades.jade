@@ -53,16 +53,15 @@
 								button.btn.btn-default.btn-xs(type="button" ng-click="unidad.editando=true") Editar
 								button.btn.btn-danger.btn-xs(type="button" ng-click="removeUnidad(unidad)") Eliminar
 
-
-							.alert.alert-danger.fade.in(ng-show="unidad.subunidades.porc_subunidades>100")
+							.alert.alert-danger.fade.in(ng-show="unidad.subunidades.porc_subunidades>100" style="margin-top: 20px; margin-bottom: 2px;")
 								i.fa-fw.fa.fa-warning
 								strong Porcentaje incorrecto 
-								| - Sobra un {{unidad.subunidades.porc_unidades}} porciento
+								| - Sobra un {{unidad.subunidades.porc_subunidades-100}} porciento
 
-							.alert.alert-warning.fade.in(ng-show="unidad.subunidades.porc_unidades<100")
+							.alert.alert-warning.fade.in(ng-show="unidad.subunidades.porc_subunidades<100" style="margin-top: 20px; margin-bottom: 2px;")
 								i.fa-fw.fa.fa-warning
 								strong Porcentaje incorrecto 
-								| - Falta un {{unidad.subunidades.porc_unidades}} porciento
+								| - Falta un {{100-unidad.subunidades.porc_subunidades}} porciento
 
 
 							

@@ -133,7 +133,13 @@ ul.nav.sidebar-menu
 				a.menu-dropdown(ui-sref="panel.asignaturas")
 					span.menu-text Asignaturas
 
+	
 	<!-- Informes-->
+	li(ui-sref-active="active" ng-if="!hasRoleOrPerm(['admin']) && hasRoleOrPerm(['profesor'])" )
+		a(ui-sref="informes")
+			i.menu-icon.glyphicon.glyphicon-print
+			span.menu-text Informes
+
 	li(sub-menu ng-show="hasRoleOrPerm('admin')" ng-click="toggleOpen()" menu-is-open="false" ng-class="{active:$state.is('panel')}")
 		a.menu-dropdown(href="")
 			i.menu-icon.glyphicon.glyphicon-print

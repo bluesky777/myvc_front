@@ -36,8 +36,8 @@
                 <button type="button" ng-click="unidad.editando=true" class="btn btn-default btn-xs">Editar</button>
                 <button type="button" ng-click="removeUnidad(unidad)" class="btn btn-danger btn-xs">Eliminar</button>
               </div>
-              <div ng-show="unidad.subunidades.porc_subunidades&gt;100" class="alert alert-danger fade in"><i class="fa-fw fa fa-warning"></i><strong>Porcentaje incorrecto </strong>- Sobra un {{unidad.subunidades.porc_unidades}} porciento</div>
-              <div ng-show="unidad.subunidades.porc_unidades&lt;100" class="alert alert-warning fade in"><i class="fa-fw fa fa-warning"></i><strong>Porcentaje incorrecto </strong>- Falta un {{unidad.subunidades.porc_unidades}} porciento</div>
+              <div ng-show="unidad.subunidades.porc_subunidades&gt;100" style="margin-top: 20px; margin-bottom: 2px;" class="alert alert-danger fade in"><i class="fa-fw fa fa-warning"></i><strong>Porcentaje incorrecto </strong>- Sobra un {{unidad.subunidades.porc_subunidades-100}} porciento</div>
+              <div ng-show="unidad.subunidades.porc_subunidades&lt;100" style="margin-top: 20px; margin-bottom: 2px;" class="alert alert-warning fade in"><i class="fa-fw fa fa-warning"></i><strong>Porcentaje incorrecto </strong>- Falta un {{100-unidad.subunidades.porc_subunidades}} porciento</div>
             </div>
           </div>
           <ol as-sortable="datos.dragSubunidadesListeners" ng-model="unidad.ordensubunidades" class="dd-list dd-contener">

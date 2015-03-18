@@ -1,0 +1,41 @@
+
+<div ng-class="{'boletin-page-horizontal': config.orientacion=='horizontal', 'boletin-page-vertical': config.orientacion=='vertical'}">
+  <div class="row">
+    <div class="col-lg-12 col-xs-12">
+      <div class="row encabezado-puestos">
+        <div class="col-lg-12 col-xs-12">
+          <div class="row">
+            <div class="col-lg-2 col-xs-2"><img ng-src="{{perfilPath + year.logo}}" class="img-responsive logo-colegio"></div>
+            <div class="col-lg-8 col-xs-8 title-encabezado-boletin">
+              <div class="nombre-colegio">{{year.nombre_colegio + ' - ' + year.abrev_colegio}}</div>
+              <div class="resolucion-colegio">{{year.resolucion}}</div>
+              <div class="title-descripcion">Puestos periodo {{USER.periodo_actual}} - {{USER.year}} Grupo {{grupo.nombre}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <table class="table table-condensed table-hover">
+        <thead>
+          <tr>
+            <td>No</td>
+            <td>Nombres</td>
+            <td ng-repeat="asignatura in alumnos[0].asignaturas">{{asignatura.alias_materia}}</td>
+            <td>Total</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="alumno in alumnos | orderBy:'-promedio'">
+            <td>{{$index + 1}}</td>
+            <td>{{alumno.nombres + + alumno.apellidos}}</td>
+            <td ng-repeat="asignatura in alumno.asignaturas"><span popover="{{ asignatura.unidades | notasAsignatura }}">{{asignatura.nota_asignatura}}</span><span popover="{{ asignatura.unidades | notasPerdidasAsignatura }}" ng-show="{{asignatura.nota_asignatura | notasPerdidasAsignatura:true}} &gt; 0">({{asignatura.nota_asignatura | notasPerdidasAsignatura:true}})</span></td>
+            <td>0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

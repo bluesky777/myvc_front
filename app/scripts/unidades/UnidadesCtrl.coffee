@@ -64,7 +64,12 @@ angular.module('myvcFrontApp')
 		Restangular.one('unidades').customPOST($scope.newunidad).then((r)->
 			r.subunidades = []
 			$scope.unidades.push r
-			toastr.success 'Unidad creada. Ahora agrégale subunidades.'
+
+			creado = 'creado'
+			if $scope.GENERO_UNI == 'F'
+				creado = 'creada'
+
+			toastr.success $scope.UNIDAD + ' ' + creado + ' . Ahora agrégale ' + $scope.SUBUNIDADES
 			$scope.newunidad.definicion = ''
 			$scope.calcularPorcUnidades()
 		, (r2)->
@@ -79,12 +84,17 @@ angular.module('myvcFrontApp')
 
 		Restangular.one('subunidades').customPOST(unidad.newsubunidad).then((r)->
 			unidad.subunidades.push r
-			toastr.success 'Subunidad creada con éxito.'
+
+			creado = 'creado'
+			if $scope.GENERO_SUB == 'F'
+				creado = 'creada'
+
+			toastr.success $scope.SUBUNIDAD + ' ' + creado + ' con éxito.'
 			unidad.newsubunidad.definicion = ''
 			$scope.calcularPorcUnidades()
 		, (r2)->
-			console.log 'No se pudo crear la unidad', r2
-			toastr.error 'No se pudo crear la unidad', 'Problemas'
+			console.log 'No se pudo crear  ' + (if $scope.GENERO_UNI=="M" then 'el' else 'la') + $scope.SUBUNIDAD, r2
+			toastr.error 'No se pudo crear  ' + (if $scope.GENERO_UNI=="M" then 'el' else 'la') + $scope.SUBUNIDAD, 'Problemas'
 		)
 
 	$scope.actualizarUnidad = (unidad)->
@@ -94,7 +104,12 @@ angular.module('myvcFrontApp')
 			porcentaje: unidad.porcentaje
 
 		Restangular.one('unidades/update/' + unidad.id).customPUT(datos).then((r)->
-			toastr.success $scope.UNIDAD + ' actualizado(a) con éxito.'
+			
+			actualizado = 'actualizado'
+			if $scope.GENERO_UNI == 'F'
+				actualizado = 'actualizada'
+			
+			toastr.success $scope.UNIDAD + ' ' + actualizado + ' con éxito.'
 			unidad.editando = false
 			$scope.calcularPorcUnidades()
 		, (r2)->
@@ -111,7 +126,12 @@ angular.module('myvcFrontApp')
 			nota_default: subunidad.nota_default
 
 		Restangular.one('subunidades/update/' + subunidad.id).customPUT(datos).then((r)->
-			toastr.success $scope.SUBUNIDAD + ' actualizado(a) con éxito.'
+			
+			actualizado = 'actualizado'
+			if $scope.GENERO_SUB == 'F'
+				actualizado = 'actualizada'
+			
+			toastr.success $scope.SUBUNIDAD + ' ' + actualizado + ' con éxito.'
 			subunidad.editando = false
 
 			$scope.calcularPorcUnidades()
@@ -162,7 +182,7 @@ angular.module('myvcFrontApp')
 		Restangular.all('unidades/destroy/'+unidad.id).remove().then((r)->
 			toastr.success 'Unidad eliminada con éxito.', 'Eliminada'
 		, (r2)->
-			toastr.warning 'No se pudo eliminar al unidad.', 'Problema'
+			toastr.warning 'No se pudo eliminar la unidad.', 'Problema'
 			console.log 'Error eliminando unidad: ', r2
 		)
 		$modalInstance.close(unidad)

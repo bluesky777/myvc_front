@@ -8,7 +8,7 @@ angular.module('myvcFrontApp')
 		getGrupos: ()->
 			d = $q.defer()
 
-			console.log 'grupos.length', grupos.length
+			#console.log 'grupos.length', grupos.length
 			if grupos.length > 0
 				d.resolve(grupos)
 			else

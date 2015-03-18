@@ -1,5 +1,5 @@
 
-<div ng-class="{'container-carta': orientacion=='horizontal', 'container-carta-vertical': orientacion=='vertical'}" class="container container-carta">
+<div ng-class="{'container-carta': config.orientacion=='horizontal', 'container-carta-vertical': config.orientacion=='vertical'}" class="container container-carta">
   <div ng-init="opened=true" ng-show="opened" class="row hidden-print">
     <div class="col-lg-12 col-xs-12">
       <div class="widget">
@@ -9,15 +9,80 @@
         </div>
         <div ng-class="{'ng-hide':minimized}" class="widget-body">
           <tabset class="widget-main">
-            <tab heading="Boletines">
-              <label>Grupo</label>
-              <ui-select ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;">
-                <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
-                <ui-select-choices repeat="grupo in grupos | filter: $select.search">
-                  <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
-                </ui-select-choices>
-              </ui-select><a href="" ng-click="verBoletines()" class="btn btn-default">Cargar boletines</a><br><br>
-              <button ng-click="pdfMaker()" class="btn btn-default">Prueba pdf</button>
+            <tab heading="Boletines" active="informe_tab_actual_boletines" select="selectTab('boletines')">
+              <div class="row">
+                <div class="col-lg-12 col-xs-12">
+                  <div class="form-group">
+                    <label>Grupo</label>
+                    <ui-select ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;">
+                      <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
+                      <ui-select-choices repeat="grupo in grupos | filter: $select.search">
+                        <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
+                      </ui-select-choices>
+                    </ui-select><a href="" ng-click="verBoletinesGrupo()" class="btn btn-default">Grupo completo</a>
+                  </div>
+                </div>
+              </div>
+              <div ng-show="datos.grupo" class="row">
+                <div class="col-lg-12 col-xs-12">
+                  <div class="form-group">
+                    <label>Alumnos</label>
+                    <ui-select ng-model="datos.selected_alumnos" multiple on-select="selectAlumnos($item)" style="width: 100%;">
+                      <ui-select-match placeholder="Alumnos del grupo {{datos.grupo.abrev}}" allow-clear="true"><img ng-src="{{perfilPath + $item.foto_nombre}}" style="width:25px; height:25px;">{{$item.nombres}}</ui-select-match>
+                      <ui-select-choices repeat="alumno in filtered_alumnos | filter: $select.search"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search"></small></ui-select-choices>
+                    </ui-select><a href="" ng-click="verBoletinesAlumnos()" class="btn btn-default">Cargar boletines</a>
+                  </div>
+                </div>
+              </div>
+              <div ng-show="!datos.grupo" class="row">
+                <div class="col-lg-12 col-xs-12">
+                  <div class="form-group">
+                    <label>Alumno</label>
+                    <ui-select ng-model="datos.selected_alumno" on-select="selectAlumno($item)" style="width: 300px;">
+                      <ui-select-match placeholder="Elige un alumno" allow-clear="true"><img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;">{{$select.selected.nombres}} {{$select.selected.apellidos}}</ui-select-match>
+                      <ui-select-choices repeat="alumno in filtered_alumnos | filter: $select.search"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search"></small></ui-select-choices>
+                    </ui-select><a href="" ng-click="verBoletinAlumno()" class="btn btn-default">Cargar boletin</a>
+                  </div>
+                </div>
+              </div><br><br>
+              <div class="row">
+                <div class="col-lg-4 col-xs-12">
+                  <div class="form-group">
+                    <label>Mostrar foto</label>
+                    <label>
+                      <input type="checkbox" ng-model="config.mostrar_foto" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-xs-12">
+                  <div class="form-group">
+                    <label>Firma rector</label>
+                    <label>
+                      <input type="checkbox" ng-model="config.show_firma_rector" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-xs-12">
+                  <div class="form-group">
+                    <label>Firma titular</label>
+                    <label>
+                      <input type="checkbox" ng-model="config.show_firma_titular" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                    </label>
+                  </div>
+                </div>
+              </div><br><br>
+              <button ng-click="pdfMaker()" ng-show="false" class="btn btn-default">Prueba pdf</button>
+            </tab>
+            <tab heading="Puestos" active="informe_tab_actual_puestos" select="selectTab('puestos')">
+              <div class="form-group">
+                <label>Grupo</label>
+                <ui-select ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;">
+                  <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
+                  <ui-select-choices repeat="grupo in grupos | filter: $select.search">
+                    <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
+                  </ui-select-choices>
+                </ui-select><a href="" ng-click="verPuestosPeriodo()" class="btn btn-default">Puestos del periodo</a><a href="" ng-click="verPuestosYear()" class="btn btn-success disabled">Puestos del año</a>
+              </div>
             </tab>
           </tabset>
           <hr class="wide">
@@ -25,13 +90,13 @@
           <div class="control-group">
             <div class="radio">
               <label>
-                <input type="radio" ng-model="orientacion" value="horizontal">
+                <input type="radio" ng-model="config.orientacion" value="horizontal">
                 <div class="text">Horizontal</div>
               </label>
             </div>
             <div class="radio">
               <label>
-                <input type="radio" ng-model="orientacion" value="vertical">
+                <input type="radio" ng-model="config.orientacion" value="vertical">
                 <div class="text">Vertical</div>
               </label>
             </div>

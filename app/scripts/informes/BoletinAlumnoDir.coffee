@@ -9,6 +9,7 @@ angular.module('myvcFrontApp')
 		year: "="
 		alumno: "="
 		config: "="
+		escalas: "="
 
 	link: (scope, iElem, iAttrs)->
 		# Debo agregar la clase .loading-inactive para que desaparezca el loader de la pantalla.

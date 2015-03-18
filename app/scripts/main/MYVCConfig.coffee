@@ -88,6 +88,9 @@ angular.module('myvcFrontApp')
 			resolved_user: ['AuthService', (AuthService)->
 				AuthService.verificar()
 			]
+			alumnos: ['AlumnosServ', (AlumnosServ)->
+				AlumnosServ.getAlumnos()
+			]
 		}
 		data: 
 			displayName: 'Informes'
