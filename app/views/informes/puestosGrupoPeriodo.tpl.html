@@ -31,8 +31,10 @@
           <tr ng-repeat="alumno in alumnos | orderBy:'-promedio'">
             <td>{{$index + 1}}</td>
             <td>{{alumno.nombres + + alumno.apellidos}}</td>
-            <td ng-repeat="asignatura in alumno.asignaturas"><span popover="{{ asignatura.unidades | notasAsignatura }}">{{asignatura.nota_asignatura}}</span><span popover="{{ asignatura.unidades | notasPerdidasAsignatura }}" ng-show="{{asignatura.nota_asignatura | notasPerdidasAsignatura:true}} &gt; 0">({{asignatura.nota_asignatura | notasPerdidasAsignatura:true}})</span></td>
-            <td>0</td>
+            <td ng-repeat="asignatura in alumno.asignaturas"><span popover="{{ asignatura.unidades | notasAsignatura }}">{{asignatura.nota_asignatura | number:0}}</span>
+              <!--span(popover="{{ asignatura.unidades | notasPerdidasAsignatura }}" ng-show="{{asignatura.unidades | notasPerdidasAsignatura:true}} > 0") ({{asignatura.unidades | notasPerdidasAsignatura:true}})--><span popover="{{ asignatura.unidades | notasPerdidasAsignatura }}" data-trigger="hover" ng-show="{{asignatura.unidades | notasPerdidasAsignatura:true}} &gt; 0">({{asignatura.unidades | notasPerdidasAsignatura:true}})</span>
+            </td>
+            <td><span>{{alumno.promedio | number:1}}</span></td>
           </tr>
         </tbody>
       </table>

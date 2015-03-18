@@ -27,7 +27,9 @@ div(ng-class="{'boletin-page-horizontal': config.orientacion=='horizontal', 'bol
 						td {{$index + 1}}
 						td {{alumno.nombres + + alumno.apellidos}}
 						td(ng-repeat="asignatura in alumno.asignaturas")
-							span( popover="{{ asignatura.unidades | notasAsignatura }}") {{asignatura.nota_asignatura}}
-							span( popover="{{ asignatura.unidades | notasPerdidasAsignatura }}" ng-show="{{asignatura.nota_asignatura | notasPerdidasAsignatura:true}} > 0") ({{asignatura.nota_asignatura | notasPerdidasAsignatura:true}})
-						td 0
+							span(popover="{{ asignatura.unidades | notasAsignatura }}") {{asignatura.nota_asignatura | number:0}}
+							//span(popover="{{ asignatura.unidades | notasPerdidasAsignatura }}" ng-show="{{asignatura.unidades | notasPerdidasAsignatura:true}} > 0") ({{asignatura.unidades | notasPerdidasAsignatura:true}})
+							span(popover="{{ asignatura.unidades | notasPerdidasAsignatura }}" data-trigger="hover" ng-show="{{asignatura.unidades | notasPerdidasAsignatura:true}} > 0") ({{asignatura.unidades | notasPerdidasAsignatura:true}})
+						td 
+							span {{alumno.promedio | number:1}}
 

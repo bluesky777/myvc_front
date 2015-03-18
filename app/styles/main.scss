@@ -15790,5 +15790,22 @@ body {
     .rector-firma img, .titular-firma img{
         height:200px;
     }
+    .nombre-rector-firma, .nombre-titular-firma{
+        font-weight: bold;
+    }
 }
 
+
+.popover{
+    max-width: 100%; // Max Width of the popover (depending on the container!)
+}
+.unidad-pop{
+    overflow: hidden; text-overflow: ellipsis; width: 250px; white-space: nowrap;
+}
+.ellipsis350{
+    overflow: hidden; text-overflow: ellipsis; width: 350px; white-space: nowrap;
+}
+.ellipsis250{
+    overflow: hidden; text-overflow: ellipsis; width: 250px; white-space: nowrap;
+    display: inline-block;
+}

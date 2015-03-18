@@ -16,7 +16,7 @@
           <div class="row descripcion-encabezado">
             <div class="col-lg-6 col-xs-6">
               <div class="grupo-alumno">Grupo: <b>{{grupo.nombre_grupo | capitalize}}</b></div>
-              <div popover="&lt;img src='{{perfilPath + grupo.foto_nombre}}' style='width: 150px; height: 150px;'&gt;" popover-popup-delay="1000" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true" popover-trigger="mouseenter" class="titular-grupo">Titular: Pr. {{grupo.nombres_profesor + grupo.apellidos_profesor | capitalize}}</div>
+              <div popover="&lt;img src='{{perfilPath + grupo.foto_nombre}}' style='width: 150px; height: 150px;'&gt;" popover-popup-delay="1000" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true" popover-trigger="mouseenter" class="titular-grupo">Titular: Pr. {{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor | capitalize}}</div>
             </div>
             <div class="col-lg-6 col-xs-6">
               <h5 class="nombre-alumno">{{alumno.nombres + ' ' + alumno.apellidos}}</h5>
@@ -31,9 +31,9 @@
             <div class="row materia-title">
               <div class="col-lg-9 col-xs-9"><span class="materia-name">{{asignatura.materia}}</span><span class="materia-profesor">- Pr. {{asignatura.nombres_profesor | capitalize}}</span></div>
               <div class="col-lg-1 col-xs-1"><i class="fa fa-clock-o icon-tardanza"> </i><span class="text-tardanza">{{asignatura.total_ausencias}} </span></div>
-              <div ng-class="{'nota-perdida': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada}" class="col-lg-1 col-xs-1">{{ asignatura.nota_asignatura | juicioValorativo:escalas:true}} </div>
+              <div ng-class="{'nota-perdida': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}" class="col-lg-1 col-xs-1">{{ asignatura.nota_asignatura | juicioValorativo:escalas:true}} </div>
               <div class="col-lg-1 col-xs-1">
-                <div ng-class="{'nota-perdida-bold': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada}">{{asignatura.nota_asignatura}}</div>
+                <div ng-class="{'nota-perdida-bold': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}">{{asignatura.nota_asignatura}}</div>
               </div>
             </div>
             <div class="row unidades-list">
@@ -51,8 +51,9 @@
                           <div class="col-lg-10 col-xs-10 subunidad-definicion">{{subunidad.definicion_subunidad}}</div>
                           <div class="col-lg-1 col-xs-1 subunidad-porc">{{subunidad.porcentaje_subunidad}}%</div>
                           <div class="col-lg-1 col-xs-1 subunidad-nota puntero">
-                            <!--i.fa.fa-warning(ng-show="subunidad.nota.nota<USER.nota_minima_aceptada")--><span ng-show="subunidad.nota.nota&gt;69" tooltip="Valor nota: {{subunidad.nota.valor}}">{{subunidad.nota.nota}}</span>
-                            <!--span.label.label-darkpink(ng-show="subunidad.nota.nota<USER.nota_minima_aceptada" style="padding: 2px"){{subunidad.nota.nota}}--><span ng-show="subunidad.nota.nota&lt;USER.nota_minima_aceptada" tooltip="Valor nota: {{subunidad.nota.valor}}" class="nota-perdida-bold">{{subunidad.nota.nota}}</span><span ng-show="!subunidad.nota.nota" tooltip="Aún sin nota" class="nota-perdida"><i class="fa fa-warning"></i></span>
+                            <!--i.fa.fa-warning(ng-show="subunidad.nota.nota<USER.nota_minima_aceptada")--><span ng-class="{'nota-perdida-bold': subunidad.nota.nota&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}" tooltip="Valor nota: {{subunidad.nota.valor}}">{{subunidad.nota.nota}}</span>
+                            <!--span.label.label-darkpink(ng-show="subunidad.nota.nota<USER.nota_minima_aceptada && config.show_rojos" style="padding: 2px"){{subunidad.nota.nota}}-->
+                            <!--span(ng-show="subunidad.nota.nota<USER.nota_minima_aceptada" tooltip="Valor nota: {{subunidad.nota.valor}}"){{subunidad.nota.nota}}--><span ng-show="!subunidad.nota.nota &amp;&amp; subunidad.nota.nota!=0" tooltip="Aún sin nota" class="nota-perdida"><i class="fa fa-warning"></i></span>
                           </div>
                         </div>
                       </div>
@@ -100,7 +101,7 @@
                     <td>No</td>
                     <td>Asignaturas</td>
                     <td ng-repeat="periodo in year.periodos">Per{{periodo.numero}}</td>
-                    <td>Total</td>
+                    <!--td Total-->
                   </tr>
                 </thead>
                 <tbody>
@@ -108,18 +109,25 @@
                     <td>{{$index + 1}}</td>
                     <td>{{asignatura_perdida.materia | capitalize}}</td>
                     <td ng-repeat="periodo in asignatura_perdida.periodos">
-                      <div>{{periodo.cantNotasPerdidas}}</div>
+                      <div>{{periodo.unidades | notasPerdidasAsignatura:true}}</div>
                     </td>
-                    <td><b>{{asignatura_perdida.cantTotal}}</b></td>
+                    <!--tdb {{asignatura_perdida.cantTotal}}
+                    -->
                   </tr>
                 </tbody>
-                <tfoot>
-                  <tr>
-                    <td colspan="2">Total</td>
-                    <td ng-repeat="periodo in alumno.periodos_con_perdidas">{{periodo.cant_perdidas}}</td>
-                    <td><b>{{alumno.notas_perdidas_year}}</b></td>
-                  </tr>
-                </tfoot>
+                <!--tfoot
+                tr
+                 td(colspan="2")
+                  |Total
+                 td(ng-repeat="periodo in alumno.periodos_con_perdidas")
+                  {{asignaturas_perdidas}}
+                 td
+                  b {{alumno.notas_perdidas_year}}
+                  
+                  
+                  
+                  
+                -->
               </table>
             </div>
           </div>
@@ -136,9 +144,9 @@
             <div class="col-lg-6 col-xs-6 nombre-titular-firma">{{grupo.nombres_profesor}} {{grupo.apellidos_profesor}}</div>
           </div>
           <div class="row">
-            <div ng-show="year.sexo_rector=='M'" class="col-lg-6 col-xs-6 nombre-rector-firma">Rector</div>
-            <div ng-show="year.sexo_rector=='F'" class="col-lg-6 col-xs-6 nombre-rector-firma">Rectora</div>
-            <div class="col-lg-6 col-xs-6 nombre-titular-firma">Titular</div>
+            <div ng-show="year.sexo_rector=='M'" class="col-lg-6 col-xs-6">Rector</div>
+            <div ng-show="year.sexo_rector=='F'" class="col-lg-6 col-xs-6">Rectora</div>
+            <div class="col-lg-6 col-xs-6">Titular</div>
           </div>
         </div>
       </div>

@@ -16,6 +16,8 @@ angular.module('myvcFrontApp')
 		# y eso lo puedo hacer con el ng-if
 
 		scope.USER = Perfil.User()
+		scope.USER.nota_minima_aceptada = parseInt(scope.USER.nota_minima_aceptada)
+		console.log 'scope.USER', scope.USER
 		scope.perfilPath = App.images+'perfil/'
 
 		#console.log scope.config.orientacion

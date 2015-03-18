@@ -24,7 +24,7 @@ div(ng-class="{'boletin-page-horizontal': config.orientacion=='horizontal', 'bol
 							.titular-grupo(popover="<img src='{{perfilPath + grupo.foto_nombre}}' style='width: 150px; height: 150px;'>" 
 									popover-popup-delay="1000" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true" 
 									popover-trigger="mouseenter")
-								|Titular: Pr. {{grupo.nombres_profesor + grupo.apellidos_profesor | capitalize}}
+								|Titular: Pr. {{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor | capitalize}}
 						.col-lg-6.col-xs-6
 							h5.nombre-alumno {{alumno.nombres + ' ' + alumno.apellidos}}
 							.promedio-alumno Puntaje: {{alumno.promedio | number:1}}% - Puesto: {{alumno.puesto}}/{{grupo.cantidad_alumnos}}
@@ -38,10 +38,10 @@ div(ng-class="{'boletin-page-horizontal': config.orientacion=='horizontal', 'bol
 							.col-lg-1.col-xs-1
 								i.fa.fa-clock-o.icon-tardanza  
 								span.text-tardanza {{asignatura.total_ausencias}} 
-							.col-lg-1.col-xs-1(ng-class="{'nota-perdida': asignatura.nota_asignatura<USER.nota_minima_aceptada}")
+							.col-lg-1.col-xs-1(ng-class="{'nota-perdida': asignatura.nota_asignatura<USER.nota_minima_aceptada && config.show_rojos}")
 								| {{ asignatura.nota_asignatura | juicioValorativo:escalas:true}} 
 							.col-lg-1.col-xs-1
-								div(ng-class="{'nota-perdida-bold': asignatura.nota_asignatura<USER.nota_minima_aceptada}")
+								div(ng-class="{'nota-perdida-bold': asignatura.nota_asignatura<USER.nota_minima_aceptada && config.show_rojos}")
 									{{asignatura.nota_asignatura}}
 						.row.unidades-list
 							.col-lg-12.col-xs-12
@@ -63,10 +63,10 @@ div(ng-class="{'boletin-page-horizontal': config.orientacion=='horizontal', 'bol
 														{{subunidad.porcentaje_subunidad}}%
 													.col-lg-1.col-xs-1.subunidad-nota.puntero
 														//i.fa.fa-warning(ng-show="subunidad.nota.nota<USER.nota_minima_aceptada")
-														span(ng-show="subunidad.nota.nota>69" tooltip="Valor nota: {{subunidad.nota.valor}}"){{subunidad.nota.nota}}
-														//span.label.label-darkpink(ng-show="subunidad.nota.nota<USER.nota_minima_aceptada" style="padding: 2px"){{subunidad.nota.nota}}
-														span.nota-perdida-bold(ng-show="subunidad.nota.nota<USER.nota_minima_aceptada" tooltip="Valor nota: {{subunidad.nota.valor}}"){{subunidad.nota.nota}}
-														span.nota-perdida(ng-show="!subunidad.nota.nota" tooltip="Aún sin nota")
+														span(ng-class="{'nota-perdida-bold': subunidad.nota.nota<USER.nota_minima_aceptada && config.show_rojos}" tooltip="Valor nota: {{subunidad.nota.valor}}"){{subunidad.nota.nota}}
+														//span.label.label-darkpink(ng-show="subunidad.nota.nota<USER.nota_minima_aceptada && config.show_rojos" style="padding: 2px"){{subunidad.nota.nota}}
+														//span(ng-show="subunidad.nota.nota<USER.nota_minima_aceptada" tooltip="Valor nota: {{subunidad.nota.valor}}"){{subunidad.nota.nota}}
+														span.nota-perdida(ng-show="!subunidad.nota.nota && subunidad.nota.nota!=0" tooltip="Aún sin nota")
 															i.fa.fa-warning
 
 								.row.comentarios-asignatura(ng-show="asignatura.frases.length>0")
@@ -114,21 +114,21 @@ div(ng-class="{'boletin-page-horizontal': config.orientacion=='horizontal', 'bol
 										td Asignaturas
 										td(ng-repeat="periodo in year.periodos")
 											|Per{{periodo.numero}}
-										td Total
+										//td Total
 								tbody
 									tr(ng-repeat="asignatura_perdida in alumno.asignaturas_perdidas")
 										td {{$index + 1}}
 										td {{asignatura_perdida.materia | capitalize}}
 										td(ng-repeat="periodo in asignatura_perdida.periodos")
-											div {{periodo.cantNotasPerdidas}}
-										td
+											div {{periodo.unidades | notasPerdidasAsignatura:true}}
+										//td
 											b {{asignatura_perdida.cantTotal}}
-								tfoot
+								//tfoot
 									tr
 										td(colspan="2")
 											|Total
 										td(ng-repeat="periodo in alumno.periodos_con_perdidas")
-											{{periodo.cant_perdidas}}
+											{{asignaturas_perdidas}}
 										td
 											b {{alumno.notas_perdidas_year}}
 
@@ -149,12 +149,12 @@ div(ng-class="{'boletin-page-horizontal': config.orientacion=='horizontal', 'bol
 							{{grupo.nombres_profesor}} {{grupo.apellidos_profesor}}
 
 					.row
-						.col-lg-6.col-xs-6.nombre-rector-firma(ng-show="year.sexo_rector=='M'")
+						.col-lg-6.col-xs-6(ng-show="year.sexo_rector=='M'")
 							|Rector
-						.col-lg-6.col-xs-6.nombre-rector-firma(ng-show="year.sexo_rector=='F'")
+						.col-lg-6.col-xs-6(ng-show="year.sexo_rector=='F'")
 							|Rectora
 
-						.col-lg-6.col-xs-6.nombre-titular-firma
+						.col-lg-6.col-xs-6
 							|Titular
 
 
