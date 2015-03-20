@@ -2,7 +2,36 @@ angular.module('myvcFrontApp')
 .config(['$stateProvider', 'App', 'USER_ROLES', 'PERMISSIONS', ($state, App, USER_ROLES, PERMISSIONS) ->
 
 	$state
-		.state 'informes.boletines_periodo',
+
+
+		.state('panel.informes', { #- Estado admin.
+			url: '^/informes'
+			views:
+				'maincontent':
+					templateUrl: "#{App.views}informes/informes.tpl.html"
+					controller: 'InformesCtrl'
+				'headerContent':
+					templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+					controller: 'PanelHeaderCtrl'
+					resolve:
+						titulo: [->
+							'Informes interactivos'
+						]
+			resolve: { 
+				resolved_user: ['AuthService', (AuthService)->
+					AuthService.verificar()
+				]
+				alumnos: ['AlumnosServ', (AlumnosServ)->
+					AlumnosServ.getAlumnos()
+				]
+			}
+			data: 
+				displayName: 'Informes'
+				icon_fa: 'fa fa-print'
+				pageTitle: 'Informes - MyVc'
+		})
+
+		.state 'panel.informes.boletines_periodo',
 			url: '/boletines_periodo/:grupo_id'
 			params:
 				grupo_id: {value: null}
@@ -49,9 +78,10 @@ angular.module('myvcFrontApp')
 							EscalasValorativasServ.escalas()
 						]
 			data: 
+				displayName: 'Boletines periodo'
 				pageTitle: 'Boletines periodo - MyVc'
 
-		.state 'informes.puestos_grupo_periodo',
+		.state 'panel.informes.puestos_grupo_periodo',
 			url: '/puestos_grupo_periodo/:grupo_id'
 			views: 
 				'report_content':
@@ -66,9 +96,9 @@ angular.module('myvcFrontApp')
 							EscalasValorativasServ.escalas()
 						]
 			data: 
-				pageTitle: 'Boletines periodo - MyVc'
+				pageTitle: 'Puestos periodo - MyVc'
 
-		.state 'informes.puestos_grupo_year',
+		.state 'panel.informes.puestos_grupo_year',
 			url: '/puestos_grupo_periodo/:grupo_id'
 			views: 
 				'report_content':
@@ -83,7 +113,25 @@ angular.module('myvcFrontApp')
 							EscalasValorativasServ.escalas()
 						]
 			data: 
-				pageTitle: 'Boletines periodo - MyVc'
+				displayName: 'Puestos del año'
+				icon_fa: 'fa fa-print'
+				pageTitle: 'Puestos del año - MyVc'
+
+
+		.state 'panel.informes.planillas_grupo',
+			url: '/planillas_grupo/:grupo_id'
+			views: 
+				'report_content':
+					templateUrl: "#{App.views}informes/planillasGrupo.tpl.html"
+					controller: 'PlanillasGrupoCtrl'
+					resolve:
+						alumnos: ['Restangular', '$stateParams', (Restangular, $stateParams)->
+							Restangular.one('planillas/show', $stateParams.grupo_id).getList()
+						]
+			data: 
+				displayName: 'Puestos del año'
+				icon_fa: 'fa fa-print'
+				pageTitle: 'Puestos del año - MyVc'
 
 
 ])

@@ -1,7 +1,7 @@
 <!-- Loading Container -->
 <loader ng-if="bigLoader"></loader><!--  /Loading Container -->
 <!-- Navbar -->
-<div class="navbar">
+<div class="navbar hidden-print">
   <div class="navbar-inner">
     <div class="navbar-container"><!-- Navbar Barnd -->
       <div class="navbar-header pull-left"><a ui-sref="panel" class="navbar-brand"><small><img ng-src="{{logoPath}}" alt=""></small></a></div><!-- /Navbar Barnd -->
@@ -161,7 +161,7 @@
 <!-- Main Container -->
 <div class="main-container container-fluid"><!-- Page Container -->
   <div class="page-container">
-    <div id="sidebar" ng-class="{'menu-compact': menucompacto, 'page-sidebar': true}"><!-- Page Sidebar Header-->
+    <div id="sidebar" ng-class="{'menu-compact': menucompacto, 'page-sidebar': true}" class="hidden-print"><!-- Page Sidebar Header-->
       <div class="sidebar-header-wrapper">
         <input type="text" class="searchinput"><i class="searchicon fa fa-search"></i>
         <div class="searchhelper">Aún no puedes buscar en el sitio.</div>
@@ -171,9 +171,9 @@
     </div><!-- /Page Sidebar -->
     <!-- Page Content -->
     <div class="page-content"><!-- Page Breadcrumb -->
-      <ui-breadcrumbs displayname-property="data.displayName"></ui-breadcrumbs><!-- /Page Breadcrumb -->
+      <ui-breadcrumbs displayname-property="data.displayName" class="hidden-print"></ui-breadcrumbs><!-- /Page Breadcrumb -->
       <!-- Page Header ************************************** -->
-      <div ui-view="headerContent" class="page-header position-relative"></div><!-- /Page Header ************************************* -->
+      <div ui-view="headerContent" class="page-header position-relative hidden-print"></div><!-- /Page Header ************************************* -->
       <!-- Page Body -->
       <div class="page-body">
         <!--databoxes-container.row--><!-- Main Content ************************************* -->

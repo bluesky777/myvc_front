@@ -2,7 +2,7 @@ angular.module('myvcFrontApp')
 
 
 # Configuración principal de nuestra aplicación.
-.config(['$cookiesProvider', '$stateProvider', '$urlRouterProvider', '$httpProvider', 'App', 'PERMISSIONS', 'RestangularProvider', '$intervalProvider', '$rootScopeProvider', 'USER_ROLES', 'toastrConfig', 'uiSelectConfig', ($cookies, $state, $urlRouter, $httpProvider, App, PERMISSIONS, Restangular, $intervalProvider, $rootScopeProvider, USER_ROLES, toastrConfig, uiSelectConfig)->
+.config(['$cookiesProvider', '$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationProvider', 'App', 'PERMISSIONS', 'RestangularProvider', '$intervalProvider', '$rootScopeProvider', 'USER_ROLES', 'toastrConfig', 'uiSelectConfig', ($cookies, $state, $urlRouter, $httpProvider, $locationProvider, App, PERMISSIONS, Restangular, $intervalProvider, $rootScopeProvider, USER_ROLES, toastrConfig, uiSelectConfig)->
 
 	Restangular.setBaseUrl App.Server # Url a la que se harán todas las llamadas.
 	
@@ -78,25 +78,8 @@ angular.module('myvcFrontApp')
 			pageTitle: 'Bienvenido - MyVc'
 	})
 
-	.state('informes', { #- Estado admin.
-		url: '/informes'
-		views:
-			'principal':
-				templateUrl: "#{App.views}informes/informes.tpl.html"
-				controller: 'InformesCtrl'
-		resolve: { 
-			resolved_user: ['AuthService', (AuthService)->
-				AuthService.verificar()
-			]
-			alumnos: ['AlumnosServ', (AlumnosServ)->
-				AlumnosServ.getAlumnos()
-			]
-		}
-		data: 
-			displayName: 'Informes'
-			icon_fa: 'fa fa-home'
-			pageTitle: 'Informes - MyVc'
-	})
+
+	#$locationProvider.html5Mode true
 
 	$rootScopeProvider.bigLoader = true
 

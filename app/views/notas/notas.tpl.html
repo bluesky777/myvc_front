@@ -50,7 +50,7 @@
               <div>
                 <td ng-repeat="subunidad in subunidadesunidas">
                   <div ng-class="{'inputnota-perdida': subunidad.notas[$parent.$index].nota &lt; 70, 'inputnota-superior': subunidad.notas[$parent.$index].nota &gt; 90, 'cursorcell': notaRapida.enable == true}" ng-hide="subunidad.empty" class="text-center">
-                    <input tooltip="{{subunidad.porcentaje}}% {{subunidad.definicion}}" tooltip-popup-delay="1000" type="number" min="0" max="100" ng-model="subunidad.notas[$parent.$index].nota" ng-change="cambiaNota(subunidad.notas[$parent.$index])" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])">
+                    <input tooltip="{{subunidad.porcentaje}}% {{subunidad.definicion}}" tooltip-popup-delay="1000" type="number" min="0" max="100" ng-model="subunidad.notas[$parent.$index].nota" ng-change="cambiaNota(subunidad.notas[$parent.$index], subunidad.notas[$parent.$index].nota)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])">
                   </div>
                   <div tooltip="No hay subunidad" tooltip-popup-delay="1000" ng-show="subunidad.empty" class="text-center"><i class="fa fa-frown-o"></i></div>
                 </td>

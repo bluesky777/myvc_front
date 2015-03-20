@@ -1,2 +1,2 @@
-div(ng-repeat="alumno in alumnos" ng-class="{'container-carta': config.orientacion=='horizontal', 'container-carta-vertical': config.orientacion=='vertical'}")
+div(ng-repeat="alumno in alumnos")
 	div.boletin-alumno(boletin-alumno-dir alumno="alumno" grupo="grupo" year="year" config="config" escalas="escalas")

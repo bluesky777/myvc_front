@@ -2783,63 +2783,66 @@ a:focus, a:active {
 }
 @media only screen and (max-width:880px) {
     .page-sidebar:before {
-    display: none;
+        display: none;
+    }
+    .page-sidebar {
+        display: none;
+        float: none;
+        //width: 42px;
+    }
+    .breadcrumbs-fixed {
+        left: 0!important;
+    }
+    .page-header-fixed {
+        left: 0!important;
+    }
 }
-.page-sidebar {
-    display: none;
-    float: none;
-}
-.breadcrumbs-fixed {
-    left: 0!important;
-}
-.page-header-fixed {
-    left: 0!important;
-}
-}@media(max-width:880px) {
+@media(max-width:880px) {
     .page-sidebar.hide {
-    display: block!important;
+        display: block!important;
+    }
+    .page-sidebar.hide:before {
+        display: block!important;
+    }
+    .page-sidebar.hide+.page-content {
+        margin-left: 224px!important;
+    }
+    .page-sidebar.hide+.page-content .breadcrumbs-fixed {
+        left: 224px!important;
+    }
+    .page-sidebar.hide+.page-content .page-header-fixed {
+        left: 224px!important;
+    }
+    .page-sidebar.menu-compact+.page-content {
+        margin-left: 0;
+    }
+    .page-sidebar.menu-compact+.page-content .breadcrumbs-fixed {
+        left: 0;
+    }
+    .page-sidebar.menu-compact+.page-content .page-header-fixed {
+        left: 0;
+    }
+    .page-sidebar.menu-compact.hide+.page-content {
+        margin-left: 46px!important;
+    }
+    .page-sidebar.menu-compact.hide+.page-content .breadcrumbs-fixed {
+        left: 46px!important;
+    }
+    .page-sidebar.menu-compact.hide+.page-content .page-header-fixed {
+        left: 46px!important;
+    }
+    }@media(max-width:500px) {
+        .page-sidebar.hide+.page-content .page-header .header-title {
+        display: none;
+    }
+    .page-sidebar.hide+.page-content .page-header .header-buttons .refresh, .page-sidebar.hide+.page-content .page-header .header-buttons .fullscreen {
+        display: none;
+    }
+    .page-sidebar.menu-compact.hide+.page-content .page-header .header-buttons .refresh, .page-sidebar.menu-compact.hide+.page-content .page-header .header-buttons .fullscreen {
+        display: inline-block;
+    }
 }
-.page-sidebar.hide:before {
-    display: block!important;
-}
-.page-sidebar.hide+.page-content {
-    margin-left: 224px!important;
-}
-.page-sidebar.hide+.page-content .breadcrumbs-fixed {
-    left: 224px!important;
-}
-.page-sidebar.hide+.page-content .page-header-fixed {
-    left: 224px!important;
-}
-.page-sidebar.menu-compact+.page-content {
-    margin-left: 0;
-}
-.page-sidebar.menu-compact+.page-content .breadcrumbs-fixed {
-    left: 0;
-}
-.page-sidebar.menu-compact+.page-content .page-header-fixed {
-    left: 0;
-}
-.page-sidebar.menu-compact.hide+.page-content {
-    margin-left: 46px!important;
-}
-.page-sidebar.menu-compact.hide+.page-content .breadcrumbs-fixed {
-    left: 46px!important;
-}
-.page-sidebar.menu-compact.hide+.page-content .page-header-fixed {
-    left: 46px!important;
-}
-}@media(max-width:500px) {
-    .page-sidebar.hide+.page-content .page-header .header-title {
-    display: none;
-}
-.page-sidebar.hide+.page-content .page-header .header-buttons .refresh, .page-sidebar.hide+.page-content .page-header .header-buttons .fullscreen {
-    display: none;
-}
-.page-sidebar.menu-compact.hide+.page-content .page-header .header-buttons .refresh, .page-sidebar.menu-compact.hide+.page-content .page-header .header-buttons .fullscreen {
-    display: inline-block;
-}
-}.page-content {
+.page-content {
     display: block;
     margin-left: 224px;
     margin-right: 0;
@@ -15438,11 +15441,12 @@ body {
 .maxwidth15{
     max-width: 700px;
 }
-.inputnota-perdida input{
-    border-color: #FF6F6F;
-    color: #e46f61;
+.inputnota-perdida input{  
+    border-color: #E61900;
+    color: #F11A00;
     box-shadow: none;
-    background-color: #fffafa;
+    font-weight: bold;
+    background-color: rgb(230, 224, 224);
 }
 .inputnota-superior input{
     border-color: #a4d3fe;
@@ -15465,34 +15469,12 @@ body {
     background-color: #fefbf1;
 }
 
-
-.container-carta, .container-oficio{
-    max-width: 30cm!important;
-    border: #E6E6E6 solid;
-}
-.container-carta, .container-oficio{
-    width: 22cm;
-}
-
-.container-carta-horizontal{
-    width: 31cm;
-}
-.container-oficio-horizontal{
-    width: 31cm;
-}
-
-.boletin-page-vertical, .boletin-page-horizontal{
+.page-vertical, .page-carta-horizontal, .page-oficio-horizontal{
     background-color: white;
     page-break-after: always;
     padding: 10px;
-
-    .boletin-page-vertical{
-        size:21cm 30cm; 
-    }
-
-    .boletin-page-horizontal{
-        size:30cm 21cm; 
-    }
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
 }
 
 @page cartahorizontal { 
@@ -15509,31 +15491,48 @@ body {
     page-break-after: always;
 }
 
-.boletin-page-vertical{
+.page-vertical{
     page: cartavertical;
     width: 21cm;
     margin-bottom: 10px;
 }
-.boletin-page-horizontal{
+.page-carta-horizontal{
     page: cartahorizontal;
     width: 30cm;
-    }
+}
+
+.page-oficio-horizontal{
+    page: cartahorizontal;
+    width: 36cm;
+}
 
 
 @media print {
+    
+    .page-content{
+        margin-left: 0px;
+    }
     body {
         -webkit-print-color-adjust: exact;
     }
 
-    .boletin-page-vertical{
+    .page-vertical{
         page: cartavertical;
         width: 21cm;
         margin-bottom: 0px;
+        border: 0px;
     }
-    .boletin-page-horizontal{
+    .page-carta-horizontal{
         page: cartahorizontal;
         width: 30cm;
         margin-bottom: 0px;
+        border: 0px;
+    }
+    .page-oficio-horizontal{
+        page: cartahorizontal;
+        width: 30cm;
+        margin-bottom: 0px;
+        border: 0px;
     }
 
     .materia-title{
@@ -15570,7 +15569,7 @@ body {
         -webkit-print-color-adjust: exact;
     }
     table{
-        border: 1px solid #ddd!important;
+        border: 1px solid #000!important;
     }
     table > thead > tr > td{
         border-bottom-width: 2px!important;
@@ -15584,9 +15583,25 @@ body {
         background-image: linear-gradient(to bottom, #f2f2f2 0, #fafafa 100%);
         -webkit-print-color-adjust: exact;
     }
+    .table-striped2 > tbody > tr:nth-of-type(odd) {
+        background-color: #ccc!important;
+    }
+    .table td, .table th {
+        background-color: inherit !important;
+    }
+    .table-bordered2 > thead > tr > th, .table-bordered2 > tbody > tr > th, .table-bordered2 > tfoot > tr > th, .table-bordered2 > thead > tr > td, .table-bordered2 > tbody > tr > td, .table-bordered2 > tfoot > tr > td {
+        border: 1px solid #666!important;
+    }
+
 
     @page cartahorizontal { 
         size:30cm 21cm; 
+        margin: 2cm;
+        background-color: white;
+        page-break-after: always;
+    }
+    @page oficiohorizontal { 
+        size:36cm 21cm; 
         margin: 2cm;
         background-color: white;
         page-break-after: always;
@@ -15606,7 +15621,7 @@ body {
     padding-top: 10px;
     
     .logo-colegio{
-        width: 80%;
+        width: 80px;
     }
     .descripcion-encabezado{
         font-size: 8pt;
@@ -15639,7 +15654,7 @@ body {
         margin-top: 2px;
     }
     .foto-alumno{
-        width: 80%;
+        width: 80px;
     }
     .promedio-alumno{
         font-size: 8pt;
@@ -15802,10 +15817,88 @@ body {
 .unidad-pop{
     overflow: hidden; text-overflow: ellipsis; width: 250px; white-space: nowrap;
 }
-.ellipsis350{
-    overflow: hidden; text-overflow: ellipsis; width: 350px; white-space: nowrap;
+
+
+
+
+.ellipsis200, .ellipsis250, .ellipsis270, .ellipsis350{
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.ellipsis200{
+    width: 200px;
 }
 .ellipsis250{
-    overflow: hidden; text-overflow: ellipsis; width: 250px; white-space: nowrap;
+    width: 250px;
     display: inline-block;
 }
+.ellipsis270{
+    width: 270px;
+}
+.ellipsis350{
+    width: 350px;
+}
+
+
+
+
+
+.encabezado-puestos{
+    text-align: center;
+
+    .logo-colegio{
+        width: 80px;
+    }
+    .nombre-colegio, .title-descripcion{
+        font-weight: bold!important;
+    }
+    .nombre-colegio{
+        font-size: 12pt;
+    }
+    .title-descripcion{
+        font-size: 11pt;
+    }
+    .resolucion-colegio{
+        font-size: 8pt;
+    }
+}
+
+.encabezado-planilla{
+    text-align: center;
+
+    .logo-colegio{
+        width: 60px;
+    }
+    .nombre-colegio, .title-descripcion{
+        font-weight: bold!important;
+    }
+    .nombre-colegio{
+        font-size: 12pt;
+    }
+    .title-descripcion{
+        font-size: 11pt;
+    }
+    .resolucion-colegio{
+        font-size: 8pt;
+    }
+}
+
+.table-striped2 > tbody > tr:nth-of-type(odd) {
+    background-color: #ccc!important;
+}
+.table td, .table th {
+    background-color: inherit !important;
+}
+.table-bordered2 > thead > tr > th, .table-bordered2 > tbody > tr > th, .table-bordered2 > tfoot > tr > th, .table-bordered2 > thead > tr > td, .table-bordered2 > tbody > tr > td, .table-bordered2 > tfoot > tr > td {
+    border: 1px solid #777!important;
+}
+
+.def-per-planilla{
+    font-size: 6pt;
+}
+.alumno-planilla{
+
+}
+.foto-profe{
+    width: 60px;
+}
+

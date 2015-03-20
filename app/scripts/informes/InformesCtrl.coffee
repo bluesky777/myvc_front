@@ -25,9 +25,10 @@ angular.module('myvcFrontApp')
 
 	if $cookieStore.get 'config'
 		$scope.config = $cookieStore.get 'config'
-		$scope.informe_tab_actual_boletines = if $scope.config.informe_tab_actual=='boletines' then true else false
-		$scope.informe_tab_actual_puestos = if $scope.config.informe_tab_actual=='puestos' then true else false
-		#console.log '$scope.config', $scope.config
+		$scope.informe_tab_actual_boletines 	= if $scope.config.informe_tab_actual 	=='boletines' then true else false
+		$scope.informe_tab_actual_puestos 		= if $scope.config.informe_tab_actual 	=='puestos' then true else false
+		$scope.informe_tab_actual_planillas 	= if $scope.config.informe_tab_actual 	=='planillas' then true else false
+		console.log '$scope.config', $scope.config
 	else
 		$scope.config.orientacion = 'vertical'
 
@@ -66,20 +67,22 @@ angular.module('myvcFrontApp')
 	$scope.selectTab = (tab)->
 		$scope.config.informe_tab_actual = tab
 		$cookieStore.put 'config', $scope.config
-		$scope.informe_tab_actual_boletines = if tab=='boletines' then true else false
-		$scope.informe_tab_actual_puestos = if tab=='puestos' then true else false
+
+		$scope.informe_tab_actual_boletines 	= if tab=='boletines' then true else false
+		$scope.informe_tab_actual_puestos 		= if tab=='puestos' then true else false
+		$scope.informe_tab_actual_planillas 	= if tab=='planillas' then true else false
 
 	$scope.verBoletinesGrupo = ()->
 		$cookieStore.remove 'requested_alumnos'
 		$cookieStore.remove 'requested_alumno'
 		
-		$state.go 'informes.boletines_periodo', {grupo_id: $scope.datos.grupo.id}, {reload: true}
+		$state.go 'panel.informes.boletines_periodo', {grupo_id: $scope.datos.grupo.id}, {reload: true}
 
 	$scope.verBoletinesAlumnos = ()->
 		console.log '$scope.datos.selected_alumnos ', $scope.datos.selected_alumnos
 		if $scope.datos.selected_alumnos.length > 0
 			$cookieStore.put 'requested_alumnos', $scope.datos.selected_alumnos
-			$state.go 'informes.boletines_periodo', {grupo_id: $scope.datos.grupo.id}, {reload: true}
+			$state.go 'panel.informes.boletines_periodo', {grupo_id: $scope.datos.grupo.id}, {reload: true}
 		else
 			toastr.warning 'Debes seleccionar al menos un alumno o cargar boletines del grupo completo'
 
@@ -88,19 +91,24 @@ angular.module('myvcFrontApp')
 		console.log '$scope.datos.selected_alumno', $scope.datos.selected_alumno
 		if $scope.datos.selected_alumno
 			$cookieStore.put 'requested_alumno', [$scope.datos.selected_alumno]
-			$state.go 'informes.boletines_periodo', {}, {reload: true}
+			$state.go 'panel.informes.boletines_periodo', {}, {reload: true}
 		else
 			toastr.warning 'Elige un alumno o carga el grupo completo'
 
 
 	$scope.verPuestosPeriodo = ()->
 		console.log $scope.datos.grupo
-		$state.go 'informes.puestos_grupo_periodo', {grupo_id: $scope.datos.grupo.id}, {reload: true}
+		$state.go 'panel.informes.puestos_grupo_periodo', {grupo_id: $scope.datos.grupo.id}, {reload: true}
 
 
 	$scope.verPuestosYear = ()->
 		console.log $scope.datos.grupo
-		$state.go 'informes.puestos_grupo_year', {grupo_id: $scope.datos.grupo.id}, {reload: true}
+		$state.go 'panel.informes.puestos_grupo_year', {grupo_id: $scope.datos.grupo.id}, {reload: true}
+
+
+	$scope.verPlanillas = ()->
+		console.log $scope.datos.grupo
+		$state.go 'panel.informes.planillas_grupo', {grupo_id: $scope.datos.grupo.id}, {reload: true}
 
 
 	$scope.selectGrupo = (item)->

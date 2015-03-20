@@ -1,4 +1,4 @@
-div(ng-class="{'boletin-page-horizontal': config.orientacion=='horizontal', 'boletin-page-vertical': config.orientacion=='vertical'}")
+div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal', 'page-vertical': config.orientacion=='vertical'}")
 	.row
 		.col-lg-12.col-xs-12
 			.row.encabezado-puestos
@@ -15,9 +15,9 @@ div(ng-class="{'boletin-page-horizontal': config.orientacion=='horizontal', 'bol
 								|Puestos periodo {{USER.periodo_actual}} - {{USER.year}} Grupo {{grupo.nombre}}
 	.row
 		.col-lg-12
-			table.table.table-condensed.table-hover
+			table.table.table-condensed.table-hover.table-striped
 				thead
-					tr
+					th
 						td No
 						td Nombres
 						td(ng-repeat="asignatura in alumnos[0].asignaturas") {{asignatura.alias_materia}}
@@ -25,11 +25,16 @@ div(ng-class="{'boletin-page-horizontal': config.orientacion=='horizontal', 'bol
 				tbody
 					tr(ng-repeat="alumno in alumnos | orderBy:'-promedio'")
 						td {{$index + 1}}
-						td {{alumno.nombres + + alumno.apellidos}}
+						td {{alumno.nombres + ' ' + alumno.apellidos}}
 						td(ng-repeat="asignatura in alumno.asignaturas")
-							span(popover="{{ asignatura.unidades | notasAsignatura }}") {{asignatura.nota_asignatura | number:0}}
+							span(popover="{{ asignatura.unidades | notasAsignatura }}" popover-trigger="mouseenter" popover-popup-delay="1000") {{asignatura.nota_asignatura | number:0}}
 							//span(popover="{{ asignatura.unidades | notasPerdidasAsignatura }}" ng-show="{{asignatura.unidades | notasPerdidasAsignatura:true}} > 0") ({{asignatura.unidades | notasPerdidasAsignatura:true}})
-							span(popover="{{ asignatura.unidades | notasPerdidasAsignatura }}" data-trigger="hover" ng-show="{{asignatura.unidades | notasPerdidasAsignatura:true}} > 0") ({{asignatura.unidades | notasPerdidasAsignatura:true}})
+							span(popover="{{ asignatura.unidades | notasPerdidasAsignatura }}" popover-trigger="mouseenter" popover-popup-delay="1000" ng-show="{{asignatura.unidades | notasPerdidasAsignatura:true}} > 0") ({{asignatura.unidades | notasPerdidasAsignatura:true}})
 						td 
-							span {{alumno.promedio | number:1}}
+							span {{alumno.promedio | number:1}}({{ alumno.asignaturas | notasPerdidasAsignaturaPeriodo:true}})
+				tfoot
+					tr
+						td(colspan="5") Total
+
+
 

@@ -2,7 +2,7 @@
 loader(ng-if="bigLoader")
 <!--  /Loading Container -->
 <!-- Navbar -->
-.navbar
+.navbar.hidden-print
 	.navbar-inner
 		.navbar-container
 			<!-- Navbar Barnd -->
@@ -277,7 +277,7 @@ loader(ng-if="bigLoader")
 .main-container.container-fluid
 	<!-- Page Container -->
 	.page-container
-		#sidebar(ng-class="{'menu-compact': menucompacto, 'page-sidebar': true}")
+		#sidebar.hidden-print(ng-class="{'menu-compact': menucompacto, 'page-sidebar': true}")
 			
 			<!-- Page Sidebar Header-->
 			.sidebar-header-wrapper
@@ -297,11 +297,11 @@ loader(ng-if="bigLoader")
 		.page-content
 
 			<!-- Page Breadcrumb -->
-			ui-breadcrumbs(displayname-property="data.displayName")
+			ui-breadcrumbs.hidden-print(displayname-property="data.displayName")
 			<!-- /Page Breadcrumb -->
 
 			<!-- Page Header ************************************** -->
-			.page-header.position-relative(ui-view="headerContent")
+			.page-header.position-relative.hidden-print(ui-view="headerContent")
 			<!-- /Page Header ************************************* -->
 
 			<!-- Page Body -->

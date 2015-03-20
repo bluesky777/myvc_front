@@ -1,5 +1,5 @@
 
-<ul class="nav sidebar-menu"><!--Dashboard-->
+<ul class="nav sidebar-menu hidden-print"><!--Dashboard-->
   <li ui-sref-active-eq="active"><a ui-sref="panel"><i class="menu-icon glyphicon glyphicon-home"></i><span class="menu-text">Inicio</span></a></li><!--Alumnos-->
   <li ui-sref-active="active" ng-show="hasRoleOrPerm('admin')"><a ui-sref="panel.alumnos"><i class="menu-icon fa fa-child"></i><span class="menu-text">Alumnos</span></a></li><!-- Profesores-->
   <li sub-menu ng-click="toggleOpen()" ng-show="hasRoleOrPerm('admin')" ng-class="{open:$state.includes('panel.profesores')}"><a href="" class="menu-dropdown"><i class="menu-icon fa fa-graduation-cap"></i><span class="menu-text">Profesores</span><i class="menu-expand"></i></a>
@@ -57,11 +57,12 @@
       <li ui-sref-active="active" ng-if="hasRoleOrPerm(['admin'])"><a ui-sref="panel.materias" class="menu-dropdown"><span class="menu-text">Materias</span></a></li>
       <li ui-sref-active="active" ng-if="hasRoleOrPerm(['admin'])"><a ui-sref="panel.asignaturas" class="menu-dropdown"><span class="menu-text">Asignaturas</span></a></li>
     </ul>
-  </li><!-- Informes-->
-  <li ui-sref-active="active" ng-if="!hasRoleOrPerm(['admin']) &amp;&amp; hasRoleOrPerm(['profesor'])"><a ui-sref="informes"><i class="menu-icon glyphicon glyphicon-print"></i><span class="menu-text">Informes</span></a></li>
-  <li sub-menu ng-show="hasRoleOrPerm('admin')" ng-click="toggleOpen()" menu-is-open="false" ng-class="{active:$state.is('panel')}"><a href="" class="menu-dropdown"><i class="menu-icon glyphicon glyphicon-print"></i><span class="menu-text">Informes</span><i class="menu-expand"></i></a>
+  </li>
+  <li ui-sref-active="active" ng-if="!hasRoleOrPerm(['admin']) &amp;&amp; hasRoleOrPerm(['profesor'])"><a ui-sref="panel.bitacora" stop-event="click"><i class="menu-icon fa fa-align-justify"></i><span class="menu-text"> Bitacora</span></a></li><!-- Informes-->
+  <li ui-sref-active="active" ng-if="!hasRoleOrPerm(['admin']) &amp;&amp; hasRoleOrPerm(['profesor'])"><a ui-sref="panel.informes"><i class="menu-icon glyphicon glyphicon-print"></i><span class="menu-text">Informes</span></a></li>
+  <li sub-menu ng-show="hasRoleOrPerm('admin')" ng-click="toggleOpen()" menu-is-open="false" ng-class="{active:$state.includes('panel.informes')}"><a href="" class="menu-dropdown"><i class="menu-icon glyphicon glyphicon-print"></i><span class="menu-text">Informes</span><i class="menu-expand"></i></a>
     <ul class="submenu">
-      <li><a ui-sref="informes" stop-event="click"><span class="menu-text">Informes</span></a></li>
+      <li><a ui-sref="panel.informes" stop-event="click"><span class="menu-text">Informes</span></a></li>
       <li><a href="" stop-event="click"><span class="menu-text">Puestos</span></a></li>
       <li><a href="" stop-event="click"><span class="menu-text">3 primeros</span></a></li>
       <li><a href="" stop-event="click"><span class="menu-text">Boletines</span></a></li>
@@ -83,7 +84,7 @@
       <li ui-sref="panel.anuncios" stop-event="click"><a href="" stop-event="click"><span class="menu-text">Anuncios</span></a></li>
       <li ui-sref-active="active"><a ui-sref="panel.mensajes" stop-event="click"><span class="menu-text"> Mensajes</span></a></li>
       <li ui-sref-active="active"><a ui-sref="panel.bitacora" stop-event="click"><span class="menu-text"> Bitacora</span></a></li>
-      <li ui-sref-active="active"><a ui-sref="panel.bitacora" stop-event="click"><span class="menu-text"> Horarios</span></a></li>
+      <li ui-sref-active="active" ng-if="false"><a ui-sref="panel.horarios" stop-event="click"><span class="menu-text"> Horarios</span></a></li>
       <li ui-sref-active="active"><a ui-sref="votaciones" stop-event="click"><span class="menu-text"> Votaciones</span></a></li>
       <li ui-sref-active="active"><a ui-sref="panel.papelera" stop-event="click"><span class="menu-text"> Papelera</span><i class="menu-icon fa fa-trash themesecondary"></i></a></li>
     </ul>

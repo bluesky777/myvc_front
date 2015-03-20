@@ -61,7 +61,7 @@
 										input(tooltip="{{subunidad.porcentaje}}% {{subunidad.definicion}}" tooltip-popup-delay="1000" 
 											type="number" min="0" max="100" 
 											ng-model="subunidad.notas[$parent.$index].nota" 
-											ng-change="cambiaNota(subunidad.notas[$parent.$index])"
+											ng-change="cambiaNota(subunidad.notas[$parent.$index], subunidad.notas[$parent.$index].nota)"
 											ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
 											ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])")
 

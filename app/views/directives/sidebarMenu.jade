@@ -1,4 +1,4 @@
-ul.nav.sidebar-menu
+ul.nav.sidebar-menu.hidden-print
 	<!--Dashboard-->
 	li(ui-sref-active-eq="active")
 		a(ui-sref="panel")
@@ -133,14 +133,18 @@ ul.nav.sidebar-menu
 				a.menu-dropdown(ui-sref="panel.asignaturas")
 					span.menu-text Asignaturas
 
-	
+	li(ui-sref-active="active" ng-if="!hasRoleOrPerm(['admin']) && hasRoleOrPerm(['profesor'])")
+		a(ui-sref="panel.bitacora" stop-event="click")
+			i.menu-icon.fa.fa-align-justify
+			span.menu-text  Bitacora
+
 	<!-- Informes-->
 	li(ui-sref-active="active" ng-if="!hasRoleOrPerm(['admin']) && hasRoleOrPerm(['profesor'])" )
-		a(ui-sref="informes")
+		a(ui-sref="panel.informes")
 			i.menu-icon.glyphicon.glyphicon-print
 			span.menu-text Informes
 
-	li(sub-menu ng-show="hasRoleOrPerm('admin')" ng-click="toggleOpen()" menu-is-open="false" ng-class="{active:$state.is('panel')}")
+	li(sub-menu ng-show="hasRoleOrPerm('admin')" ng-click="toggleOpen()" menu-is-open="false" ng-class="{active:$state.includes('panel.informes')}")
 		a.menu-dropdown(href="")
 			i.menu-icon.glyphicon.glyphicon-print
 			span.menu-text Informes
@@ -148,7 +152,7 @@ ul.nav.sidebar-menu
 
 		ul.submenu
 			li
-				a(ui-sref="informes" stop-event="click")
+				a(ui-sref="panel.informes" stop-event="click")
 					span.menu-text Informes
 			li
 				a(href="" stop-event="click")
@@ -209,8 +213,8 @@ ul.nav.sidebar-menu
 			li(ui-sref-active="active")
 				a(ui-sref="panel.bitacora" stop-event="click")
 					span.menu-text  Bitacora
-			li(ui-sref-active="active")
-				a(ui-sref="panel.bitacora" stop-event="click")
+			li(ui-sref-active="active" ng-if="false")
+				a(ui-sref="panel.horarios" stop-event="click")
 					span.menu-text  Horarios
 			li(ui-sref-active="active")
 				a(ui-sref="votaciones" stop-event="click")

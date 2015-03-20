@@ -38,7 +38,8 @@ angular.module('myvcFrontApp')
 
 
 
-	$scope.cambiaNota = (nota)->
+	$scope.cambiaNota = (nota, otra)->
+		console.log nota, otra
 		Restangular.one('notas/update', nota.id).customPUT({nota: nota.nota}).then((r)->
 			toastr.success 'Cambiada: ' + nota.nota
 			console.log 'Cuando la nota cambia, el objeto nota: ', nota
