@@ -84,7 +84,7 @@
             <div class="form-group">
               <label>Grupo</label>
               <ui-select ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;">
-                <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
+                <ui-select-match placeholder="Elige un grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
                 <ui-select-choices repeat="grupo in grupos | filter: $select.search">
                   <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
                 </ui-select-choices>
@@ -95,7 +95,7 @@
             <div class="form-group">
               <label>Profesor</label>
               <ui-select ng-model="datos.profesor" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;">
-                <ui-select-match placeholder="Profesor" allow-clear="true">{{$select.selected.nombres + ' ' + $select.selected.apellidos}}</ui-select-match>
+                <ui-select-match placeholder="Elige un profesor" allow-clear="true">{{$select.selected.nombres + ' ' + $select.selected.apellidos}}</ui-select-match>
                 <ui-select-choices repeat="profe in profesores | filter: $select.search">
                   <div ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search"></div>
                 </ui-select-choices>
@@ -104,11 +104,21 @@
             <div class="form-group">
               <label>Grupo</label>
               <ui-select ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;">
-                <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
+                <ui-select-match placeholder="Elige un grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
                 <ui-select-choices repeat="grupo in grupos | filter: $select.search">
                   <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
                 </ui-select-choices>
               </ui-select><a href="" ng-click="verPlanillasGrupo()" class="btn btn-default">Ver planillas</a>
+            </div><br><br>
+            <div class="row">
+              <div class="col-lg-2 col-sm-4 col-xs-12">
+                <div class="form-group">
+                  <label>Mostrar foto</label>
+                  <label>
+                    <input type="checkbox" ng-model="config.mostrar_foto" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                  </label>
+                </div>
+              </div>
             </div>
           </tab>
         </tabset>
