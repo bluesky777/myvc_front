@@ -122,16 +122,32 @@ angular.module('myvcFrontApp')
 			url: '/planillas_grupo/:grupo_id'
 			views: 
 				'report_content':
-					templateUrl: "#{App.views}informes/planillasGrupo.tpl.html"
-					controller: 'PlanillasGrupoCtrl'
+					templateUrl: "#{App.views}informes/planillas.tpl.html"
+					controller: 'PlanillasCtrl'
 					resolve:
-						alumnos: ['Restangular', '$stateParams', (Restangular, $stateParams)->
-							Restangular.one('planillas/show', $stateParams.grupo_id).getList()
+						asignaturas: ['Restangular', '$stateParams', (Restangular, $stateParams)->
+							Restangular.one('planillas/show-grupo', $stateParams.grupo_id).getList()
 						]
 			data: 
-				displayName: 'Puestos del año'
+				displayName: 'Planillas grupo'
 				icon_fa: 'fa fa-print'
-				pageTitle: 'Puestos del año - MyVc'
+				pageTitle: 'Planillas grupo - MyVc'
+
+
+		.state 'panel.informes.planillas_profesor',
+			url: '/planillas_profesor/:profesor_id'
+			views: 
+				'report_content':
+					templateUrl: "#{App.views}informes/planillas.tpl.html"
+					controller: 'PlanillasCtrl'
+					resolve:
+						asignaturas: ['Restangular', '$stateParams', (Restangular, $stateParams)->
+							Restangular.one('planillas/show-profesor', $stateParams.profesor_id).getList()
+						]
+			data: 
+				displayName: 'Planillas profesor'
+				icon_fa: 'fa fa-print'
+				pageTitle: 'Planillas profesor - MyVc'
 
 
 ])

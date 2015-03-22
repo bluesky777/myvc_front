@@ -277,19 +277,10 @@ loader(ng-if="bigLoader")
 .main-container.container-fluid
 	<!-- Page Container -->
 	.page-container
-		#sidebar.hidden-print(ng-class="{'menu-compact': menucompacto, 'page-sidebar': true}")
-			
-			<!-- Page Sidebar Header-->
-			.sidebar-header-wrapper
-				input.searchinput(type="text")
-				i.searchicon.fa.fa-search
-				.searchhelper Aún no puedes buscar en el sitio.
-
-			<!-- /Page Sidebar Header -->
-			
-			<!-- Sidebar Menu ************************************* -->
-			sidebar-menu
-			<!-- /Sidebar Menu ************************************ -->
+		
+		<!-- Sidebar Menu ************************************* -->
+		sidebar-menu(ng-class="{'menu-compact': menucompacto, 'page-sidebar': true}")
+		<!-- /Sidebar Menu ************************************ -->
 
 		<!-- /Page Sidebar -->
 

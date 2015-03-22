@@ -26,7 +26,9 @@ angular.module('myvcFrontApp')
 .factory('EscalasValorativasServ', ['Restangular', '$q', (Restangular, $q) ->
 	escalas = []
 
-	escalas.escalas = (asignatura_id)->
+	escalasr = {}
+	
+	escalasr.escalas = (asignatura_id)->
 		d = $q.defer();
 
 		if escalas.length > 0
@@ -42,7 +44,7 @@ angular.module('myvcFrontApp')
 
 		return d.promise
 
-	return escalas
+	return escalasr
 
 ])
 

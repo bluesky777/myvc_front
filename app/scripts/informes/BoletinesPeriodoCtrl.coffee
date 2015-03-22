@@ -17,5 +17,13 @@ angular.module("myvcFrontApp")
 		$scope.config = $cookieStore.get 'config'
 
 
+	if $scope.requested_alumnos
+		$scope.$emit 'cambia_descripcion', 'Mostrando ' + $scope.alumnos.length + ' boletines de ' + $scope.grupo.cantidad_alumnos + ' del grupo ' + $scope.grupo.nombre_grupo
+	else if $scope.requested_alumno
+		$scope.$emit 'cambia_descripcion', 'Mostrando un boletin de ' + $scope.grupo.cantidad_alumnos + ' del grupo ' + $scope.grupo.nombre_grupo
+	else
+		$scope.$emit 'cambia_descripcion', $scope.alumnos.length + ' boletines del grupo ' + $scope.grupo.nombre_grupo
+
+
 
 ])

@@ -1,5 +1,5 @@
 angular.module('myvcFrontApp')
-.controller('InformesCtrl', ['$scope', 'Restangular', '$state', '$stateParams', '$rootScope', '$filter', 'App', 'AuthService', 'GruposServ', 'alumnos', '$timeout', '$cookieStore', 'toastr', ($scope, Restangular, $state, $stateParams, $rootScope, $filter, App, AuthService, GruposServ, alumnos, $timeout, $cookieStore, toastr) ->
+.controller('InformesCtrl', ['$scope', 'Restangular', '$state', '$stateParams', '$rootScope', '$filter', 'App', 'AuthService', 'GruposServ', 'ProfesoresServ', 'alumnos', '$timeout', '$cookieStore', 'toastr', ($scope, Restangular, $state, $stateParams, $rootScope, $filter, App, AuthService, GruposServ, ProfesoresServ, alumnos, $timeout, $cookieStore, toastr) ->
 
 	AuthService.verificar_acceso()
 	$scope.rowsAlum = [] 
@@ -14,13 +14,24 @@ angular.module('myvcFrontApp')
 	GruposServ.getGrupos().then((r)->
 		$scope.grupos = r
 
-		$tempParam = parseInt($state.params.grupo_id)
-
 		if $state.params.grupo_id
+			$tempParam = parseInt($state.params.grupo_id)
 			$scope.datos.grupo = $filter('filter')($scope.grupos, {id: $tempParam}, true)[0]
 			$scope.filtered_alumnos = $filter('filter')(alumnos, {grupo_id: $tempParam}, true)
-			console.log 'Cambiamos a ', $scope.datos.grupo
+
+	)
+
+
+	ProfesoresServ.contratos().then((r)->
+		$scope.profesores = r
+
+		if $state.params.profesor_id
+			$tempParam = parseInt($state.params.profesor_id)
+			$scope.datos.profesor = $filter('filter')($scope.profesores, {profesor_id: $tempParam}, true)[0]
+
 	
+	, (r2)->
+		console.log 'No se pudo traer los profesores: ', r2
 	)
 
 	if $cookieStore.get 'config'
@@ -106,9 +117,13 @@ angular.module('myvcFrontApp')
 		$state.go 'panel.informes.puestos_grupo_year', {grupo_id: $scope.datos.grupo.id}, {reload: true}
 
 
-	$scope.verPlanillas = ()->
+	$scope.verPlanillasGrupo = ()->
 		console.log $scope.datos.grupo
 		$state.go 'panel.informes.planillas_grupo', {grupo_id: $scope.datos.grupo.id}, {reload: true}
+
+	$scope.verPlanillasProfe = ()->
+		console.log '$scope.datos.profesor', $scope.datos.profesor
+		$state.go 'panel.informes.planillas_profesor', {profesor_id: $scope.datos.profesor.profesor_id}, {reload: true}
 
 
 	$scope.selectGrupo = (item)->
@@ -129,6 +144,10 @@ angular.module('myvcFrontApp')
 
 	$scope.selectAlumno = (item)->
 		console.log item
+
+
+	$scope.$on 'cambia_descripcion', (event, descrip)->
+		$scope.descripcion_informe = descrip
 
 
 	$scope.pdfMaker = ()->

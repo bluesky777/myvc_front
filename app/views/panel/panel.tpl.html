@@ -160,15 +160,9 @@
 </div><!-- /Navbar -->
 <!-- Main Container -->
 <div class="main-container container-fluid"><!-- Page Container -->
-  <div class="page-container">
-    <div id="sidebar" ng-class="{'menu-compact': menucompacto, 'page-sidebar': true}" class="hidden-print"><!-- Page Sidebar Header-->
-      <div class="sidebar-header-wrapper">
-        <input type="text" class="searchinput"><i class="searchicon fa fa-search"></i>
-        <div class="searchhelper">Aún no puedes buscar en el sitio.</div>
-      </div><!-- /Page Sidebar Header -->
-      <!-- Sidebar Menu ************************************* -->
-      <sidebar-menu></sidebar-menu><!-- /Sidebar Menu ************************************ -->
-    </div><!-- /Page Sidebar -->
+  <div class="page-container"><!-- Sidebar Menu ************************************* -->
+    <sidebar-menu ng-class="{'menu-compact': menucompacto, 'page-sidebar': true}"></sidebar-menu><!-- /Sidebar Menu ************************************ -->
+    <!-- /Page Sidebar -->
     <!-- Page Content -->
     <div class="page-content"><!-- Page Breadcrumb -->
       <ui-breadcrumbs displayname-property="data.displayName" class="hidden-print"></ui-breadcrumbs><!-- /Page Breadcrumb -->

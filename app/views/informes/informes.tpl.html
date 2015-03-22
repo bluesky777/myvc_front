@@ -93,14 +93,22 @@
           </tab>
           <tab heading="Planillas" active="informe_tab_actual_planillas" select="selectTab('planillas')">
             <div class="form-group">
+              <label>Profesor</label>
+              <ui-select ng-model="datos.profesor" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;">
+                <ui-select-match placeholder="Profesor" allow-clear="true">{{$select.selected.nombres + ' ' + $select.selected.apellidos}}</ui-select-match>
+                <ui-select-choices repeat="profe in profesores | filter: $select.search">
+                  <div ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search"></div>
+                </ui-select-choices>
+              </ui-select><a href="" ng-click="verPlanillasProfe()" class="btn btn-default">Ver planillas</a>
+            </div>
+            <div class="form-group">
               <label>Grupo</label>
               <ui-select ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;">
                 <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
                 <ui-select-choices repeat="grupo in grupos | filter: $select.search">
                   <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
                 </ui-select-choices>
-              </ui-select><a href="" ng-click="verPlanillas()" class="btn btn-default">Ver planillas</a>
-              <!--a.btn.btn-success.disabled(href="" ng-click="verPuestosYear()") Puestos del año-->
+              </ui-select><a href="" ng-click="verPlanillasGrupo()" class="btn btn-default">Ver planillas</a>
             </div>
           </tab>
         </tabset>
@@ -126,6 +134,8 @@
             </label>
           </div>
         </div>
+        <hr class="wide">
+        <h5>{{descripcion_informe}}</h5>
       </div>
     </div>
   </div>

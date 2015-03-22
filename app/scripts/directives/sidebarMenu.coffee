@@ -1,6 +1,6 @@
 angular.module('myvcFrontApp')
 
-.directive('sidebarMenu',['App', '$rootScope', 'AuthService', 'Restangular', '$modal', 'Perfil', (App, $rootScope, AuthService, Restangular, $modal, Perfil)-> 
+.directive('sidebarMenu',['App', '$rootScope', 'AuthService', 'Restangular', '$modal', 'Perfil', 'ProfesoresServ', '$window', '$compile', (App, $rootScope, AuthService, Restangular, $modal, Perfil, ProfesoresServ, $window, $compile)-> 
 
 	restrict: 'E'
 	replace: true
@@ -11,6 +11,19 @@ angular.module('myvcFrontApp')
 	link: (scope, iElem, iAttrs)->
 		# Debo agregar la clase .loading-inactive para que desaparezca el loader de la pantalla.
 		# y eso lo puedo hacer con el ng-if
+
+		scope.$watch(()->
+			return $window.innerWidth
+		, (value)->
+			console.log 'Ancho de la $window en sidebarMenu', value
+			if value > 880
+				iElem.removeClass('hide');
+			else
+				iElem.addClass('hide');
+			#$compile(iElem)(scope);
+		)
+
+
 	controller: ($scope, $attrs)->
 		# This array keeps track of the accordion groups
 		this.groups = []
@@ -27,7 +40,7 @@ angular.module('myvcFrontApp')
 				console.log 'No se pudo traer los grupos: ', r2
 			)
 
-		Restangular.all('contratos').getList().then((r)->
+		ProfesoresServ.contratos().then((r)->
 			$scope.profesores = r
 		, (r2)->
 			console.log 'No se pudo traer los profesores: ', r2
@@ -66,7 +79,6 @@ angular.module('myvcFrontApp')
 			index = this.groups.indexOf(group)
 			if ( index != -1 )
 				this.groups.splice(index, 1)
-
 
 
 
