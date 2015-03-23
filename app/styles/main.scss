@@ -15568,6 +15568,9 @@ body {
         color: #f00!important;
         -webkit-print-color-adjust: exact;
     }
+    .page-body{
+        padding: 0px!important;
+    }
     table{
         border: 1px solid #000!important;
     }
@@ -15596,6 +15599,7 @@ body {
     .alumno-planilla{
         text-overflow: clip!important;
         color: #000;
+        font-size: 9pt;
     }
 
 
@@ -15902,8 +15906,16 @@ body {
 }
 .alumno-planilla{
     text-overflow: clip!important;
+    font-size: 9pt;
 }
 .foto-profe{
     width: 60px;
 }
 
+
+.cant-unidades-perdidas{
+    font-size: 7pt;
+    font-style: italic;
+    font-weight: bold;
+    margin-top: -5px;
+}

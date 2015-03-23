@@ -115,7 +115,7 @@
                 <li>
                   <div class="avatar-area"><img ng-src="{{ imagenOficial }}" class="avatar"><span ng-click="goFileManager()" class="caption">Cambiar fotos</span></div>
                 </li><!--Avatar Area-->
-                <li class="edit"><a ui-sref="panel.user.resumen({{paramuser}})" class="pull-left">Perfil</a><a ui-sref="panel.user.configuracion({{paramuser}})" class="pull-right">Configuración</a></li><!--Theme Selector Area-->
+                <li class="edit"><a ui-sref="panel.user.resumen({username: usuario()})" class="pull-left">Perfil</a><a ui-sref="panel.user.configuracion({username: usuario()})" class="pull-right">Configuración</a></li><!--Theme Selector Area-->
                 <li ng-if="false" class="theme-area">
                   <ul id="skin-changer" class="colorpicker">
                     <li><a href="" style="background-color:#5DB2FF;" rel="assets/css/skins/blue.min.css" class="colorpick-btn"></a></li>

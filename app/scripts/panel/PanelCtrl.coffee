@@ -6,7 +6,7 @@ angular.module('myvcFrontApp')
 	$scope.USER = resolved_user
 	$scope.pageTitle = $rootScope.pageTitle
 	$scope.logoPath = 'images/MyVc-1.gif'
-	$scope.paramuser = {'username': $scope.USER.username }
+	#$scope.paramuser = {'username': Perfil.User().username }
 
 	$scope.verificar_acceso()
 
@@ -27,7 +27,8 @@ angular.module('myvcFrontApp')
 	
 	$scope.nameToShow = Perfil.nameToShow
 
-
+	$scope.usuario = ()->
+		return Perfil.User().username
 
 	$scope.toggleCompactMenu = ()->
 		$rootScope.menucompacto = !$rootScope.menucompacto

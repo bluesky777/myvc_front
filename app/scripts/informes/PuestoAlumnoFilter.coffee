@@ -40,7 +40,7 @@ angular.module("myvcFrontApp")
 
 			angular.forEach(unidad.subunidades, (subunidad) ->
 
-				if subunidad.nota.nota
+				if subunidad.nota.nota or subunidad.nota.nota == 0
 				
 					if subunidad.nota.nota < Perfil.User().nota_minima_aceptada
 						@subunis.push subunidad
@@ -84,7 +84,7 @@ angular.module("myvcFrontApp")
 		return echo
 ])
 
-.filter('notasPerdidasAsignaturaPeriodo', ['Perfil', '$filter', (Perfil, $filter)->
+.filter('notasPerdidasAsignaturaPeriodo', ['$filter', ($filter)->
 	(asignaturas, cantidad)->
 
 		total = 0
@@ -95,6 +95,53 @@ angular.module("myvcFrontApp")
 
 
 		return total
+
+])
+
+.filter('promAsig', ['$filter', ($filter)->
+	(alumnos, asignatura_id)->
+
+		promedioAsig = 0
+		cant = 0
+
+		for alumno in alumnos
+			for asignatura in alumno.asignaturas
+
+				if asignatura.asignatura_id == asignatura_id
+					cant++
+					promedioAsig = promedioAsig + asignatura.nota_asignatura
+		
+
+
+		return (promedioAsig/cant)
+
+])
+
+
+.filter('promGrupoPer', ['$filter', ($filter)->
+	(alumnos)->
+
+		promedio = 0
+
+		for alumno in alumnos
+			promedio = promedio + alumno.promedio
+
+
+		return (promedio/alumnos.length)
+
+])
+
+.filter('notasPerdidasGrupoPer', ['$filter', ($filter)->
+	(alumnos)->
+
+		cant = 0
+
+		for alumno in alumnos
+			cant = cant + $filter('notasPerdidasAsignaturaPeriodo')(alumno.asignaturas, true)
+
+
+
+		return cant
 
 ])
 

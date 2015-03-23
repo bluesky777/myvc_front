@@ -34,6 +34,27 @@ angular.module('myvcFrontApp')
 						titulo: [->
 							'Perfil'
 						]
+			resolve: 
+				perfilactual: ['Restangular', '$stateParams', '$q', '$state', 'toastr', (Restangular, $stateParams, $q, $state, toastr)->
+					d = $q.defer()
+
+					username = $stateParams.username
+
+					if username or username == ''
+						Restangular.one('perfiles/username/'+username).getList().then((r)->
+							console.log 'Perfilactual en el resolve:', r[0]
+							d.resolve r[0]
+						, (r2)->
+							#$state.transitionTo 'panel'
+							d.reject r2
+						)
+					else
+						toastr.warning 'Lo sentimos, nombre de usuario no encontrado'
+						$state.go 'panel'
+
+					return d.promise
+				]
+
 			data: 
 				displayName: 'Perfil'
 				icon_fa: 'fa fa-user'

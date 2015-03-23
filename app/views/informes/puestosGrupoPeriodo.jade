@@ -12,29 +12,36 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 							.resolucion-colegio
 								{{year.resolucion}}
 							.title-descripcion
-								|Puestos periodo {{USER.periodo_actual}} - {{USER.year}} Grupo {{grupo.nombre}}
+								|Puestos periodo {{USER.numero_periodo}}-{{USER.year}} Grupo {{grupo.nombre_grupo}}
 	.row
 		.col-lg-12
-			table.table.table-condensed.table-hover.table-striped
+			table.table-bordered.table-bordered2.table-striped.table-striped2
 				thead
-					th
-						td No
-						td Nombres
-						td(ng-repeat="asignatura in alumnos[0].asignaturas") {{asignatura.alias_materia}}
-						td Total
+					tr(style="border-bottom: 2px solid;")
+						th No
+						th Nombres
+						th(ng-repeat="asignatura in alumnos[0].asignaturas") {{asignatura.alias_materia}}
+						th(style="border-left: 2px solid !important;") Total
 				tbody
 					tr(ng-repeat="alumno in alumnos | orderBy:'-promedio'")
 						td {{$index + 1}}
-						td {{alumno.nombres + ' ' + alumno.apellidos}}
+						td
+							.ellipsis200.alumno-planilla {{alumno.nombres + ' ' + alumno.apellidos}}
 						td(ng-repeat="asignatura in alumno.asignaturas")
 							span(popover="{{ asignatura.unidades | notasAsignatura }}" popover-trigger="mouseenter" popover-popup-delay="1000") {{asignatura.nota_asignatura | number:0}}
-							//span(popover="{{ asignatura.unidades | notasPerdidasAsignatura }}" ng-show="{{asignatura.unidades | notasPerdidasAsignatura:true}} > 0") ({{asignatura.unidades | notasPerdidasAsignatura:true}})
-							span(popover="{{ asignatura.unidades | notasPerdidasAsignatura }}" popover-trigger="mouseenter" popover-popup-delay="1000" ng-show="{{asignatura.unidades | notasPerdidasAsignatura:true}} > 0") ({{asignatura.unidades | notasPerdidasAsignatura:true}})
-						td 
-							span {{alumno.promedio | number:1}}({{ alumno.asignaturas | notasPerdidasAsignaturaPeriodo:true}})
+							span.cant-unidades-perdidas.pointer(popover="{{ asignatura.unidades | notasPerdidasAsignatura }}" 
+								popover-trigger="mouseenter" popover-popup-delay="1000" 
+								ng-show="{{asignatura.unidades | notasPerdidasAsignatura:true}} > 0")
+								|({{asignatura.unidades | notasPerdidasAsignatura:true}})
+						td(style="border-left: 2px solid !important;")
+							span {{alumno.promedio | number:1}}
+							span.cant-unidades-perdidas|({{ alumno.asignaturas | notasPerdidasAsignaturaPeriodo:true}})
 				tfoot
-					tr
-						td(colspan="5") Total
-
+					tr(style="border-top: 2px solid;")
+						td   
+						td() Total
+						td(ng-repeat="asignatura in alumnos[0].asignaturas"){{ alumnos | promAsig:asignatura.asignatura_id | decimales:1 }}
+						td(style="font-weight: bold; border-left: 2px solid !important;") {{ alumnos | promGrupoPer | decimales:1 }}
+							span.cant-unidades-perdidas|({{alumnos | notasPerdidasGrupoPer}})
 
 

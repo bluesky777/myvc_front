@@ -87,6 +87,10 @@ angular.module('myvcFrontApp')
 		$cookieStore.remove 'requested_alumnos'
 		$cookieStore.remove 'requested_alumno'
 		
+		if !$scope.datos.grupo.id
+			toastr.warning 'Debes seleccionar el grupo'
+			return
+		
 		$state.go 'panel.informes.boletines_periodo', {grupo_id: $scope.datos.grupo.id}, {reload: true}
 
 	$scope.verBoletinesAlumnos = ()->
@@ -108,12 +112,17 @@ angular.module('myvcFrontApp')
 
 
 	$scope.verPuestosPeriodo = ()->
-		console.log $scope.datos.grupo
+		if !$scope.datos.grupo.id
+			toastr.warning 'Debes seleccionar el grupo'
+			return
 		$state.go 'panel.informes.puestos_grupo_periodo', {grupo_id: $scope.datos.grupo.id}, {reload: true}
 
 
 	$scope.verPuestosYear = ()->
-		console.log $scope.datos.grupo
+		if !$scope.datos.grupo.id
+			toastr.warning 'Debes seleccionar el grupo'
+			return
+
 		$state.go 'panel.informes.puestos_grupo_year', {grupo_id: $scope.datos.grupo.id}, {reload: true}
 
 

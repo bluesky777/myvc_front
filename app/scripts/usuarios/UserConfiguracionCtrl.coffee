@@ -7,6 +7,8 @@ angular.module('myvcFrontApp')
 	$scope.comprobando = false
 	$scope.mostrarErrorUsername = false
 	$scope.mostrarErrorPassword = false
+	$scope.canSaveUsername = false
+
 	$scope.newusername = ''
 	$scope.passantiguo = ''
 	$scope.newpass = ''
@@ -20,21 +22,33 @@ angular.module('myvcFrontApp')
 		console.log 'No se trajeron los nombres de usuario', r2
 	)
 
-	$scope.comprobarusername = ()->
+	$scope.$watch 'newusername', (oldv, newv)->
+		console.log 'oldv, newv', oldv, newv
+
+	$scope.comprobarusername = (newusername)->
+
+		$scope.canSaveUsername = false
 		$scope.comprobando = true
 
-		if $scope.newusername.username
-			$scope.newusername = $scope.newusername.username
-		if $scope.newusername == ''
+		if newusername.username
+			newusername = newusername.username
+		if newusername == $scope.perfilactual.username
+			$scope.toastr.warning 'Copia un nombre de usuario diferente al que ya tienes'
+			$scope.comprobando = false
+			return
+		if newusername == ''
 			$scope.toastr.warning 'Debes copiar un nombre de usuario.'
 			$scope.comprobando = false
 			return
 
-		Restangular.all('perfiles/comprobarusername/'+$scope.newusername).getList().then((r)->
+		Restangular.all('perfiles/comprobarusername/'+newusername).getList().then((r)->
+			
 			if r[0].existe
+				$scope.toastr.warning 'Nombre de usuario ya en uso.'
 				$scope.mostrarErrorUsername = true
 			else
 				$scope.mostrarErrorUsername = false
+				$scope.canSaveUsername = true
 			$scope.comprobando = false
 		, (r2)->
 			console.log 'No se trajeron los nombres de usuario', r2
@@ -42,7 +56,8 @@ angular.module('myvcFrontApp')
 		)
 
 	$scope.guardar = ()->
-		console.log 'A guardar'
+		$scope.canSaveUsername = false
+
 		datos = 
 			nombres:	$scope.perfilactual.nombres
 			apellidos:	$scope.perfilactual.apellidos
@@ -58,27 +73,31 @@ angular.module('myvcFrontApp')
 		, (r2)->
 			console.log 'No se pudo guardar cambios, ', r2
 			$scope.toastr.error 'Datos NO guardados', 'Problema'
+			$scope.canSaveUsername = true
 		)
 
-	$scope.CambiarUsername = ()->
-		Restangular.one('perfiles/guardarusername', $scope.perfilactual.user_id).customPUT({'username':$scope.newusername}).then((r)->
+	$scope.CambiarUsername = (newusername)->
+
+		Restangular.one('perfiles/guardar-username', $scope.perfilactual.user_id).customPUT({'username':newusername}).then((r)->
 			console.log 'Nombre de usuario guardado, ', r
 			$scope.toastr.success 'Nombre de usuario guardado'
+			Perfil.User().username = newusername
+			$scope.$emit 'cambianImgs', {username: newusername}
 		, (r2)->
 			console.log 'No se pudo guardar nombre de usuario, ', r2
 			$scope.toastr.error 'Nombre de usuario NO guardado', 'Problema'
 		)
 
-	$scope.CambiarPass = ()->
+	$scope.CambiarPass = (newpass, newpassverif, passantiguo)->
 
-		if $scope.newpass not in [$scope.newpassverif]
+		if newpass not in [newpassverif]
 			$scope.toastr.warning 'Las contraseñas no coinciden'
 			return
-		if $scope.newpass.length < 4
+		if newpass.length < 4
 			$scope.toastr.warning 'La contraseña debe tener mínimo 4 caracteres. Sin espacios ni Ñ ni tildes.'
 			return
 
-		datos = {'password':$scope.newpassverif, 'oldpassword': $scope.passantiguo }
+		datos = {'password':newpassverif, 'oldpassword': passantiguo }
 
 		console.log datos
 		Restangular.one('perfiles/cambiarpassword', $scope.perfilactual.user_id).customPUT(datos).then((r)->

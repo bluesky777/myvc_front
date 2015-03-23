@@ -217,8 +217,8 @@ loader(ng-if="bigLoader")
 										span.caption(ng-click="goFileManager()") Cambiar fotos
 								<!--Avatar Area-->
 								li.edit
-									a.pull-left(ui-sref='panel.user.resumen({{paramuser}})') Perfil
-									a.pull-right(ui-sref='panel.user.configuracion({{paramuser}})') Configuración
+									a.pull-left(ui-sref='panel.user.resumen({username: usuario()})') Perfil
+									a.pull-right(ui-sref='panel.user.configuracion({username: usuario()})') Configuración
 								<!--Theme Selector Area-->
 								li(ng-if="false").theme-area
 									ul.colorpicker#skin-changer

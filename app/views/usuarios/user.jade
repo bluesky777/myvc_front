@@ -1,45 +1,45 @@
 .row
-		.col-md-12
-				.profile-container
-					.profile-header.row
-						.col-lg-2.col-md-4.col-sm-12.text-center
-							img.header-avatar(ng-src='{{ imagenPrincipal }}', alt='')
-						.col-lg-5.col-md-8.col-sm-12.profile-info
-							.header-fullname {{nameToShow()}}
-							a.btn.btn-palegreen.btn-sm.btn-follow(href='' ng-if="false")
-								i.fa.fa-check
-								| Siguiendo
-							.header-information
-								| Aquí irá el último estado que hayas compartido
-						.col-lg-5.col-md-12.col-sm-12.col-xs-12.profile-stats
-							.row
-								.col-lg-4.col-md-4.col-sm-4.col-xs-12.stats-col
-									.stats-value.pink 0
-									.stats-title COMPAÑEROS
-								.col-lg-4.col-md-4.col-sm-4.col-xs-12.stats-col
-									.stats-value.pink 0
-									.stats-title PROFESORES
-								.col-lg-4.col-md-4.col-sm-4.col-xs-12.stats-col
-									.stats-value.pink 0
-									.stats-title ASIGNATURAS
-							.row
-								.col-lg-4.col-md-4.col-sm-4.col-xs-4.inlinestats-col
-									i.glyphicon.glyphicon-map-marker
-									| {{perfilactual.ciudad_nac}}
-								.col-lg-4.col-md-4.col-sm-4.col-xs-4.inlinestats-col
-									| Grado: 
-									strong 0
-								.col-lg-4.col-md-4.col-sm-4.col-xs-4.inlinestats-col
-									| Cumple: 
-									strong {{perfilactual.fecha_nac}}
-					.profile-body
-						.col-lg-12
-							.tabbable
-								ul.nav.nav-tabs.tabs-flat.nav-justified
-									li(ui-sref-active='active')
-										a(ui-sref='panel.user.resumen')
-											| Resumen
-									li(ui-sref-active='active' ng-if="canConfig")
-										a(ui-sref='panel.user.configuracion')
-											| Configuración
-							.tab-content.tabs-flat(ui-view='user_detail')
+	.col-md-12
+		.profile-container
+			.profile-header.row
+				.col-lg-2.col-md-4.col-sm-12.text-center
+					img.header-avatar(ng-src='{{ imagenPrincipal }}', alt='')
+				.col-lg-5.col-md-8.col-sm-12.profile-info
+					.header-fullname {{nameToShow()}}
+					a.btn.btn-palegreen.btn-sm.btn-follow(href='' ng-if="false")
+						i.fa.fa-check
+						| Siguiendo
+					.header-information
+						| Aquí irá el último estado que hayas compartido
+				.col-lg-5.col-md-12.col-sm-12.col-xs-12.profile-stats
+					.row
+						.col-lg-4.col-md-4.col-sm-4.col-xs-12.stats-col
+							.stats-value.pink 0
+							.stats-title COMPAÑEROS
+						.col-lg-4.col-md-4.col-sm-4.col-xs-12.stats-col
+							.stats-value.pink 0
+							.stats-title PROFESORES
+						.col-lg-4.col-md-4.col-sm-4.col-xs-12.stats-col
+							.stats-value.pink 0
+							.stats-title ASIGNATURAS
+					.row
+						.col-lg-4.col-md-4.col-sm-4.col-xs-4.inlinestats-col
+							i.glyphicon.glyphicon-map-marker
+							| {{perfilactual.ciudad_nac}}
+						.col-lg-4.col-md-4.col-sm-4.col-xs-4.inlinestats-col
+							| Grado: 
+							strong 0
+						.col-lg-4.col-md-4.col-sm-4.col-xs-4.inlinestats-col
+							| Cumple: 
+							strong {{perfilactual.fecha_nac}}
+			.profile-body
+				.col-lg-12
+					.tabbable
+						ul.nav.nav-tabs.tabs-flat.nav-justified
+							li(ui-sref-active='active')
+								a(ui-sref='panel.user.resumen')
+									| Resumen
+							li(ui-sref-active='active' ng-if="canConfig")
+								a(ui-sref='panel.user.configuracion')
+									| Configuración
+					.tab-content.tabs-flat(ui-view='user_detail')

@@ -23,7 +23,7 @@ angular.module('myvcFrontApp')
 			#console.log 'Promise ganada', r
 			return
 		, (r2)->
-			console.log 'Promise rechazada', r2
+			console.log 'Promise de login_credentials rechazada', r2
 		)
 
 

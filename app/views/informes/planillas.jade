@@ -13,9 +13,9 @@ div(ng-repeat="asignatura in asignaturas")
 									.col-lg-12
 										.nombre-colegio
 											{{year.nombre_colegio + ' - ' + year.abrev_colegio}}
-										.descricion-title
-											|Planilla de trabajo 
-											b {{asignatura.nombre_grupo}} - {{asignatura.materia | capitalize}}
+										.descripcion-title
+											|Planilla de trabajo Per{{USER.numero_periodo}}-{{USER.year}} 
+											b  {{asignatura.nombre_grupo}} - {{asignatura.materia | capitalize}}
 								.row
 									.col-lg-12
 										h5.nombre-profesor(style="padding: 0px; margin: 0px") {{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}
