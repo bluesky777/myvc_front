@@ -9,7 +9,7 @@
             <div class="col-lg-8 col-xs-8 title-encabezado-boletin">
               <div class="nombre-colegio">{{year.nombre_colegio + ' - ' + year.abrev_colegio}}</div>
               <div class="resolucion-colegio">{{year.resolucion}}</div>
-              <div class="title-descripcion">Puestos periodo {{USER.numero_periodo}}-{{USER.year}} Grupo {{grupo.nombre_grupo}}</div>
+              <div class="title-descripcion">Puestos Año {{USER.year}} Grupo {{grupo.nombre_grupo}}</div>
             </div>
           </div>
         </div>
@@ -28,21 +28,23 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="alumno in alumnos | orderBy:'-promedio'">
+          <tr ng-repeat="alumno in alumnos | orderBy:'-promedio_year'">
             <td>{{$index + 1}}</td>
             <td>
               <div class="ellipsis200 alumno-planilla">{{alumno.nombres + ' ' + alumno.apellidos}}</div>
             </td>
-            <td ng-repeat="asignatura in alumno.asignaturas"><span popover="{{ asignatura.unidades | notasAsignatura:USER.numero_periodo }}" popover-trigger="mouseenter" popover-popup-delay="1000">{{asignatura.nota_asignatura | number:0}}</span><span popover="{{ asignatura.unidades | notasPerdidasAsignatura:false:USER.numero_periodo }}" popover-trigger="mouseenter" popover-popup-delay="1000" ng-show="{{asignatura.unidades | notasPerdidasAsignatura:true}} &gt; 0" class="cant-unidades-perdidas puntero">({{asignatura.unidades | notasPerdidasAsignatura:true}})</span></td>
-            <td style="border-left: 2px solid !important;"><span>{{alumno.promedio | number:1}}</span><span class="cant-unidades-perdidas">({{ alumno.asignaturas | notasPerdidasAsignaturaPeriodo:true:USER.numero_periodo}})</span></td>
+            <td ng-repeat="asignatura in alumno.asignaturas">
+              <!--span(popover="{{ asignatura.periodos | notasAsignaturaYear }}" popover-trigger="mouseenter" popover-popup-delay="1000") {{asignatura.nota_asignatura_year | number:0}} // Esto es demasiadas información para mostrar en la definitiva de la materia del alumno.--><span>{{asignatura.nota_asignatura_year | number:0}}</span><span popover="{{ asignatura.periodos | notasPerdidasAsignaturaYear }}" popover-trigger="mouseenter" popover-popup-delay="1000" ng-show="{{asignatura.periodos | notasPerdidasAsignaturaYear:true}} &gt; 0" class="cant-unidades-perdidas puntero">({{asignatura.periodos | notasPerdidasAsignaturaYear:true}})</span>
+            </td>
+            <td style="border-left: 2px solid !important;"><span>{{alumno.promedio_year | number:1}}</span><span class="cant-unidades-perdidas">({{ alumno.asignaturas | notasPerdidasAsignaturasYear:true}})</span></td>
           </tr>
         </tbody>
         <tfoot>
           <tr style="border-top: 2px solid;">
             <td>  </td>
             <td>Total</td>
-            <td ng-repeat="asignatura in alumnos[0].asignaturas">{{ alumnos | promAsig:asignatura.asignatura_id | decimales:1 }}</td>
-            <td style="font-weight: bold; border-left: 2px solid !important;">{{ alumnos | promGrupoPer | decimales:1 }}<span class="cant-unidades-perdidas">({{alumnos | notasPerdidasGrupoPer}})</span></td>
+            <td ng-repeat="asignatura in alumnos[0].asignaturas">{{ alumnos | promAsigYear:asignatura.asignatura_id | decimales:1 }}</td>
+            <td style="font-weight: bold; border-left: 2px solid !important;">{{ alumnos | promGrupoYear | decimales:1 }}<span class="cant-unidades-perdidas">({{alumnos | notasPerdidasGrupoYear}})</span></td>
           </tr>
         </tfoot>
       </table>

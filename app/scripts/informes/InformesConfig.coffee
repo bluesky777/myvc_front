@@ -99,14 +99,14 @@ angular.module('myvcFrontApp')
 				pageTitle: 'Puestos periodo - MyVc'
 
 		.state 'panel.informes.puestos_grupo_year',
-			url: '/puestos_grupo_periodo/:grupo_id'
+			url: '/puestos_grupo_year/:grupo_id'
 			views: 
 				'report_content':
 					templateUrl: "#{App.views}informes/puestosGrupoYear.tpl.html"
 					controller: 'PuestosGrupoYearCtrl'
 					resolve:
 						alumnos: ['Restangular', '$stateParams', (Restangular, $stateParams)->
-							Restangular.one('alumnos/detailed-notas', $stateParams.grupo_id).getList()
+							Restangular.one('alumnos/detailed-notas-year', $stateParams.grupo_id).getList()
 						],
 						escalas: ['EscalasValorativasServ', (EscalasValorativasServ)->
 							#debugger
@@ -152,22 +152,6 @@ angular.module('myvcFrontApp')
 
 ])
 
-
-.filter('juicioValorativo', [ ->
-	(nota, escalas, desempenio)->
-
-		jucio = {}
-
-		angular.forEach escalas, (escala)->
-			if nota >= escala.porc_inicial and nota <= escala.porc_final
-				jucio.desempenio = escala.desempenio
-				jucio.valoracion = escala.valoracion
-
-		if desempenio
-			return jucio.desempenio
-		else
-			return jucio.valoracion
-])
 
 
 

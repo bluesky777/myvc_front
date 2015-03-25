@@ -88,7 +88,8 @@
                 <ui-select-choices repeat="grupo in grupos | filter: $select.search">
                   <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
                 </ui-select-choices>
-              </ui-select><a href="" ng-click="verPuestosPeriodo()" class="btn btn-default">Puestos del periodo</a><a href="" ng-click="verPuestosYear()" class="btn btn-success disabled">Puestos del año</a>
+              </ui-select>
+              <div class="btn-group"><a href="" ng-click="verPuestosPeriodo()" class="btn btn-default">Puestos del periodo</a><a href="" ng-click="verPuestosYear()" class="btn btn-success">Puestos del año</a></div>
             </div>
           </tab>
           <tab heading="Planillas" active="informe_tab_actual_planillas" select="selectTab('planillas')">

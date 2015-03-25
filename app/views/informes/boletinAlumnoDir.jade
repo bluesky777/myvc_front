@@ -32,7 +32,9 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 				.col-lg-12.col-xs-12.materias
 					.materia-item(ng-repeat="asignatura in alumno.asignaturas")
 						.row.materia-title
-							.col-lg-9.col-xs-9
+							.col-lg-9.col-xs-9(popover="<img src='{{perfilPath + asignatura.foto_nombre}}' style='width: 150px; height: 150px;'>" 
+									popover-popup-delay="1000" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" 
+									popover-trigger="mouseenter")
 								span.materia-name {{asignatura.materia}}
 								span.materia-profesor - Pr. {{asignatura.nombres_profesor | capitalize}}
 							.col-lg-1.col-xs-1

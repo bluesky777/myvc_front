@@ -15478,14 +15478,14 @@ body {
 }
 
 @page cartahorizontal { 
-    size:30cm 21cm; 
+    size:31cm 22cm; 
     margin: 2cm;
     background-color: white;
     page-break-after: always;
 }
 
 @page cartavertical { 
-    size:21cm 30cm; 
+    size:22cm 31cm; 
     margin: 2cm;
     background-color: white;
     page-break-after: always;
@@ -15493,12 +15493,12 @@ body {
 
 .page-vertical{
     page: cartavertical;
-    width: 21cm;
+    width: 22cm;
     margin-bottom: 10px;
 }
 .page-carta-horizontal{
     page: cartahorizontal;
-    width: 30cm;
+    width: 31cm;
 }
 
 .page-oficio-horizontal{
@@ -15518,19 +15518,19 @@ body {
 
     .page-vertical{
         page: cartavertical;
-        width: 21cm;
+        width: 22cm;
         margin-bottom: 0px;
         border: 0px;
     }
     .page-carta-horizontal{
         page: cartahorizontal;
-        width: 30cm;
+        width: 31cm;
         margin-bottom: 0px;
         border: 0px;
     }
     .page-oficio-horizontal{
         page: cartahorizontal;
-        width: 30cm;
+        width: 31cm;
         margin-bottom: 0px;
         border: 0px;
     }
@@ -15602,9 +15602,13 @@ body {
         font-size: 9pt;
     }
 
+    .popover{
+        display: none!important;
+    }
+
 
     @page cartahorizontal { 
-        size:30cm 21cm; 
+        size:31cm 22cm; 
         margin: 2cm;
         background-color: white;
         page-break-after: always;
@@ -15617,7 +15621,7 @@ body {
     }
 
     @page cartavertical { 
-        size:21cm 30cm; 
+        size:22cm 31cm; 
         margin: 2cm;
         background-color: white;
         page-break-after: always;
@@ -15919,3 +15923,205 @@ body {
     font-weight: bold;
     margin-top: -5px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.an.ng-enter, 
+.an.ng-leave
+{ 
+  -webkit-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+  -moz-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+  -ms-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+  -o-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+  transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+  position: relative;
+  display: block;
+} 
+ 
+.an.ng-enter.ng-enter-active, 
+.an.ng-leave {
+  opacity: 1;
+  top: 0;
+  height: 30px;
+}
+ 
+.an.ng-leave.ng-leave-active,
+.an.ng-enter {
+  opacity: 0;
+  top: -50px;
+  height: 0px;
+  max-height: 0px;
+  overflow: hidden;
+}
+
+.animated.ng-enter, 
+.animated.ng-leave, 
+.animated.ng-move {
+  -webkit-transition: 0.5s linear all;
+  transition: 0.5s linear all;
+  position:relative;
+}
+
+.animated.ng-enter {
+  left:-10px;
+  opacity:0;
+}
+.animated.ng-enter.ng-enter-active {
+  left:0;
+  opacity:1;
+}
+
+.animated.ng-leave {
+  left:0;
+  opacity:1;
+}
+.animated.ng-leave.ng-leave-active {
+  left:-10px;
+  opacity:0;
+}
+
+.animated.ng-move {
+  opacity:0.5;
+}
+.animated.ng-move.ng-move-active {
+  opacity:1;
+}
+
+
+
+@-webkit-keyframes hinge {
+  0% {
+    -webkit-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+  }
+
+  20%, 60% {
+    -webkit-transform: rotate3d(0, 0, 1, 80deg);
+    transform: rotate3d(0, 0, 1, 80deg);
+    -webkit-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+  }
+
+  40%, 80% {
+    -webkit-transform: rotate3d(0, 0, 1, 60deg);
+    transform: rotate3d(0, 0, 1, 60deg);
+    -webkit-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+    opacity: 1;
+  }
+
+  100% {
+    -webkit-transform: translate3d(0, 700px, 0);
+    transform: translate3d(0, 700px, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes hinge {
+  0% {
+    -webkit-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+  }
+
+  20%, 60% {
+    -webkit-transform: rotate3d(0, 0, 1, 80deg);
+    transform: rotate3d(0, 0, 1, 80deg);
+    -webkit-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+  }
+
+  40%, 80% {
+    -webkit-transform: rotate3d(0, 0, 1, 60deg);
+    transform: rotate3d(0, 0, 1, 60deg);
+    -webkit-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+    opacity: 1;
+  }
+
+  100% {
+    -webkit-transform: translate3d(0, 700px, 0);
+    transform: translate3d(0, 700px, 0);
+    opacity: 0;
+  }
+}
+
+
+@-webkit-keyframes fadeOutUp {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+  }
+}
+
+@keyframes fadeOutUp {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+  }
+}
+
+.fadeOutUp {
+  -webkit-animation-name: fadeOutUp;
+  animation-name: fadeOutUp;
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.fadeIn {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
+

@@ -88,8 +88,9 @@
 								ui-select-match(placeholder="Elige un grupo" allow-clear="true") {{$select.selected.nombre}}
 								ui-select-choices(repeat="grupo in grupos | filter: $select.search")
 									div(ng-bind-html="grupo.nombre | highlight: $select.search")
-							a.btn.btn-default(href="" ng-click="verPuestosPeriodo()") Puestos del periodo
-							a.btn.btn-success.disabled(href="" ng-click="verPuestosYear()") Puestos del año
+							.btn-group
+								a.btn.btn-default(href="" ng-click="verPuestosPeriodo()") Puestos del periodo
+								a.btn.btn-success(href="" ng-click="verPuestosYear()") Puestos del año
 
 
 					tab(heading="Planillas" active="informe_tab_actual_planillas" select="selectTab('planillas')")

@@ -14,12 +14,12 @@ angular.module("myvcFrontApp")
 
 
 .filter('notasAsignatura', [ ->
-	(unidades)->
+	(unidades, num_periodo)->
 
 		echo = ''
 
 		angular.forEach unidades, (unidad)->
-			echo = echo + '<div class="ellipsis350"><b>' + unidad.definicion_unidad + '</b></div>'
+			echo = echo + '<div class="ellipsis350"><b>Per' + num_periodo + ': ' + unidad.definicion_unidad + '</b></div>'
 
 			angular.forEach unidad.subunidades, (subunidad, key) ->
 				echo = echo + (key + 1) + '. ' + subunidad.definicion_subunidad + '<b> => ' + subunidad.nota.nota + '</b><br>'
@@ -28,8 +28,19 @@ angular.module("myvcFrontApp")
 ])
 
 
+.filter('notasPerdidasAsignaturas', ['$filter', ($filter)->
+	(asignaturas)->
+
+		@cantidad_perdidas = 0
+
+		angular.forEach asignaturas, (asignatura) ->
+			@cantidad_perdidas = @cantidad_perdidas + $filter('notasPerdidasAsignatura')(asignatura.unidades, true)
+
+		return @cantidad_perdidas
+])
+
 .filter('notasPerdidasAsignatura', ['Perfil', (Perfil)->
-	(unidades, cantidad)->
+	(unidades, cantidad, num_periodo)->
 
 		@unidades_response = []
 		@cantidad_perdidas = 0
@@ -75,7 +86,7 @@ angular.module("myvcFrontApp")
 		echo = ''
 
 		angular.forEach unidades_response, (unidad)->
-			echo = echo + '<div class="ellipsis350"><b>' + unidad.definicion_unidad + '</b></div>'
+			echo = echo + '<div class="ellipsis350"><b>Per' + num_periodo + ': ' + unidad.definicion_unidad + '</b></div>'
 
 			angular.forEach unidad.subunidades, (subunidad, key) ->
 				echo = echo + '<span class="ellipsis250">' + (key + 1) + '. ' + subunidad.definicion_subunidad + ' </span><b> => ' + subunidad.nota.nota + '</b><br>'

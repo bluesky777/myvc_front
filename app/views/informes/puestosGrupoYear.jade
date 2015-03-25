@@ -12,7 +12,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 							.resolucion-colegio
 								{{year.resolucion}}
 							.title-descripcion
-								|Puestos periodo {{USER.numero_periodo}}-{{USER.year}} Grupo {{grupo.nombre_grupo}}
+								|Puestos Año {{USER.year}} Grupo {{grupo.nombre_grupo}}
 	.row
 		.col-lg-12
 			table.table-bordered.table-bordered2.table-striped.table-striped2
@@ -23,25 +23,26 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 						th(ng-repeat="asignatura in alumnos[0].asignaturas") {{asignatura.alias_materia}}
 						th(style="border-left: 2px solid !important;") Total
 				tbody
-					tr(ng-repeat="alumno in alumnos | orderBy:'-promedio'")
+					tr(ng-repeat="alumno in alumnos | orderBy:'-promedio_year'")
 						td {{$index + 1}}
 						td
 							.ellipsis200.alumno-planilla {{alumno.nombres + ' ' + alumno.apellidos}}
 						td(ng-repeat="asignatura in alumno.asignaturas")
-							span(popover="{{ asignatura.unidades | notasAsignatura:USER.numero_periodo }}" popover-trigger="mouseenter" popover-popup-delay="1000") {{asignatura.nota_asignatura | number:0}}
-							span.cant-unidades-perdidas.puntero(popover="{{ asignatura.unidades | notasPerdidasAsignatura:false:USER.numero_periodo }}" 
+							//span(popover="{{ asignatura.periodos | notasAsignaturaYear }}" popover-trigger="mouseenter" popover-popup-delay="1000") {{asignatura.nota_asignatura_year | number:0}} // Esto es demasiadas información para mostrar en la definitiva de la materia del alumno.
+							span() {{asignatura.nota_asignatura_year | number:0}}
+							span.cant-unidades-perdidas.puntero(popover="{{ asignatura.periodos | notasPerdidasAsignaturaYear }}" 
 								popover-trigger="mouseenter" popover-popup-delay="1000" 
-								ng-show="{{asignatura.unidades | notasPerdidasAsignatura:true}} > 0")
-								|({{asignatura.unidades | notasPerdidasAsignatura:true}})
+								ng-show="{{asignatura.periodos | notasPerdidasAsignaturaYear:true}} > 0")
+								|({{asignatura.periodos | notasPerdidasAsignaturaYear:true}})
 						td(style="border-left: 2px solid !important;")
-							span {{alumno.promedio | number:1}}
-							span.cant-unidades-perdidas|({{ alumno.asignaturas | notasPerdidasAsignaturaPeriodo:true:USER.numero_periodo}})
+							span {{alumno.promedio_year | number:1}}
+							span.cant-unidades-perdidas|({{ alumno.asignaturas | notasPerdidasAsignaturasYear:true}})
 				tfoot
 					tr(style="border-top: 2px solid;")
 						td   
 						td() Total
-						td(ng-repeat="asignatura in alumnos[0].asignaturas"){{ alumnos | promAsig:asignatura.asignatura_id | decimales:1 }}
-						td(style="font-weight: bold; border-left: 2px solid !important;") {{ alumnos | promGrupoPer | decimales:1 }}
-							span.cant-unidades-perdidas|({{alumnos | notasPerdidasGrupoPer}})
+						td(ng-repeat="asignatura in alumnos[0].asignaturas"){{ alumnos | promAsigYear:asignatura.asignatura_id | decimales:1 }}
+						td(style="font-weight: bold; border-left: 2px solid !important;") {{ alumnos | promGrupoYear | decimales:1 }}
+							span.cant-unidades-perdidas|({{alumnos | notasPerdidasGrupoYear}})
 
 
