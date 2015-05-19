@@ -3,7 +3,14 @@
 		.header.bordered-yellow {{asignatura.materia + ' - ' + asignatura.nombre_grupo + ' - ' + asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}
 
 		.btn-group
-			a.btn.btn-success.btn-lg(ui-sref="panel.listasignaturas({profesor_id: asignatura.profesor_id})") Volver a asignaturas
+			a.btn.btn-success.btn-lg(ui-sref="panel.listasignaturas({profesor_id: asignatura.profesor_id})") 
+				i.fa.fa-arrow-left
+				| Volver a asignaturas
+
+			a.btn.btn-primary.btn-lg(tooltip="En construcción" ng-click="irCopiar()") 
+				i.fa.fa-copy
+				| Copiar
+
 
 			a.btn.btn-primary.btn-lg(ng-show="unidades.length > 0" ui-sref="panel.notas({asignatura_id: asignatura_id})") NOTAS
 

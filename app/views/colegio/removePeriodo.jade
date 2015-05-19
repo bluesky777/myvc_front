@@ -3,12 +3,9 @@
 .modal-body
 	.row
 		.col-lg-12.col-xs-12
-			h5 Si continúas eliminarás por completo este registro y toda la información relacionada con él
-			h4 Frase: 
-			div(style="text-overflow: ellipsis") {{frase.frase}}
-			h4 Tipo:
-			div(style="text-overflow: ellipsis"){{frase.tipo_frase}}
-			h5 Id: {{frase.id}}
+			h4 Periodo: 
+			div(style="text-overflow: ellipsis") "{{periodo.numero}}" - Fechas: {{periodo.fecha_inicio}} - {{periodo.fecha_fin}} 
+			h5 Id: {{periodo.id}}
 
 .modal-footer
 	button.btn.btn-labeled.btn-danger(ng-click="ok()") Eliminar

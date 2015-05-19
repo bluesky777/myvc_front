@@ -11,42 +11,31 @@
       <div class="navbar-header pull-right">
         <div class="navbar-account">
           <ul class="account-area"><!-- Periodo Dropdown-->
-            <li my-drop-down ng-click="toggleOpen()" is-open="false" ng-if="false" class="dropdown-periodos"><a id="link-dropdown-periodos" data-toggle="dropdown" title="Tasks" href="" class="dropdown-toggle"><i class="icon fa fa-ioxhost"> Per 1</i><span class="badge"></span></a><!--Tasks Dropdown-->
+            <li my-drop-down ng-click="toggleOpen()" is-open="false" class="dropdown-periodos"><a id="link-dropdown-periodos" data-toggle="dropdown" title="Tasks" href="" class="dropdown-toggle"><i class="icon fa fa-ioxhost"> Per {{ USER.numero_periodo }}</i><span class="badge"></span></a>
               <ul class="pull-right dropdown-menu dropdown-tasks dropdown-arrow">
-                <li class="dropdown-header bordered-blueberry"><i class="fa fa-ioxhost">Periodos</i></li>
-                <li><a href="">
-                    <div class="clearfix"><span class="pull-left">Periodo 1</span><span class="pull-right">65%</span></div>
+                <li class="dropdown-header bordered-blueberry"><i class="fa fa-ioxhost"></i><span>Periodos</span></li>
+                <li ng-repeat="periodo in periodos"><a href="" ng-click="cambiarPeriodo(periodo)">
+                    <div class="clearfix"><span class="pull-left">Periodo {{ periodo.numero }}</span></div></a>
+                  <div ng-if="false"><span class="pull-right">65%</span>
                     <div class="progress progress-xs">
                       <div style="width:65%" class="progress-bar"></div>
-                    </div></a></li>
-                <li><a href="">
-                    <div class="clearfix"><span class="pull-left">Periodo 2</span><span class="pull-right">05%</span></div>
+                    </div>
                     <div class="progress progress-xs">
                       <div style="width:05%" class="progress-bar progress-bar-success"></div>
-                    </div></a></li>
-              </ul><!--/ Periodo Dropdown-->
-            </li>
-            <li my-drop-down ng-click="toggleOpen()" is-open="false" evitar-cierre="true" ng-if="false"><a data-toggle="dropdown" title="Año" href="" class="dropdown-toggle"><i class="icon"> 2015</i></a><!-- Año Dropdown-->
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </li><!--/ Periodo Dropdown-->
+            <li my-drop-down ng-click="toggleOpen()" is-open="false" evitar-cierre="true"><a data-toggle="dropdown" title="Año" href="" class="dropdown-toggle"><i class="icon"> {{ USER.year }}</i></a><!-- Año Dropdown-->
               <ul class="pull-right dropdown-menu dropdown-arrow dropdown-notifications">
-                <li><a href="">
+                <li ng-repeat="year in years"><a href="">
                     <div class="clearfix">
-                      <div class="notification-icon"><i class="fa fa-check bg-themeprimary white"></i></div>
-                      <div class="notification-body"><span class="title">2015</span></div>
-                      <div class="notification-extra"><i class="fa fa-calendar"> Actual </i><i class="fa fa-clock-o themeprimary"></i></div>
+                      <div class="notification-icon"><i ng-if="year.actual" class="fa fa-check bg-themeprimary white"></i><i ng-if="!year.actual" class="fa bg-warning white"></i></div>
+                      <div class="notification-body"><span class="title">{{year.year}}</span></div>
+                      <div class="notification-extra"><i ng-if="year.actual" class="fa fa-calendar"> En curso  </i><i ng-if="year.actual" class="fa fa-clock-o themeprimary"></i><i ng-if="!year.actual" class="fa fa-clock-o darkorange"></i></div>
                     </div></a></li>
-                <li><a href="">
-                    <div class="clearfix">
-                      <div class="notification-icon"><i class="fa fa-check bg-warning white"></i></div>
-                      <div class="notification-body"><span class="title">2016</span></div>
-                      <div class="notification-extra"><i class="fa fa-clock-o darkorange"></i></div>
-                    </div></a></li>
-                <li><a href="">
-                    <div class="clearfix">
-                      <div class="notification-icon"><i class="fa fa-check bg-warning white"></i></div>
-                      <div class="notification-body"><span class="title">2017</span></div>
-                      <div class="notification-extra"><i class="fa fa-clock-o darkorange"></i></div>
-                    </div></a></li>
-                <li class="dropdown-footer"><span>Hoy, Enero 17</span><span class="pull-right">10°c<i class="wi wi-cloudy"></i></span></li>
+                <li class="dropdown-footer"><span>Hoy, {{date | date:"EEEE dd ' de ' MMMM"}} </span></li>
               </ul><!--/ Año Dropdown-->
             </li>
             <li my-drop-down ng-click="toggleOpen()" is-open="false" evitar-cierre="true" ng-if="false"><a data-toggle="dropdown" title="Ayuda" href="" class="dropdown-toggle"><i class="icon fa fa-warning"></i></a><!--Notification Dropdown-->

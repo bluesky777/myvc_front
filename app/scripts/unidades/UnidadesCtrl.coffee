@@ -30,6 +30,11 @@ angular.module('myvcFrontApp')
 	)
 
 
+	$scope.irCopiar = ()->
+		toastr.warning 'Aún en construcción', 'Nada de nervios'
+
+
+
 	$scope.calcularPorcUnidades = ()->
 		sum = 0
 		angular.forEach $scope.unidades, (unidad, key) ->

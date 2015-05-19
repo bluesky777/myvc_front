@@ -1,25 +1,53 @@
-.col-lg-12.col-xs-12
-	.widget.flat.radius-bordered
-		.widget-header.bg-blue
-			span.widget-caption Colegio
-		.widget-body
-			#registration-form
-				form(role='form')
-					.form-title
-						| Contact Us
-					.row
-						.col-sm-6
-							.form-group
-								label(for='exampleInputEmail2') Nombre del colegio
-								span.input-icon.icon-right
-									input#exampleInputEmail2.form-control(type='text', placeholder='Nombre del colegio')
-									i.fa.fa-envelope.blue
-						.col-sm-6
-							.form-group
-								label(for='exampleInputName2') Name
-								span.input-icon.icon-right
-									input#exampleInputName2.form-control(type='text', placeholder='Name')
-									i.glyphicon.glyphicon-user.palegreen
+.col-lg-12.col-sm-12.col-xs-12
+	.row(ng-repeat="year in years")
+		.col-lg-12.col-sm-12.col-xs-12
+			.widget(ng-class="{maximized:maxi}" style="min-height: 600px")
+				.widget-header.bg-lightred
+					i.widget-icon.fa.fa-arrow-up
+					span.widget-caption Año {{year.year}}
+					.widget-buttons
+						a(href="" data-toggle="config" ng-if="false")
+							i.fa.fa-cog
+						a(href="" ng-click="maxi=!maxi" data-toggle="maximize")
+							i.fa.fa-expand
+						a(href="" data-toggle="collapse")
+							i.fa.fa-minus
+						a(href="" data-toggle="dispose" ng-if="false")
+							i.fa.fa-times
+				.widget-body()
+					#registration-form
+						form(role='form')
+							.form-title
+								| Básico
+							.row
+								.col-sm-6
+									.form-group
+										label(for='exampleInputEmail2') Nombre del colegio
+										span.input-icon.icon-right
+											input#exampleInputEmail2.form-control(type='text', placeholder='Nombre del colegio')
+											i.fa.fa-envelope.blue
+								.col-sm-6
+									.form-group
+										label(for='exampleInputName2') Name
+										span.input-icon.icon-right
+											input#exampleInputName2.form-control(type='text', placeholder='Name')
+											i.glyphicon.glyphicon-user.palegreen
 
-					
-					button.btn.btn-primary(type="submit") Submit
+							.form-title
+								| Periodos
+							.row
+								.col-sm-6
+									.list-periodos
+										ul
+											li(ng-repeat="periodo in year.periodos") {{periodo.numero}} - 
+												button.btn.btn-danger(ng-click="removePeriodo(year, periodo)") Eliminar
+
+									button.btn.btn-success(type="button" ng-click="addPeriodo(year)") Crear periodo
+
+							
+							hr
+							br
+							button.btn.btn-primary(type="submit") Guardar cambios
+
+
+

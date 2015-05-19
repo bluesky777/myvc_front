@@ -24,67 +24,48 @@ loader(ng-if="bigLoader")
 					ul.account-area
 
 						<!-- Periodo Dropdown-->
-						li.dropdown-periodos(my-drop-down ng-click="toggleOpen()" is-open="false" ng-if="false")
+						li.dropdown-periodos(my-drop-down ng-click="toggleOpen()" is-open="false")
 							a.dropdown-toggle#link-dropdown-periodos(data-toggle="dropdown" title="Tasks" href="")
-								i.icon.fa.fa-ioxhost  Per 1
+								i.icon.fa.fa-ioxhost  Per {{ USER.numero_periodo }}
 								span.badge
-							<!--Tasks Dropdown-->
 							ul.pull-right.dropdown-menu.dropdown-tasks.dropdown-arrow
 								li.dropdown-header.bordered-blueberry
-									i.fa.fa-ioxhost Periodos
-								li
-									a(href="")
+									i.fa.fa-ioxhost 
+									span Periodos
+								li(ng-repeat="periodo in periodos")
+									a(href="" ng-click="cambiarPeriodo(periodo)")
 										.clearfix
-											span.pull-left Periodo 1
-											span.pull-right 65%
+											span.pull-left Periodo {{ periodo.numero }}
+
+									div(ng-if="false")
+										span.pull-right 65%
 										.progress.progress-xs
 											.progress-bar(style="width:65%")
-								li
-									a(href="")
-										.clearfix
-											span.pull-left Periodo 2
-											span.pull-right 05%
 										.progress.progress-xs
 											.progress-bar.progress-bar-success(style="width:05%")
 										
-							<!--/ Periodo Dropdown-->
-						li(my-drop-down ng-click="toggleOpen()" is-open="false" evitar-cierre="true" ng-if="false")
+						<!--/ Periodo Dropdown-->
+
+						li(my-drop-down ng-click="toggleOpen()" is-open="false" evitar-cierre="true")
 							a.dropdown-toggle(data-toggle="dropdown" title="Año" href="")
-								i.icon  2015
+								i.icon  {{ USER.year }}
 							<!-- Año Dropdown-->
 							ul.pull-right.dropdown-menu.dropdown-arrow.dropdown-notifications
-								li
+								li(ng-repeat="year in years")
 									a(href="")
 										.clearfix
 											.notification-icon
-												i.fa.fa-check.bg-themeprimary.white
+												i.fa.fa-check.bg-themeprimary.white(ng-if="year.actual")
+												i.fa.bg-warning.white(ng-if="!year.actual")
 											.notification-body
-												span.title 2015
+												span.title {{year.year}}
 											.notification-extra
-												i.fa.fa-calendar  Actual 
-												i.fa.fa-clock-o.themeprimary
-								li
-									a(href="")
-										.clearfix
-											.notification-icon
-												i.fa.fa-check.bg-warning.white
-											.notification-body
-												span.title 2016
-											.notification-extra
-												i.fa.fa-clock-o.darkorange
-								li
-									a(href="")
-										.clearfix
-											.notification-icon
-												i.fa.fa-check.bg-warning.white
-											.notification-body
-												span.title 2017
-											.notification-extra
-												i.fa.fa-clock-o.darkorange
+												i.fa.fa-calendar(ng-if="year.actual")  En curso  
+												i.fa.fa-clock-o.themeprimary(ng-if="year.actual")
+												i.fa.fa-clock-o.darkorange(ng-if="!year.actual")
+								
 								li.dropdown-footer
-									span Hoy, Enero 17
-									span.pull-right 10°c
-										i.wi.wi-cloudy
+									span Hoy, {{date | date:"EEEE dd ' de ' MMMM"}} 
 							<!--/ Año Dropdown-->
 
 						li(my-drop-down ng-click="toggleOpen()" is-open="false" evitar-cierre="true" ng-if="false")

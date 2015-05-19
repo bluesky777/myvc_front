@@ -37,4 +37,29 @@ angular.module('myvcFrontApp')
 				pageTitle: 'Unidades - MyVc'
 				needed_permissions: [PERMISSIONS.can_work_like_teacher, PERMISSIONS.can_edit_unidades_subunidades]
 
+
+
+		.state 'panel.copiar',
+			url: '/copiar'
+			views: 
+				'maincontent':
+					templateUrl: "#{App.views}unidades/copiar.tpl.html"
+					controller: 'CopiarCtrl'
+				'headerContent':
+					templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+					controller: 'PanelHeaderCtrl'
+					resolve:
+						titulo: 'Copiar'
+			###
+			resolve:
+				usuario: ['AuthService', (AuthService)->
+					AuthService.verificar()
+				]
+			###
+			data: 
+				displayName: 'Copiar'
+				icon_fa: 'fa fa-copy'
+				pageTitle: 'Copiar - MyVc'
+				needed_permissions: [PERMISSIONS.can_work_like_teacher, PERMISSIONS.can_edit_unidades_subunidades]
+
 ]

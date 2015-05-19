@@ -1,55 +1,86 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-.controller 'PanelCtrl', ['$scope', '$http', 'Restangular', '$state', '$cookies', '$rootScope', 'AuthService', 'Perfil', 'App', 'resolved_user', ($scope, $http, Restangular, $state, $cookies, $rootScope, AuthService, Perfil, App, resolved_user) ->
 
-	$scope.USER = resolved_user
-	$scope.pageTitle = $rootScope.pageTitle
-	$scope.logoPath = 'images/MyVc-1.gif'
-	#$scope.paramuser = {'username': Perfil.User().username }
+.controller('PanelCtrl', ['$scope', '$http', 'Restangular', '$state', '$cookies', '$rootScope', 'AuthService', 'Perfil', 'App', 'resolved_user', 'RYears', 'RPeriodos', 'toastr', 
+	($scope, $http, Restangular, $state, $cookies, $rootScope, AuthService, Perfil, App, resolved_user, RYears, RPeriodos, toastr) ->
 
-	$scope.verificar_acceso()
+		$scope.USER = resolved_user
+		$scope.pageTitle = $rootScope.pageTitle
+		$scope.logoPath = 'images/MyVc-1.gif'
+		#$scope.paramuser = {'username': Perfil.User().username }
 
-	$scope.setImagenPrincipal = ()->
-		ini = App.images+'perfil/'
+		$scope.verificar_acceso()
 
-		imgUsuario = $scope.USER.imagen_nombre
-		imgOficial = $scope.USER.foto_nombre
-		
-		pathUsu = ini + imgUsuario
-		pathOfi = ini + imgOficial
-		
-		$scope.imagenPrincipal = pathUsu
-		$scope.imagenOficial = pathOfi
 
-	$scope.setImagenPrincipal()
-	
-	
-	$scope.nameToShow = Perfil.nameToShow
 
-	$scope.usuario = ()->
-		return Perfil.User().username
+		$scope.date = new Date();
 
-	$scope.toggleCompactMenu = ()->
-		$rootScope.menucompacto = !$rootScope.menucompacto
+		RYears.getList().then((r)->
+			$scope.years = r
+		, (r)->
+			console.log 'No se trajeron los años'
+		)
 
-	$scope.seeDropdownPeriodos = false
+		RPeriodos.getList().then((r)->
+			$scope.periodos = r
+		, (r)->
+			console.log 'No se trajeron los periodos'
+		)
 
-	$scope.togglePeriodos = ()->
-		$scope.seeDropdownPeriodos = !$scope.seeDropdownPeriodos
-		console.log $scope.seeDropdownPeriodos
 
-	$scope.logout = ->
-		AuthService.logout();
+		$scope.setImagenPrincipal = ()->
+			ini = App.images+'perfil/'
 
-	$scope.goFileManager = ()->
-		$state.go 'panel.filemanager'
+			imgUsuario = $scope.USER.imagen_nombre
+			imgOficial = $scope.USER.foto_nombre
+			
+			pathUsu = ini + imgUsuario
+			pathOfi = ini + imgOficial
+			
+			$scope.imagenPrincipal = pathUsu
+			$scope.imagenOficial = pathOfi
 
-	#console.log Restangular.all('disciplinas').getList()
-
-	$scope.$on 'cambianImgs', (event, data)->
-		$scope.USER = Perfil.User()
 		$scope.setImagenPrincipal()
+		
+		
+		$scope.nameToShow = Perfil.nameToShow
 
-	return
-]
+		$scope.usuario = ()->
+			return Perfil.User().username
+
+		$scope.toggleCompactMenu = ()->
+			$rootScope.menucompacto = !$rootScope.menucompacto
+
+		$scope.seeDropdownPeriodos = false
+
+		$scope.togglePeriodos = ()->
+			$scope.seeDropdownPeriodos = !$scope.seeDropdownPeriodos
+			console.log $scope.seeDropdownPeriodos
+		
+
+		$scope.cambiarPeriodo = (periodo)->
+			console.log 'Voy a cambiar de periodo'
+
+			Restangular.one('periodos/useractive', periodo.id).put().then((r)->
+				toastr.success 'Periodo cambiado con éxito al perido ' + periodo.numero, 'Cambiado' 
+			, (r2)->
+				toastr.warning 'No se pudo cambiar de periodo.', 'Problema'
+				console.log 'Error cambiando de periodo: ', r2
+			)
+
+		$scope.logout = ->
+			AuthService.logout();
+
+		$scope.goFileManager = ()->
+			$state.go 'panel.filemanager'
+
+		#console.log Restangular.all('disciplinas').getList()
+
+		$scope.$on 'cambianImgs', (event, data)->
+			$scope.USER = Perfil.User()
+			$scope.setImagenPrincipal()
+
+		return
+	]
+)

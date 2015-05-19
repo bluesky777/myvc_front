@@ -1,0 +1,31 @@
+.modal-header
+	h3.modal-title ¿Seguro que deseas crear un nuevo periodo?
+.modal-body
+	.row
+		.col-lg-12.col-xs-12
+			h4 Año: 
+			div(style="text-overflow: ellipsis") "{{year.year}}" 
+			.form-group
+				label(for='exampleInputEmail2') Número
+				span.input-icon.icon-right
+					input.form-control(type='number' ng-model="new_periodo.numero" placeholder='Número de periodo')
+			.form-group
+				label(for='exampleInputEmail2') Fecha inicio
+				span.input-icon.icon-right
+					input.form-control(type='date' ng-model="new_periodo.fecha_inicio" placeholder='Fecha de inicio')
+					i.fa.fa-date.blue
+			.form-group
+				label(for='exampleInputEmail2') Fecha fin
+				span.input-icon.icon-right
+					input.form-control(type='date' ng-model="new_periodo.fecha_inicio" placeholder='Fecha de terminación')
+					i.fa.fa-date.blue
+			.form-group
+				label(for='exampleInputEmail2') Fecha plazo para entregar notas
+				span.input-icon.icon-right
+					input.form-control(type='date' ng-model="new_periodo.fecha_inicio" placeholder='Fecha plazo')
+					i.fa.fa-date.blue
+
+.modal-footer
+	button.btn.btn-labeled.btn-primary(ng-click="ok()") Crear
+		i.btn-label.fa.fa-primary
+	button.btn.btn-yellow(ng-click="cancel()") Cancelar
