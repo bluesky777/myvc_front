@@ -3,7 +3,7 @@ angular.module('myvcFrontApp')
 
 	$state
 		.state 'panel.unidades',
-			url: '/unidades/:asignatura_id'
+			url: '^/unidades/:asignatura_id'
 			views: 
 				'maincontent':
 					templateUrl: "#{App.views}unidades/unidades.tpl.html"
@@ -40,7 +40,7 @@ angular.module('myvcFrontApp')
 
 
 		.state 'panel.copiar',
-			url: '/copiar'
+			url: '^/copiar'
 			views: 
 				'maincontent':
 					templateUrl: "#{App.views}unidades/copiar.tpl.html"
@@ -49,7 +49,9 @@ angular.module('myvcFrontApp')
 					templateUrl: "#{App.views}panel/panelHeader.tpl.html"
 					controller: 'PanelHeaderCtrl'
 					resolve:
-						titulo: 'Copiar'
+							titulo: [->
+								'Copiar'
+							]
 			###
 			resolve:
 				usuario: ['AuthService', (AuthService)->

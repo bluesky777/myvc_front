@@ -1,11 +1,209 @@
 
-<div class="col-xs-12 col-md-12 col-lg-6">
-  <div class="well with-header with-footer">
-    <div class="header bordered-yellow">Copiar unidades</div>
-  </div>
-</div>
-<div class="col-xs-12 col-md-12 col-lg-6">
-  <div class="well with-header with-footer">
-    <div class="header bordered-yellow">Copiar unidades</div>
+<div class="row">
+  <div class="col-xs-12 col-md-12 col-lg-12">
+    <tabset>
+      <tab heading="{{USER.unidades_displayname}}">
+        <div class="row">
+          <div class="col-xs-12 col-md-6 col-lg-6">
+            <div class="well with-header with-footer">
+              <div class="header bordered-yellow">Origen</div>
+              <form class="form-horizontal">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div ng-if="hasRoleOrPerm('admin')" class="form-group">
+                      <label class="col-md-3 col-lg-3 control-label to-left">Profesor</label>
+                      <div class="col-md-9 col-lg-9">
+                        <ui-select ng-model="configuracion.profesor_from" on-select="profesorSelect($item, $model)" theme="select2" style="width: 100%;">
+                          <ui-select-match placeholder="Elija profesor" allow-clear="true">{{$select.selected.nombres + ' ' + $select.selected.apellidos}}</ui-select-match>
+                          <ui-select-choices repeat="profe in profesores track by profe.id | filter: $select.search">
+                            <div ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search"></div>
+                          </ui-select-choices>
+                        </ui-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+                      <label class="col-md-3 col-lg-3 control-label to-left">Año</label>
+                      <div class="col-md-9 col-lg-9">
+                        <ui-select ng-model="configuracion.year_from" on-select="yearSelect($item, $model)" theme="select2" style="width: 100%;">
+                          <ui-select-match>{{$select.selected.year}}</ui-select-match>
+                          <ui-select-choices repeat="year in years_copy track by year.id | filter: $select.search">
+                            <div ng-bind-html="year.year | highlight: $select.search"></div>
+                          </ui-select-choices>
+                        </ui-select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+                      <label class="col-md-3 col-lg-3 control-label">Periodo</label>
+                      <div class="col-md-9 col-lg-9">
+                        <ui-select ng-model="configuracion.periodo_from" on-select="periodoSelect($item, $model)" theme="select2" style="width: 100%;">
+                          <ui-select-match>Per {{$select.selected.numero}}</ui-select-match>
+                          <ui-select-choices repeat="periodo in periodos | filter: $select.search">
+                            <div ng-bind-html="'Per ' + periodo.numero | highlight: $select.search"></div>
+                          </ui-select-choices>
+                        </ui-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="form-group">
+                      <label class="col-md-3 col-lg-3 control-label to-left">Asignatura</label>
+                      <div class="col-md-9 col-lg-9">
+                        <ui-select ng-model="configuracion.asignatura_from" on-select="asignaturaSelect($item, $model)" theme="select2" style="width: 100%;">
+                          <ui-select-match placeholder="Elija asignatura" allow-clear="true">{{$select.selected.abrev_grupo + ' - ' + $select.selected.materia}}</ui-select-match>
+                          <ui-select-choices repeat="asignatura in asignaturas track by asignatura.asignatura_id | filter: $select.search">
+                            <div ng-bind-html="asignatura.abrev_grupo + ' - ' + asignatura.materia | highlight: $select.search"></div>
+                          </ui-select-choices>
+                        </ui-select>
+                      </div>
+                    </div>
+                  </div>
+                </div><br>
+                <div ng-show="unidades.items.length" class="row">
+                  <div class="col-md-12 col-lg-12">
+                    <hr class="wide">
+                    <h5>{{USER.unidades_displayname}}({{unidades.items.length}}) a copiar:</h5>
+                    <div class="mail-container">
+                      <div style="margin-left: 0px; overflow: visible" class="mail-body">
+                        <ul class="mail-list">
+                          <li ng-repeat="unidad in unidades.items track by $index" class="list-item">
+                            <div class="item-check">
+                              <label>
+                                <input type="checkbox" ng-model="unidad.seleccionada" ng-init="unidad.seleccionada=true"><span class="text"></span>
+                              </label>
+                            </div>
+                            <div style="width: 90%!important; left: 40px;" class="item-sender"><a href="" popover-template="urlTplSubunidades" popover-trigger="mouseenter" popover-title="{{USER.subunidades_displayname}}" class="col-name">{{unidad.definicion}}</a></div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div ng-show="!unidades.items.length" class="row">
+                  <div class="col-md-12 col-lg-12">
+                    <h5>No hay {{USER.unidades_displayname}} para copiar.</h5>
+                  </div>
+                </div>
+                <div ng-show="unidades.items.length" class="row">
+                  <div class="col-md-12 col-lg-12"><br><br>
+                    <div class="form-group">
+                      <label>Copiar con {{USER.subunidades_displayname}}</label>
+                      <label>
+                        <input type="checkbox" ng-model="configuracion.copiar_subunidades" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                      </label>
+                    </div>
+                    <div tooltip="Solo aplica si el grupo de origen es el mismo que el de destino" class="form-group">
+                      <label>Copiar con notas</label>
+                      <label>
+                        <input type="checkbox" style="width: 155px;" ng-model="configuracion.copiar_notas" ng-disabled="configuracion.asignatura_from.grupo_id!=configuracion.asignatura_to.grupo_id &amp;&amp; configuracion.asignatura_to.grupo_id != undefined" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="col-xs-12 col-md-6 col-lg-6">
+            <div class="well with-header with-footer">
+              <div class="header bordered-yellow">Destino</div>
+              <form class="form-horizontal">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div ng-if="hasRoleOrPerm('admin')" class="form-group">
+                      <label class="col-md-3 col-lg-3 control-label to-left">Profesor</label>
+                      <div class="col-md-9 col-lg-9">
+                        <ui-select ng-model="configuracion.profesor_to" on-select="profesorToSelect($item, $model)" theme="select2" style="width: 100%;">
+                          <ui-select-match placeholder="Elija profesor" allow-clear="true">{{$select.selected.nombres + ' ' + $select.selected.apellidos}}</ui-select-match>
+                          <ui-select-choices repeat="profe in profesores track by profe.id | filter: $select.search">
+                            <div ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search"></div>
+                          </ui-select-choices>
+                        </ui-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+                      <label class="col-md-3 col-lg-3 control-label to-left">Año</label>
+                      <div class="col-md-9 col-lg-9">
+                        <ui-select ng-model="configuracion.year_to" on-select="yearToSelect($item, $model)" theme="select2" style="width: 100%;">
+                          <ui-select-match>{{$select.selected.year}}</ui-select-match>
+                          <ui-select-choices repeat="year in years_copy_to track by year.id | filter: $select.search">
+                            <div ng-bind-html="year.year | highlight: $select.search"></div>
+                          </ui-select-choices>
+                        </ui-select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-lg-6">
+                    <div class="form-group">
+                      <label class="col-md-3 col-lg-3 control-label">Periodo</label>
+                      <div class="col-md-9 col-lg-9">
+                        <ui-select ng-model="configuracion.periodo_to" on-select="periodoToSelect($item, $model)" theme="select2" style="width: 100%;">
+                          <ui-select-match>Per {{$select.selected.numero}}</ui-select-match>
+                          <ui-select-choices repeat="periodo in periodos_to | filter: $select.search">
+                            <div ng-bind-html="'Per ' + periodo.numero | highlight: $select.search"></div>
+                          </ui-select-choices>
+                        </ui-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="form-group">
+                      <label class="col-md-3 col-lg-3 control-label to-left">Asignatura</label>
+                      <div class="col-md-9 col-lg-9">
+                        <ui-select ng-model="configuracion.asignatura_to" on-select="asignaturaToSelect($item, $model)" theme="select2" style="width: 100%;">
+                          <ui-select-match placeholder="Elija asignatura" allow-clear="true">{{$select.selected.abrev_grupo + ' - ' + $select.selected.materia}}</ui-select-match>
+                          <ui-select-choices repeat="asignatura in asignaturas_to track by asignatura.asignatura_id | filter: $select.search">
+                            <div ng-bind-html="asignatura.abrev_grupo + ' - ' + asignatura.materia | highlight: $select.search"></div>
+                          </ui-select-choices>
+                        </ui-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div ng-show="unidades_to.items.length" class="row">
+                  <div class="col-md-12 col-lg-12">
+                    <h5>Ya existen {{unidades_to.items.length}} {{USER.unidades_displayname}}:</h5>
+                    <div class="mail-container">
+                      <div style="margin-left: 0px; overflow: visible" class="mail-body">
+                        <ul class="mail-list">
+                          <li ng-repeat="unidad in unidades_to.items track by $index" class="list-item">
+                            <div style="width: 100%!important; left: 10px;" class="item-sender"><a href="" popover-template="urlTplSubunidades" popover-trigger="mouseenter" popover-title="Subunidades" class="col-name">{{unidad.definicion}}</a></div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div ng-show="!unidades_to.items.length" class="row">
+                  <div class="col-md-12 col-lg-12">
+                    <h5>Aún no existen {{USER.unidades_displayname}}.</h5>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 col-lg-12"><br><br><a ng-click="copiar()" ng-disabled="!activar_btn_copiar" class="btn btn-primary btn-lg shiny"><i class="fa fa-copy"></i>Copiar <i class="fa fa-arrow-right"></i></a></div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 col-lg-12"><br>
+                    <p>{{resultado}}</p>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </tab>
+    </tabset>
   </div>
 </div>

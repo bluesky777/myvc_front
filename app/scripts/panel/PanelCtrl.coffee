@@ -64,6 +64,11 @@ angular.module('myvcFrontApp')
 
 			Restangular.one('periodos/useractive', periodo.id).put().then((r)->
 				toastr.success 'Periodo cambiado con éxito al perido ' + periodo.numero, 'Cambiado' 
+				$scope.USER.periodo_id = periodo.id
+				$scope.USER.numero_periodo = periodo.numero
+
+				$rootScope.reload()
+
 			, (r2)->
 				toastr.warning 'No se pudo cambiar de periodo.', 'Problema'
 				console.log 'Error cambiando de periodo: ', r2

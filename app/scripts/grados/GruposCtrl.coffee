@@ -33,6 +33,7 @@ angular.module('myvcFrontApp')
 	btGrid2 = '<a tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-trash "></i></a>'
 	btGrid3 = '<a tooltip="Listado de alumnos" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only info" ui-sref="panel.listalumnos({grupo_id: row.entity.id})"><i class="fa fa-users "></i></a>'
 	$scope.gridOptions = 
+		showGridFooter: true,
 		enableSorting: true,
 		enableFiltering: true,
 		enebleGridColumnMenu: false,

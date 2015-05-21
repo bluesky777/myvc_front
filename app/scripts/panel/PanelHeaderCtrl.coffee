@@ -1,10 +1,10 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-.controller('PanelHeaderCtrl', ['$scope', 'titulo', '$state', '$stateParams', 'Fullscreen', ($scope, titu, $state, $stateParams, Fullscreen) ->
+.controller('PanelHeaderCtrl', ['$scope', 'titulo', '$state', '$stateParams', 'Fullscreen', '$rootScope', ($scope, titu, $state, $stateParams, Fullscreen, $rootScope) ->
 	$scope.titulo = titu
 
-	$scope.reload = ()->
+	$rootScope.reload = ()->
 		$state.go $state.current, $stateParams, {reload: true}
 
 	$scope.setFullScreen = ()->

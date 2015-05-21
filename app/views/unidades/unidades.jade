@@ -7,7 +7,7 @@
 				i.fa.fa-arrow-left
 				| Volver a asignaturas
 
-			a.btn.btn-primary.btn-lg(tooltip="En construcción" ng-click="irCopiar()") 
+			a.btn.btn-primary.btn-lg(tooltip="En construcción" ui-sref="panel.copiar") 
 				i.fa.fa-copy
 				| Copiar
 
@@ -20,7 +20,7 @@
 		form.form-inline(ng-submit="crearUnidad()" role="form")
 			input.form-control(required ng-model="newunidad.definicion" type="text" placeholder="{{UNIDAD}} {{ GENERO_UNI=='M' ? 'nuevo' : 'nueva' }}" style="min-width: 400px" tooltip="Definición" tooltip-popup-delay="1000")
 			input.form-control(required ng-model="newunidad.porcentaje" min="0" max="100" type="number" placeholder="Porcentaje" tooltip="Porcentaje" tooltip-popup-delay="1000")
-			input.btn.btn-primary(type="submit" ng-submit="crearUnidad()" value="Crear {{UNIDAD}}")
+			input.btn.btn-primary(type="submit" ng-submit="crearUnidad()" ng-disabled="!activar_crear_unidad" value="Crear {{UNIDAD}}")
 
 		hr.wide
 
@@ -86,7 +86,7 @@
 										.form-group.col-lg-2.col-md-3.col-sm-4
 											input.form-control(required ng-model="unidad.newsubunidad.nota_default" min="0" max="100" type="number" placeholder="Nota por defecto" tooltip="Nota por defecto {{ GENERO_SUB=='M' ? 'del' : 'de la' }} {{SUBUNIDAD}}" tooltip-popup-delay="1000")
 
-										input.btn.btn-primary(type="submit" ng-submit="addSubunidad(unidad)" value="Añadir {{SUBUNIDAD}}") 
+										input.btn.btn-primary(type="submit" ng-disabled="!activar_crear_subunidad" ng-submit="addSubunidad(unidad)" value="Añadir {{SUBUNIDAD}}") 
 
 
 						li.dd-item.dd2-item(ng-repeat="subunidad in unidad.subunidades" as-sortable-item)

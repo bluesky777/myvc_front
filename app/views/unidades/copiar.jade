@@ -1,7 +1,158 @@
-.col-xs-12.col-md-12.col-lg-6
-	.well.with-header.with-footer
-		.header.bordered-yellow Copiar unidades
+.row
+	.col-xs-12.col-md-12.col-lg-12
+		tabset
+			tab(heading="{{USER.unidades_displayname}}")
+				.row
+					.col-xs-12.col-md-6.col-lg-6
+						.well.with-header.with-footer
+							.header.bordered-yellow Origen
+							form.form-horizontal
+								.row
+									.col-lg-12
+										.form-group(ng-if="hasRoleOrPerm('admin')")
+											label.col-md-3.col-lg-3.control-label.to-left Profesor
+											.col-md-9.col-lg-9
+												ui-select(ng-model="configuracion.profesor_from" on-select="profesorSelect($item, $model)" theme="select2" style="width: 100%;")
+													ui-select-match(placeholder="Elija profesor" allow-clear="true") {{$select.selected.nombres + ' ' + $select.selected.apellidos}}
+													ui-select-choices(repeat="profe in profesores track by profe.id | filter: $select.search")
+														div(ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
+								.row
+									.col-md-6.col-lg-6
+										.form-group
+											label.col-md-3.col-lg-3.control-label.to-left Año
+											.col-md-9.col-lg-9
+												ui-select(ng-model="configuracion.year_from" on-select="yearSelect($item, $model)" theme="select2" style="width: 100%;")
+													ui-select-match() {{$select.selected.year}}
+													ui-select-choices(repeat="year in years_copy track by year.id | filter: $select.search")
+														div(ng-bind-html="year.year | highlight: $select.search")
+									.col-md-6.col-lg-6
+										.form-group
+											label.col-md-3.col-lg-3.control-label Periodo
+											.col-md-9.col-lg-9
+												ui-select(ng-model="configuracion.periodo_from" on-select="periodoSelect($item, $model)" theme="select2" style="width: 100%;")
+													ui-select-match() Per {{$select.selected.numero}}
+													ui-select-choices(repeat="periodo in periodos | filter: $select.search")
+														div(ng-bind-html="'Per ' + periodo.numero | highlight: $select.search")
 
-.col-xs-12.col-md-12.col-lg-6
-	.well.with-header.with-footer
-		.header.bordered-yellow Copiar unidades
+								.row
+									.col-lg-12
+										.form-group
+											label.col-md-3.col-lg-3.control-label.to-left Asignatura
+											.col-md-9.col-lg-9
+												ui-select(ng-model="configuracion.asignatura_from" on-select="asignaturaSelect($item, $model)" theme="select2" style="width: 100%;")
+													ui-select-match(placeholder="Elija asignatura" allow-clear="true") {{$select.selected.abrev_grupo + ' - ' + $select.selected.materia}}
+													ui-select-choices(repeat="asignatura in asignaturas track by asignatura.asignatura_id | filter: $select.search")
+														div(ng-bind-html="asignatura.abrev_grupo + ' - ' + asignatura.materia | highlight: $select.search")
+								br
+								.row(ng-show="unidades.items.length")
+									.col-md-12.col-lg-12
+										hr.wide
+										h5 {{USER.unidades_displayname}}({{unidades.items.length}}) a copiar:
+										.mail-container
+											.mail-body(style="margin-left: 0px; overflow: visible")
+												ul.mail-list
+													li.list-item(ng-repeat="unidad in unidades.items track by $index")
+														.item-check
+															label
+																input(type="checkbox" ng-model="unidad.seleccionada" ng-init="unidad.seleccionada=true")
+																span.text
+														.item-sender(style="width: 90%!important; left: 40px;")
+															a.col-name(href="" popover-template="urlTplSubunidades" popover-trigger="mouseenter" popover-title="{{USER.subunidades_displayname}}") {{unidad.definicion}}
+
+								
+								.row(ng-show="!unidades.items.length")
+									.col-md-12.col-lg-12
+										h5 No hay {{USER.unidades_displayname}} para copiar.
+								
+
+
+								.row(ng-show="unidades.items.length")
+									.col-md-12.col-lg-12
+										br
+										br
+										.form-group
+											label Copiar con {{USER.subunidades_displayname}}
+											label
+												input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="configuracion.copiar_subunidades")
+												span.text.si-no
+										.form-group(tooltip="Solo aplica si el grupo de origen es el mismo que el de destino")
+											label Copiar con notas
+											label
+												input.checkbox-slider.slider-icon.colored-blue(type="checkbox" style="width: 155px;" ng-model="configuracion.copiar_notas" ng-disabled="configuracion.asignatura_from.grupo_id!=configuracion.asignatura_to.grupo_id && configuracion.asignatura_to.grupo_id != undefined")
+												span.text.si-no
+
+					.col-xs-12.col-md-6.col-lg-6
+						.well.with-header.with-footer
+							.header.bordered-yellow Destino
+							form.form-horizontal
+								.row
+									.col-lg-12
+										.form-group(ng-if="hasRoleOrPerm('admin')")
+											label.col-md-3.col-lg-3.control-label.to-left Profesor
+											.col-md-9.col-lg-9
+												ui-select(ng-model="configuracion.profesor_to" on-select="profesorToSelect($item, $model)" theme="select2" style="width: 100%;")
+													ui-select-match(placeholder="Elija profesor" allow-clear="true") {{$select.selected.nombres + ' ' + $select.selected.apellidos}}
+													ui-select-choices(repeat="profe in profesores track by profe.id | filter: $select.search")
+														div(ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
+								.row
+									.col-md-6.col-lg-6
+										.form-group
+											label.col-md-3.col-lg-3.control-label.to-left Año
+											.col-md-9.col-lg-9
+												ui-select(ng-model="configuracion.year_to" on-select="yearToSelect($item, $model)" theme="select2" style="width: 100%;")
+													ui-select-match() {{$select.selected.year}}
+													ui-select-choices(repeat="year in years_copy_to track by year.id | filter: $select.search")
+														div(ng-bind-html="year.year | highlight: $select.search")
+									.col-md-6.col-lg-6
+										.form-group
+											label.col-md-3.col-lg-3.control-label Periodo
+											.col-md-9.col-lg-9
+												ui-select(ng-model="configuracion.periodo_to" on-select="periodoToSelect($item, $model)" theme="select2" style="width: 100%;")
+													ui-select-match() Per {{$select.selected.numero}}
+													ui-select-choices(repeat="periodo in periodos_to | filter: $select.search")
+														div(ng-bind-html="'Per ' + periodo.numero | highlight: $select.search")
+
+								.row
+									.col-lg-12
+										.form-group
+											label.col-md-3.col-lg-3.control-label.to-left Asignatura
+											.col-md-9.col-lg-9
+												ui-select(ng-model="configuracion.asignatura_to" on-select="asignaturaToSelect($item, $model)" theme="select2" style="width: 100%;")
+													ui-select-match(placeholder="Elija asignatura" allow-clear="true") {{$select.selected.abrev_grupo + ' - ' + $select.selected.materia}}
+													ui-select-choices(repeat="asignatura in asignaturas_to track by asignatura.asignatura_id | filter: $select.search")
+														div(ng-bind-html="asignatura.abrev_grupo + ' - ' + asignatura.materia | highlight: $select.search")
+
+								.row(ng-show="unidades_to.items.length")
+									.col-md-12.col-lg-12
+										h5 Ya existen {{unidades_to.items.length}} {{USER.unidades_displayname}}:
+										.mail-container
+											.mail-body(style="margin-left: 0px; overflow: visible")
+												ul.mail-list
+													li.list-item(ng-repeat="unidad in unidades_to.items track by $index")
+														.item-sender(style="width: 100%!important; left: 10px;")
+															a.col-name(href="" popover-template="urlTplSubunidades" popover-trigger="mouseenter" popover-title="Subunidades") {{unidad.definicion}}
+
+								
+								.row(ng-show="!unidades_to.items.length")
+									.col-md-12.col-lg-12
+										h5 Aún no existen {{USER.unidades_displayname}}.
+								
+								
+								.row
+									.col-md-12.col-lg-12
+										br
+										br
+										a.btn.btn-primary.btn-lg.shiny(ng-click="copiar()" ng-disabled="!activar_btn_copiar") 
+											i.fa.fa-copy
+											| Copiar 
+											i.fa.fa-arrow-right
+
+								.row
+									.col-md-12.col-lg-12
+										br
+										p {{resultado}}
+
+
+
+
+

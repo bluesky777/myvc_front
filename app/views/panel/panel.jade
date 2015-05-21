@@ -25,7 +25,7 @@ loader(ng-if="bigLoader")
 
 						<!-- Periodo Dropdown-->
 						li.dropdown-periodos(my-drop-down ng-click="toggleOpen()" is-open="false")
-							a.dropdown-toggle#link-dropdown-periodos(data-toggle="dropdown" title="Tasks" href="")
+							a.dropdown-toggle.link-dropdown-periodos(data-toggle="dropdown" title="Tasks" href="")
 								i.icon.fa.fa-ioxhost  Per {{ USER.numero_periodo }}
 								span.badge
 							ul.pull-right.dropdown-menu.dropdown-tasks.dropdown-arrow
@@ -36,6 +36,7 @@ loader(ng-if="bigLoader")
 									a(href="" ng-click="cambiarPeriodo(periodo)")
 										.clearfix
 											span.pull-left Periodo {{ periodo.numero }}
+											.pull-right(ng-show="periodo.actual") En curso
 
 									div(ng-if="false")
 										span.pull-right 65%

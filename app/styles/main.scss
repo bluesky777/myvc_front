@@ -1851,10 +1851,19 @@ a:focus, a:active {
     box-shadow: 0 2px 40px rgba(0, 0, 0, .4);
 }
 
+
 /* PARA PINTAR EL DROPDOWN-PERIODOS */
 .navbar .navbar-inner .navbar-header .navbar-account .account-area>li.dropdown-periodos .dropdown-arrow:before {
-    width: 70px;
+    width: 75px;
 }
+
+/* Alargar la opción periodos */
+.link-dropdown-periodos {
+    width: 75px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
 
 .navbar .navbar-inner .navbar-header .navbar-account .account-area>li.open>a {
     background-color: #2dc3e8;
@@ -2276,14 +2285,10 @@ a:focus, a:active {
 .navbar .navbar-inner .navbar-header .navbar-account .account-area>li>a {
     min-width: 45px;
 }
-/* Alargar la opción periodos */
-#link-dropdown-periodos {
-    width: 70px;
-    padding-left: 5px;
-    padding-right: 5px;
 }
 
-}.main-container {
+
+.main-container {
     position: static;
     padding: 0;
 }
@@ -16125,5 +16130,11 @@ body {
 .fadeIn {
   -webkit-animation-name: fadeIn;
   animation-name: fadeIn;
+}
+
+
+
+.to-left{
+    text-align: left!important;
 }
 
