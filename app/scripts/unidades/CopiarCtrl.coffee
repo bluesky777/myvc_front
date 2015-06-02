@@ -151,7 +151,7 @@ angular.module('myvcFrontApp')
 
 				$scope.unidades_to.items.push unidad_a_copiar for unidad_a_copiar in unidades_a_copiar
 
-				if $scope.configuracion.asignatura_from.asignatura_id == $scope.configuracion.asignatura_to.asignatura_id
+				if $scope.configuracion.asignatura_from.asignatura_id == $scope.configuracion.asignatura_to.asignatura_id and $scope.configuracion.periodo_from.id==$scope.configuracion.periodo_to.id
 					$scope.unidades.items.push unidad_a_copiar for unidad_a_copiar in unidades_a_copiar
 
 			, (r2)->

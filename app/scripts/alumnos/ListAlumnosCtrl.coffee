@@ -32,6 +32,7 @@ angular.module("myvcFrontApp")
 	)
 
 	$scope.gridOptions = 
+		showGridFooter: true,
 		enableSorting: true,
 		enableFiltering: true,
 		enebleGridColumnMenu: false,

@@ -26,7 +26,7 @@
       <ul class="submenu">
         <li ui-sref-active="active"><a ng-click="listarAsignaturas()" href="" stop-event="click"><span class="menu-text">Notas</span></a></li>
         <li ui-sref-active="active"><a ui-sref="panel.listasignaturas" stop-event="click"><span class="menu-text">Asignaturas</span></a></li>
-        <li ui-sref-active="active"><a ui-sref="panel.notas_alumno" stop-event="click"><span class="menu-text">De un alumno</span></a></li>
+        <li ui-sref-active="active"><a ui-sref="panel.notas_alumno" stop-event="click"><span class="menu-text blue">De un alumno</span></a></li>
       </ul>
     </li><!-- Notas visto por el admin-->
     <li sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm(['admin'])" ng-class="{open:$state.includes('panel.listasignaturas')||$state.includes('panel.unidades')||$state.includes('panel.notas')||$state.includes('panel.notas_alumno')}"><a href="" class="menu-dropdown"><i class="menu-icon fa fa-apple"></i><span class="menu-text">Notas</span><i class="menu-expand"></i></a>
@@ -88,7 +88,6 @@
             <li><a ui-sref="panel.ciudades" stop-event="click"><i class="menu-icon glyphicon glyphicon-stats"></i><span class="menu-text">Ciudades</span></a></li>
           </ul>
         </li>
-        <li ui-sref-active="active"><a ui-sref="panel.periodos" stop-event="click"><span class="menu-text">Periodos</span></a></li>
         <li ui-sref="panel.anuncios" stop-event="click"><a href="" stop-event="click"><span class="menu-text">Anuncios</span></a></li>
         <li ui-sref-active="active"><a ui-sref="panel.mensajes" stop-event="click"><span class="menu-text"> Mensajes</span></a></li>
         <li ui-sref-active="active"><a ui-sref="panel.bitacora" stop-event="click"><span class="menu-text"> Bitacora</span></a></li>

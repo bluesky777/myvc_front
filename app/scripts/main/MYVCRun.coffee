@@ -23,7 +23,7 @@ angular.module('myvcFrontApp')
 			$state.transitionTo 'panel' #- Por lo tanto nos vamos a panel después de autenticarnos.
 		else
 			$state.transitionTo $rootScope.lastState, $rootScope.lastStateParam #- Si no es null ni login, Nos vamos al último estado.
-		console.log 'Funcion ingresar. lastState: ', $rootScope.lastState
+		#console.log 'Funcion ingresar. lastState: ', $rootScope.lastState
 
 	#- Evento ejecutado cuando nos logueamos despues del servidor haber pedido autenticación.
 	$rootScope.$on 'event:auth-loginConfirmed', ()->
@@ -33,7 +33,7 @@ angular.module('myvcFrontApp')
 
 	#- Evento que se ejecuta cuando vamos a cambiar de estado.
 	$rootScope.$on '$stateChangeStart', (event, next, toParams, fromState, fromParams)->
-		console.log 'Va a empezar a cambiar un estado: ', next, toParams
+		#console.log 'Va a empezar a cambiar un estado: ', next, toParams
 		if $rootScope.lastState == null or (next.name != 'logout' and next.name != 'login' and next.name != 'main' )
 			$rootScope.lastState = next.name
 			$rootScope.lastStateParam = toParams

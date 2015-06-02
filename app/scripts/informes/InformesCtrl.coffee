@@ -39,7 +39,7 @@ angular.module('myvcFrontApp')
 		$scope.informe_tab_actual_boletines 	= if $scope.config.informe_tab_actual 	=='boletines' then true else false
 		$scope.informe_tab_actual_puestos 		= if $scope.config.informe_tab_actual 	=='puestos' then true else false
 		$scope.informe_tab_actual_planillas 	= if $scope.config.informe_tab_actual 	=='planillas' then true else false
-		console.log '$scope.config', $scope.config
+		#console.log '$scope.config', $scope.config
 	else
 		$scope.config.orientacion = 'vertical'
 

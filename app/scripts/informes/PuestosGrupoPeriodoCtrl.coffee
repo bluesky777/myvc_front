@@ -1,10 +1,12 @@
 angular.module("myvcFrontApp")
 
-.controller('PuestosGrupoPeriodoCtrl', ['$scope', 'App', '$rootScope', '$state', 'alumnos', 'escalas', 'Restangular', '$modal', '$filter', 'AuthService', '$cookieStore', ($scope, App, $rootScope, $state, alumnos, escalas, Restangular, $modal, $filter, AuthService, $cookieStore)->
+.controller('PuestosGrupoPeriodoCtrl', ['$scope', 'App', '$rootScope', '$state', 'alumnosDat', 'escalas', 'Restangular', '$modal', '$filter', 'AuthService', '$cookieStore', ($scope, App, $rootScope, $state, alumnosDat, escalas, Restangular, $modal, $filter, AuthService, $cookieStore)->
 	
-	$scope.grupo = alumnos[0]
-	$scope.year = alumnos[1]
-	$scope.alumnos = alumnos[2]
+	$scope.grupo = alumnosDat[0]
+	$scope.year = alumnosDat[1]
+	$scope.alumnos = alumnosDat[2]
+
+	console.log alumnosDat
 
 	#$scope.alumnos = $filter('orderBy')($scope.alumnos, '-promedio')
 

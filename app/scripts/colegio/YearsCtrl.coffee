@@ -1,14 +1,17 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-.controller('YearsCtrl', ['App', '$scope', '$http', 'Restangular', '$modal', '$state', '$cookies', '$rootScope', 'RYears', '$filter', 
-	(App, $scope, $http, Restangular, $modal, $state, $cookies, $rootScope, RYears, $filter) ->
+.controller('YearsCtrl', ['App', '$scope', '$http', 'Restangular', '$modal', '$state', '$cookies', '$rootScope', 'RYears', '$filter', 'toastr', 
+	(App, $scope, $http, Restangular, $modal, $state, $cookies, $rootScope, RYears, $filter, toastr) ->
 
 		RYears.getList().then((r)->
 			$scope.years = r
 		, (r)->
 			console.log 'No se trajeron los años'
 		)
+
+
+		$scope.newcertif = {}
 
 		
 		$scope.addPeriodo = (year)->
@@ -37,6 +40,17 @@ angular.module('myvcFrontApp')
 			})
 			modalInstance.result.then( (periodo)->
 				year.periodos = $filter('filter')(year.periodos, {id: '!'+periodo.id})
+			)
+
+
+		
+		$scope.actualPeriodo = (periodo)->
+
+			Restangular.one('periodos/establecer-actual', periodo.id).customPUT().then((r)->
+				toastr.success 'Periodo ' + periodo.numero + ' establecido como actual.'
+			, (r2)->
+				toastr.warning 'No se pudo establecer como actual.', 'Problema'
+				console.log 'No se pudo establecer como actual: ', r2
 			)
 
 

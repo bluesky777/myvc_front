@@ -40,7 +40,7 @@ angular.module('myvcFrontApp')
 					templateUrl: "#{App.views}informes/boletinesPeriodo.tpl.html"
 					controller: 'BoletinesPeriodoCtrl'
 					resolve:
-						alumnos: ['Restangular', '$stateParams', '$q', '$cookieStore', (Restangular, $stateParams, $q, $cookieStore)->
+						alumnosDat: ['Restangular', '$stateParams', '$q', '$cookieStore', (Restangular, $stateParams, $q, $cookieStore)->
 
 							d = $q.defer()
 
@@ -88,7 +88,7 @@ angular.module('myvcFrontApp')
 					templateUrl: "#{App.views}informes/puestosGrupoPeriodo.tpl.html"
 					controller: 'PuestosGrupoPeriodoCtrl'
 					resolve:
-						alumnos: ['Restangular', '$stateParams', (Restangular, $stateParams)->
+						alumnosDat: ['Restangular', '$stateParams', (Restangular, $stateParams)->
 							Restangular.one('alumnos/detailed-notas', $stateParams.grupo_id).getList()
 						],
 						escalas: ['EscalasValorativasServ', (EscalasValorativasServ)->
@@ -105,7 +105,7 @@ angular.module('myvcFrontApp')
 					templateUrl: "#{App.views}informes/puestosGrupoYear.tpl.html"
 					controller: 'PuestosGrupoYearCtrl'
 					resolve:
-						alumnos: ['Restangular', '$stateParams', (Restangular, $stateParams)->
+						alumnosDat: ['Restangular', '$stateParams', (Restangular, $stateParams)->
 							Restangular.one('alumnos/detailed-notas-year', $stateParams.grupo_id).getList()
 						],
 						escalas: ['EscalasValorativasServ', (EscalasValorativasServ)->

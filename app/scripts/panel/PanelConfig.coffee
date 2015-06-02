@@ -63,26 +63,6 @@ angular.module('myvcFrontApp')
 
 
 
-			.state 'panel.periodos',
-				url: '^/periodos'
-				views: 
-					'maincontent':
-						templateUrl: "#{App.views}colegio/periodos.tpl.html"
-						controller: 'PeriodosCtrl'
-					'headerContent':
-						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
-						controller: 'PanelHeaderCtrl'
-						resolve: 
-							titulo: [->
-								'Periodos'
-							]
-				data: 
-					displayName: 'Periodos'
-					icon_fa: 'fa fa-graduation-cap'
-					needed_permissions: [PERMISSIONS.can_work_like_admin]
-					pageTitle: 'Periodos - MyVc'
-
-
 
 
 			.state 'panel.paises',

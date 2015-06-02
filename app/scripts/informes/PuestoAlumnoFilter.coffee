@@ -22,7 +22,8 @@ angular.module("myvcFrontApp")
 			echo = echo + '<div class="ellipsis350"><b>Per' + num_periodo + ': ' + unidad.definicion_unidad + '</b></div>'
 
 			angular.forEach unidad.subunidades, (subunidad, key) ->
-				echo = echo + (key + 1) + '. ' + subunidad.definicion_subunidad + '<b> => ' + subunidad.nota.nota + '</b><br>'
+				if subunidad.nota
+					echo = echo + (key + 1) + '. ' + subunidad.definicion_subunidad + '<b> => ' + subunidad.nota.nota + '</b><br>'
 
 		return echo
 ])
@@ -51,15 +52,16 @@ angular.module("myvcFrontApp")
 
 			angular.forEach(unidad.subunidades, (subunidad) ->
 
-				if subunidad.nota.nota or subunidad.nota.nota == 0
-				
-					if subunidad.nota.nota < Perfil.User().nota_minima_aceptada
-						@subunis.push subunidad
+				if subunidad.nota
+					if subunidad.nota.nota or subunidad.nota.nota == 0
+					
+						if subunidad.nota.nota < Perfil.User().nota_minima_aceptada
+							@subunis.push subunidad
 
-				else
+					else
 
-					if subunidad.nota < Perfil.User().nota_minima_aceptada
-						@subunis.push subunidad
+						if subunidad.nota < Perfil.User().nota_minima_aceptada
+							@subunis.push subunidad
 
 			, @)
 			

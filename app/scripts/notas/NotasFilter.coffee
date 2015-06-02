@@ -61,11 +61,10 @@ angular.module("myvcFrontApp")
 			@subunidades_resp = []
 
 			angular.forEach subunidades, (subunid)->
-				if !subunid.nota
-					console.log 'sununidad', subunid
+				if subunid.nota
 				
-				if subunid.nota.nota < Perfil.User().nota_minima_aceptada
-					@subunidades_resp.push subunid
+					if subunid.nota.nota < Perfil.User().nota_minima_aceptada
+						@subunidades_resp.push subunid
 
 			return @subunidades_resp
 

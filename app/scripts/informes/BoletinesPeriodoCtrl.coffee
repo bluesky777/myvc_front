@@ -1,6 +1,6 @@
 angular.module("myvcFrontApp")
 
-.controller('BoletinesPeriodoCtrl', ['$scope', 'App', '$rootScope', '$state', 'alumnos', 'escalas', 'Restangular', '$modal', '$filter', 'AuthService', '$cookieStore', ($scope, App, $rootScope, $state, alumnos, escalas, Restangular, $modal, $filter, AuthService, $cookieStore)->
+.controller('BoletinesPeriodoCtrl', ['$scope', 'App', '$rootScope', '$state', 'alumnosDat', 'escalas', 'Restangular', '$modal', '$filter', 'AuthService', '$cookieStore', ($scope, App, $rootScope, $state, alumnos, escalas, Restangular, $modal, $filter, AuthService, $cookieStore)->
 	
 	$scope.grupo = alumnos[0]
 	$scope.year = alumnos[1]

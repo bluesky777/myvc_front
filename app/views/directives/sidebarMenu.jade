@@ -69,7 +69,7 @@
 						span.menu-text Asignaturas
 				li(ui-sref-active="active")
 					a(ui-sref="panel.notas_alumno" stop-event="click")
-						span.menu-text De un alumno
+						span.menu-text.blue De un alumno
 
 		<!-- Notas visto por el admin-->
 		li(sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm(['admin'])" ng-class="{open:$state.includes('panel.listasignaturas')||$state.includes('panel.unidades')||$state.includes('panel.notas')||$state.includes('panel.notas_alumno')}")
@@ -226,9 +226,7 @@
 								span.menu-text Ciudades
 
 				
-				li(ui-sref-active="active")
-					a(ui-sref="panel.periodos" stop-event="click")
-						span.menu-text Periodos
+
 				li(ui-sref="panel.anuncios" stop-event="click")
 					a(href="" stop-event="click")
 						span.menu-text Anuncios

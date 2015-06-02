@@ -9,7 +9,7 @@
             <div class="col-lg-8 col-xs-8 title-encabezado-boletin">
               <div class="nombre-colegio">{{year.nombre_colegio + ' - ' + year.abrev_colegio}}</div>
               <div class="resolucion-colegio">{{year.resolucion}}</div>
-              <div class="title-descripcion">Boletin periodo {{USER.periodo_actual}} - {{USER.year}}</div>
+              <div class="title-descripcion">Boletin periodo {{USER.numero_periodo}} - {{USER.year}}</div>
             </div>
             <div class="col-lg-2 col-xs-2"><img ng-src="{{perfilPath + alumno.foto_nombre}}" ng-show="config.mostrar_foto &amp;&amp; alumno.foto_id" class="img-responsive img-thumbnail foto-alumno"></div>
           </div>
