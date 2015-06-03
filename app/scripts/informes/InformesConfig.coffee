@@ -32,7 +32,7 @@ angular.module('myvcFrontApp')
 		})
 
 		.state 'panel.informes.boletines_periodo',
-			url: '/boletines_periodo/:grupo_id'
+			url: '/boletines_periodo/:grupo_id/:solo_pers_transcurridos'
 			params:
 				grupo_id: {value: null}
 			views: 
@@ -99,14 +99,14 @@ angular.module('myvcFrontApp')
 				pageTitle: 'Puestos periodo - MyVc'
 
 		.state 'panel.informes.puestos_grupo_year',
-			url: '/puestos_grupo_year/:grupo_id'
+			url: '/puestos_grupo_year/:grupo_id/:solo_pers_transcurridos'
 			views: 
 				'report_content':
 					templateUrl: "#{App.views}informes/puestosGrupoYear.tpl.html"
 					controller: 'PuestosGrupoYearCtrl'
 					resolve:
 						alumnosDat: ['Restangular', '$stateParams', (Restangular, $stateParams)->
-							Restangular.one('alumnos/detailed-notas-year', $stateParams.grupo_id).getList()
+							Restangular.one('alumnos/detailed-notas-year/'+$stateParams.grupo_id, $stateParams.solo_pers_transcurridos).getList()
 						],
 						escalas: ['EscalasValorativasServ', (EscalasValorativasServ)->
 							#debugger
@@ -119,7 +119,7 @@ angular.module('myvcFrontApp')
 
 
 		.state 'panel.informes.planillas_grupo',
-			url: '/planillas_grupo/:grupo_id'
+			url: '/planillas_grupo/:grupo_id/:solo_pers_transcurridos'
 			views: 
 				'report_content':
 					templateUrl: "#{App.views}informes/planillas.tpl.html"
@@ -135,7 +135,7 @@ angular.module('myvcFrontApp')
 
 
 		.state 'panel.informes.planillas_profesor',
-			url: '/planillas_profesor/:profesor_id'
+			url: '/planillas_profesor/:profesor_id/:solo_pers_transcurridos'
 			views: 
 				'report_content':
 					templateUrl: "#{App.views}informes/planillas.tpl.html"

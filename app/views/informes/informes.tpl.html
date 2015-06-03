@@ -47,6 +47,16 @@
             <div class="row">
               <div class="col-lg-2 col-sm-4 col-xs-12">
                 <div class="form-group">
+                  <label>Solo periodos transcurridos</label>
+                  <label>
+                    <input type="checkbox" ng-model="config.solo_pers_transcurridos" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-2 col-sm-4 col-xs-12">
+                <div class="form-group">
                   <label>Mostrar foto</label>
                   <label>
                     <input type="checkbox" ng-model="config.mostrar_foto" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
@@ -91,6 +101,16 @@
               </ui-select>
               <div class="btn-group"><a href="" ng-click="verPuestosPeriodo()" class="btn btn-default">Puestos del periodo</a><a href="" ng-click="verPuestosYear()" class="btn btn-success">Puestos del año</a></div>
             </div>
+            <div class="row">
+              <div class="col-lg-2 col-sm-4 col-xs-12">
+                <div class="form-group">
+                  <label>Solo periodos transcurridos</label>
+                  <label>
+                    <input type="checkbox" ng-model="config.solo_pers_transcurridos" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
           </tab>
           <tab heading="Planillas" active="informe_tab_actual_planillas" select="selectTab('planillas')">
             <div class="form-group">
@@ -111,6 +131,16 @@
                 </ui-select-choices>
               </ui-select><a href="" ng-click="verPlanillasGrupo()" class="btn btn-default">Ver planillas</a>
             </div><br><br>
+            <div class="row">
+              <div class="col-lg-2 col-sm-4 col-xs-12">
+                <div class="form-group">
+                  <label>Solo periodos transcurridos</label>
+                  <label>
+                    <input type="checkbox" ng-model="config.solo_pers_transcurridos" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
             <div class="row">
               <div class="col-lg-2 col-sm-4 col-xs-12">
                 <div class="form-group">

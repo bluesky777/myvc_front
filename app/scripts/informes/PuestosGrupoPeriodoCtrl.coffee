@@ -6,8 +6,6 @@ angular.module("myvcFrontApp")
 	$scope.year = alumnosDat[1]
 	$scope.alumnos = alumnosDat[2]
 
-	console.log alumnosDat
-
 	#$scope.alumnos = $filter('orderBy')($scope.alumnos, '-promedio')
 
 	$scope.escalas = escalas

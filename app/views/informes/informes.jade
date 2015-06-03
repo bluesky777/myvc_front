@@ -54,6 +54,13 @@
 						.row
 							.col-lg-2.col-sm-4.col-xs-12
 								.form-group
+									label Solo periodos transcurridos
+									label
+										input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.solo_pers_transcurridos")
+										span.text.si-no
+						.row
+							.col-lg-2.col-sm-4.col-xs-12
+								.form-group
 									label Mostrar foto
 									label
 										input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.mostrar_foto")
@@ -91,6 +98,13 @@
 							.btn-group
 								a.btn.btn-default(href="" ng-click="verPuestosPeriodo()") Puestos del periodo
 								a.btn.btn-success(href="" ng-click="verPuestosYear()") Puestos del año
+						.row
+							.col-lg-2.col-sm-4.col-xs-12
+								.form-group
+									label Solo periodos transcurridos
+									label
+										input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.solo_pers_transcurridos")
+										span.text.si-no
 
 
 					tab(heading="Planillas" active="informe_tab_actual_planillas" select="selectTab('planillas')")
@@ -111,6 +125,13 @@
 							a.btn.btn-default(href="" ng-click="verPlanillasGrupo()") Ver planillas
 						br
 						br
+						.row
+							.col-lg-2.col-sm-4.col-xs-12
+								.form-group
+									label Solo periodos transcurridos
+									label
+										input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.solo_pers_transcurridos")
+										span.text.si-no
 						.row
 							.col-lg-2.col-sm-4.col-xs-12
 								.form-group

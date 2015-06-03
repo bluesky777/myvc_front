@@ -3,7 +3,7 @@ angular.module('myvcFrontApp')
 
 	AuthService.verificar_acceso()
 	$scope.rowsAlum = [] 
-	$scope.config = {}
+	$scope.config = {solo_pers_transcurridos: true}
 	$scope.filtered_alumnos = alumnos
 	$scope.perfilPath = App.images + 'perfil/'
 
@@ -83,6 +83,10 @@ angular.module('myvcFrontApp')
 		$scope.informe_tab_actual_puestos 		= if tab=='puestos' then true else false
 		$scope.informe_tab_actual_planillas 	= if tab=='planillas' then true else false
 
+
+
+
+
 	$scope.verBoletinesGrupo = ()->
 		$cookieStore.remove 'requested_alumnos'
 		$cookieStore.remove 'requested_alumno'
@@ -91,22 +95,22 @@ angular.module('myvcFrontApp')
 			toastr.warning 'Debes seleccionar el grupo'
 			return
 		
-		$state.go 'panel.informes.boletines_periodo', {grupo_id: $scope.datos.grupo.id}, {reload: true}
+		$state.go 'panel.informes.boletines_periodo', {grupo_id: $scope.datos.grupo.id, solo_pers_transcurridos: $scope.config.solo_pers_transcurridos}, {reload: true}
 
 	$scope.verBoletinesAlumnos = ()->
-		console.log '$scope.datos.selected_alumnos ', $scope.datos.selected_alumnos
+		
 		if $scope.datos.selected_alumnos.length > 0
 			$cookieStore.put 'requested_alumnos', $scope.datos.selected_alumnos
-			$state.go 'panel.informes.boletines_periodo', {grupo_id: $scope.datos.grupo.id}, {reload: true}
+			$state.go 'panel.informes.boletines_periodo', {grupo_id: $scope.datos.grupo.id, solo_pers_transcurridos: $scope.config.solo_pers_transcurridos}, {reload: true}
 		else
 			toastr.warning 'Debes seleccionar al menos un alumno o cargar boletines del grupo completo'
 
 
 	$scope.verBoletinAlumno = ()->
-		console.log '$scope.datos.selected_alumno', $scope.datos.selected_alumno
+		
 		if $scope.datos.selected_alumno
 			$cookieStore.put 'requested_alumno', [$scope.datos.selected_alumno]
-			$state.go 'panel.informes.boletines_periodo', {}, {reload: true}
+			$state.go 'panel.informes.boletines_periodo', {solo_pers_transcurridos: $scope.config.solo_pers_transcurridos}, {reload: true}
 		else
 			toastr.warning 'Elige un alumno o carga el grupo completo'
 
@@ -115,7 +119,7 @@ angular.module('myvcFrontApp')
 		if !$scope.datos.grupo.id
 			toastr.warning 'Debes seleccionar el grupo'
 			return
-		$state.go 'panel.informes.puestos_grupo_periodo', {grupo_id: $scope.datos.grupo.id}, {reload: true}
+		$state.go 'panel.informes.puestos_grupo_periodo', {grupo_id: $scope.datos.grupo.id, solo_pers_transcurridos: $scope.config.solo_pers_transcurridos}, {reload: true}
 
 
 	$scope.verPuestosYear = ()->
@@ -123,16 +127,16 @@ angular.module('myvcFrontApp')
 			toastr.warning 'Debes seleccionar el grupo'
 			return
 
-		$state.go 'panel.informes.puestos_grupo_year', {grupo_id: $scope.datos.grupo.id}, {reload: true}
+		$state.go 'panel.informes.puestos_grupo_year', {grupo_id: $scope.datos.grupo.id, solo_pers_transcurridos: $scope.config.solo_pers_transcurridos}, {reload: true}
 
 
 	$scope.verPlanillasGrupo = ()->
-		console.log $scope.datos.grupo
-		$state.go 'panel.informes.planillas_grupo', {grupo_id: $scope.datos.grupo.id}, {reload: true}
+		$state.go 'panel.informes.planillas_grupo', {grupo_id: $scope.datos.grupo.id, solo_pers_transcurridos: $scope.config.solo_pers_transcurridos}, {reload: true}
 
 	$scope.verPlanillasProfe = ()->
-		console.log '$scope.datos.profesor', $scope.datos.profesor
-		$state.go 'panel.informes.planillas_profesor', {profesor_id: $scope.datos.profesor.profesor_id}, {reload: true}
+		$state.go 'panel.informes.planillas_profesor', {profesor_id: $scope.datos.profesor.profesor_id, solo_pers_transcurridos: $scope.config.solo_pers_transcurridos}, {reload: true}
+
+
 
 
 	$scope.selectGrupo = (item)->
