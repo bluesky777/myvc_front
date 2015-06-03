@@ -13,7 +13,7 @@ angular.module('myvcFrontApp')
 		{nombre: 'Enero'}
 		{nombre: 'Febrero'}
 		{nombre: 'Marzo'}
-		{nombre: 'Abrir'}
+		{nombre: 'Abril'}
 		{nombre: 'Mayo'}
 		{nombre: 'Junio'}
 		{nombre: 'Julio'}

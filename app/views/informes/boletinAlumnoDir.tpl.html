@@ -101,7 +101,7 @@
                     <td>No</td>
                     <td>Asignaturas</td>
                     <td ng-repeat="periodo in year.periodos">Per{{periodo.numero}}</td>
-                    <!--td Total-->
+                    <td>Total</td>
                   </tr>
                 </thead>
                 <tbody>
@@ -109,25 +109,19 @@
                     <td>{{$index + 1}}</td>
                     <td>{{asignatura_perdida.materia | capitalize}}</td>
                     <td ng-repeat="periodo in asignatura_perdida.periodos">
-                      <div>{{periodo.unidades | notasPerdidasAsignatura:true}}</div>
+                      <!--div {{periodo.unidades | notasPerdidasAsignatura:true}}-->
+                      <div>{{periodo.cantNotasPerdidas}}</div>
                     </td>
-                    <!--tdb {{asignatura_perdida.cantTotal}}
-                    -->
+                    <td><b>{{asignatura_perdida.cantTotal}}</b></td>
                   </tr>
                 </tbody>
-                <!--tfoot
-                tr
-                 td(colspan="2")
-                  |Total
-                 td(ng-repeat="periodo in alumno.periodos_con_perdidas")
-                  {{asignaturas_perdidas}}
-                 td
-                  b {{alumno.notas_perdidas_year}}
-                  
-                  
-                  
-                  
-                -->
+                <tfoot>
+                  <tr>
+                    <td colspan="2">Total</td>
+                    <td ng-repeat="periodo in alumno.periodos_con_perdidas">{{periodo.cant_perdidas}}</td>
+                    <td><b>{{alumno.notas_perdidas_year}}</b></td>
+                  </tr>
+                </tfoot>
               </table>
             </div>
           </div>

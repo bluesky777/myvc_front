@@ -116,21 +116,22 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 										td Asignaturas
 										td(ng-repeat="periodo in year.periodos")
 											|Per{{periodo.numero}}
-										//td Total
+										td Total
 								tbody
 									tr(ng-repeat="asignatura_perdida in alumno.asignaturas_perdidas")
 										td {{$index + 1}}
 										td {{asignatura_perdida.materia | capitalize}}
 										td(ng-repeat="periodo in asignatura_perdida.periodos")
-											div {{periodo.unidades | notasPerdidasAsignatura:true}}
-										//td
+											//div {{periodo.unidades | notasPerdidasAsignatura:true}}
+											div {{periodo.cantNotasPerdidas}}
+										td
 											b {{asignatura_perdida.cantTotal}}
-								//tfoot
+								tfoot
 									tr
 										td(colspan="2")
 											|Total
 										td(ng-repeat="periodo in alumno.periodos_con_perdidas")
-											{{asignaturas_perdidas}}
+											{{periodo.cant_perdidas}}
 										td
 											b {{alumno.notas_perdidas_year}}
 
