@@ -132,7 +132,7 @@
               </ui-select><a href="" ng-click="verPlanillasGrupo()" class="btn btn-default">Ver planillas</a>
             </div><br><br>
             <div class="row">
-              <div class="col-lg-2 col-sm-4 col-xs-12">
+              <div class="col-lg-3 col-sm-5 col-xs-12">
                 <div class="form-group">
                   <label>Solo periodos transcurridos</label>
                   <label>
@@ -173,6 +173,17 @@
               <input type="radio" ng-model="config.orientacion" value="vertical">
               <div class="text">Vertical</div>
             </label>
+          </div>
+        </div>
+        <div ng-show="informe_tab_actual_puestos">
+          <hr class="wide">
+          <h5>Filtrar:</h5>
+          <div class="control-group">
+            <div class="radio">
+              <label>Mostrar alumnos con: 
+                <input type="number" ng-model="filtrar.materias_perdidas" ng-value="0" min="0" max="20" ng-init="filtrar.materias_perdidas=0">materias perdidas o más.
+              </label>
+            </div>
           </div>
         </div>
         <hr class="wide">

@@ -11,7 +11,7 @@
 				label Elija Roles
 				ui-select(multiple ng-model="datos.selecteds" theme="select2" style="width:100%"
 						on-select="seleccionando($item, $model)" on-remove="quitando($item, $model)")
-					ui-select-match(placeholder="Selecciona roles..."){{$item.name}}
+					ui-select-match(placeholder="Selecciona roles...") {{$item.name}}
 					ui-select-choices(repeat="rol in roles | filter: $select.search.name")
 						div(ng-bind-html="rol.name | highlight: $select.search")
 

@@ -98,7 +98,9 @@ angular.module('myvcFrontApp')
 				resolved_user: ['AuthService', (AuthService)->
 					AuthService.verificar()
 				]
-				alumnos: ['AlumnosServ', (AlumnosServ)->
+				alumnos: ['AlumnosServ', 'AuthService', (AlumnosServ, AuthService)->
+					if AuthService.hasRoleOrPerm(['alumno', 'acudiente'])
+						return 'Sin alumnos'
 					AlumnosServ.getAlumnos()
 				]
 				escalas: ['EscalasValorativasServ', (EscalasValorativasServ)->

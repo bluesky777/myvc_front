@@ -15575,6 +15575,13 @@ body {
         color: #f00!important;
         -webkit-print-color-adjust: exact;
     }
+    
+    .nota-perdida-puestos{
+        background-color: rgb(255, 77, 77);
+        color: white;
+        font-weight: bold;
+    }
+
     .page-body{
         padding: 0px!important;
     }
@@ -15641,7 +15648,7 @@ body {
     padding-top: 10px;
     
     .logo-colegio{
-        width: 80px;
+        width: 60px;
     }
     .descripcion-encabezado{
         font-size: 8pt;
@@ -15880,6 +15887,12 @@ body {
     .resolucion-colegio{
         font-size: 8pt;
     }
+}
+
+.nota-perdida-puestos{
+    background-color: rgb(255, 77, 77);
+    color: white;
+    font-weight: bold;
 }
 
 .encabezado-planilla{
@@ -16137,4 +16150,7 @@ body {
 .to-left{
     text-align: left!important;
 }
+
+
+
 

@@ -1,7 +1,10 @@
 angular.module('myvcFrontApp')
 .controller('NotasAlumnoCtrl', ['$scope', 'toastr', 'Restangular', '$modal', '$state', 'alumnos', 'GruposServ', 'ProfesoresServ', 'escalas', '$rootScope', '$filter', 'App', 'AuthService', 'Perfil', ($scope, toastr, Restangular, $modal, $state, alumnos, GruposServ, ProfesoresServ, escalas, $rootScope, $filter, App, AuthService, Perfil) ->
 
-	$scope.filtered_alumnos = alumnos
+
+	if !alumnos == 'Sin alumnos'
+		$scope.filtered_alumnos = alumnos
+
 	$scope.perfilPath = App.images + 'perfil/'
 	$scope.datos = {grupo: ''}
 	$scope.USER = Perfil.User()
@@ -10,9 +13,12 @@ angular.module('myvcFrontApp')
 	$scope.config = {solo_notas_perdidas: true}
 
 
-	GruposServ.getGrupos().then((r)->
-		$scope.grupos = r
-	)
+	if !$scope.hasRoleOrPerm(['alumno', 'acudiente'])
+		GruposServ.getGrupos().then((r)->
+			$scope.grupos = r
+		)
+
+
 
 
 	ProfesoresServ.contratos().then((r)->

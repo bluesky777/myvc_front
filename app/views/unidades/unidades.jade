@@ -109,12 +109,12 @@
 										button.btn.btn-primary(type="submit" ng-submit="actualizarSubunidad(subunidad)") Guardar
 
 								div(ng-show="!subunidad.editando")
-									{{$index+1}}. 
+									| {{$index+1}}. 
 									.btn-group
 										button.btn.btn-default.btn-xs(type="button" ng-click="subunidad.editando=true") Editar
 										button.btn.btn-danger.btn-xs(type="button" ng-click="removeSubunidad(unidad, subunidad)") Eliminar
 									span  
-									{{subunidad.porcentaje}}% - {{subunidad.definicion}} (por defecto: {{subunidad.nota_default}}) 
+									| {{subunidad.porcentaje}}% - {{subunidad.definicion}} (por defecto: {{subunidad.nota_default}}) 
 
 
 			a(ui-sref="panel.listasignaturas") Volver

@@ -23,12 +23,11 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 						th(ng-repeat="asignatura in alumnos[0].asignaturas") {{asignatura.alias_materia}}
 						th(style="border-left: 2px solid !important;") Total
 				tbody
-					tr(ng-repeat="alumno in alumnos | orderBy:'-promedio_year'")
+					tr(ng-repeat="alumno in alumnos | orderBy:'-promedio_year' | materiasPerdidasYear:filtrar.materias_perdidas:USER.nota_minima_aceptada")
 						td {{$index + 1}}
 						td
 							.ellipsis200.alumno-planilla {{alumno.nombres + ' ' + alumno.apellidos}}
-						td(ng-repeat="asignatura in alumno.asignaturas")
-							//span(popover="{{ asignatura.periodos | notasAsignaturaYear }}" popover-trigger="mouseenter" popover-popup-delay="1000") {{asignatura.nota_asignatura_year | number:0}} // Esto es demasiadas información para mostrar en la definitiva de la materia del alumno.
+						td(ng-repeat="asignatura in alumno.asignaturas" ng-class="{'nota-perdida-puestos': ((asignatura.nota_asignatura_year | number:0 )*1) < (USER.nota_minima_aceptada*1) }")
 							span() {{asignatura.nota_asignatura_year | number:0}}
 							span.cant-unidades-perdidas.puntero(popover="{{ asignatura.periodos | notasPerdidasAsignaturaYear }}" 
 								popover-trigger="mouseenter" popover-popup-delay="1000" 

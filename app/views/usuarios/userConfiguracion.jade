@@ -10,7 +10,7 @@ accordion(close-others="true")
 							i.fa.fa-user.blue
 					.form-group(ng-if="!canConfig")
 						| Nombres: 
-						b{{perfilactual.nombres}}
+						b {{perfilactual.nombres}}
 				.col-sm-6
 					.form-group(ng-if="canConfig")
 						label(for="alumno-no-matr") Apellidos
@@ -19,7 +19,7 @@ accordion(close-others="true")
 							i.fa.fa-user.blue
 					.form-group(ng-if="!canConfig")
 						| Apellidos: 
-						b{{perfilactual.apellidos}}
+						b {{perfilactual.apellidos}}
 				.col-lg-3.col-xs-12
 					.form-group(ng-if="canConfig")
 						|Sexo
@@ -36,7 +36,7 @@ accordion(close-others="true")
 										span.text Femenino
 					.form-group(ng-if="!canConfig")
 						| Sexo: 
-						b{{perfilactual.sexo}}
+						b {{perfilactual.sexo}}
 			.row
 				.col-sm-6(ng-if="false")
 					.form-group(ng-if="canConfig")
@@ -55,7 +55,7 @@ accordion(close-others="true")
 							input#perfilcelular.form-control(type='text', placeholder='Celular' ng-model="perfilactual.celular")
 							i.glyphicon.glyphicon-phone.palegreen
 					.form-group(ng-if="!canConfig") Celular: 
-						b{{perfilactual.celular}}
+						b {{perfilactual.celular}}
 
 				.col-sm-6
 					.form-group(ng-if="canConfig")
@@ -64,7 +64,7 @@ accordion(close-others="true")
 							input.form-control(type='text', placeholder='Correo electrónico' ng-model="perfilactual.email_persona")
 							i.fa.fa-envelope.purple
 					.form-group(ng-if="!canConfig") Correo electrónico 
-					b{{perfilactual.email_persona}}
+					b {{perfilactual.email_persona}}
 
 			button.btn.btn-primary(type='submit' ng-submit="guardar()" ng-if="canConfig") Guardar cambios
 	
@@ -82,9 +82,9 @@ accordion(close-others="true")
 						br
 						button.btn.btn-warning(ng-click="comprobarusername(newusername)")
 							span(ng-hide="comprobando")
-								|Comprobar 
+								| Comprobar 
 							span(ng-show="comprobando")
-								|Comprobando 
+								| Comprobando 
 								i.fa.fa-spinner.fa-spin
 						.alert.alert-warning.fade.in(ng-show="mostrarErrorUsername")
 							.fa-fw.fa.fa-warning

@@ -15,4 +15,6 @@ angular.module("myvcFrontApp")
 	$scope.$on 'change_config', ()->
 		$scope.config = $cookieStore.get 'config'
 
+
+
 ])

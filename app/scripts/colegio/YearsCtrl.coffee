@@ -4,6 +4,14 @@ angular.module('myvcFrontApp')
 .controller('YearsCtrl', ['App', '$scope', '$http', 'Restangular', '$modal', '$state', '$cookies', '$rootScope', 'RYears', '$filter', 'toastr', 
 	(App, $scope, $http, Restangular, $modal, $state, $cookies, $rootScope, RYears, $filter, toastr) ->
 
+		if $scope.USER.alumnos_can_see_notas == 1
+			$scope.USER.alumnos_can_see_notas = true
+		if $scope.USER.alumnos_can_see_notas == 0
+			$scope.USER.alumnos_can_see_notas = false
+
+		$scope.config = {alumnos_can_see_notas: $scope.USER.alumnos_can_see_notas}
+
+
 		RYears.getList().then((r)->
 			$scope.years = r
 		, (r)->
@@ -40,6 +48,21 @@ angular.module('myvcFrontApp')
 			})
 			modalInstance.result.then( (periodo)->
 				year.periodos = $filter('filter')(year.periodos, {id: '!'+periodo.id})
+			)
+
+
+		$scope.toggleBloquearNotas = ()->
+
+			boleano = 0
+
+			if $scope.config.alumnos_can_see_notas == true
+				boleano = 1
+
+			Restangular.one('years/alumnos-can-see-notas', boleano).customPUT().then((r)->
+				toastr.success r
+			, (r2)->
+				toastr.warning 'No se pudo bloquear o desblequear el sistema.', 'Problema'
+				console.log 'No se pudo bloquear o desblequear el sistema: ', r2
 			)
 
 

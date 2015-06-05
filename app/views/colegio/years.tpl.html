@@ -24,6 +24,16 @@
                   </div>
                 </div>
               </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label tooltip="Puedes bloquear el sistema momentaneamente para que los alumnos y acudientes no puedan ver las notas.">Alumnos pueden ver sus notas</label>
+                    <label>
+                      <input type="checkbox" ng-change="toggleBloquearNotas()" ng-model="config.alumnos_can_see_notas" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
               <div class="form-title">Periodos</div>
               <div class="row">
                 <div class="col-sm-6">
