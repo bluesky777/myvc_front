@@ -91,9 +91,9 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 							i.fa.fa-male(ng-show="alumno.sexo=='M'" style="padding-right: 5px;") 
 							i.fa.fa-female(ng-show="alumno.sexo=='F'" style="padding-right: 5px;") 
 							| Comportamiento
-						.col-lg-1.col-xs-1.comportamiento-desempenio
-							| SUPERIOR
-						.col-lg-1.col-xs-1.comportamiento-nota
+						.col-lg-1.col-xs-1.comportamiento-desempenio(ng-class="{'nota-perdida-bold': alumno.comportamiento.nota<USER.nota_minima_aceptada && config.show_rojos}")
+							| {{alumno.comportamiento.nota | juicioValorativo:escalas:true}}
+						.col-lg-1.col-xs-1.comportamiento-nota(ng-class="{'nota-perdida-bold': alumno.comportamiento.nota<USER.nota_minima_aceptada && config.show_rojos}")
 							| {{alumno.comportamiento.nota}}
 					.row.comportamiento-body
 						.col-lg-10.col-xs-10.comportamiento-frases
