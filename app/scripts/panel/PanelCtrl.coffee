@@ -13,6 +13,8 @@ angular.module('myvcFrontApp')
 		$scope.verificar_acceso()
 
 
+		$scope.USER.nota_minima_aceptada = parseInt($scope.USER.nota_minima_aceptada)
+
 
 		$scope.date = new Date();
 

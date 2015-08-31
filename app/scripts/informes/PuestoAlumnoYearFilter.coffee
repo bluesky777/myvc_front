@@ -89,7 +89,7 @@ angular.module("myvcFrontApp")
 		cant = 0
 
 		for alumno in alumnos
-			cant = cant + $filter('notasPerdidasAsignaturasYear')(alumno.asignaturas, true)
+			cant = cant + alumno.sub_perdidas_year
 
 
 		return cant

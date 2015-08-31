@@ -32,9 +32,10 @@ angular.module('myvcFrontApp')
 		})
 
 		.state 'panel.informes.boletines_periodo',
-			url: '/boletines_periodo/:grupo_id/:solo_pers_transcurridos'
+			url: '/boletines_periodo/:grupo_id/:periodos_a_calcular'
 			params:
 				grupo_id: {value: null}
+				periodos_a_calcular: {value: null}
 			views: 
 				'report_content':
 					templateUrl: "#{App.views}informes/boletinesPeriodo.tpl.html"
@@ -51,20 +52,20 @@ angular.module('myvcFrontApp')
 							if requested_alumnos
 
 								console.log 'Pidiendo por varios alumnos: ', requested_alumnos
-								Restangular.one('alumnos/detailed-notas', $stateParams.grupo_id).customPUT({requested_alumnos: requested_alumnos}).then((r)->
+								Restangular.one('alumnos/detailed-notas', $stateParams.grupo_id).customPUT({requested_alumnos: requested_alumnos, periodos_a_calcular: $stateParams.periodos_a_calcular}).then((r)->
 									d.resolve r
 								, (r2)->
 									d.reject r2
 								)
 							else if requested_alumno
-								Restangular.one('alumnos/detailed-notas', requested_alumno[0].grupo_id).customPUT({requested_alumnos: requested_alumno}).then((r)->
+								Restangular.one('alumnos/detailed-notas', requested_alumno[0].grupo_id).customPUT({requested_alumnos: requested_alumno, periodos_a_calcular: $stateParams.periodos_a_calcular}).then((r)->
 									d.resolve r
 								, (r2)->
 									d.reject r2
 								)
 							else
 								console.log 'Pidiendo por grupo:', $stateParams.grupo_id
-								Restangular.one('alumnos/detailed-notas', $stateParams.grupo_id).getList().then((r)->
+								Restangular.one('alumnos/detailed-notas-group', $stateParams.grupo_id).customPUT({periodos_a_calcular: $stateParams.periodos_a_calcular}).then((r)->
 									d.resolve r
 								, (r2)->
 									d.reject r2
@@ -89,7 +90,7 @@ angular.module('myvcFrontApp')
 					controller: 'PuestosGrupoPeriodoCtrl'
 					resolve:
 						alumnosDat: ['Restangular', '$stateParams', (Restangular, $stateParams)->
-							Restangular.one('alumnos/detailed-notas', $stateParams.grupo_id).getList()
+							Restangular.one('alumnos/detailed-notas', $stateParams.grupo_id).customPUT();
 						],
 						escalas: ['EscalasValorativasServ', (EscalasValorativasServ)->
 							#debugger
@@ -99,14 +100,14 @@ angular.module('myvcFrontApp')
 				pageTitle: 'Puestos periodo - MyVc'
 
 		.state 'panel.informes.puestos_grupo_year',
-			url: '/puestos_grupo_year/:grupo_id/:solo_pers_transcurridos'
+			url: '/puestos_grupo_year/:grupo_id/:periodos_a_calcular'
 			views: 
 				'report_content':
 					templateUrl: "#{App.views}informes/puestosGrupoYear.tpl.html"
 					controller: 'PuestosGrupoYearCtrl'
 					resolve:
 						alumnosDat: ['Restangular', '$stateParams', (Restangular, $stateParams)->
-							Restangular.one('alumnos/detailed-notas-year/'+$stateParams.grupo_id, $stateParams.solo_pers_transcurridos).getList()
+							Restangular.one('alumnos/detailed-notas-year/'+$stateParams.grupo_id, $stateParams.periodos_a_calcular).getList()
 						],
 						escalas: ['EscalasValorativasServ', (EscalasValorativasServ)->
 							#debugger
@@ -119,7 +120,7 @@ angular.module('myvcFrontApp')
 
 
 		.state 'panel.informes.planillas_grupo',
-			url: '/planillas_grupo/:grupo_id/:solo_pers_transcurridos'
+			url: '/planillas_grupo/:grupo_id/:periodos_a_calcular'
 			views: 
 				'report_content':
 					templateUrl: "#{App.views}informes/planillas.tpl.html"
@@ -135,7 +136,7 @@ angular.module('myvcFrontApp')
 
 
 		.state 'panel.informes.planillas_profesor',
-			url: '/planillas_profesor/:profesor_id/:solo_pers_transcurridos'
+			url: '/planillas_profesor/:profesor_id/:periodos_a_calcular'
 			views: 
 				'report_content':
 					templateUrl: "#{App.views}informes/planillas.tpl.html"

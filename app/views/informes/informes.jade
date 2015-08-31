@@ -14,7 +14,27 @@
 				
 				tabset.widget-main
 					tab(heading="Boletines" active="informe_tab_actual_boletines" select="selectTab('boletines')")
-
+						.row
+							.col-lg-7.col-sm-12.col-xs-12
+								.form-group
+										label Periodos a calcular:
+										.row
+											.col-lg-4.col-sm-4.col-xs-6
+												.radio
+													label
+														input.inverted(type="radio" value="de_usuario" ng-model="config.periodos_a_calcular")
+														span.text Hasta el actual del usuario
+											.col-lg-4.col-sm-4.col-xs-6
+												.radio
+													label
+														input.inverted(type="radio" value="de_colegio" ng-model="config.periodos_a_calcular")
+														span.text Hasta el actual del colegio
+											.col-lg-4.col-sm-4.col-xs-6
+												.radio
+													label
+														input.inverted(type="radio" value="todos" ng-model="config.periodos_a_calcular")
+														span.text Todos
+						br
 						.row
 							.col-lg-12.col-xs-12
 								.form-group
@@ -50,14 +70,7 @@
 											small(ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
 									a.btn.btn-default(href="" ng-click="verBoletinAlumno()") Cargar boletin
 						br
-						br
-						.row
-							.col-lg-2.col-sm-4.col-xs-12
-								.form-group
-									label Solo periodos transcurridos
-									label
-										input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.solo_pers_transcurridos")
-										span.text.si-no
+						
 						.row
 							.col-lg-2.col-sm-4.col-xs-12
 								.form-group
@@ -89,6 +102,26 @@
 							|Prueba pdf
 
 					tab(heading="Puestos" active="informe_tab_actual_puestos" select="selectTab('puestos')")
+						.row
+							.col-lg-7.col-sm-12.col-xs-12
+								.form-group
+										label Periodos a calcular:
+										.row
+											.col-lg-4.col-sm-4.col-xs-6
+												.radio
+													label
+														input.inverted(type="radio" value="de_usuario" ng-model="config.periodos_a_calcular")
+														span.text Hasta el actual del usuario
+											.col-lg-4.col-sm-4.col-xs-6
+												.radio
+													label
+														input.inverted(type="radio" value="de_colegio" ng-model="config.periodos_a_calcular")
+														span.text Hasta el actual del colegio
+											.col-lg-4.col-sm-4.col-xs-6
+												.radio
+													label
+														input.inverted(type="radio" value="todos" ng-model="config.periodos_a_calcular")
+														span.text Todos
 						.form-group
 							label Grupo
 							ui-select(ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;")
@@ -98,16 +131,30 @@
 							.btn-group
 								a.btn.btn-default(href="" ng-click="verPuestosPeriodo()") Puestos del periodo
 								a.btn.btn-success(href="" ng-click="verPuestosYear()") Puestos del año
-						.row
-							.col-lg-2.col-sm-4.col-xs-12
-								.form-group
-									label Solo periodos transcurridos
-									label
-										input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.solo_pers_transcurridos")
-										span.text.si-no
-
+						
 
 					tab(heading="Planillas" active="informe_tab_actual_planillas" select="selectTab('planillas')")
+						.row
+							.col-lg-7.col-sm-12.col-xs-12
+								.form-group
+										label Periodos a calcular:
+										.row
+											.col-lg-4.col-sm-4.col-xs-6
+												.radio
+													label
+														input.inverted(type="radio" value="de_usuario" ng-model="config.periodos_a_calcular")
+														span.text Hasta el actual del usuario
+											.col-lg-4.col-sm-4.col-xs-6
+												.radio
+													label
+														input.inverted(type="radio" value="de_colegio" ng-model="config.periodos_a_calcular")
+														span.text Hasta el actual del colegio
+											.col-lg-4.col-sm-4.col-xs-6
+												.radio
+													label
+														input.inverted(type="radio" value="todos" ng-model="config.periodos_a_calcular")
+														span.text Todos
+						br
 						.form-group
 							label Profesor
 							ui-select(ng-model="datos.profesor" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;")
@@ -123,15 +170,9 @@
 								ui-select-choices(repeat="grupo in grupos | filter: $select.search")
 									div(ng-bind-html="grupo.nombre | highlight: $select.search")
 							a.btn.btn-default(href="" ng-click="verPlanillasGrupo()") Ver planillas
+						
 						br
-						br
-						.row
-							.col-lg-3.col-sm-5.col-xs-12
-								.form-group
-									label Solo periodos transcurridos
-									label
-										input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.solo_pers_transcurridos")
-										span.text.si-no
+						
 						.row
 							.col-lg-2.col-sm-4.col-xs-12
 								.form-group
@@ -170,6 +211,7 @@
 
 				hr.wide
 				h5 {{descripcion_informe}}
+
 
 
 .informes-pages(ui-view="report_content")

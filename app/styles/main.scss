@@ -15575,6 +15575,11 @@ body {
         color: #f00!important;
         -webkit-print-color-adjust: exact;
     }
+
+    .nota-sobre{
+        border: 1px solid;
+        font-weight: 100;
+    }
     
     .nota-perdida-puestos{
         background-color: rgb(255, 77, 77);
@@ -16149,6 +16154,15 @@ body {
 
 .to-left{
     text-align: left!important;
+}
+
+
+
+.nota-sobre{
+    border: 2px solid #596AF3 !important;
+    font-weight: bold;
+    background-color: #CAD3FB;
+    border-width: 2px!important;
 }
 
 

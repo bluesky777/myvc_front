@@ -10,6 +10,36 @@
         <tabset class="widget-main">
           <tab heading="Boletines" active="informe_tab_actual_boletines" select="selectTab('boletines')">
             <div class="row">
+              <div class="col-lg-7 col-sm-12 col-xs-12">
+                <div class="form-group">
+                  <label>Periodos a calcular:</label>
+                  <div class="row">
+                    <div class="col-lg-4 col-sm-4 col-xs-6">
+                      <div class="radio">
+                        <label>
+                          <input type="radio" value="de_usuario" ng-model="config.periodos_a_calcular" class="inverted"><span class="text">Hasta el actual del usuario</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 col-xs-6">
+                      <div class="radio">
+                        <label>
+                          <input type="radio" value="de_colegio" ng-model="config.periodos_a_calcular" class="inverted"><span class="text">Hasta el actual del colegio</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 col-xs-6">
+                      <div class="radio">
+                        <label>
+                          <input type="radio" value="todos" ng-model="config.periodos_a_calcular" class="inverted"><span class="text">Todos</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div><br>
+            <div class="row">
               <div class="col-lg-12 col-xs-12">
                 <div class="form-group">
                   <label>Grupo</label>
@@ -43,17 +73,7 @@
                   </ui-select><a href="" ng-click="verBoletinAlumno()" class="btn btn-default">Cargar boletin</a>
                 </div>
               </div>
-            </div><br><br>
-            <div class="row">
-              <div class="col-lg-2 col-sm-4 col-xs-12">
-                <div class="form-group">
-                  <label>Solo periodos transcurridos</label>
-                  <label>
-                    <input type="checkbox" ng-model="config.solo_pers_transcurridos" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
-                  </label>
-                </div>
-              </div>
-            </div>
+            </div><br>
             <div class="row">
               <div class="col-lg-2 col-sm-4 col-xs-12">
                 <div class="form-group">
@@ -91,6 +111,36 @@
             <button ng-click="pdfMaker()" ng-show="false" class="btn btn-default">Prueba pdf</button>
           </tab>
           <tab heading="Puestos" active="informe_tab_actual_puestos" select="selectTab('puestos')">
+            <div class="row">
+              <div class="col-lg-7 col-sm-12 col-xs-12">
+                <div class="form-group">
+                  <label>Periodos a calcular:</label>
+                  <div class="row">
+                    <div class="col-lg-4 col-sm-4 col-xs-6">
+                      <div class="radio">
+                        <label>
+                          <input type="radio" value="de_usuario" ng-model="config.periodos_a_calcular" class="inverted"><span class="text">Hasta el actual del usuario</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 col-xs-6">
+                      <div class="radio">
+                        <label>
+                          <input type="radio" value="de_colegio" ng-model="config.periodos_a_calcular" class="inverted"><span class="text">Hasta el actual del colegio</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 col-xs-6">
+                      <div class="radio">
+                        <label>
+                          <input type="radio" value="todos" ng-model="config.periodos_a_calcular" class="inverted"><span class="text">Todos</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="form-group">
               <label>Grupo</label>
               <ui-select ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;">
@@ -101,18 +151,38 @@
               </ui-select>
               <div class="btn-group"><a href="" ng-click="verPuestosPeriodo()" class="btn btn-default">Puestos del periodo</a><a href="" ng-click="verPuestosYear()" class="btn btn-success">Puestos del año</a></div>
             </div>
-            <div class="row">
-              <div class="col-lg-2 col-sm-4 col-xs-12">
-                <div class="form-group">
-                  <label>Solo periodos transcurridos</label>
-                  <label>
-                    <input type="checkbox" ng-model="config.solo_pers_transcurridos" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
-                  </label>
-                </div>
-              </div>
-            </div>
           </tab>
           <tab heading="Planillas" active="informe_tab_actual_planillas" select="selectTab('planillas')">
+            <div class="row">
+              <div class="col-lg-7 col-sm-12 col-xs-12">
+                <div class="form-group">
+                  <label>Periodos a calcular:</label>
+                  <div class="row">
+                    <div class="col-lg-4 col-sm-4 col-xs-6">
+                      <div class="radio">
+                        <label>
+                          <input type="radio" value="de_usuario" ng-model="config.periodos_a_calcular" class="inverted"><span class="text">Hasta el actual del usuario</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 col-xs-6">
+                      <div class="radio">
+                        <label>
+                          <input type="radio" value="de_colegio" ng-model="config.periodos_a_calcular" class="inverted"><span class="text">Hasta el actual del colegio</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 col-xs-6">
+                      <div class="radio">
+                        <label>
+                          <input type="radio" value="todos" ng-model="config.periodos_a_calcular" class="inverted"><span class="text">Todos</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div><br>
             <div class="form-group">
               <label>Profesor</label>
               <ui-select ng-model="datos.profesor" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;">
@@ -130,17 +200,7 @@
                   <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
                 </ui-select-choices>
               </ui-select><a href="" ng-click="verPlanillasGrupo()" class="btn btn-default">Ver planillas</a>
-            </div><br><br>
-            <div class="row">
-              <div class="col-lg-3 col-sm-5 col-xs-12">
-                <div class="form-group">
-                  <label>Solo periodos transcurridos</label>
-                  <label>
-                    <input type="checkbox" ng-model="config.solo_pers_transcurridos" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
-                  </label>
-                </div>
-              </div>
-            </div>
+            </div><br>
             <div class="row">
               <div class="col-lg-2 col-sm-4 col-xs-12">
                 <div class="form-group">

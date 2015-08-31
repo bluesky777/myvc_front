@@ -17,4 +17,21 @@ angular.module("myvcFrontApp")
 
 
 
+
+
+
+
+	####################################################################
+	#########    Edición de notas de materia      ######################
+	####################################################################
+
+
+	$scope.alumnos_materias = []
+
+	$scope.add_alum_materia = (asig, alum)->
+		$scope.alumnos_materias.push {asignatura: asig, alumno: alum}
+
+
+
+
 ])

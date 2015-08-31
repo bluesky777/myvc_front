@@ -27,7 +27,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 								| Titular: Pr. {{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor | capitalize}}
 						.col-lg-6.col-xs-6
 							h5.nombre-alumno {{alumno.nombres + ' ' + alumno.apellidos}}
-							.promedio-alumno Puntaje: {{alumno.promedio | number:1}}% - Puesto: {{alumno.puesto}}/{{grupo.cantidad_alumnos}}
+							.promedio-alumno Puntaje: {{alumno.promedio | setDecimal:1 }}% - Puesto: {{alumno.puesto}}/{{grupo.cantidad_alumnos}}
 			.row.body-boletin
 				.col-lg-12.col-xs-12.materias
 					.materia-item(ng-repeat="asignatura in alumno.asignaturas")
@@ -44,7 +44,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 								| {{ asignatura.nota_asignatura | juicioValorativo:escalas:true}} 
 							.col-lg-1.col-xs-1
 								div(ng-class="{'nota-perdida-bold': asignatura.nota_asignatura<USER.nota_minima_aceptada && config.show_rojos}")
-									| {{asignatura.nota_asignatura}}
+									| {{asignatura.nota_asignatura | decimales:1}}
 						.row.unidades-list
 							.col-lg-12.col-xs-12
 								.row.unidades-item(ng-repeat="unidad in asignatura.unidades")

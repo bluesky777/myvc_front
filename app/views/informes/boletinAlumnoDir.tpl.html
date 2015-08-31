@@ -20,7 +20,7 @@
             </div>
             <div class="col-lg-6 col-xs-6">
               <h5 class="nombre-alumno">{{alumno.nombres + ' ' + alumno.apellidos}}</h5>
-              <div class="promedio-alumno">Puntaje: {{alumno.promedio | number:1}}% - Puesto: {{alumno.puesto}}/{{grupo.cantidad_alumnos}}</div>
+              <div class="promedio-alumno">Puntaje: {{alumno.promedio | setDecimal:1 }}% - Puesto: {{alumno.puesto}}/{{grupo.cantidad_alumnos}}</div>
             </div>
           </div>
         </div>
@@ -33,7 +33,7 @@
               <div class="col-lg-1 col-xs-1"><i class="fa fa-clock-o icon-tardanza"> </i><span class="text-tardanza">{{asignatura.total_ausencias}} </span></div>
               <div ng-class="{'nota-perdida': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}" class="col-lg-1 col-xs-1">{{ asignatura.nota_asignatura | juicioValorativo:escalas:true}} </div>
               <div class="col-lg-1 col-xs-1">
-                <div ng-class="{'nota-perdida-bold': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}">{{asignatura.nota_asignatura}}</div>
+                <div ng-class="{'nota-perdida-bold': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}">{{asignatura.nota_asignatura | decimales:1}}</div>
               </div>
             </div>
             <div class="row unidades-list">

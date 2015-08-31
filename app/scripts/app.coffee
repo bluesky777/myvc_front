@@ -50,6 +50,8 @@ angular.module('myvcFrontApp', [
 		views: 'views/'
 		#views: server + 'views/dist/views/' # Para el server Laravel
 		images: server + 'images/'
+		perfilPath: server + 'images/perfil/'
+		imgSystemPath: server + 'images/colegio/'
 	}
 )())
 .constant('AUTH_EVENTS', {

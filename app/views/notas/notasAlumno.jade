@@ -43,7 +43,7 @@
 	accordion(close-others="true")
 		accordion-group(heading="Periodo {{periodo.numero}} ({{periodo.asignaturas | notasPerdidasAsignaturas}})" ng-repeat="periodo in periodos")
 
-
+			
 			.materia-item.animated(ng-repeat="asignatura in periodo.asignaturas | soloAsignaturasConPerdidas:config.solo_notas_perdidas")
 				.row.materia-title(style="font-size: 10pt;" popover="<img src='{{perfilPath + asignatura.foto_nombre}}' style='width: 150px; height: 150px;'>" 
 									popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" 
@@ -56,6 +56,7 @@
 					.col-lg-1.col-xs-1
 						div(ng-class="{'nota-perdida-bold': asignatura.nota_asignatura<USER.nota_minima_aceptada}")
 							| {{asignatura.nota_asignatura | number:0}}
+				
 				.row.unidades-list
 					.col-lg-12.col-xs-12
 						.row.unidades-item.animated(ng-repeat="unidad in asignatura.unidades | soloUnidadesConPerdidas:config.solo_notas_perdidas")
@@ -86,6 +87,8 @@
 													ng-model="subunidad.nota.nota" 
 													ng-change="cambiaNota(subunidad.nota, subunidad.nota.nota)"
 													ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+
 .col-lg-12(ng-if="!USER.alumnos_can_see_notas && hasRoleOrPerm(['alumno', 'acudiente'])")
 	.widget
 		.widget-header.bg-red

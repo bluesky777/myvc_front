@@ -1,0 +1,84 @@
+.widget(ng-init="opened = true" ng-show="opened")
+	.widget-header
+		.widget-caption
+
+			| Editar 
+
+			a(href="" style="font-size: 10pt;" popover="<img src='{{perfilPath + asignatura.foto_nombre}}' style='width: 150px; height: 150px;'>" 
+				popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" 
+				popover-trigger="mouseenter") 
+				| {{ asignatura.materia }} 
+
+			|  de 
+
+			a(href="" popover="<img src='{{perfilPath + alumno.userData.foto_nombre}}' style='width: 100px; height: 100px;'><img src='{{perfilPath + alumno.userData.imagen_nombre}}' style='width: 100px; height: 100px;'><br>Facebook: {{alumno.facebook}}<br>Username: {{alumno.userData.username}}" 
+				popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-animation="true" 
+				popover-trigger="mouseenter" ) 
+				| {{ alumno.nombres }} 
+
+
+		.widget-buttons
+			a(href="")
+				i.fa.fa-expand.pink()
+			a(href="" ng-init="minimized = false" ng-click="minimized = !minimized")
+				i.fa.fa-minus.blue
+			a(href="" ng-click="opened=false")
+				i.fa.fa-times.darkorange
+	.widget-body(ng-class="{'ng-hide':minimized}")
+		.form-group
+			label Solo perdidas
+			label
+				input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="solo_notas_perdidas")
+				span.text.si-no
+
+
+		.materia-item.animated(ng-repeat="periodo_materia in periodos_materia" ng-show="(periodo_materia.unidades|notasPerdidasAsignatura:true > 0) || (solo_notas_perdidas==false)")
+			.row.materia-title(style="font-size: 10pt;" )
+				.col-lg-9.col-xs-9
+					span.materia-name 
+						| Periodo {{ periodo_materia.numero }} 
+						| ({{ periodo_materia.unidades | notasPerdidasAsignatura:true }})
+				.col-lg-1.col-xs-2(ng-class="{'nota-perdida': periodo_materia.nota_asignatura<USER.nota_minima_aceptada}")
+					| {{ periodo_materia.nota_asignatura | juicioValorativo:escalas:true}} 
+				.col-lg-1.col-xs-1
+					div(ng-class="{'nota-perdida-bold': periodo_materia.nota_asignatura<USER.nota_minima_aceptada}")
+						| {{periodo_materia.nota_asignatura | number:0}}
+			
+			.row.unidades-list
+				.col-lg-12.col-xs-12
+
+					.row.unidades-item.animated(ng-repeat="unidad in periodo_materia.unidades | soloUnidadesConPerdidas:solo_notas_perdidas")
+						.col-lg-12.col-xs-12
+							.row
+								.unidad-definicion.col-lg-10.col-xs-10
+									| {{ unidad.definicion_unidad }}
+								.unidad-porc.col-lg-1.col-xs-2
+									| {{ unidad.porcentaje_unidad }}% - {{ unidad.nota_unidad }}
+
+							.row.subunidades-list(ng-repeat="subunidad in unidad.subunidades | soloSubunidadesPerdidas:solo_notas_perdidas" style="font-size: 9pt;")
+								.col-lg-12.col-xs-12
+									.row
+										.subunidad-definicion.col-lg-10.col-xs-10 
+											| {{ subunidad.definicion_subunidad }}
+										.subunidad-porc.col-lg-1.col-xs-1
+											| {{ subunidad.porcentaje_subunidad }}%
+
+										.col-lg-1.col-xs-1.subunidad-nota.puntero(ng-if="(!hasRoleOrPerm(['admin', 'profesor'])) || ((asignatura.profesor_id!=USER.persona_id) && (USER.tipo=='Pr'))")
+											span(ng-class="{'nota-perdida-bold': subunidad.nota.nota<USER.nota_minima_aceptada}" tooltip="Valor nota: {{subunidad.nota.valor}}"){{subunidad.nota.nota}}
+											
+											span.nota-perdida(ng-show="!subunidad.nota.nota && subunidad.nota.nota!=0" tooltip="Aún sin nota")
+												i.fa.fa-warning
+
+
+										.col-lg-1.col-xs-1(ng-class="{'inputnota-perdida': subunidad.nota.nota < USER.nota_minima_aceptada}" 
+											ng-if="(hasRoleOrPerm(['admin'])) || ((asignatura.profesor_id==USER.persona_id) && (USER.tipo=='Pr'))")
+
+
+											input(type="number"  min="0" max="100" 
+												ng-change="cambiaNota(subunidad.nota, subunidad.nota.nota)" 
+												ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" 
+												ng-model="subunidad.nota.nota")
+
+
+
+				
