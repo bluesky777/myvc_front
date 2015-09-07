@@ -81,16 +81,6 @@ angular.module("myvcFrontApp")
 	btGrid2 = '<a tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-trash "></i></a>'
 	btMatricular = "#{App.views}directives/botonesMatricular.tpl.html"
 
-	headerGroup = """
-				<div ng-class="{ 'sortable': sortable }">
-				<div class="ui-grid-vertical-bar">&nbsp;</div>
-				<div class="ui-grid-cell-contents {{col.headerClass}}" col-index="renderIndex">
-					{{ col.displayName CUSTOM_FILTERS }}
-					<br>
-					<select ng-model="grid.appScope.value[col.field]" ng-change="$event.stopPropagation();grid.appScope.yourFilterFunction(col.field)">
-					</select>
-				</div></div></div>
-				"""
 
 	$scope.gridOptions = 
 		showGridFooter: true,
@@ -144,9 +134,9 @@ angular.module("myvcFrontApp")
 	$scope.borrar = (alum)->
 		alum.delete().then((r)->
 			console.log 'Eliminado con éxito', r
-			$scope.toastr.success 'El alumno fue eliminado', 'Exito'
+			$scope.toastr.success 'El alumno fue eliminado', 'Éxito'
 		, (r)->
-			console.log 'No se pudo eliminar', r
+			console.log 'No se pudo eliminar', r, alum
 			$scope.toastr.error 'No se pudo eliminar el alumno', 'Error'
 		)
 

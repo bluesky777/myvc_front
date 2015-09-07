@@ -27,6 +27,7 @@ angular.module('myvcFrontApp')
 
 	Restangular.one('asignaturas/show/' + $scope.asignatura_id).get().then((r)->
 		$scope.asignatura = r
+		$scope.inicializado = true
 	, (r2)->
 		console.log 'No se pudo traer los datos de la asignatura', r2
 		toastr.error 'No se pudo traer los datos de la asignatura'
@@ -51,6 +52,36 @@ angular.module('myvcFrontApp')
 		console.log '$scope.unidades.porc_unidades: ', $scope.unidades.porc_unidades
 
 
+	# Configuración para el sortable
+	$scope.sortableOptions =
+		'ui-floating': true
+
+		update: (e, ui)->
+			# console.log e, ui
+
+			sortHash = []
+
+			for opcion, index in $scope.preguntatraduc.opciones
+				if opcion.id != -1
+					hashEntry = {}
+					hashEntry["" + opcion.id] = index
+					sortHash.push(hashEntry)
+			
+			datos = 
+				pregunta_traduc_id: $scope.preguntatraduc.id
+				sortHash: sortHash
+			
+			Restangular.one('unidades/update-orden').customPUT(datos).then((r)->
+				console.log('Orden guardado')
+			, (r2)->
+				console.log('No se pudo guardar el orden', r2)
+				#ui.item.sortable.cancel() # Cancelamos el intento de ordenar
+			)
+
+
+
+	
+	"""
 	$scope.datos.dragSubunidadesListeners =
 		accept: (sourceItemHandleScope, destSortableScope)->
 			#console.log 'unidad.ordensubunidades: ', sourceItemHandleScope, destSortableScope
@@ -62,6 +93,7 @@ angular.module('myvcFrontApp')
 		containment: '.dd-contener'
 		containerPositioning: 'relative'
 		additionalPlaceholderClass: 'dd-placeholder' 
+	"""
 
 	$scope.crearUnidad = ()->
 

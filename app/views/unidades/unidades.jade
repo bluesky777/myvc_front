@@ -3,11 +3,11 @@
 		.header.bordered-yellow {{asignatura.materia + ' - ' + asignatura.nombre_grupo + ' - ' + asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}
 
 		.btn-group
-			a.btn.btn-success.btn-lg(ui-sref="panel.listasignaturas({profesor_id: asignatura.profesor_id})") 
+			a.btn.btn-success.btn-lg(ng-show="inicializado" ui-sref="panel.listasignaturas({profesor_id: asignatura.profesor_id})") 
 				i.fa.fa-arrow-left
 				| Volver a asignaturas
 
-			a.btn.btn-primary.btn-lg(tooltip="¡Nuevo! De seguro te será de mucha ayuda" ui-sref="panel.copiar") 
+			a.btn.btn-primary.btn-lg(tooltip="¡Copia de una materia a otra!" ui-sref="panel.copiar") 
 				i.fa.fa-copy
 				| Copiar
 
@@ -73,7 +73,8 @@
 
 							
 
-					ol.dd-list.dd-contener(as-sortable="datos.dragSubunidadesListeners" ng-model="unidad.ordensubunidades")
+					//ol.dd-list.dd-contener(as-sortable="datos.dragSubunidadesListeners" ng-model="unidad.ordensubunidades")
+					ol.dd-list.dd-contener(ui-sortable="sortableOptions" ng-model="unidad.ordensubunidades")
 						li.dd-item.dd2-item.bordered-blue(no-drag ng-show="!unidad.mostrandoSubunidades")
 							.dd2-content
 								.row(no-drag)
@@ -89,8 +90,9 @@
 										input.btn.btn-primary(type="submit" ng-disabled="!activar_crear_subunidad" ng-submit="addSubunidad(unidad)" value="Añadir {{SUBUNIDAD}}") 
 
 
-						li.dd-item.dd2-item(ng-repeat="subunidad in unidad.subunidades" as-sortable-item)
-							.dd-handle.dd2-handle(as-sortable-item-handle)
+						li.dd-item.dd2-item(ng-repeat="subunidad in unidad.subunidades")
+							//.dd-handle.dd2-handle(as-sortable-item-handle)
+							.dd-handle.dd2-handle
 								i.normal-icon.fa.fa-arrows
 								i.drag-icon.fa.fa-arrows-alt
 							.dd2-content

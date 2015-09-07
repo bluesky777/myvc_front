@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('AlumnosNewCtrl', ['$scope', '$rootScope', '$interval', 'Restangular', 'RAlumnos', 'RPaises', 'RCiudades', 'RGrupos', ($scope, $rootScope, $interval, Restangular, RAlumnos, RPaises, RCiudades, RGrupos)->
+.controller('AlumnosNewCtrl', ['$scope', '$rootScope', '$interval', 'Restangular', 'RAlumnos', 'RPaises', 'RCiudades', 'RGrupos', '$filter', ($scope, $rootScope, $interval, Restangular, RAlumnos, RPaises, RCiudades, RGrupos, $filter)->
 	$scope.data = {} # Para el popup del Datapicker
 
 	$scope.alumno = 
@@ -48,11 +48,14 @@ angular.module("myvcFrontApp")
 	
 	$scope.crear = ()->
 
+		$scope.alumno.fecha_nac = $filter('date')($scope.alumno.fecha_nac, 'yyyy-MM-dd')
+
 		Restangular.all('alumnos/store').post($scope.alumno).then((r)->
 			console.log 'Se hizo el post del alumno', r
 			$scope.toastr.success 'Alumno '+r.nombres+' creado'
 			$scope.$emit 'alumnoguardado', r
 		, (r2)->
+			$scope.toastr.warning 'No se pudo guardar alumno', 'Problema'
 			console.log 'Falló al intentar guardar: ', r2
 		)
 
