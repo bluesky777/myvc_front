@@ -13,7 +13,7 @@
 		<!--Dashboard-->
 		li(ui-sref-active-eq="active")
 			a(ui-sref="panel")
-				i.menu-icon.glyphicon.glyphicon-home
+				i.menu-icon.fa.fa-home
 				span.menu-text Inicio
 		<!--Alumnos-->
 		li(ui-sref-active="active" ng-if="hasRoleOrPerm('admin')")
@@ -166,12 +166,12 @@
 		<!-- Informes-->
 		li(ui-sref-active="active" ng-if="!hasRoleOrPerm(['admin']) && hasRoleOrPerm(['profesor'])" )
 			a(ui-sref="panel.informes")
-				i.menu-icon.glyphicon.glyphicon-print
+				i.menu-icon.fa.fa-print
 				span.menu-text Informes
 
 		li(sub-menu ng-show="hasRoleOrPerm('admin')" ng-click="toggleOpen()" menu-is-open="false" ng-class="{active:$state.includes('panel.informes')}")
 			a.menu-dropdown(href="")
-				i.menu-icon.glyphicon.glyphicon-print
+				i.menu-icon.fa.fa-print
 				span.menu-text Informes
 				i.menu-expand
 
@@ -222,7 +222,7 @@
 								span.menu-text Paises
 						li
 							a(ui-sref="panel.ciudades" stop-event="click")
-								i.menu-icon.glyphicon.glyphicon-stats
+								i.menu-icon.fa.fa-stats
 								span.menu-text Ciudades
 
 				

@@ -14,15 +14,15 @@ angular.module('myvcFrontApp')
 	$scope.SUBUNIDADES = $scope.USER.subunidades_displayname
 
 	$scope.activar_crear_unidad = true
-	$scope.activar_crear_subunidad = true
+	
 
 
 	Restangular.all('unidades/deasignaturaperiodo/' + $scope.asignatura_id + '/' + $scope.USER.periodo_id).getList().then((r)->
 		$scope.unidades = r
 		$scope.calcularPorcUnidades()
 	, (r2)->
-		console.log 'No se pudo traer las unidades', r2
-		toastr.error 'No se pudo traer las unidades', 'Problemas'
+		console.log 'No se pudo traer las ' + $scope.UNIDADES, r2
+		toastr.error 'No se pudo traer las ' + $scope.UNIDADES, 'Problemas'
 	)
 
 	Restangular.one('asignaturas/show/' + $scope.asignatura_id).get().then((r)->
@@ -52,48 +52,10 @@ angular.module('myvcFrontApp')
 		console.log '$scope.unidades.porc_unidades: ', $scope.unidades.porc_unidades
 
 
-	# Configuración para el sortable
-	$scope.sortableOptions =
-		'ui-floating': true
-
-		update: (e, ui)->
-			# console.log e, ui
-
-			sortHash = []
-
-			for opcion, index in $scope.preguntatraduc.opciones
-				if opcion.id != -1
-					hashEntry = {}
-					hashEntry["" + opcion.id] = index
-					sortHash.push(hashEntry)
-			
-			datos = 
-				pregunta_traduc_id: $scope.preguntatraduc.id
-				sortHash: sortHash
-			
-			Restangular.one('unidades/update-orden').customPUT(datos).then((r)->
-				console.log('Orden guardado')
-			, (r2)->
-				console.log('No se pudo guardar el orden', r2)
-				#ui.item.sortable.cancel() # Cancelamos el intento de ordenar
-			)
 
 
 
-	
-	"""
-	$scope.datos.dragSubunidadesListeners =
-		accept: (sourceItemHandleScope, destSortableScope)->
-			#console.log 'unidad.ordensubunidades: ', sourceItemHandleScope, destSortableScope
-			return true
-		itemMoved: (event)->
-			console.log 'Item movido: ', event
-		orderChanged: (event)->
-			console.log 'Orden cambiado: ', event
-		containment: '.dd-contener'
-		containerPositioning: 'relative'
-		additionalPlaceholderClass: 'dd-placeholder' 
-	"""
+
 
 	$scope.crearUnidad = ()->
 
@@ -120,27 +82,6 @@ angular.module('myvcFrontApp')
 		)
 
 
-	$scope.addSubunidad = (unidad)->
-
-		$scope.activar_crear_subunidad = false
-		unidad.newsubunidad.unidad_id = unidad.id
-
-		Restangular.one('subunidades').customPOST(unidad.newsubunidad).then((r)->
-			unidad.subunidades.push r
-
-			creado = 'creado'
-			if $scope.GENERO_SUB == 'F'
-				creado = 'creada'
-
-			toastr.success $scope.SUBUNIDAD + ' ' + creado + ' con éxito.'
-			unidad.newsubunidad.definicion = ''
-			$scope.calcularPorcUnidades()
-			$scope.activar_crear_subunidad = true
-		, (r2)->
-			console.log 'No se pudo crear  ' + (if $scope.GENERO_UNI=="M" then 'el' else 'la') + $scope.SUBUNIDAD, r2
-			toastr.error 'No se pudo crear  ' + (if $scope.GENERO_UNI=="M" then 'el' else 'la') + $scope.SUBUNIDAD, 'Problemas'
-			$scope.activar_crear_subunidad = true
-		)
 
 	$scope.actualizarUnidad = (unidad)->
 
@@ -163,28 +104,6 @@ angular.module('myvcFrontApp')
 		)
 
 
-	$scope.actualizarSubunidad = (subunidad)->
-
-		datos =
-			definicion: subunidad.definicion
-			porcentaje: subunidad.porcentaje
-			nota_default: subunidad.nota_default
-
-		Restangular.one('subunidades/update/' + subunidad.id).customPUT(datos).then((r)->
-			
-			actualizado = 'actualizado'
-			if $scope.GENERO_SUB == 'F'
-				actualizado = 'actualizada'
-			
-			toastr.success $scope.SUBUNIDAD + ' ' + actualizado + ' con éxito.'
-			subunidad.editando = false
-
-			$scope.calcularPorcUnidades()
-		, (r2)->
-			console.log 'No se pudo actualizar ' + $scope.SUBUNIDAD, r2
-			toastr.error 'No se pudo actualizar ' + $scope.SUBUNIDAD, 'Problemas'
-		)
-
 
 	$scope.removeUnidad = (unidad)->
 
@@ -199,21 +118,6 @@ angular.module('myvcFrontApp')
 			$scope.unidades = $filter('filter')($scope.unidades, {id: '!'+unidad.id})
 			$scope.calcularPorcUnidades()
 		)
-
-	$scope.removeSubunidad = (unidad, subunidad)->
-
-		modalInstance = $modal.open({
-			templateUrl: App.views + 'unidades/removeSubunidad.tpl.html'
-			controller: 'RemoveSubunidadCtrl'
-			resolve: 
-				subunidad: ()->
-					subunidad
-		})
-		modalInstance.result.then( (unid)->
-			unidad.subunidades = $filter('filter')(unidad.subunidades, {id: '!'+subunidad.id})
-			$scope.calcularPorcUnidades()
-		)
-
 
 
 

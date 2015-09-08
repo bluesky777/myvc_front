@@ -24,7 +24,8 @@ angular.module('myvcFrontApp', [
 	'ui.grid.selection'
 	'angularFileUpload'
 	'FBAngular'
-	'ui.sortable'
+	#'ui.sortable'
+	'as.sortable'
 	'Chronicle'
 ])
 #- Valores que usaremos para nuestro proyecto

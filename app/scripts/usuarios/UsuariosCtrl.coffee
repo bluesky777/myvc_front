@@ -104,7 +104,7 @@ angular.module('myvcFrontApp')
 				if newValue != oldValue
 
 					if colDef.field == "username"
-						Restangular.one('perfiles/guardarusername', rowEntity.user_id).customPUT({username: rowEntity.username}).then((r)->
+						Restangular.one('perfiles/guardar-username', rowEntity.user_id).customPUT({username: rowEntity.username}).then((r)->
 							$scope.toastr.success 'Nombre de Usuario actualizado con éxito', 'Actualizado'
 						, (r2)->
 							$scope.toastr.error 'Cambio no guardado', 'Error'

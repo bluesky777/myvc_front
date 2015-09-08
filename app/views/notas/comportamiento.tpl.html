@@ -36,16 +36,34 @@
               <td>
                 <h5 popover="&lt;img src='{{perfilPath + alumno.userData.foto_nombre}}' style='width: 100px; height: 100px;'&gt;&lt;img src='{{perfilPath + alumno.userData.imagen_nombre}}' style='width: 100px; height: 100px;'&gt;&lt;br&gt;Facebook: {{alumno.facebook}}&lt;br&gt;Username: {{alumno.userData.username}}" popover-popup-delay="1000" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-animation="true" popover-trigger="mouseenter" class="nombresellipsis"><img ng-src="{{perfilPath + alumno.userData.foto_nombre}}" style="width: 20px; height: 20px;">{{alumno.nombres + ' ' + alumno.apellidos}}</h5>
                 <ul>
-                  <li ng-repeat="definicion in alumno.definiciones"><a tooltip="X Eliminar" tooltip-placement="right" ng-click="quitarFrase(definicion, alumno)" class="btn btn-default btn-xs shiny icon-only danger"><i class="fa fa-trash"></i></a> {{definicion.tipo_frase + ' - ' + definicion.frase}}</li>
+                  <li ng-repeat="definicion in alumno.definiciones"><a tooltip="X Eliminar" tooltip-placement="right" ng-click="quitarFrase(definicion, alumno)" class="btn btn-default btn-xs shiny icon-only danger"><i class="fa fa-trash"></i></a><span ng-show="definicion.tipo_frase"> {{definicion.tipo_frase + ' - ' + definicion.frase}}</span><span ng-show="definicion"> {{ definicion.frase }}</span></li>
                 </ul>
-                <label>Frase
-                  <ui-select ng-model="alumno.newfrase" theme="select2" style="min-width: 500px;">
-                    <ui-select-match placeholder="Frase" allow-clear="true">{{$select.selected.frase}}</ui-select-match>
-                    <ui-select-choices repeat="frase in frases | filter: $select.search">
-                      <div ng-bind-html="frase.tipo_frase + ' - ' + frase.frase | highlight: $select.search"></div>
+                <div style="display: inline-block; margin-right: 30px" class="form-group">
+                  <label>Escrita </label>
+                  <label>
+                    <input type="checkbox" ng-model="alumno.escrita" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                  </label>
+                </div>
+                <form ng-show="alumno.escrita" ng-submit="addFraseEscrita(alumno)" style="display: inline-block; " class="form-inline">
+                  <div class="form-group">
+                    <label>Frase:</label>
+                    <input type="text" ng-model="alumno.newfrase_escrita" placeholder="Escriba una frase" style="min-width: 300px" class="form-control"><a type="submit" ng-disabled="alumno.agregando_frase" class="btn btn-primary">Agregar</a>
+                  </div>
+                </form><span ng-show="!alumno.escrita" style="display: inline-block; ">
+                  <ui-select ng-model="alumno.tipo_frase" ng-init="alumno.tipo_frase={tipo_frase: 'Fortaleza'}" theme="select2" style="min-width: 100px;">
+                    <ui-select-match placeholder="Frase" allow-clear="true">{{$select.selected.tipo_frase}}</ui-select-match>
+                    <ui-select-choices repeat="tipo_frase in tipos | filter: $select.search">
+                      <div ng-bind-html="tipo_frase.tipo_frase | highlight: $select.search"></div>
                     </ui-select-choices>
-                  </ui-select><a ng-click="addFrase(alumno)" class="btn btn-primary">Agregar</a>
-                </label>
+                  </ui-select>
+                  <label>Frase
+                    <ui-select ng-model="alumno.newfrase" theme="select2" style="min-width: 400px;">
+                      <ui-select-match placeholder="Frase" allow-clear="true">{{$select.selected.frase}}</ui-select-match>
+                      <ui-select-choices repeat="frase in frases | porTipoFrase: alumno.tipo_frase.tipo_frase | filter: $select.search">
+                        <div ng-bind-html="frase.tipo_frase + ' - ' + frase.frase | highlight: $select.search"></div>
+                      </ui-select-choices>
+                    </ui-select><a ng-click="addFrase(alumno)" ng-disabled="alumno.agregando_frase" class="btn btn-primary">Agregar</a>
+                  </label></span>
               </td>
               <td>
                 <input ng-model="alumno.nota.nota" type="number" min="0" max="100" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }" ng-change="cambiaNota(alumno.nota)">

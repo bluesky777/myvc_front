@@ -50,7 +50,7 @@ angular.module('myvcFrontApp')
 
 
 	$scope.showFrases = (alumno)->
-		console.log 'Presionado para eliminar fila: ', alumno
+		console.log 'Presionado para mostrar frases: ', alumno
 
 		modalInstance = $modal.open({
 			templateUrl: App.views + 'notas/showFrases.tpl.html'

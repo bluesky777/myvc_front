@@ -12,86 +12,9 @@
     <hr class="wide">
     <div ng-show="unidades.porc_unidades&gt;100" class="alert alert-danger fade in"><i class="fa-fw fa fa-warning"></i><strong>Porcentaje incorrecto </strong>- Sobra un {{unidades.porc_unidades-100}} porciento</div>
     <div ng-show="unidades.porc_unidades&lt;100" class="alert alert-warning fade in"><i class="fa-fw fa fa-warning"></i><strong>Porcentaje incorrecto </strong>- Falta un {{100-unidades.porc_unidades}} porciento</div>
-    <div class="dd dd-draghandle darker ddlarga bordered">
-      <ol class="dd-list">
-        <li data-id="$index" ng-repeat="unidad in unidades" class="dd-item dd2-item">
-          <div ng-show="!unidad.editando" class="dd-handle dd2-handle"><i class="normal-icon fa fa-book"></i><i class="drag-icon fa fa-arrows-alt"></i></div>
-          <div class="dd2-content">
-            <div ng-show="unidad.editando" class="row">
-              <form role="form" ng-submit="actualizarUnidad(unidad)" class="form-inline">
-                <div class="form-group unidaddefinicion col-lg-6 col-sm-12">
-                  <label class="sr-only">Edite la definición</label>
-                  <textarea required ng-model="unidad.definicion" placeholder="Edite la definición" tooltip="Definición" tooltip-popup-delay="1000" class="form-control"></textarea>
-                </div>
-                <div class="form-group unidadporcentaje col-lg-2 col-md-3 col-sm-12">
-                  <label class="sr-only">Porcentaje</label>
-                  <input required type="number" min="0" max="100" ng-model="unidad.porcentaje" placeholder="Edite el porcentaje" tooltip="Porcentaje" tooltip-popup-delay="1000" class="form-control">
-                </div>
-                <button type="button" ng-click="unidad.editando=false" class="btn btn-default">Cancelar</button>
-                <button type="submit" ng-submit="actualizarUnidad(unidad)" class="btn btn-primary">Guardar</button>
-              </form>
-            </div>
-            <div ng-show="!unidad.editando"><span editable-text="unidad.porcentaje">{{$index+1}}.  {{unidad.porcentaje}}</span><span>% - </span><span>{{unidad.definicion}}</span>
-              <div class="btn-group">
-                <button type="button" ng-click="unidad.editando=true" class="btn btn-default btn-xs">Editar</button>
-                <button type="button" ng-click="removeUnidad(unidad)" class="btn btn-danger btn-xs">Eliminar</button>
-              </div>
-              <div ng-show="unidad.subunidades.porc_subunidades&gt;100" style="margin-top: 20px; margin-bottom: 2px;" class="alert alert-danger fade in"><i class="fa-fw fa fa-warning"></i><strong>Porcentaje incorrecto </strong>- Sobra un {{unidad.subunidades.porc_subunidades-100}} porciento</div>
-              <div ng-show="unidad.subunidades.porc_subunidades&lt;100" style="margin-top: 20px; margin-bottom: 2px;" class="alert alert-warning fade in"><i class="fa-fw fa fa-warning"></i><strong>Porcentaje incorrecto </strong>- Falta un {{100-unidad.subunidades.porc_subunidades}} porciento</div>
-            </div>
-          </div>
-          <!--ol.dd-list.dd-contener(as-sortable="datos.dragSubunidadesListeners" ng-model="unidad.ordensubunidades")-->
-          <ol ui-sortable="sortableOptions" ng-model="unidad.ordensubunidades" class="dd-list dd-contener">
-            <li no-drag ng-show="!unidad.mostrandoSubunidades" class="dd-item dd2-item bordered-blue">
-              <div class="dd2-content">
-                <div no-drag class="row">
-                  <form ng-submit="addSubunidad(unidad)" class="form-inline">
-                    <div class="form-group unidaddefinicion col-lg-6 col-sm-12">
-                      <label class="sr-only">{{ GENERO_SUB=='M' ? 'Nuevo' : 'Nueva' }} {{SUBUNIDAD}}: </label>
-                      <textarea required ng-model="unidad.newsubunidad.definicion" placeholder="Crea {{ GENERO_SUB=='M' ? 'nuevo' : 'nueva' }} {{SUBUNIDAD}}" tooltip="Definición del {{ GENERO_SUB=='M' ? 'nuevo' : 'nueva' }} {{SUBUNIDAD}}" tooltip-popup-delay="1000" class="form-control"></textarea>
-                    </div>
-                    <div class="form-group unidadporcentaje col-lg-2 col-md-3 col-sm-12">
-                      <input required ng-model="unidad.newsubunidad.porcentaje" min="0" max="100" type="number" placeholder="%Porcentaje" tooltip="Porcentaje {{ GENERO_SUB=='M' ? 'del' : 'de la' }} {{SUBUNIDAD}}" tooltip-popup-delay="1000" class="form-control">
-                    </div>
-                    <div class="form-group col-lg-2 col-md-3 col-sm-4">
-                      <input required ng-model="unidad.newsubunidad.nota_default" min="0" max="100" type="number" placeholder="Nota por defecto" tooltip="Nota por defecto {{ GENERO_SUB=='M' ? 'del' : 'de la' }} {{SUBUNIDAD}}" tooltip-popup-delay="1000" class="form-control">
-                    </div>
-                    <input type="submit" ng-disabled="!activar_crear_subunidad" ng-submit="addSubunidad(unidad)" value="Añadir {{SUBUNIDAD}}" class="btn btn-primary">
-                  </form>
-                </div>
-              </div>
-            </li>
-            <li ng-repeat="subunidad in unidad.subunidades" class="dd-item dd2-item">
-              <!--.dd-handle.dd2-handle(as-sortable-item-handle)-->
-              <div class="dd-handle dd2-handle"><i class="normal-icon fa fa-arrows"></i><i class="drag-icon fa fa-arrows-alt"></i></div>
-              <div class="dd2-content">
-                <div ng-show="subunidad.editando" class="row">
-                  <form role="form" ng-submit="actualizarSubunidad(subunidad)" class="form-inline">
-                    <div class="form-group unidaddefinicion col-lg-6 col-sm-12">
-                      <label class="sr-only">Edite la definición</label>
-                      <textarea required ng-model="subunidad.definicion" placeholder="Edite la definición" tooltip="Definición" class="form-control"></textarea>
-                    </div>
-                    <div class="form-group unidadporcentaje col-lg-2 col-md-3 col-sm-12">
-                      <label class="sr-only">Porcentaje</label>
-                      <input required type="number" min="0" max="100" ng-model="subunidad.porcentaje" placeholder="%Porcentaje" tooltip="Edite el porcentaje" tooltip-popup-delay="1000" class="form-control">
-                    </div>
-                    <div class="form-group col-lg-2 col-md-3 col-sm-12">
-                      <input required ng-model="subunidad.nota_default" min="0" max="100" type="number" placeholder="Nota por defecto" tooltip="Nota por defecto de {{SUBUNIDAD}}" tooltip-popup-delay="1000" class="form-control">
-                    </div>
-                    <button type="button" ng-click="subunidad.editando=false" class="btn btn-default">Cancelar</button>
-                    <button type="submit" ng-submit="actualizarSubunidad(subunidad)" class="btn btn-primary">Guardar</button>
-                  </form>
-                </div>
-                <div ng-show="!subunidad.editando">{{$index+1}}. 
-                  <div class="btn-group">
-                    <button type="button" ng-click="subunidad.editando=true" class="btn btn-default btn-xs">Editar</button>
-                    <button type="button" ng-click="removeSubunidad(unidad, subunidad)" class="btn btn-danger btn-xs">Eliminar</button>
-                  </div><span> </span>{{subunidad.porcentaje}}% - {{subunidad.definicion}} (por defecto: {{subunidad.nota_default}}) 
-                </div>
-              </div>
-            </li>
-          </ol>
-        </li>
+    <div class="ddlarga bordered">
+      <ol style="padding-left: 0px;">
+        <unidad-dir unidad="unidad" indice="$index" ng-repeat="unidad in unidades"></unidad-dir>
       </ol><a ui-sref="panel.listasignaturas">Volver</a>
     </div>
   </div>

@@ -38,7 +38,7 @@
     <div id="sidebar" ng-class="{'menu-compact': menucompacto, 'page-sidebar': true}"><!-- Sidebar Menu ************************************* -->
       <ul class="nav sidebar-menu"><!--Dashboard-->
         <li ui-sref-active-eq="active"><a ui-sref="panel"><i class="menu-icon fa fa-institution themesecondary"></i><span class="menu-text">Volver a MyVc</span></a></li><!--Dashboard-->
-        <li ui-sref-active-eq="active" ng-show="hasRoleOrPerm('admin')"><a ui-sref="votaciones"><i class="menu-icon glyphicon glyphicon-home themesecondary"></i><span class="menu-text">Votaciones</span></a></li><!--Configuración-->
+        <li ui-sref-active-eq="active" ng-show="hasRoleOrPerm('admin')"><a ui-sref="votaciones"><i class="menu-icon fa fa-home themesecondary"></i><span class="menu-text">Votaciones</span></a></li><!--Configuración-->
         <li ui-sref-active="active" ng-show="hasRoleOrPerm('admin')"><a ui-sref="votaciones.config"><i class="menu-icon fa fa-user themesecondary"></i><span class="menu-text">Configuración</span></a></li><!--Aspiraciones-->
         <li ui-sref-active="active" ng-show="hasRoleOrPerm('admin')"><a ui-sref="votaciones.aspiraciones"><i class="menu-icon fa fa-cloud themesecondary"></i><span class="menu-text">Aspiraciones</span></a></li><!--Participantes-->
         <li ui-sref-active="active" ng-show="hasRoleOrPerm('admin')"><a ui-sref="votaciones.participantes"><i class="menu-icon fa fa-child themesecondary"></i><span class="menu-text">Participantes</span></a></li><!--Candidatos-->

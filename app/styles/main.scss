@@ -14477,7 +14477,7 @@ tr.fc-last td {
     list-style: none;
     padding: 0;
 }
-.task-container .tasks-list .task-item {
+.task-item {
     position: relative;
     height: 150px;
     border-bottom: 1px solid #e5e5e5;
@@ -14572,7 +14572,7 @@ tr.fc-last td {
     padding: 0;
     margin-bottom: 0;
 }
-.tickets-container .tickets-list .ticket-item {
+.ticket-item {
     position: relative;
     background-color: #fff;
     -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, .2);
@@ -14588,17 +14588,17 @@ tr.fc-last td {
     padding: 0 15px;
     vertical-align: top;
 }
-.tickets-container .tickets-list .ticket-item:last-child {
+.ticket-item:last-child {
     margin-bottom: 0;
 }
-.tickets-container .tickets-list .ticket-item .ticket-user {
+.ticket-item .ticket-user {
     height: 50px;
     padding: 10px;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
 }
-.tickets-container .tickets-list .ticket-item .ticket-user .user-avatar {
+.ticket-item .ticket-user .user-avatar {
     width: 30px;
     height: 30px;
     -webkit-border-radius: 3px;
@@ -14608,43 +14608,43 @@ tr.fc-last td {
     border-radius: 3px;
     background-clip: padding-box;
 }
-.tickets-container .tickets-list .ticket-item .ticket-user .user-name {
+.ticket-item .ticket-user .user-name {
     margin-left: 5px;
     font-size: 13px;
 }
-.tickets-container .tickets-list .ticket-item .ticket-user .user-at {
+.ticket-item .ticket-user .user-at {
     margin-left: 2px;
     color: #ccc;
     font-size: 13px;
 }
-.tickets-container .tickets-list .ticket-item .ticket-user .user-company {
+.ticket-item .ticket-user .user-company {
     margin-left: 2px;
     color: #999;
 }
-.tickets-container .tickets-list .ticket-item .ticket-time {
+.ticket-item .ticket-time {
     line-height: 30px;
     height: 50px;
     padding: 10px;
 }
-.tickets-container .tickets-list .ticket-item .ticket-time i {
+.ticket-item .ticket-time i {
     color: #ccc;
 }
-.tickets-container .tickets-list .ticket-item .ticket-time .time {
+.ticket-item .ticket-time .time {
     color: #999;
     font-size: 11px;
     text-transform: uppercase;
 }
-.tickets-container .tickets-list .ticket-item .ticket-type {
+.ticket-item .ticket-type {
     line-height: 30px;
     height: 50px;
     padding: 10px;
 }
-.tickets-container .tickets-list .ticket-item .ticket-type .type {
+.ticket-item .ticket-type .type {
     color: #999;
     font-size: 11px;
     text-transform: uppercase;
 }
-.tickets-container .tickets-list .ticket-item .ticket-state {
+.ticket-item .ticket-state {
     position: absolute;
     top: 13px;
     right: -12px;
@@ -14663,12 +14663,12 @@ tr.fc-last td {
     box-shadow: 0 0 3px rgba(0, 0, 0, .2);
     border: 2px solid #fff;
 }
-.tickets-container .tickets-list .ticket-item .ticket-state i {
+.ticket-item .ticket-state i {
     font-size: 13px;
     color: #fff;
     line-height: 20px;
 }
-.tickets-container .tickets-list .ticket-item .divider {
+.ticket-item .divider {
     position: absolute;
     top: 0;
     left: 0;
@@ -14678,11 +14678,11 @@ tr.fc-last td {
     display: inline-block;
 }
 @media(max-width:1200px) {
-    .tickets-container .tickets-list .ticket-item .ticket-user {
+    .ticket-item .ticket-user {
     border-bottom: 1px solid #eee;
 }
 }@media(max-width:768px) {
-    .tickets-container .tickets-list .ticket-item .ticket-time {
+    .ticket-item .ticket-time {
     border-bottom: 1px solid #eee;
 }
 }.dashboard-box {
@@ -15387,9 +15387,6 @@ body {
 .ddlarga{
     max-width: 100%!important;
 }
-.ddlarga{
-    max-width: 100%!important;
-}
 .unidadporcentaje input, .unidaddefinicion textarea, .unidaddefinicion input{
     width: 100%!important;
 }
@@ -15547,7 +15544,8 @@ body {
 
     .materia-title{
         border-radius: 5px 5px 0 0;
-        background-color: #A7C7EB!important;
+        //background-color: #A7C7EB!important;
+        background-color: #000!important;
         -webkit-print-color-adjust: exact; 
     }
 
@@ -15560,7 +15558,7 @@ body {
     }
 
     .materia-title, .unidades-list{
-        border: 1px solid #ccc!important;
+        border: 1px solid #000!important;
         margin: 0px 10px 0px 10px;
     }
     
@@ -15717,7 +15715,7 @@ body {
         padding-left: 5px;
     }
     .materia-title, .unidades-list{
-        border: 1px solid #ccc;
+        border: 1px solid #000;
         margin: 0px 10px 0px 10px;
     }
 
@@ -15739,7 +15737,7 @@ body {
 }
 .subunidades-list{
     padding-left: 5px;
-    font-size: 7pt;
+    font-size: 8pt;
 
     .subunidad-definicion{
         
@@ -15751,6 +15749,13 @@ body {
         
     }
 }
+.definicion-subunidad-inside, .definicion-unidad-inside{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 95%;
+}
+
+
 .comentarios-asignatura{
     font-size: 7pt;
     border-top: 1px solid #ccc;
@@ -15782,7 +15787,7 @@ body {
 
     .comportamiento-head{
         padding: 5px;
-        border: 1px solid #ccc;
+        border: 1px solid #000;
         margin: 0px 10px 0px 10px;
         font-size: 8pt;
         border-radius: 5px 5px 0 0;
@@ -15797,7 +15802,7 @@ body {
     }
     .comportamiento-body{
         font-size: 7pt;
-        border: 1px solid #ccc;
+        border: 1px solid #000;
         border-radius: 0 0 5px 5px;
         border-top: none;
         margin: 0px 10px 0px 10px;
@@ -16154,7 +16159,6 @@ body {
 }
 
 
-
 .to-left{
     text-align: left!important;
 }
@@ -16166,6 +16170,19 @@ body {
     font-weight: bold;
     background-color: #CAD3FB;
     border-width: 2px!important;
+}
+
+.tickets-list:focus{
+    outline: none;
+}
+.ed-unidades-item{
+    list-style: none;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+.ed-unidad-move{
+
 }
 
 

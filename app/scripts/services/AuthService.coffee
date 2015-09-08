@@ -9,8 +9,8 @@ angular.module('myvcFrontApp')
 		if Perfil.User().user_id
 			d.resolve Perfil.User()
 		else
-			if $cookies.xtoken
-				if $cookies.xtoken != undefined and $cookies.xtoken != 'undefined'  and $cookies.xtoken != '[object Object]'
+			if $cookies.get('xtoken')
+				if $cookies.get('xtoken') != undefined and $cookies.get('xtoken') != 'undefined'  and $cookies.get('xtoken') != '[object Object]'
 					authService.login_from_token().then((usuario)->
 						Perfil.setUser usuario
 						d.resolve usuario
@@ -19,7 +19,7 @@ angular.module('myvcFrontApp')
 						d.reject r2
 					)
 				else
-					console.log 'Token mal estructurado: ', $cookies.xtoken
+					console.log 'Token mal estructurado: ', $cookies.get('xtoken')
 					authService.borrarToken()
 					d.reject 'Token mal estructurado.'
 			else
@@ -67,9 +67,9 @@ angular.module('myvcFrontApp')
 		Restangular.one('login').post('', credentials).then((user)->
 			#debugger
 			if user.token
-				$cookies.xtoken = user.token
+				$cookies.put('xtoken', user.token)
 				
-				$http.defaults.headers.common['Authorization'] = 'Bearer ' + $cookies.xtoken
+				$http.defaults.headers.common['Authorization'] = 'Bearer ' + $cookies.get('xtoken')
 
 				Perfil.setUser user
 
@@ -106,7 +106,7 @@ angular.module('myvcFrontApp')
 
 		d = $q.defer();
 
-		$http.defaults.headers.common['Authorization'] = 'Bearer ' + $cookies.xtoken
+		$http.defaults.headers.common['Authorization'] = 'Bearer ' + $cookies.get('xtoken')
 
 		login = Restangular.one('login').post().then((usuario)->
 
@@ -130,7 +130,7 @@ angular.module('myvcFrontApp')
 		$state.transitionTo 'login'
 
 	authService.borrarToken = ()->
-		delete $cookies.xtoken
+		$cookies.remove('xtoken')
 		delete $http.defaults.headers.common['Authorization']
 
 	authService.isAuthenticated = ()->

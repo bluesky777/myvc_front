@@ -56,6 +56,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 												| {{unidad.porcentaje_unidad}}%
 											.col-lg-1.col-xs-1.unidad-nota
 												| {{unidad.nota_unidad}}
+										//.row.subunidades-list(ng-repeat="subunidad in unidad.subunidades | orderBy:'orden_subunidad'")
 										.row.subunidades-list(ng-repeat="subunidad in unidad.subunidades")
 											.col-lg-12.col-xs-12
 												.row

@@ -80,6 +80,8 @@ angular.module('myvcFrontApp')
 			if ( index != -1 )
 				this.groups.splice(index, 1)
 
+		@
+
 
 
 ])

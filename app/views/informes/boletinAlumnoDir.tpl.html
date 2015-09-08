@@ -45,6 +45,7 @@
                       <div class="col-lg-1 col-xs-1 unidad-porc">{{unidad.porcentaje_unidad}}%</div>
                       <div class="col-lg-1 col-xs-1 unidad-nota">{{unidad.nota_unidad}}</div>
                     </div>
+                    <!--.row.subunidades-list(ng-repeat="subunidad in unidad.subunidades | orderBy:'orden_subunidad'")-->
                     <div ng-repeat="subunidad in unidad.subunidades" class="row subunidades-list">
                       <div class="col-lg-12 col-xs-12">
                         <div class="row">

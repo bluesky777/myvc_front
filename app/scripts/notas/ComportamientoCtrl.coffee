@@ -8,8 +8,17 @@ angular.module('myvcFrontApp')
 	$scope.frases = comportamiento[0]
 	$scope.alumnos = comportamiento[1]
 	$scope.grupo = comportamiento[2]
+	$scope.tipos = [
+		{tipo_frase:	'Todas'}
+		{tipo_frase:	'Debilidad'}
+		{tipo_frase:	'Amenaza'}
+		{tipo_frase:	'Oportunidad'}
+		{tipo_frase:	'Fortaleza'}
+	]
 
 	$scope.addFrase = (alumno)->
+
+		alumno.agregando_frase = true
 
 		if alumno.newfrase
 			dato = 
@@ -21,12 +30,38 @@ angular.module('myvcFrontApp')
 				alumno.newfrase.definicion_id = r.id
 				alumno.definiciones.push alumno.newfrase
 				alumno.newfrase = null
+				alumno.agregando_frase = false
 			, (r2)->
 				$scope.toastr.error 'No se pudo agregar la frase', 'Problema'
 				console.log 'No se añadió la frase', r2
+				alumno.agregando_frase = false
 			)
 		else
 			$scope.toastr.warning 'Debe seleccionar frase'
+			return
+
+
+	$scope.addFraseEscrita = (alumno)->
+
+		alumno.agregando_frase = true
+
+		if alumno.newfrase_escrita != ''
+			dato = 
+				comportamiento_id:	alumno.nota.id
+				frase:				alumno.newfrase_escrita
+
+			Restangular.one('definiciones_comportamiento/store-escrita').customPOST(dato).then((r)->
+				$scope.toastr.success 'Frase agregada con éxito'
+				alumno.newfrase_escrita = ''
+				alumno.definiciones.push r
+				alumno.agregando_frase = false
+			, (r2)->
+				$scope.toastr.error 'No se pudo agregar la frase', 'Problema'
+				console.log 'No se añadió la frase', r2
+				alumno.agregando_frase = false
+			)
+		else
+			$scope.toastr.warning 'Debe escribir la frase'
 			return
 
 
@@ -55,3 +90,25 @@ angular.module('myvcFrontApp')
 
 
 ])
+
+.filter('porTipoFrase', [ ->
+	(input, tipo_frase)->
+
+		if tipo_frase == 'Todas' or tipo_frase == undefined then return input
+
+		resultado = []
+
+		for frase in input
+
+			if tipo_frase == frase.tipo_frase
+
+				resultado.push frase
+
+
+
+		return resultado
+
+]);
+
+
+
