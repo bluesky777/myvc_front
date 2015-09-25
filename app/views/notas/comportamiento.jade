@@ -61,7 +61,7 @@
 									.form-group
 										label Frase:
 										input.form-control(type="text" ng-model="alumno.newfrase_escrita" placeholder="Escriba una frase" style="min-width: 300px")
-										a.btn.btn-primary(type="submit" ng-disabled="alumno.agregando_frase") Agregar
+										a.btn.btn-primary(ng-click="addFraseEscrita(alumno)" type="submit" ng-disabled="alumno.agregando_frase") Agregar
 
 
 								span(ng-show="!alumno.escrita" style="display: inline-block; ")

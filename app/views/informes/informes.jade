@@ -54,7 +54,8 @@
 											| {{$item.nombres}}
 										ui-select-choices(repeat="alumno in filtered_alumnos | filter: $select.search")
 											img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
-											small(ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
+											small(ng-show="alumno.sin_matricular" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)</i>'")
+											small(ng-hide="alumno.sin_matricular" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
 									a.btn.btn-default(href="" ng-click="verBoletinesAlumnos()") Cargar boletines
 						
 						.row(ng-show="!datos.grupo")
@@ -67,7 +68,8 @@
 											| {{$select.selected.nombres}} {{$select.selected.apellidos}}
 										ui-select-choices(repeat="alumno in filtered_alumnos | filter: $select.search")
 											img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
-											small(ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
+											small(ng-show="alumno.sin_matricular" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)</i>'")
+											small(ng-hide="alumno.sin_matricular" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
 									a.btn.btn-default(href="" ng-click="verBoletinAlumno()") Cargar boletin
 						br
 						
