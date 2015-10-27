@@ -1,6 +1,7 @@
 angular.module('myvcFrontApp')
 .controller('NotasAlumnoCtrl', ['$scope', 'toastr', 'Restangular', '$modal', '$state', 'alumnos', 'GruposServ', 'ProfesoresServ', 'escalas', '$rootScope', '$filter', 'App', 'AuthService', 'Perfil', ($scope, toastr, Restangular, $modal, $state, alumnos, GruposServ, ProfesoresServ, escalas, $rootScope, $filter, App, AuthService, Perfil) ->
 
+	AuthService.verificar_acceso()
 
 	if !alumnos == 'Sin alumnos'
 		$scope.filtered_alumnos = alumnos
@@ -43,7 +44,7 @@ angular.module('myvcFrontApp')
 
 
 	if $state.params.alumno_id
-		if $scope.USER.tipo == 'Al'
+		if $scope.USER.tipo == 'Alumno'
 			toastr.warning 'No puedes ver otras notas'
 			return
 
@@ -51,7 +52,7 @@ angular.module('myvcFrontApp')
 
 
 
-	if $scope.USER.tipo == 'Al'
+	if $scope.USER.tipo == 'Alumno'
 		$scope.verNotasAlumno($scope.USER.persona_id)
 
 

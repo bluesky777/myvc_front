@@ -25,7 +25,7 @@ angular.module('myvcFrontApp')
 		user.foto_id = foto_id
 		user.foto_nombre =foto_nombre
 	nameToShow: ()->
-		if user.tipo == 'Us'
+		if user.tipo == 'Usuario'
 			return user.username.toUpperCase()
 		else
 			return user.nombres + ' ' + user.apellidos

@@ -64,6 +64,35 @@ angular.module("myvcFrontApp")
 
 		)
 
+
+	$scope.cambiarPazysalvo = (fila)->
+		fila.pazysalvo = !fila.pazysalvo
+		Restangular.one('alumnos/update', fila.alumno_id).customPUT(fila).then((r)->
+			console.log 'Cambios guardados'
+		, (r2)->
+			fila.pazysalvo = !fila.pazysalvo
+			$scope.toastr.error 'Cambio no guardado', 'Error'
+			console.log 'Falló al intentar guardar: ', r2
+		)
+		
+
+	$scope.resetPass = (row)->
+		console.log 'Presionado para resetear pass: ', row
+
+		modalInstance = $modal.open({
+			templateUrl: App.views + 'usuarios/resetPass.tpl.html'
+			controller: 'ResetPassCtrl'
+			resolve: 
+				usuario: ()->
+					row
+		})
+		modalInstance.result.then( (user)->
+			console.log 'Resultado del modal: ', user
+		)
+
+
+
+
 	$scope.eliminarMatricula = (row)->
 		console.log row
 
@@ -80,6 +109,8 @@ angular.module("myvcFrontApp")
 	btGrid1 = '<a tooltip="Editar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
 	btGrid2 = '<a tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-trash "></i></a>'
 	btMatricular = "#{App.views}directives/botonesMatricular.tpl.html"
+	btPazysalvo = "#{App.views}directives/botonesPazysalvo.tpl.html"
+	btUsuario = "#{App.views}directives/botonesResetPassword.tpl.html"
 
 
 	$scope.gridOptions = 
@@ -100,14 +131,14 @@ angular.module("myvcFrontApp")
 			enableHiding: false }
 			{ field: 'apellidos', filter: { condition: uiGridConstants.filter.CONTAINS }}
 			{ field: 'sexo', width: 60 }
-			{ field: 'username', filter: { condition: uiGridConstants.filter.CONTAINS }, displayName: 'Usuario'}
 			{ field: 'abrevgrupo', displayName: 'Grupo', enableCellEdit: false, cellTemplate: btMatricular, filter: {
 					condition: uiGridConstants.filter.CONTAINS,
 					placeholder: 'Ej: 8A'
 				}, 
 			}
-			{ field: 'fecha_nac', displayName:'Nacimiento', cellFilter: "date:mediumDate", type: 'date'}
-			{ field: 'direccion', displayName: 'Dirección' }
+			{ field: 'username', filter: { condition: uiGridConstants.filter.CONTAINS }, displayName: 'Usuario', cellTemplate: btUsuario }
+			# { field: 'fecha_nac', displayName:'Nacimiento', cellFilter: "date:mediumDate", type: 'date'}
+			{ field: 'deuda', displayName: 'Deuda', cellTemplate: btPazysalvo }
 		],
 		multiSelect: false,
 		#filterOptions: $scope.filterOptions,
@@ -117,12 +148,28 @@ angular.module("myvcFrontApp")
 				console.log 'Fila editada, ', rowEntity, ' Column:', colDef, ' newValue:' + newValue + ' oldValue:' + oldValue ;
 				
 				if newValue != oldValue
-					Restangular.one('alumnos/update', rowEntity.alumno_id).customPUT(rowEntity).then((r)->
-						$scope.toastr.success 'Alumno actualizado con éxito', 'Actualizado'
-					, (r2)->
-						$scope.toastr.error 'Cambio no guardado', 'Error'
-						console.log 'Falló al intentar guardar: ', r2
-					)
+
+					if colDef.field == "sexo"
+						if newValue == 'M' or newValue == 'F'
+							# Es correcto...
+							Restangular.one('alumnos/update', rowEntity.alumno_id).customPUT(rowEntity).then((r)->
+								$scope.toastr.success 'Alumno(a) actualizado con éxito', 'Actualizado'
+							, (r2)->
+								$scope.toastr.error 'Cambio no guardado', 'Error'
+								console.log 'Falló al intentar guardar: ', r2
+							)
+						else
+							$scope.toastr.warning 'Debe usar M o F'
+							rowEntity.sexo = oldValue
+					else
+
+						Restangular.one('alumnos/update', rowEntity.alumno_id).customPUT(rowEntity).then((r)->
+							$scope.toastr.success 'Alumno(a) actualizado con éxito', 'Actualizado'
+						, (r2)->
+							$scope.toastr.error 'Cambio no guardado', 'Error'
+							console.log 'Falló al intentar guardar: ', r2
+						)
+
 				$scope.$apply()
 			)
 

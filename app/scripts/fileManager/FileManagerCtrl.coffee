@@ -164,7 +164,7 @@ angular.module("myvcFrontApp")
 
 	Restangular.all('perfiles/usuariosall').getList().then((r)->
 		$scope.usuariosall = r
-		$scope.usuariosprofes = $filter('filter')(r, {tipo: 'Pr'}, true)
+		$scope.usuariosprofes = $filter('filter')(r, {tipo: 'Profesor'}, true)
 		$scope.dato.usuarioElegido = r[0]
 	, (r2)->
 		console.log 'No se pudo traer los usuarios'

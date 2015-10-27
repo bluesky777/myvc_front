@@ -167,7 +167,6 @@ angular.module('myvcFrontApp')
 				return false;
 
 		rolesFound = []
-		
 		_.each(ReqRoles, (elem)->
 			rolesFoundTemp = []
 			rolesFoundTemp = $filter('filter')(Perfil.User().roles, {name: elem})
@@ -176,6 +175,7 @@ angular.module('myvcFrontApp')
 				if rolesFoundTemp.length > 0
 					rolesFound.push elem
 		)
+		
 		return (rolesFound.length > 0)
 
 

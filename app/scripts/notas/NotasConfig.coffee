@@ -95,10 +95,7 @@ angular.module('myvcFrontApp')
 							'Notas alumno'
 						]
 			resolve: 
-				resolved_user: ['AuthService', (AuthService)->
-					AuthService.verificar()
-				]
-				alumnos: ['AlumnosServ', 'AuthService', (AlumnosServ, AuthService)->
+				alumnos: ['AlumnosServ', 'AuthService', 'resolved_user', (AlumnosServ, AuthService, resolved_user)->
 					if AuthService.hasRoleOrPerm(['alumno', 'acudiente'])
 						return 'Sin alumnos'
 					AlumnosServ.getAlumnos()
