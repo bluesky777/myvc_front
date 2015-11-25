@@ -74,10 +74,16 @@ li.tickets-container.ed-unidades-item
 					.divider.hidden-xs
 					| {{subunidad.porcentaje}}%
 
-				.ticket-type.col-lg-1.col-sm-1.col-xs-6(tooltip="Nota por defecto")
+				.ticket-type.col-lg-1.col-sm-1.col-xs-6(tooltip="Orden")
 					.divider.hidden-xs
-					.type {{subunidad.nota_default}}
+					//.type {{subunidad.nota_default}}
+					input.form-control(type="number" min="0" max="99" ng-model="subunidad.orden"
+						ng-change="actualizarSubunidad(subunidad)" ng-model-options="{ updateOn: 'blur'}" style="width: 50px; padding: 5px;")
 
+				//.ticket-state.bg-info(ng-click="subirSubunidad(subunidad, $index)" ng-hide="$first" style="right: 75px; ")
+					i.fa.fa-chevron-up(tooltip="Subir")
+				//.ticket-state.bg-info(ng-click="bajarSubunidad(subunidad, $index)" ng-hide="$last" style="right: 45px; ")
+					i.fa.fa-chevron-down(tooltip="Bajar")
 				.ticket-state.bg-palegreen(ng-click="subunidad.editando=true" style="right: 15px; ")
 					i.fa.fa-pencil(tooltip="Editar")
 				.ticket-state.bg-darkorange(ng-click="removeSubunidad(unidad, subunidad)" )

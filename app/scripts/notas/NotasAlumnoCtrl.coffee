@@ -52,8 +52,8 @@ angular.module('myvcFrontApp')
 
 
 
-	if $scope.USER.tipo == 'Alumno'
-		$scope.verNotasAlumno($scope.USER.persona_id)
+	if $scope.USER.tipo == 'Alumno' and $scope.USER.pazysalvo
+			$scope.verNotasAlumno($scope.USER.persona_id)
 
 
 

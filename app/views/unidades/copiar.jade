@@ -14,7 +14,7 @@
 											.col-md-9.col-lg-9
 												ui-select(ng-model="configuracion.profesor_from" on-select="profesorSelect($item, $model)" theme="select2" style="width: 100%;")
 													ui-select-match(placeholder="Elija profesor" allow-clear="true") {{$select.selected.nombres + ' ' + $select.selected.apellidos}}
-													ui-select-choices(repeat="profe in profesores track by profe.id | filter: $select.search")
+													ui-select-choices(repeat="profe in (profesores | filter: $select.search) track by profe.id ")
 														div(ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
 								.row
 									.col-md-6.col-lg-6
@@ -23,7 +23,7 @@
 											.col-md-9.col-lg-9
 												ui-select(ng-model="configuracion.year_from" on-select="yearSelect($item, $model)" theme="select2" style="width: 100%;")
 													ui-select-match() {{$select.selected.year}}
-													ui-select-choices(repeat="year in years_copy track by year.id | filter: $select.search")
+													ui-select-choices(repeat="year in (years_copy| filter: $select.search) track by year.id ")
 														div(ng-bind-html="year.year | highlight: $select.search")
 									.col-md-6.col-lg-6
 										.form-group
@@ -41,7 +41,7 @@
 											.col-md-9.col-lg-9
 												ui-select(ng-model="configuracion.asignatura_from" on-select="asignaturaSelect($item, $model)" theme="select2" style="width: 100%;")
 													ui-select-match(placeholder="Elija asignatura" allow-clear="true") {{$select.selected.abrev_grupo + ' - ' + $select.selected.materia}}
-													ui-select-choices(repeat="asignatura in asignaturas track by asignatura.asignatura_id | filter: $select.search")
+													ui-select-choices(repeat="asignatura in (asignaturas| filter: $select.search) track by asignatura.asignatura_id ")
 														div(ng-bind-html="asignatura.abrev_grupo + ' - ' + asignatura.materia | highlight: $select.search")
 								br
 								.row(ng-show="unidades.items.length")
@@ -92,7 +92,7 @@
 											.col-md-9.col-lg-9
 												ui-select(ng-model="configuracion.profesor_to" on-select="profesorToSelect($item, $model)" theme="select2" style="width: 100%;")
 													ui-select-match(placeholder="Elija profesor" allow-clear="true") {{$select.selected.nombres + ' ' + $select.selected.apellidos}}
-													ui-select-choices(repeat="profe in profesores track by profe.id | filter: $select.search")
+													ui-select-choices(repeat="profe in (profesores| filter: $select.search) track by profe.id ")
 														div(ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
 								.row
 									.col-md-6.col-lg-6
@@ -101,7 +101,7 @@
 											.col-md-9.col-lg-9
 												ui-select(ng-model="configuracion.year_to" on-select="yearToSelect($item, $model)" theme="select2" style="width: 100%;")
 													ui-select-match() {{$select.selected.year}}
-													ui-select-choices(repeat="year in years_copy_to track by year.id | filter: $select.search")
+													ui-select-choices(repeat="year in (years_copy_to| filter: $select.search) track by year.id ")
 														div(ng-bind-html="year.year | highlight: $select.search")
 									.col-md-6.col-lg-6
 										.form-group
@@ -119,7 +119,7 @@
 											.col-md-9.col-lg-9
 												ui-select(ng-model="configuracion.asignatura_to" on-select="asignaturaToSelect($item, $model)" theme="select2" style="width: 100%;")
 													ui-select-match(placeholder="Elija asignatura" allow-clear="true") {{$select.selected.abrev_grupo + ' - ' + $select.selected.materia}}
-													ui-select-choices(repeat="asignatura in asignaturas_to track by asignatura.asignatura_id | filter: $select.search")
+													ui-select-choices(repeat="asignatura in (asignaturas_to| filter: $select.search) track by asignatura.asignatura_id ")
 														div(ng-bind-html="asignatura.abrev_grupo + ' - ' + asignatura.materia | highlight: $select.search")
 
 								.row(ng-show="unidades_to.items.length")

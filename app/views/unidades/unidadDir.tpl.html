@@ -53,10 +53,15 @@
         <div tooltip="Porcentaje" class="ticket-time col-lg-1 col-sm-1 col-xs-6">
           <div class="divider hidden-xs"></div>{{subunidad.porcentaje}}%
         </div>
-        <div tooltip="Nota por defecto" class="ticket-type col-lg-1 col-sm-1 col-xs-6">
+        <div tooltip="Orden" class="ticket-type col-lg-1 col-sm-1 col-xs-6">
           <div class="divider hidden-xs"></div>
-          <div class="type">{{subunidad.nota_default}}</div>
+          <!--.type {{subunidad.nota_default}}-->
+          <input type="number" min="0" max="99" ng-model="subunidad.orden" ng-change="actualizarSubunidad(subunidad)" ng-model-options="{ updateOn: 'blur'}" style="width: 50px; padding: 5px;" class="form-control">
         </div>
+        <!--.ticket-state.bg-info(ng-click="subirSubunidad(subunidad, $index)" ng-hide="$first" style="right: 75px; ")i.fa.fa-chevron-up(tooltip="Subir")
+        -->
+        <!--.ticket-state.bg-info(ng-click="bajarSubunidad(subunidad, $index)" ng-hide="$last" style="right: 45px; ")i.fa.fa-chevron-down(tooltip="Bajar")
+        -->
         <div ng-click="subunidad.editando=true" style="right: 15px; " class="ticket-state bg-palegreen"><i tooltip="Editar" class="fa fa-pencil"></i></div>
         <div ng-click="removeSubunidad(unidad, subunidad)" class="ticket-state bg-darkorange"><i tooltip="Eliminar" class="fa fa-times"></i></div>
       </div>

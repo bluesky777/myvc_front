@@ -1,0 +1,98 @@
+div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical'}")
+	img.encabezado-membrete(ng-src="{{perfilPath + 'encabezado-membrete.jpg'}}")
+	.row
+		.col-lg-12.col-xs-12
+			.row.encabezado-boletin
+				.col-lg-12.col-xs-12
+					.row
+						.col-lg-2.col-xs-2
+							img.img-responsive.logo-colegio(ng-src="{{perfilPath + year.logo}}")
+						.col-lg-8.col-xs-8.title-encabezado-boletin
+							.nombre-colegio
+								| {{year.nombre_colegio + ' - ' + year.abrev_colegio}}
+							.resolucion-colegio
+								| {{year.resolucion}}
+							.title-descripcion
+								| Boletin FINAL {{USER.year}}
+						.col-lg-2.col-xs-2
+							img.img-responsive.img-thumbnail.foto-alumno(ng-src="{{perfilPath + alumno.foto_nombre}}" ng-show="config.mostrar_foto && alumno.foto_id")
+
+					.row.descripcion-encabezado
+						.col-lg-6.col-xs-6
+							.grupo-alumno
+								| Grupo: 
+								b {{grupo.nombre_grupo | capitalize}}
+							.titular-grupo(popover="<img src='{{perfilPath + grupo.foto_nombre}}' style='width: 150px; height: 150px;'>" 
+									popover-popup-delay="1000" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true" 
+									popover-trigger="mouseenter")
+								| Titular: Pr. {{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor | capitalize}}
+						.col-lg-6.col-xs-6
+							h5.nombre-alumno {{alumno.nombres + ' ' + alumno.apellidos}}
+							.promedio-alumno Puntaje: {{alumno.promedio | setDecimal:1 }}% - Puesto: {{alumno.puesto}}/{{grupo.cantidad_alumnos}}
+			.row.body-boletin
+				.col-lg-12.col-xs-12
+					table.table-bordered.table-striped
+						thead
+							tr(style="border-bottom: 2px solid;")
+								th No
+								th Nombres
+								th() 
+									i.fa.fa-clock-o.icon-tardanza 
+									| A
+								th(ng-repeat="periodo in year.periodos") Per{{periodo.numero}}
+								th(style="border-left: 2px solid !important;") Prom
+						tbody
+							tr(ng-repeat="asignatura in alumno.asignaturas")
+								td {{$index + 1}}
+								td
+									div(popover="<img src='{{perfilPath + asignatura.foto_nombre}}' style='width: 150px; height: 150px;'>" 
+										popover-popup-delay="1000" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" 
+										popover-trigger="mouseenter") {{asignatura.materia}}
+								td 
+									span(ng-show="asignatura.ausencias > 0") {{asignatura.ausencias}}
+
+								td.puntero(ng-repeat="definitiva in asignatura.definitivas" ng-class="{'nota-perdida-puestos': ((definitiva.DefMateria | decimales_if:1 )*1) < (USER.nota_minima_aceptada*1) }") 
+									{{definitiva.DefMateria | decimales_if:1}}
+									
+								td(ng-class="{'nota-perdida-puestos': ((asignatura.promedio | decimales_if:1 )*1) < (USER.nota_minima_aceptada*1) }") {{asignatura.promedio | decimales_if:1}}
+
+
+						tfoot
+							tr(style="border-top: 2px solid;")
+								td   
+								td() Total
+
+								td {{alumno.ausencias}}
+
+								td(ng-repeat="periodo in year.periodos"){{ alumno.asignaturas | promedioPeriodo:periodo.id | decimales:0 }}
+
+								td(style="font-weight: bold; border-left: 2px solid !important;") 
+									{{alumno.promedio | decimales:0 }}
+									span.cant-unidades-perdidas(ng-show="")
+									
+
+
+			.row.footer-boletin
+				.col-lg-12.col-xs-12
+					.row
+						.col-lg-6.col-xs-6.rector-firma
+							img(ng-show="config.show_firma_rector" ng-src="{{perfilPath + year.rector_firma}}")
+						.col-lg-6.col-xs-6.titular-firma
+							img(ng-show="config.show_firma_titular" ng-src="{{perfilPath + grupo.firma_titular_nombre}}")
+					.row
+						.col-lg-6.col-xs-6.nombre-rector-firma
+							| {{year.nombres_rector}} {{year.apellidos_rector}}
+						.col-lg-6.col-xs-6.nombre-titular-firma
+							| {{grupo.nombres_profesor}} {{grupo.apellidos_profesor}}
+
+					.row
+						.col-lg-6.col-xs-6(ng-show="year.sexo_rector=='M'")
+							| Rector
+						.col-lg-6.col-xs-6(ng-show="year.sexo_rector=='F'")
+							| Rectora
+
+						.col-lg-6.col-xs-6
+							| Titular
+
+
+

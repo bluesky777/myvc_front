@@ -151,6 +151,69 @@ angular.module('myvcFrontApp')
 				pageTitle: 'Planillas profesor - MyVc'
 
 
+
+
+
+
+
+
+
+
+
+		.state 'panel.informes.boletines_finales',
+			url: '/boletines_finales/:grupo_id'
+			params:
+				grupo_id: {value: null}
+			views: 
+				'report_content':
+					templateUrl: "#{App.views}informes/boletinesFinales.tpl.html"
+					controller: 'BoletinesFinalesCtrl'
+					resolve:
+						alumnosDat: ['Restangular', '$stateParams', '$q', '$cookieStore', (Restangular, $stateParams, $q, $cookieStore)->
+
+							d = $q.defer()
+
+
+							requested_alumnos = $cookieStore.get 'requested_alumnos'
+							requested_alumno = $cookieStore.get 'requested_alumno'
+							
+							if requested_alumnos
+
+								console.log 'Pidiendo por varios alumnos: ', requested_alumnos
+								Restangular.one('bolfinales/detailed-notas-year', $stateParams.grupo_id).customPUT({requested_alumnos: requested_alumnos}).then((r)->
+									d.resolve r
+								, (r2)->
+									d.reject r2
+								)
+							else if requested_alumno
+								Restangular.one('bolfinales/detailed-notas-year', requested_alumno[0].grupo_id).customPUT({requested_alumnos: requested_alumno}).then((r)->
+									d.resolve r
+								, (r2)->
+									d.reject r2
+								)
+							else
+								console.log 'Pidiendo por grupo:', $stateParams.grupo_id
+								Restangular.one('bolfinales/detailed-notas-year-group', $stateParams.grupo_id).customPUT().then((r)->
+									d.resolve r
+								, (r2)->
+									d.reject r2
+								)
+
+
+							return d.promise
+						],
+						escalas: ['EscalasValorativasServ', (EscalasValorativasServ)->
+							#debugger
+							EscalasValorativasServ.escalas()
+						]
+			data: 
+				displayName: 'Boletines finales'
+				pageTitle: 'Boletines finales - MyVc'
+
+
+
+
+
 ])
 
 

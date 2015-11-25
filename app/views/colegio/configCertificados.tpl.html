@@ -1,0 +1,150 @@
+
+<div ng-show="creando_certificado">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <label for="nombre-certif">Nombre o Tipo de certificado</label><span class="input-icon icon-right">
+          <input id="nombre-certif" type="text" ng-model="newcertif.nombre" placeholder="Nombre que identifique la configuración" class="form-control"><i class="fa fa-envelope blue"></i></span>
+      </div>
+    </div>
+  </div>
+  <h6 class="row-title before-blue">Encabezado</h6>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <label>Imagen</label>
+        <ui-select ng-model="newcertif.encabezado_img_id" on-select="usuarioSelect($item, $model)" theme="select2" style="min-width: 300px;">
+          <ui-select-match placeholder="Encabezado"><img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombre "></small></ui-select-match>
+          <ui-select-choices repeat="imagen in imagenes | filter: {nombre: $select.search}"><img ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + imagen.nombre | highlight: $select.search"></small></ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2">
+      <div class="form-group"><span class="input-icon icon-right">
+          <input id="encab-width-certif" ng-model="newcertif.encabezado_width" type="number" class="form-control"><i class="fa fa-arrows-h blue"></i></span></div>
+    </div>
+    <div class="col-sm-2">
+      <div class="form-group"><span class="input-icon icon-right">
+          <input id="encab-height-certif" ng-model="newcertif.encabezado_height" type="number" class="form-control"><i class="fa fa-arrows-v blue"></i></span></div>
+    </div>
+    <div class="col-sm-2">
+      <div class="form-group"><span tooltip="Margen superior" class="input-icon icon-right">
+          <input id="encab-margintop-certif" ng-model="newcertif.encabezado_margin_top" type="number" class="form-control"><i class="fa fa-arrow-up blue"></i></span></div>
+    </div>
+    <div class="col-sm-2">
+      <div class="form-group"><span tooltip="Margen inferior" class="input-icon icon-right">
+          <input id="encab-marginleft-certif" ng-model="newcertif.encabezado_margin_left" type="number" class="form-control"><i class="fa fa-arrow-down blue"></i></span></div>
+    </div>
+  </div>
+  <h6 class="row-title before-blue">Pie de página</h6>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <label>Imagen</label>
+        <ui-select ng-model="newcertif.piepagina_img_id" on-select="usuarioSelect($item, $model)" theme="select2" style="min-width: 300px;">
+          <ui-select-match placeholder="Pie de página"><img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombre "></small></ui-select-match>
+          <ui-select-choices repeat="imagen in imagenes | filter: {nombre: $select.search}"><img ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + imagen.nombre | highlight: $select.search"></small></ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2">
+      <div class="form-group"><span class="input-icon icon-right">
+          <input id="pie-width-certif" ng-model="newcertif.piepagina_width" type="number" class="form-control"><i class="fa fa-arrows-h blue"></i></span></div>
+    </div>
+    <div class="col-sm-2">
+      <div class="form-group"><span class="input-icon icon-right">
+          <input id="pie-height-certif" ng-model="newcertif.piepagina_height" type="number" class="form-control"><i class="fa fa-arrows-v blue"></i></span></div>
+    </div>
+    <div class="col-sm-2">
+      <div class="form-group"><span tooltip="Margen inferior" class="input-icon icon-right">
+          <input id="pie-marginbottom-certif" ng-model="newcertif.piepagina_margin_bottom" type="number" class="form-control"><i class="fa fa-arrow-down blue"></i></span></div>
+    </div>
+    <div class="col-sm-2">
+      <div class="form-group"><span tooltip="Margen izquierdo" class="input-icon icon-right">
+          <input id="pie-marginleft-certif" ng-model="newcertif.piepagina_margin_left" type="number" class="form-control"><i class="fa fa-arrow-left blue"></i></span></div>
+    </div>
+  </div>
+  <button ng-click="cancelConfig()" class="btn btn-default">Cancelar</button>
+  <button ng-click="guardar()" class="btn btn-primary">Crear</button>
+</div>
+<div ng-show="editando">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <label for="nombre-certif">Nombre o Tipo de certificado</label><span class="input-icon icon-right">
+          <input id="nombre-certif" type="text" ng-model="currentCertif.nombre" placeholder="Nombre que identifique la configuración" class="form-control"><i class="fa fa-envelope blue"></i></span>
+      </div>
+    </div>
+  </div>
+  <h6 class="row-title before-blue">Encabezado</h6>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <label>Imagen</label>
+        <ui-select ng-model="currentCertif.encabezado_img" theme="select2" style="min-width: 300px;">
+          <ui-select-match placeholder="Encabezado"><img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombre "></small></ui-select-match>
+          <ui-select-choices repeat="imagen in imagenes | filter: {nombre: $select.search}"><img ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + imagen.nombre | highlight: $select.search"></small></ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2">
+      <div class="form-group"><span class="input-icon icon-right">
+          <input id="encab-width-certif" ng-model="currentCertif.encabezado_width" type="number" class="form-control"><i class="fa fa-arrows-h blue"></i></span></div>
+    </div>
+    <div class="col-sm-2">
+      <div class="form-group"><span class="input-icon icon-right">
+          <input id="encab-height-certif" ng-model="currentCertif.encabezado_height" type="number" class="form-control"><i class="fa fa-arrows-v blue"></i></span></div>
+    </div>
+    <div class="col-sm-2">
+      <div class="form-group"><span tooltip="Margen superior" class="input-icon icon-right">
+          <input id="encab-margintop-certif" ng-model="currentCertif.encabezado_margin_top" type="number" class="form-control"><i class="fa fa-arrow-up blue"></i></span></div>
+    </div>
+    <div class="col-sm-2">
+      <div class="form-group"><span tooltip="Margen inferior" class="input-icon icon-right">
+          <input id="encab-marginleft-certif" ng-model="currentCertif.encabezado_margin_left" type="number" class="form-control"><i class="fa fa-arrow-down blue"></i></span></div>
+    </div>
+  </div>
+  <h6 class="row-title before-blue">Pie de página</h6>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <label>Imagen</label>
+        <ui-select ng-model="currentCertif.piepagina_img" theme="select2" style="min-width: 300px;">
+          <ui-select-match placeholder="Pie de página"><img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombre "></small></ui-select-match>
+          <ui-select-choices repeat="imagen in imagenes | filter: {nombre: $select.search}"><img ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + imagen.nombre | highlight: $select.search"></small></ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2">
+      <div class="form-group"><span class="input-icon icon-right">
+          <input id="pie-width-certif" ng-model="currentCertif.piepagina_width" type="number" class="form-control"><i class="fa fa-arrows-h blue"></i></span></div>
+    </div>
+    <div class="col-sm-2">
+      <div class="form-group"><span class="input-icon icon-right">
+          <input id="pie-height-certif" ng-model="currentCertif.piepagina_height" type="number" class="form-control"><i class="fa fa-arrows-v blue"></i></span></div>
+    </div>
+    <div class="col-sm-2">
+      <div class="form-group"><span tooltip="Margen inferior" class="input-icon icon-right">
+          <input id="pie-marginbottom-certif" ng-model="currentCertif.piepagina_margin_bottom" type="number" class="form-control"><i class="fa fa-arrow-down blue"></i></span></div>
+    </div>
+    <div class="col-sm-2">
+      <div class="form-group"><span tooltip="Margen izquierdo" class="input-icon icon-right">
+          <input id="pie-marginleft-certif" ng-model="currentCertif.piepagina_margin_left" type="number" class="form-control"><i class="fa fa-arrow-left blue"></i></span></div>
+    </div>
+  </div>
+  <button ng-click="cancelEdit()" class="btn btn-default">Cancelar</button>
+  <button ng-click="actualizar()" class="btn btn-primary">Guardar</button>
+</div>
+<div ng-hide="creando_certificado">
+  <div ng-repeat="configcert in configcertificados"><span>{{configcert}}</span></div>
+  <div id="grid1" ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns style="height: 300px" class="grid"></div>
+  <button ng-click="crearConfig()" class="btn btn-primary">Crear configuración</button>
+</div>

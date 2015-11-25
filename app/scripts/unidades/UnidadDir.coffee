@@ -14,6 +14,10 @@ angular.module('myvcFrontApp')
 
 	controller: ($scope, Restangular, toastr, $modal, $filter)->
 
+		$scope.activar_crear_subunidad = true
+
+
+
 		idContainment = '#sortable-container' + $scope.unidad.id
 
 		# Configuración para el sortable
@@ -49,7 +53,71 @@ angular.module('myvcFrontApp')
 
 			
 
-		$scope.activar_crear_subunidad = true
+		
+
+		$scope.subirSubunidad = (subunidad, indice)->
+
+			indice_new = indice - 1
+
+			datos = 
+				subunidad_id: 	subunidad.id
+				unidad_id:		subunidad.unidad_id
+				indice_new: 	indice_new
+
+			
+			Restangular.one('subunidades/subir-subunidad').customPUT(datos).then((r)->
+				
+				subsacambiar = $filter('filter')($scope.unidad.subunidades, {orden: indice_new})
+				subsacambiar = $filter('orderBy')(subsacambiar, '-id')[0]
+				subsacambiar.orden = indice
+
+
+				subuni 			= $filter('filter')($scope.unidad.subunidades, {id: subunidad.id})[0]
+				subuni.orden 	= indice_new
+				
+				$scope.unidad.subunidades = $filter('orderBy')($scope.unidad.subunidades, 'orden')
+
+				console.log 'Subunidad subida', $scope.unidad.subunidades
+				toastr.success 'Ordenada correctamente'
+
+			, (r2)->
+				console.log 'No se pudo subir ', r2
+				toastr.error 'No se pudo subir '
+			)
+
+
+		$scope.cambiaOrden = ()->
+			console.log "Sisassss"
+
+		$scope.bajarSubunidad = (subunidad, indice)->
+
+			indice_new = indice + 1
+
+			datos = 
+				subunidad_id: 	subunidad.id
+				unidad_id:		subunidad.unidad_id
+				indice_new: 	indice_new
+
+			
+			Restangular.one('subunidades/bajar-subunidad').customPUT(datos).then((r)->
+
+				subsacambiar = $filter('filter')($scope.unidad.subunidades, {orden: indice_new})
+				if subsacambiar.length > 0
+					subsacambiar[0].orden = indice
+				
+				subuni 			= $filter('filter')($scope.unidad.subunidades, {id: subunidad.id})[0]
+				subuni.orden 	= indice_new
+
+				$scope.unidad.subunidades = $filter('orderBy')($scope.unidad.subunidades, 'orden')
+
+				console.log 'Subunidad bajada', $scope.unidad.subunidades
+				toastr.success 'Ordenada correctamente'
+
+			, (r2)->
+				console.log 'No se pudo bajar ', r2
+				toastr.error 'No se pudo bajar '
+			)
+
 
 		$scope.addSubunidad = (unidad)->
 
@@ -80,6 +148,7 @@ angular.module('myvcFrontApp')
 				definicion: subunidad.definicion
 				porcentaje: subunidad.porcentaje
 				nota_default: subunidad.nota_default
+				orden: subunidad.orden
 
 			Restangular.one('subunidades/update/' + subunidad.id).customPUT(datos).then((r)->
 				

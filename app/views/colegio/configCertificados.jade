@@ -1,0 +1,185 @@
+div(ng-show="creando_certificado")
+	.row
+		.col-sm-6
+			.form-group
+				label(for='nombre-certif') Nombre o Tipo de certificado
+				span.input-icon.icon-right
+					input#nombre-certif.form-control(type='text' ng-model="newcertif.nombre" placeholder='Nombre que identifique la configuración')
+					i.fa.fa-envelope.blue
+
+	h6.row-title.before-blue Encabezado
+	.row
+		.col-sm-6
+			.form-group
+				
+				label Imagen
+				ui-select(ng-model="newcertif.encabezado_img_id" on-select="usuarioSelect($item, $model)" theme="select2" style="min-width: 300px;")
+					ui-select-match(placeholder="Encabezado") 
+						img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
+						small(ng-bind-html="' ' + $select.selected.nombre ")
+					ui-select-choices(repeat="imagen in imagenes | filter: {nombre: $select.search}")
+						img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
+						small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
+	.row
+		.col-sm-2
+			.form-group
+				span.input-icon.icon-right
+					input#encab-width-certif.form-control(ng-model="newcertif.encabezado_width" type='number')
+					i.fa.fa-arrows-h.blue
+
+		.col-sm-2
+			.form-group
+				span.input-icon.icon-right
+					input#encab-height-certif.form-control(ng-model="newcertif.encabezado_height" type='number')
+					i.fa.fa-arrows-v.blue
+
+		.col-sm-2
+			.form-group
+				span.input-icon.icon-right(tooltip="Margen superior")
+					input#encab-margintop-certif.form-control(ng-model="newcertif.encabezado_margin_top" type='number')
+					i.fa.fa-arrow-up.blue
+		.col-sm-2
+			.form-group
+				span.input-icon.icon-right(tooltip="Margen inferior")
+					input#encab-marginleft-certif.form-control(ng-model="newcertif.encabezado_margin_left" type='number')
+					i.fa.fa-arrow-down.blue
+
+	h6.row-title.before-blue Pie de página
+	.row
+		.col-sm-6
+			.form-group
+				label Imagen
+				ui-select(ng-model="newcertif.piepagina_img_id" on-select="usuarioSelect($item, $model)" theme="select2" style="min-width: 300px;")
+					ui-select-match(placeholder="Pie de página") 
+						img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
+						small(ng-bind-html="' ' + $select.selected.nombre ")
+					ui-select-choices(repeat="imagen in imagenes | filter: {nombre: $select.search}")
+						img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
+						small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
+
+	.row
+		.col-sm-2
+			.form-group
+				span.input-icon.icon-right
+					input#pie-width-certif.form-control(ng-model="newcertif.piepagina_width" type='number')
+					i.fa.fa-arrows-h.blue
+
+		.col-sm-2
+			.form-group
+				span.input-icon.icon-right
+					input#pie-height-certif.form-control(ng-model="newcertif.piepagina_height" type='number')
+					i.fa.fa-arrows-v.blue
+
+		.col-sm-2
+			.form-group
+				span.input-icon.icon-right(tooltip="Margen inferior")
+					input#pie-marginbottom-certif.form-control(ng-model="newcertif.piepagina_margin_bottom" type='number')
+					i.fa.fa-arrow-down.blue
+		.col-sm-2
+			.form-group
+				span.input-icon.icon-right(tooltip="Margen izquierdo")
+					input#pie-marginleft-certif.form-control(ng-model="newcertif.piepagina_margin_left" type='number')
+					i.fa.fa-arrow-left.blue
+
+	button.btn.btn-default(ng-click="cancelConfig()") Cancelar
+	button.btn.btn-primary(ng-click="guardar()") Crear
+
+
+
+
+div(ng-show="editando")
+	.row
+		.col-sm-6
+			.form-group
+				label(for='nombre-certif') Nombre o Tipo de certificado
+				span.input-icon.icon-right
+					input#nombre-certif.form-control(type='text' ng-model="currentCertif.nombre" placeholder='Nombre que identifique la configuración')
+					i.fa.fa-envelope.blue
+
+	h6.row-title.before-blue Encabezado
+	.row
+		.col-sm-6
+			.form-group
+				
+				label Imagen
+				ui-select(ng-model="currentCertif.encabezado_img" theme="select2" style="min-width: 300px;")
+					ui-select-match(placeholder="Encabezado") 
+						img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
+						small(ng-bind-html="' ' + $select.selected.nombre ")
+					ui-select-choices(repeat="imagen in imagenes | filter: {nombre: $select.search}")
+						img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
+						small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
+	.row
+		.col-sm-2
+			.form-group
+				span.input-icon.icon-right
+					input#encab-width-certif.form-control(ng-model="currentCertif.encabezado_width" type='number')
+					i.fa.fa-arrows-h.blue
+
+		.col-sm-2
+			.form-group
+				span.input-icon.icon-right
+					input#encab-height-certif.form-control(ng-model="currentCertif.encabezado_height" type='number')
+					i.fa.fa-arrows-v.blue
+
+		.col-sm-2
+			.form-group
+				span.input-icon.icon-right(tooltip="Margen superior")
+					input#encab-margintop-certif.form-control(ng-model="currentCertif.encabezado_margin_top" type='number')
+					i.fa.fa-arrow-up.blue
+		.col-sm-2
+			.form-group
+				span.input-icon.icon-right(tooltip="Margen inferior")
+					input#encab-marginleft-certif.form-control(ng-model="currentCertif.encabezado_margin_left" type='number')
+					i.fa.fa-arrow-down.blue
+
+	h6.row-title.before-blue Pie de página
+	.row
+		.col-sm-6
+			.form-group
+				label Imagen
+				ui-select(ng-model="currentCertif.piepagina_img" theme="select2" style="min-width: 300px;")
+					ui-select-match(placeholder="Pie de página") 
+						img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
+						small(ng-bind-html="' ' + $select.selected.nombre ")
+					ui-select-choices(repeat="imagen in imagenes | filter: {nombre: $select.search}")
+						img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
+						small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
+
+	.row
+		.col-sm-2
+			.form-group
+				span.input-icon.icon-right
+					input#pie-width-certif.form-control(ng-model="currentCertif.piepagina_width" type='number')
+					i.fa.fa-arrows-h.blue
+
+		.col-sm-2
+			.form-group
+				span.input-icon.icon-right
+					input#pie-height-certif.form-control(ng-model="currentCertif.piepagina_height" type='number')
+					i.fa.fa-arrows-v.blue
+
+		.col-sm-2
+			.form-group
+				span.input-icon.icon-right(tooltip="Margen inferior")
+					input#pie-marginbottom-certif.form-control(ng-model="currentCertif.piepagina_margin_bottom" type='number')
+					i.fa.fa-arrow-down.blue
+		.col-sm-2
+			.form-group
+				span.input-icon.icon-right(tooltip="Margen izquierdo")
+					input#pie-marginleft-certif.form-control(ng-model="currentCertif.piepagina_margin_left" type='number')
+					i.fa.fa-arrow-left.blue
+
+	button.btn.btn-default(ng-click="cancelEdit()") Cancelar
+	button.btn.btn-primary(ng-click="actualizar()") Guardar
+
+
+div(ng-hide="creando_certificado")
+	div(ng-repeat="configcert in configcertificados")
+		span {{configcert}}
+
+	#grid1.grid(ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns style="height: 300px")
+	button.btn.btn-primary(ng-click="crearConfig()") Crear configuración
+
+
+

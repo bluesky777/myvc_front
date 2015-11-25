@@ -1,4 +1,23 @@
 
+<div ng-if="!USER.pazysalvo &amp;&amp; hasRoleOrPerm(['alumno'])" class="col-lg-12">
+  <div class="widget">
+    <div class="widget-header bg-red"><i class="widget-icon fa fa-warning"></i>
+      <div class="widget-caption">Notas bloqueadas</div>
+    </div>
+    <div class="widget-body">
+      <div class="row">
+        <div class="col-lg-12 col-xs-12">
+          <p>Lo sentimos, para ver sus notas debe acercarse a hacer arreglos en tesorería.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-xs-12">
+          <p>Su deuda es: {{USER.deuda | currency:"$":0}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <div ng-if=" (USER.alumnos_can_see_notas &amp;&amp; hasRoleOrPerm(['alumno', 'acudiente']) ) || !hasRoleOrPerm(['alumno', 'acudiente'])" class="col-lg-12">
   <div class="widget">
     <div class="widget-header bg-blue"><i class="widget-icon fa fa-bar-chart"></i>

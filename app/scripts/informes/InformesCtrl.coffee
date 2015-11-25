@@ -3,7 +3,7 @@ angular.module('myvcFrontApp')
 
 	AuthService.verificar_acceso()
 	$scope.rowsAlum = [] 
-	$scope.config = {periodos_a_calcular: 'de_usuario'} # de_usuario, de_colegio, todos
+	$scope.config = {periodos_a_calcular: 'de_usuario', mostrar_foto: true} # de_usuario, de_colegio, todos
 	$scope.filtered_alumnos = alumnos
 	$scope.perfilPath = App.images + 'perfil/'
 
@@ -39,6 +39,7 @@ angular.module('myvcFrontApp')
 		$scope.informe_tab_actual_boletines 	= if $scope.config.informe_tab_actual 	=='boletines' then true else false
 		$scope.informe_tab_actual_puestos 		= if $scope.config.informe_tab_actual 	=='puestos' then true else false
 		$scope.informe_tab_actual_planillas 	= if $scope.config.informe_tab_actual 	=='planillas' then true else false
+		$scope.informe_tab_actual_finales 		= if $scope.config.informe_tab_actual 	=='finales' then true else false
 		#console.log '$scope.config', $scope.config
 	else
 		$scope.config.orientacion = 'vertical'
@@ -82,8 +83,13 @@ angular.module('myvcFrontApp')
 		$scope.informe_tab_actual_boletines 	= if tab=='boletines' then true else false
 		$scope.informe_tab_actual_puestos 		= if tab=='puestos' then true else false
 		$scope.informe_tab_actual_planillas 	= if tab=='planillas' then true else false
+		$scope.informe_tab_actual_finales 		= if tab=='finales' then true else false
 
 
+
+
+	$scope.putConfigCookie = ()->
+		$cookieStore.put 'config', $scope.config
 
 
 
@@ -185,6 +191,49 @@ angular.module('myvcFrontApp')
 		}
 
 		pdfMake.createPdf(docDefinition).open()
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+	$scope.verBoletinesFinalesGrupo = ()->
+		$cookieStore.remove 'requested_alumnos'
+		$cookieStore.remove 'requested_alumno'
+		
+		if !$scope.datos.grupo.id
+			toastr.warning 'Debes seleccionar el grupo'
+			return
+		
+		$state.go 'panel.informes.boletines_finales', {grupo_id: $scope.datos.grupo.id, periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
+
+
+	$scope.verBoletinesFinalesAlumnos = ()->
+		
+		if $scope.datos.selected_alumnos.length > 0
+			$cookieStore.put 'requested_alumnos', $scope.datos.selected_alumnos
+			$state.go 'panel.informes.boletines_finales', {grupo_id: $scope.datos.grupo.id, periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
+		else
+			toastr.warning 'Debes seleccionar al menos un alumno o cargar boletines del grupo completo'
+
+
+	$scope.verBoletinFinalAlumno = ()->
+		
+		if $scope.datos.selected_alumno
+			$cookieStore.put 'requested_alumno', [$scope.datos.selected_alumno]
+			$state.go 'panel.informes.boletines_finales', {periodos_a_calcular: $scope.config.periodos_a_calcular}
+		else
+			toastr.warning 'Elige un alumno o carga el grupo completo'
+
+
 
 
 

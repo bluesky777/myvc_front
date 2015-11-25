@@ -15,33 +15,34 @@
 						a(href="" data-toggle="dispose" ng-if="false")
 							i.fa.fa-times
 				.widget-body()
-					#registration-form
-						form(role='form')
-							.form-title
-								| Básico
-							.row
-								.col-sm-6
-									.form-group
-										label(for='exampleInputEmail2') Nombre del colegio
-										span.input-icon.icon-right
-											input#exampleInputEmail2.form-control(type='text', placeholder='Nombre del colegio')
-											i.fa.fa-envelope.blue
-								.col-sm-6
-									.form-group
-										label(for='exampleInputName2') Name
-										span.input-icon.icon-right
-											input#exampleInputName2.form-control(type='text', placeholder='Name')
-											i.fa.fa-user.palegreen
-							.row
-								.col-sm-12
-									.form-group
-										label(tooltip="Puedes bloquear el sistema momentaneamente para que los alumnos y acudientes no puedan ver las notas.") Alumnos pueden ver sus notas
-										label
-											input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleBloquearNotas()" ng-model="config.alumnos_can_see_notas")
-											span.text.si-no
+					accordion(close-others="true")
+						accordion-group(heading="Básico" is-open="true")
+							form(role='form')
+								.row
+									.col-sm-6
+										.form-group
+											label(for='exampleInputEmail2') Nombre del colegio
+											span.input-icon.icon-right
+												input#exampleInputEmail2.form-control(type='text', placeholder='Nombre del colegio')
+												i.fa.fa-envelope.blue
+									.col-sm-6
+										.form-group
+											label(for='exampleInputName2') Name
+											span.input-icon.icon-right
+												input#exampleInputName2.form-control(type='text', placeholder='Name')
+												i.fa.fa-user.palegreen
+								.row
+									.col-sm-12
+										.form-group
+											label(tooltip="Puedes bloquear el sistema momentaneamente para que los alumnos y acudientes no puedan ver las notas.") Alumnos pueden ver sus notas
+											label
+												input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleBloquearNotas()" ng-model="config.alumnos_can_see_notas")
+												span.text.si-no
+													
+								br
+								button.btn.btn-primary(type="submit") Guardar cambios
 
-							.form-title
-								| Periodos
+						accordion-group(heading="Periodos" is-open="true")
 							.row
 								.col-sm-6
 									.list-periodos
@@ -55,102 +56,11 @@
 									button.btn.btn-success(type="button" ng-click="addPeriodo(year)") Crear periodo
 
 
-							br
-							br
-							.form-title
-								| Certificados
-							.row
-								.col-sm-6
-									.form-group
-										label(for='nombre-certif') Nombre o Tipo de certificado
-										span.input-icon.icon-right
-											input#nombre-certif.form-control(type='text' ng-model="newcertif.nombre" placeholder='Nombre que identifique la configuración')
-											i.fa.fa-envelope.blue
-							.row
-								.col-sm-6
-									.form-group
-										label.col-md-3.col-lg-3.control-label.to-left Encabezado
-										.col-md-9.col-lg-9
-											ui-select(ng-model="dato.usuarioElegido" on-select="usuarioSelect($item, $model)" theme="select2" style="min-width: 300px;")
-												ui-select-match(placeholder="Encabezado") 
-													img(ng-src="{{perfilPath + $select.selected.imagen_nombre}}" style="width:25px; height:25px;")
-													small(ng-bind-html="' ' + $select.selected.nombres + ' ' + $select.selected.apellidos + ' - ' + $select.selected.username")
-												ui-select-choices(repeat="usuario in usuariosall | filter: {nombres: $select.search, username: $select.search}")
-													img(ng-src="{{perfilPath + usuario.imagen_nombre}}" style="width:25px; height:25px;")
-													small(ng-bind-html="' ' + usuario.nombres + ' ' + usuario.apellidos + ' - ' + usuario.username | highlight: $select.search")
-							.row
-								.col-sm-3
-									.form-group
-										label(for='encab-width-certif') Ancho encabezado
-										span.input-icon.icon-right
-											input#encab-width-certif.form-control(ng-model="newcertif.head_width" type='number')
-											i.fa.fa-arrows-h.blue
-
-								.col-sm-3
-									.form-group
-										label(for='encab-height-certif') Alto encabezado
-										span.input-icon.icon-right
-											input#encab-height-certif.form-control(ng-model="newcertif.head_height" type='number')
-											i.fa.fa-arrows-v.blue
-
-								.col-sm-3
-									.form-group
-										label(for='encab-margintop-certif') Margen superior encabezado
-										span.input-icon.icon-right
-											input#encab-margintop-certif.form-control(ng-model="newcertif.head_margintop" type='number')
-											i.fa.fa-arrow-up.blue
-								.col-sm-3
-									.form-group
-										label(for='encab-marginleft-certif') Margen inferior encabezado
-										span.input-icon.icon-right
-											input#encab-marginleft-certif.form-control(ng-model="newcertif.head_marginleft" type='number')
-											i.fa.fa-arrow-down.blue
-							.row
-								.col-sm-6
-									.form-group
-										label Pie de página
-										ui-select(ng-model="dato.usuarioElegido" on-select="usuarioSelect($item, $model)" theme="select2" style="min-width: 300px;")
-											ui-select-match(placeholder="Pie de página") 
-												img(ng-src="{{perfilPath + $select.selected.imagen_nombre}}" style="width:25px; height:25px;")
-												small(ng-bind-html="' ' + $select.selected.nombres + ' ' + $select.selected.apellidos + ' - ' + $select.selected.username")
-											ui-select-choices(repeat="usuario in usuariosall | filter: {nombres: $select.search, username: $select.search}")
-												img(ng-src="{{perfilPath + usuario.imagen_nombre}}" style="width:25px; height:25px;")
-												small(ng-bind-html="' ' + usuario.nombres + ' ' + usuario.apellidos + ' - ' + usuario.username | highlight: $select.search")
-
-							.row
-								.col-sm-3
-									.form-group
-										label(for='pie-width-certif') Ancho pie de página
-										span.input-icon.icon-right
-											input#pie-width-certif.form-control(ng-model="newcertif.pie_marginbottom" type='number')
-											i.fa.fa-arrows-h.blue
-
-								.col-sm-3
-									.form-group
-										label(for='pie-height-certif') Alto pie de página
-										span.input-icon.icon-right
-											input#pie-height-certif.form-control(ng-model="newcertif.pie_marginbottom" type='number')
-											i.fa.fa-arrows-v.blue
-
-								.col-sm-3
-									.form-group
-										label(for='pie-marginleft-certif') Margen izquierda pie de página
-										span.input-icon.icon-right
-											input#pie-marginleft-certif.form-control(ng-model="newcertif.pie_marginleft" type='number')
-											i.fa.fa-arrow-left.blue
-								.col-sm-3
-									.form-group
-										label(for='pie-marginbottom-certif') Margen inferior pie de página
-										span.input-icon.icon-right
-											input#pie-marginbottom-certif.form-control(ng-model="newcertif.pie_marginbottom" type='number')
-											i.fa.fa-arrow-down.blue
-
-
+						accordion-group(heading="Certificados" is-open="true")
+							configuracion-certificados
 
 							
-							hr
-							br
-							button.btn.btn-primary(type="submit") Guardar cambios
+							
 
 
 

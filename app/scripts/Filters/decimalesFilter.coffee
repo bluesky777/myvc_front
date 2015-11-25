@@ -12,6 +12,20 @@ angular.module('myvcFrontApp')
 		return input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 ])
 
+.filter('decimales_if', [ ->
+	(input, cant) ->
+		input = parseFloat(input)
+
+		if (input % 1) == 0
+			input = input.toFixed(0)
+		else 
+			input = input.toFixed(cant)
+
+		numero = input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+		numero = parseFloat(numero)
+		return numero
+])
+
 .filter('setDecimal', [ ->
 	(input, places)->
 		if (isNaN(input)) then return input

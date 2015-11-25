@@ -10,10 +10,12 @@ angular.module('myvcFrontApp')
 			$scope.USER.alumnos_can_see_notas = false
 
 		$scope.config = {alumnos_can_see_notas: $scope.USER.alumnos_can_see_notas}
+		$scope.perfilPath = App.images + 'perfil/'
 
-
-		RYears.getList().then((r)->
-			$scope.years = r
+		Restangular.one('years/colegio').customGET().then((r)->
+			$scope.years = r.years
+			$scope.certificados = r.certificados
+			$scope.imagenes = r.imagenes
 		, (r)->
 			console.log 'No se trajeron los años'
 		)

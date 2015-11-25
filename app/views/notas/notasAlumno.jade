@@ -1,3 +1,19 @@
+.col-lg-12(ng-if="!USER.pazysalvo && hasRoleOrPerm(['alumno'])")
+	.widget
+		.widget-header.bg-red
+			i.widget-icon.fa.fa-warning
+			.widget-caption
+				| Notas bloqueadas
+		.widget-body
+			.row
+				.col-lg-12.col-xs-12
+					p Lo sentimos, para ver sus notas debe acercarse a hacer arreglos en tesorería.
+			.row
+				.col-lg-12.col-xs-12
+					p Su deuda es: {{USER.deuda | currency:"$":0}}
+
+
+
 .col-lg-12(ng-if=" (USER.alumnos_can_see_notas && hasRoleOrPerm(['alumno', 'acudiente']) ) || !hasRoleOrPerm(['alumno', 'acudiente'])")
 
 	.widget
