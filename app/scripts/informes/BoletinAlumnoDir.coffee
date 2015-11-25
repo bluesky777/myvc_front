@@ -21,3 +21,31 @@ angular.module('myvcFrontApp')
 
 		#console.log scope.config.orientacion
 ])
+
+
+
+
+
+.filter('cantPerdidasPer', [ ->
+	(input, periodo_id, alum_id) ->
+		
+		@suma = 0
+
+		angular.forEach input, (periodo, key) ->
+			
+			periodo_id = parseFloat(periodo_id)
+			per_id = parseFloat(periodo.id)
+
+			if per_id == periodo_id
+				@suma = @suma +  periodo.cantNotasPerdidas
+		
+	
+		
+		if @suma == 0
+			return ''
+
+		return @suma
+])
+
+
+

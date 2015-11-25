@@ -109,9 +109,8 @@
                   <tr ng-repeat="asignatura_perdida in alumno.asignaturas_perdidas">
                     <td>{{$index + 1}}</td>
                     <td>{{asignatura_perdida.materia | capitalize}}</td>
-                    <td ng-repeat="periodo in asignatura_perdida.periodos">
-                      <!--div {{periodo.unidades | notasPerdidasAsignatura:true}}-->
-                      <div>{{periodo.cantNotasPerdidas}}</div>
+                    <td ng-repeat="periodo in year.periodos">
+                      <div>{{ asignatura_perdida.periodos | cantPerdidasPer:periodo.id:alumno.alumno_id }}</div>
                     </td>
                     <td><b>{{asignatura_perdida.cantTotal}}</b></td>
                   </tr>
