@@ -36,7 +36,7 @@
               <td>
                 <h5 popover="&lt;img src='{{perfilPath + alumno.userData.foto_nombre}}' style='width: 100px; height: 100px;'&gt;&lt;img src='{{perfilPath + alumno.userData.imagen_nombre}}' style='width: 100px; height: 100px;'&gt;&lt;br&gt;Facebook: {{alumno.facebook}}&lt;br&gt;Username: {{alumno.userData.username}}" popover-popup-delay="1000" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-animation="true" popover-trigger="mouseenter" class="nombresellipsis"><img ng-src="{{perfilPath + alumno.userData.foto_nombre}}" style="width: 20px; height: 20px;">{{alumno.nombres + ' ' + alumno.apellidos}}</h5>
                 <ul>
-                  <li ng-repeat="definicion in alumno.definiciones"><a tooltip="X Eliminar" tooltip-placement="right" ng-click="quitarFrase(definicion, alumno)" class="btn btn-default btn-xs shiny icon-only danger"><i class="fa fa-trash"></i></a><span ng-show="definicion.tipo_frase"> {{definicion.tipo_frase + ' - ' + definicion.frase}}</span><span ng-show="definicion"> {{ definicion.frase }}</span></li>
+                  <li ng-repeat="definicion in alumno.definiciones"><a tooltip="X Eliminar" tooltip-placement="right" ng-click="quitarFrase(definicion, alumno)" class="btn btn-default btn-xs shiny icon-only danger"><i class="fa fa-trash"></i></a><span ng-show="definicion.tipo_frase"> {{definicion.tipo_frase + ' - ' + definicion.frase}}</span><span ng-hide="definicion.tipo_frase"> {{ definicion.frase }}</span></li>
                 </ul>
                 <div style="display: inline-block; margin-right: 30px" class="form-group">
                   <label>Escrita </label>

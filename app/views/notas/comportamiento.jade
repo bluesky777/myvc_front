@@ -47,7 +47,7 @@
 											i.fa.fa-trash 
 										span(ng-show="definicion.tipo_frase")
 											|  {{definicion.tipo_frase + ' - ' + definicion.frase}}
-										span(ng-show="definicion")
+										span(ng-hide="definicion.tipo_frase")
 											|  {{ definicion.frase }}
 
 

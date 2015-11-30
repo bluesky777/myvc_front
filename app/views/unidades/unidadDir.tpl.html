@@ -41,7 +41,7 @@
     <!--li(ng-repeat="subunidad in unidad.subunidades | orderBy:'orden'")-->
     <li as-sortable-item ng-repeat="subunidad in unidad.subunidades | orderBy:'orden'" style="border: none" class="ticket-item">
       <div ng-show="!subunidad.editando" class="row">
-        <div as-sortable-item-handle style="overflow: visible; line-height: 2.4;" class="ticket-user col-lg-10 col-sm-10 col-xs-12">
+        <div as-sortable-item-handle style="overflow: visible; line-height: 2.4;" class="ticket-user col-lg-10 col-sm-8 col-xs-12">
           <!--.user-avatar(tooltip="Porcentaje")
           | {{subunidad.porcentaje}}%
           
@@ -50,13 +50,13 @@
             <div tooltip="{{subunidad.definicion}}">{{$index+1}}. {{subunidad.definicion}}</div>
           </div>
         </div>
-        <div tooltip="Porcentaje" class="ticket-time col-lg-1 col-sm-1 col-xs-6">
+        <div tooltip="Porcentaje" class="ticket-time col-lg-1 col-sm-2 col-xs-6">
           <div class="divider hidden-xs"></div>{{subunidad.porcentaje}}%
         </div>
-        <div tooltip="Orden" class="ticket-type col-lg-1 col-sm-1 col-xs-6">
+        <div tooltip="Orden" class="ticket-type col-lg-1 col-sm-2 col-xs-6">
           <div class="divider hidden-xs"></div>
           <!--.type {{subunidad.nota_default}}-->
-          <input type="number" min="0" max="99" ng-model="subunidad.orden" ng-change="actualizarSubunidad(subunidad)" ng-model-options="{ updateOn: 'blur'}" style="width: 50px; padding: 5px;" class="form-control">
+          <input type="number" min="0" max="99" ng-model="subunidad.orden" ng-change="actualizarSubunidad(subunidad)" ng-model-options="{ updateOn: 'blur'}" class="form-control ordenador-subunidad">
         </div>
         <!--.ticket-state.bg-info(ng-click="subirSubunidad(subunidad, $index)" ng-hide="$first" style="right: 75px; ")i.fa.fa-chevron-up(tooltip="Subir")
         -->
@@ -72,11 +72,11 @@
               <label class="sr-only">Edite la definición</label>
               <textarea required ng-model="subunidad.definicion" placeholder="Edite la definición" tooltip="Definición" style="height: 35px;" class="form-control"></textarea>
             </div>
-            <div class="form-group unidadporcentaje col-md-2 col-sm-2 col-xs-6">
+            <div class="form-group unidadporcentaje col-md-2 col-sm-2 col-xs-12">
               <label class="sr-only">Porcentaje</label>
               <input required type="number" min="0" max="100" ng-model="subunidad.porcentaje" placeholder="%Porcentaje" tooltip="Edite el porcentaje" tooltip-popup-delay="1000" class="form-control">
             </div>
-            <div class="form-group col-md-2 col-sm-2 col-xs-6">
+            <div class="form-group col-md-2 col-sm-2 col-xs-12">
               <input required ng-model="subunidad.nota_default" min="0" max="100" type="number" placeholder="Nota por defecto" tooltip="Nota por defecto de {{SUBUNIDAD}}" tooltip-popup-delay="1000" class="form-control">
             </div>
           </form>
@@ -99,10 +99,10 @@
               <label class="sr-only">{{ GENERO_SUB=='M' ? 'Nuevo' : 'Nueva' }} {{SUBUNIDAD}}: </label>
               <textarea required ng-model="unidad.newsubunidad.definicion" placeholder="Crea {{ GENERO_SUB=='M' ? 'nuevo' : 'nueva' }} {{SUBUNIDAD}}" tooltip="Definición del {{ GENERO_SUB=='M' ? 'nuevo' : 'nueva' }} {{SUBUNIDAD}}" tooltip-popup-delay="1000" style="height: 35px;" class="form-control"></textarea>
             </div>
-            <div class="form-group unidadporcentaje col-md-2 col-sm-2 col-xs-6">
+            <div class="form-group unidadporcentaje col-md-2 col-sm-2 col-xs-12">
               <input required ng-model="unidad.newsubunidad.porcentaje" min="0" max="100" type="number" placeholder="%Porcentaje" tooltip="Porcentaje {{ GENERO_SUB=='M' ? 'del' : 'de la' }} {{SUBUNIDAD}}" tooltip-popup-delay="1000" class="form-control">
             </div>
-            <div class="form-group col-md-2 col-sm-2 col-xs-6">
+            <div class="form-group col-md-2 col-sm-2 col-xs-12">
               <input required ng-model="unidad.newsubunidad.nota_default" min="0" max="100" type="number" placeholder="Nota por defecto" tooltip="Nota por defecto {{ GENERO_SUB=='M' ? 'del' : 'de la' }} {{SUBUNIDAD}}" tooltip-popup-delay="1000" class="form-control">
             </div>
           </form>

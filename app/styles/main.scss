@@ -2076,7 +2076,7 @@ a:focus, a:active {
 }
 .navbar .navbar-brand small img {
     height: 40px;
-    width: 177px;
+    //width: 177px;
 }
 .navbar .sidebar-collapse {
     text-align: center;
@@ -16185,7 +16185,32 @@ body {
 .ed-unidad-move{
 
 }
-
-
-
+.tickets-container {
+    padding: 10px !important;
+}
+@media only screen and (max-width: 560px) {
+    .page-body{
+        padding: 0px;
+    }
+    .definicion-add-unidad{
+        min-width: 100px;
+    }
+    .well.with-header{
+        padding-top: 120px;
+    }
+}
+@media only screen and (min-width: 561px) {
+    .definicion-add-unidad{
+        min-width: 400px;
+    }
+}
+.ordenador-subunidad{
+    width: 50px; 
+    padding: 5px;
+        /* border-radius: 0px 15px !important; */
+    border-left: none!important;
+    border-top: none!important;
+    border-right: none!important;
+    background-color: white!important;
+}
 

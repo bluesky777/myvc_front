@@ -51,11 +51,15 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 								td 
 									span(ng-show="asignatura.ausencias > 0") {{asignatura.ausencias}}
 
-								td.puntero(ng-repeat="definitiva in asignatura.definitivas" ng-class="{'nota-perdida-puestos': ((definitiva.DefMateria | decimales_if:1 )*1) < (USER.nota_minima_aceptada*1) }") 
-									{{definitiva.DefMateria | decimales_if:1}}
+								td(ng-repeat="definitiva in asignatura.definitivas" ng-class="{'nota-perdida-puestos': ((definitiva.DefMateria | decimales_if:1 )*1) < (USER.nota_minima_aceptada*1) }") 
+									| {{ definitiva.DefMateria | decimales_if:1 }}
+									span.cant-unidades-perdidas(ng-show="{{definitiva.notas_perdidas > 0}}")
+										| ({{definitiva.notas_perdidas}})
 									
-								td(ng-class="{'nota-perdida-puestos': ((asignatura.promedio | decimales_if:1 )*1) < (USER.nota_minima_aceptada*1) }") {{asignatura.promedio | decimales_if:1}}
-
+								td.puntero(ng-class="{'nota-perdida-puestos': ((asignatura.promedio | decimales_if:1 )*1) < (USER.nota_minima_aceptada*1) }") 
+									| {{asignatura.promedio | decimales_if:1}}
+									span.cant-unidades-perdidas(ng-show="{{asignatura.notas_perdidas > 0}}")
+										| ({{asignatura.notas_perdidas}})
 
 						tfoot
 							tr(style="border-top: 2px solid;")
@@ -68,8 +72,37 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 
 								td(style="font-weight: bold; border-left: 2px solid !important;") 
 									{{alumno.promedio | decimales:0 }}
-									span.cant-unidades-perdidas(ng-show="")
-									
+									span.cant-unidades-perdidas(ng-show="{{alumno.notas_perdidas > 0}}")
+										| ({{alumno.notas_perdidas}})
+
+
+
+			//.row.body-boletin
+				.col-lg-12.col-xs-12
+					span(ng-repeat="asignatura in alumno.asignaturas_perdidas")
+						
+						span(ng-repeat="periodo in asignatura.periodos | orderBy:'-numero'")
+							| {{ asignatura.alias_materia }} - Per{{ periodo.numero }}: {{periodo.cantNotasPerdidas}}. 
+
+
+
+			.row
+				.col-lg-12.col-xs-12
+					h4(style="text-align:center; font-weight: bold")
+						span(ng-switch on="alumno.sexo")
+							span(ng-switch-when="'F'") La alumna 
+							span(ng-switch-default) El alumno 
+
+						span(ng-show="alumno.cant_lost_asig > 1")
+							| NO ha sido 
+
+						span(ng-show="alumno.cant_lost_asig < 2")
+							| ha sido 
+
+						span(ng-switch on="alumno.sexo")
+							span(ng-switch-when="'F'") promovida.
+							span(ng-switch-default) promovido.
+
 
 
 			.row.footer-boletin

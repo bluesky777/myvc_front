@@ -18,7 +18,7 @@
 
 
 		form.form-inline(ng-submit="crearUnidad()" role="form")
-			input.form-control(required ng-model="newunidad.definicion" type="text" placeholder="{{UNIDAD}} {{ GENERO_UNI=='M' ? 'nuevo' : 'nueva' }}" style="min-width: 400px" tooltip="Definición" tooltip-popup-delay="1000")
+			input.form-control.definicion-add-unidad(required ng-model="newunidad.definicion" type="text" placeholder="{{UNIDAD}} {{ GENERO_UNI=='M' ? 'nuevo' : 'nueva' }}" tooltip="Definición" tooltip-popup-delay="1000")
 			input.form-control(required ng-model="newunidad.porcentaje" min="0" max="100" type="number" placeholder="Porcentaje" tooltip="Porcentaje" tooltip-popup-delay="1000")
 			input.btn.btn-primary(type="submit" ng-submit="crearUnidad()" ng-disabled="!activar_crear_unidad" value="Crear {{UNIDAD}}")
 

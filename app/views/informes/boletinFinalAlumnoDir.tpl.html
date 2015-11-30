@@ -45,8 +45,8 @@
                   <div popover="&lt;img src='{{perfilPath + asignatura.foto_nombre}}' style='width: 150px; height: 150px;'&gt;" popover-popup-delay="1000" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" popover-trigger="mouseenter">{{asignatura.materia}}</div>
                 </td>
                 <td><span ng-show="asignatura.ausencias &gt; 0">{{asignatura.ausencias}}</span></td>
-                <td ng-repeat="definitiva in asignatura.definitivas" ng-class="{'nota-perdida-puestos': ((definitiva.DefMateria | decimales_if:1 )*1) &lt; (USER.nota_minima_aceptada*1) }" class="puntero">{{definitiva.DefMateria | decimales_if:1}}</td>
-                <td ng-class="{'nota-perdida-puestos': ((asignatura.promedio | decimales_if:1 )*1) &lt; (USER.nota_minima_aceptada*1) }">{{asignatura.promedio | decimales_if:1}}</td>
+                <td ng-repeat="definitiva in asignatura.definitivas" ng-class="{'nota-perdida-puestos': ((definitiva.DefMateria | decimales_if:1 )*1) &lt; (USER.nota_minima_aceptada*1) }">{{ definitiva.DefMateria | decimales_if:1 }}<span ng-show="{{definitiva.notas_perdidas &gt; 0}}" class="cant-unidades-perdidas">({{definitiva.notas_perdidas}})</span></td>
+                <td ng-class="{'nota-perdida-puestos': ((asignatura.promedio | decimales_if:1 )*1) &lt; (USER.nota_minima_aceptada*1) }" class="puntero">{{asignatura.promedio | decimales_if:1}}<span ng-show="{{asignatura.notas_perdidas &gt; 0}}" class="cant-unidades-perdidas">({{asignatura.notas_perdidas}})</span></td>
               </tr>
             </tbody>
             <tfoot>
@@ -55,10 +55,24 @@
                 <td>Total</td>
                 <td>{{alumno.ausencias}}</td>
                 <td ng-repeat="periodo in year.periodos">{{ alumno.asignaturas | promedioPeriodo:periodo.id | decimales:0 }}</td>
-                <td style="font-weight: bold; border-left: 2px solid !important;">{{alumno.promedio | decimales:0 }}<span ng-show="" class="cant-unidades-perdidas"></span></td>
+                <td style="font-weight: bold; border-left: 2px solid !important;">{{alumno.promedio | decimales:0 }}<span ng-show="{{alumno.notas_perdidas &gt; 0}}" class="cant-unidades-perdidas">({{alumno.notas_perdidas}})</span></td>
               </tr>
             </tfoot>
           </table>
+        </div>
+      </div>
+      <!--.row.body-boletin
+      .col-lg-12.col-xs-12
+       span(ng-repeat="asignatura in alumno.asignaturas_perdidas")
+        span(ng-repeat="periodo in asignatura.periodos | orderBy:'-numero'")
+         | {{ asignatura.alias_materia }} - Per{{ periodo.numero }}: {{periodo.cantNotasPerdidas}}. 
+         
+         
+         
+      -->
+      <div class="row">
+        <div class="col-lg-12 col-xs-12">
+          <h4 style="text-align:center; font-weight: bold"><span ng-switch on="alumno.sexo"><span ng-switch-when="'F'">La alumna </span><span ng-switch-default>El alumno </span></span><span ng-show="alumno.cant_lost_asig &gt; 1">NO ha sido </span><span ng-show="alumno.cant_lost_asig &lt; 2">ha sido </span><span ng-switch on="alumno.sexo"><span ng-switch-when="'F'">promovida.</span><span ng-switch-default>promovido.</span></span></h4>
         </div>
       </div>
       <div class="row footer-boletin">

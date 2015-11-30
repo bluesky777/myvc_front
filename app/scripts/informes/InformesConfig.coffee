@@ -99,6 +99,11 @@ angular.module('myvcFrontApp')
 			data: 
 				pageTitle: 'Puestos periodo - MyVc'
 
+
+
+
+
+
 		.state 'panel.informes.puestos_grupo_year',
 			url: '/puestos_grupo_year/:grupo_id/:periodos_a_calcular'
 			views: 
@@ -117,6 +122,12 @@ angular.module('myvcFrontApp')
 				displayName: 'Puestos del año'
 				icon_fa: 'fa fa-print'
 				pageTitle: 'Puestos del año - MyVc'
+
+
+
+
+
+
 
 
 		.state 'panel.informes.planillas_grupo',

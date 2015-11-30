@@ -2061,7 +2061,7 @@ a:focus, a:active {
 }
 .navbar .navbar-brand small img {
     height: 40px;
-    width: 177px;
+    /*width: 177px;*/
 }
 .navbar .sidebar-collapse {
     text-align: center;

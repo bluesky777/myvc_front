@@ -4,14 +4,21 @@
     <div class="widget-header bordered-bottom bordered-blue"><span class="widget-caption">{{asignatura.materia + ' - ' + asignatura.nombre_grupo + ' - ' + asignatura.nombres_profesor}}</span></div>
     <div class="widget-body">
       <div><a ui-sref="panel.unidades({asignatura_id: asignatura_id})" class="btn btn-info btn-lg">Volver a unidades</a></div>
-      <div ng-class="{cursorcopy:notaRapida.enable}" class="table-responsive"><br><br>
-        <hr class="wide"><br>
-        <div class="row">
-          <div class="col-lg-2 col-xs-8">
-            <label>Filtrar alumnos</label>
-            <input type="text" ng-model="searchAlum" placeholder="Escribe algún texto" class="form-control">
-          </div>
-        </div><br><br>
+      <div ng-class="{cursorcopy:notaRapida.enable}" class="table-responsive">
+        <!--
+        br
+        br
+        hr.wide
+        br
+        .row
+         .col-lg-2.col-xs-8
+          label Filtrar alumnos
+          input.form-control(type="text" ng-model="searchAlum" placeholder="Escribe algún texto")
+          
+        br
+        br
+        
+        -->
         <table class="table table-hover table-condensed table-striped tablenot100">
           <thead>
             <tr>
@@ -67,12 +74,12 @@
       </div>
     </div>
   </div>
-</div><br><br><br>
-<div class="col-lg-12">
-  <div class="widget">
-    <div class="widget-header bordered-bottom bordered-blue"><span class="widget-caption">Algunas opciones</span></div>
-    <div class="widget-body">
-      <div><a class="btn btn-default btn lg">Aun en construcción</a></div>
-    </div>
-  </div>
 </div>
+<!--.col-lg-12
+.widget
+ .widget-header.bordered-bottom.bordered-blue
+  span.widget-caption Algunas opciones
+ .widget-body
+  div
+   a.btn.btn-default.btn.lg Aun en construcción
+-->

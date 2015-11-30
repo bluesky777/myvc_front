@@ -1,5 +1,5 @@
 angular.module('myvcFrontApp')
-.controller('InformesCtrl', ['$scope', 'Restangular', '$state', '$stateParams', '$rootScope', '$filter', 'App', 'AuthService', 'GruposServ', 'ProfesoresServ', 'alumnos', '$timeout', '$cookieStore', 'toastr', ($scope, Restangular, $state, $stateParams, $rootScope, $filter, App, AuthService, GruposServ, ProfesoresServ, alumnos, $timeout, $cookieStore, toastr) ->
+.controller('InformesCtrl', ['$scope', 'Restangular', '$state', '$stateParams', '$rootScope', '$filter', 'App', 'AuthService', 'GruposServ', 'ProfesoresServ', 'alumnos', '$timeout', '$cookieStore', 'toastr', '$interval', ($scope, Restangular, $state, $stateParams, $rootScope, $filter, App, AuthService, GruposServ, ProfesoresServ, alumnos, $timeout, $cookieStore, toastr, $interval) ->
 
 	AuthService.verificar_acceso()
 	$scope.rowsAlum = [] 
@@ -93,6 +93,9 @@ angular.module('myvcFrontApp')
 
 
 
+
+
+
 	$scope.verBoletinesGrupo = ()->
 		$cookieStore.remove 'requested_alumnos'
 		$cookieStore.remove 'requested_alumno'
@@ -117,9 +120,17 @@ angular.module('myvcFrontApp')
 		if $scope.datos.selected_alumno
 			$cookieStore.put 'requested_alumno', [$scope.datos.selected_alumno]
 			#$state.go 'panel.informes.boletines_periodo', {periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
-			$state.go 'panel.informes.boletines_periodo', {periodos_a_calcular: $scope.config.periodos_a_calcular}
+			$state.go 'panel.informes'
+			$interval ()->
+				$state.go 'panel.informes.boletines_periodo', {periodos_a_calcular: $scope.config.periodos_a_calcular}
+			, 1, 1
 		else
 			toastr.warning 'Elige un alumno o carga el grupo completo'
+
+
+
+
+
 
 
 	$scope.verPuestosPeriodo = ()->
@@ -135,6 +146,9 @@ angular.module('myvcFrontApp')
 			return
 
 		$state.go 'panel.informes.puestos_grupo_year', {grupo_id: $scope.datos.grupo.id, periodos_a_calcular: $scope.config.periodos_a_calcular}
+
+
+
 
 
 	$scope.verPlanillasGrupo = ()->
@@ -228,8 +242,12 @@ angular.module('myvcFrontApp')
 	$scope.verBoletinFinalAlumno = ()->
 		
 		if $scope.datos.selected_alumno
+			$cookieStore.remove 'requested_alumnos'
 			$cookieStore.put 'requested_alumno', [$scope.datos.selected_alumno]
-			$state.go 'panel.informes.boletines_finales', {periodos_a_calcular: $scope.config.periodos_a_calcular}
+			$state.go 'panel.informes'
+			$interval ()->
+				$state.go 'panel.informes.boletines_finales'
+			, 1, 1
 		else
 			toastr.warning 'Elige un alumno o carga el grupo completo'
 
