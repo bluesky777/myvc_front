@@ -10,7 +10,7 @@
 						input.form-control#nivel-nombre(type="text" ng-model="nivel.nombre" placeholder="Nombre")
 					.form-group
 						label(for="nivel-abrev") Abreviatura
-						input.form-control#nivel-abrev(type="number" ng-model="nivel.abrev" placeholder="Abreviatura")
+						input.form-control#nivel-abrev(type="text" ng-model="nivel.abrev" placeholder="Abreviatura")
 					.form-group
 						label(for="nivel-orden") Orden
 						.spinner.spinner-horizontal
@@ -23,5 +23,6 @@
 					
 					br
 					hr.wide
+					a.btn.btn-default.btn-lg.shiny(ui-sref="panel.niveles") Cancelar 
 					input.btn.btn-primary.btn-lg.shiny(type="submit" ng-submit="crear()" value="Crear") 
 

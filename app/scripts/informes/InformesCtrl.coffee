@@ -253,6 +253,21 @@ angular.module('myvcFrontApp')
 
 
 
+	$scope.verCertificadosEstudioGrupo = ()->
+		
+		$cookieStore.remove 'requested_alumnos'
+		$cookieStore.remove 'requested_alumno'
+		
+		if !$scope.datos.grupo.id
+			toastr.warning 'Debes seleccionar el grupo'
+			return
+		
+		$state.go 'panel.informes.certificados_estudio', {grupo_id: $scope.datos.grupo.id}, {reload: true}
+
+
+
+
+
 
 
 

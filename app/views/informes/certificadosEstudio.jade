@@ -1,0 +1,4 @@
+object(data="{{pdfContent}}" type="application/pdf" style="width:100%; height:500px")
+
+div(ng-repeat="alumno in alumnos")
+	div.boletin-alumno(certificado-estudio-dir alumno="alumno" grupo="grupo" year="year" config="config" escalas="escalas")

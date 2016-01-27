@@ -225,6 +225,63 @@ angular.module('myvcFrontApp')
 
 
 
+
+		.state 'panel.informes.certificados_estudio',
+			url: '/certificados_estudio/:grupo_id'
+			params:
+				grupo_id: {value: null}
+			views: 
+				'report_content':
+					templateUrl: "#{App.views}informes/certificadosEstudio.tpl.html"
+					controller: 'CertificadosEstudioCtrl'
+					resolve:
+						alumnosDat: ['Restangular', '$stateParams', '$q', '$cookieStore', (Restangular, $stateParams, $q, $cookieStore)->
+
+							d = $q.defer()
+
+
+							requested_alumnos = $cookieStore.get 'requested_alumnos'
+							requested_alumno = $cookieStore.get 'requested_alumno'
+							
+							if requested_alumnos
+
+								console.log 'Pidiendo por varios alumnos: ', requested_alumnos
+								Restangular.one('certificados-estudio/detailed-notas-year', $stateParams.grupo_id).customPUT({requested_alumnos: requested_alumnos}).then((r)->
+									d.resolve r
+								, (r2)->
+									d.reject r2
+								)
+							else if requested_alumno
+								Restangular.one('certificados-estudio/detailed-notas-year', requested_alumno[0].grupo_id).customPUT({requested_alumnos: requested_alumno}).then((r)->
+									d.resolve r
+								, (r2)->
+									d.reject r2
+								)
+							else
+								console.log 'Pidiendo por grupo:', $stateParams.grupo_id
+								
+								Restangular.one('certificados-estudio/certificado-grupo', $stateParams.grupo_id).customGET().then((r)->
+									
+									d.resolve r
+								, (r2)->
+									d.reject r2
+								)
+
+
+							return d.promise
+						],
+						escalas: ['EscalasValorativasServ', (EscalasValorativasServ)->
+							#debugger
+							EscalasValorativasServ.escalas()
+						]
+			data: 
+				displayName: 'Boletines finales'
+				pageTitle: 'Boletines finales - MyVc'
+
+
+
+
+
 ])
 
 

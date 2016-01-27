@@ -5,7 +5,7 @@ angular.module("myvcFrontApp")
 .controller('GruposEditCtrl', ['$scope', '$state', '$rootScope', '$interval', 'Restangular', 'RGrados', 'RGrupos', 'RProfesores', ($scope, $state, $rootScope, $interval, Restangular, RGrados, RGrupos, RProfesores)->
 
 
-	Restangular.one('grupos', $state.params.grupo_id).get().then (r)->
+	Restangular.one('grupos/show', $state.params.grupo_id).get().then (r)->
 		$scope.grupo = r
 
 	RGrados.getList().then((data)->
@@ -16,8 +16,9 @@ angular.module("myvcFrontApp")
 	)
 
 	$scope.guardar = ()->
-		$scope.grupo.put().then((r)->
+		Restangular.one('grupos/update').customPUT($scope.grupo).then((r)->
 			console.log 'Se guardó grupo', r
+			$scope.toastr.success 'Grupo '+r.nombre+' editado.'
 		, (r2)->
 			console.log 'Falló al intentar guardar: ', r2
 		)

@@ -11,7 +11,7 @@
           </div>
           <div class="form-group">
             <label for="nivel-abrev">Abreviatura</label>
-            <input id="nivel-abrev" type="number" ng-model="nivel.abrev" placeholder="Abreviatura" class="form-control">
+            <input id="nivel-abrev" type="text" ng-model="nivel.abrev" placeholder="Abreviatura" class="form-control">
           </div>
           <div class="form-group">
             <label for="nivel-orden">Orden</label>
@@ -23,7 +23,7 @@
               </div>
             </div>
           </div><br>
-          <hr class="wide">
+          <hr class="wide"><a ui-sref="panel.niveles" class="btn btn-default btn-lg shiny">Cancelar </a>
           <input type="submit" ng-submit="crear()" value="Crear" class="btn btn-primary btn-lg shiny">
         </form>
       </div>

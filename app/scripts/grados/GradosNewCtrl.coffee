@@ -21,7 +21,7 @@ angular.module("myvcFrontApp")
 
 	$scope.crear = ()->
 		RGrados.post($scope.grado).then((r)->
-			console.log 'Se hizo el post del grado', r
+			
 			$scope.$emit 'gradocreado', r
 			$scope.toastr.success 'Grado '+r.nombre+' creado'
 		, (r2)->

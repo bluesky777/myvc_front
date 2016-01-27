@@ -1,0 +1,133 @@
+.row
+	.col-lg-12.col-xs-12
+		.form-group
+			label Certificados estudio
+			label
+				input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-click="putConfigCookie()" ng-model="config.certificados_estudio")
+				span.text.si-no
+
+	span(ng-hide="config.certificados_estudio")
+		.row
+			.col-lg-12.col-xs-12
+				.form-group
+					label Grupo
+					ui-select(ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;")
+						ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}}
+						ui-select-choices(repeat="grupo in grupos | filter: $select.search")
+							div(ng-bind-html="grupo.nombre | highlight: $select.search")
+					a.btn.btn-default(href="" ng-click="verBoletinesFinalesGrupo()") Grupo completo
+		.row(ng-show="datos.grupo")
+			.col-lg-12.col-xs-12
+				.form-group
+					label Alumnos
+					ui-select( ng-model="datos.selected_alumnos" multiple on-select="selectAlumnos($item)" style="width: 100%;")
+						ui-select-match(placeholder="Alumnos del grupo {{datos.grupo.abrev}}" allow-clear="true") 
+							img(ng-src="{{perfilPath + $item.foto_nombre}}" style="width:25px; height:25px;") 
+							| {{$item.nombres}}
+						ui-select-choices(repeat="alumno in filtered_alumnos | filter: $select.search")
+							img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
+							small(ng-show="alumno.sin_matricular" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)</i>'")
+							small(ng-hide="alumno.sin_matricular" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
+					a.btn.btn-default(href="" ng-click="verBoletinesFinalesAlumnos()") Cargar boletines
+
+		.row(ng-show="!datos.grupo")
+			.col-lg-12.col-xs-12
+				.form-group
+					label Alumno
+					ui-select( ng-model="datos.selected_alumno" on-select="selectAlumno($item)" style="width: 300px;")
+						ui-select-match(placeholder="Elige un alumno" allow-clear="true") 
+							img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;") 
+							| {{$select.selected.nombres}} {{$select.selected.apellidos}}
+						ui-select-choices(repeat="alumno in filtered_alumnos | filter: $select.search")
+							img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
+							small(ng-show="alumno.sin_matricular" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)</i>'")
+							small(ng-hide="alumno.sin_matricular" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
+					a.btn.btn-default(href="" ng-click="verBoletinFinalAlumno()") Cargar boletin
+		br
+
+		.row
+			.col-lg-2.col-sm-4.col-xs-12
+				.form-group
+					label Mostrar foto
+					label
+						input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-click="putConfigCookie()" ng-model="config.mostrar_foto")
+						span.text.si-no
+			.col-lg-2.col-sm-4.col-xs-12
+				.form-group
+					label Firma rector
+					label
+						input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-click="putConfigCookie()" ng-model="config.show_firma_rector")
+						span.text.si-no
+			.col-lg-2.col-sm-4.col-xs-12
+				.form-group
+					label Firma titular
+					label
+						input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-click="putConfigCookie()" ng-model="config.show_firma_titular")
+						span.text.si-no
+		br
+		br
+			
+
+
+	span(ng-show="config.certificados_estudio")
+		.row
+			.col-lg-12.col-xs-12
+				| Certificado
+				.form-group
+					label Grupo
+					ui-select(ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;")
+						ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}}
+						ui-select-choices(repeat="grupo in grupos | filter: $select.search")
+							div(ng-bind-html="grupo.nombre | highlight: $select.search")
+					a.btn.btn-default(href="" ng-click="verCertificadosEstudioGrupo()") Grupo completo
+		.row(ng-show="datos.grupo")
+			.col-lg-12.col-xs-12
+				.form-group
+					label Alumnos
+					ui-select( ng-model="datos.selected_alumnos" multiple on-select="selectAlumnos($item)" style="width: 100%;")
+						ui-select-match(placeholder="Alumnos del grupo {{datos.grupo.abrev}}" allow-clear="true") 
+							img(ng-src="{{perfilPath + $item.foto_nombre}}" style="width:25px; height:25px;") 
+							| {{$item.nombres}}
+						ui-select-choices(repeat="alumno in filtered_alumnos | filter: $select.search")
+							img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
+							small(ng-show="alumno.sin_matricular" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)</i>'")
+							small(ng-hide="alumno.sin_matricular" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
+					a.btn.btn-default(href="" ng-click="verBoletinesFinalesAlumnos()") Cargar boletines
+
+		.row(ng-show="!datos.grupo")
+			.col-lg-12.col-xs-12
+				.form-group
+					label Alumno
+					ui-select( ng-model="datos.selected_alumno" on-select="selectAlumno($item)" style="width: 300px;")
+						ui-select-match(placeholder="Elige un alumno" allow-clear="true") 
+							img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;") 
+							| {{$select.selected.nombres}} {{$select.selected.apellidos}}
+						ui-select-choices(repeat="alumno in filtered_alumnos | filter: $select.search")
+							img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
+							small(ng-show="alumno.sin_matricular" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)</i>'")
+							small(ng-hide="alumno.sin_matricular" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
+					a.btn.btn-default(href="" ng-click="verBoletinFinalAlumno()") Cargar boletin
+		br
+
+		.row
+			.col-lg-2.col-sm-4.col-xs-12
+				.form-group
+					label Mostrar foto
+					label
+						input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-click="putConfigCookie()" ng-model="config.mostrar_foto")
+						span.text.si-no
+			.col-lg-2.col-sm-4.col-xs-12
+				.form-group
+					label Firma rector
+					label
+						input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-click="putConfigCookie()" ng-model="config.show_firma_rector")
+						span.text.si-no
+			.col-lg-2.col-sm-4.col-xs-12
+				.form-group
+					label Firma titular
+					label
+						input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-click="putConfigCookie()" ng-model="config.show_firma_titular")
+						span.text.si-no
+		br
+		br
+			

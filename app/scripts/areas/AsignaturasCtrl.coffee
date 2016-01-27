@@ -173,7 +173,10 @@ angular.module("myvcFrontApp")
 			return 'Elija...'
 		else
 			mater = $filter('filter')(materias, {id: input}, true)[0]
-			return  mater.materia
+			if mater
+				return  mater.materia
+			else
+				return 'En papelera...'
 ])
 
 .filter('mapGrupos', ['$filter', ($filter)->

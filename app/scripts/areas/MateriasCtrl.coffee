@@ -1,6 +1,6 @@
 angular.module("myvcFrontApp")
 
-.controller('MateriasCtrl', ['$scope', '$rootScope', '$interval', 'Restangular', 'RMaterias', 'areas', '$modal', '$filter', ($scope, $rootScope, $interval, Restangular, RMaterias, areas, $modal, $filter)->
+.controller('MateriasCtrl', ['$scope', '$rootScope', '$interval', 'Restangular', 'RMaterias', 'areas', '$modal', '$filter', 'App', ($scope, $rootScope, $interval, Restangular, RMaterias, areas, $modal, $filter, App)->
 
 	$scope.creando = false
 	$scope.editando = false
@@ -46,14 +46,14 @@ angular.module("myvcFrontApp")
 	$scope.eliminar = (row)->
 
 		modalInstance = $modal.open({
-			templateUrl: App.views + 'materias/removemateria.tpl.html'
+			templateUrl: App.views + 'areas/removeMateria.tpl.html'
 			controller: 'RemovemateriaCtrl'
 			resolve: 
 				materia: ()->
 					row
 		})
 		modalInstance.result.then( (materia)->
-			$scope.gridOptions.data = $filter('filter')($scope.materias, {id: '!'+materia.id})
+			$scope.gridOptions.data = $filter('filter')($scope.gridOptions.data, {id: '!'+materia.id})
 			console.log 'Resultado del modal: ', materia
 		)
 
@@ -66,7 +66,7 @@ angular.module("myvcFrontApp")
 		enableCellEditOnFocus: true,
 		columnDefs: [
 			{ field: 'id', type: 'number', maxWidth: 50, enableFiltering: false }
-			{ name: 'edicion', displayName:'Edición', maxWidth: 40, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2, enableCellEdit: false}
+			{ name: 'edicion', displayName:'Edición', maxWidth: 50, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2, enableCellEdit: false}
 			{ field: 'materia', enableHiding: false, 
 			filter: {
 				condition: (searchTerm, cellValue, row)->

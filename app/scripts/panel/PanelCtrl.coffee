@@ -2,13 +2,18 @@
 
 angular.module('myvcFrontApp')
 
-.controller('PanelCtrl', ['$scope', '$http', 'Restangular', '$state', '$cookies', '$rootScope', 'AuthService', 'Perfil', 'App', 'resolved_user', 'RYears', 'RPeriodos', 'toastr', 
-	($scope, $http, Restangular, $state, $cookies, $rootScope, AuthService, Perfil, App, resolved_user, RYears, RPeriodos, toastr) ->
+.controller('PanelCtrl', ['$scope', '$http', 'Restangular', '$state', '$cookies', '$rootScope', 'AuthService', 'Perfil', 'App', 'resolved_user', 'RYears', 'RPeriodos', 'toastr', 'cfpLoadingBar', 
+	($scope, $http, Restangular, $state, $cookies, $rootScope, AuthService, Perfil, App, resolved_user, RYears, RPeriodos, toastr, cfpLoadingBar) ->
 
 		$scope.USER = resolved_user
 		$scope.pageTitle = $rootScope.pageTitle
 		$scope.logoPath = 'images/MyVc-1.gif'
 		#$scope.paramuser = {'username': Perfil.User().username }
+
+
+		# Para evitar una supuesta espera infinita
+		cfpLoadingBar.complete()
+		
 
 		$scope.verificar_acceso()
 

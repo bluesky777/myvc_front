@@ -1,7 +1,7 @@
 .col-lg-12.col-sm-12.col-xs-12
 	.row(ng-repeat="year in years")
 		.col-lg-12.col-sm-12.col-xs-12
-			.widget(ng-class="{maximized:maxi}" style="min-height: 600px")
+			.widget(ng-class="{maximized:maxi}" style="/*min-height: 600px*/")
 				.widget-header.bg-lightred
 					i.widget-icon.fa.fa-arrow-up
 					span.widget-caption Año {{year.year}}
@@ -62,5 +62,47 @@
 							
 							
 
+	.row
+		.col-lg-12.col-sm-12.col-xs-12
+			.widget(ng-class="{maximized:maxi}" style="min-height: 600px")
+				.widget-header.bg-success
+					i.widget-icon.fa.fa-plus
+					span.widget-caption Crear nuevo año
+					.widget-buttons
+						a(href="" data-toggle="config" ng-if="false")
+							i.fa.fa-cog
+						a(href="" ng-click="maxi=!maxi" data-toggle="maximize")
+							i.fa.fa-expand
+						a(href="" data-toggle="collapse")
+							i.fa.fa-minus
+						a(href="" data-toggle="dispose" ng-if="false")
+							i.fa.fa-times
+				.widget-body()
+					accordion(close-others="true")
+						accordion-group(heading="Básico" is-open="true")
+							form(role='form')
+								.row
+									.col-sm-6
+										.form-group
+											label(for='exampleInputEmail2') Nombre del colegio
+											span.input-icon.icon-right
+												input#exampleInputEmail2.form-control(type='text', placeholder='Nombre del colegio')
+												i.fa.fa-envelope.blue
+									.col-sm-6
+										.form-group
+											label(for='exampleInputName2') Name
+											span.input-icon.icon-right
+												input#exampleInputName2.form-control(type='text', placeholder='Name')
+												i.fa.fa-user.palegreen
+								.row
+									.col-sm-12
+										.form-group
+											label(tooltip="Puedes bloquear el sistema momentaneamente para que los alumnos y acudientes no puedan ver las notas.") Alumnos pueden ver sus notas
+											label
+												input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleBloquearNotas()" ng-model="config.alumnos_can_see_notas")
+												span.text.si-no
+													
+								br
+								button.btn.btn-primary(type="submit") Guardar cambios
 
 

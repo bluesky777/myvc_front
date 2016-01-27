@@ -73,8 +73,9 @@ angular.module('myvcFrontApp')
 		$scope.gridOptions.data = $scope.grados;
 	)
 
-	$scope.$on 'gradocreado', (grupo)->
-		$scope.grados.push grupo
+	$scope.$on 'gradocreado', (ev, grado)->
+		console.log 'Se hizo el post del grado', grado
+		$scope.grados.push grado
 		$scope.gridOptions.data = $scope.grados;
 
 

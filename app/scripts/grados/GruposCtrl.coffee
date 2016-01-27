@@ -38,8 +38,8 @@ angular.module('myvcFrontApp')
 		enableFiltering: true,
 		enebleGridColumnMenu: false,
 		columnDefs: [
-			{ field: 'orden', type: 'number', maxWidth: 50 }
-			{ name: 'edicion', displayName:'Edición', maxWidth: 50, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2 + btGrid3, enableCellEdit: false}
+			{ field: 'orden', type: 'number', maxWidth: 60 }
+			{ name: 'edicion', displayName:'Edición', maxWidth: 80, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2 + btGrid3, enableCellEdit: false}
 			{ field: 'nombre', enableHiding: false }
 			{ field: 'abrev', displayName:'Abreviatura', maxWidth: 50, enableSorting: false }
 			{ field: 'titular_id', displayName: 'Titular', editDropdownOptionsArray: profesores, cellFilter: 'mapProfesores:grid.appScope.profesores', editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'id', editDropdownValueLabel: 'nombres' }
@@ -75,7 +75,7 @@ angular.module('myvcFrontApp')
 		$scope.gridOptions.data = $scope.grupos;
 	)
 
-	$scope.$on 'grupocreado', (grupo)->
+	$scope.$on 'grupocreado', (ev, grupo)->
 		$scope.grupos.push grupo
 		$scope.gridOptions.data = $scope.grupos;
 	
