@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('FileManagerCtrl', ['$scope', '$upload', '$timeout', '$filter', 'App', 'RImages', 'Restangular', 'Perfil', '$modal', 'resolved_user', 'GruposServ', ($scope, $upload, $timeout, $filter, App, RImages, Restangular, Perfil, $modal, resolved_user, GruposServ)->
+.controller('FileManagerCtrl', ['$scope', '$upload', '$timeout', '$filter', 'App', 'Restangular', 'Perfil', '$modal', 'resolved_user', 'GruposServ', ($scope, $upload, $timeout, $filter, App, Restangular, Perfil, $modal, resolved_user, GruposServ)->
 	
 	$scope.USER = resolved_user
 
@@ -23,9 +23,10 @@ angular.module("myvcFrontApp")
 	$scope.fileReaderSupported = window.FileReader != null && (window.FileAPI == null || FileAPI.html5 != false);
 	$scope.dato.usuarioElegido = []
 
-	RImages.getList().then((r)->
-		$scope.imagenes = r
-		$scope.dato.imgParaUsuario = r[0]
+	Restangular.one('myimages').customGET().then((r)->
+		$scope.imagenes_privadas = r.imagenes_privadas
+		$scope.imagenes_publicas = r.imagenes_publicas
+		$scope.dato.imgParaUsuario = r.imagenes_privadas[0]
 	, (r2)->
 		console.log 'No se trajeron las imágenes.', r2
 	)
@@ -99,9 +100,14 @@ angular.module("myvcFrontApp")
 	$scope.pedirCambioOficial = (imgOfi)->
 		Restangular.one('myimages/cambiarimagenoficial', $scope.USER.user_id).put({foto_id: imgOfi.id}).then((r)->
 
-			Perfil.setOficial(r.foto_id, imgOfi.nombre)
-			$scope.$emit 'cambianImgs', {foto: r}
-			$scope.toastr.success 'Foto oficial cambiada'
+			if r.asked_by_user_id
+				$scope.toastr.info 'Pedido realizado, espera respuesta.'
+			else if r == 'En espera'
+				$scope.toastr.info 'Espera respuesta.'
+			else
+				Perfil.setOficial(r.foto_id, imgOfi.nombre)
+				$scope.$emit 'cambianImgs', {foto: r}
+				$scope.toastr.success 'Foto oficial cambiada'
 		, (r2)->
 			console.log 'NO Se pedirCambioOficial: ', r2
 			$scope.toastr.error 'No se pudo cambiar foto', 'Problema'
@@ -145,6 +151,41 @@ angular.module("myvcFrontApp")
 		)
 
 
+	$scope.publicarImagen = (imagen)->
+		Restangular.one('myimages/publicar-imagen', imagen.id).customPUT().then((r)->
+			console.log 'Ahora la imagen es pública.'
+			$scope.toastr.info 'Ahora la imagen es pública'
+
+			$scope.imagenes_privadas = $filter('filter')($scope.imagenes_privadas, {id: '!'+imagen.id})
+			$scope.imagenes_publicas.push imagen
+
+		, (r2)->
+			console.log 'No se pudo publicar la imagen.', r2
+			$scope.toastr.error 'Imagen no publicada'
+		)
+
+
+	$scope.privatizarImagen = (imagen)->
+		Restangular.one('myimages/privatizar-imagen', imagen.id).customPUT().then((r)->
+			
+			if r.imagen 
+				$scope.toastr.warning 'No puede ser logo del año ' + r.imagen.is_logo_of_year
+				return
+
+			console.log 'Ahora la imagen es privada.'
+			$scope.toastr.info 'Ahora la imagen es privada'
+
+			if imagen.user_id == $scope.USER.id
+				$scope.imagenes_privadas.push imagen
+			
+			$scope.imagenes_publicas = $filter('filter')($scope.imagenes_publicas, {id: '!'+imagen.id})
+
+		, (r2)->
+			console.log 'No se pudo privatizar la imagen.', r2
+			$scope.toastr.error 'Imagen no privatizada'
+		)
+
+
 
 	$scope.borrarImagen = (imagen)->
 
@@ -155,6 +196,23 @@ angular.module("myvcFrontApp")
 			resolve: 
 				imagen: ()->
 					imagen
+				user_id: ()->
+					$scope.USER.id
+				datos_imagen: ()->
+
+					codigos = 
+						imagen_id: imagen.id
+						user_id: $scope.USER.id
+
+					Restangular.one('myimages/datos-imagen').customGET('', codigos).then((r)->
+						console.log 'Datos imagen traidos.', r
+						return $scope.datos_imagen = r
+					, (r2)->
+						console.log 'No se pudo traer datos de imagen.', r2
+						$scope.toastr.error 'Error al traer datos de imagen', 'Problema'
+						return {}
+					)
+
 		})
 		modalInstance.result.then( (imag)->
 			$scope.imagenes = $filter('filter')($scope.imagenes, {id: '!'+imag.id})

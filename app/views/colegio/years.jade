@@ -21,23 +21,136 @@
 								.row
 									.col-sm-6
 										.form-group
-											label(for='exampleInputEmail2') Nombre del colegio
+											label(for='year{{year.id}}-nombre') Nombre del colegio
 											span.input-icon.icon-right
-												input#exampleInputEmail2.form-control(type='text', placeholder='Nombre del colegio')
+												input.form-control(type='text', placeholder='Nombre del colegio' ng-model="year.nombre_colegio" id="year{{year.id}}-nombre")
 												i.fa.fa-envelope.blue
-									.col-sm-6
+									.col-sm-4
 										.form-group
-											label(for='exampleInputName2') Name
+											label(for='year{{year.id}}-abrev') Alias
 											span.input-icon.icon-right
-												input#exampleInputName2.form-control(type='text', placeholder='Name')
+												input.form-control(type='text', placeholder='Name' ng-model="year.abrev_colegio" id="year{{year.id}}-abrev")
 												i.fa.fa-user.palegreen
+									.col-sm-2
+										.form-group
+											label(for='year{{year.id}}-year') Año
+												.spinner.spinner-horizontal
+													input.spinner-input.form-control(type="text" minlength="4" maxlength="4" ng-model="year.year" id="year{{year.id}}-year")
+													.spinner-buttons.btn-group
+														button.btn.spinner-down.blueberry(type="button" ng-click="restarNewYear()")
+															i.fa.fa-minus
+														button.btn.spinner-up.purple(type="button" ng-click="sumarNewYear()")
+															i.fa.fa-plus
 								.row
 									.col-sm-12
 										.form-group
 											label(tooltip="Puedes bloquear el sistema momentaneamente para que los alumnos y acudientes no puedan ver las notas.") Alumnos pueden ver sus notas
 											label
-												input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleBloquearNotas()" ng-model="config.alumnos_can_see_notas")
+												input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleBloquearNotas()" ng-model="year.alumnos_can_see_notas")
 												span.text.si-no
+								.row
+									.col-sm-12
+										.form-group
+											label Rector(a)
+											ui-select(ng-model="year.rector" theme="select2" style="min-width: 200px;")
+												ui-select-match(placeholder="Rector(a)" allow-clear="true") 
+													img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;")
+													small(ng-bind-html="' ' + $select.selected.nombres + ' ' + $select.selected.apellidos")
+												ui-select-choices(repeat="profe in profesores | filter: $select.search")
+													img(ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;")
+													small(ng-bind-html="' ' + profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
+										.form-group
+											label Secretario(a)
+											ui-select(ng-model="year.secretario" theme="select2" style="min-width: 200px;")
+												ui-select-match(placeholder="Secretario(a)" allow-clear="true")
+													img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;")
+													small(ng-bind-html="' ' + $select.selected.nombres + ' ' + $select.selected.apellidos")
+												ui-select-choices(repeat="profe in profesores | filter: $select.search")
+													img(ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;")
+													small(ng-bind-html="' ' + profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
+								.row
+									.col-sm-12
+										.form-group
+											label(for='newYear{{year.id}}-resolucion') Resolución
+											span.input-icon.icon-right
+												input.form-control(type='text', placeholder='Resolución' ng-model="year.resolucion" id="newYear{{year.id}}-resolucion")
+												i.fa.fa-envelope.blue
+								.row
+									.col-sm-5
+										.form-group
+											label(for='newYear-dane') Código dane
+											span.input-icon.icon-right
+												input.form-control(type='text', placeholder='Código dane' ng-model="year.codigo_dane" id="newYear{{year.id}}-dane")
+												i.fa.fa-user.palegreen
+									.col-sm-4
+										.form-group
+											label(for='newYear-telefono') Teléfono
+											span.input-icon.icon-right
+												input.form-control(type='text', placeholder='Teléfono' ng-model="year.telefono" id="newYear{{year.id}}-telefono")
+												i.fa.fa-user.palegreen
+									.col-sm-3
+										.form-group
+											label(for='newYear-celular') Celular
+											span.input-icon.icon-right
+												input.form-control(type='text', placeholder='Celular' ng-model="year.celular" id="newYear{{year.id}}-celular")
+												i.fa.fa-user.palegreen
+								.row
+									.col-sm-3
+										.form-group
+											label(for='newYear-unidad_displayname') Unidad
+											span.input-icon.icon-right
+												input.form-control(type='text', placeholder='Unidad' ng-model="year.unidad_displayname" id="newYear{{year.id}}-unidad_displayname")
+												i.fa.fa-envelope.blue
+									.col-sm-4
+										.form-group
+											label(for='newYear-unidades_displayname') Unidades
+											span.input-icon.icon-right
+												input.form-control(type='text', placeholder='Código dane' ng-model="year.unidades_displayname" id="newYear{{year.id}}-unidades_displayname")
+												i.fa.fa-user.palegreen
+
+									.col-sm-5
+										.form-group
+											label Género unidad
+											.row
+												.col-lg-3.col-sm-4.col-xs-6
+													.radio
+														label
+															input.inverted(type="radio" name="genero_unidad" value="M" ng-model="year.genero_unidad")
+															span.text Masculino
+												.col-lg-4.col-sm-4.col-xs-6
+													.radio
+														label
+															input.inverted(type="radio" name="genero_unidad" value="F" ng-model="year.genero_unidad")
+															span.text Femenino
+								.row
+									.col-sm-3
+										.form-group
+											label(for='newYear-subunidad_displayname') Subunidad
+											span.input-icon.icon-right
+												input.form-control(type='text', placeholder='Subunidad' ng-model="year.subunidad_displayname" id="newYear{{year.id}}-subunidad_displayname")
+												i.fa.fa-user.palegreen
+									.col-sm-4
+										.form-group
+											label(for='newYear-subunidades_displayname') Subunidades
+											span.input-icon.icon-right
+												input.form-control(type='text', placeholder='Subunidades' ng-model="year.subunidades_displayname" id="newYear{{year.id}}-subunidades_displayname")
+												i.fa.fa-envelope.blue
+									.col-sm-5
+										.form-group
+											label Genero subunidad
+											.row
+												.col-lg-3.col-sm-4.col-xs-6
+													.radio
+														label
+															input.inverted(type="radio" name="genero_subunidad" value="M" ng-model="year.genero_subunidad")
+															span.text Masculino
+												.col-lg-4.col-sm-4.col-xs-6
+													.radio
+														label
+															input.inverted(type="radio" name="genero_subunidad" value="F" ng-model="year.genero_subunidad")
+															span.text Femenino
+									
+
 													
 								br
 								button.btn.btn-primary(type="submit") Guardar cambios
@@ -80,29 +193,139 @@
 				.widget-body()
 					accordion(close-others="true")
 						accordion-group(heading="Básico" is-open="true")
-							form(role='form')
+							form(role='form' ng-submit="crearNewYear()")
 								.row
 									.col-sm-6
 										.form-group
-											label(for='exampleInputEmail2') Nombre del colegio
+											label(for='newYear-nombre') Nombre del colegio
 											span.input-icon.icon-right
-												input#exampleInputEmail2.form-control(type='text', placeholder='Nombre del colegio')
+												input#newYear-nombre.form-control(type='text', placeholder='Nombre del colegio' ng-model="newYear.nombre_colegio")
 												i.fa.fa-envelope.blue
-									.col-sm-6
+									.col-sm-4
 										.form-group
-											label(for='exampleInputName2') Name
+											label(for='newYear-abrev') Alias
 											span.input-icon.icon-right
-												input#exampleInputName2.form-control(type='text', placeholder='Name')
+												input#newYear-abrev.form-control(type='text', placeholder='Name' ng-model="newYear.abrev_colegio")
 												i.fa.fa-user.palegreen
+									.col-sm-2
+										.form-group
+											label(for='newYear-year') Año
+												.spinner.spinner-horizontal
+													input.spinner-input.form-control#newYear-year(type="text" minlength="4" maxlength="4" ng-model="newYear.year")
+													.spinner-buttons.btn-group
+														button.btn.spinner-down.blueberry(type="button" ng-click="restarNewYear()")
+															i.fa.fa-minus
+														button.btn.spinner-up.purple(type="button" ng-click="sumarNewYear()")
+															i.fa.fa-plus
+									.col-sm-2
+										.form-group
+											label(for='newYear-nota-min') Nota mínima aceptada
+												.spinner.spinner-horizontal
+													input.spinner-input.form-control#newYear-nota-min(type="text" step="0.1" min="0" ng-model="newYear.nota_minima_aceptada")
+													.spinner-buttons.btn-group
+														button.btn.spinner-down.blueberry(type="button" ng-click="restarNewNota()")
+															i.fa.fa-minus
+														button.btn.spinner-up.purple(type="button" ng-click="sumarNewNota()")
+															i.fa.fa-plus
 								.row
 									.col-sm-12
 										.form-group
-											label(tooltip="Puedes bloquear el sistema momentaneamente para que los alumnos y acudientes no puedan ver las notas.") Alumnos pueden ver sus notas
+											label ¿Año actual?
 											label
-												input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleBloquearNotas()" ng-model="config.alumnos_can_see_notas")
+												input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="newYear.actual")
 												span.text.si-no
-													
+
+										.form-group
+											label(tooltip="Puedes bloquear el sistema momentaneamente para que los alumnos y acudientes no puedan ver las notas.") ¿Alumnos pueden ver sus notas?
+											label
+												input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleBloquearNotas()" ng-model="newYear.alumnos_can_see_notas")
+												span.text.si-no
+
+								.row
+									.col-sm-12
+										.form-group
+											label(for='newYear-resolucion') Resolución
+											span.input-icon.icon-right
+												input#newYear-resolucion.form-control(type='text', placeholder='Resolución' ng-model="newYear.resolucion")
+												i.fa.fa-envelope.blue
+								.row
+									.col-sm-5
+										.form-group
+											label(for='newYear-dane') Código dane
+											span.input-icon.icon-right
+												input#newYear-dane.form-control(type='text', placeholder='Código dane' ng-model="newYear.codigo_dane")
+												i.fa.fa-user.palegreen
+									.col-sm-4
+										.form-group
+											label(for='newYear-telefono') Teléfono
+											span.input-icon.icon-right
+												input#newYear-telefono.form-control(type='text', placeholder='Teléfono' ng-model="newYear.telefono")
+												i.fa.fa-user.palegreen
+									.col-sm-3
+										.form-group
+											label(for='newYear-celular') Celular
+											span.input-icon.icon-right
+												input#newYear-celular.form-control(type='text', placeholder='Celular' ng-model="newYear.celular")
+												i.fa.fa-user.palegreen
+								.row
+									.col-sm-3
+										.form-group
+											label(for='newYear-unidad_displayname') Unidad
+											span.input-icon.icon-right
+												input#newYear-unidad_displayname.form-control(type='text', placeholder='Unidad' ng-model="newYear.unidad_displayname")
+												i.fa.fa-envelope.blue
+									.col-sm-4
+										.form-group
+											label(for='newYear-unidades_displayname') Unidades
+											span.input-icon.icon-right
+												input#newYear-unidades_displayname.form-control(type='text', placeholder='Código dane' ng-model="newYear.unidades_displayname")
+												i.fa.fa-user.palegreen
+
+									.col-sm-5
+										.form-group
+											label Género unidad
+											.row
+												.col-lg-3.col-sm-4.col-xs-6
+													.radio
+														label
+															input.inverted(type="radio" name="genero_unidad" value="M" ng-model="newYear.genero_unidad")
+															span.text Masculino
+												.col-lg-4.col-sm-4.col-xs-6
+													.radio
+														label
+															input.inverted(type="radio" name="genero_unidad" value="F" ng-model="newYear.genero_unidad")
+															span.text Femenino
+								.row
+									.col-sm-3
+										.form-group
+											label(for='newYear-subunidad_displayname') Subunidad
+											span.input-icon.icon-right
+												input#newYear-subunidad_displayname.form-control(type='text', placeholder='Subunidad' ng-model="newYear.subunidad_displayname")
+												i.fa.fa-user.palegreen
+									.col-sm-4
+										.form-group
+											label(for='newYear-subunidades_displayname') Subunidades
+											span.input-icon.icon-right
+												input#newYear-subunidades_displayname.form-control(type='text', placeholder='Subunidades' ng-model="newYear.subunidades_displayname")
+												i.fa.fa-envelope.blue
+									.col-sm-5
+										.form-group
+											label Genero subunidad
+											.row
+												.col-lg-3.col-sm-4.col-xs-6
+													.radio
+														label
+															input.inverted(type="radio" name="genero_subunidad" value="M" ng-model="newYear.genero_subunidad")
+															span.text Masculino
+												.col-lg-4.col-sm-4.col-xs-6
+													.radio
+														label
+															input.inverted(type="radio" name="genero_subunidad" value="F" ng-model="newYear.genero_subunidad")
+															span.text Femenino
+									
+
+								
 								br
-								button.btn.btn-primary(type="submit") Guardar cambios
+								button.btn.btn-primary(type="submit") Crear nuevo año
 
 

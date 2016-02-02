@@ -77,7 +77,8 @@
         <li><a href="" stop-event="click"><span class="menu-text">Boletines finales</span></a></li>
         <li><a href="" stop-event="click"><span class="menu-text">Por alumno</span></a></li>
       </ul>
-    </li><!-- Colegio-->
+    </li><!-- Votaciones-->
+    <li ui-sref-active="active" ng-if="hasRoleOrPerm(['alumno', 'profesor, acudiente'])"><a ui-sref="votaciones.resultados()"><i class="menu-icon fa fa-legal"></i><span class="menu-text">Votaciones</span></a></li><!-- Colegio-->
     <li sub-menu ng-click="toggleOpen()" ng-show="hasRoleOrPerm('admin')" ng-class="{open:$state.includes('panel.years')||$state.includes('panel.usuarios')||$state.includes('panel.papelera')}"><a href="" class="menu-dropdown"><i class="menu-icon fa fa-institution"></i><span class="menu-text">Colegio</span><i class="menu-expand"></i></a>
       <ul class="submenu">
         <li ui-sref-active="active"><a stop-event="click" ui-sref="panel.years"><span class="menu-text">Configuración</span></a></li>

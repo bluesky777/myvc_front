@@ -28,7 +28,7 @@ angular.module("myvcFrontApp")
 		columnDefs: [
 			{ name: 'id', displayName:'Id', maxWidth: 50, enableFiltering: false, enableCellEdit: false}
 			{ name: 'edicion', displayName:'Edición', maxWidth: 50, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2, enableCellEdit: false}
-			{ name: 'contrato', displayName:'Contrato', maxWidth: 50, enableSorting: false, enableFiltering: false, cellTemplate: btGrid3, enableCellEdit: false}
+			{ name: 'contrato', displayName:'Contrato', maxWidth: 75, enableSorting: false, enableFiltering: false, cellTemplate: btGrid3, enableCellEdit: false}
 			{ field: 'nombres', enableHiding: false }
 			{ field: 'apellidos' }
 			{ field: 'sexo', maxWidth: 20 }
@@ -139,3 +139,5 @@ angular.module("myvcFrontApp")
 
 	return
 ])
+
+

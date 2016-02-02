@@ -11,7 +11,7 @@ angular.module("myvcFrontApp")
 
 	Restangular.one('alumnos/show', $state.params.alumno_id).get().then (r)->
 		$scope.alumno = r
-		console.log 'Llega: ', $scope.alumno
+		#console.log 'Llega: ', $scope.alumno
 		$scope.alumno.username = r.user.username if r.user
 		$scope.alumno.email2 = r.user.email if r.user
 

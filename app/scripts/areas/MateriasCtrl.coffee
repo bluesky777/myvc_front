@@ -113,7 +113,10 @@ angular.module("myvcFrontApp")
 			return 'Elija...'
 		else
 			area = $filter('filter')(areas, {id: input})[0]
-			return  area.nombre
+			if area
+				return  area.nombre
+			else
+				return 'Elija...'
 ])
 
 .controller('RemovemateriaCtrl', ['$scope', '$modalInstance', 'materia', 'Restangular', 'toastr', ($scope, $modalInstance, materia, Restangular, toastr)->

@@ -1,0 +1,30 @@
+
+<div class="row">
+  <div class="col-xs-12 col-md-12">
+    <div class="well with-header with-footer">
+      <div class="header bordered-yellow">Pedidos que esperan tu aprobación </div>
+      <div class="row">
+        <div class="col-lg-10 col-xs-12">
+          <div class="tickets-container">
+            <ul class="tickets-list">
+              <li ng-show="changes_asked_to_me.length==0">No hay pedidos pendientes</li>
+              <li ng-repeat="file in changes_asked_to_me" class="ticket-item">
+                <div class="row">
+                  <div class="ticket-user col-lg-5 col-sm-12"><img ng-src="{{file.dataUrl}}" class="user-avatar"><span class="user-name">{{file.asked_by_user_id}}</span><span class="user-company">- {{ file.oficial_image_id }}imagen_id</span></div>
+                  <div class="ticket-time col-lg-5 col-sm-6 col-xs-12">
+                    <div class="divider hidden-md hidden-sm hidden-xs"></div>
+                    <progressbar value="file.porcentaje" class="progress-xlg progress-striped active"><b>{{file.id}} Id</b></progressbar>
+                  </div>
+                  <div class="ticket-type col-lg-2 col-sm-6 col-xs-1"><span class="divider hidden-xs"></span><span class="type">{{file.accepted_at}} aceptado a</span><span class="type">{{file.rechazado_at}} rechazado a</span><span class="type">problema.</span></div>
+                  <div class="ticket-state bg-palegreen"><i class="fa fa-check"></i></div>
+                  <div class="ticket-state bg-palegreen"><i class="fa fa-cloud-upload"></i></div>
+                  <div class="ticket-state bg-yellow"><i class="fa fa-info"></i></div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -47,7 +47,7 @@
 								ui-select-match(placeholder="Imagen usuario") 
 									img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
 									small(ng-bind-html="' ' + $select.selected.nombre")
-								ui-select-choices(repeat="imagen in imagenes | filter: {nombre: $select.search}")
+								ui-select-choices(repeat="imagen in imagenes_privadas | filter: {nombre: $select.search}")
 									img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
 									small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
 
@@ -60,7 +60,7 @@
 								ui-select-match(placeholder="Imagen usuario") 
 									img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
 									small(ng-bind-html="' ' + $select.selected.nombre")
-								ui-select-choices(repeat="imagen in imagenes | filter: {nombre: $select.search}")
+								ui-select-choices(repeat="imagen in imagenes_privadas | filter: {nombre: $select.search}")
 									img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
 									small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
 
@@ -73,7 +73,7 @@
 								ui-select-match(placeholder="Logo del colegio") 
 									img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
 									small(ng-bind-html="' ' + $select.selected.nombre")
-								ui-select-choices(repeat="imagen in imagenes | filter: {nombre: $select.search}")
+								ui-select-choices(repeat="imagen in imagenes_publicas | filter: {nombre: $select.search}")
 									img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
 									small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
 
@@ -91,7 +91,7 @@
 						.widget-body.imagenes-content
 							.row
 
-								.col-lg-3.col-sm-4.col-xs-12.puntero(ng-repeat="imagen in imagenes | filter: imageFilter" ng-click="selectImage(imagen)")
+								.col-lg-3.col-sm-4.col-xs-12.puntero(ng-repeat="imagen in imagenes_privadas | filter: imageFilter" ng-click="selectImage(imagen)")
 									.databox.databox-graded.radius-bordered.databox-shadowed
 										.databox-left.no-padding
 											img.img-responsive(ng-src="{{perfilPath + imagen.nombre}}" style="width:65px; height:65px;")
@@ -99,15 +99,43 @@
 											.databox-text.lightcarbon {{imagen.nombre}}
 											.databox-text.darkgray
 												.btn-group
-													a.btn.btn-darkorange.btn-xs(ng-click="borrarImagen(imagen)")
+													a.btn.btn-darkorange.btn-xs(ng-click="borrarImagen(imagen)" tooltip="Borrar imagen")
 														i.fa.fa-times
-														|Delete
-													a.btn.btn-default.btn-xs(ng-click="rotarImagen(imagen)")
+
+													a.btn.btn-default.btn-xs(ng-click="rotarImagen(imagen)" tooltip="Rotar")
 														i.fa.fa-rotate-right
-														|Rotar
-											//.databox-stat.radius-bordered(ng-class="candidato.iluminado ? 'bg-darkorange stat-over' : 'bg-sky'")
-												.stat-text Algo
-												i.stat-icon.fa.fa-apple
+
+													a.btn.btn-default.btn-xs(ng-click="publicarImagen(imagen)" tooltip="Enviar a pública")
+														i.fa.fa-upload
+														
+											
+
+			.row(ng-show="hasRoleOrPerm(['admin', 'profesor'])")
+				.col-lg-12.col-xs-12
+
+					.widget
+						.widget-header.bordered-bottom.bordered-blue
+							span.widget-caption Imágenes públicas
+							input(ng-model="imageFilter.nombre" placeholder="Filtrar")
+						.widget-body.imagenes-content
+							.row
+
+								.col-lg-3.col-sm-4.col-xs-12.puntero(ng-repeat="imagen in imagenes_publicas | filter: imageFilter" ng-click="selectImage(imagen)")
+									.databox.databox-graded.radius-bordered.databox-shadowed
+										.databox-left.no-padding
+											img.img-responsive(ng-src="{{perfilPath + imagen.nombre}}" style="width:65px; height:65px;")
+										.databox-right.padding-top-10.bordered-thick.bordered-sky
+											.databox-text.lightcarbon {{imagen.nombre}}
+											.databox-text.darkgray
+												.btn-group
+													a.btn.btn-darkorange.btn-xs(ng-click="borrarImagen(imagen)" tooltip="Eliminar")
+														i.fa.fa-times
+
+													a.btn.btn-default.btn-xs(ng-click="rotarImagen(imagen)" tooltip="Rotar imagen")
+														i.fa.fa-rotate-right
+
+													a.btn.btn-default.btn-xs(ng-click="privatizarImagen(imagen)" tooltip="Privada para el que la subió")
+														i.fa.fa-download
 
 		tab(heading="Imágenes de usuarios" ng-show="hasRoleOrPerm('admin')")
 			.form-title Cambiar una imagen de usuario
@@ -130,7 +158,7 @@
 								ui-select-match(placeholder="Imagen usuario") 
 									img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
 									small(ng-bind-html="' ' + $select.selected.nombre")
-								ui-select-choices(repeat="imagen in imagenes | filter: {nombre: $select.search}")
+								ui-select-choices(repeat="imagen in imagenes_publicas | filter: {nombre: $select.search}")
 									img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
 									small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
 
@@ -166,11 +194,12 @@
 								ui-select-match(placeholder="Foto alumno") 
 									img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
 									small(ng-bind-html="' ' + $select.selected.nombre")
-								ui-select-choices(repeat="imagen in imagenes | filter: {nombre: $select.search}")
+								ui-select-choices(repeat="imagen in imagenes_publicas | filter: {nombre: $select.search}")
 									img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
 									small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
 
 							input.btn.btn-primary.shiny(type="submit" ng-submit="pedirCambioUsuario(dato.alumnoElegido, dato.imgOficialAlumno)" value="Pedir para oficial") 
+
 
 			hr.wide
 			.form-title Cambiar una foto o firma de Profesor
@@ -193,7 +222,7 @@
 								ui-select-match(placeholder="Imagen usuario") 
 									img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
 									small(ng-bind-html="' ' + $select.selected.nombre")
-								ui-select-choices(repeat="imagen in imagenes | filter: {nombre: $select.search}")
+								ui-select-choices(repeat="imagen in imagenes_publicas | filter: {nombre: $select.search}")
 									img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
 									small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
 
@@ -205,7 +234,7 @@
 								ui-select-match(placeholder="Imagen usuario") 
 									img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
 									small(ng-bind-html="' ' + $select.selected.nombre")
-								ui-select-choices(repeat="imagen in imagenes | filter: {nombre: $select.search}")
+								ui-select-choices(repeat="imagen in imagenes_publicas | filter: {nombre: $select.search}")
 									img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
 									small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
 

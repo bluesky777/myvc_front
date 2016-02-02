@@ -31,7 +31,7 @@
             </li><!--/ Periodo Dropdown-->
             <li my-drop-down ng-click="toggleOpen()" is-open="false" evitar-cierre="true"><a data-toggle="dropdown" title="Año" href="" class="dropdown-toggle"><i class="icon"> {{ USER.year }}</i></a><!-- Año Dropdown-->
               <ul class="pull-right dropdown-menu dropdown-arrow dropdown-notifications">
-                <li ng-repeat="year in years"><a href="">
+                <li ng-repeat="year in years"><a href="" ng-click="cambiarYear(year)">
                     <div class="clearfix">
                       <div class="notification-icon"><i ng-if="year.actual" class="fa fa-check bg-themeprimary white"></i><i ng-if="!year.actual" class="fa bg-warning white"></i></div>
                       <div class="notification-body"><span class="title">{{year.year}}</span></div>
@@ -157,12 +157,13 @@
     <!-- Page Content -->
     <div class="page-content"><!-- Page Breadcrumb -->
       <ui-breadcrumbs displayname-property="data.displayName" class="hidden-print"></ui-breadcrumbs><!-- /Page Breadcrumb -->
-      <!-- Page Header ************************************** -->
+      <!-- Page Header  ************************************* -->
       <div ui-view="headerContent" class="page-header position-relative hidden-print"></div><!-- /Page Header ************************************* -->
       <!-- Page Body -->
       <div class="page-body">
         <!--databoxes-container.row--><!-- Main Content ************************************* -->
         <div ui-view="maincontent">
+          <anuncios-dir></anuncios-dir><br><br>
           <h1>Entra a los resultados</h1>
           <button ui-sref="votaciones.resultados()" class="btn btn-primary btn-lg">VOTACIONES</button>
         </div><!-- /Main Content ************************************ -->

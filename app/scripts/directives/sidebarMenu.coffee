@@ -42,6 +42,7 @@ angular.module('myvcFrontApp')
 
 		ProfesoresServ.contratos().then((r)->
 			$scope.profesores = r
+			#$rootScope.profesores = $scope.profesores
 		, (r2)->
 			console.log 'No se pudo traer los profesores: ', r2
 		)

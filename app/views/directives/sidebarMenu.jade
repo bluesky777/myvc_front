@@ -195,6 +195,17 @@
 				li
 					a(href="" stop-event="click")
 						span.menu-text Por alumno
+
+
+
+
+		<!-- Votaciones-->
+		li(ui-sref-active="active" ng-if="hasRoleOrPerm(['alumno', 'profesor, acudiente'])")
+			a(ui-sref="votaciones.resultados()")
+				i.menu-icon.fa.fa-legal
+				span.menu-text Votaciones
+
+
 		<!-- Colegio-->
 		li(sub-menu ng-click="toggleOpen()" ng-show="hasRoleOrPerm('admin')" ng-class="{open:$state.includes('panel.years')||$state.includes('panel.usuarios')||$state.includes('panel.papelera')}")
 			a.menu-dropdown(href="")

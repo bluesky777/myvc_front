@@ -2,14 +2,38 @@
 	h3.modal-title ¿Seguro que deseas eliminar?
 .modal-body
 	.row
-		.col-lg-12.col-xs-12.text-center
+		.col-lg-8.col-xs-12.text-center
 			img(ng-src="{{imagesPath+imagen.nombre}}" class="img-thumbnail" style="width:200px; height:200px;")
+		.col-lg-4.col-xs-12
+			
+			span(ng-show="datos_imagen.oficiales.length > 0")
+				h5 Oficiales:
+				ul
+					li(ng-repeat="oficial in datos_imagen.oficiales") 
+						span {{ oficial.nombres + ' ' + oficial.apellidos }}
+
+			span(ng-show="datos_imagen.de_usuario.length > 0")
+				h5 Usuario:
+				ul
+					li(ng-repeat="de_usuario in datos_imagen.de_usuario") 
+						span {{ de_usuario.username }}
+
+				
 	.row
 		.col-lg-6.col-xs-12
 			div(style="text-overflow: ellipsis") {{imagen.nombre}}
-			h5 Pertenece a: {{imagen.user_id}}
+			h5 
+				span Imagen subida por 
+				span(ng-show="imagen.user_id == User.id")
+					| mí.
+				span(ng-hide="imagen.user_id == User.id")
+					| {{ imagen.user_id }}.
+
 
 .modal-footer
-	button.btn.btn-labeled.btn-danger(ng-click="ok()") Eliminar
-		i.btn-label.fa.fa-times
+	span(ng-show="(datos_imagen.de_usuario.length == 0 && datos_imagen.oficiales == 0) || hasRoleOrPerm(['admin']) ")
+		button.btn.btn-labeled.btn-danger(ng-click="ok()") Eliminar
+			i.btn-label.fa.fa-times
+	span(ng-hide="(datos_imagen.de_usuario.length == 0 && datos_imagen.oficiales == 0) || hasRoleOrPerm(['admin']) ")
+		| Imagen asignada. no se puede borrar.
 	button.btn.btn-yellow(ng-click="cancel()") Cancelar

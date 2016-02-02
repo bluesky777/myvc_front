@@ -8,7 +8,7 @@ angular.module('myvcFrontApp')
 .factory('ProfesoresServ', ['Restangular', '$q', (Restangular, $q) ->
 	profesores = []
 
-	profes ={}
+	profes = {}
 	profes.contratos = ()->
 		d = $q.defer();
 

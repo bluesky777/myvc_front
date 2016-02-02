@@ -85,6 +85,7 @@ angular.module('myvcFrontApp')
 
 		, (r2)->
 			console.log 'No se pudo loguear. ', r2, $state
+			$rootScope.$broadcast AUTH_EVENTS.loginFailed
 
 			if r2.data
 				if r2.data.error

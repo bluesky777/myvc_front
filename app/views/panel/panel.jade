@@ -53,7 +53,7 @@ loader(ng-if="bigLoader")
 							<!-- Año Dropdown-->
 							ul.pull-right.dropdown-menu.dropdown-arrow.dropdown-notifications
 								li(ng-repeat="year in years")
-									a(href="")
+									a(href="" ng-click="cambiarYear(year)")
 										.clearfix
 											.notification-icon
 												i.fa.fa-check.bg-themeprimary.white(ng-if="year.actual")
@@ -260,9 +260,17 @@ loader(ng-if="bigLoader")
 	<!-- Page Container -->
 	.page-container
 		
+
+
+
+
 		<!-- Sidebar Menu ************************************* -->
 		sidebar-menu(ng-class="{'menu-compact': menucompacto, 'page-sidebar': true}")
 		<!-- /Sidebar Menu ************************************ -->
+
+
+
+
 
 		<!-- /Page Sidebar -->
 
@@ -273,7 +281,7 @@ loader(ng-if="bigLoader")
 			ui-breadcrumbs.hidden-print(displayname-property="data.displayName")
 			<!-- /Page Breadcrumb -->
 
-			<!-- Page Header ************************************** -->
+			<!-- Page Header  ************************************* -->
 			.page-header.position-relative.hidden-print(ui-view="headerContent")
 			<!-- /Page Header ************************************* -->
 
@@ -283,9 +291,22 @@ loader(ng-if="bigLoader")
 				//databoxes-container.row
 
 				<!-- Main Content ************************************* -->
+				
+
+				
 				div(ui-view="maincontent")
+					
+					anuncios-dir
+
+
+					br
+					br
+						
 					h1 Entra a los resultados
 					button.btn.btn-primary.btn-lg(ui-sref="votaciones.resultados()") VOTACIONES
+
+
+
 
 				<!-- /Main Content ************************************ -->
 				

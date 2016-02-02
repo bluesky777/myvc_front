@@ -6,22 +6,26 @@ angular.module("myvcFrontApp")
 	$scope.data = {} # Para el popup del Datapicker
 	
 	$scope.profesor = {}
+	$scope.paises = [{id:1, pais: 'COLOMBIA'}]
+	$scope.tipos_doc = [{id:1, tipo: 'CC'}]
+	$scope.departamentos = [{id:1, departamento: 'ANTIOQUIA'}]
+	$scope.ciudades = [{id:1, ciudad: 'MEDELLÍN'}]
+
 
 	$scope.sangres = [{sangre: 'O+'},{sangre: 'O-'}, {sangre: 'A+'}, {sangre: 'A-'}, {sangre: 'B+'}, {sangre: 'B-'}, {sangre: 'AB+'}, {sangre: 'AB-'}]
 	$scope.estados_civiles = [{estado_civil: 'Soltero'},{estado_civil: 'Casado'}, {estado_civil: 'Divorciado'}, {estado_civil: 'Viudo'}]
 
-	Restangular.one('profesores/show', $state.params.profe_id).get().then (r)->
-		$scope.profesor = r
+	Restangular.one('profesores/show', $state.params.profe_id).customGET().then (r)->
+		$scope.profesor = r[0]
 		console.log 'Llega: ', $scope.profesor
-		$scope.profesor.username = r.user.username if r.user
-		$scope.profesor.email2 = r.user.email if r.user
-		$scope.profesor.estado_civil = {estado_civil: r.estado_civil}
+		$scope.profesor.estado_civil = {estado_civil: r[0].estado_civil}
+
 
 		if $scope.profesor.ciudad_nac == null
 			$scope.profesor.pais_nac = {id: 1, pais: 'COLOMBIA', abrev: 'CO'}
 			$scope.paisNacSelect($scope.profesor.pais_nac, $scope.profesor.pais_nac)
 		else
-			Restangular.one('ciudades/datosciudad', $scope.profesor.ciudad_nac).get().then (r2)->
+			Restangular.one('ciudades/datosciudad').customGET($scope.profesor.ciudad_nac).then (r2)->
 				$scope.paises = r2.paises
 				$scope.departamentosNac = r2.departamentos
 				$scope.ciudadesNac = r2.ciudades
@@ -29,13 +33,25 @@ angular.module("myvcFrontApp")
 				$scope.profesor.departamento_nac = r2.departamento
 				$scope.profesor.ciudad_nac = r2.ciudad
 
-			Restangular.one('ciudades/datosciudad', $scope.profesor.ciudad_doc).get().then (r2)->
+		if $scope.profesor.ciudad_doc == null
+			$scope.profesor.pais_doc = {id: 1, pais: 'COLOMBIA', abrev: 'CO'}
+			$scope.paisDocSelect($scope.profesor.pais_doc, $scope.profesor.pais_doc)
+		else
+			Restangular.one('ciudades/datosciudad').customGET($scope.profesor.ciudad_doc).then (r2)->
 				$scope.paises = r2.paises
 				$scope.departamentos = r2.departamentos
 				$scope.ciudades = r2.ciudades
 				$scope.profesor.pais_doc = r2.pais
 				$scope.profesor.departamento_doc = r2.departamento
 				$scope.profesor.ciudad_doc = r2.ciudad
+
+		Restangular.one('tiposdocumento').get().then (r)->
+			$scope.tipos_doc = r
+
+			if $scope.profesor.tipo_doc == null
+				$scope.profesor.tipo_doc = {id: 1, tipo: 'CÉDULA', abrev: 'CC'}
+			else
+				$scope.profesor.tipo_doc = $filter('filter')($scope.tipos_doc, {id: $scope.profesor.tipo_doc})
 
 
 	
@@ -46,8 +62,7 @@ angular.module("myvcFrontApp")
 		console.log 'No se pudo traer los paises', r2
 	)
 
-	Restangular.one('tiposdocumento').get().then (r)->
-		$scope.tipos_doc = r
+	
 	
 	
 	$scope.guardar = ()->
@@ -67,7 +82,7 @@ angular.module("myvcFrontApp")
 
 			if typeof $scope.profesor.pais_doc is 'undefined'
 				$scope.profesor.pais_doc = $item
-				$scope.paisSelecionado($item)
+				$scope.paisDocSelect($item)
 		)
 
 	$scope.departNacSelect = ($item)->
@@ -76,16 +91,16 @@ angular.module("myvcFrontApp")
 
 			if typeof $scope.profesor.departamento_doc is 'undefined'
 				$scope.profesor.departamento_doc = $item
-				$scope.departSeleccionado($item)
+				$scope.departDocSelect($item)
 		)
 
-	$scope.paisSelecionado = ($item, $model)->
+	$scope.paisDocSelect = ($item, $model)->
 		
 		Restangular.one("ciudades/departamentos", $item.id).get().then((r)->
 			$scope.departamentos = r
 		)
 
-	$scope.departSeleccionado = ($item)->
+	$scope.departDocSelect = ($item)->
 		Restangular.one("ciudades/pordepartamento", $item.departamento).get().then((r)->
 			$scope.ciudades = r
 		)

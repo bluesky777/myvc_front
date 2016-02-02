@@ -81,6 +81,23 @@ angular.module('myvcFrontApp')
 				console.log 'Error cambiando de periodo: ', r2
 			)
 
+
+		$scope.cambiarYear = (year)->
+			console.log 'Voy a cambiar de año'
+
+			Restangular.one('years/useractive', year.id).put().then((r)->
+				toastr.success 'Año cambiado con éxito: ' + year.numero, 'Cambiado' 
+				$scope.USER.year_id = year.id
+				$scope.USER.year = year.year
+				$scope.USER.numero_periodo = r.numero
+
+				$rootScope.reload()
+
+			, (r2)->
+				toastr.warning 'No se pudo cambiar el año.', 'Problema'
+				console.log 'Error cambiando el año: ', r2
+			)
+
 		$scope.logout = ->
 			AuthService.logout();
 

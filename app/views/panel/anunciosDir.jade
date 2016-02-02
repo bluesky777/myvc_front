@@ -1,0 +1,37 @@
+.row
+	.col-xs-12.col-md-12
+		.well.with-header.with-footer
+			.header.bordered-yellow Pedidos que esperan tu aprobación 
+			
+
+			.row
+
+				.col-lg-10.col-xs-12
+					.tickets-container
+						ul.tickets-list
+
+							li(ng-show="changes_asked_to_me.length==0") No hay pedidos pendientes
+
+							li.ticket-item(ng-repeat="file in changes_asked_to_me")
+								.row
+									.ticket-user.col-lg-5.col-sm-12
+										img.user-avatar(ng-src="{{file.dataUrl}}")
+										span.user-name {{file.asked_by_user_id}}
+										span.user-company - {{ file.oficial_image_id }}imagen_id
+									.ticket-time.col-lg-5.col-sm-6.col-xs-12
+										.divider.hidden-md.hidden-sm.hidden-xs
+										progressbar.progress-xlg.progress-striped.active( value="file.porcentaje")
+											b {{file.id}} Id
+
+									.ticket-type.col-lg-2.col-sm-6.col-xs-1
+										span.divider.hidden-xs
+										span.type() {{file.accepted_at}} aceptado a
+										span.type() {{file.rechazado_at}} rechazado a
+										span.type() problema.
+									.ticket-state.bg-palegreen()
+										i.fa.fa-check
+									.ticket-state.bg-palegreen()
+										i.fa.fa-cloud-upload
+									.ticket-state.bg-yellow()
+										i.fa.fa-info
+			

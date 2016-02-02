@@ -1,8 +1,8 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-.controller('YearsCtrl', ['App', '$scope', '$http', 'Restangular', '$modal', '$state', '$cookies', '$rootScope', 'RYears', '$filter', 'toastr', 
-	(App, $scope, $http, Restangular, $modal, $state, $cookies, $rootScope, RYears, $filter, toastr) ->
+.controller('YearsCtrl', ['App', '$scope', '$http', 'Restangular', '$modal', '$state', 'ProfesoresServ', '$cookies', '$rootScope', 'RYears', '$filter', 'toastr', 
+	(App, $scope, $http, Restangular, $modal, $state, ProfesoresServ, $cookies, $rootScope, RYears, $filter, toastr) ->
 
 		if $scope.USER.alumnos_can_see_notas == 1
 			$scope.USER.alumnos_can_see_notas = true
@@ -16,12 +16,43 @@ angular.module('myvcFrontApp')
 			$scope.years = r.years
 			$scope.certificados = r.certificados
 			$scope.imagenes = r.imagenes
+
+			ProfesoresServ.contratos().then((r)->
+				$scope.profesores = r
+			, (r2)->
+				console.log 'No se pudo traer los profesores: ', r2
+			)
+
+
+			$scope.fixControles()
 		, (r)->
 			console.log 'No se trajeron los años'
 		)
 
 
-		$scope.newcertif = {}
+		$scope.fixControles = ()->
+			ultimo = $scope.years.length-1
+
+			$scope.newcertif = {}
+			$scope.newYear = {
+				nombre_colegio:			$scope.years[ultimo].nombre_colegio
+				abrev_colegio:			$scope.years[ultimo].abrev_colegio
+				year: 					$scope.years[ultimo].year + 1
+				actual:					true
+				alumnos_can_see_notas:	true
+				nota_minima_aceptada:	$scope.years[ultimo].nota_minima_aceptada
+				resolucion:				$scope.years[ultimo].resolucion
+				codigo_dane:			$scope.years[ultimo].codigo_dane
+				telefono:				$scope.years[ultimo].telefono
+				celular:				$scope.years[ultimo].celular
+				unidad_displayname:		$scope.years[ultimo].unidad_displayname
+				unidades_displayname:	$scope.years[ultimo].unidades_displayname
+				genero_unidad:			$scope.years[ultimo].genero_unidad
+				subunidad_displayname:	$scope.years[ultimo].subunidad_displayname
+				subunidades_displayname:$scope.years[ultimo].subunidades_displayname
+				genero_subunidad:		$scope.years[ultimo].genero_subunidad
+			}
+			
 
 		
 		$scope.addPeriodo = (year)->
@@ -68,6 +99,23 @@ angular.module('myvcFrontApp')
 			)
 
 
+		$scope.restarNewYear = ()->
+			if $scope.newYear.year > 1990
+				$scope.newYear.year = $scope.newYear.year - 1
+		$scope.sumarNewYear = ()->
+			if $scope.newYear.year < 3000
+				$scope.newYear.year = $scope.newYear.year + 1
+
+
+
+		$scope.restarNewNota = ()->
+			if $scope.newYear.nota_minima_aceptada > 0
+				$scope.newYear.nota_minima_aceptada = $scope.newYear.nota_minima_aceptada - 0.1
+		$scope.sumarNewNota = ()->
+			if $scope.newYear.nota_minima_aceptada < 1000
+				$scope.newYear.nota_minima_aceptada = $scope.newYear.nota_minima_aceptada + 0.1
+
+
 		
 		$scope.actualPeriodo = (periodo)->
 
@@ -76,6 +124,17 @@ angular.module('myvcFrontApp')
 			, (r2)->
 				toastr.warning 'No se pudo establecer como actual.', 'Problema'
 				console.log 'No se pudo establecer como actual: ', r2
+			)
+
+
+
+		$scope.crearNewYear = ()->
+
+			Restangular.one('years/store').customPOST($scope.newYear).then((r)->
+				toastr.success 'Año ' + $scope.newYear.year + ' creado. Por favor configúrelo.'
+			, (r2)->
+				toastr.warning 'No se pudo crear año.', 'Problema'
+				console.log 'No se pudo crear año: ', r2
 			)
 
 
