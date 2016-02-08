@@ -15479,24 +15479,24 @@ body {
 
 .page-vertical, .page-carta-horizontal, .page-oficio-horizontal{
     background-color: white;
-    page-break-after: always;
     padding: 10px;
     border-bottom: 1px solid #ccc;
     margin-bottom: 10px;
+}
+.salto-pagina{
+    page-break-after: always;
 }
 
 @page cartahorizontal { 
     size:31cm 22cm; 
     margin: 2cm;
     background-color: white;
-    page-break-after: always;
 }
 
 @page cartavertical { 
     size:22cm 31cm; 
     margin: 2cm;
     background-color: white;
-    page-break-after: always;
 }
 
 .page-vertical{
@@ -15632,19 +15632,19 @@ body {
         size:31cm 22cm; 
         margin: 2cm;
         background-color: white;
-        page-break-after: always;
     }
     @page oficiohorizontal { 
         size:36cm 21cm; 
         margin: 2cm;
         background-color: white;
-        page-break-after: always;
     }
 
     @page cartavertical { 
         size:22cm 31cm; 
         margin: 2cm;
         background-color: white;
+    }
+    .salto-pagina {
         page-break-after: always;
     }
 

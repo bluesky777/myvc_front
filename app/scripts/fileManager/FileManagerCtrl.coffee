@@ -76,8 +76,8 @@ angular.module("myvcFrontApp")
 			file.porcentaje = progressPercentage
 			console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name, evt.config)
 		).success( (data, status, headers, config)->
-			$scope.imagenes.push data
 			console.log('Success file ', config.file, '   -uploaded: ', data, status)
+			$scope.imagenes_privadas.push data
 		).error((r2)->
 			console.log 'Falla uploading: ', r2
 		).xhr((xhr)->
@@ -215,7 +215,11 @@ angular.module("myvcFrontApp")
 
 		})
 		modalInstance.result.then( (imag)->
-			$scope.imagenes = $filter('filter')($scope.imagenes, {id: '!'+imag.id})
+			if imag.publica
+				$scope.imagenes_publicas = $filter('filter')($scope.imagenes_publicas, {id: '!'+imag.id})
+			else
+				$scope.imagenes_privadas = $filter('filter')($scope.imagenes_privadas, {id: '!'+imag.id})
+
 			console.log 'Resultado del modal: ', imag
 		)
 

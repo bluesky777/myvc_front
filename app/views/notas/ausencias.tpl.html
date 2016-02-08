@@ -23,7 +23,7 @@
               <th style="width: 20px;">
                 <div>No</div>
               </th>
-              <th style="min-width: 50px;" class="text-center">
+              <th style="min-width: 50px;" class="text-center"> 
                 <div>Nombres</div>
               </th>
               <th ng-repeat="dia in dias">
@@ -40,15 +40,15 @@
                 <div>{{$index+1}}</div>
               </td>
               <td>
-                <div popover="&lt;img src='{{perfilPath + alumno.userData.foto_nombre}}' style='width: 100px; height: 100px;'&gt;&lt;img src='{{perfilPath + alumno.userData.imagen_nombre}}' style='width: 100px; height: 100px;'&gt;&lt;br&gt;Facebook: {{alumno.facebook}}&lt;br&gt;Username: {{alumno.userData.username}}" popover-popup-delay="1000" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-animation="true" popover-trigger="mouseenter" class="nombresellipsis"><img ng-src="{{perfilPath + alumno.userData.foto_nombre}}" style="width: 20px; height: 20px;">{{alumno.apellidos + ' ' + alumno.nombres}}</div>
+                <div popover="&lt;img src='{{perfilPath + alumno.userData.foto_nombre}}' style='width: 100px; height: 100px;'&gt;&lt;img src='{{perfilPath + alumno.userData.imagen_nombre}}' style='width: 100px; height: 100px;'&gt;&lt;br&gt;Facebook: {{alumno.facebook}}&lt;br&gt;Username: {{alumno.userData.username}}" popover-popup-delay="1000" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-animation="true" popover-trigger="mouseenter" class="nombresellipsis"> <img ng-src="{{perfilPath + alumno.userData.foto_nombre}}" style="width: 20px; height: 20px;">{{alumno.apellidos + ' ' + alumno.nombres}}</div>
               </td>
               <td ng-repeat="dia in dias"><a ng-click="showAddAusencia(alumno, dia)" ng-class="hasAusencias(alumno, dia) ? 'ng-hide':''" class="btn btn-default btn-xs icon-only"><i class="fa fa-smile-o"></i></a><a ng-click="deleteAusencia(alumno, dia)" ng-class="hasAusencias(alumno, dia) ? '':'ng-hide'" class="btn btn-danger btn-xs icon-only"><i class="fa fa-frown-o"></i></a>
                 <!--
                 a.btn.btn-default.btn-xs.icon-only(ng-click="showAddAusencia(alumno, dia)" ng-hide="hasAusencias(alumno, dia)")
-                 i.fa.fa-smile-o
+                	i.fa.fa-smile-o
                 a.btn.btn-danger.btn-xs.icon-only(ng-click="deleteAusencia(alumno, dia)" ng-show="hasAusencias(alumno, dia)")
-                 i.fa.fa-frown-o
-                 
+                	i.fa.fa-frown-o
+                
                 -->
               </td>
               <td>

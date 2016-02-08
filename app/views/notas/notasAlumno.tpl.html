@@ -43,7 +43,7 @@
           <div class="form-group">
             <label>Alumno</label>
             <ui-select ng-model="datos.selected_alumno" on-select="selectAlumno($item)" style="width: 300px;">
-              <ui-select-match placeholder="Elige un alumno" allow-clear="true"><img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;">{{$select.selected.nombres}} {{$select.selected.apellidos}}</ui-select-match>
+              <ui-select-match placeholder="Elige un alumno" allow-clear="true"> <img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;">{{$select.selected.nombres}} {{$select.selected.apellidos}}</ui-select-match>
               <ui-select-choices repeat="alumno in filtered_alumnos | filter: $select.search"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search"></small></ui-select-choices>
             </ui-select><a href="" ng-click="verNotasAlumno()" class="btn btn-default">Ver notas</a>
           </div>

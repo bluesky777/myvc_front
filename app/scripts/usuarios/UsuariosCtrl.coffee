@@ -6,7 +6,7 @@ angular.module('myvcFrontApp')
 
 	$scope.editar = (row)->
 		console.log 'Presionado para editar fila: ', row
-		$state.go('panel.usuarios.editar', {alumno_id: row.alumno_id})
+		$state.go('panel.usuarios.editar', {usuario_id: row.user_id})
 
 	$scope.eliminar = (row)->
 		console.log 'Presionado para eliminar fila: ', row

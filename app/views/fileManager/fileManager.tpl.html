@@ -36,7 +36,7 @@
             <div class="form-group">
               <label>Imagen de usuario</label>
               <ui-select ng-model="dato.imgUsuario" on-select="imagenSelect($item, $model)" theme="select2" style="min-width: 200px;">
-                <ui-select-match placeholder="Imagen usuario"><img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombre"></small></ui-select-match>
+                <ui-select-match placeholder="Imagen usuario"> <img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombre"></small></ui-select-match>
                 <ui-select-choices repeat="imagen in imagenes_privadas | filter: {nombre: $select.search}"><img ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + imagen.nombre | highlight: $select.search"></small></ui-select-choices>
               </ui-select>
               <input type="submit" ng-submit="pedirCambioUsuario(dato.imgUsuario)" value="Cambiar perfil" class="btn btn-primary shiny">
@@ -46,7 +46,7 @@
             <div class="form-group">
               <label>Imagen oficial</label>
               <ui-select ng-model="dato.imgOficial" on-select="imagenSelect($item, $model)" theme="select2" style="min-width: 200px;">
-                <ui-select-match placeholder="Imagen usuario"><img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombre"></small></ui-select-match>
+                <ui-select-match placeholder="Imagen usuario"> <img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombre"></small></ui-select-match>
                 <ui-select-choices repeat="imagen in imagenes_privadas | filter: {nombre: $select.search}"><img ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + imagen.nombre | highlight: $select.search"></small></ui-select-choices>
               </ui-select>
               <input type="submit" ng-submit="pedirCambioUsuario(dato.imgOficial)" value="Pedir para oficial" class="btn btn-primary shiny">
@@ -56,7 +56,7 @@
             <div class="form-group">
               <label>Logo del colegio</label>
               <ui-select ng-model="dato.imgLogo" on-select="imagenSelect($item, $model)" theme="select2" style="min-width: 200px;">
-                <ui-select-match placeholder="Logo del colegio"><img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombre"></small></ui-select-match>
+                <ui-select-match placeholder="Logo del colegio"> <img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombre"></small></ui-select-match>
                 <ui-select-choices repeat="imagen in imagenes_publicas | filter: {nombre: $select.search}"><img ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + imagen.nombre | highlight: $select.search"></small></ui-select-choices>
               </ui-select>
               <input type="submit" ng-submit="cambiarLogoColegio(dato.imgLogo)" value="Cambiar logo" class="btn btn-primary shiny">
@@ -122,14 +122,14 @@
             <div class="form-group">
               <label>Usuario</label>
               <ui-select ng-model="dato.usuarioElegido" on-select="usuarioSelect($item, $model)" theme="select2" style="min-width: 300px;">
-                <ui-select-match placeholder="Imagen usuario"><img ng-src="{{perfilPath + $select.selected.imagen_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombres + ' ' + $select.selected.apellidos + ' - ' + $select.selected.username"></small></ui-select-match>
+                <ui-select-match placeholder="Imagen usuario"> <img ng-src="{{perfilPath + $select.selected.imagen_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombres + ' ' + $select.selected.apellidos + ' - ' + $select.selected.username"></small></ui-select-match>
                 <ui-select-choices repeat="usuario in usuariosall | filter: {nombres: $select.search, username: $select.search}"><img ng-src="{{perfilPath + usuario.imagen_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + usuario.nombres + ' ' + usuario.apellidos + ' - ' + usuario.username | highlight: $select.search"></small></ui-select-choices>
               </ui-select>
             </div>
             <div class="form-group">
               <label>Imagen</label>
               <ui-select ng-model="dato.imgParaUsuario" on-select="imagenSelect($item, $model)" theme="select2" style="min-width: 300px;">
-                <ui-select-match placeholder="Imagen usuario"><img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombre"></small></ui-select-match>
+                <ui-select-match placeholder="Imagen usuario"> <img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombre"></small></ui-select-match>
                 <ui-select-choices repeat="imagen in imagenes_publicas | filter: {nombre: $select.search}"><img ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + imagen.nombre | highlight: $select.search"></small></ui-select-choices>
               </ui-select>
               <input type="submit" ng-submit="cambiarImgUnUsuario(dato.usuarioElegido, dato.imgParaUsuario)" value="Establecer imagen" class="btn btn-primary shiny">
@@ -155,14 +155,14 @@
             <div class="form-group">
               <label>Usuario</label>
               <ui-select ng-model="dato.alumnoElegido" on-select="alumSelect($item, $model)" theme="select2" style="min-width: 300px;">
-                <ui-select-match placeholder="Imagen usuario"><img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombres"></small></ui-select-match>
+                <ui-select-match placeholder="Imagen usuario"> <img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombres"></small></ui-select-match>
                 <ui-select-choices repeat="alumno in alumnos | filter: {nombres: $select.search}"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + alumno.nombres | highlight: $select.search"></small></ui-select-choices>
               </ui-select>
             </div>
             <div class="form-group">
               <label>Foto</label>
               <ui-select ng-model="dato.imgOficialAlumno" on-select="fotoSelect($item, $model)" theme="select2" style="min-width: 200px;">
-                <ui-select-match placeholder="Foto alumno"><img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombre"></small></ui-select-match>
+                <ui-select-match placeholder="Foto alumno"> <img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombre"></small></ui-select-match>
                 <ui-select-choices repeat="imagen in imagenes_publicas | filter: {nombre: $select.search}"><img ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + imagen.nombre | highlight: $select.search"></small></ui-select-choices>
               </ui-select>
               <input type="submit" ng-submit="pedirCambioUsuario(dato.alumnoElegido, dato.imgOficialAlumno)" value="Pedir para oficial" class="btn btn-primary shiny">
@@ -178,14 +178,14 @@
             <div class="form-group">
               <label>Profesor</label>
               <ui-select ng-model="dato.profeImgFirma" on-select="imagenSelect($item, $model)" theme="select2" style="min-width: 200px;">
-                <ui-select-match placeholder="Imagen usuario"><img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombres"></small></ui-select-match>
+                <ui-select-match placeholder="Imagen usuario"> <img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombres"></small></ui-select-match>
                 <ui-select-choices repeat="profe in usuariosprofes | filter: {nombres: $select.search}"><img ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + profe.nombres + ' ' + profe.apellidos | highlight: $select.search"></small></ui-select-choices>
               </ui-select>
             </div>
             <div class="form-group">
               <label>Foto</label>
               <ui-select ng-model="dato.imgOficialProfe" on-select="imagenSelect($item, $model)" theme="select2" style="min-width: 200px;">
-                <ui-select-match placeholder="Imagen usuario"><img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombre"></small></ui-select-match>
+                <ui-select-match placeholder="Imagen usuario"> <img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombre"></small></ui-select-match>
                 <ui-select-choices repeat="imagen in imagenes_publicas | filter: {nombre: $select.search}"><img ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + imagen.nombre | highlight: $select.search"></small></ui-select-choices>
               </ui-select>
               <input type="button" ng-click="cambiarFotoUnProfe(dato.profeImgFirma, dato.imgOficialProfe)" value="Cambiar oficial" class="btn btn-primary shiny">
@@ -193,7 +193,7 @@
             <div class="form-group">
               <label>Firma</label>
               <ui-select ng-model="dato.imgFirma" on-select="imagenSelect($item, $model)" theme="select2" style="min-width: 200px;">
-                <ui-select-match placeholder="Imagen usuario"><img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombre"></small></ui-select-match>
+                <ui-select-match placeholder="Imagen usuario"> <img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombre"></small></ui-select-match>
                 <ui-select-choices repeat="imagen in imagenes_publicas | filter: {nombre: $select.search}"><img ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + imagen.nombre | highlight: $select.search"></small></ui-select-choices>
               </ui-select>
               <input type="button" ng-click="pedirCambioFirma(dato.profeImgFirma, dato.imgFirma)" value="Cambiar firma" class="btn btn-primary shiny">

@@ -52,7 +52,11 @@ angular.module('myvcFrontApp')
 				subunidades_displayname:$scope.years[ultimo].subunidades_displayname
 				genero_subunidad:		$scope.years[ultimo].genero_subunidad
 			}
-			
+
+			# Abramos el año actual
+			for year_cambiar in $scope.years
+				year_cambiar.ocultando = if year_cambiar.actual then false else true
+
 
 		
 		$scope.addPeriodo = (year)->
@@ -132,9 +136,24 @@ angular.module('myvcFrontApp')
 
 			Restangular.one('years/store').customPOST($scope.newYear).then((r)->
 				toastr.success 'Año ' + $scope.newYear.year + ' creado. Por favor configúrelo.'
+				$scope.years.push r
 			, (r2)->
 				toastr.warning 'No se pudo crear año.', 'Problema'
 				console.log 'No se pudo crear año: ', r2
+			)
+
+
+		$scope.deleteYear = (year)->
+
+			modalInstance = $modal.open({
+				templateUrl: App.views + 'colegio/removeYear.tpl.html'
+				controller: 'RemoveYearCtrl'
+				resolve: 
+					year: ()->
+						year
+			})
+			modalInstance.result.then( (year)->
+				$scope.years = $filter('filter')($scope.years, {id: '!'+year.id})
 			)
 
 
@@ -148,13 +167,34 @@ angular.module('myvcFrontApp')
 )
 
 
+.controller('RemoveYearCtrl', ['$scope', '$modalInstance', 'year', 'Restangular', 'toastr', ($scope, $modalInstance, year, Restangular, toastr)->
+	$scope.year = year
+
+	$scope.ok = ()->
+
+		Restangular.one('years/delete').customDELETE(year.id).then((r)->
+			toastr.success 'Año ' + year + ' enviado a la papelera.'
+			$modalInstance.close(year)
+		, (r2)->
+			toastr.warning 'No se pudo eliminar el año.', 'Problema'
+			console.log 'Error eliminando año: ', r2
+			$modalInstance.dismiss()
+		)
+
+		
+
+	$scope.cancel = ()->
+		$modalInstance.dismiss('cancel')
+
+])
+
 .controller('RemovePeriodoCtrl', ['$scope', '$modalInstance', 'periodo', 'Restangular', 'toastr', ($scope, $modalInstance, periodo, Restangular, toastr)->
 	$scope.periodo = periodo
 
 	$scope.ok = ()->
 
 		Restangular.all('periodos/destroy/'+periodo.id).remove().then((r)->
-			toastr.success 'Priodo eliminado con éxito.', 'Eliminado'
+			toastr.success 'Periodo eliminado con éxito.', 'Eliminado'
 			$modalInstance.close(periodo)
 		, (r2)->
 			toastr.warning 'No se pudo eliminar el periodo.', 'Problema'

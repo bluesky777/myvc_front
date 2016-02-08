@@ -1,0 +1,12 @@
+.modal-header
+	h3.modal-title ¿Seguro que quiere enviar este año y sus datos a la papelera?
+.modal-body
+	.row
+		.col-lg-12.col-xs-12
+			h3 Año: {{year.year}}
+			h5 Id: {{year.id}}
+
+.modal-footer
+	button.btn.btn-labeled.btn-danger(ng-click="ok()") Enviar a la papelera
+		i.btn-label.fa.fa-times
+	button.btn.btn-yellow(ng-click="cancel()") Cancelar

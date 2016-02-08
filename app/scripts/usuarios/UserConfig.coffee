@@ -90,6 +90,29 @@ angular.module('myvcFrontApp')
 				displayName: 'Roles'
 				icon_fa: 'fa fa-user-secret'
 
+
+
+
+
+		.state 'panel.usuarios.editar',
+			url: '/editar/:user_id'
+			views: 
+				'edit_user':
+					templateUrl: "#{App.views}usuarios/usuariosEdit.tpl.html"
+					controller: 'UsuariosEditCtrl'
+				'headerContent':
+					templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+					controller: 'PanelHeaderCtrl'
+					resolve: 
+						titulo: [->
+							'Editar alumno'
+						]
+			data: 
+				displayName: 'Editar'
+				icon_fa: 'fa fa-users'
+				pageTitle: 'Editar alumno - MyVc'
+
+
 	return
 ])
 

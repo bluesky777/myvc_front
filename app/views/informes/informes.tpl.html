@@ -57,7 +57,7 @@
                 <div class="form-group">
                   <label>Alumnos</label>
                   <ui-select ng-model="datos.selected_alumnos" multiple on-select="selectAlumnos($item)" style="width: 100%;">
-                    <ui-select-match placeholder="Alumnos del grupo {{datos.grupo.abrev}}" allow-clear="true"><img ng-src="{{perfilPath + $item.foto_nombre}}" style="width:25px; height:25px;">{{$item.nombres}}</ui-select-match>
+                    <ui-select-match placeholder="Alumnos del grupo {{datos.grupo.abrev}}" allow-clear="true"> <img ng-src="{{perfilPath + $item.foto_nombre}}" style="width:25px; height:25px;">{{$item.nombres}}</ui-select-match>
                     <ui-select-choices repeat="alumno in filtered_alumnos | filter: $select.search"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;"><small ng-show="alumno.sin_matricular" ng-bind-html="'&lt;i&gt; -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)&lt;/i&gt;'"></small><small ng-hide="alumno.sin_matricular" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search"></small></ui-select-choices>
                   </ui-select><a href="" ng-click="verBoletinesAlumnos()" class="btn btn-default">Cargar boletines</a>
                 </div>
@@ -68,7 +68,7 @@
                 <div class="form-group">
                   <label>Alumno</label>
                   <ui-select ng-model="datos.selected_alumno" on-select="selectAlumno($item)" style="width: 300px;">
-                    <ui-select-match placeholder="Elige un alumno" allow-clear="true"><img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;">{{$select.selected.nombres}} {{$select.selected.apellidos}}</ui-select-match>
+                    <ui-select-match placeholder="Elige un alumno" allow-clear="true"> <img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;">{{$select.selected.nombres}} {{$select.selected.apellidos}}</ui-select-match>
                     <ui-select-choices repeat="alumno in filtered_alumnos | filter: $select.search"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;"><small ng-show="alumno.sin_matricular" ng-bind-html="'&lt;i&gt; -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)&lt;/i&gt;'"></small><small ng-hide="alumno.sin_matricular" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search"></small></ui-select-choices>
                   </ui-select><a href="" ng-click="verBoletinAlumno()" class="btn btn-default">Cargar boletin</a>
                 </div>
@@ -114,30 +114,8 @@
             <div class="row">
               <div class="col-lg-7 col-sm-12 col-xs-12">
                 <div class="form-group">
-                  <label>Periodos a calcular:</label>
-                  <div class="row">
-                    <div class="col-lg-4 col-sm-4 col-xs-6">
-                      <div class="radio">
-                        <label>
-                          <input type="radio" value="de_usuario" ng-model="config.periodos_a_calcular" class="inverted"><span class="text">Hasta el actual del usuario</span>
-                        </label>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-4 col-xs-6">
-                      <div class="radio">
-                        <label>
-                          <input type="radio" value="de_colegio" ng-model="config.periodos_a_calcular" class="inverted"><span class="text">Hasta el actual del colegio</span>
-                        </label>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-4 col-xs-6">
-                      <div class="radio">
-                        <label>
-                          <input type="radio" value="todos" ng-model="config.periodos_a_calcular" class="inverted"><span class="text">Todos</span>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
+                  <label>Calcular hasta el periodo:</label>
+                  <input type="number" ng-model="config.periodo_a_calcular" min="1" max="10">
                 </div>
               </div>
             </div>
@@ -254,5 +232,5 @@
   </div>
 </div>
 <div ui-view="report_content" class="informes-pages">
-  <h5 style="text-align: center">Aquí saldrán tus resportes</h5>
+  <h5 style="text-align: center">Aquí saldrán tus reportes</h5>
 </div>

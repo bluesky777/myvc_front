@@ -105,14 +105,17 @@ angular.module('myvcFrontApp')
 
 
 		.state 'panel.informes.puestos_grupo_year',
-			url: '/puestos_grupo_year/:grupo_id/:periodos_a_calcular'
+			url: '/puestos_grupo_year/:grupo_id/:periodo_a_calcular'
 			views: 
 				'report_content':
 					templateUrl: "#{App.views}informes/puestosGrupoYear.tpl.html"
 					controller: 'PuestosGrupoYearCtrl'
 					resolve:
-						alumnosDat: ['Restangular', '$stateParams', (Restangular, $stateParams)->
-							Restangular.one('alumnos/detailed-notas-year/'+$stateParams.grupo_id, $stateParams.periodos_a_calcular).getList()
+						datos_puestos: ['Restangular', '$stateParams', (Restangular, $stateParams)->
+							datos = 
+								grupo_id: $stateParams.grupo_id
+								periodo_a_calcular: $stateParams.periodo_a_calcular
+							Restangular.one('puestos/detailed-notas-year').customPUT(datos)
 						],
 						escalas: ['EscalasValorativasServ', (EscalasValorativasServ)->
 							#debugger

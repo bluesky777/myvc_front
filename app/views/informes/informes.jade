@@ -107,23 +107,9 @@
 						.row
 							.col-lg-7.col-sm-12.col-xs-12
 								.form-group
-										label Periodos a calcular:
-										.row
-											.col-lg-4.col-sm-4.col-xs-6
-												.radio
-													label
-														input.inverted(type="radio" value="de_usuario" ng-model="config.periodos_a_calcular")
-														span.text Hasta el actual del usuario
-											.col-lg-4.col-sm-4.col-xs-6
-												.radio
-													label
-														input.inverted(type="radio" value="de_colegio" ng-model="config.periodos_a_calcular")
-														span.text Hasta el actual del colegio
-											.col-lg-4.col-sm-4.col-xs-6
-												.radio
-													label
-														input.inverted(type="radio" value="todos" ng-model="config.periodos_a_calcular")
-														span.text Todos
+										label Calcular hasta el periodo:
+										input(type="number" ng-model="config.periodo_a_calcular" min="1" max="10") 
+										
 						.form-group
 							label Grupo
 							ui-select(ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;")
@@ -229,6 +215,6 @@
 
 
 .informes-pages(ui-view="report_content")
-	h5(style="text-align: center") Aquí saldrán tus resportes
+	h5(style="text-align: center") Aquí saldrán tus reportes
 
 

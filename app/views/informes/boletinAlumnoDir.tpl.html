@@ -1,5 +1,5 @@
 
-<div ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical'}">
+<div ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $parent.$last==false }">
   <div class="row">
     <div class="col-lg-12 col-xs-12">
       <div class="row encabezado-boletin">
@@ -76,7 +76,7 @@
       <div class="row comportamiento-boletin">
         <div class="col-lg-12 col-xs-12">
           <div class="row comportamiento-head">
-            <div class="col-lg-10 col-xs-10 comportamiento-title"><i ng-show="alumno.sexo=='M'" style="padding-right: 5px;" class="fa fa-male"></i><i ng-show="alumno.sexo=='F'" style="padding-right: 5px;" class="fa fa-female"></i>Comportamiento</div>
+            <div class="col-lg-10 col-xs-10 comportamiento-title"><i ng-show="alumno.sexo=='M'" style="padding-right: 5px;" class="fa fa-male"> </i><i ng-show="alumno.sexo=='F'" style="padding-right: 5px;" class="fa fa-female"> </i>Comportamiento</div>
             <div ng-class="{'nota-perdida-bold': alumno.comportamiento.nota&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}" class="col-lg-1 col-xs-1 comportamiento-desempenio">{{alumno.comportamiento.nota | juicioValorativo:escalas:true}}</div>
             <div ng-class="{'nota-perdida-bold': alumno.comportamiento.nota&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}" class="col-lg-1 col-xs-1 comportamiento-nota">{{alumno.comportamiento.nota}}</div>
           </div>

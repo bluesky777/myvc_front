@@ -23,11 +23,11 @@ angular.module("myvcFrontApp")
 		cant = 0
 
 		for alumno in alumnos
-			for asignatura in alumno.asignaturas
+			for notas_asig in alumno.notas_asig
 
-				if asignatura.asignatura_id == asignatura_id
+				if notas_asig.asignatura_id == asignatura_id
 					cant++
-					promedioAsig = promedioAsig + asignatura.nota_asignatura_year
+					promedioAsig = promedioAsig + parseFloat(notas_asig.nota_asignatura_year)
 		
 
 

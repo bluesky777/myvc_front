@@ -1,5 +1,5 @@
 
-<div ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical'}">
+<div ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $parent.$last==false }">
   <div class="row">
     <div class="col-lg-12 col-xs-12">
       <div class="row encabezado-boletin">
@@ -32,7 +32,7 @@
               <tr style="border-bottom: 2px solid;">
                 <th>No</th>
                 <th>Nombres</th>
-                <th><i class="fa fa-clock-o icon-tardanza"></i>A</th>
+                <th> <i class="fa fa-clock-o icon-tardanza"> </i>A</th>
                 <th ng-repeat="periodo in year.periodos">Per{{periodo.numero}}</th>
                 <th style="border-left: 2px solid !important;">Prom</th>
               </tr>
@@ -43,9 +43,15 @@
                 <td>
                   <div popover="&lt;img src='{{perfilPath + asignatura.foto_nombre}}' style='width: 150px; height: 150px;'&gt;" popover-popup-delay="1000" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" popover-trigger="mouseenter">{{asignatura.materia}}</div>
                 </td>
-                <td><span ng-show="asignatura.ausencias &gt; 0">{{asignatura.ausencias}}</span></td>
-                <td ng-repeat="definitiva in asignatura.definitivas" ng-class="{'nota-perdida-puestos': ((definitiva.DefMateria | decimales_if:1 )*1) &lt; (USER.nota_minima_aceptada*1) }">{{ definitiva.DefMateria | decimales_if:1 }}<span ng-show="{{definitiva.notas_perdidas &gt; 0}}" class="cant-unidades-perdidas">({{definitiva.notas_perdidas}})</span></td>
-                <td ng-class="{'nota-perdida-puestos': ((asignatura.promedio | decimales_if:1 )*1) &lt; (USER.nota_minima_aceptada*1) }" class="puntero">{{asignatura.promedio | decimales_if:1}}<span ng-show="{{asignatura.notas_perdidas &gt; 0}}" class="cant-unidades-perdidas">({{asignatura.notas_perdidas}})</span></td>
+                <td> <span ng-show="asignatura.ausencias &gt; 0">{{asignatura.ausencias}}</span></td>
+                <td ng-repeat="definitiva in asignatura.definitivas" ng-class="{'nota-perdida-puestos': ((definitiva.DefMateria | decimales_if:1 )*1) &lt; (USER.nota_minima_aceptada*1) }">
+                   
+                  {{ definitiva.DefMateria | decimales_if:1 }}<span ng-show="{{definitiva.notas_perdidas &gt; 0}}" class="cant-unidades-perdidas">({{definitiva.notas_perdidas}})</span>
+                </td>
+                <td ng-class="{'nota-perdida-puestos': ((asignatura.promedio | decimales_if:1 )*1) &lt; (USER.nota_minima_aceptada*1) }" class="puntero">
+                   
+                  {{asignatura.promedio | decimales_if:1}}<span ng-show="{{asignatura.notas_perdidas &gt; 0}}" class="cant-unidades-perdidas">({{asignatura.notas_perdidas}})</span>
+                </td>
               </tr>
             </tbody>
             <tfoot>
@@ -54,7 +60,10 @@
                 <td>Total</td>
                 <td>{{alumno.ausencias}}</td>
                 <td ng-repeat="periodo in year.periodos">{{ alumno.asignaturas | promedioPeriodo:periodo.id | decimales:0 }}</td>
-                <td style="font-weight: bold; border-left: 2px solid !important;">{{alumno.promedio | decimales:0 }}<span ng-show="{{alumno.notas_perdidas &gt; 0}}" class="cant-unidades-perdidas">({{alumno.notas_perdidas}})</span></td>
+                <td style="font-weight: bold; border-left: 2px solid !important;">
+                   
+                  {{alumno.promedio | decimales:0 }}<span ng-show="{{alumno.notas_perdidas &gt; 0}}" class="cant-unidades-perdidas">({{alumno.notas_perdidas}})</span>
+                </td>
               </tr>
             </tfoot>
           </table>
@@ -62,12 +71,13 @@
       </div>
       <!--.row.body-boletin
       .col-lg-12.col-xs-12
-       span(ng-repeat="asignatura in alumno.asignaturas_perdidas")
-        span(ng-repeat="periodo in asignatura.periodos | orderBy:'-numero'")
-         | {{ asignatura.alias_materia }} - Per{{ periodo.numero }}: {{periodo.cantNotasPerdidas}}. 
-         
-         
-         
+      	span(ng-repeat="asignatura in alumno.asignaturas_perdidas")
+      		
+      		span(ng-repeat="periodo in asignatura.periodos | orderBy:'-numero'")
+      			| {{ asignatura.alias_materia }} - Per{{ periodo.numero }}: {{periodo.cantNotasPerdidas}}. 
+      
+      
+      
       -->
       <div class="row">
         <div class="col-lg-12 col-xs-12">

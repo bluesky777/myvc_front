@@ -3,7 +3,11 @@ angular.module('myvcFrontApp')
 
 	AuthService.verificar_acceso()
 	$scope.rowsAlum = [] 
-	$scope.config = {periodos_a_calcular: 'de_usuario', mostrar_foto: true} # de_usuario, de_colegio, todos
+	$scope.config = {
+		periodos_a_calcular: 'de_usuario'  # de_usuario, de_colegio, todos
+		mostrar_foto: true
+		periodo_a_calcular: $scope.USER.numero_periodo
+	}
 	$scope.filtered_alumnos = alumnos
 	$scope.perfilPath = App.images + 'perfil/'
 
@@ -145,7 +149,7 @@ angular.module('myvcFrontApp')
 			toastr.warning 'Debes seleccionar el grupo'
 			return
 
-		$state.go 'panel.informes.puestos_grupo_year', {grupo_id: $scope.datos.grupo.id, periodos_a_calcular: $scope.config.periodos_a_calcular}
+		$state.go 'panel.informes.puestos_grupo_year', {grupo_id: $scope.datos.grupo.id, periodo_a_calcular: $scope.config.periodo_a_calcular}
 
 
 

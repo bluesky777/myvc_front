@@ -3,7 +3,7 @@
   <div class="ticket-item">
     <div ng-show="!unidad.editando" class="row">
       <div ng-show="!unidad.editando" style="overflow: visible; line-height: 2.4;" class="ticket-user col-lg-10 col-sm-10 col-xs-12">
-        <div style="margin-bottom: 20px; font-weight: bold; " class="definicion-unidad-inside"><span editable-text="unidad.porcentaje">{{indice+1}}.  </span><span>{{unidad.definicion}}</span></div>
+        <div style="margin-bottom: 20px; font-weight: bold; " class="definicion-unidad-inside"> <span editable-text="unidad.porcentaje">{{indice+1}}.  </span><span>{{unidad.definicion}}</span></div>
       </div>
       <div tooltip="Porcentaje" class="ticket-time col-lg-2 col-sm-2 col-xs-12">
         <div class="divider hidden-xs"></div>{{unidad.porcentaje}}%
@@ -46,8 +46,11 @@
           | {{subunidad.porcentaje}}%
           
           -->
-          <div class="user-name definicion-subunidad-inside">
-            <div tooltip="{{subunidad.definicion}}">{{$index+1}}. {{subunidad.definicion}}</div>
+          <div class="user-name definicion-subunidad-inside"> 
+            <div tooltip="{{subunidad.definicion}}">
+               
+              {{$index+1}}. {{subunidad.definicion}}
+            </div>
           </div>
         </div>
         <div tooltip="Porcentaje" class="ticket-time col-lg-1 col-sm-2 col-xs-6">
