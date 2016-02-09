@@ -1,37 +1,77 @@
-.row
+
+
+.row(ng-if="hasRoleOrPerm(['admin', 'profesor'])")
 	.col-xs-12.col-md-12
-		.well.with-header.with-footer
-			.header.bordered-yellow Pedidos que esperan tu aprobación 
-			
+		.widget
+			.widget-header.bordered-bottom.bordered-themesecondary
+				i.widget-icon.fa.fa-tags.themesecondary
+				span.widget-caption.themesecondary
+					| Pedidos que esperan tu aprobación 
 
-			.row
+			.widget-body
+				.widget-main.no-padding
 
-				.col-lg-10.col-xs-12
+
 					.tickets-container
 						ul.tickets-list
 
-							li(ng-show="changes_asked_to_me.length==0") No hay pedidos pendientes
+							li(ng-show="(changes_asked_to_me | filter:{deleted_at:'!'}).length==0") No hay pedidos pendientes
 
-							li.ticket-item(ng-repeat="file in changes_asked_to_me")
+							li.ticket-item(ng-repeat="file in changes_asked_to_me | filter:{deleted_at:'!'} ")
 								.row
-									.ticket-user.col-lg-5.col-sm-12
-										img.user-avatar(ng-src="{{file.dataUrl}}")
-										span.user-name {{file.asked_by_user_id}}
-										span.user-company - {{ file.oficial_image_id }}imagen_id
-									.ticket-time.col-lg-5.col-sm-6.col-xs-12
-										.divider.hidden-md.hidden-sm.hidden-xs
-										progressbar.progress-xlg.progress-striped.active( value="file.porcentaje")
-											b {{file.id}} Id
+									.ticket-user.col-lg-10.col-sm-12
+										img.user-avatar(ng-src="{{perfilPath + file.foto_nombre}}")
+										span.user-name {{file.nombres + ' ' +file.apellidos}} 
+										span.user-company  quiere esta imagen: 
+										img.user-avatar(ng-src="{{perfilPath + file.foto_nombre_asked}}")
+										span.user-company como oficial.
+										
 
-									.ticket-type.col-lg-2.col-sm-6.col-xs-1
+									.ticket-type.col-lg-2.col-sm-12
 										span.divider.hidden-xs
-										span.type() {{file.accepted_at}} aceptado a
-										span.type() {{file.rechazado_at}} rechazado a
-										span.type() problema.
-									.ticket-state.bg-palegreen()
-										i.fa.fa-check
-									.ticket-state.bg-palegreen()
-										i.fa.fa-cloud-upload
-									.ticket-state.bg-yellow()
-										i.fa.fa-info
+
+										input.btn.btn-success.btn-xs(type="button" value="Aceptar" ng-click="aceptarAsked(file)")
+										
+										input.btn.btn-danger.btn-xs(type="button" value="Rechazar" ng-click="rechazarAsked(file)")
+
+
+
+.row(ng-if="hasRoleOrPerm(['admin', 'profesor'])")
+	.col-xs-12.col-md-12
+		.widget
+			.widget-header.bordered-bottom.bordered-themefourthcolor
+				i.widget-icon.fa.fa-tags.themefourthcolor
+				span.widget-caption.themefourthcolor
+					| Pedidos anteriores 
+
+			.widget-body
+				.widget-main.no-padding
+
+
+					.tickets-container
+						ul.tickets-list
+
+							li(ng-show="(changes_asked_to_me | filter:{deleted_at:'!!'}).length==0") No hay pedidos anteriores
+
+							li.ticket-item(ng-repeat="file in changes_asked_to_me | filter:{deleted_at:'!!'} ")
+								.row
+									.ticket-user.col-lg-10.col-sm-12
+										img.user-avatar(ng-src="{{perfilPath + file.foto_nombre}}")
+										span.user-name {{file.nombres + ' ' +file.apellidos}} 
+										span.user-company  quiere esta imagen: 
+										img.user-avatar(ng-src="{{perfilPath + file.foto_nombre_asked}}")
+										span.user-company como oficial.
+										
+
+									.ticket-type.col-lg-2.col-sm-12
+										span.divider.hidden-xs
+
+										span(ng-show="file.accepted_at")
+											span.label.label-info(tooltip="Aceptado por: {{file.deleted_by}}; Cuando: {{file.deleted_at}} ") Aceptado
+										
+										span(ng-show="file.rechazado_at")
+											span.label.label-maroon(tooltip="Rechazado por: {{file.deleted_by}}; Cuando: {{file.deleted_at}} ") Rechazado
+										
+
+
 			

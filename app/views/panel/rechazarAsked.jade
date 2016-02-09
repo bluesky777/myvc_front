@@ -1,0 +1,41 @@
+.modal-header
+	h3.modal-title ¿Seguro que deseas rechazar el pedido?
+
+
+.modal-body(ng-if="asked.foto_nombre_asked")
+	.row
+		.col-lg-6.col-xs-12.text-center
+			h4 Cambiar:
+			img(ng-src="{{imagesPath+asked.foto_nombre}}" class="img-thumbnail" style="width:200px; height:200px;")
+
+		.col-lg-6.col-xs-12
+			h4 por:
+			img(ng-src="{{imagesPath+asked.foto_nombre_asked}}" class="img-thumbnail" style="width:200px; height:200px;")
+
+
+
+
+.modal-body(ng-if="asked.apellidos_asked")
+	.row
+		.col-lg-12.col-xs-12
+			h4 {{ asked.nombres + ' ' + asked.apellidos }}
+			h5 desea cambiar su apellido por:
+			h3 {{ asked.apellidos_asked }}
+
+
+
+
+.modal-body(ng-if="asked.apellidos_asked")
+	.row
+		.col-lg-12.col-xs-12
+			h4 {{ asked.nombres + ' ' + asked.apellidos }}
+			h5 desea cambiar su nombre por:
+			h3 {{ asked.nombres_asked }}
+
+
+
+.modal-footer
+	button.btn.btn-labeled.btn-primary(ng-click="ok()") Rechazar
+		i.btn-label.fa.fa-times
+	button.btn.btn-yellow(ng-click="cancel()") Cancelar
+
