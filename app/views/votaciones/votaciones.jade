@@ -1,102 +1,119 @@
-<!-- Page Header ************************************** -->
-.page-header.position-relative
-<!-- /Page Header ************************************* -->
-
-<!-- Page Body -->
-.page-body
-	.row
-		.col-lg-12.col-sm-12.col-xs-12
-			h5.row-title
-				i.fa.fa-list-alt.darkorange
-				| Votaciones
-			.row
-				.col-lg-6.col-sm-6.col-xs-12
-					.well.with-header
-						.header.bordered-purple Tabla de eventos
-						#grid1.grid(ui-grid="gridOptions" ui-grid-edit external-scopes="$scope" ui-grid-resize-columns)
-
-				.col-lg-6.col-sm-6.col-xs-12(ng-if="editing")
-					.well.with-header
-						.header.bordered-yellow Editar evento
-						form(role="form" ng-submit="guardar()")
-							.form-group
-								label(for="votacionedit-nombre") Nombre del evento
-								input.form-control#votacionedit-nombre(type="text" ng-model="votacionEdit.nombre" placeholder="Nombre del evento")
-							.form-group
-								label ¿Bloqueado?
-								label
-									input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="votacionEdit.locked")
-									span.text.si-no
-							.form-group
-								label ¿Actual?
-								label
-									input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="votacionEdit.actual")
-									span.text.si-no
-							.form-group
-								label ¿En acción?
-								label
-									input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="votacionEdit.in_action")
-									span.text.si-no
-							.form-group
-								label(for="votacionedit-fecha-ini") Fecha de inicio
-								.controls
-									.input-group
-										span.input-group-addon
-											i.fa.fa-calendar
-										input.form-control.active#votacionEdit-fecha-ini(type="date" datepicker-popup="dd-MMMM-yyyy" ng-model="votacionEdit.fecha_inicio" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2015-06-22'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha de inicio")
-							.form-group
-								label(for="votacionedit-fecha-fin") Fecha de finalización
-								.controls
-									.input-group
-										span.input-group-addon
-											i.fa.fa-calendar
-										input.form-control.active#votacionedit-fecha-fin(type="date" datepicker-popup="dd-MMMM-yyyy" ng-model="votacionEdit.fecha_fin" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2015-06-22'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha fin")
-								
-
-							br
-							input.btn.btn-primary.btn-lg.shiny(type="submit" ng-submit="guardar()" value="Guardar evento") 
+.mail-header
+	div.btn-group(style="padding-top:2px; padding-left: 4px; ")
+		a.btn.btn-default(href="" ui-sref-active="active" ui-sref="panel.actividades.votaciones.config") Configurar
+		a.btn.btn-default(href="" ui-sref-active="active" ui-sref="panel.actividades.votaciones.candidatos") Participantes
+		a.btn.btn-default(href="" ui-sref-active="active" ui-sref="panel.actividades.votaciones.participantes") Candidatos
+		a.btn.btn-default(href="" ui-sref-active="active" ui-sref="panel.actividades.votaciones.votar") Votar
+		a.btn.btn-default(href="" ui-sref-active="active" ui-sref="panel.actividades.votaciones.resultados") Resultados
 
 
+	ul.header-buttons.pull-right
+		li
+			a.tooltip-primary(href="")
+				i.fa.fa-angle-left
 
 
-				.col-lg-6.col-sm-6.col-xs-12
-					.well.with-header
-						.header.bordered-sky Nuevo evento
-						form(role="form" ng-submit="crear()")
-							.form-group
-								label(for="votacion-nombre") Nombre del evento
-								input.form-control#votacion-nombre(type="text" ng-model="votacion.nombre" placeholder="Nombre del evento")
-							.form-group
-								label ¿Bloqueado?
-								label
-									input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="votacion.locked")
-									span.text.si-no
-							.form-group
-								label ¿Actual?
-								label
-									input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="votacion.actual")
-									span.text.si-no
-							.form-group
-								label ¿En acción?
-								label
-									input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="votacion.in_action")
-									span.text.si-no
-							.form-group
-								label(for="votacion-fecha-ini") Fecha de inicio
-								.controls
-									.input-group
-										span.input-group-addon
-											i.fa.fa-calendar
-										input.form-control.active#votacion-fecha-ini(type="date" datepicker-popup="dd-MMMM-yyyy" ng-model="votacion.fecha_inicio" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2015-06-22'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha de inicio")
-							.form-group
-								label(for="votacion-fecha-fin") Fecha de finalización
-								.controls
-									.input-group
-										span.input-group-addon
-											i.fa.fa-calendar
-										input.form-control.active#votacion-fecha-fin(type="date" datepicker-popup="dd-MMMM-yyyy" ng-model="votacion.fecha_fin" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2015-06-22'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha fin")
-								
+.mail-body
+	.row(style="padding: 5px; ")
+		.col-lg-6.col-sm-12.col-xs-12
+			.well.with-header
+				.header.bordered-purple Tabla de eventos
+				#grid1.grid(ui-grid="gridOptions" ui-grid-edit external-scopes="$scope" ui-grid-resize-columns)
 
-							br
-							input.btn.btn-primary.btn-lg.shiny(type="submit" ng-submit="crear()" value="Crear") 
+		.col-lg-6.col-sm-12.col-xs-12(ng-if="editing")
+			.well.with-header
+				.header.bordered-yellow Editar evento
+				form(role="form" ng-submit="guardar()")
+					.form-group
+						label(for="votacionedit-nombre") Nombre del evento
+						input.form-control#votacionedit-nombre(type="text" ng-model="votacionEdit.nombre" placeholder="Nombre del evento")
+					.form-group
+						label ¿Bloqueado?
+						label
+							input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="votacionEdit.locked")
+							span.text.si-no
+					.form-group
+						label ¿Actual?
+						label
+							input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="votacionEdit.actual")
+							span.text.si-no
+					.form-group
+						label ¿En acción?
+						label
+							input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="votacionEdit.in_action")
+							span.text.si-no
+					.form-group
+						label(for="votacionedit-fecha-ini") Fecha de inicio
+						.controls
+							.input-group
+								span.input-group-addon
+									i.fa.fa-calendar
+								input.form-control.active#votacionedit-fecha-ini(type="text" datepicker-popup="dd-MMMM-yyyy" ng-model="votacionEdit.fecha_inicio" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2015-06-22'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha de inicio")
+					.form-group
+						label(for="votacionedit-fecha-fin") Fecha de finalización
+						.controls
+							.input-group
+								span.input-group-addon
+									i.fa.fa-calendar
+								input.form-control.active#votacionedit-fecha-fin(type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="votacionEdit.fecha_fin" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2015-06-22'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha fin")
+						
+					.form-group
+						label(for="votacionedit-nombre") Nombre del evento
+						input.form-control.col-lg-6.col-sm-12(type="text" ng-model="votacionEdit.nombre" placeholder="Nombre del evento")
+						input.form-control.col-lg-6.col-sm-12(type="text" ng-model="votacionEdit.nombre" placeholder="Nombre del evento")
+
+					br
+					input.btn.btn-primary.btn-lg.shiny(type="submit" ng-submit="guardar()" value="Guardar evento") 
+
+
+
+
+		.col-lg-6.col-sm-12.col-xs-12
+			.well.with-header
+				.header.bordered-sky Nuevo evento
+				form(role="form" ng-submit="crear()")
+					.form-group
+						label(for="votacion-nombre") Nombre del evento
+						input.form-control#votacion-nombre(type="text" ng-model="votacion.nombre" placeholder="Nombre del evento")
+					.form-group
+						label ¿Bloqueado?
+						label
+							input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="votacion.locked")
+							span.text.si-no
+					.form-group
+						label ¿Actual?
+						label
+							input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="votacion.actual")
+							span.text.si-no
+					.form-group
+						label ¿En acción?
+						label
+							input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="votacion.in_action")
+							span.text.si-no
+					.form-group
+						label(for="votacion-fecha-ini") Fecha de inicio
+						.controls
+							.input-group
+								span.input-group-addon
+									i.fa.fa-calendar
+								input.form-control.active#votacion-fecha-ini(type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="votacion.fecha_inicio" is-open="true" ng-click="data.isOpen = true" max-date="'2015-06-22'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha de inicio")
+					.form-group
+						label(for="votacion-fecha-fin") Fecha de finalización
+						.controls
+							.input-group
+								span.input-group-addon
+									i.fa.fa-calendar
+								input.form-control.active#votacion-fecha-fin(type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="votacion.fecha_fin" ng-click="data.isOpen = true" max-date="'2015-06-22'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha fin")
+						
+
+
+					.form-group
+						label(for="votacionedit-nombre") Aspiraciones
+						.row
+							input.form-control.col-lg-6.col-sm-12(type="text" ng-model="votacion.aspiracion" placeholder="Aspiración")
+							input.form-control.col-lg-6.col-sm-12(type="text" ng-model="votacion.abrev" placeholder="Alias")
+
+
+					br
+					input.btn.btn-primary.btn-lg.shiny(type="submit" ng-submit="crear()" value="Crear") 
 

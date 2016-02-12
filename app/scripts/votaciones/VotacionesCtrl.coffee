@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('VotacionesCtrl', ['$scope', '$filter', '$rootScope', 'RVotaciones', 'Restangular', 'resolved_user', ($scope, $filter, $rootScope, RVotaciones, Restangular, resolved_user)->
+.controller('VotacionesCtrl', ['$scope', '$filter', '$rootScope', 'RVotaciones', 'Restangular', 'resolved_user', 'App', ($scope, $filter, $rootScope, RVotaciones, Restangular, resolved_user, App)->
 
 
 	$scope.data = {} # Para el popup del Datapicker
@@ -15,6 +15,10 @@ angular.module("myvcFrontApp")
 		is_action: false
 		fecha_inicio: ''
 		fecha_fin: ''
+	}
+
+	$scope.dateOptions = {
+		startingDay: 1
 	}
 
 	$scope.editar = (row)->
@@ -30,19 +34,47 @@ angular.module("myvcFrontApp")
 			console.log 'No se pudo eliminar.', r2
 		)
 
+	$scope.cambiarInAction = (row)->
+		Restangular.one('votaciones/set-in-action').customPUT({id: row.id}).then((r)->
+			console.log 'Se ha puesto en acción: ', r
+		, (r2)->
+			console.log 'No se pudo poner en acción.', r2
+		)
+
+
+	$scope.cambiarLocked = (row)->
+		Restangular.one('votaciones/set-locked').customPUT({id: row.id}).then((r)->
+			console.log 'Se ha bloqueado: ', r
+		, (r2)->
+			console.log 'No se pudo bloquear.', r2
+		)
+
+	$scope.cambiarEventoActual = (row)->
+		Restangular.one('votaciones/set-actual').customPUT({id: row.id}).then((r)->
+			console.log 'Se ha vuelto actual: ', r
+		, (r2)->
+			console.log 'No se pudo volver actual.', r2
+		)
+
+
+
 	btGrid1 = '<a tooltip="Editar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
 	btGrid2 = '<a tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-times "></i></a>'
+	btActual = "#{App.views}votaciones/botonEventoActual.tpl.html"
+	btBloq = "#{App.views}votaciones/botonEventoLocked.tpl.html"
+	btAccion = "#{App.views}votaciones/botonEventoInAction.tpl.html"
+
 	$scope.gridOptions = 
 		enableSorting: true,
 		enebleGridColumnMenu: false,
 		columnDefs: [
 			{ name: 'edicion', displayName:'Edición', maxWidth: 50, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2, enableCellEdit: false}
 			{ field: 'nombre', enableHiding: false }
-			{ field: 'locked', displayName: 'Bloqueado', maxWidth: 50 }
-			{ field: 'actual', displayName: 'Actual', maxWidth: 50 }
-			{ field: 'in_action', displayName: 'En acción', maxWidth: 50 }
-			{ field: 'fecha_inicio', displayName:'Fecha inicio', cellFilter: "date:mediumDate", type: 'date'}
-			{ field: 'fecha_fin', displayName: 'Fecha fin', cellFilter: "date:mediumDate", type: 'date' }
+			{ field: 'locked', displayName: 'Bloqueado', maxWidth: 60, cellTemplate: btBloq }
+			{ field: 'actual', displayName: 'Actual', maxWidth: 60, cellTemplate: btActual}
+			{ field: 'in_action', displayName: 'En acción', maxWidth: 60, cellTemplate: btAccion }
+			{ field: 'fecha_inicio', displayName:'Inicia', cellFilter: "date:mediumDate", type: 'date', maxWidth: 80}
+			{ field: 'fecha_fin', displayName: 'Termina', cellFilter: "date:mediumDate", type: 'date', maxWidth: 80 }
 		],
 		multiSelect: false,
 		#filterOptions: $scope.filterOptions,

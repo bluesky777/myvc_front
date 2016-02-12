@@ -52,6 +52,10 @@
 			a(ui-sref="panel.notas_alumno")
 				i.menu-icon.fa.fa-apple
 				span.menu-text Mis Notas
+		li(ui-sref-active="active" ng-if="hasRoleOrPerm('alumno')")
+			a(ui-sref="panel.actividades" stop-event="click")
+				span.menu-text Actividades
+
 
 		<!-- Notas visto por profesor-->
 		li(sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm(['profesor'])" ng-class="{open:$state.includes('panel.notas')||$state.includes('panel.listasignaturas')||$state.includes('panel.notas_alumno')}")
@@ -62,11 +66,15 @@
 
 			ul.submenu
 				li(ui-sref-active="active")
+					a(ui-sref="panel.listasignaturas" stop-event="click")
+						span.menu-text Asignaturas
+				li(ui-sref-active="active")
 					a(ng-click="listarAsignaturas()" href="" stop-event="click")
 						span.menu-text Notas
 				li(ui-sref-active="active")
-					a(ui-sref="panel.listasignaturas" stop-event="click")
-						span.menu-text Asignaturas
+					a(ui-sref="panel.actividades" stop-event="click")
+						span.menu-text Actividades
+						i.menu-icon.fa.fa-soccer-ball-o 
 				li(ui-sref-active="active")
 					a(ui-sref="panel.notas_alumno" stop-event="click")
 						span.menu-text.blue De un alumno
@@ -82,6 +90,10 @@
 				li(ui-sref-active="active")
 					a(ui-sref="panel.notas_alumno" stop-event="click")
 						span.menu-text De un alumno
+				li(ui-sref-active="active")
+					a(ui-sref="panel.actividades" stop-event="click")
+						span.menu-text Actividades
+						i.menu-icon.fa.fa-soccer-ball-o 
 				li(ui-sref-active="active" ng-repeat="profe in profesores")
 					a(ui-sref="panel.listasignaturas({profesor_id: profe.profesor_id})" stop-event="click" tooltip="{{profe.nombres}} {{profe.apellidos}}" tooltip-popup-delay="1500" tooltip-placement="right")
 						div.menu-text.nombresellipsis {{profe.nombres}} {{profe.apellidos}}

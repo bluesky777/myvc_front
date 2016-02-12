@@ -1,13 +1,27 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-.controller('LoginCtrl', ['$scope', '$rootScope', 'AUTH_EVENTS', 'AuthService', '$location', 'Restangular', '$cookies', 'Perfil', 'App', ($scope, $rootScope, AUTH_EVENTS, AuthService, $location, Restangular, $cookies, Perfil, App)->
+.controller('LoginCtrl', ['$scope', '$rootScope', 'AUTH_EVENTS', 'AuthService', '$location', 'Restangular', '$cookies', 'Perfil', 'App', '$http', ($scope, $rootScope, AUTH_EVENTS, AuthService, $location, Restangular, $cookies, Perfil, App, $http)->
 	
 	animation_speed = 300
 	$scope.logueando = true
 	$scope.recuperando = false
 	$scope.registrando = false
-	$scope.logoPath = 'images/MyVc-1.gif'
+	
+
+	# Si el colegio quiere que aparezca su imagen en el encabezado, puede hacerlo.
+	$scope.logoPathDefault = 'images/Logo_MyVc_Header.gif'
+	$scope.logoPath = 'images/Logo_Colegio_Header.gif'
+	#$scope.paramuser = {'username': Perfil.User().username }
+
+
+	$http.get($scope.logoPath).success(()->
+		#alert('imagen existe')
+	).error(()->
+		#alert('image not exist')
+		$scope.logoPath = $scope.logoPathDefault # set default image
+	)
+
 
 	$scope.credentials = 
 		username: ''

@@ -1,6 +1,6 @@
 
 <div ng-repeat="asignatura in asignaturas">
-  <div ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $parent.$last==false }">
+  <div ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }">
     <div class="row">
       <div class="col-lg-12 col-xs-12">
         <div class="row encabezado-planilla">

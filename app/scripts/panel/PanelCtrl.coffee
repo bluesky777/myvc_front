@@ -7,8 +7,20 @@ angular.module('myvcFrontApp')
 
 		$scope.USER = resolved_user
 		$scope.pageTitle = $rootScope.pageTitle
-		$scope.logoPath = 'images/MyVc-1.gif'
+
+
+		# Si el colegio quiere que aparezca su imagen en el encabezado, puede hacerlo.
+		$scope.logoPathDefault = 'images/Logo_MyVc_Header.gif'
+		$scope.logoPath = 'images/Logo_Colegio_Header.gif'
 		#$scope.paramuser = {'username': Perfil.User().username }
+
+
+		$http.get($scope.logoPath).success(()->
+			#alert('imagen existe')
+		).error(()->
+			#alert('image not exist')
+			$scope.logoPath = $scope.logoPathDefault # set default image
+		)
 
 
 		# Para evitar una supuesta espera infinita
@@ -83,14 +95,16 @@ angular.module('myvcFrontApp')
 
 
 		$scope.cambiarYear = (year)->
-			console.log 'Voy a cambiar de año'
+			console.log 'Voy a cambiar de año', year, $scope.USER
 
 			Restangular.one('years/useractive', year.id).put().then((r)->
-				toastr.success 'Año cambiado con éxito: ' + year.numero, 'Cambiado' 
 				$scope.USER.year_id = year.id
 				$scope.USER.year = year.year
 				$scope.USER.numero_periodo = r.numero
+				$scope.USER.periodo_id = r.id
 
+				toastr.success 'Año cambiado con éxito: ' + year.year, 'Cambiado' 
+				
 				$rootScope.reload()
 
 			, (r2)->

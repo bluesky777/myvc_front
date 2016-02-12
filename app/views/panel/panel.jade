@@ -66,7 +66,7 @@ loader(ng-if="bigLoader")
 												i.fa.fa-clock-o.darkorange(ng-if="!year.actual")
 								
 								li.dropdown-footer
-									span Hoy, {{date | date:"EEEE dd ' de ' MMMM"}} 
+									span Hoy, {{::date | date:"EEEE dd ' de ' MMMM"}} 
 							<!--/ Año Dropdown-->
 
 						li(my-drop-down ng-click="toggleOpen()" is-open="false" evitar-cierre="true" ng-if="false")
@@ -201,57 +201,19 @@ loader(ng-if="bigLoader")
 								li.edit
 									a.pull-left(ui-sref='panel.user.resumen({username: usuario()})') Perfil
 									a.pull-right(ui-sref='panel.user.configuracion({username: usuario()})') Configuración
-								<!--Theme Selector Area-->
-								li(ng-if="false").theme-area
-									ul.colorpicker#skin-changer
-										li
-											a.colorpick-btn(href="" style="background-color:#5DB2FF;" rel="assets/css/skins/blue.min.css")
-										li
-											a.colorpick-btn(href="" style="background-color:#2dc3e8;" rel="assets/css/skins/azure.min.css")
-										li
-											a.colorpick-btn(href="" style="background-color:#03B3B2;" rel="assets/css/skins/teal.min.css")
-										li
-											a.colorpick-btn(href="" style="background-color:#53a93f;" rel="assets/css/skins/green.min.css")
-										li
-											a.colorpick-btn(href="" style="background-color:#FF8F32;" rel="assets/css/skins/orange.min.css")
-										li
-											a.colorpick-btn(href="" style="background-color:#cc324b;" rel="assets/css/skins/pink.min.css")
-										li
-											a.colorpick-btn(href="" style="background-color:#AC193D;" rel="assets/css/skins/darkred.min.css")
-										li
-											a.colorpick-btn(href="" style="background-color:#8C0095;" rel="assets/css/skins/purple.min.css")
-										li
-											a.colorpick-btn(href="" style="background-color:#0072C6;" rel="assets/css/skins/darkblue.min.css")
-										li
-											a.colorpick-btn(href="" style="background-color:#585858;" rel="assets/css/skins/gray.min.css")
-										li
-											a.colorpick-btn(href="" style="background-color:#474544;" rel="assets/css/skins/black.min.css")
-										li
-											a.colorpick-btn(href="" style="background-color:#001940;" rel="assets/css/skins/deepblue.min.css")
-								<!--/Theme Selector Area-->
+
 								li.dropdown-footer
 									a(href="" ng-click="logout()") Cerrar sesión
 							<!--/Login Area Dropdown-->
 						<!-- /Account Area -->
 						<!--Note: notice that setting div must start right after account area list. no space must be between these elements-->
 						<!-- Settings -->
-					.setting
-						a#btn-setting(title="Setting" href="")
-							i.icon.fa.fa-cog
-					.setting-container
-						label
-							input#checkbox_fixednavbar(type="checkbox")
-							span.text Fixed Navbar
-						label
-							input#checkbox_fixedsidebar(type="checkbox")
-							span.text Fixed SideBar
-						label
-							input#checkbox_fixedbreadcrumbs(type="checkbox")
-							span.text Fixed BreadCrumbs
-						label
-							input#checkbox_fixedheader(type="checkbox")
-							span.text Fixed Header
-					<!-- Settings -->
+
+						li( ng-click="logout()")
+							a.dropdown-toggle(title="Salir" href="")
+								i.icon.fa.fa-sign-out  Salir
+
+
 			<!-- /Account Area and Settings -->
 <!-- /Navbar -->
 
@@ -286,7 +248,7 @@ loader(ng-if="bigLoader")
 			<!-- /Page Header ************************************* -->
 
 			<!-- Page Body -->
-			.page-body
+			.page-body(withpadding-dir)
 
 				//databoxes-container.row
 

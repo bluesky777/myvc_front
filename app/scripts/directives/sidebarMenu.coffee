@@ -15,7 +15,7 @@ angular.module('myvcFrontApp')
 		scope.$watch(()->
 			return $window.innerWidth
 		, (value)->
-			console.log 'Ancho de la $window en sidebarMenu', value
+			#console.log 'Ancho de la $window en sidebarMenu', value
 			if value > 880
 				iElem.removeClass('hide');
 			else

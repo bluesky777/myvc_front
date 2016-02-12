@@ -1,0 +1,45 @@
+.mail-container
+
+	.mail-sidebar
+		.mail-menu
+			li(ui-sref-active-eq="active")
+				a(href="" ui-sref="panel.actividades")
+					i.fa.fa-inbox
+					| Generales
+			li(ui-sref-active="active")
+				a(href="" ui-sref="panel.actividades.votaciones")
+					i.fa.fa-inbox
+					//span.badge.badge-default.badge-square.pull-right 6
+					| Votaciones
+
+
+	div(ui-view="actividades_content")
+		.mail-header
+			ul.header-buttons
+				li
+					
+					a.tooltip-primary(href="")
+						i.fa.fa-pencil
+
+			ul.header-buttons.pull-right
+				li
+					a.tooltip-primary(href="")
+						i.fa.fa-angle-left
+
+			.pages
+				| 1-100 of 608
+
+		.mail-body
+			.mail-list
+				li.list-item.unread
+					.item-check
+						label
+							input(type="checkbox")
+							span.text
+					.item-star
+						a(href="")
+							i.fa.fa-star-o
+
+					.item-sender
+						a.col-name(href="") Bing
+

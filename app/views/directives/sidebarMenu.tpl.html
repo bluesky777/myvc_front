@@ -21,17 +21,20 @@
         </li>
       </ul>
     </li><!--Notas vista por un Alumno-->
-    <li ui-sref-active="active" ng-if="hasRoleOrPerm('alumno')"><a ui-sref="panel.notas_alumno"><i class="menu-icon fa fa-apple"></i><span class="menu-text">Mis Notas</span></a></li><!-- Notas visto por profesor-->
+    <li ui-sref-active="active" ng-if="hasRoleOrPerm('alumno')"><a ui-sref="panel.notas_alumno"><i class="menu-icon fa fa-apple"></i><span class="menu-text">Mis Notas</span></a></li>
+    <li ui-sref-active="active" ng-if="hasRoleOrPerm('alumno')"><a ui-sref="panel.actividades" stop-event="click"><span class="menu-text">Actividades</span></a></li><!-- Notas visto por profesor-->
     <li sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm(['profesor'])" ng-class="{open:$state.includes('panel.notas')||$state.includes('panel.listasignaturas')||$state.includes('panel.notas_alumno')}"><a href="" class="menu-dropdown"><i class="menu-icon fa fa-apple"></i><span class="menu-text">Notas</span><i class="menu-expand"></i></a>
       <ul class="submenu">
-        <li ui-sref-active="active"><a ng-click="listarAsignaturas()" href="" stop-event="click"><span class="menu-text">Notas</span></a></li>
         <li ui-sref-active="active"><a ui-sref="panel.listasignaturas" stop-event="click"><span class="menu-text">Asignaturas</span></a></li>
+        <li ui-sref-active="active"><a ng-click="listarAsignaturas()" href="" stop-event="click"><span class="menu-text">Notas</span></a></li>
+        <li ui-sref-active="active"><a ui-sref="panel.actividades" stop-event="click"><span class="menu-text">Actividades</span><i class="menu-icon fa fa-soccer-ball-o"> </i></a></li>
         <li ui-sref-active="active"><a ui-sref="panel.notas_alumno" stop-event="click"><span class="menu-text blue">De un alumno</span></a></li>
       </ul>
     </li><!-- Notas visto por el admin-->
     <li sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm(['admin'])" ng-class="{open:$state.includes('panel.listasignaturas')||$state.includes('panel.unidades')||$state.includes('panel.notas')||$state.includes('panel.notas_alumno')}"><a href="" class="menu-dropdown"><i class="menu-icon fa fa-apple"></i><span class="menu-text">Notas</span><i class="menu-expand"></i></a>
       <ul class="submenu">
         <li ui-sref-active="active"><a ui-sref="panel.notas_alumno" stop-event="click"><span class="menu-text">De un alumno</span></a></li>
+        <li ui-sref-active="active"><a ui-sref="panel.actividades" stop-event="click"><span class="menu-text">Actividades</span><i class="menu-icon fa fa-soccer-ball-o"> </i></a></li>
         <li ui-sref-active="active" ng-repeat="profe in profesores"><a ui-sref="panel.listasignaturas({profesor_id: profe.profesor_id})" stop-event="click" tooltip="{{profe.nombres}} {{profe.apellidos}}" tooltip-popup-delay="1500" tooltip-placement="right">
             <div class="menu-text nombresellipsis">{{profe.nombres}} {{profe.apellidos}}</div></a></li>
         <li ng-if="profesores.length==0"><a ui-sref="panel.profesores" stop-event="click" tooltip="Profesores no contratados" tooltip-popup-delay="1500" tooltip-placement="right">
