@@ -120,25 +120,25 @@ angular.module("myvcFrontApp")
 		enebleGridColumnMenu: false,
 		columnDefs: [
 			{ field: 'alumno_id', displayName:'Id', width: 50, enableCellEdit: false, enableColumnMenu: false}
-			{ field: 'no_matricula', maxWidth: 50, enableSorting: false, enableColumnMenu: false }
-			{ name: 'edicion', displayName:'Edición', width: 60, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2, enableCellEdit: false, enableColumnMenu: false}
-			{ field: 'nombres', 
+			{ field: 'no_matricula', maxWidth: 50, enableSorting: false, enableColumnMenu: true }
+			{ name: 'edicion', displayName:'Edición', width: 60, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2, enableCellEdit: false, enableColumnMenu: true}
+			{ field: 'nombres', minWidth: 80,
 			filter: {
 				condition: (searchTerm, cellValue, row)->
 					entidad = row.entity
 					return (entidad.nombres.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1)
 			}
 			enableHiding: false }
-			{ field: 'apellidos', filter: { condition: uiGridConstants.filter.CONTAINS }}
+			{ field: 'apellidos', minWidth: 80, filter: { condition: uiGridConstants.filter.CONTAINS }}
 			{ field: 'sexo', width: 60 }
-			{ field: 'abrevgrupo', displayName: 'Grupo', enableCellEdit: false, cellTemplate: btMatricular, filter: {
+			{ field: 'abrevgrupo', displayName: 'Grupo', enableCellEdit: false, cellTemplate: btMatricular, minWidth: 150, filter: {
 					condition: uiGridConstants.filter.CONTAINS,
 					placeholder: 'Ej: 8A'
 				}, 
 			}
-			{ field: 'username', filter: { condition: uiGridConstants.filter.CONTAINS }, displayName: 'Usuario', cellTemplate: btUsuario }
+			{ field: 'username', filter: { condition: uiGridConstants.filter.CONTAINS }, displayName: 'Usuario', cellTemplate: btUsuario, minWidth: 150 }
 			# { field: 'fecha_nac', displayName:'Nacimiento', cellFilter: "date:mediumDate", type: 'date'}
-			{ field: 'deuda', displayName: 'Deuda', cellTemplate: btPazysalvo }
+			{ field: 'deuda', displayName: 'Deuda', cellTemplate: btPazysalvo, minWidth: 150 }
 		],
 		multiSelect: false,
 		#filterOptions: $scope.filterOptions,

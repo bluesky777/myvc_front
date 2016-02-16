@@ -10,19 +10,12 @@ angular.module('myvcFrontApp')
 		alumnosasigs: "="
 
 
-
-	link: (scope, iElem, iAttrs)->
-		# Debo agregar la clase .loading-inactive para que desaparezca el loader de la pantalla.
-		# y eso lo puedo hacer con el ng-if
-
-		scope.USER = Perfil.User()
-		scope.USER.nota_minima_aceptada = parseInt(scope.USER.nota_minima_aceptada)
-		scope.perfilPath = App.images+'perfil/'
-
-		#console.log scope.config.orientacion
-
-
 	controller: ($scope, App, Restangular, EscalasValorativasServ, AuthService, toastr)->
+
+		$scope.USER = Perfil.User()
+		$scope.USER.nota_minima_aceptada = parseInt($scope.USER.nota_minima_aceptada)
+		$scope.perfilPath = App.images+'perfil/'
+
 
 		$scope.periodos_materia = []
 

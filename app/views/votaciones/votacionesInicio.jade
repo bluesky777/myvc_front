@@ -1,0 +1,20 @@
+.mail-header
+	div.btn-group(style="padding-top:2px; padding-left: 4px; ")
+		a.btn.btn-default(href="" ui-sref-active="active" ui-sref="panel.actividades.votaciones.config" ng-if="hasRoleOrPerm(['profesor', 'admin'])") Configurar
+		a.btn.btn-default(href="" ui-sref-active="active" ui-sref="panel.actividades.votaciones.participantes" ng-if="hasRoleOrPerm(['profesor', 'admin'])") Participantes
+		a.btn.btn-default(href="" ui-sref-active="active" ui-sref="panel.actividades.votaciones.candidatos" ng-if="hasRoleOrPerm(['profesor', 'admin'])") Candidatos
+		a.btn.btn-default(href="" ui-sref-active="active" ui-sref="panel.actividades.votaciones.votar") Votar
+		a.btn.btn-default(href="" ui-sref-active="active" ui-sref="panel.actividades.votaciones.resultados") Resultados
+
+
+
+
+
+.mail-body(ui-view="votaciones_view")
+	.row(style="padding: 5px; ")
+		.col-lg-6.col-sm-12.col-xs-12
+			.well
+				h3 Bienvenido(a) a las votaciones.
+				h4(ng-if="hasRoleOrPerm(['profesor', 'admin'])") Primero debes Configurar todos los datos.
+				h4(ng-if="hasRoleOrPerm(['alumno', 'acudiente'])") Puedes votar o ver los resultados si el evento ya terminó.
+

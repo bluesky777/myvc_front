@@ -4,75 +4,109 @@ angular.module('myvcFrontApp')
 	.config ['$stateProvider', 'App', 'PERMISSIONS', ($state, App, PERMISSIONS) ->
 
 		$state
-			.state 'votaciones',
+			.state 'panel.actividades.votaciones',
 				url: '/votaciones'
 				views: 
-					'principal':
-						templateUrl: "#{App.views}votaciones/inicio.tpl.html"
-						controller: 'InicioCtrl'
-				resolve: {
-					resolved_user: ['AuthService', (AuthService)->
-						AuthService.verificar()
-					]
-				}
-				data:
+					'actividades_content':
+						templateUrl: "#{App.views}votaciones/votacionesInicio.tpl.html"
+						controller: 'VotacionesInicioCtrl'
+					'headerContent':
+						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						controller: 'PanelHeaderCtrl'
+						resolve:
+							titulo: [->
+								'Votaciones'
+							]
+				data: 
+					displayName: 'Votaciones'
+					icon_fa: 'fa fa-male'
 					pageTitle: 'Votaciones - MyVc'
 
-		.state 'votaciones.config',
+		$state
+			.state 'panel.actividades.votaciones.config',
 				url: '/config'
 				views: 
-					'maincontent':
+					'votaciones_view':
 						templateUrl: "#{App.views}votaciones/votaciones.tpl.html"
 						controller: 'VotacionesCtrl'
-				data:
-					needed_permissions: [PERMISSIONS.can_edit_votaciones]
-					pageTitle: 'Configurar votación - MyVc'
+					'headerContent':
+						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						controller: 'PanelHeaderCtrl'
+						resolve:
+							titulo: [->
+								'Configuración - MyVc'
+							]
+				data: 
+					displayName: 'Configuración'
+					icon_fa: 'fa fa-male'
+					pageTitle: 'Configuración - MyVc'
 
-		.state 'votaciones.aspiraciones',
-				url: '/aspiraciones'
+
+			.state 'panel.actividades.votaciones.participantes',
+				url: '/participantes'
 				views: 
-					'maincontent':
-						templateUrl: "#{App.views}votaciones/aspiraciones.tpl.html"
-						controller: 'AspiracionesCtrl'
+					'votaciones_view':
+						templateUrl: "#{App.views}votaciones/participantes.tpl.html"
+						controller: 'ParticipantesCtrl'
+					'headerContent':
+						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						controller: 'PanelHeaderCtrl'
+						resolve:
+							titulo: [->
+								'Participantes'
+							]
 				data:
-					needed_permissions: [PERMISSIONS.can_edit_aspiraciones]
-					pageTitle: 'Aspiraciones - MyVc'
+					needed_permissions: [PERMISSIONS.can_edit_participantes]
+					displayName: 'Participantes'
+					icon_fa: 'fa fa-male'
+					pageTitle: 'Participantes - MyVc'
 
-		.state 'votaciones.candidatos',
+			.state 'panel.actividades.votaciones.candidatos',
 				url: '/candidatos'
 				views: 
-					'maincontent':
+					'votaciones_view':
 						templateUrl: "#{App.views}votaciones/candidatos.tpl.html"
 						controller: 'CandidatosCtrl'
+					'headerContent':
+						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						controller: 'PanelHeaderCtrl'
+						resolve:
+							titulo: [->
+								'Candidatos'
+							]
 				data:
 					needed_permissions: [PERMISSIONS.can_edit_candidatos]
 					pageTitle: 'Candidatos - MyVc'
 
-		.state 'votaciones.participantes',
-				url: '/participantes'
-				views: 
-					'maincontent':
-						templateUrl: "#{App.views}votaciones/participantes.tpl.html"
-						controller: 'ParticipantesCtrl'
-				data:
-					needed_permissions: [PERMISSIONS.can_edit_participantes]
-					pageTitle: 'Participantes - MyVc'
-
-		.state 'votaciones.votar',
+			.state 'panel.actividades.votaciones.votar',
 				url: '/votar/:maxi'
 				views: 
-					'maincontent':
+					'votaciones_view':
 						templateUrl: "#{App.views}votaciones/votar.tpl.html"
 						controller: 'VotarCtrl'
+					'headerContent':
+						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						controller: 'PanelHeaderCtrl'
+						resolve:
+							titulo: [->
+								'Votar'
+							]
 				data:
 					pageTitle: 'Votar - MyVc'
 
-		.state 'votaciones.resultados',
+			.state 'panel.actividades.votaciones.resultados',
 				url: '/resultados'
 				views: 
-					'maincontent':
+					'votaciones_view':
 						templateUrl: "#{App.views}votaciones/resultados.tpl.html"
 						controller: 'ResultadosCtrl'
+					'headerContent':
+						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						controller: 'PanelHeaderCtrl'
+						resolve:
+							titulo: [->
+								'Resultados'
+							]
 				data:
 					pageTitle: 'Resultados - MyVc'
 

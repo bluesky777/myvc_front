@@ -1,57 +1,45 @@
-<!-- Page Header ************************************** -->
-.page-header.position-relative
-<!-- /Page Header ************************************* -->
+.row(style="padding: 5px; ")
+	.col-lg-6.col-sm-6.col-xs-12
+		.widget
+			.widget-header
+				span.widget-caption Candidatos por aspiración
+				span(ng-if="aspiraciones.length == 0") - No hay apiraciones creadas.
 
-<!-- Page Body -->
-.page-body
-	.row
-		.col-lg-6.col-sm-6.col-xs-12
-			.widget
-				.widget-header
-					span.widget-caption Candidatos por aspiración
+			.widget-body
 
-					.widget-buttons
-						a(href="#" data-toggle="collapse")
-							i.fa.fa-minus
-						a(href="#" data-toggle="dispose")
-							i.fa.fa-times
-				.widget-body
+				.dd.dd-draghandle.darker
+					ol.dd-list
+						li.dd-item.dd2-item(data-id="$index" ng-repeat="aspiracion in aspiraciones")
+							button(data-action="collapse" type="button")
+								| Collapse
+							button(data-action="expand" type="button" style="display: none;")
+								| Expand
+							.dd-handle.dd2-handle
+								i.normal-icon.fa.fa-cloud
+								i.drag-icon.fa.fa-arrows-alt
+							.dd2-content {{aspiracion.aspiracion}}
 
-					
-
-					.dd.dd-draghandle.darker
-						ol.dd-list
-							li.dd-item.dd2-item(data-id="$index" ng-repeat="aspiracion in aspiraciones")
-								button(data-action="collapse" type="button")
-									| Collapse
-								button(data-action="expand" type="button" style="display: none;")
-									| Expand
-								.dd-handle.dd2-handle
-									i.normal-icon.fa.fa-cloud
-									i.drag-icon.fa.fa-arrows-alt
-								.dd2-content {{aspiracion.aspiracion}}
-
-								ol.dd-list()
-									li.dd-item.dd2-item.bordered-blue
-										.dd-handle
-											form(ng-submit="crearCandidato(aspiracion)")
-												label Participante
-												ui-select(ng-model="aspiracion.newParticip" theme="select2" style="min-width: 300px;")
-													ui-select-match(placeholder="Seleccione aspirante" allow-clear="true") {{$select.selected.nombres}} - {{$select.selected.username}}
-													ui-select-choices(repeat="particip in allinscritos | filter: $select.search")
-														div(ng-bind-html="'<small><i>'+particip.tipo +':</i></small> '+particip.nombres +' '+ particip.apellidos | highlight: $select.search")
-												.form-group
-													input.form-control(type="textbox" placeholder="Plancha" ng-model="aspiracion.newParticip.plancha")
-													input.form-control(type="textbox" placeholder="Número" ng-model="aspiracion.newParticip.numero")
-												.form-group
-													input.btn.btn-primary.btn-sm.shiny(type="submit" ng-submit="crearCandidato(aspiracion)" value="Crear candidato") 
+							ol.dd-list()
+								li.dd-item.dd2-item.bordered-blue
+									.dd-handle
+										form(ng-submit="crearCandidato(aspiracion)")
+											label Participante
+											ui-select(ng-model="aspiracion.newParticip" theme="select2" style="min-width: 300px;")
+												ui-select-match(placeholder="Seleccione aspirante" allow-clear="true") {{$select.selected.nombres}} - {{$select.selected.username}}
+												ui-select-choices(repeat="particip in allinscritos | filter: $select.search")
+													div(ng-bind-html="'<small><i>'+particip.tipo +':</i></small> '+particip.nombres +' '+ particip.apellidos | highlight: $select.search")
+											.form-group
+												input.form-control(type="textbox" placeholder="Plancha" ng-model="aspiracion.newParticip.plancha")
+												input.form-control(type="textbox" placeholder="Número" ng-model="aspiracion.newParticip.numero")
+											.form-group
+												input.btn.btn-primary.btn-sm.shiny(type="submit" ng-submit="crearCandidato(aspiracion)" value="Crear candidato") 
 
 
-									li.dd-item.dd2-item(data-id="2" ng-repeat="candidato in aspiracion.candidatos")
-										.dd-handle.dd2-handle
-											i.normal-icon.fa.fa-legal
-											i.drag-icon.fa.fa-arrows-alt
-										.dd2-content {{candidato.nombres}} {{candidato.apellidos}} [{{candidato.plancha +' - '+candidato.numero}}] ({{candidato.tipo}}) 
-											a(href="" ng-click="eliminarCandidato(candidato.candidato_id, aspiracion)" data-toggle="dispose")
-												i.fa.fa-times
-							
+								li.dd-item.dd2-item(data-id="2" ng-repeat="candidato in aspiracion.candidatos")
+									.dd-handle.dd2-handle
+										i.normal-icon.fa.fa-legal
+										i.drag-icon.fa.fa-arrows-alt
+									.dd2-content {{candidato.nombres}} {{candidato.apellidos}} [{{candidato.plancha +' - '+candidato.numero}}] ({{candidato.tipo}}) 
+										a(href="" ng-click="eliminarCandidato(candidato.candidato_id, aspiracion)" data-toggle="dispose")
+											i.fa.fa-times
+						

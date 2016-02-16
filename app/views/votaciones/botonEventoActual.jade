@@ -1,4 +1,6 @@
 label
-	input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="row.entity.actual" ng-true-value="1" ng-false-value="0" ng-change="grid.appScope.cambiarEventoActual(row.entity)")
+	input.checkbox-slider.slider-icon.colored-blue.ocultar-input(type="checkbox" 
+		ng-model="row.entity.actual" ng-true-value="1" ng-false-value="0" 
+		ng-change="grid.appScope.cambiarEventoActual(row.entity)")
 	span.text.si-no
 

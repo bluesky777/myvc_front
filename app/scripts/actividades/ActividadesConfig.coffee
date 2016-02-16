@@ -24,24 +24,5 @@ angular.module('myvcFrontApp')
 
 
 
-			.state 'panel.actividades.votaciones',
-				url: '/votaciones'
-				views: 
-					'actividades_content':
-						templateUrl: "#{App.views}votaciones/votaciones.tpl.html"
-						controller: 'VotacionesCtrl'
-					'headerContent':
-						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
-						controller: 'PanelHeaderCtrl'
-						resolve:
-							titulo: [->
-								'Actividades'
-							]
-				data: 
-					displayName: 'Actividades'
-					icon_fa: 'fa fa-male'
-					pageTitle: 'Actividades - MyVc'
-
-
 		return
 	]
