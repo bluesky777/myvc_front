@@ -12,27 +12,8 @@ angular.module("myvcFrontApp")
 
 	$scope.imagesPath = App.images + 'perfil/'
 
-	Restangular.one('votaciones/actual').get().then((r)->
-		$scope.votacion = r
-	)
-
-	###
-	$scope.gridOptions = 
-		enableSorting: true,
-		enebleGridColumnMenu: false,
-		columnDefs: [
-			{ field: 'aspiracion', displayName: 'Aspiración' }
-			{ field: 'abrev', displayName: 'Abreviatura'}
-		],
-		multiSelect: false,
-		#filterOptions: $scope.filterOptions,
-		onRegisterApi: ( gridApi ) ->
-			$scope.gridApi = gridApi
-	###
 	Restangular.one('votos/show').get().then((r)->
-		#$scope.gridOptions.data = r;
-		$scope.aspiraciones = r
-		console.log $scope.aspiraciones
+		$scope.votaciones = r
 	, (r2)->
 		console.log 'Error trayendo las votaciones. ', r2
 	)

@@ -1,0 +1,76 @@
+.col-lg-12.col-sm-12.col-xs-12
+	.widget(ng-class="{maximized:maxi}" style="min-height: 500px")
+		.widget-header(ng-class="{'bg-blue': $parent.$even, 'bg-green': $parent.$odd}")
+			i.widget-icon.fa.fa-legal
+			span.widget-caption {{votacion.nombre | uppercase}}
+			.widget-buttons
+				a(href="" data-toggle="config" ng-if="false")
+					i.fa.fa-cog
+				a(href="" ng-click="maxi=!maxi" data-toggle="maximize")
+					i.fa.fa-expand
+				a(href="" data-toggle="collapse" ng-if="false")
+					i.fa.fa-minus
+				a(href="" data-toggle="dispose" ng-if="false")
+					i.fa.fa-times
+		.widget-body()
+
+
+			.wizard()
+				ul.steps
+					li(ng-repeat="aspiracion in votacion.aspiraciones" ng-class="{active:wzStep==$index, complete:wzStep>$index}" ng-click="goAspiracion($index)")
+						span.step {{$index+1}}
+						|{{aspiracion.aspiracion}}
+						span.chevron
+
+					li(ng-class="{active:wzStep==aspiraciones.length}")
+						span.step {{aspiraciones.length+1}} 
+						|Final
+						span.chevron
+
+				.actions
+					button.btn.btn-default.btn-sm.shiny.btn-prev(type="button" ng-click="prevAspiracion()" ng-class="{disabled:wzStep==0}")
+						i.fa.fa-angle-left
+						|Volver
+					button.btn.btn-default.btn-sm.shiny.btn-next(type="button" ng-click="nextAspiracion()" ng-class="{disabled:wzStep==aspiraciones.length}")
+						|Seguir
+						i.fa.fa-angle-right
+
+			.step-content(ng-style="{'min-height': windowHeight}")
+
+				.step-pane(ng-repeat="aspiracion in votacion.aspiraciones" ng-class="{active:wzStep==$index}")
+					.row
+						.col-lg-9.col-md-8.col-sm-7.col-xs-12
+
+							alert(type="warning" ng-show="aspiracion.votado.length>0")
+								i.fa-fw.fa.fa-warning
+								| Ya votaste por {{aspiracion.aspiracion}}. Puedes continuar.
+							.col-lg-4.col-sm-12.col-xs-12.puntero(ng-repeat="candidato in aspiracion.candidatos" ng-mouseenter="mostrarImagen(candidato)" ng-mouseleave="ocultarImagen(candidato)" ng-click="open(candidato, aspiracion)")
+								.databox.databox-graded.radius-bordered.databox-shadowed
+									.databox-left.no-padding
+										img.img-responsive(ng-src="{{imagesPath + candidato.imagen_nombre}}" style="width:65px; height:65px;" ng-class="{'transparente':!candidato.iluminado}" )
+									.databox-right.padding-top-5.bordered-thick.bordered-sky(ng-class="{'bg-white':candidato.iluminado}")
+										.databox-title.lightcarbon {{candidato.nombres + ' ' +candidato.apellidos}}
+										.databox-text.darkgray Plancha {{candidato.plancha}} - Número {{candidato.numero}}
+										.databox-stat.radius-bordered(ng-class="candidato.iluminado ? 'bg-darkorange stat-over' : 'bg-sky'")
+											.stat-text {{candidato.nombre_grupo}}
+											//i.stat-icon.fa.fa-apple
+
+
+						.col-lg-3.col-md-4.col-sm-5.col-xs-12.hidden-xs
+							.databox.databox-graded.databox-xxlg
+								.databox-left.no-padding
+									img.img-responsive.preview-img(ng-src="{{imagesPath + currentImg}}" style="width:250px; height:250px;")
+
+
+				.step-pane(ng-class="{active:wzStep==votacion.aspiraciones.length}")
+					.row
+						.col-lg-9.col-md-8.col-sm-7.col-xs-12
+							.well.bordered-left.bordered-themeprimary
+								p
+									i.fa.fa-star.yellow.margin-right-5
+									strong Si ya has votado  
+									| puedes salir y esperar pronto los resultados.
+									input.btn.btn-success.btn-lg(value="Cerrar sesión" ui-sref="logout")
+
+
+

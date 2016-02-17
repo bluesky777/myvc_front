@@ -19,7 +19,7 @@ angular.module('myvcFrontApp')
 							]
 				data: 
 					displayName: 'Votaciones'
-					icon_fa: 'fa fa-male'
+					icon_fa: 'fa fa-legal'
 					pageTitle: 'Votaciones - MyVc'
 
 		$state
@@ -38,7 +38,7 @@ angular.module('myvcFrontApp')
 							]
 				data: 
 					displayName: 'Configuración'
-					icon_fa: 'fa fa-male'
+					icon_fa: 'fa fa-legal'
 					pageTitle: 'Configuración - MyVc'
 
 
@@ -58,7 +58,7 @@ angular.module('myvcFrontApp')
 				data:
 					needed_permissions: [PERMISSIONS.can_edit_participantes]
 					displayName: 'Participantes'
-					icon_fa: 'fa fa-male'
+					icon_fa: 'fa fa-legal'
 					pageTitle: 'Participantes - MyVc'
 
 			.state 'panel.actividades.votaciones.candidatos',
@@ -78,8 +78,9 @@ angular.module('myvcFrontApp')
 					needed_permissions: [PERMISSIONS.can_edit_candidatos]
 					pageTitle: 'Candidatos - MyVc'
 
+
 			.state 'panel.actividades.votaciones.votar',
-				url: '/votar/:maxi'
+				url: '/votar'
 				views: 
 					'votaciones_view':
 						templateUrl: "#{App.views}votaciones/votar.tpl.html"
@@ -93,6 +94,22 @@ angular.module('myvcFrontApp')
 							]
 				data:
 					pageTitle: 'Votar - MyVc'
+
+			.state 'panel.actividades.votaciones.votarprueba',
+				url: '/prueba'
+				views: 
+					'votaciones_view':
+						templateUrl: "#{App.views}votaciones/votarprueba.tpl.html"
+						controller: 'VotarPruebaCtrl'
+					'headerContent':
+						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						controller: 'PanelHeaderCtrl'
+						resolve:
+							titulo: [->
+								'Prueba votación'
+							]
+				data:
+					pageTitle: 'Prueba votación - MyVc'
 
 			.state 'panel.actividades.votaciones.resultados',
 				url: '/resultados'

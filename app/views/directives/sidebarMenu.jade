@@ -54,6 +54,7 @@
 				span.menu-text Mis Notas
 		li(ui-sref-active="active" ng-if="hasRoleOrPerm('alumno')")
 			a(ui-sref="panel.actividades" stop-event="click")
+				i.menu-icon.fa.fa-soccer-ball-o
 				span.menu-text Actividades
 
 
@@ -210,12 +211,6 @@
 
 
 
-
-		<!-- Votaciones-->
-		li(ui-sref-active="active" ng-if="hasRoleOrPerm(['alumno', 'profesor, acudiente'])")
-			a(ui-sref="votaciones.resultados()")
-				i.menu-icon.fa.fa-legal
-				span.menu-text Votaciones
 
 
 		<!-- Colegio-->

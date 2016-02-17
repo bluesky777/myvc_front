@@ -19,7 +19,7 @@ angular.module('myvcFrontApp')
 							]
 				data: 
 					displayName: 'Actividades'
-					icon_fa: 'fa fa-male'
+					icon_fa: 'fa fa-soccer-ball-o'
 					pageTitle: 'Actividades - MyVc'
 
 

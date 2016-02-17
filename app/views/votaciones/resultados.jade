@@ -1,10 +1,10 @@
 <!-- Page Header ************************************** -->
-.page-header.position-relative
+.page-header.position-relative.hidden-print
 <!-- /Page Header ************************************* -->
 
 <!-- Page Body -->
 .page-body
-	.row
+	.row.page-vertical(ng-repeat="votacion in votaciones" ng-class="{'salto-pagina': $last==false }")
 		.col-lg-12.col-sm-12.col-xs-12
 			h5.row-title
 				i.fa.fa-bar-chart.darkorange
@@ -23,7 +23,7 @@
 									th
 										|Total votos
 							tbody
-								tr(ng-repeat-start="aspiracion in aspiraciones")
+								tr(ng-repeat-start="aspiracion in votacion.aspiraciones")
 									td
 										|{{aspiracion.aspiracion}}
 									td
@@ -57,7 +57,7 @@
 					.well.with-header
 						.header.bordered-purple Ganadores
 						.row
-							.col-lg-6.col-sm-12.col-xs-12.puntero(ng-repeat="aspiracion in aspiraciones")
+							.col-lg-6.col-sm-12.col-xs-12.puntero(ng-repeat="aspiracion in votacion.aspiraciones")
 								.databox.databox-xlg.databox-graded.radius-bordered.databox-shadowed(ng-repeat="candidato in aspiracion.candidatos | orderBy:'cantidad':true" ng-if="$index==0")
 									.databox-left.no-padding
 										img.img-responsive(ng-src="{{imagesPath + candidato.imagen_nombre}}" style="width:170px; height:170px;")
