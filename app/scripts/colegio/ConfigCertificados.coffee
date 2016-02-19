@@ -39,8 +39,8 @@ angular.module('myvcFrontApp')
 
 
 
-	btGrid1 = '<a tooltip="Editar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
-	btGrid2 = '<a tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-trash "></i></a>'
+	btGrid1 = '<a uib-tooltip="Editar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
+	btGrid2 = '<a uib-tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-trash "></i></a>'
 
 
 	$scope.gridOptions = 
@@ -65,7 +65,6 @@ angular.module('myvcFrontApp')
 		onRegisterApi: ( gridApi ) ->
 			$scope.gridApi = gridApi
 			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
-				console.log 'Fila editada, ', rowEntity, ' Column:', colDef, ' newValue:' + newValue + ' oldValue:' + oldValue ;
 				
 				if newValue != oldValue
 
@@ -73,7 +72,6 @@ angular.module('myvcFrontApp')
 						$scope.toastr.success 'Certificado modificado', 'Actualizado'
 					, (r2)->
 						$scope.toastr.error 'Cambio no guardado', 'Error'
-						console.log 'Falló al intentar guardar: ', r2
 					)
 
 				$scope.$apply()
@@ -94,7 +92,6 @@ angular.module('myvcFrontApp')
 			$scope.gridOptions.data = $scope.certificados
 		, (r2)->
 			$scope.toastr.error 'Certificado no guardado', 'Error'
-			console.log 'Falló al intentar guardar: ', r2
 		)
 		
 
@@ -125,7 +122,6 @@ angular.module('myvcFrontApp')
 			$scope.editando = false
 		, (r2)->
 			$scope.toastr.error 'Cambio no guardado', 'Error'
-			console.log 'Falló al intentar guardar: ', r2
 		)
 		
 		
@@ -137,7 +133,6 @@ angular.module('myvcFrontApp')
 			$scope.gridOptions.data = $scope.certificados
 		, (r2)->
 			$scope.toastr.error 'Certificado no eliminado', 'Error'
-			console.log 'Falló al intentar eliminar: ', r2
 		)
 		
 

@@ -1,5 +1,5 @@
 angular.module('myvcFrontApp')
-.controller('NotasAlumnoCtrl', ['$scope', 'toastr', 'Restangular', '$modal', '$state', 'alumnos', 'GruposServ', 'ProfesoresServ', 'escalas', '$rootScope', '$filter', 'App', 'AuthService', 'Perfil', ($scope, toastr, Restangular, $modal, $state, alumnos, GruposServ, ProfesoresServ, escalas, $rootScope, $filter, App, AuthService, Perfil) ->
+.controller('NotasAlumnoCtrl', ['$scope', 'toastr', 'Restangular', '$uibModal', '$state', 'alumnos', 'GruposServ', 'ProfesoresServ', 'escalas', '$rootScope', '$filter', 'App', 'AuthService', 'Perfil', ($scope, toastr, Restangular, $modal, $state, alumnos, GruposServ, ProfesoresServ, escalas, $rootScope, $filter, App, AuthService, Perfil) ->
 
 	AuthService.verificar_acceso()
 

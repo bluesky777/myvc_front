@@ -1,6 +1,6 @@
 angular.module('myvcFrontApp')
 
-.directive('anunciosDir',['App', 'Restangular', 'toastr', '$modal', (App, Restangular, toastr, $modal)-> 
+.directive('anunciosDir',['App', 'Restangular', 'toastr', '$uibModal', (App, Restangular, toastr, $modal)-> 
 
 	restrict: 'E'
 	templateUrl: "#{App.views}panel/anunciosDir.tpl.html"
@@ -21,7 +21,7 @@ angular.module('myvcFrontApp')
 ])
 
 
-.controller('AnunciosDirCtrl', ['$scope', 'Restangular', 'toastr', '$modal', 'App', ($scope, Restangular, toastr, $modal, App)->
+.controller('AnunciosDirCtrl', ['$scope', 'Restangular', 'toastr', '$uibModal', 'App', ($scope, Restangular, toastr, $modal, App)->
 	
 
 	$scope.aceptarAsked = (row)->
@@ -53,7 +53,7 @@ angular.module('myvcFrontApp')
 ])
 
 
-.controller('AceptarAskedCtrl', ['$scope', '$modalInstance', 'asked', 'Restangular', 'toastr', 'App', ($scope, $modalInstance, asked, Restangular, toastr, App)->
+.controller('AceptarAskedCtrl', ['$scope', '$uibModalInstance', 'asked', 'Restangular', 'toastr', 'App', ($scope, $modalInstance, asked, Restangular, toastr, App)->
 	
 	$scope.imagesPath = App.images + 'perfil/'
 	$scope.asked = asked
@@ -85,7 +85,7 @@ angular.module('myvcFrontApp')
 
 
 
-.controller('RechazarAskedCtrl', ['$scope', '$modalInstance', 'asked', 'Restangular', 'toastr', 'App', ($scope, $modalInstance, asked, Restangular, toastr, App)->
+.controller('RechazarAskedCtrl', ['$scope', '$uibModalInstance', 'asked', 'Restangular', 'toastr', 'App', ($scope, $modalInstance, asked, Restangular, toastr, App)->
 	
 	$scope.imagesPath = App.images + 'perfil/'
 	$scope.asked = asked

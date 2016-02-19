@@ -1,5 +1,5 @@
-accordion(close-others="true")
-	accordion-group(heading="Información personal" is-open="true")
+uib-accordion(close-others="true")
+	uib-accordion-group(heading="Información personal" is-open="true")
 		form(role='form' ng-submit="guardar()")
 			.row
 				.col-sm-6
@@ -69,7 +69,7 @@ accordion(close-others="true")
 			button.btn.btn-primary(type='submit' ng-submit="guardar()" ng-if="canConfig") Guardar cambios
 	
 
-	accordion-group(heading="Datos de usuario" ng-if="canConfig")
+	uib-accordion-group(heading="Datos de usuario" ng-if="canConfig")
 		form(role="form")
 			.row
 				.col-sm-7
@@ -94,7 +94,7 @@ accordion(close-others="true")
 
 
 
-	accordion-group(heading="Cambiar contraseña" ng-if="canConfig")
+	uib-accordion-group(heading="Cambiar contraseña" ng-if="canConfig" is-open="status.passCambiado")
 		form(role="form" ng-submit="CambiarPass(newpass, newpassverif, passantiguo)")
 			.row
 				.col-sm-7
@@ -116,7 +116,7 @@ accordion(close-others="true")
 						span.input-icon.icon-right
 							input.form-control(type='password' placeholder='Verificar contraseña nueva' ng-model="newpassverif")
 							i.fa.fa-user.azure
-			button.btn.btn-primary(type='submit') Cambiar contraseña
+			button.btn.btn-primary(type='submit' ng-disabled="cambiandoPass") Cambiar contraseña
 
 
 

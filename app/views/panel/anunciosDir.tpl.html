@@ -36,7 +36,7 @@
               <li ng-repeat="file in changes_asked_to_me | filter:{deleted_at:'!!'} " class="ticket-item">
                 <div class="row">
                   <div class="ticket-user col-lg-10 col-sm-12"><img ng-src="{{perfilPath + file.foto_nombre}}" class="user-avatar"><span class="user-name">{{file.nombres + ' ' +file.apellidos}} </span><span class="user-company"> quiere esta imagen: </span><img ng-src="{{perfilPath + file.foto_nombre_asked}}" class="user-avatar"><span class="user-company">como oficial.</span></div>
-                  <div class="ticket-type col-lg-2 col-sm-12"><span class="divider hidden-xs"></span><span ng-show="file.accepted_at"><span tooltip="Aceptado por: {{file.deleted_by}}; Cuando: {{file.deleted_at}} " class="label label-info">Aceptado</span></span><span ng-show="file.rechazado_at"><span tooltip="Rechazado por: {{file.deleted_by}}; Cuando: {{file.deleted_at}} " class="label label-maroon">Rechazado</span></span></div>
+                  <div class="ticket-type col-lg-2 col-sm-12"><span class="divider hidden-xs"></span><span ng-show="file.accepted_at"><span uib-tooltip="Aceptado por: {{file.deleted_by}}; Cuando: {{file.deleted_at}} " class="label label-info">Aceptado</span></span><span ng-show="file.rechazado_at"><span uib-tooltip="Rechazado por: {{file.deleted_by}}; Cuando: {{file.deleted_at}} " class="label label-maroon">Rechazado</span></span></div>
                 </div>
               </li>
             </ul>

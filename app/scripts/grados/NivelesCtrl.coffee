@@ -1,25 +1,23 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-.controller 'NivelesCtrl', ['$scope', '$filter', '$rootScope', '$state', '$interval', 'RNiveles', ($scope, $filter, $rootScope, $state, $interval, RNiveles) ->
+.controller 'NivelesCtrl', ['$scope', '$filter', '$rootScope', '$state', '$interval', 'RNiveles', 'toastr', ($scope, $filter, $rootScope, $state, $interval, RNiveles, toastr) ->
 
 	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
 
 	$scope.editar = (row)->
-		console.log 'Presionado para editar fila: ', row
 		$state.go('panel.niveles.editar', {nivel_id: row.id})
 
 	$scope.eliminar = (row)->
-		console.log 'Presionado para eliminar fila: ', row
 		row.remove().then((r)->
 			$scope.niveles = $filter('filter')($scope.niveles, {id: '!'+r.id})
 			$scope.gridOptions.data = $scope.niveles
 		, (r)->
-			console.log 'No se pudo eliminar', r
+			toastr.warning 'No se pudo eliminar.'
 		)
 
-	btGrid1 = '<a tooltip="Editar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
-	btGrid2 = '<a tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-times "></i></a>'
+	btGrid1 = '<a uib-tooltip="Editar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
+	btGrid2 = '<a uib-tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-times "></i></a>'
 	$scope.gridOptions = 
 		showGridFooter: true,
 		enableSorting: true,
@@ -37,7 +35,6 @@ angular.module('myvcFrontApp')
 		onRegisterApi: ( gridApi ) ->
 			$scope.gridApi = gridApi
 			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
-				console.log 'Fila editada, ', rowEntity, ' Column:', colDef, ' newValue:' + newValue + ' oldValue:' + oldValue ;
 				
 				if newValue != oldValue
 					rowEntity.put().then((r)->

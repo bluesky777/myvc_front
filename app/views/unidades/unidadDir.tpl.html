@@ -5,24 +5,24 @@
       <div ng-show="!unidad.editando" style="overflow: visible; line-height: 2.4;" class="ticket-user col-lg-10 col-sm-10 col-xs-12">
         <div style="margin-bottom: 20px; font-weight: bold; " class="definicion-unidad-inside"> <span editable-text="unidad.porcentaje">{{indice+1}}.  </span><span>{{unidad.definicion}}</span></div>
       </div>
-      <div tooltip="Porcentaje" class="ticket-time col-lg-2 col-sm-2 col-xs-12">
+      <div uib-tooltip="Porcentaje" class="ticket-time col-lg-2 col-sm-2 col-xs-12">
         <div class="divider hidden-xs"></div>{{unidad.porcentaje}}%
       </div>
-      <div ng-show="unidad.ocultarSubs" ng-click="unidad.ocultarSubs=false" style="right: 55px; " class="ticket-state bg-palegreen"><i tooltip="Mostrar subunidades" class="fa fa-chevron-down"></i></div>
-      <div ng-show="!unidad.ocultarSubs" ng-click="unidad.ocultarSubs=true" style="right: 55px; " class="ticket-state bg-palegreen"><i tooltip="Ocultar subunidades" class="fa fa-chevron-up"></i></div>
-      <div ng-click="unidad.editando=true" style="right: 15px; " class="ticket-state bg-palegreen"><i tooltip="Editar" class="fa fa-pencil"></i></div>
-      <div ng-click="$parent.removeUnidad(unidad)" class="ticket-state bg-darkorange"><i tooltip="Eliminar" class="fa fa-times"></i></div>
+      <div ng-show="unidad.ocultarSubs" ng-click="unidad.ocultarSubs=false" style="right: 55px; " class="ticket-state bg-palegreen"><i uib-tooltip="Mostrar subunidades" class="fa fa-chevron-down"></i></div>
+      <div ng-show="!unidad.ocultarSubs" ng-click="unidad.ocultarSubs=true" style="right: 55px; " class="ticket-state bg-palegreen"><i uib-tooltip="Ocultar subunidades" class="fa fa-chevron-up"></i></div>
+      <div ng-click="unidad.editando=true" style="right: 15px; " class="ticket-state bg-palegreen"><i uib-tooltip="Editar" class="fa fa-pencil"></i></div>
+      <div ng-click="$parent.removeUnidad(unidad)" class="ticket-state bg-darkorange"><i uib-tooltip="Eliminar" class="fa fa-times"></i></div>
     </div>
     <div ng-show="unidad.editando" class="row">
       <div ng-show="unidad.editando" style="overflow: visible" class="ticket-user col-md-10 col-sm-12">
         <form role="form" ng-submit="actualizarUnidad(unidad)" class="form-inline">
           <div class="form-group unidaddefinicion col-md-10 col-sm-8 col-xs-12">
             <label class="sr-only">Edite la definición</label>
-            <textarea required ng-model="unidad.definicion" placeholder="Edite la definición" tooltip="Definición" tooltip-popup-delay="1000" style="height: 35px;" class="form-control"></textarea>
+            <textarea required ng-model="unidad.definicion" placeholder="Edite la definición" uib-tooltip="Definición" tooltip-popup-delay="1000" style="height: 35px;" class="form-control"></textarea>
           </div>
           <div class="form-group unidadporcentaje col-md-2 col-sm-4 col-xs-12">
             <label class="sr-only">Porcentaje</label>
-            <input required type="number" min="0" max="100" ng-model="unidad.porcentaje" placeholder="Edite el porcentaje" tooltip="Porcentaje" tooltip-popup-delay="1000" class="form-control">
+            <input required type="number" min="0" max="100" ng-model="unidad.porcentaje" placeholder="Edite el porcentaje" uib-tooltip="Porcentaje" tooltip-popup-delay="1000" class="form-control">
           </div>
         </form>
       </div>
@@ -42,45 +42,45 @@
     <li as-sortable-item ng-repeat="subunidad in unidad.subunidades | orderBy:'orden'" style="border: none" class="ticket-item">
       <div ng-show="!subunidad.editando" class="row">
         <div as-sortable-item-handle style="overflow: visible; line-height: 2.4;" class="ticket-user col-lg-10 col-sm-8 col-xs-12">
-          <!--.user-avatar(tooltip="Porcentaje")
+          <!--.user-avatar(uib-tooltip="Porcentaje")
           | {{subunidad.porcentaje}}%
           
           -->
           <div class="user-name definicion-subunidad-inside"> 
-            <div tooltip="{{subunidad.definicion}}">
+            <div uib-tooltip="{{subunidad.definicion}}">
                
               {{$index+1}}. {{subunidad.definicion}}
             </div>
           </div>
         </div>
-        <div tooltip="Porcentaje" class="ticket-time col-lg-1 col-sm-2 col-xs-6">
+        <div uib-tooltip="Porcentaje" class="ticket-time col-lg-1 col-sm-2 col-xs-6">
           <div class="divider hidden-xs"></div>{{subunidad.porcentaje}}%
         </div>
-        <div tooltip="Orden" class="ticket-type col-lg-1 col-sm-2 col-xs-6">
+        <div uib-tooltip="Orden" class="ticket-type col-lg-1 col-sm-2 col-xs-6">
           <div class="divider hidden-xs"></div>
           <!--.type {{subunidad.nota_default}}-->
           <input type="number" min="0" max="99" ng-model="subunidad.orden" ng-change="actualizarSubunidad(subunidad)" ng-model-options="{ updateOn: 'blur'}" class="form-control ordenador-subunidad">
         </div>
-        <!--.ticket-state.bg-info(ng-click="subirSubunidad(subunidad, $index)" ng-hide="$first" style="right: 75px; ")i.fa.fa-chevron-up(tooltip="Subir")
+        <!--.ticket-state.bg-info(ng-click="subirSubunidad(subunidad, $index)" ng-hide="$first" style="right: 75px; ")i.fa.fa-chevron-up(uib-tooltip="Subir")
         -->
-        <!--.ticket-state.bg-info(ng-click="bajarSubunidad(subunidad, $index)" ng-hide="$last" style="right: 45px; ")i.fa.fa-chevron-down(tooltip="Bajar")
+        <!--.ticket-state.bg-info(ng-click="bajarSubunidad(subunidad, $index)" ng-hide="$last" style="right: 45px; ")i.fa.fa-chevron-down(uib-tooltip="Bajar")
         -->
-        <div ng-click="subunidad.editando=true" style="right: 15px; " class="ticket-state bg-palegreen"><i tooltip="Editar" class="fa fa-pencil"></i></div>
-        <div ng-click="removeSubunidad(unidad, subunidad)" class="ticket-state bg-darkorange"><i tooltip="Eliminar" class="fa fa-times"></i></div>
+        <div ng-click="subunidad.editando=true" style="right: 15px; " class="ticket-state bg-palegreen"><i uib-tooltip="Editar" class="fa fa-pencil"></i></div>
+        <div ng-click="removeSubunidad(unidad, subunidad)" class="ticket-state bg-darkorange"><i uib-tooltip="Eliminar" class="fa fa-times"></i></div>
       </div>
       <div ng-show="subunidad.editando" class="row">
         <div ng-show="subunidad.editando" style="overflow: visible" class="ticket-user col-md-10 col-sm-12">
           <form role="form" ng-submit="actualizarSubunidad(subunidad)" class="form-inline">
             <div class="form-group unidaddefinicion col-md-8 col-sm-8 col-xs-12">
               <label class="sr-only">Edite la definición</label>
-              <textarea required ng-model="subunidad.definicion" placeholder="Edite la definición" tooltip="Definición" style="height: 35px;" class="form-control"></textarea>
+              <textarea required ng-model="subunidad.definicion" placeholder="Edite la definición" uib-tooltip="Definición" style="height: 35px;" class="form-control"></textarea>
             </div>
             <div class="form-group unidadporcentaje col-md-2 col-sm-2 col-xs-12">
               <label class="sr-only">Porcentaje</label>
-              <input required type="number" min="0" max="100" ng-model="subunidad.porcentaje" placeholder="%Porcentaje" tooltip="Edite el porcentaje" tooltip-popup-delay="1000" class="form-control">
+              <input required type="number" min="0" max="100" ng-model="subunidad.porcentaje" placeholder="%Porcentaje" uib-tooltip="Edite el porcentaje" tooltip-popup-delay="1000" class="form-control">
             </div>
             <div class="form-group col-md-2 col-sm-2 col-xs-12">
-              <input required ng-model="subunidad.nota_default" min="0" max="100" type="number" placeholder="Nota por defecto" tooltip="Nota por defecto de {{SUBUNIDAD}}" tooltip-popup-delay="1000" class="form-control">
+              <input required ng-model="subunidad.nota_default" min="0" max="100" type="number" placeholder="Nota por defecto" uib-tooltip="Nota por defecto de {{SUBUNIDAD}}" tooltip-popup-delay="1000" class="form-control">
             </div>
           </form>
         </div>
@@ -100,13 +100,13 @@
           <form ng-submit="addSubunidad(unidad)" class="form-inline">
             <div class="form-group unidaddefinicion col-md-8 col-sm-8 col-xs-12">
               <label class="sr-only">{{ GENERO_SUB=='M' ? 'Nuevo' : 'Nueva' }} {{SUBUNIDAD}}: </label>
-              <textarea required ng-model="unidad.newsubunidad.definicion" placeholder="Crea {{ GENERO_SUB=='M' ? 'nuevo' : 'nueva' }} {{SUBUNIDAD}}" tooltip="Definición del {{ GENERO_SUB=='M' ? 'nuevo' : 'nueva' }} {{SUBUNIDAD}}" tooltip-popup-delay="1000" style="height: 35px;" class="form-control"></textarea>
+              <textarea required ng-model="unidad.newsubunidad.definicion" placeholder="Crea {{ GENERO_SUB=='M' ? 'nuevo' : 'nueva' }} {{SUBUNIDAD}}" uib-tooltip="Definición del {{ GENERO_SUB=='M' ? 'nuevo' : 'nueva' }} {{SUBUNIDAD}}" tooltip-popup-delay="1000" style="height: 35px;" class="form-control"></textarea>
             </div>
             <div class="form-group unidadporcentaje col-md-2 col-sm-2 col-xs-12">
-              <input required ng-model="unidad.newsubunidad.porcentaje" min="0" max="100" type="number" placeholder="%Porcentaje" tooltip="Porcentaje {{ GENERO_SUB=='M' ? 'del' : 'de la' }} {{SUBUNIDAD}}" tooltip-popup-delay="1000" class="form-control">
+              <input required ng-model="unidad.newsubunidad.porcentaje" min="0" max="100" type="number" placeholder="%Porcentaje" uib-tooltip="Porcentaje {{ GENERO_SUB=='M' ? 'del' : 'de la' }} {{SUBUNIDAD}}" tooltip-popup-delay="1000" class="form-control">
             </div>
             <div class="form-group col-md-2 col-sm-2 col-xs-12">
-              <input required ng-model="unidad.newsubunidad.nota_default" min="0" max="100" type="number" placeholder="Nota por defecto" tooltip="Nota por defecto {{ GENERO_SUB=='M' ? 'del' : 'de la' }} {{SUBUNIDAD}}" tooltip-popup-delay="1000" class="form-control">
+              <input required ng-model="unidad.newsubunidad.nota_default" min="0" max="100" type="number" placeholder="Nota por defecto" uib-tooltip="Nota por defecto {{ GENERO_SUB=='M' ? 'del' : 'de la' }} {{SUBUNIDAD}}" tooltip-popup-delay="1000" class="form-control">
             </div>
           </form>
         </div>

@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-.controller('GradosCtrl', ['$scope', '$filter', '$rootScope', '$state', '$interval', 'RGrados', 'RNiveles', 'App', 'niveles', '$modal', ($scope, $filter, $rootScope, $state, $interval, RGrados, RNiveles, App, niveles, $modal) ->
+.controller('GradosCtrl', ['$scope', '$filter', '$rootScope', '$state', '$interval', 'RGrados', 'RNiveles', 'App', 'niveles', '$uibModal', ($scope, $filter, $rootScope, $state, $interval, RGrados, RNiveles, App, niveles, $modal) ->
 
 
 	$scope.grados = {nivel: {}}
@@ -10,11 +10,9 @@ angular.module('myvcFrontApp')
 	$scope.niveles = niveles
 
 	$scope.editar = (row)->
-		console.log 'Presionado para editar fila: ', row
 		$state.go('panel.grados.editar', {grado_id: row.id})
 
 	$scope.eliminar = (row)->
-		console.log 'Presionado para eliminar fila: ', row
 
 		modalInstance = $modal.open({
 			templateUrl: App.views + 'grados/removeGrado.tpl.html'
@@ -27,14 +25,13 @@ angular.module('myvcFrontApp')
 		modalInstance.result.then( (grado)->
 			$scope.grados = $filter('filter')($scope.grados, {id: '!'+grado.id})
 			$scope.gridOptions.data = $scope.grados
-			console.log 'Resultado del modal: ', grado
 		)
 
 
 	editNivel = "#{App.views}grados/editCellNivel.tpl.html"
 
-	btGrid1 = '<a tooltip="Editar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
-	btGrid2 = '<a tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-times "></i></a>'
+	btGrid1 = '<a uib-tooltip="Editar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
+	btGrid2 = '<a uib-tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-times "></i></a>'
 	$scope.gridOptions = 
 		showGridFooter: true,
 		enableSorting: true,
@@ -54,14 +51,12 @@ angular.module('myvcFrontApp')
 			$scope.gridApi = gridApi
 
 			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
-				console.log 'Fila editada, ', rowEntity, ' Column:', colDef, ' newValue:' + newValue + ' oldValue:' + oldValue ;
 				
 				if newValue != oldValue
 					rowEntity.put().then((r)->
 						$scope.toastr.success 'Grado actualizado con éxito', 'Actualizado'
 					, (r2)->
 						$scope.toastr.error 'Cambio no guardado', 'Error'
-						console.log 'Falló al intentar guardar: ', r2
 					)
 				$scope.$apply()
 			)
@@ -74,7 +69,6 @@ angular.module('myvcFrontApp')
 	)
 
 	$scope.$on 'gradocreado', (ev, grado)->
-		console.log 'Se hizo el post del grado', grado
 		$scope.grados.push grado
 		$scope.gridOptions.data = $scope.grados;
 
@@ -94,7 +88,7 @@ angular.module('myvcFrontApp')
 
 
 
-.controller('RemoveGradoCtrl', ['$scope', '$modalInstance', 'grado', 'Restangular', 'toastr', ($scope, $modalInstance, grado, Restangular, toastr)->
+.controller('RemoveGradoCtrl', ['$scope', '$uibModalInstance', 'grado', 'Restangular', 'toastr', ($scope, $modalInstance, grado, Restangular, toastr)->
 	$scope.grado = grado
 
 	$scope.ok = ()->
@@ -102,17 +96,8 @@ angular.module('myvcFrontApp')
 		grado.remove().then((r)->
 			toastr.success 'Grado ' + r.nombre + ' eliminado con éxito', 'Eliminado'
 		, (r)->
-			console.log 'No se pudo eliminar', r
 			toastr.error 'No se pudo eliminar a '+row.nombre
 		)
-		###
-		Restangular.all('grupos/destroy/'+grado.id).remove().then((r)->
-			toastr.success 'Alumno eliminado con éxito.', 'Eliminado'
-		, (r2)->
-			toastr.warning 'Problema', 'No se pudo eliminar al grado.'
-			console.log 'Error eliminando grado: ', r2
-		)
-		###
 		$modalInstance.close(grado)
 
 	$scope.cancel = ()->

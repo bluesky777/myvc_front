@@ -1,4 +1,9 @@
-
-<div style="padding: 5px; " ng-repeat="votacion in votaciones" class="row">
-  <votar-panel-dir votacion="votacion"></votar-panel-dir>
-</div>
+<span ng-if="votaciones.length &gt; 0">
+  <div style="padding: 5px; " ng-repeat="votacion in votaciones" class="row">
+    <votar-panel-dir votacion="votacion"></votar-panel-dir>
+  </div></span><span ng-if="votaciones.length == 0">
+  <div style="padding: 5px; " class="row">
+    <div class="col-lg-12 col-sm-12 col-xs-12">
+      <div class="label label-info">No estás inscrito en ninguna votación.</div>
+    </div>
+  </div></span>

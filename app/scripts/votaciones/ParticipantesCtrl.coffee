@@ -36,7 +36,7 @@ angular.module("myvcFrontApp")
 
 
 	
-	btGrid2 = '<a tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-times "></i></a>'
+	btGrid2 = '<a uib-tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-times "></i></a>'
 	btBloq = "#{App.views}votaciones/botonEventoLocked.tpl.html"
 	$scope.gridOptions = 
 		enableSorting: true,
@@ -64,13 +64,12 @@ angular.module("myvcFrontApp")
 		$scope.gridOptions.data = data;
 	, (r2)->
 		toastr.warning 'Asegúrate de tener al menos un evento como actual.'
-		console.log 'Error trayendo los participantes. ', r2
 	)
 
 	RGrupos.getList().then((data)->
 		$scope.grupos = data;
 	, (r2)->
-		console.log 'Error trayendo los grupos. ', r2
+		#console.log 'Error trayendo los grupos. ', r2
 	)
 
 	Restangular.one('votaciones/actual').get().then((r)->
@@ -80,20 +79,18 @@ angular.module("myvcFrontApp")
 	$scope.inscribirGrupo = (grupo)->
 		Restangular.all('participantes/inscribirgrupo/' + grupo.id).post().then((r)->
 			toastr.success 'Se inscribió el grupo.'
-			console.log 'Se inscribió el grupo. ', r
 			grupo.presionado = true
 		, (r2)->
-			console.log 'Error al intentar inscribir grupo.', r2
+			#console.log 'Error al intentar inscribir grupo.', r2
 		)
 
 
 	$scope.inscribirProfesores = ()->
 		Restangular.all('participantes/inscribir-profesores').post().then((r)->
 			toastr.success 'Se inscribieron los profesores.'
-			console.log 'Se inscribieron los profesores. ', r
 			btnProfPresionado = true
 		, (r2)->
-			console.log 'Error al intentar inscribir grupo.', r2
+			#console.log 'Error al intentar inscribir grupo.', r2
 		)
 
 	return

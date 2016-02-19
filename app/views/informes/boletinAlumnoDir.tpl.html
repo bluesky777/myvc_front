@@ -52,9 +52,9 @@
                           <div class="col-lg-10 col-xs-10 subunidad-definicion">{{subunidad.definicion_subunidad}}</div>
                           <div class="col-lg-1 col-xs-1 subunidad-porc">{{subunidad.porcentaje_subunidad}}%</div>
                           <div class="col-lg-1 col-xs-1 subunidad-nota puntero">
-                            <!--i.fa.fa-warning(ng-show="subunidad.nota.nota<USER.nota_minima_aceptada")--><span ng-class="{'nota-perdida-bold': subunidad.nota.nota&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}" tooltip="Valor nota: {{subunidad.nota.valor}}">{{subunidad.nota.nota}}</span>
+                            <!--i.fa.fa-warning(ng-show="subunidad.nota.nota<USER.nota_minima_aceptada")--><span ng-class="{'nota-perdida-bold': subunidad.nota.nota&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}" uib-tooltip="Valor nota: {{subunidad.nota.valor}}">{{subunidad.nota.nota}}</span>
                             <!--span.label.label-darkpink(ng-show="subunidad.nota.nota<USER.nota_minima_aceptada && config.show_rojos" style="padding: 2px"){{subunidad.nota.nota}}-->
-                            <!--span(ng-show="subunidad.nota.nota<USER.nota_minima_aceptada" tooltip="Valor nota: {{subunidad.nota.valor}}"){{subunidad.nota.nota}}--><span ng-show="!subunidad.nota.nota &amp;&amp; subunidad.nota.nota!=0" tooltip="Aún sin nota" class="nota-perdida"><i class="fa fa-warning"></i></span>
+                            <!--span(ng-show="subunidad.nota.nota<USER.nota_minima_aceptada" uib-tooltip="Valor nota: {{subunidad.nota.valor}}"){{subunidad.nota.nota}}--><span ng-show="!subunidad.nota.nota &amp;&amp; subunidad.nota.nota!=0" uib-tooltip="Aún sin nota" class="nota-perdida"><i class="fa fa-warning"></i></span>
                           </div>
                         </div>
                       </div>

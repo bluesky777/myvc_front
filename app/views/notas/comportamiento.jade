@@ -42,7 +42,7 @@
 
 								ul
 									li(ng-repeat="definicion in alumno.definiciones")
-										a.btn.btn-default.btn-xs.shiny.icon-only.danger(tooltip="X Eliminar" tooltip-placement="right" 
+										a.btn.btn-default.btn-xs.shiny.icon-only.danger(uib-tooltip="X Eliminar" tooltip-placement="right" 
 											ng-click="quitarFrase(definicion, alumno)")
 											i.fa.fa-trash 
 										span(ng-show="definicion.tipo_frase")

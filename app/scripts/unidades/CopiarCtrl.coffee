@@ -1,5 +1,5 @@
 angular.module('myvcFrontApp')
-.controller('CopiarCtrl', ['$scope', '$modal', 'Restangular', '$filter', '$rootScope', 'AuthService', 'toastr', 'App', 'YearsServ', 
+.controller('CopiarCtrl', ['$scope', '$uibModal', 'Restangular', '$filter', '$rootScope', 'AuthService', 'toastr', 'App', 'YearsServ', 
 	($scope, $modal, Restangular, $filter, $rootScope, AuthService, toastr, App, YearsServ) ->
 		
 		AuthService.verificar_acceso()

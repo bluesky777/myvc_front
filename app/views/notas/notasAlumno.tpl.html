@@ -61,8 +61,8 @@
       </div>
     </div>
   </div>
-  <accordion close-others="true">
-    <accordion-group heading="Periodo {{periodo.numero}} ({{periodo.asignaturas | notasPerdidasAsignaturas}})" ng-repeat="periodo in periodos">
+  <uib-accordion close-others="true">
+    <uib-accordion-group heading="Periodo {{periodo.numero}} ({{periodo.asignaturas | notasPerdidasAsignaturas}})" ng-repeat="periodo in periodos">
       <div ng-repeat="asignatura in periodo.asignaturas | soloAsignaturasConPerdidas:config.solo_notas_perdidas" class="materia-item animated">
         <div style="font-size: 10pt;" popover="&lt;img src='{{perfilPath + asignatura.foto_nombre}}' style='width: 150px; height: 150px;'&gt;" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" popover-trigger="mouseenter" class="row materia-title">
           <div class="col-lg-9 col-xs-9"><span class="materia-name">{{asignatura.materia}}</span><span ng-if="!hasRoleOrPerm('profesor')" class="materia-profesor">- Pr. {{asignatura.nombres_profesor | capitalize}}</span></div>
@@ -84,7 +84,7 @@
                     <div class="row">
                       <div class="col-lg-10 col-xs-10 subunidad-definicion">{{subunidad.definicion_subunidad}}</div>
                       <div class="col-lg-1 col-xs-1 subunidad-porc">{{subunidad.porcentaje_subunidad}}%</div>
-                      <div ng-if="!hasRoleOrPerm(['admin', 'profesor'])" class="col-lg-1 col-xs-1 subunidad-nota puntero"><span ng-class="{'nota-perdida-bold': subunidad.nota.nota&lt;USER.nota_minima_aceptada}" tooltip="Valor nota: {{subunidad.nota.valor}}">{{subunidad.nota.nota}}</span><span ng-show="!subunidad.nota.nota &amp;&amp; subunidad.nota.nota!=0" tooltip="Aún sin nota" class="nota-perdida"><i class="fa fa-warning"></i></span></div>
+                      <div ng-if="!hasRoleOrPerm(['admin', 'profesor'])" class="col-lg-1 col-xs-1 subunidad-nota puntero"><span ng-class="{'nota-perdida-bold': subunidad.nota.nota&lt;USER.nota_minima_aceptada}" uib-tooltip="Valor nota: {{subunidad.nota.valor}}">{{subunidad.nota.nota}}</span><span ng-show="!subunidad.nota.nota &amp;&amp; subunidad.nota.nota!=0" uib-tooltip="Aún sin nota" class="nota-perdida"><i class="fa fa-warning"></i></span></div>
                       <div ng-class="{'inputnota-perdida': subunidad.nota.nota &lt; USER.nota_minima_aceptada}" ng-if="hasRoleOrPerm(['admin', 'profesor'])" class="col-lg-1 col-xs-1">
                         <input type="number" min="0" max="100" ng-model="subunidad.nota.nota" ng-change="cambiaNota(subunidad.nota, subunidad.nota.nota)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }">
                       </div>
@@ -96,8 +96,8 @@
           </div>
         </div>
       </div>
-    </accordion-group>
-  </accordion>
+    </uib-accordion-group>
+  </uib-accordion>
 </div>
 <div ng-if="!USER.alumnos_can_see_notas &amp;&amp; hasRoleOrPerm(['alumno', 'acudiente'])" class="col-lg-12">
   <div class="widget">

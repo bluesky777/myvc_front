@@ -44,7 +44,7 @@
 								.row
 									.col-sm-12
 										.form-group
-											label(tooltip="Puedes bloquear el sistema momentaneamente para que los alumnos y acudientes no puedan ver las notas.") Alumnos pueden ver sus notas
+											label(uib-tooltip="Puedes bloquear el sistema momentaneamente para que los alumnos y acudientes no puedan ver las notas.") Alumnos pueden ver sus notas
 											label
 												input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleBloquearNotas()" ng-model="year.alumnos_can_see_notas")
 												span.text.si-no
@@ -232,7 +232,7 @@
 												span.text.si-no
 
 										.form-group
-											label(tooltip="Puedes bloquear el sistema momentaneamente para que los alumnos y acudientes no puedan ver las notas.") ¿Alumnos pueden ver sus notas?
+											label(uib-tooltip="Puedes bloquear el sistema momentaneamente para que los alumnos y acudientes no puedan ver las notas.") ¿Alumnos pueden ver sus notas?
 											label
 												input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleBloquearNotas()" ng-model="newYear.alumnos_can_see_notas")
 												span.text.si-no

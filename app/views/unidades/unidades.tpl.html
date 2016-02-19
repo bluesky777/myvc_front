@@ -2,11 +2,11 @@
 <div class="col-xs-12 col-md-12">
   <div class="well with-header with-footer">
     <div class="header bordered-yellow">{{asignatura.materia + ' - ' + asignatura.nombre_grupo + ' - ' + asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}</div>
-    <div class="btn-group"><a ng-show="inicializado" ui-sref="panel.listasignaturas({profesor_id: asignatura.profesor_id})" class="btn btn-success btn-lg"> <i class="fa fa-arrow-left"></i>Volver a asignaturas</a><a tooltip="¡Copia de una materia a otra!" ui-sref="panel.copiar" class="btn btn-primary btn-lg"> <i class="fa fa-copy"></i>Copiar</a><a ng-show="unidades.length &gt; 0" ui-sref="panel.notas({asignatura_id: asignatura_id})" class="btn btn-primary btn-lg">NOTAS</a></div>
+    <div class="btn-group"><a ng-show="inicializado" ui-sref="panel.listasignaturas({profesor_id: asignatura.profesor_id})" class="btn btn-success btn-lg"> <i class="fa fa-arrow-left"></i>Volver a asignaturas</a><a uib-tooltip="¡Copia de una materia a otra!" ui-sref="panel.copiar" class="btn btn-primary btn-lg"> <i class="fa fa-copy"></i>Copiar</a><a ng-show="unidades.length &gt; 0" ui-sref="panel.notas({asignatura_id: asignatura_id})" class="btn btn-primary btn-lg">NOTAS</a></div>
     <hr class="wide">
     <form ng-submit="crearUnidad()" role="form" class="form-inline">
-      <input required ng-model="newunidad.definicion" type="text" placeholder="{{UNIDAD}} {{ GENERO_UNI=='M' ? 'nuevo' : 'nueva' }}" tooltip="Definición" tooltip-popup-delay="1000" class="form-control definicion-add-unidad">
-      <input required ng-model="newunidad.porcentaje" min="0" max="100" type="number" placeholder="Porcentaje" tooltip="Porcentaje" tooltip-popup-delay="1000" class="form-control">
+      <input required ng-model="newunidad.definicion" type="text" placeholder="{{UNIDAD}} {{ GENERO_UNI=='M' ? 'nuevo' : 'nueva' }}" uib-tooltip="Definición" tooltip-popup-delay="1000" class="form-control definicion-add-unidad">
+      <input required ng-model="newunidad.porcentaje" min="0" max="100" type="number" placeholder="Porcentaje" uib-tooltip="Porcentaje" tooltip-popup-delay="1000" class="form-control">
       <input type="submit" ng-submit="crearUnidad()" ng-disabled="!activar_crear_unidad" value="Crear {{UNIDAD}}" class="btn btn-primary">
     </form>
     <hr class="wide">

@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-.controller('GruposCtrl', ['$scope', '$filter', '$rootScope', '$state', '$interval', 'RGrupos', 'grados', 'profesores', '$modal', 'App', 'Restangular', ($scope, $filter, $rootScope, $state, $interval, RGrupos, grados, profesores, $modal, App, Restangular) ->
+.controller('GruposCtrl', ['$scope', '$filter', '$rootScope', '$state', '$interval', 'RGrupos', 'grados', 'profesores', '$uibModal', 'App', 'Restangular', ($scope, $filter, $rootScope, $state, $interval, RGrupos, grados, profesores, $modal, App, Restangular) ->
 
 	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
 
@@ -9,7 +9,6 @@ angular.module('myvcFrontApp')
 	$scope.profesores = profesores
 
 	$scope.editar = (row)->
-		console.log 'Presionado para editar fila: ', row
 		$state.go('panel.grupos.editar', {grupo_id: row.id})
 
 	$scope.eliminar = (row)->
@@ -25,13 +24,12 @@ angular.module('myvcFrontApp')
 		modalInstance.result.then( (grupo)->
 			$scope.grupos = $filter('filter')($scope.grupos, {id: '!'+grupo.id})
 			$scope.gridOptions.data = $scope.grupos
-			console.log 'Resultado del modal: ', grupo
 		)
 
 
-	btGrid1 = '<a tooltip="Editar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
-	btGrid2 = '<a tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-trash "></i></a>'
-	btGrid3 = '<a tooltip="Listado de alumnos" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only info" ui-sref="panel.listalumnos({grupo_id: row.entity.id})"><i class="fa fa-users "></i></a>'
+	btGrid1 = '<a uib-tooltip="Editar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
+	btGrid2 = '<a uib-tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-trash "></i></a>'
+	btGrid3 = '<a uib-tooltip="Listado de alumnos" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only info" ui-sref="panel.listalumnos({grupo_id: row.entity.id})"><i class="fa fa-users "></i></a>'
 	$scope.gridOptions = 
 		showGridFooter: true,
 		enableSorting: true,
@@ -51,7 +49,6 @@ angular.module('myvcFrontApp')
 		onRegisterApi: ( gridApi ) ->
 			$scope.gridApi = gridApi
 			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
-				console.log 'Fila editada, ', rowEntity, ' Column:', colDef, ' newValue:' + newValue + ' oldValue:' + oldValue ;
 				
 				if newValue != oldValue
 					dato = 
@@ -103,7 +100,7 @@ angular.module('myvcFrontApp')
 ])
 
 
-.controller('RemoveGrupoCtrl', ['$scope', '$modalInstance', 'grupo', 'Restangular', 'toastr', ($scope, $modalInstance, grupo, Restangular, toastr)->
+.controller('RemoveGrupoCtrl', ['$scope', '$uibModalInstance', 'grupo', 'Restangular', 'toastr', ($scope, $modalInstance, grupo, Restangular, toastr)->
 	$scope.grupo = grupo
 
 	$scope.ok = ()->
@@ -112,7 +109,6 @@ angular.module('myvcFrontApp')
 			toastr.success 'Grupo '+grupo.nombre+' eliminado con éxito.', 'Eliminado'
 		, (r2)->
 			toastr.warning 'No se pudo eliminar al grupo.', 'Problema'
-			console.log 'Error eliminando grupo: ', r2
 		)
 		$modalInstance.close(grupo)
 

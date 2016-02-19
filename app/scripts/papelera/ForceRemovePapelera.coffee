@@ -1,6 +1,6 @@
 angular.module("myvcFrontApp")
 
-.controller('ForceRemoveAlumnoCtrl', ['$scope', '$modalInstance', 'alumno', 'Restangular', 'toastr', ($scope, $modalInstance, alumno, Restangular, toastr)->
+.controller('ForceRemoveAlumnoCtrl', ['$scope', '$uibModalInstance', 'alumno', 'Restangular', 'toastr', ($scope, $modalInstance, alumno, Restangular, toastr)->
 	$scope.alumno = alumno
 
 	$scope.ok = ()->
@@ -18,7 +18,7 @@ angular.module("myvcFrontApp")
 
 ])
 
-.controller('ForceRemoveGrupoCtrl', ['$scope', '$modalInstance', 'grupo', 'Restangular', 'toastr', ($scope, $modalInstance, grupo, Restangular, toastr)->
+.controller('ForceRemoveGrupoCtrl', ['$scope', '$uibModalInstance', 'grupo', 'Restangular', 'toastr', ($scope, $modalInstance, grupo, Restangular, toastr)->
 	$scope.grupo = grupo
 
 	$scope.ok = ()->
@@ -36,7 +36,7 @@ angular.module("myvcFrontApp")
 
 ])
 
-.controller('ForceRemoveUnidadCtrl', ['$scope', '$modalInstance', 'unidad', 'Restangular', 'toastr', ($scope, $modalInstance, unidad, Restangular, toastr)->
+.controller('ForceRemoveUnidadCtrl', ['$scope', '$uibModalInstance', 'unidad', 'Restangular', 'toastr', ($scope, $modalInstance, unidad, Restangular, toastr)->
 	$scope.unidad = unidad
 
 	$scope.ok = ()->

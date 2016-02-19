@@ -8,19 +8,19 @@ li.tickets-container.ed-unidades-item
 					span(editable-text="unidad.porcentaje") {{indice+1}}.  
 					span {{unidad.definicion}}
 
-			.ticket-time.col-lg-2.col-sm-2.col-xs-12(tooltip="Porcentaje")
+			.ticket-time.col-lg-2.col-sm-2.col-xs-12(uib-tooltip="Porcentaje")
 				.divider.hidden-xs
 				| {{unidad.porcentaje}}%
 
 			.ticket-state.bg-palegreen(ng-show="unidad.ocultarSubs" ng-click="unidad.ocultarSubs=false" style="right: 55px; ")
-				i.fa.fa-chevron-down(tooltip="Mostrar subunidades")
+				i.fa.fa-chevron-down(uib-tooltip="Mostrar subunidades")
 			.ticket-state.bg-palegreen(ng-show="!unidad.ocultarSubs" ng-click="unidad.ocultarSubs=true" style="right: 55px; ")
-				i.fa.fa-chevron-up(tooltip="Ocultar subunidades")
+				i.fa.fa-chevron-up(uib-tooltip="Ocultar subunidades")
 
 			.ticket-state.bg-palegreen(ng-click="unidad.editando=true" style="right: 15px; ")
-				i.fa.fa-pencil(tooltip="Editar")
+				i.fa.fa-pencil(uib-tooltip="Editar")
 			.ticket-state.bg-darkorange(ng-click="$parent.removeUnidad(unidad)" )
-				i.fa.fa-times(tooltip="Eliminar")
+				i.fa.fa-times(uib-tooltip="Eliminar")
 
 		.row(ng-show="unidad.editando")
 			.ticket-user.col-md-10.col-sm-12(ng-show="unidad.editando" style="overflow: visible")
@@ -28,10 +28,10 @@ li.tickets-container.ed-unidades-item
 				form.form-inline(role="form" ng-submit="actualizarUnidad(unidad)")
 					.form-group.unidaddefinicion.col-md-10.col-sm-8.col-xs-12
 						label.sr-only Edite la definición
-						textarea.form-control(required ng-model="unidad.definicion" placeholder="Edite la definición" tooltip="Definición" tooltip-popup-delay="1000" style="height: 35px;")
+						textarea.form-control(required ng-model="unidad.definicion" placeholder="Edite la definición" uib-tooltip="Definición" tooltip-popup-delay="1000" style="height: 35px;")
 					.form-group.unidadporcentaje.col-md-2.col-sm-4.col-xs-12
 						label.sr-only Porcentaje
-						input.form-control(required type="number" min="0" max="100" ng-model="unidad.porcentaje" placeholder="Edite el porcentaje" tooltip="Porcentaje" tooltip-popup-delay="1000")
+						input.form-control(required type="number" min="0" max="100" ng-model="unidad.porcentaje" placeholder="Edite el porcentaje" uib-tooltip="Porcentaje" tooltip-popup-delay="1000")
 
 			.ticket-type.col-md-2.col-xs-12
 				.btn-group
@@ -63,31 +63,31 @@ li.tickets-container.ed-unidades-item
 		li.ticket-item(as-sortable-item ng-repeat="subunidad in unidad.subunidades | orderBy:'orden'" style="border: none")
 			.row(ng-show="!subunidad.editando")
 				.ticket-user.col-lg-10.col-sm-8.col-xs-12(as-sortable-item-handle style="overflow: visible; line-height: 2.4;")
-					//.user-avatar(tooltip="Porcentaje")
+					//.user-avatar(uib-tooltip="Porcentaje")
 						| {{subunidad.porcentaje}}%
 
 					.user-name.definicion-subunidad-inside 
-						div(tooltip="{{subunidad.definicion}}") 
+						div(uib-tooltip="{{subunidad.definicion}}") 
 							| {{$index+1}}. {{subunidad.definicion}}
 				
-				.ticket-time.col-lg-1.col-sm-2.col-xs-6(tooltip="Porcentaje")
+				.ticket-time.col-lg-1.col-sm-2.col-xs-6(uib-tooltip="Porcentaje")
 					.divider.hidden-xs
 					| {{subunidad.porcentaje}}%
 
-				.ticket-type.col-lg-1.col-sm-2.col-xs-6(tooltip="Orden")
+				.ticket-type.col-lg-1.col-sm-2.col-xs-6(uib-tooltip="Orden")
 					.divider.hidden-xs
 					//.type {{subunidad.nota_default}}
 					input.form-control.ordenador-subunidad(type="number" min="0" max="99" ng-model="subunidad.orden"
 						ng-change="actualizarSubunidad(subunidad)" ng-model-options="{ updateOn: 'blur'}")
 
 				//.ticket-state.bg-info(ng-click="subirSubunidad(subunidad, $index)" ng-hide="$first" style="right: 75px; ")
-					i.fa.fa-chevron-up(tooltip="Subir")
+					i.fa.fa-chevron-up(uib-tooltip="Subir")
 				//.ticket-state.bg-info(ng-click="bajarSubunidad(subunidad, $index)" ng-hide="$last" style="right: 45px; ")
-					i.fa.fa-chevron-down(tooltip="Bajar")
+					i.fa.fa-chevron-down(uib-tooltip="Bajar")
 				.ticket-state.bg-palegreen(ng-click="subunidad.editando=true" style="right: 15px; ")
-					i.fa.fa-pencil(tooltip="Editar")
+					i.fa.fa-pencil(uib-tooltip="Editar")
 				.ticket-state.bg-darkorange(ng-click="removeSubunidad(unidad, subunidad)" )
-					i.fa.fa-times(tooltip="Eliminar")
+					i.fa.fa-times(uib-tooltip="Eliminar")
 						
 
 				
@@ -99,12 +99,12 @@ li.tickets-container.ed-unidades-item
 					form.form-inline(role="form" ng-submit="actualizarSubunidad(subunidad)")
 						.form-group.unidaddefinicion.col-md-8.col-sm-8.col-xs-12
 							label.sr-only Edite la definición
-							textarea.form-control(required ng-model="subunidad.definicion" placeholder="Edite la definición" tooltip="Definición" style="height: 35px;")
+							textarea.form-control(required ng-model="subunidad.definicion" placeholder="Edite la definición" uib-tooltip="Definición" style="height: 35px;")
 						.form-group.unidadporcentaje.col-md-2.col-sm-2.col-xs-12
 							label.sr-only Porcentaje
-							input.form-control(required type="number" min="0" max="100" ng-model="subunidad.porcentaje" placeholder="%Porcentaje" tooltip="Edite el porcentaje" tooltip-popup-delay="1000")
+							input.form-control(required type="number" min="0" max="100" ng-model="subunidad.porcentaje" placeholder="%Porcentaje" uib-tooltip="Edite el porcentaje" tooltip-popup-delay="1000")
 						.form-group.col-md-2.col-sm-2.col-xs-12
-							input.form-control(required ng-model="subunidad.nota_default" min="0" max="100" type="number" placeholder="Nota por defecto" tooltip="Nota por defecto de {{SUBUNIDAD}}" tooltip-popup-delay="1000")
+							input.form-control(required ng-model="subunidad.nota_default" min="0" max="100" type="number" placeholder="Nota por defecto" uib-tooltip="Nota por defecto de {{SUBUNIDAD}}" tooltip-popup-delay="1000")
 
 				.ticket-type.col-md-2.col-xs-12
 					.btn-group
@@ -121,11 +121,11 @@ li.tickets-container.ed-unidades-item
 					form.form-inline(ng-submit="addSubunidad(unidad)")
 						.form-group.unidaddefinicion.col-md-8.col-sm-8.col-xs-12
 							label.sr-only {{ GENERO_SUB=='M' ? 'Nuevo' : 'Nueva' }} {{SUBUNIDAD}}: 
-							textarea.form-control(required ng-model="unidad.newsubunidad.definicion" placeholder="Crea {{ GENERO_SUB=='M' ? 'nuevo' : 'nueva' }} {{SUBUNIDAD}}" tooltip="Definición del {{ GENERO_SUB=='M' ? 'nuevo' : 'nueva' }} {{SUBUNIDAD}}" tooltip-popup-delay="1000" style="height: 35px;")
+							textarea.form-control(required ng-model="unidad.newsubunidad.definicion" placeholder="Crea {{ GENERO_SUB=='M' ? 'nuevo' : 'nueva' }} {{SUBUNIDAD}}" uib-tooltip="Definición del {{ GENERO_SUB=='M' ? 'nuevo' : 'nueva' }} {{SUBUNIDAD}}" tooltip-popup-delay="1000" style="height: 35px;")
 						.form-group.unidadporcentaje.col-md-2.col-sm-2.col-xs-12
-							input.form-control(required ng-model="unidad.newsubunidad.porcentaje" min="0" max="100" type="number" placeholder="%Porcentaje" tooltip="Porcentaje {{ GENERO_SUB=='M' ? 'del' : 'de la' }} {{SUBUNIDAD}}" tooltip-popup-delay="1000")
+							input.form-control(required ng-model="unidad.newsubunidad.porcentaje" min="0" max="100" type="number" placeholder="%Porcentaje" uib-tooltip="Porcentaje {{ GENERO_SUB=='M' ? 'del' : 'de la' }} {{SUBUNIDAD}}" tooltip-popup-delay="1000")
 						.form-group.col-md-2.col-sm-2.col-xs-12
-							input.form-control(required ng-model="unidad.newsubunidad.nota_default" min="0" max="100" type="number" placeholder="Nota por defecto" tooltip="Nota por defecto {{ GENERO_SUB=='M' ? 'del' : 'de la' }} {{SUBUNIDAD}}" tooltip-popup-delay="1000")
+							input.form-control(required ng-model="unidad.newsubunidad.nota_default" min="0" max="100" type="number" placeholder="Nota por defecto" uib-tooltip="Nota por defecto {{ GENERO_SUB=='M' ? 'del' : 'de la' }} {{SUBUNIDAD}}" tooltip-popup-delay="1000")
 
 				.ticket-type.col-md-2.col-xs-12
 					input.btn.btn-primary(type="button" ng-disabled="!activar_crear_subunidad" ng-click="addSubunidad(unidad)" value="Añadir {{$parent.SUBUNIDAD}}") 

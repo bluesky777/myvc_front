@@ -5,7 +5,11 @@
       <div class="form-title">Subir imagen</div>
       <div class="row">
         <div class="col-lg-2 col-xs-12">
-          <div ng-file-select ng-file-change="upload($files)" ng-multiple="true" ng-accept="'image/*'" class="btn btn-success"><i class="fa fa-upload"></i>Subir imágenes</div>
+          <div ng-file-select ng-file-change="upload($files)" ng-multiple="true" ng-accept="'image/*'" class="btn btn-success"><i class="fa fa-upload"></i>Subir imágenes</div><br><br>
+          <label>Intactas</label>
+          <label>
+            <input type="checkbox" ng-model="subir_intacta.intacta" class="checkbox-slider slider-icon colored-blue ocultar-input"><span class="text si-no"></span>
+          </label>
         </div>
         <div class="col-lg-10 col-xs-12">
           <div class="tickets-container">
@@ -80,7 +84,7 @@
                     <div class="databox-right padding-top-10 bordered-thick bordered-sky">
                       <div class="databox-text lightcarbon">{{imagen.nombre}}</div>
                       <div class="databox-text darkgray">
-                        <div class="btn-group"><a ng-click="borrarImagen(imagen)" tooltip="Borrar imagen" class="btn btn-darkorange btn-xs"><i class="fa fa-times"></i></a><a ng-click="rotarImagen(imagen)" tooltip="Rotar" class="btn btn-default btn-xs"><i class="fa fa-rotate-right"></i></a><a ng-click="publicarImagen(imagen)" tooltip="Enviar a pública" class="btn btn-default btn-xs"><i class="fa fa-upload"></i></a></div>
+                        <div class="btn-group"><a ng-click="borrarImagen(imagen)" uib-tooltip="Borrar imagen" class="btn btn-darkorange btn-xs"><i class="fa fa-times"></i></a><a ng-click="rotarImagen(imagen)" uib-tooltip="Rotar" class="btn btn-default btn-xs"><i class="fa fa-rotate-right"></i></a><a ng-click="publicarImagen(imagen)" uib-tooltip="Enviar a pública" class="btn btn-default btn-xs"><i class="fa fa-upload"></i></a></div>
                       </div>
                     </div>
                   </div>
@@ -104,7 +108,7 @@
                     <div class="databox-right padding-top-10 bordered-thick bordered-sky">
                       <div class="databox-text lightcarbon">{{imagen.nombre}}</div>
                       <div class="databox-text darkgray">
-                        <div class="btn-group"><a ng-click="borrarImagen(imagen)" tooltip="Eliminar" class="btn btn-darkorange btn-xs"><i class="fa fa-times"></i></a><a ng-click="rotarImagen(imagen)" tooltip="Rotar imagen" class="btn btn-default btn-xs"><i class="fa fa-rotate-right"></i></a><a ng-click="privatizarImagen(imagen)" tooltip="Privada para el que la subió" class="btn btn-default btn-xs"><i class="fa fa-download"></i></a></div>
+                        <div class="btn-group"><a ng-click="borrarImagen(imagen)" uib-tooltip="Eliminar" class="btn btn-darkorange btn-xs"><i class="fa fa-times"></i></a><a ng-click="rotarImagen(imagen)" uib-tooltip="Rotar imagen" class="btn btn-default btn-xs"><i class="fa fa-rotate-right"></i></a><a ng-click="privatizarImagen(imagen)" uib-tooltip="Privada para el que la subió" class="btn btn-default btn-xs"><i class="fa fa-download"></i></a></div>
                       </div>
                     </div>
                   </div>
@@ -145,7 +149,7 @@
           <form ng-submit="cambiarFotoUnAlumno(dato.alumnoElegido, dato.imgOficialAlumno)">
             <div class="form-group">
               <label>Grupo</label>
-              <div><span tooltip="Debe seleccionar un grupo" tooltip-placement="right">
+              <div><span uib-tooltip="Debe seleccionar un grupo" tooltip-placement="right">
                   <ui-select ng-model="dato.grupo" theme="select2" style="min-width: 200px;" on-select="grupoSelect($item, $model)">
                     <ui-select-match placeholder="Grupo a matricular">{{$select.selected.nombre}}</ui-select-match>
                     <ui-select-choices repeat="grupo in grupos | filter: $select.search">

@@ -1,18 +1,16 @@
 angular.module("myvcFrontApp")
 
-.controller('PapeleraCtrl', ['$scope', 'App', '$rootScope', '$state', '$interval', 'Restangular', '$modal', '$filter', ($scope, App, $rootScope, $state, $interval, Restangular, $modal, $filter)->
+.controller('PapeleraCtrl', ['$scope', 'App', '$rootScope', '$state', '$interval', 'Restangular', '$uibModal', '$filter', 'toastr', ($scope, App, $rootScope, $state, $interval, Restangular, $modal, $filter, toastr)->
 
 	$scope.restaurarAlum = (alum)->
 		
 		Restangular.one('alumnos/restore', alum.alumno_id).customPUT().then(()->
 			$scope.gridAlumnos.data = $filter('filter')($scope.gridAlumnos.data, {alumno_id: '!'+alum.alumno_id})
-			$scope.toastr.success 'Éxito', 'Alumno restaurado'
+			toastr.success 'Éxito', 'Alumno restaurado'
 		, (r2)->
-			console.log 'No se pudo restaurar alumno.', alum, r2
-			$scope.toastr.error 'No se restauró el alumno', 'Error'
+			toastr.error 'No se restauró el alumno', 'Error'
 		)
 	$scope.elimAlum = (alum)->
-		console.log 'Presionado para eliminar fila: ', alum
 
 		modalInstance = $modal.open({
 			templateUrl: App.views + 'papelera/forceRemoveAlumno.tpl.html'
@@ -28,7 +26,7 @@ angular.module("myvcFrontApp")
 
 	# ALUMNOS
 	btGridAlum1 = '<a class="btn btn-default btn-xs shiny info" ng-click="grid.appScope.restaurarAlum(row.entity)"><i class="fa fa-refresh "></i>Restaurar</a>'
-	btGridAlum2 = '<a tooltip="¡Eliminar completamente!" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.elimAlum(row.entity)"><i class="fa fa-times "></i></a>'
+	btGridAlum2 = '<a uib-tooltip="¡Eliminar completamente!" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.elimAlum(row.entity)"><i class="fa fa-times "></i></a>'
 	
 	$scope.gridAlumnos = 
 		enableSorting: true,
@@ -56,13 +54,11 @@ angular.module("myvcFrontApp")
 	$scope.restaurarGrupo = (grupo)->
 		Restangular.one('grupos/restore', grupo.id).customPUT().then(()->
 			$scope.gridGrupos.data = $filter('filter')($scope.gridGrupos.data, {id: '!'+grupo.id})
-			$scope.toastr.success 'Éxito', 'Grupo restaurado'
+			toastr.success 'Éxito', 'Grupo restaurado'
 		, (r2)->
-			console.log 'No se pudo restaurar grupo.', grupo, r2
-			$scope.toastr.error 'No se restauró el grupo', 'Error'
+			toastr.error 'No se restauró el grupo', 'Error'
 		)
 	$scope.elimGrupo = (grupo)->
-		console.log 'Presionado para eliminar fila: ', grupo
 
 		modalInstance = $modal.open({
 			templateUrl: App.views + 'papelera/forceRemoveGrupo.tpl.html'
@@ -73,11 +69,10 @@ angular.module("myvcFrontApp")
 		})
 		modalInstance.result.then( (grupo)->
 			$scope.gridGrupos.data = $filter('filter')($scope.gridGrupos.data, {id: '!'+grupo.id})
-			console.log 'Resultado del modal: ', grupo
 		)
 
 	btGridGrupo1 = '<a class="btn btn-default btn-xs shiny info" ng-click="grid.appScope.restaurarGrupo(row.entity)"><i class="fa fa-refresh "></i>Restaurar</a>'
-	btGridGrupo2 = '<a tooltip="¡Eliminar completamente!" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.elimGrupo(row.entity)"><i class="fa fa-times "></i></a>'
+	btGridGrupo2 = '<a uib-tooltip="¡Eliminar completamente!" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.elimGrupo(row.entity)"><i class="fa fa-times "></i></a>'
 	
 	$scope.gridGrupos = 
 		enableSorting: true,
@@ -100,12 +95,12 @@ angular.module("myvcFrontApp")
 	Restangular.all('alumnos/trashed').getList().then((data)->
 		$scope.gridAlumnos.data = data;
 	, (r2)->
-		console.log 'No se pudo traer los alumnos eliminados.', r2
+		toastr.warning 'No se pudo traer los alumnos eliminados.'
 	)
 	Restangular.all('grupos/trashed').getList().then((data)->
 		$scope.gridGrupos.data = data;
 	, (r2)->
-		console.log 'No se pudo traer los grupos eliminados.', r2
+		toastr.warning 'No se pudo traer los grupos eliminados.'
 	)
 
 
@@ -119,13 +114,11 @@ angular.module("myvcFrontApp")
 	$scope.restaurarUnidad = (unidad)->
 		Restangular.one('unidades/restore', unidad.id).customPUT().then(()->
 			$scope.gridUnidad.data = $filter('filter')($scope.gridUnidad.data, {id: '!'+unidad.id})
-			$scope.toastr.success 'Éxito', 'Unidad restaurada'
+			toastr.success 'Éxito', 'Unidad restaurada'
 		, (r2)->
-			console.log 'No se pudo restaurar unidad.', unidad, r2
-			$scope.toastr.error 'No se restauró la unidad', 'Error'
+			toastr.error 'No se restauró la unidad', 'Error'
 		)
 	$scope.elimUnidad = (unidad)->
-		console.log 'Presionado para eliminar fila: ', unidad
 
 		modalInstance = $modal.open({
 			templateUrl: App.views + 'papelera/forceRemoveUnidad.tpl.html'
@@ -140,7 +133,7 @@ angular.module("myvcFrontApp")
 		)
 
 	btGridUnidad1 = '<a class="btn btn-default btn-xs shiny info" ng-click="grid.appScope.restaurarUnidad(row.entity)"><i class="fa fa-refresh "></i>Restaurar</a>'
-	btGridUnidad2 = '<a tooltip="¡Eliminar completamente!" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.elimUnidad(row.entity)"><i class="fa fa-times "></i></a>'
+	btGridUnidad2 = '<a uib-tooltip="¡Eliminar completamente!" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.elimUnidad(row.entity)"><i class="fa fa-times "></i></a>'
 
 	$scope.gridUnidad = 
 		enableSorting: true,
@@ -164,12 +157,12 @@ angular.module("myvcFrontApp")
 	Restangular.all('unidades/trashed').getList().then((data)->
 		$scope.gridUnidad.data = data;
 	, (r2)->
-		console.log 'No se pudo traer las unidades eliminados.', r2
+		toastr.warning 'No se pudo traer las unidades eliminados.'
 	)
 	Restangular.all('unidades/trashed').getList().then((data)->
 		$scope.gridUnidad.data = data;
 	, (r2)->
-		console.log 'No se pudo traer las unidades eliminadas.', r2
+		toastr.warning 'No se pudo traer las unidades eliminadas.'
 	)
 
 ])

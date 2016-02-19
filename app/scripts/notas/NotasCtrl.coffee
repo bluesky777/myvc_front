@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-.controller('NotasCtrl', ['$scope', 'toastr', 'Restangular', '$modal', '$state', 'notas', '$rootScope', '$filter', 'App', 'AuthService', '$timeout', ($scope, toastr, Restangular, $modal, $state, notas, $rootScope, $filter, App, AuthService, $timeout) ->
+.controller('NotasCtrl', ['$scope', 'toastr', 'Restangular', '$uibModal', '$state', 'notas', '$rootScope', '$filter', 'App', 'AuthService', '$timeout', ($scope, toastr, Restangular, $modal, $state, notas, $rootScope, $filter, App, AuthService, $timeout) ->
 
 	AuthService.verificar_acceso()
 
@@ -13,6 +13,8 @@ angular.module('myvcFrontApp')
 	$scope.UNIDADES = $scope.USER.unidades_displayname
 	$scope.SUBUNIDADES = $scope.USER.subunidades_displayname
 	$scope.perfilPath = App.images+'perfil/'
+	$scope.views = App.views
+	$scope.nota_minima_aceptada = parseInt($scope.USER.nota_minima_aceptada)
 
 	$scope.asignatura 	= notas[0]
 	$scope.alumnos 		= notas[1]
@@ -31,7 +33,6 @@ angular.module('myvcFrontApp')
 		for subunidad in unidad.subunidades
 			$scope.subunidadesunidas.push subunidad
 
-	console.log '$scope.subunidadesunidas ', $scope.subunidadesunidas
 
 
 	$scope.traerSubunidad = (unidad)->
@@ -42,7 +43,6 @@ angular.module('myvcFrontApp')
 		console.log nota, otra
 		Restangular.one('notas/update', nota.id).customPUT({nota: nota.nota}).then((r)->
 			toastr.success 'Cambiada: ' + nota.nota
-			console.log 'Cuando la nota cambia, el objeto nota: ', nota
 		, (r2)->
 			console.log 'No pudimos guardar la nota ', nota
 			toastr.error 'No pudimos guardar la nota ' + nota.nota
@@ -50,7 +50,6 @@ angular.module('myvcFrontApp')
 
 
 	$scope.showFrases = (alumno)->
-		console.log 'Presionado para mostrar frases: ', alumno
 
 		modalInstance = $modal.open({
 			templateUrl: App.views + 'notas/showFrases.tpl.html'
@@ -65,7 +64,7 @@ angular.module('myvcFrontApp')
 					$scope.asignatura
 		})
 		modalInstance.result.then( (alum)->
-			console.log 'Resultado del modal: ', alum
+			#console.log 'Resultado del modal: ', alum
 		)
 
 
@@ -121,20 +120,18 @@ angular.module('myvcFrontApp')
 ])
 
 
-.controller('ShowFrasesCtrl', ['$scope', '$modalInstance', 'alumno', 'frases', 'asignatura', 'Restangular', 'toastr', '$filter', ($scope, $modalInstance, alumno, frases, asignatura, Restangular, toastr, $filter)->
+.controller('ShowFrasesCtrl', ['$scope', '$uibModalInstance', 'alumno', 'frases', 'asignatura', 'Restangular', 'toastr', '$filter', ($scope, $modalInstance, alumno, frases, asignatura, Restangular, toastr, $filter)->
 	$scope.alumno = alumno
 	$scope.frases = frases
 	$scope.asignatura = asignatura
 
 	$scope.alumno.newFrase = ''
 
-	console.log alumno
 
 	Restangular.all('frases_asignatura/show/'+alumno.alumno_id+'/'+asignatura.asignatura_id).getList().then((r)->
 		$scope.frases_asignatura = r
 	, (r2)->
 		toastr.warning 'No se pudo traer frases.', 'Problema'
-		console.log 'Error añadiendo frase: ', r2
 	)
 	
 
@@ -155,7 +152,6 @@ angular.module('myvcFrontApp')
 				console.log 'Error añadiendo frase: ', r2
 			)
 		else
-			console.log 'No ha copiado ninguna frase'
 			toastr.warning 'No ha copiado ninguna frase'
 
 
@@ -172,10 +168,8 @@ angular.module('myvcFrontApp')
 				$scope.frases_asignatura = r
 			, (r2)->
 				toastr.warning 'No se pudo añadir frase.', 'Problema'
-				console.log 'Error añadiendo frase: ', r2
 			)
 		else
-			console.log 'No ha seleccionado frase'
 			toastr.warning 'No ha seleccionado frase'
 
 
@@ -185,7 +179,6 @@ angular.module('myvcFrontApp')
 			$scope.frases_asignatura = $filter('filter')($scope.frases_asignatura, {id: '!'+fraseasig.id})
 		, (r2)->
 			toastr.warning 'No se pudo quitar la frase.', 'Problema'
-			console.log 'Error quitando frase: ', r2
 		)
 
 

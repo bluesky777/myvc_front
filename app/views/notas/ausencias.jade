@@ -33,7 +33,7 @@
 							th.text-center(style="min-width: 50px;") 
 								div Nombres
 							th(ng-repeat="dia in dias")
-								div.text-center.nombresellipsis(tooltip="{{subunidad.porcentaje}}% {{subunidad.definicion}}" 
+								div.text-center.nombresellipsis(uib-tooltip="{{subunidad.porcentaje}}% {{subunidad.definicion}}" 
 									tooltip-popup-delay="1000") {{dia}}
 							th
 								div Total

@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('ActividadesCtrl', ['$scope', 'App', '$rootScope', '$state', '$interval', 'RAlumnos', 'Restangular', 'uiGridConstants', 'GruposServ', '$modal', '$filter', 'AuthService', ($scope, App, $rootScope, $state, $interval, RAlumnos, Restangular, uiGridConstants, GruposServ, $modal, $filter, AuthService)->
+.controller('ActividadesCtrl', ['$scope', 'App', '$rootScope', '$state', '$interval', 'RAlumnos', 'Restangular', 'uiGridConstants', 'GruposServ', '$uibModal', '$filter', 'AuthService', ($scope, App, $rootScope, $state, $interval, RAlumnos, Restangular, uiGridConstants, GruposServ, $modal, $filter, AuthService)->
 
 	AuthService.verificar_acceso()
 
@@ -58,7 +58,7 @@ angular.module("myvcFrontApp")
 	return
 ])
 
-.controller('RemoveAlumnoCtrl', ['$scope', '$modalInstance', 'alumno', 'Restangular', 'toastr', ($scope, $modalInstance, alumno, Restangular, toastr)->
+.controller('RemoveAlumnoCtrl', ['$scope', '$uibModalInstance', 'alumno', 'Restangular', 'toastr', ($scope, $modalInstance, alumno, Restangular, toastr)->
 	$scope.alumno = alumno
 
 	$scope.ok = ()->

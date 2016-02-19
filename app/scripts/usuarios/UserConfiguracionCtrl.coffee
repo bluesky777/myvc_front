@@ -13,6 +13,7 @@ angular.module('myvcFrontApp')
 	$scope.passantiguo = ''
 	$scope.newpass = ''
 	$scope.newpassverif = ''
+	$scope.status = { passCambiado: false } # Para cerrar tab cuando se cambie el password
 
 	$scope.nombresdeusuario=[]
 
@@ -96,13 +97,17 @@ angular.module('myvcFrontApp')
 		if newpass.length < 4
 			$scope.toastr.warning 'La contraseña debe tener mínimo 4 caracteres. Sin espacios ni Ñ ni tildes.'
 			return
+		
+		$scope.cambiandoPass = true # Bloqueamos el botón temporalmente
 
 		datos = {'password':newpassverif, 'oldpassword': passantiguo }
 
-		console.log datos
+
 		Restangular.one('perfiles/cambiarpassword', $scope.perfilactual.user_id).customPUT(datos).then((r)->
 			console.log 'Contraseña cambiada, ', r
 			$scope.toastr.success 'Contraseña cambiada.'
+			$scope.status.passCambiado = false
+			$scope.cambiandoPass = false
 		, (r2)->
 			if r2.$error
 			
@@ -113,6 +118,8 @@ angular.module('myvcFrontApp')
 					$scope.toastr.error 'No se pudo cambiar la contraseña.'
 			else
 				$scope.toastr.error 'No se pudo cambiar la contraseña.'
+
+			$scope.cambiandoPass = false
 		)
 
 	$scope.CambiarCorreoRestore = ()->

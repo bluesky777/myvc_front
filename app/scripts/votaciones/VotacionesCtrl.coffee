@@ -18,9 +18,7 @@ angular.module("myvcFrontApp")
 		aspiraciones: [{aspiracion: '', abrev: ''}]
 	}
 
-	$scope.dateOptions = {
-		startingDay: 1
-	}
+	$scope.date = {dateOptions: { startingDay: 1 } }
 
 	$scope.addAspiracion = ()->
 		$scope.votacion.aspiraciones.push {aspiracion: '', abrev: ''}
@@ -92,6 +90,13 @@ angular.module("myvcFrontApp")
 			console.log 'No se pudo cambiar bloqueo.', r2
 		)
 
+	$scope.cambiarPermisoVerResults = (row)->
+		Restangular.one('votaciones/set-permiso-ver-results').customPUT({id: row.id, can_see_results: row.can_see_results}).then((r)->
+			toastr.success 'Cambiado'
+		, (r2)->
+			console.log 'No se pudo cambiar el permiso.', r2
+		)
+
 	$scope.cambiarEventoActual = (row)->
 		Restangular.one('votaciones/set-actual').customPUT({id: row.id, actual: row.actual}).then((r)->
 			console.log 'Se ha vuelto actual: ', r
@@ -109,11 +114,12 @@ angular.module("myvcFrontApp")
 
 
 
-	btGrid1 = '<a tooltip="Editar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
-	btGrid2 = '<a tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-times "></i></a>'
+	btGrid1 = '<a uib-tooltip="Editar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
+	btGrid2 = '<a uib-tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-times "></i></a>'
 	btActual = "#{App.views}votaciones/botonEventoActual.tpl.html"
 	btBloq = "#{App.views}votaciones/botonEventoLocked.tpl.html"
 	btAccion = "#{App.views}votaciones/botonEventoInAction.tpl.html"
+	btPermiso = "#{App.views}votaciones/botonPermisoVerResults.tpl.html"
 
 	$scope.gridOptions = 
 		enableSorting: true,
@@ -125,6 +131,7 @@ angular.module("myvcFrontApp")
 			{ field: 'locked', displayName: 'Bloqueado', maxWidth: 60, cellTemplate: btBloq, minWidth: 80 }
 			{ field: 'actual', displayName: 'Actual', maxWidth: 60, cellTemplate: btActual, minWidth: 80}
 			{ field: 'in_action', displayName: 'En acción', maxWidth: 60, cellTemplate: btAccion, minWidth: 80 }
+			{ field: 'can_see_results', displayName: 'Permiso', maxWidth: 60, cellTemplate: btPermiso, minWidth: 80 }
 			{ field: 'fecha_inicio', displayName:'Inicia', cellFilter: "date:mediumDate", type: 'date', width: 80}
 			{ field: 'fecha_fin', displayName: 'Termina', cellFilter: "date:mediumDate", type: 'date', width: 80 }
 		],
@@ -133,7 +140,6 @@ angular.module("myvcFrontApp")
 		onRegisterApi: ( gridApi ) ->
 			$scope.gridApi = gridApi
 			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
-				console.log 'Fila editada, ', rowEntity, ' Column:', colDef, ' newValue:' + newValue + ' oldValue:' + oldValue ;
 				
 				if newValue != oldValue
 

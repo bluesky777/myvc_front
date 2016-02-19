@@ -33,7 +33,7 @@
                 <div> </div>
               </th>
               <th ng-repeat="unidad in unidades" colspan="{{unidad.subunidades.length}}">
-                <div tooltip="{{unidad.porcentaje}}% {{unidad.definicion}}" tooltip-popup-delay="1000" ng-class="'maxwidth' + unidad.subunidades.length" class="text-center nombresellipsis">{{$index + 1}}. {{unidad.definicion}}</div>
+                <div uib-tooltip="{{unidad.porcentaje}}% {{unidad.definicion}}" tooltip-popup-delay="500" ng-class="'maxwidth' + unidad.subunidades.length" class="text-center nombresellipsis">{{$index + 1}}. {{unidad.definicion}}</div>
               </th>
               <th rowspan="2" style="line-height: 3;">
                 <div>Total</div>
@@ -41,26 +41,26 @@
             </tr>
             <tr>
               <th ng-repeat="subunidad in subunidadesunidas">
-                <div tooltip="{{subunidad.porcentaje}}% {{subunidad.definicion}}" tooltip-popup-delay="1000" ng-hide="subunidad.empty" class="text-center nombresellipsis">{{$index + 1}}</div>
-                <div tooltip="No hay subunidad" tooltip-popup-delay="1000" ng-show="subunidad.empty" class="text-center"><i class="fa fa-frown-o"></i></div>
+                <div uib-tooltip="{{subunidad.porcentaje}}% {{subunidad.definicion}}" tooltip-popup-delay="500" ng-hide="subunidad.empty" class="text-center nombresellipsis">{{$index + 1}}</div>
+                <div uib-tooltip="No hay subunidad" tooltip-popup-delay="500" ng-show="subunidad.empty" class="text-center"><i class="fa fa-frown-o"></i></div>
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="alumno in alumnos | filter:searchAlum" ng-class="{'danger': promedioTotal(alumno.alumno_id) &lt; 70}">
+            <tr ng-repeat="alumno in alumnos | filter:searchAlum" ng-class="{'danger': promedioTotal(alumno.alumno_id) &lt; nota_minima_aceptada}">
               <td>
                 <div>{{$index+1}}</div>
               </td>
               <td>
-                <div popover="&lt;img src='{{perfilPath + alumno.userData.foto_nombre}}' style='width: 100px; height: 100px;'&gt;&lt;img src='{{perfilPath + alumno.userData.imagen_nombre}}' style='width: 100px; height: 100px;'&gt;&lt;br&gt;Facebook: {{alumno.facebook}}&lt;br&gt;Username: {{alumno.userData.username}}" popover-popup-delay="1000" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-animation="true" popover-trigger="mouseenter" class="nombresellipsis"> <img ng-src="{{perfilPath + alumno.userData.foto_nombre}}" style="width: 20px; height: 20px;">{{alumno.apellidos + ' ' + alumno.nombres}}</div>
+                <div uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="mouseenter" popover-popup-delay="500" class="nombresellipsis"> <img ng-src="{{perfilPath + alumno.userData.foto_nombre}}" style="width: 20px; height: 20px;">{{alumno.apellidos + ' ' + alumno.nombres}}</div>
               </td>
-              <td><a href="" ng-click="showFrases(alumno)" tooltip="Información para el alumno" class="btn btn-default btn-xs"><i class="fa fa-info"></i></a></td>
+              <td><a href="" ng-click="showFrases(alumno)" uib-tooltip="Información para el alumno" class="btn btn-default btn-xs"><i class="fa fa-info"></i></a></td>
               <div>
                 <td ng-repeat="subunidad in subunidadesunidas">
-                  <div ng-class="{'inputnota-perdida': subunidad.notas[$parent.$index].nota &lt; 70, 'inputnota-superior': subunidad.notas[$parent.$index].nota &gt; 90, 'cursorcell': notaRapida.enable == true}" ng-hide="subunidad.empty" class="text-center">
-                    <input tooltip="{{subunidad.porcentaje}}% {{subunidad.definicion}}" tooltip-popup-delay="1000" type="number" min="0" max="100" ng-model="subunidad.notas[$parent.$index].nota" ng-change="cambiaNota(subunidad.notas[$parent.$index], subunidad.notas[$parent.$index].nota)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])">
+                  <div ng-class="{'inputnota-perdida': subunidad.notas[$parent.$index].nota &lt; nota_minima_aceptada, 'inputnota-superior': subunidad.notas[$parent.$index].nota &gt; 90, 'cursorcell': notaRapida.enable == true}" ng-hide="subunidad.empty" class="text-center">
+                    <input uib-tooltip="{{subunidad.porcentaje}}% {{subunidad.definicion}}" tooltip-popup-delay="500" type="number" min="0" max="100" ng-model="subunidad.notas[$parent.$index].nota" ng-change="cambiaNota(subunidad.notas[$parent.$index], subunidad.notas[$parent.$index].nota)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])">
                   </div>
-                  <div tooltip="No hay subunidad" tooltip-popup-delay="1000" ng-show="subunidad.empty" class="text-center"><i class="fa fa-frown-o"></i></div>
+                  <div uib-tooltip="No hay subunidad" tooltip-popup-delay="500" ng-show="subunidad.empty" class="text-center"><i class="fa fa-frown-o"></i></div>
                 </td>
                 <td>
                   <div ng-bind-html="promedioTotal(alumno.alumno_id)"></div>

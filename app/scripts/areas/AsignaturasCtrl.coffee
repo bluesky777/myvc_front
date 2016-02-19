@@ -1,6 +1,6 @@
 angular.module("myvcFrontApp")
 
-.controller('AsignaturasCtrl', ['$scope', '$rootScope', '$interval', 'Restangular', 'RAsignaturas', 'materias', 'grupos', 'profesores', '$modal', '$filter', 'App', 'AuthService', ($scope, $rootScope, $interval, Restangular, RAsignaturas, materias, grupos, profesores, $modal, $filter, App, AuthService)->
+.controller('AsignaturasCtrl', ['$scope', '$rootScope', '$interval', 'Restangular', 'RAsignaturas', 'materias', 'grupos', 'profesores', '$uibModal', '$filter', 'App', 'AuthService', ($scope, $rootScope, $interval, Restangular, RAsignaturas, materias, grupos, profesores, $modal, $filter, App, AuthService)->
 
 	AuthService.verificar_acceso()
 
@@ -63,7 +63,6 @@ angular.module("myvcFrontApp")
 			$scope.toastr.success 'Asignatura creada con éxito'
 			console.log r, $scope.asignaturas
 		, (r2)->
-			console.log 'No se pudo crear', r2
 			$scope.toastr.error 'Error creando', 'Problema'
 		)
 
@@ -102,8 +101,8 @@ angular.module("myvcFrontApp")
 			console.log 'Resultado del modal: ', asignatura
 		)
 
-	btGrid1 = '<a tooltip="Editar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
-	btGrid2 = '<a tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-trash "></i></a>'
+	btGrid1 = '<a uib-tooltip="Editar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
+	btGrid2 = '<a uib-tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-trash "></i></a>'
 	$scope.gridOptions = 
 		showGridFooter: true,
 		enableSorting: true,
@@ -150,7 +149,6 @@ angular.module("myvcFrontApp")
 		onRegisterApi: ( gridApi ) ->
 			$scope.gridApi = gridApi
 			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
-				console.log 'Fila editada, ', rowEntity, ' Column:', colDef, ' newValue:' + newValue + ' oldValue:' + oldValue ;
 				
 				if newValue != oldValue
 					$scope.currentasignaturaEdit = rowEntity
@@ -199,7 +197,7 @@ angular.module("myvcFrontApp")
 			return  profe.nombres
 ])
 
-.controller('RemoveAsignaturaCtrl', ['$scope', '$modalInstance', 'asignatura', 'Restangular', 'toastr', ($scope, $modalInstance, asignatura, Restangular, toastr)->
+.controller('RemoveAsignaturaCtrl', ['$scope', '$uibModalInstance', 'asignatura', 'Restangular', 'toastr', ($scope, $modalInstance, asignatura, Restangular, toastr)->
 	$scope.asignatura = asignatura
 
 	$scope.ok = ()->
@@ -208,7 +206,6 @@ angular.module("myvcFrontApp")
 			toastr.success 'asignatura '+asignatura.nombre+' eliminada con éxito.', 'Eliminada'
 		, (r2)->
 			toastr.warning 'Problema', 'No se pudo eliminar la asignatura.'
-			console.log 'Error eliminando asignatura: ', r2
 		)
 		$modalInstance.close(asignatura)
 

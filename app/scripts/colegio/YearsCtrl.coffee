@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-.controller('YearsCtrl', ['App', '$scope', '$http', 'Restangular', '$modal', '$state', 'ProfesoresServ', '$cookies', '$rootScope', 'RYears', '$filter', 'toastr', 
+.controller('YearsCtrl', ['App', '$scope', '$http', 'Restangular', '$uibModal', '$state', 'ProfesoresServ', '$cookies', '$rootScope', 'RYears', '$filter', 'toastr', 
 	(App, $scope, $http, Restangular, $modal, $state, ProfesoresServ, $cookies, $rootScope, RYears, $filter, toastr) ->
 
 		if $scope.USER.alumnos_can_see_notas == 1
@@ -167,7 +167,7 @@ angular.module('myvcFrontApp')
 )
 
 
-.controller('RemoveYearCtrl', ['$scope', '$modalInstance', 'year', 'Restangular', 'toastr', ($scope, $modalInstance, year, Restangular, toastr)->
+.controller('RemoveYearCtrl', ['$scope', '$uibModalInstance', 'year', 'Restangular', 'toastr', ($scope, $modalInstance, year, Restangular, toastr)->
 	$scope.year = year
 
 	$scope.ok = ()->

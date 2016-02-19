@@ -12,8 +12,8 @@
 						i.fa.fa-times
 			.widget-body(ng-class="{'ng-hide':minimized}")
 				
-				tabset.widget-main
-					tab(heading="Boletines" active="informe_tab_actual_boletines" select="selectTab('boletines')")
+				uib-tabset.widget-main
+					uib-tab(heading="Boletines" active="informe_tab_actual_boletines" select="selectTab('boletines')")
 						.row
 							.col-lg-7.col-sm-12.col-xs-12
 								.form-group
@@ -103,7 +103,7 @@
 						button.btn.btn-default(ng-click="pdfMaker()" ng-show="false")
 							|Prueba pdf
 
-					tab(heading="Puestos" active="informe_tab_actual_puestos" select="selectTab('puestos')")
+					uib-tab(heading="Puestos" active="informe_tab_actual_puestos" select="selectTab('puestos')")
 						.row
 							.col-lg-7.col-sm-12.col-xs-12
 								.form-group
@@ -121,7 +121,7 @@
 								a.btn.btn-success(href="" ng-click="verPuestosYear()") Puestos del año
 						
 
-					tab(heading="Planillas" active="informe_tab_actual_planillas" select="selectTab('planillas')")
+					uib-tab(heading="Planillas" active="informe_tab_actual_planillas" select="selectTab('planillas')")
 						.row
 							.col-lg-7.col-sm-12.col-xs-12
 								.form-group
@@ -174,7 +174,7 @@
 
 
 
-					tab(heading="Finales" active="informe_tab_actual_finales" select="selectTab('finales')")
+					uib-tab(heading="Finales" active="informe_tab_actual_finales" select="selectTab('finales')")
 						span(ng-include="'views/informes/tabFinales.tpl.html'")
 						
 

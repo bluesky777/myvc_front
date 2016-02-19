@@ -1,5 +1,5 @@
 angular.module('myvcFrontApp')
-.controller('UnidadesCtrl', ['$scope', '$modal', 'Restangular', '$state', '$filter', '$rootScope', 'AuthService', 'toastr', 'App', 'resolved_user', ($scope, $modal, Restangular, $state, $filter, $rootScope, AuthService, toastr, App, resolved_user) ->
+.controller('UnidadesCtrl', ['$scope', '$uibModal', 'Restangular', '$state', '$filter', '$rootScope', 'AuthService', 'toastr', 'App', 'resolved_user', ($scope, $modal, Restangular, $state, $filter, $rootScope, AuthService, toastr, App, resolved_user) ->
 
 	AuthService.verificar_acceso()
 
@@ -123,7 +123,7 @@ angular.module('myvcFrontApp')
 
 ])
 
-.controller('RemoveUnidadCtrl', ['$scope', '$modalInstance', 'unidad', 'Restangular', 'toastr', ($scope, $modalInstance, unidad, Restangular, toastr)->
+.controller('RemoveUnidadCtrl', ['$scope', '$uibModalInstance', 'unidad', 'Restangular', 'toastr', ($scope, $modalInstance, unidad, Restangular, toastr)->
 	$scope.unidad = unidad
 
 	$scope.ok = ()->
@@ -141,7 +141,7 @@ angular.module('myvcFrontApp')
 
 ])
 
-.controller('RemoveSubunidadCtrl', ['$scope', '$modalInstance', 'subunidad', 'Restangular', 'toastr', ($scope, $modalInstance, subunidad, Restangular, toastr)->
+.controller('RemoveSubunidadCtrl', ['$scope', '$uibModalInstance', 'subunidad', 'Restangular', 'toastr', ($scope, $modalInstance, subunidad, Restangular, toastr)->
 	$scope.subunidad = subunidad
 
 	$scope.ok = ()->

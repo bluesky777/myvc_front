@@ -7,7 +7,6 @@ angular.module("myvcFrontApp")
 	Restangular.all('contratos').getList().then((r)->
 		$scope.contratos = r
 	, (r2)->
-		console.log 'No se pudo traer los profesores contrados. ', r2
 		$scope.toastr.error 'No se trajeron los profesores contratados'
 	)
 
@@ -15,7 +14,6 @@ angular.module("myvcFrontApp")
 	Restangular.all('bitacoras').getList().then((r)->
 		$scope.gridOptions.data = r
 	, (r2)->
-		console.log 'No se pudo traer la bitácora', r2
 		$scope.toastr.error 'No se pudo traer la bitácora'
 	)
 
@@ -25,14 +23,13 @@ angular.module("myvcFrontApp")
 		Restangular.all('bitacoras/index/'+item.user_id).getList().then((r)->
 			$scope.gridOptions.data = r
 		, (r2)->
-			console.log 'No se pudo traer la bitácora del profe ', item, r2
 			$scope.toastr.error 'No se pudo traer la bitácora'
 		)
 
 
 
 
-	btGrid2 = '<a tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-times "></i></a>'
+	btGrid2 = '<a uib-tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-times "></i></a>'
 	$scope.gridOptions = 
 		enableSorting: true,
 		enableFiltering: true,

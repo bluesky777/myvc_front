@@ -22,8 +22,8 @@
 						|{{aspiracion.aspiracion}}
 						span.chevron
 
-					li(ng-class="{active:wzStep==aspiraciones.length}")
-						span.step {{aspiraciones.length+1}} 
+					li(ng-class="{active:wzStep==votacion.aspiraciones.length}")
+						span.step {{votacion.aspiraciones.length+1}} 
 						|Final
 						span.chevron
 
@@ -31,7 +31,7 @@
 					button.btn.btn-default.btn-sm.shiny.btn-prev(type="button" ng-click="prevAspiracion()" ng-class="{disabled:wzStep==0}")
 						i.fa.fa-angle-left
 						|Volver
-					button.btn.btn-default.btn-sm.shiny.btn-next(type="button" ng-click="nextAspiracion()" ng-class="{disabled:wzStep==aspiraciones.length}")
+					button.btn.btn-default.btn-sm.shiny.btn-next(type="button" ng-click="nextAspiracion()" ng-class="{disabled:wzStep==votacion.aspiraciones.length}")
 						|Seguir
 						i.fa.fa-angle-right
 

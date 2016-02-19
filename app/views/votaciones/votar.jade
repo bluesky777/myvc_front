@@ -1,3 +1,11 @@
-.row(style="padding: 5px; " ng-repeat="votacion in votaciones" )
-	
-	votar-panel-dir(votacion="votacion")
+span(ng-if="votaciones.length > 0")
+	.row(style="padding: 5px; " ng-repeat="votacion in votaciones" )
+		
+		votar-panel-dir(votacion="votacion")
+
+
+span(ng-if="votaciones.length == 0")
+	.row(style="padding: 5px; " )
+		.col-lg-12.col-sm-12.col-xs-12
+			.label.label-info No estás inscrito en ninguna votación.
+		

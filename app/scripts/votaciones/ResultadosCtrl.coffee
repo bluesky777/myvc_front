@@ -1,6 +1,6 @@
 angular.module("myvcFrontApp")
 
-.controller('ResultadosCtrl', ['$scope', '$filter', 'Restangular', 'App', '$state', '$modal', '$window', ($scope, $filter, Restangular, App, $state, $modal, $window)->
+.controller('ResultadosCtrl', ['$scope', '$filter', 'Restangular', 'App', '$state', '$uibModal', '$window', ($scope, $filter, Restangular, App, $state, $modal, $window)->
 
 
 	$scope.votacion = {

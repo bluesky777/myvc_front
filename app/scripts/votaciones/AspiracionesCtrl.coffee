@@ -16,16 +16,14 @@ angular.module("myvcFrontApp")
 	}
 
 	$scope.editar = (row)->
-		console.log 'Presionado para editar fila: ', row
 		$scope.editing = true
 		$scope.aspiracionEdit = row
 
 	$scope.eliminar = (row)->
 		row.remove().then((r)->
-			console.log 'Se ha eliminado: ', r
 			$scope.gridOptions.data = $filter('filter')($scope.gridOptions.data, {id: '!'+r.id})
 		, (r2)->
-			console.log 'No se pudo eliminar.', r2
+			#console.log 'No se pudo eliminar.', r2
 		)
 
 	btGrid1 = '<a tooltip="Editar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
@@ -47,7 +45,7 @@ angular.module("myvcFrontApp")
 	RAspiraciones.getList().then((data)->
 		$scope.gridOptions.data = data;
 	, (r2)->
-		console.log 'Error trayendo las aspiraciones. ', r2
+		#console.log 'Error trayendo las aspiraciones. ', r2
 	)
 	Restangular.one('votaciones/actual').get().then((r)->
 		$scope.votacion = r
@@ -56,17 +54,16 @@ angular.module("myvcFrontApp")
 	$scope.crear = ()->
 		$scope.aspiracion.votacion_id = $scope.votacion.id
 		RAspiraciones.post($scope.aspiracion).then((r)->
-			console.log 'Se hizo el post de la votación', r
 			$scope.gridOptions.data.push r
 		, (r2)->
-			console.log 'Falló al intentar guardar: ', r2
+			#console.log 'Falló al intentar guardar: ', r2
 		)
 
 	$scope.guardar = ()->
 		$scope.aspiracionEdit.put().then((r)->
 			console.log 'Se hizo el put de la aspiración. ', r
 		, (r2)->
-			console.log 'Falló al intentar guardar: ', r2
+			#console.log 'Falló al intentar guardar: ', r2
 		)
 
 

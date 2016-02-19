@@ -1,74 +1,75 @@
-<!-- Page Header ************************************** -->
-.page-header.position-relative.hidden-print
-<!-- /Page Header ************************************* -->
-
-<!-- Page Body -->
 .page-body
 	.row.page-vertical(ng-repeat="votacion in votaciones" ng-class="{'salto-pagina': $last==false }")
-		.col-lg-12.col-sm-12.col-xs-12
+		.col-lg-12.col-sm-12.col-xs-12(style="width: 18cm")
 			h5.row-title
 				i.fa.fa-bar-chart.darkorange
-				| Resultados - {{votacion.nombre}}
-			.row
-				.col-lg-12.col-sm-12.col-xs-12
-					.well.with-header
-						.header.bordered-purple Tabla de Resultados
-						table.table
-							thead.bordered-darkorange
-								tr
-									th
-										|Aspiración
-									th
-										|Abreviatura
-									th
-										|Total votos
-							tbody
-								tr(ng-repeat-start="aspiracion in votacion.aspiraciones")
-									td
-										|{{aspiracion.aspiracion}}
-									td
-										|{{aspiracion.abrev}}
-									td.success
-										|{{aspiracion.candidatos[0].total}}
-								tr(ng-repeat-end)
-									td(colspan="4")
-										table.table.table-hover.table-bordered
-											thead
-												tr
-													th
-														|No
-													th
-														|nombre
-													th
-														|Votos
-											tbody
-												tr(ng-repeat="candidato in aspiracion.candidatos | orderBy:'cantidad':true")
-													td
-														|{{$index+1}}
-													td
-														.nombresellipsis( popover="<img src='{{imagesPath + candidato.imagen_nombre}}' style='width: 100px; height: 100px;'><br>Facebook: {{candidato.facebook}}<br>Username: {{candidato.username}}" 
-															popover-popup-delay="1000" popover-title="{{candidato.nombres + ' ' + candidato.apellidos}}" popover-animation="true" 
-															popover-trigger="mouseenter" )
-															|{{ candidato.nombres + ' ' + candidato.apellidos }}
-													td
-														|{{candidato.cantidad}}
-			.row
-				.col-lg-12.col-sm-12.col-xs-12
-					.well.with-header
-						.header.bordered-purple Ganadores
-						.row
-							.col-lg-6.col-sm-12.col-xs-12.puntero(ng-repeat="aspiracion in votacion.aspiraciones")
-								.databox.databox-xlg.databox-graded.radius-bordered.databox-shadowed(ng-repeat="candidato in aspiracion.candidatos | orderBy:'cantidad':true" ng-if="$index==0")
-									.databox-left.no-padding
-										img.img-responsive(ng-src="{{imagesPath + candidato.imagen_nombre}}" style="width:170px; height:170px;")
-									.databox-right.padding-top-5.bordered-thick.bordered-sky
-										.databox-row.row-5.bordered-bottom.bordered-platinum.padding-10
-											.databox-title.lightcarbon {{candidato.nombres + ' ' +candidato.apellidos}}
-											.databox-stat.radius-bordered.bg-sky
-												.stat-text {{candidato.nombre_grupo}}
-										.databox-row.row-4.bordered-bottom.bordered-platinum
-											.databox-title {{aspiracion.aspiracion}} - {{candidato.cantidad}} votos
-										.databox-row.row-3
-											.databox-text.darkgray Plancha {{candidato.plancha}} - Número {{candidato.numero}}
+				| Resultados de:  
+				b {{votacion.nombre}}
 
+			span(ng-if="votacion.can_see_results")
+				.row
+					.col-lg-12.col-md-12.col-sm-12.col-xs-12(style="padding-left: 0px;")
+						.well.with-header
+							.header.bordered-purple Tabla de Resultados
+							table.table
+								thead.bordered-darkorange
+									tr
+										th
+											|Aspiración
+										th
+											|Abreviatura
+										th
+											|Total votos
+								tbody
+									tr(ng-repeat-start="aspiracion in votacion.aspiraciones")
+										td.col-md-7
+											|{{aspiracion.aspiracion}}
+										td.col-md-2
+											|{{aspiracion.abrev}}
+										td.success.col-md-2
+											|{{aspiracion.candidatos[0].total}}
+									tr(ng-repeat-end)
+										td(colspan="3")
+											table.table.table-hover.table-bordered
+												thead
+													tr
+														th
+															|No
+														th
+															|nombre
+														th
+															|Votos
+												tbody
+													tr(ng-repeat="candidato in aspiracion.candidatos | orderBy:'cantidad':true")
+														td.col-md-1
+															|{{$index+1}}
+														td.col-md-9
+															.nombresellipsis( popover="<img src='{{imagesPath + candidato.imagen_nombre}}' style='width: 100px; height: 100px;'><br>Facebook: {{candidato.facebook}}<br>Username: {{candidato.username}}" 
+																popover-popup-delay="1000" popover-title="{{candidato.nombres + ' ' + candidato.apellidos}}" popover-animation="true" 
+																popover-trigger="mouseenter" )
+																|{{ candidato.nombres + ' ' + candidato.apellidos }}
+														td.col-md-2
+															|{{candidato.cantidad}}
+				.row
+					.col-lg-12.col-sm-12.col-xs-12
+						.well.with-header
+							.header.bordered-purple Ganadores
+							.row
+								.col-lg-6.col-sm-12.col-xs-12.puntero(ng-repeat="aspiracion in votacion.aspiraciones")
+									.databox.databox-xlg.databox-graded.radius-bordered.databox-shadowed(ng-repeat="candidato in aspiracion.candidatos | orderBy:'cantidad':true" ng-if="$index==0")
+										.databox-left.no-padding
+											img.img-responsive(ng-src="{{imagesPath + candidato.imagen_nombre}}" style="width:170px; height:170px;")
+										.databox-right.padding-top-5.bordered-thick.bordered-sky
+											.databox-row.row-5.bordered-bottom.bordered-platinum.padding-10
+												.databox-title.lightcarbon {{candidato.nombres + ' ' +candidato.apellidos}}
+												.databox-stat.radius-bordered.bg-sky
+													.stat-text {{candidato.nombre_grupo}}
+											.databox-row.row-4.bordered-bottom.bordered-platinum
+												.databox-title {{aspiracion.aspiracion}} - {{candidato.cantidad}} votos
+											.databox-row.row-3
+												.databox-text.darkgray Plancha {{candidato.plancha}} - Número {{candidato.numero}}
+			span(ng-if="!votacion.can_see_results")
+				h4.label.label-danger Estos resultados están bloqueados en este momento.
 
+	.row(ng-if="votaciones.length==0")
+		.label.label-info No estás inscrito en ninguna votación.

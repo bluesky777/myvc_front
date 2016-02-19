@@ -8,7 +8,7 @@ angular.module('myvcFrontApp')
 		votacion: "="
 
 
-	controller: ($scope, App, Restangular, EscalasValorativasServ, AuthService, toastr, $window, $modal)->
+	controller: ($scope, App, Restangular, EscalasValorativasServ, AuthService, toastr, $window, $uibModal)->
 
 		$scope.USER = Perfil.User()
 
@@ -23,7 +23,7 @@ angular.module('myvcFrontApp')
 		$scope.imagesPath = App.images + 'perfil/'
 
 
-		# Maximo esta votación si es la actual para votar
+		# Maximizo esta votación si es la actual para votar
 		if $scope.$parent.$index == $scope.$parent.indexVotando
 			$scope.maxi = true
 
@@ -31,6 +31,11 @@ angular.module('myvcFrontApp')
 		$scope.$on 'terminaVotacion', (evento, indexVotando)->
 			if $scope.$parent.$index == indexVotando
 				$scope.maxi = true
+
+
+		# Si ya hizo todos los votos en esta votación
+		if $scope.votacion.completos
+			$scope.wzStep = $scope.votacion.aspiraciones.length
 
 
 
@@ -57,10 +62,10 @@ angular.module('myvcFrontApp')
 		$scope.open = (candidato, aspiracion)->
 			
 			if $scope.votacion.locked
-				$scope.toastr.warning 'La votación actual está bloqueada'
+				toastr.warning 'La votación actual está bloqueada'
 				return
 			else
-				modalInstance = $modal.open({
+				modalInstance = $uibModal.open({
 					templateUrl: App.views + 'votaciones/chooseCandidato.tpl.html'
 					controller: 'chooseCandidatoCtrl'
 					resolve: 

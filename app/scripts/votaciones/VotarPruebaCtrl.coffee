@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('VotarPruebaCtrl', ['$scope', '$filter', 'Restangular', 'App', '$state', '$modal', '$window', ($scope, $filter, Restangular, App, $state, $modal, $window)->
+.controller('VotarPruebaCtrl', ['$scope', '$filter', 'Restangular', 'App', '$state', '$uibModal', '$window', ($scope, $filter, Restangular, App, $state, $modal, $window)->
 
 
 	$scope.hover = false
@@ -94,7 +94,7 @@ angular.module("myvcFrontApp")
 	return
 ])
 
-.controller('chooseCandidatoPruebaCtrl', ['$scope', 'Restangular', '$modalInstance', 'App', 'candidato', 'aspiracion', 'toastr', ($scope, Restangular, $modalInstance, App, candidato, aspiracion, toastr)->
+.controller('chooseCandidatoPruebaCtrl', ['$scope', 'Restangular', '$uibModalInstance', 'App', 'candidato', 'aspiracion', 'toastr', ($scope, Restangular, $modalInstance, App, candidato, aspiracion, toastr)->
 
 	$scope.candidato = candidato
 	$scope.aspiracion = aspiracion

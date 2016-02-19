@@ -21,8 +21,8 @@
 									ui-select(ng-model="rol.newperm" theme="select2" style="min-width: 300px;")
 										ui-select-match(placeholder="Seleccione permiso" allow-clear="true") {{$select.selected.display_name}}
 										ui-select-choices(repeat="permission in permissions | filter: $select.search")
-											div(ng-bind-html="permission.display_name | highlight: $select.search" tooltip="{{permission.name}}" tooltip-placement="top" ng-show="$index>1")
-											div(ng-bind-html="permission.display_name | highlight: $select.search" tooltip="{{permission.name}}" tooltip-placement="bottom" ng-show="$index==0||$index==1")
+											div(ng-bind-html="permission.display_name | highlight: $select.search" uib-tooltip="{{permission.name}}" tooltip-placement="top" ng-show="$index>1")
+											div(ng-bind-html="permission.display_name | highlight: $select.search" uib-tooltip="{{permission.name}}" tooltip-placement="bottom" ng-show="$index==0||$index==1")
 
 									input.btn.btn-primary.btn-sm.shiny(type="submit" ng-submit="addPermissions(rol)" value="Añadir permiso") 
 

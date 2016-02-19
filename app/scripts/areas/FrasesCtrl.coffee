@@ -1,6 +1,6 @@
 angular.module("myvcFrontApp")
 
-.controller('FrasesCtrl', ['$scope', '$rootScope', '$filter', 'Restangular', '$modal', 'App', 'AuthService', ($scope, $rootScope, $filter, Restangular, $modal, App, AuthService)->
+.controller('FrasesCtrl', ['$scope', '$rootScope', '$filter', 'Restangular', '$uibModal', 'App', 'AuthService', ($scope, $rootScope, $filter, Restangular, $modal, App, AuthService)->
 
 	AuthService.verificar_acceso()
 
@@ -56,8 +56,8 @@ angular.module("myvcFrontApp")
 			console.log 'Resultado del modal: ', frase
 		)
 
-	btGrid1 = '<a tooltip="Editar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
-	btGrid2 = '<a tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-trash "></i></a>'
+	btGrid1 = '<a uib-tooltip="Editar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
+	btGrid2 = '<a uib-tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-trash "></i></a>'
 	$scope.gridOptions = 
 		enableSorting: true,
 		enableFiltering: true,
@@ -74,7 +74,6 @@ angular.module("myvcFrontApp")
 		onRegisterApi: ( gridApi ) ->
 			$scope.gridApi = gridApi
 			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
-				console.log 'Fila editada, ', rowEntity, ' Column:', colDef, ' newValue:' + newValue + ' oldValue:' + oldValue ;
 				
 				if newValue != oldValue
 					$scope.currentFraseEdit = rowEntity
@@ -90,7 +89,7 @@ angular.module("myvcFrontApp")
 
 ])
 
-.controller('RemoveFraseCtrl', ['$scope', '$modalInstance', 'frase', 'Restangular', 'toastr', ($scope, $modalInstance, frase, Restangular, toastr)->
+.controller('RemoveFraseCtrl', ['$scope', '$uibModalInstance', 'frase', 'Restangular', 'toastr', ($scope, $modalInstance, frase, Restangular, toastr)->
 	$scope.frase = frase
 
 	$scope.ok = ()->

@@ -1,6 +1,6 @@
 angular.module("myvcFrontApp")
 
-.controller('ListAlumnosCtrl', ['$scope', 'App', '$rootScope', '$state', '$interval', 'RGrupos', 'Restangular', 'uiGridConstants', 'GruposServ', '$modal', '$filter', ($scope, App, $rootScope, $state, $interval, RGrupos, Restangular, uiGridConstants, GruposServ, $modal, $filter)->
+.controller('ListAlumnosCtrl', ['$scope', 'App', '$rootScope', '$state', '$interval', 'RGrupos', 'Restangular', 'uiGridConstants', 'GruposServ', '$uibModal', '$filter', ($scope, App, $rootScope, $state, $interval, RGrupos, Restangular, uiGridConstants, GruposServ, $modal, $filter)->
 
 	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
 	$scope.dato = {}

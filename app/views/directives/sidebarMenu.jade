@@ -39,10 +39,10 @@
 
 					ul.submenu
 						li(ng-repeat="profe in profesores")
-							a(ui-sref="panel.user({username: profe.username})" stop-event="click" tooltip="{{profe.nombres}} {{profe.apellidos}}" tooltip-popup-delay="1500" tooltip-placement="right")
+							a(ui-sref="panel.user({username: profe.username})" stop-event="click" uib-tooltip="{{profe.nombres}} {{profe.apellidos}}" tooltip-popup-delay="1500" tooltip-placement="right")
 								//i.menu-icon.fa.fa-rocket
 								div.menu-text.nombresellipsis {{profe.nombres}} {{profe.apellidos}}
-						li(ng-if="profesores.length==0" tooltip="Profesores no contratados" tooltip-popup-delay="1500" tooltip-placement="right")
+						li(ng-if="profesores.length==0" uib-tooltip="Profesores no contratados" tooltip-popup-delay="1500" tooltip-placement="right")
 							a(ui-sref="panel.profesores" stop-event="click")
 								div.menu-text.nombresellipsis Profes no contratados
 		
@@ -96,10 +96,10 @@
 						span.menu-text Actividades
 						i.menu-icon.fa.fa-soccer-ball-o 
 				li(ui-sref-active="active" ng-repeat="profe in profesores")
-					a(ui-sref="panel.listasignaturas({profesor_id: profe.profesor_id})" stop-event="click" tooltip="{{profe.nombres}} {{profe.apellidos}}" tooltip-popup-delay="1500" tooltip-placement="right")
+					a(ui-sref="panel.listasignaturas({profesor_id: profe.profesor_id})" stop-event="click" uib-tooltip="{{profe.nombres}} {{profe.apellidos}}" tooltip-popup-delay="1500" tooltip-placement="right")
 						div.menu-text.nombresellipsis {{profe.nombres}} {{profe.apellidos}}
 				li(ng-if="profesores.length==0")
-					a(ui-sref="panel.profesores" stop-event="click" tooltip="Profesores no contratados" tooltip-popup-delay="1500" tooltip-placement="right")
+					a(ui-sref="panel.profesores" stop-event="click" uib-tooltip="Profesores no contratados" tooltip-popup-delay="1500" tooltip-placement="right")
 						div.menu-text.nombresellipsis Profes no contratados
 
 		<!-- Profesores visto por un profesor-->

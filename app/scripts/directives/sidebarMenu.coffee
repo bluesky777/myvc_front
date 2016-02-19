@@ -1,6 +1,6 @@
 angular.module('myvcFrontApp')
 
-.directive('sidebarMenu',['App', '$rootScope', 'AuthService', 'Restangular', '$modal', 'Perfil', 'ProfesoresServ', '$window', '$compile', (App, $rootScope, AuthService, Restangular, $modal, Perfil, ProfesoresServ, $window, $compile)-> 
+.directive('sidebarMenu',['App', '$rootScope', 'AuthService', 'Restangular', '$uibModal', 'Perfil', 'ProfesoresServ', '$window', '$compile', (App, $rootScope, AuthService, Restangular, $modal, Perfil, ProfesoresServ, $window, $compile)-> 
 
 	restrict: 'E'
 	replace: true
@@ -194,7 +194,7 @@ angular.module('myvcFrontApp')
 			removeElement(groupName, elem)
 
 
-.controller('ListasignaturasPopCtrl', ['$scope', '$modalInstance', 'Restangular', 'toastr', '$state', 'Perfil', ($scope, $modalInstance, Restangular, toastr, $state, Perfil)->
+.controller('ListasignaturasPopCtrl', ['$scope', '$uibModalInstance', 'Restangular', 'toastr', '$state', 'Perfil', ($scope, $modalInstance, Restangular, toastr, $state, Perfil)->
 	
 	$scope.selectAsignatura = (asig_id)->
 		console.log asig_id

@@ -62,19 +62,19 @@ angular.module('myvcFrontApp')
 		console.log('Translate refrescado supuestamente.')
 
 
-	$rootScope.votacionActual = undefined
-
 	$rootScope.$on AUTH_EVENTS.loginSuccess, ()->
-		
-		if !$rootScope.votacionActual
-			Restangular.one('eventos').get().then((r)->
-				if r.rutear
-					$state.go r.state
+		usuario = Perfil.User()
+		if usuario
+			if usuario.votaciones
+				if usuario.votaciones.length == 1
+					toastr.success 'Hay 1 votación en ejecución.'
 				else
-					ingresar()
-			, (r2)->
+					toastr.success 'Hay ' + usuario.votaciones.length + ' votaciones en ejecución.'
+				$state.go 'panel.actividades.votaciones.votar'
+			else
+				ingresar()
 
-			)
+
 
 	$rootScope.$on AUTH_EVENTS.loginFailed, (ev)->
 		toastr.error 'Datos incorrecto.', 'No se pudo loguear'

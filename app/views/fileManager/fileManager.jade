@@ -8,6 +8,15 @@
 						ng-multiple="true" ng-accept="'image/*'")
 						i.fa.fa-upload
 						|Subir imágenes
+					br
+					br
+					label
+						| Intactas
+					label
+						input.checkbox-slider.slider-icon.colored-blue.ocultar-input(type="checkbox" 
+							ng-model="subir_intacta.intacta")
+						span.text.si-no
+						
 
 				.col-lg-10.col-xs-12
 					.tickets-container
@@ -101,13 +110,13 @@
 											.databox-text.lightcarbon {{imagen.nombre}}
 											.databox-text.darkgray
 												.btn-group
-													a.btn.btn-darkorange.btn-xs(ng-click="borrarImagen(imagen)" tooltip="Borrar imagen")
+													a.btn.btn-darkorange.btn-xs(ng-click="borrarImagen(imagen)" uib-tooltip="Borrar imagen")
 														i.fa.fa-times
 
-													a.btn.btn-default.btn-xs(ng-click="rotarImagen(imagen)" tooltip="Rotar")
+													a.btn.btn-default.btn-xs(ng-click="rotarImagen(imagen)" uib-tooltip="Rotar")
 														i.fa.fa-rotate-right
 
-													a.btn.btn-default.btn-xs(ng-click="publicarImagen(imagen)" tooltip="Enviar a pública")
+													a.btn.btn-default.btn-xs(ng-click="publicarImagen(imagen)" uib-tooltip="Enviar a pública")
 														i.fa.fa-upload
 														
 											
@@ -130,13 +139,13 @@
 											.databox-text.lightcarbon {{imagen.nombre}}
 											.databox-text.darkgray
 												.btn-group
-													a.btn.btn-darkorange.btn-xs(ng-click="borrarImagen(imagen)" tooltip="Eliminar")
+													a.btn.btn-darkorange.btn-xs(ng-click="borrarImagen(imagen)" uib-tooltip="Eliminar")
 														i.fa.fa-times
 
-													a.btn.btn-default.btn-xs(ng-click="rotarImagen(imagen)" tooltip="Rotar imagen")
+													a.btn.btn-default.btn-xs(ng-click="rotarImagen(imagen)" uib-tooltip="Rotar imagen")
 														i.fa.fa-rotate-right
 
-													a.btn.btn-default.btn-xs(ng-click="privatizarImagen(imagen)" tooltip="Privada para el que la subió")
+													a.btn.btn-default.btn-xs(ng-click="privatizarImagen(imagen)" uib-tooltip="Privada para el que la subió")
 														i.fa.fa-download
 
 		tab(heading="Imágenes de usuarios" ng-show="hasRoleOrPerm('admin')")
@@ -174,7 +183,7 @@
 						.form-group
 							label Grupo
 							div
-								span(tooltip="Debe seleccionar un grupo" tooltip-placement="right")
+								span(uib-tooltip="Debe seleccionar un grupo" tooltip-placement="right")
 									ui-select(ng-model="dato.grupo" theme="select2" style="min-width: 200px;" on-select="grupoSelect($item, $model)" )
 										ui-select-match(placeholder="Grupo a matricular") {{$select.selected.nombre}}
 										ui-select-choices(repeat="grupo in grupos | filter: $select.search")

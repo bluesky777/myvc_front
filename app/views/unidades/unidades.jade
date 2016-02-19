@@ -7,7 +7,7 @@
 				i.fa.fa-arrow-left
 				| Volver a asignaturas
 
-			a.btn.btn-primary.btn-lg(tooltip="¡Copia de una materia a otra!" ui-sref="panel.copiar") 
+			a.btn.btn-primary.btn-lg(uib-tooltip="¡Copia de una materia a otra!" ui-sref="panel.copiar") 
 				i.fa.fa-copy
 				| Copiar
 
@@ -18,8 +18,8 @@
 
 
 		form.form-inline(ng-submit="crearUnidad()" role="form")
-			input.form-control.definicion-add-unidad(required ng-model="newunidad.definicion" type="text" placeholder="{{UNIDAD}} {{ GENERO_UNI=='M' ? 'nuevo' : 'nueva' }}" tooltip="Definición" tooltip-popup-delay="1000")
-			input.form-control(required ng-model="newunidad.porcentaje" min="0" max="100" type="number" placeholder="Porcentaje" tooltip="Porcentaje" tooltip-popup-delay="1000")
+			input.form-control.definicion-add-unidad(required ng-model="newunidad.definicion" type="text" placeholder="{{UNIDAD}} {{ GENERO_UNI=='M' ? 'nuevo' : 'nueva' }}" uib-tooltip="Definición" tooltip-popup-delay="1000")
+			input.form-control(required ng-model="newunidad.porcentaje" min="0" max="100" type="number" placeholder="Porcentaje" uib-tooltip="Porcentaje" tooltip-popup-delay="1000")
 			input.btn.btn-primary(type="submit" ng-submit="crearUnidad()" ng-disabled="!activar_crear_unidad" value="Crear {{UNIDAD}}")
 
 		hr.wide

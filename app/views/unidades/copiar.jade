@@ -75,7 +75,7 @@
 											label
 												input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="configuracion.copiar_subunidades")
 												span.text.si-no
-										.form-group(tooltip="Solo aplica si el grupo de origen es el mismo que el de destino")
+										.form-group(uib-tooltip="Solo aplica si el grupo de origen es el mismo que el de destino")
 											label Copiar con notas
 											label
 												input.checkbox-slider.slider-icon.colored-blue(type="checkbox" style="width: 155px;" ng-model="configuracion.copiar_notas" ng-disabled="configuracion.asignatura_from.grupo_id!=configuracion.asignatura_to.grupo_id && configuracion.asignatura_to.grupo_id != undefined")

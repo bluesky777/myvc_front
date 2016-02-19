@@ -2,9 +2,10 @@
 
 angular.module("myvcFrontApp")
 
-.controller('FileManagerCtrl', ['$scope', '$upload', '$timeout', '$filter', 'App', 'Restangular', 'Perfil', '$modal', 'resolved_user', 'GruposServ', ($scope, $upload, $timeout, $filter, App, Restangular, Perfil, $modal, resolved_user, GruposServ)->
+.controller('FileManagerCtrl', ['$scope', '$upload', '$timeout', '$filter', 'App', 'Restangular', 'Perfil', '$uibModal', 'resolved_user', 'GruposServ', ($scope, $upload, $timeout, $filter, App, Restangular, Perfil, $modal, resolved_user, GruposServ)->
 	
 	$scope.USER = resolved_user
+	$scope.subir_intacta = {}
 
 	fixDato = ()->
 		$scope.dato = 
@@ -34,14 +35,11 @@ angular.module("myvcFrontApp")
 	$scope.upload =  (files)->
 		$scope.imgFiles = files
 		$scope.errorMsg = ''
-		console.log 'Entra al upload', files
 
 		if files and files.length
 
 			for i in [0...files.length]
 				file = files[i]
-				console.log 'file: ', file
-
 				generateThumbAndUpload file
 
 
@@ -63,21 +61,25 @@ angular.module("myvcFrontApp")
 	
 	uploadUsing$upload = (file)->
 
+		intactaUrl = if $scope.subir_intacta.intacta then '-intacta' else ''
+
 		if file.size > 10000000
 			$scope.errorMsg = 'Archivo excede los 10MB permitidos.'
 			return
 
 		$upload.upload({
-			url: App.Server + 'myimages/store',
+			url: App.Server + 'myimages/store' + intactaUrl,
 			#fields: {'username': $scope.username},
 			file: file
 		}).progress( (evt)->
 			progressPercentage = parseInt(100.0 * evt.loaded / evt.total)
 			file.porcentaje = progressPercentage
-			console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name, evt.config)
+			#console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name, evt.config)
 		).success( (data, status, headers, config)->
-			console.log('Success file ', config.file, '   -uploaded: ', data, status)
-			$scope.imagenes_privadas.push data
+			if $scope.subir_intacta.intacta
+				$scope.imagenes_publicas.push data
+			else
+				$scope.imagenes_privadas.push data
 		).error((r2)->
 			console.log 'Falla uploading: ', r2
 		).xhr((xhr)->

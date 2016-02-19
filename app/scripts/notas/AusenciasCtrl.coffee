@@ -1,5 +1,5 @@
 angular.module('myvcFrontApp')
-.controller('AusenciasCtrl', ['$scope', 'toastr', 'Restangular', '$state', '$rootScope', 'ausencias', '$filter', 'App', 'AuthService', '$modal', ($scope, toastr, Restangular, $state, $rootScope, ausencias, $filter, App, AuthService, $modal) ->
+.controller('AusenciasCtrl', ['$scope', 'toastr', 'Restangular', '$state', '$rootScope', 'ausencias', '$filter', 'App', 'AuthService', '$uibModal', ($scope, toastr, Restangular, $state, $rootScope, ausencias, $filter, App, AuthService, $modal) ->
 
 
 	AuthService.verificar_acceso()
@@ -145,7 +145,7 @@ angular.module('myvcFrontApp')
 
 ])
 
-.controller('AddAusenciaCtrl', ['$scope', '$modalInstance', 'alumno', 'asignatura_id', 'Restangular', 'toastr', ($scope, $modalInstance, alumno, asignatura_id, Restangular, toastr)->
+.controller('AddAusenciaCtrl', ['$scope', '$uibModalInstance', 'alumno', 'asignatura_id', 'Restangular', 'toastr', ($scope, $modalInstance, alumno, asignatura_id, Restangular, toastr)->
 	$scope.alumno = alumno
 
 	$scope.ok = ()->

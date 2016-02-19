@@ -1,5 +1,3 @@
-
-
 .row(ng-if="hasRoleOrPerm(['admin', 'profesor'])")
 	.col-xs-12.col-md-12
 		.widget
@@ -67,10 +65,10 @@
 										span.divider.hidden-xs
 
 										span(ng-show="file.accepted_at")
-											span.label.label-info(tooltip="Aceptado por: {{file.deleted_by}}; Cuando: {{file.deleted_at}} ") Aceptado
+											span.label.label-info(uib-tooltip="Aceptado por: {{file.deleted_by}}; Cuando: {{file.deleted_at}} ") Aceptado
 										
 										span(ng-show="file.rechazado_at")
-											span.label.label-maroon(tooltip="Rechazado por: {{file.deleted_by}}; Cuando: {{file.deleted_at}} ") Rechazado
+											span.label.label-maroon(uib-tooltip="Rechazado por: {{file.deleted_by}}; Cuando: {{file.deleted_at}} ") Rechazado
 										
 
 

@@ -1,6 +1,6 @@
 
-<accordion close-others="true">
-  <accordion-group heading="Información personal" is-open="true">
+<uib-accordion close-others="true">
+  <uib-accordion-group heading="Información personal" is-open="true">
     <form role="form" ng-submit="guardar()">
       <div class="row">
         <div class="col-sm-6">
@@ -69,8 +69,8 @@
       </div>
       <button type="submit" ng-submit="guardar()" ng-if="canConfig" class="btn btn-primary">Guardar cambios</button>
     </form>
-  </accordion-group>
-  <accordion-group heading="Datos de usuario" ng-if="canConfig">
+  </uib-accordion-group>
+  <uib-accordion-group heading="Datos de usuario" ng-if="canConfig">
     <form role="form">
       <div class="row">
         <div class="col-sm-7">
@@ -86,8 +86,8 @@
       </div>
       <button type="button" ng-click="CambiarUsername(newusername)" ng-class="{disabled:mostrarErrorUsername || newusername=='' || newusername==perfilactual.username || canSaveUsername==false }" class="btn btn-primary">Guardar usuario</button>
     </form>
-  </accordion-group>
-  <accordion-group heading="Cambiar contraseña" ng-if="canConfig">
+  </uib-accordion-group>
+  <uib-accordion-group heading="Cambiar contraseña" ng-if="canConfig" is-open="status.passCambiado">
     <form role="form" ng-submit="CambiarPass(newpass, newpassverif, passantiguo)">
       <div class="row">
         <div class="col-sm-7">
@@ -104,7 +104,7 @@
           </div>
         </div>
       </div>
-      <button type="submit" class="btn btn-primary">Cambiar contraseña</button>
+      <button type="submit" ng-disabled="cambiandoPass" class="btn btn-primary">Cambiar contraseña</button>
     </form>
-  </accordion-group>
-</accordion>
+  </uib-accordion-group>
+</uib-accordion>

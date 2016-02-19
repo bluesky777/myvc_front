@@ -7,7 +7,7 @@
 				{{alumno.nombres}} {{alumno.apellidos}}
 			ul
 				li(ng-repeat="frase in frases_asignatura")
-					a.btn.btn-default.btn-xs.shiny.icon-only.danger(tooltip="Quitar frase" tooltip-placement="right" 
+					a.btn.btn-default.btn-xs.shiny.icon-only.danger(uib-tooltip="Quitar frase" tooltip-placement="right" 
 						ng-click="quitarFrase(frase)")
 						i.fa.fa-trash 
 					|   {{frase.frase}}

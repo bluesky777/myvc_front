@@ -1,6 +1,6 @@
 angular.module("myvcFrontApp")
 
-.controller('MateriasCtrl', ['$scope', '$rootScope', '$interval', 'Restangular', 'RMaterias', 'areas', '$modal', '$filter', 'App', ($scope, $rootScope, $interval, Restangular, RMaterias, areas, $modal, $filter, App)->
+.controller('MateriasCtrl', ['$scope', '$rootScope', '$interval', 'Restangular', 'RMaterias', 'areas', '$uibModal', '$filter', 'App', ($scope, $rootScope, $interval, Restangular, RMaterias, areas, $modal, $filter, App)->
 
 	$scope.creando = false
 	$scope.editando = false
@@ -54,11 +54,10 @@ angular.module("myvcFrontApp")
 		})
 		modalInstance.result.then( (materia)->
 			$scope.gridOptions.data = $filter('filter')($scope.gridOptions.data, {id: '!'+materia.id})
-			console.log 'Resultado del modal: ', materia
 		)
 
-	btGrid1 = '<a tooltip="Editar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
-	btGrid2 = '<a tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-times "></i></a>'
+	btGrid1 = '<a uib-tooltip="Editar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
+	btGrid2 = '<a uib-tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-times "></i></a>'
 	$scope.gridOptions = 
 		enableSorting: true,
 		enableFiltering: true,
@@ -91,7 +90,6 @@ angular.module("myvcFrontApp")
 		onRegisterApi: ( gridApi ) ->
 			$scope.gridApi = gridApi
 			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
-				console.log 'Fila editada, ', rowEntity, ' Column:', colDef, ' newValue:' + newValue + ' oldValue:' + oldValue ;
 				
 				if newValue != oldValue
 					$scope.currentmateriaEdit = rowEntity
@@ -119,7 +117,7 @@ angular.module("myvcFrontApp")
 				return 'Elija...'
 ])
 
-.controller('RemovemateriaCtrl', ['$scope', '$modalInstance', 'materia', 'Restangular', 'toastr', ($scope, $modalInstance, materia, Restangular, toastr)->
+.controller('RemovemateriaCtrl', ['$scope', '$uibModalInstance', 'materia', 'Restangular', 'toastr', ($scope, $modalInstance, materia, Restangular, toastr)->
 	$scope.materia = materia
 
 	$scope.ok = ()->
@@ -128,7 +126,6 @@ angular.module("myvcFrontApp")
 			toastr.success 'Materia '+materia.nombre+' eliminada con éxito.', 'Eliminada'
 		, (r2)->
 			toastr.warning 'Problema', 'No se pudo eliminar la Materia.'
-			console.log 'Error eliminando materia: ', r2
 		)
 		$modalInstance.close(materia)
 

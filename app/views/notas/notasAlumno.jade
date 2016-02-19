@@ -56,8 +56,8 @@
 
 
 
-	accordion(close-others="true")
-		accordion-group(heading="Periodo {{periodo.numero}} ({{periodo.asignaturas | notasPerdidasAsignaturas}})" ng-repeat="periodo in periodos")
+	uib-accordion(close-others="true")
+		uib-accordion-group(heading="Periodo {{periodo.numero}} ({{periodo.asignaturas | notasPerdidasAsignaturas}})" ng-repeat="periodo in periodos")
 
 			
 			.materia-item.animated(ng-repeat="asignatura in periodo.asignaturas | soloAsignaturasConPerdidas:config.solo_notas_perdidas")
@@ -91,9 +91,9 @@
 												| {{subunidad.porcentaje_subunidad}}%
 
 											.col-lg-1.col-xs-1.subunidad-nota.puntero(ng-if="!hasRoleOrPerm(['admin', 'profesor'])")
-												span(ng-class="{'nota-perdida-bold': subunidad.nota.nota<USER.nota_minima_aceptada}" tooltip="Valor nota: {{subunidad.nota.valor}}"){{subunidad.nota.nota}}
+												span(ng-class="{'nota-perdida-bold': subunidad.nota.nota<USER.nota_minima_aceptada}" uib-tooltip="Valor nota: {{subunidad.nota.valor}}"){{subunidad.nota.nota}}
 												
-												span.nota-perdida(ng-show="!subunidad.nota.nota && subunidad.nota.nota!=0" tooltip="Aún sin nota")
+												span.nota-perdida(ng-show="!subunidad.nota.nota && subunidad.nota.nota!=0" uib-tooltip="Aún sin nota")
 													i.fa.fa-warning
 
 											.col-lg-1.col-xs-1(ng-class="{'inputnota-perdida': subunidad.nota.nota < USER.nota_minima_aceptada}" 

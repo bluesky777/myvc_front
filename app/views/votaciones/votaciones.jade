@@ -34,7 +34,7 @@
 						.input-group
 							span.input-group-addon
 								i.fa.fa-calendar
-							input.form-control.active#votacionedit-fecha-ini(type="text" datepicker-popup="dd-MMMM-yyyy" ng-model="votacionEdit.fecha_inicio" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2015-06-22'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha de inicio")
+							input.form-control.active#votacionedit-fecha-ini(type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="votacionEdit.fecha_inicio" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2015-06-22'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha de inicio")
 				.form-group
 					label(for="votacionedit-fecha-fin") Fecha de finalización
 					.controls
@@ -51,9 +51,9 @@
 						.col-lg-5.col-sm-5.col-xs-12
 							input.form-control(type="text" ng-model="aspiracion.abrev" placeholder="Alias" ng-change="updateAspiracionEdit(aspiracion)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
 						.col-lg-1.col-sm-1.col-xs-12
-							button.btn.btn-danger(type="button" tooltip="Quitar aspiración" ng-click="removeAspiracionEdit(aspiracion)")
+							button.btn.btn-danger(type="button" uib-tooltip="Quitar aspiración" ng-click="removeAspiracionEdit(aspiracion)")
 								i.fa.fa-times
-					button.btn.btn-default(tooltip="Agregar aspiración" type="button" ng-click="addAspiracionEdit(votacionEdit.id)")
+					button.btn.btn-default(uib-tooltip="Agregar aspiración" type="button" ng-click="addAspiracionEdit(votacionEdit.id)")
 						i.fa.fa-plus
 						| Agregar aspiración
 
@@ -91,14 +91,14 @@
 						.input-group
 							span.input-group-addon
 								i.fa.fa-calendar
-							input.form-control.active#votacion-fecha-ini(type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="votacion.fecha_inicio" is-open="true" ng-click="data.isOpen = true" max-date="'2015-06-22'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha de inicio")
+							input.form-control.active#votacion-fecha-ini(type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="votacion.fecha_inicio" is-open="votacion.isOpenIni" ng-click="votacion.isOpenIni = true" max-date="'2099-12-31'" datepicker-options="date.dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha de inicio")
 				.form-group
 					label(for="votacion-fecha-fin") Fecha de finalización
 					.controls
 						.input-group
 							span.input-group-addon
 								i.fa.fa-calendar
-							input.form-control.active#votacion-fecha-fin(type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="votacion.fecha_fin" ng-click="data.isOpen = true" max-date="'2015-06-22'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha fin")
+							input.form-control.active#votacion-fecha-fin(type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="votacion.fecha_fin" is-open="votacion.isOpenFin" ng-click="votacion.isOpenFin = true" max-date="'2099-12-31'" datepicker-options="date.dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha fin")
 					
 
 
@@ -110,9 +110,9 @@
 						.col-lg-5.col-sm-5.col-xs-12
 							input.form-control(type="text" ng-model="aspiracion.abrev" placeholder="Alias")
 						.col-lg-1.col-sm-1.col-xs-12
-							button.btn.btn-danger(type="button" tooltip="Quitar aspiración" ng-click="removeAspiracion($index)")
+							button.btn.btn-danger(type="button" uib-tooltip="Quitar aspiración" ng-click="removeAspiracion($index)")
 								i.fa.fa-times
-					button.btn.btn-default(tooltip="Agregar aspiración" type="button" ng-click="addAspiracion()")
+					button.btn.btn-default(uib-tooltip="Agregar aspiración" type="button" ng-click="addAspiracion()")
 						i.fa.fa-plus
 						| Agregar aspiración
 

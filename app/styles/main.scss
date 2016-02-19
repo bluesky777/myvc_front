@@ -15488,41 +15488,74 @@ body {
     page-break-after: always;
 }
 
-@page cartahorizontal { 
-    size:31cm 22cm; 
-    margin: 2cm;
-    background-color: white;
-}
 
-@page cartavertical { 
-    size:22cm 31cm; 
-    margin: 2cm;
-    background-color: white;
-}
 
 .page-vertical{
-    page: cartavertical;
+    @page { 
+        size:22cm 31cm; 
+        margin: 2cm;
+        background-color: white;
+    }
+
     width: 22cm;
     margin-bottom: 10px;
 }
 .page-carta-horizontal{
-    page: cartahorizontal;
+    @page { 
+        size:31cm 22cm; 
+        margin: 2cm;
+        background-color: white;
+    }
     width: 31cm;
 }
 
 .page-oficio-horizontal{
-    page: cartahorizontal;
+    @page { 
+        size:31cm 22cm; 
+        margin: 2cm;
+        background-color: white;
+    }
     width: 36cm;
 }
 
 
 @media print {
+
+
+
     
     .page-content{
         margin-left: 0px;
     }
     body {
         -webkit-print-color-adjust: exact;
+    }
+    // Funciona. Pero no da posibilidad de cambiar la hoja al usuario.
+    /*
+    @page{
+        size: landscape;
+    }
+    */
+
+
+    @page cartahorizontal{ 
+        -webkit-transform: rotate(-90deg);
+        -moz-transform:rotate(-90deg);
+        filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+        margin: 5mm 25mm 25mm 5mm;
+        background-color: white;
+    }
+    @page oficiohorizontal{ 
+        -webkit-transform: rotate(-90deg);
+        -moz-transform:rotate(-90deg);
+        filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+        margin: 5mm 25mm 25mm 5mm;
+        background-color: white;
+    }
+    @page cartavertical{ 
+        size: portrait; 
+        margin: 2cm;
+        background-color: white;
     }
 
     .page-vertical{
@@ -15538,7 +15571,7 @@ body {
         border: 0px;
     }
     .page-oficio-horizontal{
-        page: cartahorizontal;
+        page: oficiohorizontal;
         width: 31cm;
         margin-bottom: 0px;
         border: 0px;
@@ -15553,6 +15586,7 @@ body {
 
     .materia-item{
         padding: 5px;
+        page-break-inside: avoid;
     }
 
     .materia-profesor{
@@ -15628,24 +15662,12 @@ body {
         display: none!important;
     }
 
-
-    @page cartahorizontal { 
-        size:31cm 22cm; 
-        margin: 2cm;
-        background-color: white;
-    }
-    @page oficiohorizontal { 
-        size:36cm 21cm; 
-        margin: 2cm;
-        background-color: white;
+    .comportamiento-boletin{
+        page-break-inside:avoid;
     }
 
-    @page cartavertical { 
-        size:22cm 31cm; 
-        margin: 2cm;
-        background-color: white;
-    }
-    .salto-pagina {
+
+    .salto-pagina, .resumen-perdidas, .footer-boletin {
         page-break-after: always;
     }
 

@@ -1,6 +1,6 @@
 angular.module("myvcFrontApp")
 
-.controller('RemoveImageCtrl', ['$scope', '$modalInstance', 'imagen', 'user_id', 'datos_imagen', 'App', 'Restangular', 'AuthService', ($scope, $modalInstance, imagen, user_id, datos_imagen, App, Restangular, AuthService)->
+.controller('RemoveImageCtrl', ['$scope', '$uibModalInstance', 'imagen', 'user_id', 'datos_imagen', 'App', 'Restangular', 'AuthService', ($scope, $modalInstance, imagen, user_id, datos_imagen, App, Restangular, AuthService)->
 
 	$scope.imagesPath = App.images + 'perfil/'
 	$scope.imagen = imagen
