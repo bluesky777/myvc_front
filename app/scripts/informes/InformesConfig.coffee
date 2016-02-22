@@ -193,7 +193,7 @@ angular.module('myvcFrontApp')
 							
 							if requested_alumnos
 
-								console.log 'Pidiendo por varios alumnos: ', requested_alumnos
+								#console.log 'Pidiendo por varios alumnos: ', requested_alumnos
 								Restangular.one('bolfinales/detailed-notas-year', $stateParams.grupo_id).customPUT({requested_alumnos: requested_alumnos}).then((r)->
 									d.resolve r
 								, (r2)->
@@ -206,7 +206,7 @@ angular.module('myvcFrontApp')
 									d.reject r2
 								)
 							else
-								console.log 'Pidiendo por grupo:', $stateParams.grupo_id
+								#console.log 'Pidiendo por grupo:', $stateParams.grupo_id
 								Restangular.one('bolfinales/detailed-notas-year-group', $stateParams.grupo_id).customPUT().then((r)->
 									d.resolve r
 								, (r2)->
@@ -248,22 +248,21 @@ angular.module('myvcFrontApp')
 							
 							if requested_alumnos
 
-								console.log 'Pidiendo por varios alumnos: ', requested_alumnos
-								Restangular.one('certificados-estudio/detailed-notas-year', $stateParams.grupo_id).customPUT({requested_alumnos: requested_alumnos}).then((r)->
+								#console.log 'Pidiendo por varios alumnos: ', requested_alumnos
+								Restangular.one('bolfinales/detailed-notas-year', $stateParams.grupo_id).customPUT({requested_alumnos: requested_alumnos}).then((r)->
 									d.resolve r
 								, (r2)->
 									d.reject r2
 								)
 							else if requested_alumno
-								Restangular.one('certificados-estudio/detailed-notas-year', requested_alumno[0].grupo_id).customPUT({requested_alumnos: requested_alumno}).then((r)->
+								Restangular.one('bolfinales/detailed-notas-year', requested_alumno[0].grupo_id).customPUT({requested_alumnos: requested_alumno}).then((r)->
 									d.resolve r
 								, (r2)->
 									d.reject r2
 								)
 							else
-								console.log 'Pidiendo por grupo:', $stateParams.grupo_id
-								
-								Restangular.one('certificados-estudio/certificado-grupo', $stateParams.grupo_id).customGET().then((r)->
+								#console.log 'Pidiendo por grupo:', $stateParams.grupo_id
+								Restangular.one('bolfinales/detailed-notas-year', $stateParams.grupo_id).customPUT().then((r)->
 									
 									d.resolve r
 								, (r2)->
@@ -278,8 +277,8 @@ angular.module('myvcFrontApp')
 							EscalasValorativasServ.escalas()
 						]
 			data: 
-				displayName: 'Boletines finales'
-				pageTitle: 'Boletines finales - MyVc'
+				displayName: 'Certificados de estudio'
+				pageTitle: 'Certificados de estudio - MyVc'
 
 
 

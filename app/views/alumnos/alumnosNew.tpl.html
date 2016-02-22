@@ -5,8 +5,8 @@
     <div class="widget-body">
       <div>
         <form role="form" ng-submit="crear()">
-          <tabset>
-            <tab heading="Información">
+          <uib-tabset>
+            <uib-tab heading="Información">
               <div class="widget">
                 <div class="widget-header bordered-bottom bordered-pink"><span class="widget-caption">Básica</span></div>
                 <div class="widget-body"> 
@@ -141,8 +141,8 @@
                   </div>
                 </div>
               </div>
-            </tab>
-            <tab heading="Datos extras">
+            </uib-tab>
+            <uib-tab heading="Datos extras">
               <div class="form-group">
                 <label for="alumno-tipo-sangre">Tipo de sangre</label>
                 <ui-select ng-model="alumno.tipo_sangre" theme="select2" style="min-width: 100px;">
@@ -212,8 +212,8 @@
                 <label for="alumno-deuda">Deuda</label>
                 <input id="alumno-deuda" type="text" ng-model="alumno.deuda" placeholder="Deuda" class="form-control">
               </div>
-            </tab>
-            <tab heading="Usuario">
+            </uib-tab>
+            <uib-tab heading="Usuario">
               <div class="form-group">
                 <label for="alumno-username">Nombre de usuario</label>
                 <input id="alumno-username" type="text" ng-model="alumno.username" placeholder="Nombre usuario" class="form-control">
@@ -236,8 +236,8 @@
                   <input type="checkbox" ng-model="alumno.superuser" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
                 </label>
               </div>
-            </tab>
-          </tabset><br>
+            </uib-tab>
+          </uib-tabset><br>
           <input type="submit" ng-submit="crear()" value="Crear" class="btn btn-primary btn-lg shiny"><a type="button" ui-sref="panel.alumnos" class="btn btn-danger btn-lg shiny">Ocultar</a>
         </form>
       </div>

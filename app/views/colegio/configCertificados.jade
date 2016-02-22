@@ -180,6 +180,15 @@ div(ng-hide="creando_certificado")
 
 	#grid1.grid(ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns style="height: 300px")
 	button.btn.btn-primary(ng-click="crearConfig()") Crear configuración
+	br
+	br
+	.form-group
+		label Actual: 
+		ui-select(ng-model="certificado.config_actual" on-select="certificadoSelect($item, $model)" theme="select2" style="min-width: 200px;")
+			ui-select-match(placeholder="Cerfiticado estudio" allow-clear="true") {{$select.selected.nombre}} 
+			ui-select-choices(repeat="certif in certificados | filter: $select.search")
+				div(ng-bind-html="certif.nombre | highlight: $select.search")
+				small {{ certif.nombre | highlight: $select.search}}
 
 
 

@@ -1,6 +1,6 @@
 angular.module("myvcFrontApp")
 
-.controller('CertificadosEstudioCtrl', ['$scope', 'App', '$rootScope', '$state', 'alumnosDat', 'escalas', 'Restangular', '$modal', '$filter', 'AuthService', '$cookieStore', '$http', '$sce', ($scope, App, $rootScope, $state, alumnos, escalas, Restangular, $modal, $filter, AuthService, $cookieStore, $http, $sce)->
+.controller('CertificadosEstudioCtrl', ['$scope', 'App', '$rootScope', '$state', 'alumnosDat', 'escalas', 'Restangular', '$uibModal', '$filter', 'AuthService', '$cookieStore', '$http', '$sce', ($scope, App, $rootScope, $state, alumnos, escalas, Restangular, $modal, $filter, AuthService, $cookieStore, $http, $sce)->
 	
 	$scope.grupo = alumnos[0]
 	$scope.year = alumnos[1]
@@ -35,13 +35,13 @@ angular.module("myvcFrontApp")
 			.error((r2)->
 				console.log 'Pailaaassss', r2
 			);
-	###
+	
 
 	Restangular.one('certificados-estudio/certificado-grupo', 10).withHttpConfig({responseType: 'blob'}).get({}, {"X-Auth-Token": 'token'}).then((response)->
 		console.log response
 		url = (window.URL or window.webkitURL).createObjectURL(response);
 		window.open(url);
 	);
-
+	###
 
 ])

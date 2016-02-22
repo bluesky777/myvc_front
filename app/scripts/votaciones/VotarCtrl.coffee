@@ -29,7 +29,7 @@ angular.module("myvcFrontApp")
 
 
 
-.controller('chooseCandidatoCtrl', ['$scope', 'Restangular', '$uibModalInstance', 'App', 'candidato', 'aspiracion', 'toastr', ($scope, Restangular, $modalInstance, App, candidato, aspiracion, toastr)->
+.controller('chooseCandidatoCtrl', ['$scope', 'Restangular', '$uibModalInstance', 'App', 'candidato', 'aspiracion', 'votacion_id', 'toastr', ($scope, Restangular, $modalInstance, App, candidato, aspiracion, votacion_id, toastr)->
 
 	$scope.candidato = candidato
 	$scope.aspiracion = aspiracion
@@ -38,6 +38,7 @@ angular.module("myvcFrontApp")
 	$scope.ok = ()->
 		datos = {}
 		datos.candidato_id = candidato.candidato_id
+		datos.votacion_id = votacion_id
 
 		Restangular.all('votos/store').post('', datos).then((r)->
 			if r.msg 

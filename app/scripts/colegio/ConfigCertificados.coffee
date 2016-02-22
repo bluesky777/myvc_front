@@ -29,6 +29,13 @@ angular.module('myvcFrontApp')
 	$scope.creando_certificado = false
 	$scope.editando = false
 	$scope.currentCertif = {}
+	$scope.certificado = {}
+
+	
+	certs = $filter('filter')($scope.certificados, {id: $scope.year.config_certificado_estudio_id})
+	if certs
+		if certs.length > 0	
+			$scope.certificado.config_actual = certs[0]	
 
 
 	$scope.crearConfig = ()->
@@ -46,7 +53,7 @@ angular.module('myvcFrontApp')
 	$scope.gridOptions = 
 		showGridFooter: true,
 		enableSorting: true,
-		enableFiltering: true,
+		enableFiltering: false,
 		enebleGridColumnMenu: false,
 		columnDefs: [
 			{ field: 'id', displayName:'Id', width: 50, enableCellEdit: false, enableColumnMenu: false}
@@ -135,6 +142,13 @@ angular.module('myvcFrontApp')
 			$scope.toastr.error 'Certificado no eliminado', 'Error'
 		)
 		
+
+	$scope.certificadoSelect = ($item, $model)->
+		Restangular.one('certificados/actual').customPUT({config_certificado_estudio_id: $item.id, year_id: $scope.year.id}).then((r)->
+			$scope.toastr.success 'Certificado actual cambiado.'
+		, (r2)->
+			$scope.toastr.error 'Certificado no cambiado', 'Error'
+		)
 
 
 

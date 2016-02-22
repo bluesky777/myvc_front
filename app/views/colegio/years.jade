@@ -15,8 +15,8 @@
 						a(href="" data-toggle="dispose" ng-if="false")
 							i.fa.fa-times
 				.widget-body()
-					accordion(close-others="true")
-						accordion-group(heading="Básico" is-open="true")
+					uib-accordion(close-others="true")
+						uib-accordion-group(heading="Básico" is-open="true")
 							form(role='form')
 								.row
 									.col-sm-6
@@ -155,7 +155,7 @@
 								br
 								button.btn.btn-primary(type="submit") Guardar cambios
 
-						accordion-group(heading="Periodos" is-open="true")
+						uib-accordion-group(heading="Periodos" is-open="true")
 							.row
 								.col-sm-6
 									.list-periodos
@@ -169,7 +169,7 @@
 									button.btn.btn-success(ng-click="addPeriodo(year)") Crear periodo
 
 
-						accordion-group(heading="Certificados" is-open="true")
+						uib-accordion-group(heading="Certificados" is-open="true")
 							configuracion-certificados
 
 					button.btn.btn-danger(ng-click="deleteYear(year)") Eliminar año {{year.year}}

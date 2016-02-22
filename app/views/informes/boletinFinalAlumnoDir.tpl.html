@@ -16,7 +16,7 @@
           <div class="row descripcion-encabezado">
             <div class="col-lg-6 col-xs-6">
               <div class="grupo-alumno">Grupo: <b>{{grupo.nombre_grupo | capitalize}}</b></div>
-              <div popover="&lt;img src='{{perfilPath + grupo.foto_nombre}}' style='width: 150px; height: 150px;'&gt;" popover-popup-delay="1000" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true" popover-trigger="mouseenter" class="titular-grupo">Titular: Pr. {{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor | capitalize}}</div>
+              <div uib-popover-html="'&lt;img src=&quot;{{perfilPath + grupo.foto_nombre}}&quot; style=&quot;width: 150px; height: 150px;&quot;&gt;'" popover-popup-delay="1000" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true" popover-trigger="mouseenter" class="titular-grupo">Titular: {{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor | capitalize}}</div>
             </div>
             <div class="col-lg-6 col-xs-6">
               <h5 class="nombre-alumno">{{alumno.nombres + ' ' + alumno.apellidos}}</h5>
@@ -41,7 +41,7 @@
               <tr ng-repeat="asignatura in alumno.asignaturas">
                 <td>{{$index + 1}}</td>
                 <td>
-                  <div popover="&lt;img src='{{perfilPath + asignatura.foto_nombre}}' style='width: 150px; height: 150px;'&gt;" popover-popup-delay="1000" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" popover-trigger="mouseenter">{{asignatura.materia}}</div>
+                  <div uib-popover-html="'&lt;img src=&quot;{{perfilPath + asignatura.foto_nombre}}&quot; style=&quot;width: 150px; height: 150px;&quot;&gt;'" popover-popup-delay="1000" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" popover-trigger="mouseenter">{{asignatura.materia}}</div>
                 </td>
                 <td> <span ng-show="asignatura.ausencias &gt; 0">{{asignatura.ausencias}}</span></td>
                 <td ng-repeat="definitiva in asignatura.definitivas" ng-class="{'nota-perdida-puestos': ((definitiva.DefMateria | decimales_if:1 )*1) &lt; (USER.nota_minima_aceptada*1) }">

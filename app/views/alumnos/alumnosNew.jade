@@ -5,8 +5,8 @@
 		.widget-body
 			div
 				form(role="form" ng-submit="crear()")
-					tabset
-						tab(heading="Información")
+					uib-tabset
+						uib-tab(heading="Información")
 							.widget
 								.widget-header.bordered-bottom.bordered-pink
 									span.widget-caption Básica
@@ -118,7 +118,7 @@
 											ui-select-choices(repeat="ciudad in ciudades | filter: $select.search")
 												div(ng-bind-html="ciudad.ciudad | highlight: $select.search")
 
-						tab(heading="Datos extras")
+						uib-tab(heading="Datos extras")
 							.form-group
 								label(for="alumno-tipo-sangre") Tipo de sangre
 								ui-select(ng-model="alumno.tipo_sangre" theme="select2" style="min-width: 100px;")
@@ -176,7 +176,7 @@
 								input#alumno-deuda.form-control(type="text" ng-model="alumno.deuda" placeholder="Deuda")
 
 
-						tab(heading="Usuario")
+						uib-tab(heading="Usuario")
 							.form-group
 								label(for="alumno-username") Nombre de usuario
 								input#alumno-username.form-control(type="text" ng-model="alumno.username" placeholder="Nombre usuario")

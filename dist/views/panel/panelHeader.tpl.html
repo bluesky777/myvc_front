@@ -1,4 +1,4 @@
 <div class="header-title"> <h1>{{titulo || 'Panel de control'}}</h1><!--Header Buttons--> </div> <!--Este grupo solo lo mostrará cuando esté en el estado usuarios.--><a ng-show="$state.includes('panel.alumnos')" title="Administrar grupos" ui-sref="panel.usuarios.grupos({id: '', type: 'edit'})" class="btn btn-info shiny"><i class="fa fa-th-large"> Grupos</i></a> <div class="header-buttons"> <!--
   a.sidebar-toggler(href="")
   	i.fa.fa-arrows-h
-  --><a href="" ng-click="reload()" tooltip="Recargar los datos" class="refresh"><i class="fa fa-refresh"></i></a><a href="" ng-click="reload(setFullScreen())" tooltip="Ver en pantalla completa" class="fullscreen"><i class="fa fa-arrows-alt"></i></a><!--Header Buttons End--> </div>
+  --><a href="" ng-click="reload()" uib-tooltip="Recargar los datos" class="refresh"><i class="fa fa-refresh"></i></a><a href="" ng-click="reload(setFullScreen())" uib-tooltip="Ver en pantalla completa" class="fullscreen"><i class="fa fa-arrows-alt"></i></a><!--Header Buttons End--> </div>

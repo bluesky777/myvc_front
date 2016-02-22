@@ -1,6 +1,6 @@
 .col-sm-12
-	tabset
-		tab(heading="Mis imágenes")
+	uib-tabset
+		uib-tab(heading="Mis imágenes")
 			.form-title Subir imagen
 			.row
 				.col-lg-2.col-xs-12
@@ -31,7 +31,7 @@
 										span.user-company - {{(file.size / 1000000) | number:1 }}MB
 									.ticket-time.col-lg-5.col-sm-6.col-xs-12
 										.divider.hidden-md.hidden-sm.hidden-xs
-										progressbar.progress-xlg.progress-striped.active( value="file.porcentaje")
+										uib-progressbar.progress-xlg.progress-striped.active( value="file.porcentaje")
 											b {{file.porcentaje}}% Completado
 
 									.ticket-type.col-lg-2.col-sm-6.col-xs-1
@@ -148,7 +148,7 @@
 													a.btn.btn-default.btn-xs(ng-click="privatizarImagen(imagen)" uib-tooltip="Privada para el que la subió")
 														i.fa.fa-download
 
-		tab(heading="Imágenes de usuarios" ng-show="hasRoleOrPerm('admin')")
+		uib-tab(heading="Imágenes de usuarios" ng-show="hasRoleOrPerm('admin')")
 			.form-title Cambiar una imagen de usuario
 			.row
 				.col-lg-12.col-xs-12

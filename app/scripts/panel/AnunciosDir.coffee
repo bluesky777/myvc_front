@@ -1,6 +1,6 @@
 angular.module('myvcFrontApp')
 
-.directive('anunciosDir',['App', 'Restangular', 'toastr', '$uibModal', (App, Restangular, toastr, $modal)-> 
+.directive('anunciosDir',['App', 'Restangular', 'toastr', '$uibModal', '$state', (App, Restangular, toastr, $modal, $state)-> 
 
 	restrict: 'E'
 	templateUrl: "#{App.views}panel/anunciosDir.tpl.html"
@@ -10,12 +10,12 @@ angular.module('myvcFrontApp')
 		
 		scope.perfilPath = App.images+'perfil/'
 
-
-		Restangular.one('ChangesAsked/to-me').customGET().then((r)->
-			scope.changes_asked_to_me = r
-		, (r2)->
-			toastr.error 'No se pudo traer los anuncios.'
-		)
+		if $state.is 'panel'
+			Restangular.one('ChangesAsked/to-me').customGET().then((r)->
+				scope.changes_asked_to_me = r
+			, (r2)->
+				toastr.error 'No se pudo traer los anuncios.'
+			)
 
 	controller: 'AnunciosDirCtrl'
 ])

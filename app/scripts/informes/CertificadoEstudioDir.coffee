@@ -19,7 +19,14 @@ angular.module('myvcFrontApp')
 		scope.USER.nota_minima_aceptada = parseInt(scope.USER.nota_minima_aceptada)
 		scope.perfilPath = App.images+'perfil/'
 
-		#console.log scope.config.orientacion
+		monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
+		d = new Date()
+		scope.fecha_dia = d.getDate()
+		scope.fecha_mes = monthNames[d.getMonth()]
+		scope.fecha_year = d.getFullYear()
+
+		#console.log 'scope.alumno', scope.alumno
 ])
 
 

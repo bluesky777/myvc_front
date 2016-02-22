@@ -1,104 +1,98 @@
 
-<div ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical'}">
-  <!--img.encabezado-membrete(ng-src="{{perfilPath + 'encabezado-membrete.jpg'}}")-->
+<div ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $parent.$last==false }"><span><img ng-src="{{perfilPath + year.config_certificado.encabezado_nombre}}" style="width: 22cm; position: absolute; margin-left: -10px;" class="encabezado-membrete"></span>
   <div class="row">
-    <div class="col-lg-12 col-xs-12">
-      <div class="row encabezado-boletin">
-        <div class="col-lg-12 col-xs-12">
-          <div class="row">
-            <div class="col-lg-2 col-xs-2"><img ng-src="{{perfilPath + year.logo}}" class="img-responsive logo-colegio"></div>
-            <div class="col-lg-8 col-xs-8 title-encabezado-boletin">
-              <div class="nombre-colegio">{{year.nombre_colegio + ' - ' + year.abrev_colegio}}</div>
-              <div class="resolucion-colegio">{{year.resolucion}}</div>
-              <div class="title-descripcion">Boletin FINAL {{USER.year}}</div>
+    <div ng-style="{ 'margin-top' : year.config_certificado.encabezado_margin_top, 'margin-left' : year.config_certificado.encabezado_margin_left }">
+      <div class="col-lg-12 col-xs-12">
+        <div class="row encabezado-boletin">
+          <div class="col-lg-12 col-xs-12">
+            <div class="row">
+              <div class="col-lg-2 col-xs-2"><img ng-if="!year.config_certificado_estudio_id" ng-src="{{perfilPath + year.logo}}" class="img-responsive logo-colegio"></div>
+              <div class="col-lg-8 col-xs-8 title-encabezado-boletin">
+                <div class="dane-certificado">{{ year.codigo_dane }}</div>
+                <div class="nombre-colegio"> <span ng-show="year.sexo_rector=='M'">EL RECTOR DEL </span><span ng-show="year.sexo_rector=='F'">LA RECTORA DEL </span>{{ year.nombre_colegio }}</div>
+                <div ng-if="!year.config_certificado_estudio_id" class="resolucion-colegio">{{year.resolucion}}</div>
+                <div class="nombre-colegio">CERTIFICA</div>
+              </div>
+              <div class="col-lg-2 col-xs-2"><img ng-src="{{perfilPath + alumno.foto_nombre}}" ng-show="config.mostrar_foto &amp;&amp; alumno.foto_id" class="img-responsive img-thumbnail foto-alumno"></div>
             </div>
-            <div class="col-lg-2 col-xs-2"><img ng-src="{{perfilPath + alumno.foto_nombre}}" ng-show="config.mostrar_foto &amp;&amp; alumno.foto_id" class="img-responsive img-thumbnail foto-alumno"></div>
-          </div>
-          <div class="row descripcion-encabezado">
-            <div class="col-lg-6 col-xs-6">
-              <div class="grupo-alumno">Grupo: <b>{{grupo.nombre_grupo | capitalize}}</b></div>
-              <div popover="&lt;img src='{{perfilPath + grupo.foto_nombre}}' style='width: 150px; height: 150px;'&gt;" popover-popup-delay="1000" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true" popover-trigger="mouseenter" class="titular-grupo">Titular: Pr. {{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor | capitalize}}</div>
-            </div>
-            <div class="col-lg-6 col-xs-6">
-              <h5 class="nombre-alumno">{{alumno.nombres + ' ' + alumno.apellidos}}</h5>
-              <div class="promedio-alumno">Puntaje: {{alumno.promedio | setDecimal:1 }}% - Puesto: {{alumno.puesto}}/{{grupo.cantidad_alumnos}}</div>
+            <div style="margin-top: 20px; " class="row descripcion-encabezado">
+              <div class="col-lg-12 col-xs-12">
+                <div class="grupo-alumno">Que, <b>{{alumno.nombres + ' ' + alumno.apellidos}}</b>, cursó y aprobó en éste plantel educativo las áreas correspondientes al grado <b>{{grupo.nombre_grupo | capitalize}} </b>de la {{grupo.nivel_educativo}} 
+                  académica durante el año <b>{{year.year}}</b>, obteniendo los siguientes resultados:
+                </div>
+                <div uib-popover-html="'&lt;img src=&quot;{{perfilPath + grupo.foto_nombre}}&quot; style=&quot;width: 150px; height: 150px;&quot;&gt;'" popover-popup-delay="500" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true" popover-trigger="mouseenter" style="float: right" class="titular-grupo">Titular: {{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor | capitalize}}</div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div style="margin-top: 10px; margin-bottom: 10px; " class="row body-boletin">
-        <div class="col-lg-12 col-xs-12">
-          <table style="margin: 0 auto;" class="table-bordered table-striped">
-            <thead>
-              <tr style="border-bottom: 2px solid;">
-                <th>No</th>
-                <th>Nombres</th>
-                <th> <i class="fa fa-clock-o icon-tardanza"> </i>A</th>
-                <th ng-repeat="periodo in year.periodos">Per{{periodo.numero}}</th>
-                <th style="border-left: 2px solid !important;">Prom</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="asignatura in alumno.asignaturas">
-                <td>{{$index + 1}}</td>
-                <td>
-                  <div popover="&lt;img src='{{perfilPath + asignatura.foto_nombre}}' style='width: 150px; height: 150px;'&gt;" popover-popup-delay="1000" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" popover-trigger="mouseenter">{{asignatura.materia}}</div>
-                </td>
-                <td> <span ng-show="asignatura.ausencias &gt; 0">{{asignatura.ausencias}}</span></td>
-                <td ng-repeat="definitiva in asignatura.definitivas" ng-class="{'nota-perdida-puestos': ((definitiva.DefMateria | decimales_if:1 )*1) &lt; (USER.nota_minima_aceptada*1) }">
-                   
-                  {{ definitiva.DefMateria | decimales_if:1 }}<span ng-show="{{definitiva.notas_perdidas &gt; 0}}" class="cant-unidades-perdidas">({{definitiva.notas_perdidas}})</span>
-                </td>
-                <td ng-class="{'nota-perdida-puestos': ((asignatura.promedio | decimales_if:1 )*1) &lt; (USER.nota_minima_aceptada*1) }" class="puntero">
-                   
-                  {{asignatura.promedio | decimales_if:1}}<span ng-show="{{asignatura.notas_perdidas &gt; 0}}" class="cant-unidades-perdidas">({{asignatura.notas_perdidas}})</span>
-                </td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr style="border-top: 2px solid;">
-                <td>  </td>
-                <td>Total</td>
-                <td>{{alumno.ausencias}}</td>
-                <td ng-repeat="periodo in year.periodos">{{ alumno.asignaturas | promedioPeriodo:periodo.id | decimales:0 }}</td>
-                <td style="font-weight: bold; border-left: 2px solid !important;">
-                   
-                  {{alumno.promedio | decimales:0 }}<span ng-show="{{alumno.notas_perdidas &gt; 0}}" class="cant-unidades-perdidas">({{alumno.notas_perdidas}})</span>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-      </div>
-      <!--.row.body-boletin
-      .col-lg-12.col-xs-12
-      	span(ng-repeat="asignatura in alumno.asignaturas_perdidas")
-      		
-      		span(ng-repeat="periodo in asignatura.periodos | orderBy:'-numero'")
-      			| {{ asignatura.alias_materia }} - Per{{ periodo.numero }}: {{periodo.cantNotasPerdidas}}. 
-      
-      
-      
-      -->
-      <div class="row">
-        <div class="col-lg-12 col-xs-12">
-          <h4 style="text-align:center; font-weight: bold"><span ng-switch on="alumno.sexo"><span ng-switch-when="F">La alumna </span><span ng-switch-default>El alumno </span></span><span ng-show="alumno.cant_lost_asig &gt; 1"><span style="font-weight:bold">NO </span> ha sido </span><span ng-hide="alumno.cant_lost_asig &gt; 1">ha sido </span><span ng-switch on="alumno.sexo"><span ng-switch-when="F">promovida.</span><span ng-switch-default>promovido.</span></span></h4>
-        </div>
-      </div>
-      <div class="row footer-boletin">
-        <div class="col-lg-12 col-xs-12">
-          <div class="row">
-            <div class="col-lg-6 col-xs-6 rector-firma"><img ng-show="config.show_firma_rector" ng-src="{{perfilPath + year.rector_firma}}"></div>
-            <div class="col-lg-6 col-xs-6 titular-firma"><img ng-show="config.show_firma_titular" ng-src="{{perfilPath + grupo.firma_titular_nombre}}"></div>
+        <div style="margin-top: 10px; margin-bottom: 10px; " class="row body-boletin">
+          <div class="col-lg-12 col-xs-12">
+            <table style="margin: 0 auto;" class="table-bordered table-striped">
+              <thead>
+                <tr style="border-bottom: 2px solid;">
+                  <th>No</th>
+                  <th>Nombres</th>
+                  <th>Cred</th>
+                  <th style="width: 25px"> <i class="fa fa-clock-o icon-tardanza"> </i>A</th>
+                  <th ng-repeat="periodo in year.periodos">Per{{periodo.numero}}</th>
+                  <th>Desempeño</th>
+                  <th style="border-left: 2px solid !important;">Prom</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="asignatura in alumno.asignaturas">
+                  <td>{{$index + 1}}</td>
+                  <td>
+                    <div uib-popover-html="'&lt;img src=&quot;{{perfilPath + asignatura.foto_nombre}}&quot; style=&quot;width: 150px; height: 150px;&quot;&gt;'" popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" popover-trigger="mouseenter">{{asignatura.materia}}</div>
+                  </td>
+                  <td style="text-align: center;">{{ asignatura.creditos }}</td>
+                  <td style="text-align: center;"> <span ng-show="asignatura.ausencias &gt; 0">{{asignatura.ausencias}}</span></td>
+                  <td ng-repeat="definitiva in asignatura.definitivas" ng-class="{'nota-perdida-puestos': ((definitiva.DefMateria | decimales_if:1 )*1) &lt; (USER.nota_minima_aceptada*1) }">
+                     
+                    {{ definitiva.DefMateria | decimales_if:1 }}<span ng-show="{{definitiva.notas_perdidas &gt; 0}}" class="cant-unidades-perdidas">({{definitiva.notas_perdidas}})</span>
+                  </td>
+                  <td style="text-align: center;">{{ asignatura.desempenio }}</td>
+                  <td ng-class="{'nota-perdida-puestos': ((asignatura.promedio | decimales_if:1 )*1) &lt; (USER.nota_minima_aceptada*1) }" class="puntero">
+                     
+                    {{asignatura.promedio | decimales_if:1}}<span ng-show="{{asignatura.notas_perdidas &gt; 0}}" class="cant-unidades-perdidas">({{asignatura.notas_perdidas}})</span>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr style="border-top: 2px solid; text-align: center; font-weight: bold">
+                  <td>  </td>
+                  <td style="text-align: left;">Total</td>
+                  <td>{{ alumno.total_creditos }}</td>
+                  <td>{{alumno.ausencias}}</td>
+                  <td ng-repeat="periodo in year.periodos">{{ alumno.asignaturas | promedioPeriodo:periodo.id | decimales:0 }}</td>
+                  <td>{{ alumno.desempenio }}</td>
+                  <td style="font-weight: bold; border-left: 2px solid !important;">
+                     
+                    {{alumno.promedio | decimales:0 }}<span ng-show="{{alumno.notas_perdidas &gt; 0}}" class="cant-unidades-perdidas">({{alumno.notas_perdidas}})</span>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
           </div>
-          <div class="row">
-            <div class="col-lg-6 col-xs-6 nombre-rector-firma">{{year.nombres_rector}} {{year.apellidos_rector}}</div>
-            <div class="col-lg-6 col-xs-6 nombre-titular-firma">{{grupo.nombres_profesor}} {{grupo.apellidos_profesor}}</div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-xs-12">
+            <div style="margin-top: 20px; margin-left: 15px;">Dado en {{year.ciudad}} ({{year.departamento}}) a los {{fecha_dia}} días del mes de {{fecha_mes}} de {{fecha_year}}.</div>
           </div>
-          <div class="row">
-            <div ng-show="year.sexo_rector=='M'" class="col-lg-6 col-xs-6">Rector</div>
-            <div ng-show="year.sexo_rector=='F'" class="col-lg-6 col-xs-6">Rectora</div>
-            <div class="col-lg-6 col-xs-6">Titular</div>
+        </div>
+        <div class="row footer-boletin">
+          <div class="col-lg-12 col-xs-12">
+            <div class="row">
+              <div class="col-lg-6 col-xs-6 rector-firma"><img ng-show="config.show_firma_rector" ng-src="{{perfilPath + year.rector_firma}}"></div>
+              <div class="col-lg-6 col-xs-6 titular-firma"><img ng-show="config.show_firma_titular" ng-src="{{perfilPath + grupo.firma_titular_nombre}}"></div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6 col-xs-6 nombre-rector-firma">{{year.nombres_rector}} {{year.apellidos_rector}}</div>
+            </div>
+            <div class="row">
+              <div ng-show="year.sexo_rector=='M'" class="col-lg-6 col-xs-6">Rector</div>
+              <div ng-show="year.sexo_rector=='F'" class="col-lg-6 col-xs-6">Rectora</div>
+            </div>
           </div>
         </div>
       </div>

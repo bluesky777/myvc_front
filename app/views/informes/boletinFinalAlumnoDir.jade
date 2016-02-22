@@ -22,10 +22,10 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 							.grupo-alumno
 								| Grupo: 
 								b {{grupo.nombre_grupo | capitalize}}
-							.titular-grupo(popover="<img src='{{perfilPath + grupo.foto_nombre}}' style='width: 150px; height: 150px;'>" 
+							.titular-grupo(uib-popover-html="'<img src=\"{{perfilPath + grupo.foto_nombre}}\" style=\"width: 150px; height: 150px;\">'" 
 									popover-popup-delay="1000" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true" 
 									popover-trigger="mouseenter")
-								| Titular: Pr. {{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor | capitalize}}
+								| Titular: {{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor | capitalize}}
 						.col-lg-6.col-xs-6
 							h5.nombre-alumno {{alumno.nombres + ' ' + alumno.apellidos}}
 							.promedio-alumno Puntaje: {{alumno.promedio | setDecimal:1 }}% - Puesto: {{alumno.puesto}}/{{grupo.cantidad_alumnos}}
@@ -45,7 +45,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 							tr(ng-repeat="asignatura in alumno.asignaturas")
 								td {{$index + 1}}
 								td
-									div(popover="<img src='{{perfilPath + asignatura.foto_nombre}}' style='width: 150px; height: 150px;'>" 
+									div(uib-popover-html="'<img src=\"{{perfilPath + asignatura.foto_nombre}}\" style=\"width: 150px; height: 150px;\">'" 
 										popover-popup-delay="1000" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" 
 										popover-trigger="mouseenter") {{asignatura.materia}}
 								td 

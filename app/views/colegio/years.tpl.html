@@ -7,8 +7,8 @@
           <div class="widget-buttons"><a href="" data-toggle="config" ng-if="false"><i class="fa fa-cog"></i></a><a href="" ng-click="maxi=!maxi" data-toggle="maximize"><i class="fa fa-expand"></i></a><a href="" data-toggle="collapse" ng-click="year.ocultando = !year.ocultando"><i class="fa fa-minus"></i></a><a href="" data-toggle="dispose" ng-if="false"><i class="fa fa-times"></i></a></div>
         </div>
         <div class="widget-body">
-          <accordion close-others="true">
-            <accordion-group heading="Básico" is-open="true">
+          <uib-accordion close-others="true">
+            <uib-accordion-group heading="Básico" is-open="true">
               <form role="form">
                 <div class="row">
                   <div class="col-sm-6">
@@ -165,8 +165,8 @@
                 </div><br>
                 <button type="submit" class="btn btn-primary">Guardar cambios</button>
               </form>
-            </accordion-group>
-            <accordion-group heading="Periodos" is-open="true">
+            </uib-accordion-group>
+            <uib-accordion-group heading="Periodos" is-open="true">
               <div class="row">
                 <div class="col-sm-6">
                   <div class="list-periodos">
@@ -183,11 +183,11 @@
                   <button ng-click="addPeriodo(year)" class="btn btn-success">Crear periodo</button>
                 </div>
               </div>
-            </accordion-group>
-            <accordion-group heading="Certificados" is-open="true">
+            </uib-accordion-group>
+            <uib-accordion-group heading="Certificados" is-open="true">
               <configuracion-certificados></configuracion-certificados>
-            </accordion-group>
-          </accordion>
+            </uib-accordion-group>
+          </uib-accordion>
           <button ng-click="deleteYear(year)" class="btn btn-danger">Eliminar año {{year.year}}</button>
         </div>
       </div>

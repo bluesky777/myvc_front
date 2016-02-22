@@ -62,7 +62,10 @@ angular.module('myvcFrontApp')
 		$scope.open = (candidato, aspiracion)->
 			
 			if $scope.votacion.locked
-				toastr.warning 'La votación actual está bloqueada'
+				toastr.warning 'Usted está bloqueado en esta votación.'
+				return
+			else if $scope.votacion.locked_votacion
+				toastr.warning 'Usted está bloqueado en esta votación.'
 				return
 			else
 				modalInstance = $uibModal.open({
@@ -73,6 +76,8 @@ angular.module('myvcFrontApp')
 							candidato
 						aspiracion: ()->
 							aspiracion.aspiracion
+						votacion_id: ()->
+							$scope.votacion.votacion_id
 
 				})
 				modalInstance.result.then( (selectedItem)->
