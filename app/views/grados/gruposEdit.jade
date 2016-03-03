@@ -14,7 +14,7 @@
 					br
 					.form-group
 						label Titular
-						ui-select(ng-model="grupo.titular" theme="select2" style="min-width: 200px;")
+						ui-select(ng-model="grupo.titular" style="width: 100%;")
 							ui-select-match(placeholder="Profesor titular" allow-clear="true") {{$select.selected.nombres + ' ' + $select.selected.apellidos}}
 							ui-select-choices(repeat="titular in profesores | filter: $select.search")
 								div(ng-bind-html="titular.nombres + ' ' + titular.apellidos | highlight: $select.search")
@@ -22,7 +22,7 @@
 					br
 					.form-group
 						label Grado
-						ui-select(ng-model="grupo.grado" theme="select2" style="min-width: 200px;")
+						ui-select(ng-model="grupo.grado" style="width: 100%;")
 							ui-select-match(placeholder="Grado" allow-clear="true") {{$select.selected.nombre}}
 							ui-select-choices(repeat="grado in grados | filter: $select.search")
 								div(ng-bind-html="grado.nombre | highlight: $select.search")

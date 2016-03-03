@@ -1,5 +1,5 @@
 angular.module('myvcFrontApp')
-.controller('UsuariosCtrl', ['$scope', '$http', 'Restangular', '$state', '$rootScope', 'AuthService', 'Perfil', 'App', '$uibModal', '$filter', 'RolesServ', ($scope, $http, Restangular, $state, $rootScope, AuthService, Perfil, App, $modal, $filter, RolesServ) ->
+.controller('UsuariosCtrl', ['$scope', '$http', 'Restangular', '$state', '$rootScope', 'AuthService', 'Perfil', 'App', '$uibModal', '$filter', 'toastr', ($scope, $http, Restangular, $state, $rootScope, AuthService, Perfil, App, $modal, $filter, toastr) ->
 
 	AuthService.verificar_acceso()
 
@@ -22,8 +22,7 @@ angular.module('myvcFrontApp')
 
 
 	$scope.resetPass = (row)->
-		console.log 'Presionado para resetear pass: ', row
-
+		
 		modalInstance = $modal.open({
 			templateUrl: App.views + 'usuarios/resetPass.tpl.html'
 			controller: 'ResetPassCtrl'
@@ -45,7 +44,7 @@ angular.module('myvcFrontApp')
 				usuario: ()->
 					row
 				roles: ()->
-					RolesServ.getRoles()
+					Restangular.all('roles').getList()
 		})
 		modalInstance.result.then( (user)->
 			#console.log 'Resultado del modal: ', user
@@ -101,15 +100,15 @@ angular.module('myvcFrontApp')
 
 					if colDef.field == "username"
 						Restangular.one('perfiles/guardar-username', rowEntity.user_id).customPUT({username: rowEntity.username}).then((r)->
-							$scope.toastr.success 'Nombre de Usuario actualizado con éxito', 'Actualizado'
+							toastr.success 'Nombre de Usuario actualizado con éxito', 'Actualizado'
 						, (r2)->
-							$scope.toastr.error 'Cambio no guardado', 'Error'
+							toastr.error 'Cambio no guardado', 'Error'
 						)
 					else
 						Restangular.one('perfiles/update', rowEntity.persona_id).customPUT(rowEntity).then((r)->
-							$scope.toastr.success 'Usuario actualizado con éxito', 'Actualizado'
+							toastr.success 'Usuario actualizado con éxito', 'Actualizado'
 						, (r2)->
-							$scope.toastr.error 'Cambio no guardado', 'Error'
+							toastr.error 'Cambio no guardado', 'Error'
 						)
 				$scope.$apply()
 			)
@@ -124,9 +123,9 @@ angular.module('myvcFrontApp')
 
 	$scope.crearTodosLosUsuarios = ()->
 		Restangular.one('perfiles/creartodoslosusuarios').customPUT().then((r)->
-			$scope.toastr.success 'Usuarios creados con éxito'
+			toastr.success 'Usuarios creados con éxito'
 		, (r2)->
-			$scope.toastr.error 'No se pudo crear los usuarios', 'Problema'
+			toastr.error 'No se pudo crear los usuarios', 'Problema'
 		)
 
 ])

@@ -14,7 +14,7 @@ h6.row-title.before-blue(ng-if="profesor_id")
 				.databox-piechart
 					.easyPieChart(style="width: 47px; height: 47px; line-height: 47px;")
 						.white.font-150
-							{{asignatura.abrev_grupo}}
+							| {{asignatura.abrev_grupo}}
 			.databox-right.padding-top-5.radius-bordered.bg-white
 				.databox-title.lightcarbon {{ asignatura.materia }}
 				.databox-text.darkgray
@@ -41,7 +41,7 @@ h6.row-title.before-blue(ng-show="gruposcomportamientos.length == 0")
 				.databox-piechart
 					.easyPieChart(style="width: 47px; height: 47px; line-height: 47px;")
 						.white.font-150
-							{{grupo.abrev}}
+							| {{grupo.abrev}}
 			.databox-right.padding-top-5.radius-bordered.bg-white
 				.databox-title.lightcarbon {{ grupo.nombre }}
 				.databox-text.darkgray

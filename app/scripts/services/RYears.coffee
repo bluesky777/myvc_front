@@ -1,16 +1,7 @@
 angular.module('myvcFrontApp')
 
-.factory('RYears', ['Restangular', (Restangular) ->
-	Restangular.service('years')
-])
 
-.factory('RPeriodos', ['Restangular', (Restangular) ->
-	Restangular.service('periodos')
-])
-
-
-
-.factory('YearsServ', ['RYears', '$q', (RYears, $q) ->
+.factory('YearsServ', ['Restangular', '$q', (Restangular, $q) ->
 	
 	years = []
 
@@ -22,7 +13,7 @@ angular.module('myvcFrontApp')
 			if years.length > 0
 				d.resolve(years)
 			else
-				RYears.getList().then((r)->
+				Restangular.one('years').getList().then((r)->
 					years = r
 					d.resolve(years)
 				, (r2)->

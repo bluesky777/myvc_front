@@ -5,7 +5,7 @@ angular.module("myvcFrontApp")
 .controller('VotacionesInicioCtrl', ['$scope', '$rootScope', '$interval', 'resolved_user', 'App', 'AuthService', '$state', ($scope, $rootScope, $interval, resolved_user, App, AuthService, $state)->
 
 	
-	$scope.verificar_acceso()
+	AuthService.verificar_acceso()
 	
 	$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
 

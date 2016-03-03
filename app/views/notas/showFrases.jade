@@ -4,7 +4,7 @@
 	.row
 		.col-lg-12.col-xs-12
 			h4(style="text-overflow: ellipsis")
-				{{alumno.nombres}} {{alumno.apellidos}}
+				| {{alumno.nombres}} {{alumno.apellidos}}
 			ul
 				li(ng-repeat="frase in frases_asignatura")
 					a.btn.btn-default.btn-xs.shiny.icon-only.danger(uib-tooltip="Quitar frase" tooltip-placement="right" 

@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('ProfesoresEditCtrl', ['$scope', '$rootScope', '$interval', 'Restangular', '$state', 'RPaises', 'RCiudades', ($scope, $rootScope, $interval, Restangular, $state, RPaises, RCiudades)->
+.controller('ProfesoresEditCtrl', ['$scope', '$rootScope', 'toastr', 'Restangular', '$state', ($scope, $rootScope, toastr, Restangular, $state)->
 	$scope.data = {} # Para el popup del Datapicker
 	
 	$scope.profesor = {}
@@ -17,7 +17,6 @@ angular.module("myvcFrontApp")
 
 	Restangular.one('profesores/show', $state.params.profe_id).customGET().then (r)->
 		$scope.profesor = r[0]
-		console.log 'Llega: ', $scope.profesor
 		$scope.profesor.estado_civil = {estado_civil: r[0].estado_civil}
 
 
@@ -56,7 +55,7 @@ angular.module("myvcFrontApp")
 
 	
 
-	RPaises.getList().then((r)->
+	Restangular.one('paises').getList().then((r)->
 		$scope.paises = r
 	, (r2)->
 		console.log 'No se pudo traer los paises', r2
@@ -66,13 +65,10 @@ angular.module("myvcFrontApp")
 	
 	
 	$scope.guardar = ()->
-		console.log 'A guardar: ', $scope.profesor
 		Restangular.one('profesores/update', $scope.profesor.id).customPUT($scope.profesor).then((r)->
-			console.log 'Se guardó profesor', r
-			$scope.toastr.success 'Profesor actualizado con éxito'
+			toastr.success 'Profesor actualizado con éxito'
 		, (r2)->
-			console.log 'Falló al intentar guardar: ', r2
-			$scope.toastr.error 'No se guardaron los cambios', 'Problemas'
+			toastr.error 'No se guardaron los cambios', 'Problemas'
 		)
 
 

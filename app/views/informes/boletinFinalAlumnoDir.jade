@@ -68,10 +68,10 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 
 								td {{alumno.ausencias}}
 
-								td(ng-repeat="periodo in year.periodos"){{ alumno.asignaturas | promedioPeriodo:periodo.id | decimales:0 }}
+								td(ng-repeat="periodo in year.periodos") {{ alumno.asignaturas | promedioPeriodo:periodo.id | decimales:0 }}
 
 								td(style="font-weight: bold; border-left: 2px solid !important;") 
-									{{alumno.promedio | decimales:0 }}
+									| {{alumno.promedio | decimales:0 }}
 									span.cant-unidades-perdidas(ng-show="{{alumno.notas_perdidas > 0}}")
 										| ({{alumno.notas_perdidas}})
 

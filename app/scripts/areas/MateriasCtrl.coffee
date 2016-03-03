@@ -1,6 +1,6 @@
 angular.module("myvcFrontApp")
 
-.controller('MateriasCtrl', ['$scope', '$rootScope', '$interval', 'Restangular', 'RMaterias', 'areas', '$uibModal', '$filter', 'App', ($scope, $rootScope, $interval, Restangular, RMaterias, areas, $modal, $filter, App)->
+.controller('MateriasCtrl', ['$scope', '$rootScope', 'toastr', 'Restangular', 'areas', '$uibModal', '$filter', 'App', ($scope, $rootScope, toastr, Restangular, areas, $modal, $filter, App)->
 
 	$scope.creando = false
 	$scope.editando = false
@@ -17,24 +17,22 @@ angular.module("myvcFrontApp")
 		$scope.editando = false
 
 	$scope.crear = ()->
-		RMaterias.post($scope.currentmateria).then((r)->
+		Restangular.one('materias').customPOST($scope.currentmateria).then((r)->
 			$scope.gridOptions.data.push r
 			delete $scope.currentmateria
-			$scope.toastr.success 'Materia creada con éxito'
+			toastr.success 'Materia creada con éxito'
 		, (r2)->
-			console.log 'No se pudo crear', r2
-			$scope.toastr.error 'Error creando', 'Problema'
+			toastr.error 'Error creando', 'Problema'
 		)
 
 	$scope.guardar = ()->
 		Restangular.one('materias/update', $scope.currentmateriaEdit.id).customPUT($scope.currentmateriaEdit).then((r)->
 			$scope.currentmateriaEdit.area_id = r.area_id # Para actulizar el grid
 			delete $scope.currentmateriaEdit
-			$scope.toastr.success 'Materia actualizada con éxito'
+			toastr.success 'Materia actualizada con éxito'
 			$scope.cancelarEdit()
 		, (r2)->
-			console.log 'No se pudo crear', r2
-			$scope.toastr.error 'Error guardando', 'Problema'
+			toastr.error 'Error guardando', 'Problema'
 		)
 
 	$scope.editar = (row)->
@@ -99,7 +97,7 @@ angular.module("myvcFrontApp")
 
 	
 
-	RMaterias.getList().then((data)->
+	Restangular.one('materias').getList().then((data)->
 		$scope.gridOptions.data = data
 	)
 ])

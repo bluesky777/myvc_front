@@ -245,10 +245,10 @@
 
 				
 
-				li(ui-sref="panel.anuncios" stop-event="click")
+				li(ui-sref="panel.anuncios" stop-event="click" ng-if="false")
 					a(href="" stop-event="click")
 						span.menu-text Anuncios
-				li(ui-sref-active="active")
+				li(ui-sref-active="active" ng-if="false")
 					a(ui-sref="panel.mensajes" stop-event="click")
 						span.menu-text  Mensajes
 				li(ui-sref-active="active")
@@ -257,9 +257,6 @@
 				li(ui-sref-active="active" ng-if="false")
 					a(ui-sref="panel.horarios" stop-event="click")
 						span.menu-text  Horarios
-				li(ui-sref-active="active")
-					a(ui-sref="votaciones" stop-event="click")
-						span.menu-text  Votaciones
 				li(ui-sref-active="active")
 					a(ui-sref="panel.papelera" stop-event="click")
 						span.menu-text  Papelera

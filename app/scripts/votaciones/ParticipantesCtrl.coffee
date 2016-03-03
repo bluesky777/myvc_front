@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('ParticipantesCtrl', ['$scope', '$filter', '$rootScope', 'RParticipantes', 'RGrupos', 'Restangular', 'RUsers', 'toastr', 'App', ($scope, $filter, $rootScope, RParticipantes, RGrupos, Restangular, RUsers, toastr, App)->
+.controller('ParticipantesCtrl', ['$scope', '$filter', '$rootScope', 'Restangular', 'toastr', 'App', ($scope, $filter, $rootScope, Restangular, toastr, App)->
 
 	$scope.editing = false
 	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
@@ -60,13 +60,13 @@ angular.module("myvcFrontApp")
 			
 
 
-	RParticipantes.getList().then((data)->
+	Restangular.one('participantes').getList().then((data)->
 		$scope.gridOptions.data = data;
 	, (r2)->
 		toastr.warning 'Asegúrate de tener al menos un evento como actual.'
 	)
 
-	RGrupos.getList().then((data)->
+	Restangular.one('grupos').getList().then((data)->
 		$scope.grupos = data;
 	, (r2)->
 		#console.log 'Error trayendo los grupos. ', r2

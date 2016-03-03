@@ -2,13 +2,13 @@
 
 angular.module("myvcFrontApp")
 
-.controller('GradosNewCtrl', ['$scope', '$rootScope', '$interval', 'Restangular', 'RNiveles', 'RGrados', ($scope, $rootScope, $interval, Restangular, RNiveles, RGrados)->
+.controller('GradosNewCtrl', ['$scope', '$rootScope', 'toastr', 'Restangular', ($scope, $rootScope, toastr, Restangular)->
 
 	$scope.grado = {
 		orden: 1
 	}
 
-	RNiveles.getList().then((data)->
+	Restangular.one('niveles_educativos').getList().then((data)->
 		$scope.niveles = data;
 	)
 
@@ -20,12 +20,11 @@ angular.module("myvcFrontApp")
 			$scope.grado.orden = $scope.grado.orden + 1
 
 	$scope.crear = ()->
-		RGrados.post($scope.grado).then((r)->
-			
+		Restangular.one('grados').post($scope.grado).then((r)->
 			$scope.$emit 'gradocreado', r
-			$scope.toastr.success 'Grado '+r.nombre+' creado'
+			toastr.success 'Grado '+r.nombre+' creado'
 		, (r2)->
-			console.log 'Falló al intentar guardar: ', r2
+			toastr.error 'Falló al intentar guardar'
 		)
 
 ])

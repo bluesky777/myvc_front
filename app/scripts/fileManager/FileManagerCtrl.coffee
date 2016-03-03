@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('FileManagerCtrl', ['$scope', '$upload', '$timeout', '$filter', 'App', 'Restangular', 'Perfil', '$uibModal', 'resolved_user', 'GruposServ', ($scope, $upload, $timeout, $filter, App, Restangular, Perfil, $modal, resolved_user, GruposServ)->
+.controller('FileManagerCtrl', ['$scope', '$upload', '$timeout', '$filter', 'App', 'Restangular', 'Perfil', '$uibModal', 'resolved_user', ($scope, $upload, $timeout, $filter, App, Restangular, Perfil, $modal, resolved_user)->
 	
 	$scope.USER = resolved_user
 	$scope.subir_intacta = {}
@@ -207,10 +207,10 @@ angular.module("myvcFrontApp")
 						user_id: $scope.USER.id
 
 					Restangular.one('myimages/datos-imagen').customGET('', codigos).then((r)->
-						console.log 'Datos imagen traidos.', r
+						#console.log 'Datos imagen traidos.', r
 						return $scope.datos_imagen = r
 					, (r2)->
-						console.log 'No se pudo traer datos de imagen.', r2
+						#console.log 'No se pudo traer datos de imagen.', r2
 						$scope.toastr.error 'Error al traer datos de imagen', 'Problema'
 						return {}
 					)
@@ -222,7 +222,7 @@ angular.module("myvcFrontApp")
 			else
 				$scope.imagenes_privadas = $filter('filter')($scope.imagenes_privadas, {id: '!'+imag.id})
 
-			console.log 'Resultado del modal: ', imag
+			#console.log 'Resultado del modal: ', imag
 		)
 
 
@@ -231,12 +231,12 @@ angular.module("myvcFrontApp")
 		$scope.usuariosprofes = $filter('filter')(r, {tipo: 'Profesor'}, true)
 		$scope.dato.usuarioElegido = r[0]
 	, (r2)->
-		console.log 'No se pudo traer los usuarios'
+		console.log 'No se pudo traer los usuarios', r2
 	)
 
 
 
-	GruposServ.getGrupos().then((r)->
+	Restangular.one('grupos').getGrupos().then((r)->
 		$scope.grupos = r
 	)
 

@@ -13,13 +13,13 @@ draggable
 			table.table.table-hover.table-condensed.table-striped(ng-class="{'ng-hide':minimized}")
 				tr(ng-repeat="escala in escalas")
 					td
-						{{escala.valoracion}}
+						| {{escala.valoracion}}
 					td
 						.btn-group
 							a.btn.btn-xs(ng-repeat="n in [] | range:escala.porc_inicial:escala.porc_final" 
 								ng-class="escala.perdido ? 'btn-danger':'btn-default'"
 								ng-click="setValor(n)")
-								{{n}}
+								| {{n}}
 
 			.form-inline
 				.form-group

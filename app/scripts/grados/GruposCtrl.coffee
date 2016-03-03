@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-.controller('GruposCtrl', ['$scope', '$filter', '$rootScope', '$state', '$interval', 'RGrupos', 'grados', 'profesores', '$uibModal', 'App', 'Restangular', ($scope, $filter, $rootScope, $state, $interval, RGrupos, grados, profesores, $modal, App, Restangular) ->
+.controller('GruposCtrl', ['$scope', '$filter', '$state', 'grados', 'profesores', '$uibModal', 'App', 'Restangular', 'toastr', ($scope, $filter, $state, grados, profesores, $modal, App, Restangular, toastr) ->
 
 	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
 
@@ -12,8 +12,7 @@ angular.module('myvcFrontApp')
 		$state.go('panel.grupos.editar', {grupo_id: row.id})
 
 	$scope.eliminar = (row)->
-		console.log 'Presionado para eliminar fila: ', row
-
+		
 		modalInstance = $modal.open({
 			templateUrl: App.views + 'grados/removeGrupo.tpl.html'
 			controller: 'RemoveGrupoCtrl'
@@ -40,9 +39,9 @@ angular.module('myvcFrontApp')
 			{ name: 'edicion', displayName:'Edición', maxWidth: 80, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2 + btGrid3, enableCellEdit: false}
 			{ field: 'nombre', enableHiding: false }
 			{ field: 'abrev', displayName:'Abreviatura', maxWidth: 50, enableSorting: false }
-			{ field: 'titular_id', displayName: 'Titular', editDropdownOptionsArray: profesores, cellFilter: 'mapProfesores:grid.appScope.profesores', editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'id', editDropdownValueLabel: 'nombres' }
+			{ field: 'titular_id', displayName: 'Titular', editDropdownOptionsArray: profesores, cellFilter: 'mapProfesores:grid.appScope.profesores', editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'profesor_id', editDropdownValueLabel: 'nombres' }
 			{ field: 'grado_id', displayName: 'Grado', editDropdownOptionsArray: grados, cellFilter: 'mapGrado:grid.appScope.grados', editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'id', editDropdownValueLabel: 'nombre' }
-			{ name: 'nn', displayName: '', maxWidth: 20, enableSorting: false, enableFiltering: false }
+			# { name: 'nn', displayName: '', maxWidth: 20, enableSorting: false, enableFiltering: false }
 		],
 		multiSelect: false,
 		#filterOptions: $scope.filterOptions,
@@ -57,17 +56,18 @@ angular.module('myvcFrontApp')
 						nombre:		rowEntity.nombre
 						orden:		rowEntity.orden
 						titular_id:	rowEntity.titular_id
+						id:			rowEntity.id
 
-					Restangular.one('grupos/update', rowEntity.id).customPUT(dato).then((r)->
-						$scope.toastr.success 'Grupo actualizado con éxito', 'Actualizado'
+					Restangular.one('grupos/update').customPUT(dato).then((r)->
+						toastr.success 'Grupo actualizado con éxito', 'Actualizado'
 					, (r2)->
-						$scope.toastr.error 'Cambio no guardado', 'Error'
+						toastr.error 'Cambio no guardado', 'Error'
 						console.log 'Falló al intentar guardar: ', r2
 					)
 				$scope.$apply()
 			)
 
-	RGrupos.getList().then((data)->
+	Restangular.one('grupos').getList().then((data)->
 		$scope.grupos = data
 		$scope.gridOptions.data = $scope.grupos;
 	)
@@ -89,15 +89,6 @@ angular.module('myvcFrontApp')
 			return  grad.nombre
 ])
 
-.filter('mapProfesores', ['$filter', ($filter)->
-
-	return (input, profes)->
-		if not input
-			return 'Seleccione titular...'
-		else
-			prof = $filter('filter')(profes, {id: input})[0]
-			return  prof.nombres + ' ' + prof.apellidos
-])
 
 
 .controller('RemoveGrupoCtrl', ['$scope', '$uibModalInstance', 'grupo', 'Restangular', 'toastr', ($scope, $modalInstance, grupo, Restangular, toastr)->

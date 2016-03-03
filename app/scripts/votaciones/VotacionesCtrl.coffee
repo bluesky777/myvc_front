@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('VotacionesCtrl', ['$scope', '$filter', '$rootScope', 'RVotaciones', 'Restangular', 'resolved_user', 'App', 'toastr', ($scope, $filter, $rootScope, RVotaciones, Restangular, resolved_user, App, toastr)->
+.controller('VotacionesCtrl', ['$scope', '$filter', 'Restangular', 'resolved_user', 'App', 'toastr', ($scope, $filter, Restangular, resolved_user, App, toastr)->
 
 
 	$scope.data = {} # Para el popup del Datapicker
@@ -153,7 +153,7 @@ angular.module("myvcFrontApp")
 				$scope.$apply()
 			)
 
-	RVotaciones.getList().then((data)->
+	Restangular.one('votaciones').getList().then((data)->
 		$scope.gridOptions.data = data;
 	, (r2)->
 		console.log 'Error trayendo los eventos. ', r2

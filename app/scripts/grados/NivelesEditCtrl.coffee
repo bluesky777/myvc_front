@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('NivelesEditCtrl', ['$scope', '$rootScope', '$state', 'Restangular', 'RNiveles', ($scope, $rootScope, $state, Restangular, RNiveles)->
+.controller('NivelesEditCtrl', ['$scope', 'toastr', '$state', 'Restangular', ($scope, toastr, $state, Restangular)->
 
 	$scope.nivel = {}
 
@@ -12,9 +12,9 @@ angular.module("myvcFrontApp")
 
 	$scope.guardar = ()->
 		$scope.nivel.put().then((r)->
-			console.log 'Se guardó nivel', r
+			toastr.success 'Se guardó nivel'
 		, (r2)->
-			console.log 'Falló al intentar guardar: ', r2
+			toastr.error 'Falló al intentar guardar'
 		)
 
 	$scope.restarOrden = ()->

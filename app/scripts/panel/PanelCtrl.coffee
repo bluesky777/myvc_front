@@ -2,8 +2,8 @@
 
 angular.module('myvcFrontApp')
 
-.controller('PanelCtrl', ['$scope', '$http', 'Restangular', '$state', '$cookies', '$rootScope', 'AuthService', 'Perfil', 'App', 'resolved_user', 'RYears', 'RPeriodos', 'toastr', 'cfpLoadingBar', 
-	($scope, $http, Restangular, $state, $cookies, $rootScope, AuthService, Perfil, App, resolved_user, RYears, RPeriodos, toastr, cfpLoadingBar) ->
+.controller('PanelCtrl', ['$scope', '$http', 'Restangular', '$state', '$cookies', '$rootScope', 'AuthService', 'Perfil', 'App', 'resolved_user', 'toastr', 'cfpLoadingBar', 
+	($scope, $http, Restangular, $state, $cookies, $rootScope, AuthService, Perfil, App, resolved_user, toastr, cfpLoadingBar) ->
 
 		$scope.USER = resolved_user
 		$scope.pageTitle = $rootScope.pageTitle
@@ -15,9 +15,9 @@ angular.module('myvcFrontApp')
 		#$scope.paramuser = {'username': Perfil.User().username }
 
 
-		$http.get($scope.logoPath).success(()->
+		$http.get($scope.logoPath).then(()->
 			#alert('imagen existe')
-		).error(()->
+		).then(()->
 			#alert('image not exist')
 			$scope.logoPath = $scope.logoPathDefault # set default image
 		)
@@ -27,7 +27,7 @@ angular.module('myvcFrontApp')
 		cfpLoadingBar.complete()
 		
 
-		$scope.verificar_acceso()
+		AuthService.verificar_acceso()
 
 
 		$scope.USER.nota_minima_aceptada = parseInt($scope.USER.nota_minima_aceptada)
@@ -35,13 +35,21 @@ angular.module('myvcFrontApp')
 
 		$scope.date = new Date();
 
-		RYears.getList().then((r)->
+		###
+		$scope.traerYears = ()->
+			$http.get('years').then((r)->
+				console.log r
+			)
+		$scope.traerYears()
+		###
+
+		Restangular.one('years').getList().then((r)->
 			$scope.years = r
 		, (r)->
 			console.log 'No se trajeron los años'
 		)
 
-		RPeriodos.getList().then((r)->
+		Restangular.one('periodos').getList().then((r)->
 			$scope.periodos = r
 		, (r)->
 			console.log 'No se trajeron los periodos'

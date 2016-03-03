@@ -12,7 +12,7 @@ angular.module('myvcFrontApp')
 		# Debo agregar la clase .loading-inactive para que desaparezca el loader de la pantalla.
 		# y eso lo puedo hacer con el ng-if
 
-	controller: ($scope, Restangular, toastr, $modal, $filter)->
+	controller: ($scope, Restangular, toastr, $uibModal, $filter)->
 
 		$scope.activar_crear_subunidad = true
 
@@ -167,7 +167,7 @@ angular.module('myvcFrontApp')
 
 		$scope.removeSubunidad = (unidad, subunidad)->
 
-			modalInstance = $modal.open({
+			modalInstance = $uibModal.open({
 				templateUrl: App.views + 'unidades/removeSubunidad.tpl.html'
 				controller: 'RemoveSubunidadCtrl'
 				resolve: 

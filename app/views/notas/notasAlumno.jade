@@ -20,7 +20,7 @@
 		.widget-header.bg-blue
 			i.widget-icon.fa.fa-bar-chart
 			.widget-caption
-				|Alumno
+				| Alumno
 			.widget-buttons
 				a(href="" ng-init="minimized = false" ng-click="minimized = !minimized")
 					i.fa(ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimized]")
@@ -91,7 +91,7 @@
 												| {{subunidad.porcentaje_subunidad}}%
 
 											.col-lg-1.col-xs-1.subunidad-nota.puntero(ng-if="!hasRoleOrPerm(['admin', 'profesor'])")
-												span(ng-class="{'nota-perdida-bold': subunidad.nota.nota<USER.nota_minima_aceptada}" uib-tooltip="Valor nota: {{subunidad.nota.valor}}"){{subunidad.nota.nota}}
+												span(ng-class="{'nota-perdida-bold': subunidad.nota.nota<USER.nota_minima_aceptada}" uib-tooltip="Valor nota: {{subunidad.nota.valor}}") {{subunidad.nota.nota}}
 												
 												span.nota-perdida(ng-show="!subunidad.nota.nota && subunidad.nota.nota!=0" uib-tooltip="Aún sin nota")
 													i.fa.fa-warning

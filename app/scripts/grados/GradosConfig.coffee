@@ -5,7 +5,7 @@ angular.module('myvcFrontApp')
 
 		$state
 			.state 'panel.niveles',
-				url: '/niveles'
+				url: '^/niveles'
 				views: 
 					'maincontent':
 						templateUrl: "#{App.views}grados/niveles.tpl.html"
@@ -62,7 +62,7 @@ angular.module('myvcFrontApp')
 
 		$state
 			.state 'panel.grados',
-				url: '/grados'
+				url: '^/grados'
 				views: 
 					'maincontent':
 						templateUrl: "#{App.views}grados/grados.tpl.html"
@@ -75,8 +75,8 @@ angular.module('myvcFrontApp')
 								'Grados'
 							],
 				resolve: {
-					niveles: ['RNiveles', (RNiveles)->
-						RNiveles.getList().then((data)->
+					niveles: ['Restangular', (Restangular)->
+						Restangular.one('niveles').getList().then((data)->
 							return data
 						)
 					]
@@ -128,7 +128,7 @@ angular.module('myvcFrontApp')
 
 		$state
 			.state 'panel.grupos',
-				url: '/grupos'
+				url: '^/grupos'
 				views: 
 					'maincontent':
 						templateUrl: "#{App.views}grados/grupos.tpl.html"
@@ -141,13 +141,13 @@ angular.module('myvcFrontApp')
 								'Grupos'
 							]
 				resolve:
-					grados: ['RGrados', (RGrados)->
-						RGrados.getList().then((data)->
+					grados: ['Restangular', (Restangular)->
+						Restangular.one('grados').getList().then((data)->
 							return data
 						)
 					],
-					profesores: ['RProfesores', (RProfesores)->
-						RProfesores.getList().then((data)->
+					profesores: ['Restangular', (Restangular)->
+						Restangular.one('contratos').getList().then((data)->
 							return data
 						)
 					]

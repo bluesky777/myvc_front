@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('ActividadesCtrl', ['$scope', 'App', '$rootScope', '$state', '$interval', 'RAlumnos', 'Restangular', 'uiGridConstants', 'GruposServ', '$uibModal', '$filter', 'AuthService', ($scope, App, $rootScope, $state, $interval, RAlumnos, Restangular, uiGridConstants, GruposServ, $modal, $filter, AuthService)->
+.controller('ActividadesCtrl', ['$scope', 'App', '$rootScope', '$state', 'Restangular', 'uiGridConstants', '$uibModal', '$filter', 'AuthService', ($scope, App, $rootScope, $state, Restangular, uiGridConstants, $modal, $filter, AuthService)->
 
 	AuthService.verificar_acceso()
 
@@ -11,11 +11,9 @@ angular.module("myvcFrontApp")
 
 
 	$scope.editar = (row)->
-		console.log 'Presionado para editar fila: ', row
 		$state.go('panel.alumnos.editar', {alumno_id: row.alumno_id})
 
 	$scope.eliminar = (row)->
-		console.log 'Presionado para eliminar fila: ', row
 
 		modalInstance = $modal.open({
 			templateUrl: App.views + 'alumnos/removeAlumno.tpl.html'
@@ -26,7 +24,6 @@ angular.module("myvcFrontApp")
 		})
 		modalInstance.result.then( (alum)->
 			$scope.gridOptions.data = $filter('filter')($scope.gridOptions.data, {alumno_id: '!'+alum.alumno_id})
-			console.log 'Resultado del modal: ', alum
 		)
 
 	$scope.matricularUno = (row)->
@@ -38,7 +35,7 @@ angular.module("myvcFrontApp")
 		
 
 		Restangular.all('matriculas/matricularuno/'+datos.alumno_id+'/'+datos.grupo_id).post().then((r)->
-			console.log 'Matriculado. ', r
+
 			row.matricula_id = r.id
 			row.grupo_id = r.grupo_id
 			row.nombregrupo = $scope.dato.grupo.nombre

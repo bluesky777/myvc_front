@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('AlumnosCtrl', ['$scope', 'App', '$rootScope', '$state', '$interval', 'RAlumnos', 'Restangular', 'uiGridConstants', 'GruposServ', '$uibModal', '$filter', 'AuthService', ($scope, App, $rootScope, $state, $interval, RAlumnos, Restangular, uiGridConstants, GruposServ, $modal, $filter, AuthService)->
+.controller('AlumnosCtrl', ['$scope', 'App', '$rootScope', '$state', '$interval', 'Restangular', 'uiGridConstants', '$uibModal', '$filter', 'AuthService', 'toastr', ($scope, App, $rootScope, $state, $interval, Restangular, uiGridConstants, $modal, $filter, AuthService, toastr)->
 
 	AuthService.verificar_acceso()
 
@@ -16,18 +16,14 @@ angular.module("myvcFrontApp")
 	, 1000)
 
 	$scope.dato.grupo = ''
-	GruposServ.getGrupos().then((r)->
+	Restangular.one('grupos').getList().then((r)->
 		$scope.grupos = r
-
 	)
 
 	$scope.editar = (row)->
-		console.log 'Presionado para editar fila: ', row
 		$state.go('panel.alumnos.editar', {alumno_id: row.alumno_id})
 
 	$scope.eliminar = (row)->
-		console.log 'Presionado para eliminar fila: ', row
-
 		modalInstance = $modal.open({
 			templateUrl: App.views + 'alumnos/removeAlumno.tpl.html'
 			controller: 'RemoveAlumnoCtrl'
@@ -37,12 +33,11 @@ angular.module("myvcFrontApp")
 		})
 		modalInstance.result.then( (alum)->
 			$scope.gridOptions.data = $filter('filter')($scope.gridOptions.data, {alumno_id: '!'+alum.alumno_id})
-			console.log 'Resultado del modal: ', alum
 		)
 
 	$scope.matricularUno = (row)->
 		if not $scope.dato.grupo.id
-			$scope.toastr.warning 'Debes definir el grupo al que vas a matricular.', 'Falta grupo'
+			toastr.warning 'Debes definir el grupo al que vas a matricular.', 'Falta grupo'
 			return
 		
 		datos = {alumno_id: row.alumno_id, grupo_id: $scope.dato.grupo.id}
@@ -56,11 +51,10 @@ angular.module("myvcFrontApp")
 			row.nombregrupo = $scope.dato.grupo.nombre
 			row.abrevgrupo = $scope.dato.grupo.abrev
 			row.actual = 1
-			$scope.toastr.success 'Alumno matriculado con éxito', 'Matriculado'
+			toastr.success 'Alumno matriculado con éxito', 'Matriculado'
 			return row
 		, (r2)->
-			console.log 'Falla al matricularlo. ', r2
-			$scope.toastr.error 'No se pudo matricular el alumno.', 'Error'
+			toastr.error 'No se pudo matricular el alumno.', 'Error'
 
 		)
 
@@ -71,8 +65,7 @@ angular.module("myvcFrontApp")
 			console.log 'Cambios guardados'
 		, (r2)->
 			fila.pazysalvo = !fila.pazysalvo
-			$scope.toastr.error 'Cambio no guardado', 'Error'
-			console.log 'Falló al intentar guardar: ', r2
+			toastr.error 'Cambio no guardado', 'Error'
 		)
 		
 
@@ -94,16 +87,13 @@ angular.module("myvcFrontApp")
 
 
 	$scope.eliminarMatricula = (row)->
-		console.log row
 
 		Restangular.all('matriculas/destroy/'+row.matricula_id).remove().then((r)->
-			console.log 'Desmatriculado. ', r
 			row.currentyear = 0
-			$scope.toastr.success 'Alumno desmatriculado'
+			toastr.success 'Alumno desmatriculado'
 			return row
 		, (r2)->
-			console.log 'No se pudo desmatricular.', r2
-			$scope.toastr.error 'No se pudo desmatricular', 'Problema'
+			toastr.error 'No se pudo desmatricular', 'Problema'
 		)
 
 	btGrid1 = '<a uib-tooltip="Editar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
@@ -153,38 +143,34 @@ angular.module("myvcFrontApp")
 						if newValue == 'M' or newValue == 'F'
 							# Es correcto...
 							Restangular.one('alumnos/update', rowEntity.alumno_id).customPUT(rowEntity).then((r)->
-								$scope.toastr.success 'Alumno(a) actualizado con éxito', 'Actualizado'
+								toastr.success 'Alumno(a) actualizado con éxito', 'Actualizado'
 							, (r2)->
-								$scope.toastr.error 'Cambio no guardado', 'Error'
-								console.log 'Falló al intentar guardar: ', r2
+								toastr.error 'Cambio no guardado', 'Error'
 							)
 						else
-							$scope.toastr.warning 'Debe usar M o F'
+							toastr.warning 'Debe usar M o F'
 							rowEntity.sexo = oldValue
 					else
 
 						Restangular.one('alumnos/update', rowEntity.alumno_id).customPUT(rowEntity).then((r)->
-							$scope.toastr.success 'Alumno(a) actualizado con éxito', 'Actualizado'
+							toastr.success 'Alumno(a) actualizado con éxito', 'Actualizado'
 						, (r2)->
-							$scope.toastr.error 'Cambio no guardado', 'Error'
-							console.log 'Falló al intentar guardar: ', r2
+							toastr.error 'Cambio no guardado', 'Error'
 						)
 
 				$scope.$apply()
 			)
 
 	
-	RAlumnos.getList().then((data)->
+	Restangular.one('alumnos').getList().then((data)->
 		$scope.gridOptions.data = data;
 	)
 
 	$scope.borrar = (alum)->
 		alum.delete().then((r)->
-			console.log 'Eliminado con éxito', r
-			$scope.toastr.success 'El alumno fue eliminado', 'Éxito'
+			toastr.success 'El alumno fue eliminado', 'Éxito'
 		, (r)->
-			console.log 'No se pudo eliminar', r, alum
-			$scope.toastr.error 'No se pudo eliminar el alumno', 'Error'
+			toastr.error 'No se pudo eliminar el alumno', 'Error'
 		)
 
 
@@ -203,7 +189,6 @@ angular.module("myvcFrontApp")
 			toastr.success 'Alumno eliminado con éxito.', 'Eliminado'
 		, (r2)->
 			toastr.warning 'No se pudo eliminar al alumno.', 'Problema'
-			console.log 'Error eliminando alumno: ', r2
 		)
 		$modalInstance.close(alumno)
 

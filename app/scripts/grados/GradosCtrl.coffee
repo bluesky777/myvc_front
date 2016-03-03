@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-.controller('GradosCtrl', ['$scope', '$filter', '$rootScope', '$state', '$interval', 'RGrados', 'RNiveles', 'App', 'niveles', '$uibModal', ($scope, $filter, $rootScope, $state, $interval, RGrados, RNiveles, App, niveles, $modal) ->
+.controller('GradosCtrl', ['$scope', '$filter', '$state', 'App', 'niveles', '$uibModal', 'toastr', ($scope, $filter, $state, App, niveles, $modal, toastr) ->
 
 
 	$scope.grados = {nivel: {}}
@@ -54,16 +54,16 @@ angular.module('myvcFrontApp')
 				
 				if newValue != oldValue
 					rowEntity.put().then((r)->
-						$scope.toastr.success 'Grado actualizado con éxito', 'Actualizado'
+						toastr.success 'Grado actualizado con éxito', 'Actualizado'
 					, (r2)->
-						$scope.toastr.error 'Cambio no guardado', 'Error'
+						toastr.error 'Cambio no guardado', 'Error'
 					)
 				$scope.$apply()
 			)
 			
 
 
-	RGrados.getList().then((data)->
+	Restangular.one('grados').getList().then((data)->
 		$scope.grados = data
 		$scope.gridOptions.data = $scope.grados;
 	)

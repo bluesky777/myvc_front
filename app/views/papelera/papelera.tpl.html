@@ -6,7 +6,7 @@
         <div class="widget-buttons"><a href="" ng-init="minimizedUnidades = true" ng-click="minimizedUnidades = !minimizedUnidades"><i ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimizedUnidades]" class="fa"></i></a><a href="" ng-click="openedUnidades=false"><i class="fa fa-times"></i></a></div>
       </div>
       <div ng-class="{'ng-hide':minimizedUnidades}" class="widget-body">
-        <div id="gridUnidades" ui-grid="gridUnidad" ui-grid-resize-columns style="height: 400px" class="grid"></div>
+        <div id="gridUnidades" ui-grid="gridUnidad" ui-grid-auto-resize ui-grid-resize-columns style="height: 400px" class="grid"></div>
       </div>
     </div>
   </div>
@@ -18,7 +18,7 @@
         <div class="widget-buttons"><a href="" ng-init="minimizedAlumnos = true" ng-click="minimizedAlumnos = !minimizedAlumnos"><i ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimizedAlumnos]" class="fa"></i></a><a href="" ng-click="openedAlumnos=false"><i class="fa fa-times"></i></a></div>
       </div>
       <div ng-class="{'ng-hide':minimizedAlumnos}" class="widget-body">
-        <div id="gridAlumnos" ui-grid="gridAlumnos" ui-grid-resize-columns style="height: 400px" class="grid"></div>
+        <div id="gridAlumnos" ui-grid="gridAlumnos" ui-grid-auto-resize ui-grid-resize-columns style="height: 400px" class="grid"></div>
       </div>
     </div>
   </div>
@@ -30,7 +30,7 @@
         <div class="widget-buttons"><a href="" ng-init="minimizedGrupos = true" ng-click="minimizedGrupos = !minimizedGrupos"><i ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimizedGrupos]" class="fa"></i></a><a href="" ng-click="openedGrupos=false"><i class="fa fa-times"></i></a></div>
       </div>
       <div ng-class="{'ng-hide':minimizedGrupos}" class="widget-body">
-        <div id="gridGrupos" ui-grid="gridGrupos" ui-grid-resize-columns style="height: 400px" class="grid"></div>
+        <div id="gridGrupos" ui-grid="gridGrupos" ui-grid-auto-resize ui-grid-resize-columns style="height: 400px" class="grid"></div>
       </div>
     </div>
   </div>

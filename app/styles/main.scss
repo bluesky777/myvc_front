@@ -2973,6 +2973,7 @@ a:focus, a:active {
     position: absolute;
     right: 0;
     top: 0;
+    width: 400px; // Para que se vea el tooltip
 }
 .page-header .header-buttons a {
     position: relative;
@@ -16246,3 +16247,6 @@ input.ocultar-input{
     margin:0px!important; 
     height:0px!important;
 }
+
+
+

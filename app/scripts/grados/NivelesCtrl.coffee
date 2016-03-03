@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-.controller 'NivelesCtrl', ['$scope', '$filter', '$rootScope', '$state', '$interval', 'RNiveles', 'toastr', ($scope, $filter, $rootScope, $state, $interval, RNiveles, toastr) ->
+.controller 'NivelesCtrl', ['$scope', '$filter', '$state', 'toastr', 'Restangular', ($scope, $filter, $state, toastr, Restangular) ->
 
 	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
 
@@ -38,17 +38,16 @@ angular.module('myvcFrontApp')
 				
 				if newValue != oldValue
 					rowEntity.put().then((r)->
-						$scope.toastr.success 'Nivel actualizado con éxito', 'Actualizado'
+						toastr.success 'Nivel actualizado con éxito', 'Actualizado'
 					, (r2)->
-						$scope.toastr.error 'Cambio no guardado', 'Error'
-						console.log 'Falló al intentar guardar: ', r2
+						toastr.error 'Cambio no guardado', 'Error'
 					)
 				$scope.$apply()
 			)
 
 	
 
-	RNiveles.getList().then((data)->
+	Restangular.one('niveles_educativos').getList().then((data)->
 		$scope.niveles = data
 		$scope.gridOptions.data = $scope.niveles
 	)

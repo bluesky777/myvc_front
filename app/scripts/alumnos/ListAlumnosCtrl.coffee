@@ -1,6 +1,6 @@
 angular.module("myvcFrontApp")
 
-.controller('ListAlumnosCtrl', ['$scope', 'App', '$rootScope', '$state', '$interval', 'RGrupos', 'Restangular', 'uiGridConstants', 'GruposServ', '$uibModal', '$filter', ($scope, App, $rootScope, $state, $interval, RGrupos, Restangular, uiGridConstants, GruposServ, $modal, $filter)->
+.controller('ListAlumnosCtrl', ['$scope', 'App', '$rootScope', '$state', 'Restangular', '$filter', ($scope, App, $rootScope, $state, Restangular, $filter)->
 
 	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
 	$scope.dato = {}
@@ -21,7 +21,7 @@ angular.module("myvcFrontApp")
 	if $state.params.grupo_id
 		$scope.traerListado($state.params.grupo_id)
 
-	RGrupos.getList().then((r)->
+	Restangular.one('grupos').getList().then((r)->
 		$scope.grupos = r
 		gr = $filter('filter')(r, {id: $state.params.grupo_id})
 		$scope.dato = {

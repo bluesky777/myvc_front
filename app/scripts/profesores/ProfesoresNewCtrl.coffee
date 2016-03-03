@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('ProfesoresNewCtrl', ['$scope', '$rootScope', '$interval', 'RProfesores', 'Restangular', 'RPaises', ($scope, $rootScope, $interval, RProfesores, Restangular, RPaises)->
+.controller('ProfesoresNewCtrl', ['$scope', 'Restangular', 'toastr', ($scope, Restangular, toastr)->
 
 	$scope.profesor = 
 		'nombres'		: 'FRANCISCO'
@@ -20,25 +20,20 @@ angular.module("myvcFrontApp")
 
 	$scope.estados_civiles = [{estado_civil: 'Soltero'},{estado_civil: 'Casado'}, {estado_civil: 'Divorciado'}, {estado_civil: 'Viudo'}]
 
-	RPaises.getList().then((r)->
+	Restangular.one('paises').getList().then((r)->
 		$scope.paises = r
-		
-	, ()->
-		console.log 'No se pudo traer los paises'
 	)
 	
-	Restangular.one('tiposdocumento').get().then (r)->
+	Restangular.one('tiposdocumento').getList().then (r)->
 		$scope.tipos_doc = r
 	
 
 	$scope.crear = ()->
 		Restangular.one('profesores/store').customPOST($scope.profesor).then((r)->
-			console.log 'Se hizo el post del profesor', r
-			$scope.toastr.success 'Profesor creado con éxito'
+			toastr.success 'Profesor creado con éxito'
 			$scope.$emit 'profesorcreado', r
 		, (r2)->
-			console.log 'No se guardó el profesor, ', r2
-			$scope.toastr.error 'Profesor NO creado', 'Problema'
+			toastr.error 'Profesor NO creado', 'Problema'
 		)
 
 

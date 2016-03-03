@@ -6,7 +6,7 @@
       <div class="header bordered-yellow">Profesores</div>
       <div class="form-title">Todos los profesores: <a href="" ng-click="ocultarTodos()" ng-show="mostrandoTodos">Ocultar</a><a href="" ng-click="mostrarTodos()" ng-show="!mostrandoTodos">Mostrar</a></div>
       <div ng-show="mostrandoTodos"><a ui-sref="panel.profesores.nuevo" uib-tooltip="Ingresa datos de un nuevo alumno" class="btn btn-info shiny">Nuevo profesor</a>
-        <div id="grid1" ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns class="grid"></div>
+        <div id="grid1" ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns ui-grid-auto-resize class="grid"></div>
       </div><br><br>
       <div class="form-title">Profesores contratados este año {{USER.year.year}}:</div>
       <div id="grid2" ui-grid="gridCurrentOptions" ui-grid-edit ui-grid-resize-columns class="grid"></div>

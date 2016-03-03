@@ -15,7 +15,6 @@ angular.module('myvcFrontApp')
 						titulo: ['AuthService', '$q', (AuthService, $q)->
 							d = $q.defer()
 
-							console.log 'Entra al resolve de unidades'
 							AuthService.verificar().then((r)->
 								d.resolve r.unidades_displayname
 							, (r2)->

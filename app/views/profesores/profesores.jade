@@ -11,7 +11,7 @@
 				a(href="" ng-click="mostrarTodos()" ng-show="!mostrandoTodos") Mostrar
 			div(ng-show="mostrandoTodos")
 				a.btn.btn-info.shiny(ui-sref="panel.profesores.nuevo" uib-tooltip="Ingresa datos de un nuevo alumno") Nuevo profesor
-				#grid1.grid(ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns)
+				#grid1.grid(ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns ui-grid-auto-resize)
 
 			br
 			br

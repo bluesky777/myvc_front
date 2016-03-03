@@ -54,12 +54,12 @@ angular.module('myvcFrontApp')
 				controller: 'ListasignaturasPopCtrl'
 			})
 			modalInstance.result.then( (r)->
-				console.log 'Resultado del modal: ', r
+				#console.log 'Resultado del modal: ', r
 			)
 
 
 		this.clikeando = ->
-			console.log 'Menu compacto', $rootScope.menucompacto
+			#console.log 'Menu compacto', $rootScope.menucompacto
 
 		# Ensure that all the groups in this menu are closed
 		this.closeOthers = (openGroup) ->
@@ -197,7 +197,6 @@ angular.module('myvcFrontApp')
 .controller('ListasignaturasPopCtrl', ['$scope', '$uibModalInstance', 'Restangular', 'toastr', '$state', 'Perfil', ($scope, $modalInstance, Restangular, toastr, $state, Perfil)->
 	
 	$scope.selectAsignatura = (asig_id)->
-		console.log asig_id
 		$state.go 'panel.notas', {asignatura_id: asig_id}
 		$modalInstance.close(asig_id)
 

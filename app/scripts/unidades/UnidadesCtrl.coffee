@@ -1,5 +1,5 @@
 angular.module('myvcFrontApp')
-.controller('UnidadesCtrl', ['$scope', '$uibModal', 'Restangular', '$state', '$filter', '$rootScope', 'AuthService', 'toastr', 'App', 'resolved_user', ($scope, $modal, Restangular, $state, $filter, $rootScope, AuthService, toastr, App, resolved_user) ->
+.controller('UnidadesCtrl', ['$scope', '$uibModal', 'Restangular', '$state', '$filter', '$rootScope', 'AuthService', 'toastr', 'App', 'resolved_user', ($scope, $uibModal, Restangular, $state, $filter, $rootScope, AuthService, toastr, App, resolved_user) ->
 
 	AuthService.verificar_acceso()
 
@@ -28,9 +28,12 @@ angular.module('myvcFrontApp')
 	Restangular.one('asignaturas/show/' + $scope.asignatura_id).get().then((r)->
 		$scope.asignatura = r
 		$scope.inicializado = true
+		if not r
+			$scope.no_asignatura = true
 	, (r2)->
 		console.log 'No se pudo traer los datos de la asignatura', r2
 		toastr.error 'No se pudo traer los datos de la asignatura'
+		$scope.no_asignatura = true
 	)
 
 
@@ -49,7 +52,7 @@ angular.module('myvcFrontApp')
 			unidad.subunidades.porc_subunidades = subsum
 
 		$scope.unidades.porc_unidades = sum
-		console.log '$scope.unidades.porc_unidades: ', $scope.unidades.porc_unidades
+		
 
 
 
@@ -107,7 +110,7 @@ angular.module('myvcFrontApp')
 
 	$scope.removeUnidad = (unidad)->
 
-		modalInstance = $modal.open({
+		modalInstance = $uibModal.open({
 			templateUrl: App.views + 'unidades/removeUnidad.tpl.html'
 			controller: 'RemoveUnidadCtrl'
 			resolve: 

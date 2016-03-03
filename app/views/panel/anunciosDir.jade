@@ -3,7 +3,7 @@
 		.widget
 			.widget-header.bordered-bottom.bordered-themesecondary
 				i.widget-icon.fa.fa-tags.themesecondary
-				span.widget-caption.themesecondary
+				span.widget-caption.themesecondary(uib-tooltip="Hay alumnos que piden algunos cambios. Tú podrías aceptar o rechazar esas peticiones.")
 					| Pedidos que esperan tu aprobación 
 
 			.widget-body
@@ -18,10 +18,10 @@
 							li.ticket-item(ng-repeat="file in changes_asked_to_me | filter:{deleted_at:'!'} ")
 								.row
 									.ticket-user.col-lg-10.col-sm-12
-										img.user-avatar(ng-src="{{perfilPath + file.foto_nombre}}")
+										img.user-avatar(ng-src="{{perfilPath + file.foto_nombre}}" alt="{{file.foto_nombre}}")
 										span.user-name {{file.nombres + ' ' +file.apellidos}} 
 										span.user-company  quiere esta imagen: 
-										img.user-avatar(ng-src="{{perfilPath + file.foto_nombre_asked}}")
+										img.user-avatar(ng-src="{{perfilPath + file.foto_nombre_asked}}" alt="Imagen pedida")
 										span.user-company como oficial.
 										
 
@@ -54,10 +54,10 @@
 							li.ticket-item(ng-repeat="file in changes_asked_to_me | filter:{deleted_at:'!!'} ")
 								.row
 									.ticket-user.col-lg-10.col-sm-12
-										img.user-avatar(ng-src="{{perfilPath + file.foto_nombre}}")
+										img.user-avatar(ng-src="{{perfilPath + file.foto_nombre}}" alt="{{file.foto_nombre}}" )
 										span.user-name {{file.nombres + ' ' +file.apellidos}} 
 										span.user-company  quiere esta imagen: 
-										img.user-avatar(ng-src="{{perfilPath + file.foto_nombre_asked}}")
+										img.user-avatar(ng-src="{{perfilPath + file.foto_nombre_asked}}" alt="Imagen pedida")
 										span.user-company como oficial.
 										
 
@@ -65,10 +65,10 @@
 										span.divider.hidden-xs
 
 										span(ng-show="file.accepted_at")
-											span.label.label-info(uib-tooltip="Aceptado por: {{file.deleted_by}}; Cuando: {{file.deleted_at}} ") Aceptado
+											span.label.label-info(uib-tooltip="Aceptado por: {{file.username}}({{file.tipo}}); Cuando: {{file.deleted_at}} ") Aceptado
 										
 										span(ng-show="file.rechazado_at")
-											span.label.label-maroon(uib-tooltip="Rechazado por: {{file.deleted_by}}; Cuando: {{file.deleted_at}} ") Rechazado
+											span.label.label-maroon(uib-tooltip="Rechazado por: {{file.username}}({{file.tipo}}); Cuando: {{file.deleted_at}} ") Rechazado
 										
 
 

@@ -1,6 +1,6 @@
 angular.module("myvcFrontApp")
 
-.controller('AsignaturasCtrl', ['$scope', '$rootScope', '$interval', 'Restangular', 'RAsignaturas', 'materias', 'grupos', 'profesores', '$uibModal', '$filter', 'App', 'AuthService', ($scope, $rootScope, $interval, Restangular, RAsignaturas, materias, grupos, profesores, $modal, $filter, App, AuthService)->
+.controller('AsignaturasCtrl', ['$scope', 'Restangular', 'materias', 'grupos', 'profesores', '$uibModal', '$filter', 'App', 'AuthService', 'toastr', ($scope, Restangular, materias, grupos, profesores, $modal, $filter, App, AuthService, toastr)->
 
 	AuthService.verificar_acceso()
 
@@ -56,32 +56,30 @@ angular.module("myvcFrontApp")
 		$scope.editando = false
 
 	$scope.crear = ()->
-		RAsignaturas.post($scope.currentasignatura).then((r)->
+		Restangular.one('asignaturas').customPOST($scope.currentasignatura).then((r)->
 			$scope.asignaturas.push r
 			$scope.filtrarAsignaturas()
 			$scope.cancelarCrear()
-			$scope.toastr.success 'Asignatura creada con éxito'
-			console.log r, $scope.asignaturas
+			toastr.success 'Asignatura creada con éxito'
 		, (r2)->
-			$scope.toastr.error 'Error creando', 'Problema'
+			toastr.error 'Error creando', 'Problema'
 		)
 
 	$scope.guardar = ()->
 		Restangular.one('asignaturas/update', $scope.currentasignaturaEdit.id).customPUT($scope.currentasignaturaEdit).then((r)->
 			$scope.currentasignaturaEdit.area_id = r.area_id # Para actulizar el grid
-			$scope.toastr.success 'Asignatura actualizada con éxito'
+			toastr.success 'Asignatura actualizada con éxito'
 			$scope.cancelarEdit()
 		, (r2)->
 			console.log 'No se pudo crear', r2
-			$scope.toastr.error 'Error guardando', 'Problema'
+			toastr.error 'Error guardando', 'Problema'
 		)
 
 	$scope.editar = (row)->
 		row.materia =	$filter('filter')(materias,		id: row.materia_id, true)[0]
 		row.grupo =		$filter('filter')(grupos,		id: row.grupo_id, true)[0]
-		row.profesor =	$filter('filter')(profesores,	id: row.profesor_id, true)[0]
+		row.profesor =	$filter('filter')(profesores,	profesor_id: row.profesor_id, true)[0]
 
-		console.log row
 		$scope.currentasignaturaEdit = row
 		$scope.editando = true
 
@@ -98,7 +96,6 @@ angular.module("myvcFrontApp")
 			$scope.asignaturas = $filter('filter')($scope.asignaturas, {id: '!'+asignatura.id})
 			$scope.gridOptions.data = $scope.asignaturas
 			$scope.filtrarAsignaturas()
-			console.log 'Resultado del modal: ', asignatura
 		)
 
 	btGrid1 = '<a uib-tooltip="Editar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
@@ -158,7 +155,7 @@ angular.module("myvcFrontApp")
 
 	
 
-	RAsignaturas.getList().then((data)->
+	Restangular.one('asignaturas').getList().then((data)->
 		$scope.asignaturas = data
 		$scope.gridOptions.data = $scope.asignaturas
 	)
@@ -193,8 +190,12 @@ angular.module("myvcFrontApp")
 		if not input
 			return 'Elija...'
 		else
-			profe = $filter('filter')(profesores, {id: input}, true)[0]
-			return  profe.nombres
+			profes = $filter('filter')(profesores, {profesor_id: input}, true)
+
+			if profes.length > 0
+				return profes[0].nombres
+			else
+				return 'Elija...'
 ])
 
 .controller('RemoveAsignaturaCtrl', ['$scope', '$uibModalInstance', 'asignatura', 'Restangular', 'toastr', ($scope, $modalInstance, asignatura, Restangular, toastr)->

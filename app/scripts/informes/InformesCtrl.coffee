@@ -1,5 +1,5 @@
 angular.module('myvcFrontApp')
-.controller('InformesCtrl', ['$scope', 'Restangular', '$state', '$stateParams', '$rootScope', '$filter', 'App', 'AuthService', 'GruposServ', 'ProfesoresServ', 'alumnos', '$timeout', '$cookieStore', 'toastr', '$interval', ($scope, Restangular, $state, $stateParams, $rootScope, $filter, App, AuthService, GruposServ, ProfesoresServ, alumnos, $timeout, $cookieStore, toastr, $interval) ->
+.controller('InformesCtrl', ['$scope', 'Restangular', '$state', '$stateParams', '$rootScope', '$filter', 'App', 'AuthService', 'ProfesoresServ', 'alumnos', '$timeout', '$cookieStore', 'toastr', '$interval', ($scope, Restangular, $state, $stateParams, $rootScope, $filter, App, AuthService, ProfesoresServ, alumnos, $timeout, $cookieStore, toastr, $interval) ->
 
 	AuthService.verificar_acceso()
 	$scope.rowsAlum = [] 
@@ -15,7 +15,7 @@ angular.module('myvcFrontApp')
 
 	#console.log 'Parametros', $state.params
 
-	GruposServ.getGrupos().then((r)->
+	Restangular.one('grupos').getList().then((r)->
 		$scope.grupos = r
 
 		if $state.params.grupo_id
@@ -26,7 +26,7 @@ angular.module('myvcFrontApp')
 	)
 
 
-	ProfesoresServ.contratos().then((r)->
+	Restangular.one('contratos').getList().then((r)->
 		$scope.profesores = r
 
 		if $state.params.profesor_id
@@ -67,7 +67,6 @@ angular.module('myvcFrontApp')
 
 	if $cookieStore.get 'requested_alumno'
 		requ = $cookieStore.get 'requested_alumno'
-		console.log 'requested_alumno inicial', requ
 
 		found = $filter('filter')(alumnos, {alumno_id: requ[0].alumno_id}, true)[0]
 		$scope.datos.selected_alumno = found
@@ -267,6 +266,29 @@ angular.module('myvcFrontApp')
 			return
 		
 		$state.go 'panel.informes.certificados_estudio', {grupo_id: $scope.datos.grupo.id}, {reload: true}
+
+
+	$scope.verCertificadosEstudioAlumnos = ()->
+		
+		if $scope.datos.selected_alumnos.length > 0
+			$cookieStore.put 'requested_alumnos', $scope.datos.selected_alumnos
+			$state.go 'panel.informes.certificados_estudio', {grupo_id: $scope.datos.grupo.id, periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
+		else
+			toastr.warning 'Debes seleccionar al menos un alumno o cargar boletines del grupo completo'
+
+
+	$scope.verCertificadosEstudioAlumno = ()->
+		
+		if $scope.datos.selected_alumno
+			$cookieStore.remove 'requested_alumnos'
+			$cookieStore.put 'requested_alumno', [$scope.datos.selected_alumno]
+			$state.go 'panel.informes'
+			$interval ()->
+				$state.go 'panel.informes.certificados_estudio'
+			, 1, 1
+		else
+			toastr.warning 'Elige un alumno o carga el grupo completo'
+
 
 
 

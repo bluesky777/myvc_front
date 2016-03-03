@@ -15,7 +15,7 @@
 						td {{$index+1}}
 						td 
 							b {{asignatura.nombre_grupo}}: 
-							{{asignatura.materia | lowercase}}
+							| {{asignatura.materia | lowercase}}
 						td {{asignatura.creditos}}
 
 		.col-lg-12.col-xs-12(ng-if="asignaturas.length==0")

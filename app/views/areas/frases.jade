@@ -11,7 +11,7 @@
 						option(ng-selected="{{operator.value == currentFrase.tipo_frase}}"
 								ng-repeat="tipo in tipos"
 								value="{{tipo.tipo_frase}}")
-							{{tipo.tipo_frase}}
+							| {{tipo.tipo_frase}}
 					.horizontal-space
 			.footer
 				input.btn.btn-primary(type="submit" value="Crear")

@@ -12,7 +12,7 @@ div(ng-repeat="asignatura in asignaturas")
 								.row
 									.col-lg-12
 										.nombre-colegio
-											{{year.nombre_colegio + ' - ' + year.abrev_colegio}}
+											| {{year.nombre_colegio + ' - ' + year.abrev_colegio}}
 										.descripcion-title
 											|Planilla de trabajo Per{{USER.numero_periodo}}-{{USER.year}} 
 											b  {{asignatura.nombre_grupo}} - {{asignatura.materia | capitalize}}
@@ -43,13 +43,13 @@ div(ng-repeat="asignatura in asignaturas")
 								tbody(style="font-size: 9pt")
 									tr(ng-repeat="alumno in asignatura.alumnos" )
 										td
-											|{{$index + 1}}
+											| {{$index + 1}}
 										td
 											.ellipsis200.alumno-planilla
-												|{{alumno.apellidos}} {{alumno.nombres}}
+												| {{alumno.apellidos}} {{alumno.nombres}}
 										td(ng-repeat="periodo in alumno.periodos")
 											.def-per-planilla
-												{{periodo.nota_asignatura | decimales:1}}
+												| {{periodo.nota_asignatura | decimales:1}}
 										td(ng-repeat="subuni in subunidadesdefault track by $index" style="width: 50px")
 											| {{subuni}}
 									tr(style="height: 17px;")

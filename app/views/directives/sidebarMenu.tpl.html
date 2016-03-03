@@ -91,11 +91,10 @@
             <li><a ui-sref="panel.ciudades" stop-event="click"><i class="menu-icon fa fa-stats"></i><span class="menu-text">Ciudades</span></a></li>
           </ul>
         </li>
-        <li ui-sref="panel.anuncios" stop-event="click"><a href="" stop-event="click"><span class="menu-text">Anuncios</span></a></li>
-        <li ui-sref-active="active"><a ui-sref="panel.mensajes" stop-event="click"><span class="menu-text"> Mensajes</span></a></li>
+        <li ui-sref="panel.anuncios" stop-event="click" ng-if="false"><a href="" stop-event="click"><span class="menu-text">Anuncios</span></a></li>
+        <li ui-sref-active="active" ng-if="false"><a ui-sref="panel.mensajes" stop-event="click"><span class="menu-text"> Mensajes</span></a></li>
         <li ui-sref-active="active"><a ui-sref="panel.bitacora" stop-event="click"><span class="menu-text"> Bitacora</span></a></li>
         <li ui-sref-active="active" ng-if="false"><a ui-sref="panel.horarios" stop-event="click"><span class="menu-text"> Horarios</span></a></li>
-        <li ui-sref-active="active"><a ui-sref="votaciones" stop-event="click"><span class="menu-text"> Votaciones</span></a></li>
         <li ui-sref-active="active"><a ui-sref="panel.papelera" stop-event="click"><span class="menu-text"> Papelera</span><i class="menu-icon fa fa-trash themesecondary"></i></a></li>
       </ul>
     </li><!-- Ayuda -->

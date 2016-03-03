@@ -92,7 +92,7 @@
 								img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
 								small(ng-show="alumno.sin_matricular" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)</i>'")
 								small(ng-hide="alumno.sin_matricular" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
-						a.btn.btn-default(href="" ng-click="verBoletinesFinalesAlumnos()") Cargar boletines
+						a.btn.btn-default(href="" ng-click="verCertificadosEstudioAlumnos()") Cargar boletines
 
 			.row(ng-show="!datos.grupo")
 				.col-lg-12.col-xs-12
@@ -106,7 +106,7 @@
 								img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
 								small(ng-show="alumno.sin_matricular" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)</i>'")
 								small(ng-hide="alumno.sin_matricular" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
-						a.btn.btn-default(href="" ng-click="verBoletinFinalAlumno()") Cargar boletin
+						a.btn.btn-default(href="" ng-click="verCertificadosEstudioAlumno()") Cargar boletin
 			br
 
 			.row

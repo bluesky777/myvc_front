@@ -178,7 +178,7 @@ div(ng-hide="creando_certificado")
 	div(ng-repeat="configcert in configcertificados")
 		span {{configcert}}
 
-	#grid1.grid(ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns style="height: 300px")
+	#grid1.grid(ui-grid="gridOptions" ui-grid-edit ui-grid-auto-resize ui-grid-resize-columns style="height: 300px")
 	button.btn.btn-primary(ng-click="crearConfig()") Crear configuración
 	br
 	br

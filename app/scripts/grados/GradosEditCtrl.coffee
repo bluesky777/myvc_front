@@ -2,22 +2,21 @@
 
 angular.module("myvcFrontApp")
 
-.controller('GradosEditCtrl', ['$scope', '$state', '$rootScope', '$interval', 'Restangular', 'RGrados', 'RNiveles', ($scope, $state, $rootScope, $interval, Restangular, RGrados, RNiveles)->
+.controller('GradosEditCtrl', ['$scope', '$state', 'Restangular', 'toastr', ($scope, $state, Restangular, toastr)->
 
 
 	Restangular.one('grados/show', $state.params.grado_id).get().then (r)->
 		$scope.grado = r
-		console.log 'Traje ', r
 	
-	RNiveles.getList().then((data)->
+	Restangular.one('niveles_educativos').getList().then((data)->
 		$scope.niveles = data
 	)
 
 	$scope.guardar = ()->
 		Restangular.one('grupos/update').customPUT($scope.grado).then((r)->
-			console.log 'Se guardó grado', r
+			toastr.success 'Se guardó grado el grado'
 		, (r2)->
-			console.log 'Falló al intentar guardar: ', r2
+			toastr.error 'Falló al intentar guardar'
 		)
 
 	$scope.restarOrden = ()->

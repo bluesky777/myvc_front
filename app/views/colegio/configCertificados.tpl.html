@@ -145,7 +145,7 @@
 </div>
 <div ng-hide="creando_certificado">
   <div ng-repeat="configcert in configcertificados"><span>{{configcert}}</span></div>
-  <div id="grid1" ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns style="height: 300px" class="grid"></div>
+  <div id="grid1" ui-grid="gridOptions" ui-grid-edit ui-grid-auto-resize ui-grid-resize-columns style="height: 300px" class="grid"></div>
   <button ng-click="crearConfig()" class="btn btn-primary">Crear configuración</button><br><br>
   <div class="form-group">
     <label>Actual: </label>

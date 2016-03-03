@@ -21,8 +21,8 @@ angular.module('myvcFrontApp')
 				resolved_user: ['AuthService', (AuthService)->
 					AuthService.verificar()
 				]
-				alumnos: ['AlumnosServ', (AlumnosServ)->
-					AlumnosServ.getAlumnos()
+				alumnos: ['Restangular', (Restangular)->
+					Restangular.all('alumnos/sin-matriculas').getList()
 				]
 			}
 			data: 

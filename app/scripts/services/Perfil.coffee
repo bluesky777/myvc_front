@@ -1,6 +1,6 @@
 angular.module('myvcFrontApp')
 
-.factory('Perfil', ['RUsers', 'Restangular', 'App', '$q', '$cookies', '$rootScope', 'AUTH_EVENTS', '$http', (RUsers, Restangular, App, $q, $cookies, $rootScope, AUTH_EVENTS, $http) ->
+.factory('Perfil', ['App', '$q', '$cookies', '$http', (App, $q, $cookies, $http) ->
 
 	user = {}
 

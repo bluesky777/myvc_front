@@ -2,8 +2,8 @@
 	h1 {{titulo || 'Panel de control'}}
 	<!--Header Buttons-->
 
-//Este grupo solo lo mostrará cuando esté en el estado usuarios.
-a.btn.btn-info.shiny(ng-show="$state.includes('panel.alumnos')" title="Administrar grupos" ui-sref="panel.usuarios.grupos({id: '', type: 'edit'})")
+//Este botón grupo solo lo mostrará cuando esté en el estado usuarios.
+a.btn.btn-info.shiny(ng-show="$state.includes('panel.alumnos')" title="Administrar grupos" ui-sref="panel.grupos")
 	i.fa.fa-th-large
 		|  Grupos
 
@@ -11,8 +11,8 @@ a.btn.btn-info.shiny(ng-show="$state.includes('panel.alumnos')" title="Administr
 	//
 		a.sidebar-toggler(href="")
 			i.fa.fa-arrows-h
-	a.refresh(href="" ng-click="reload()" uib-tooltip="Recargar los datos")
+	a.refresh(href="" ng-click="reload()" uib-tooltip="Recargar los datos" tooltip-placement="left")
 		i.fa.fa-refresh
-	a.fullscreen(href="" ng-click="reload(setFullScreen())" uib-tooltip="Ver en pantalla completa")
+	a.fullscreen(href="" ng-click="reload(setFullScreen())" uib-tooltip="Ver en pantalla completa" tooltip-placement="left")
 		i.fa.fa-arrows-alt
 	<!--Header Buttons End-->

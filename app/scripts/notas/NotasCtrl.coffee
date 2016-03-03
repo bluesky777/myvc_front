@@ -40,11 +40,9 @@ angular.module('myvcFrontApp')
 
 
 	$scope.cambiaNota = (nota, otra)->
-		console.log nota, otra
 		Restangular.one('notas/update', nota.id).customPUT({nota: nota.nota}).then((r)->
 			toastr.success 'Cambiada: ' + nota.nota
 		, (r2)->
-			console.log 'No pudimos guardar la nota ', nota
 			toastr.error 'No pudimos guardar la nota ' + nota.nota
 		)
 
@@ -93,7 +91,6 @@ angular.module('myvcFrontApp')
 
 
 	$scope.verifClickNotaRapida = (notaObject)->
-		console.log notaObject
 
 		$timeout(()->
 			if $rootScope.notaRapida.enable
@@ -149,7 +146,6 @@ angular.module('myvcFrontApp')
 				$scope.frases_asignatura = r
 			, (r2)->
 				toastr.warning 'No se pudo añadir frase.', 'Problema'
-				console.log 'Error añadiendo frase: ', r2
 			)
 		else
 			toastr.warning 'No ha copiado ninguna frase'

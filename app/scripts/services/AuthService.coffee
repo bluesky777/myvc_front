@@ -19,7 +19,6 @@ angular.module('myvcFrontApp')
 						d.reject r2
 					)
 				else
-					console.log 'Token mal estructurado: ', $cookies.get('xtoken')
 					authService.borrarToken()
 					d.reject 'Token mal estructurado.'
 			else
@@ -41,17 +40,17 @@ angular.module('myvcFrontApp')
 
 			if (!authService.isAuthorized(needed_permissions))
 				#event.preventDefault()
-				console.log 'No tiene permisos, y... '
+				#console.log 'No tiene permisos, y... '
 				
 				$rootScope.lastState = next.name
 				if (authService.isAuthenticated())
 					# user is not allowed
 					$rootScope.$broadcast(AUTH_EVENTS.notAuthorized)
-					console.log '...está Autenticado.'
+					#console.log '...está Autenticado.'
 				else
 					# user is not logged in
 					#$rootScope.$broadcast(AUTH_EVENTS.notAuthenticated)
-					console.log '...NO está Autenticado.'
+					#console.log '...NO está Autenticado.'
 					$state.transitionTo 'login'
 		else
 			return true
@@ -73,12 +72,10 @@ angular.module('myvcFrontApp')
 
 				Perfil.setUser user
 
-				console.log 'Usuario traido: ', user
-				
 				$rootScope.$broadcast AUTH_EVENTS.loginSuccess
 				d.resolve user
 			else
-				console.log 'No se trajo un token en el login.', user
+				#console.log 'No se trajo un token en el login.', user
 				$rootScope.$broadcast AUTH_EVENTS.loginFailed
 				d.reject 'Error en login'
 
@@ -115,7 +112,7 @@ angular.module('myvcFrontApp')
 			d.resolve usuario
 
 		, (r2)->
-			console.log 'No se pudo loguear con token. ', r2
+			# console.log 'No se pudo loguear con token. ', r2
 			d.reject 'Error en login con token.'
 			#$rootScope.$broadcast AUTH_EVENTS.loginFailed
 		)

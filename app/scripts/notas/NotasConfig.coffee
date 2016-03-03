@@ -95,10 +95,10 @@ angular.module('myvcFrontApp')
 							'Notas alumno'
 						]
 			resolve: 
-				alumnos: ['AlumnosServ', 'AuthService', 'resolved_user', (AlumnosServ, AuthService, resolved_user)->
+				alumnos: ['Restangular', 'AuthService', 'resolved_user', (Restangular, AuthService, resolved_user)->
 					if AuthService.hasRoleOrPerm(['alumno', 'acudiente'])
 						return 'Sin alumnos'
-					AlumnosServ.getAlumnos()
+					Restangular.all('alumnos/sin-matriculas').getList()
 				]
 				escalas: ['EscalasValorativasServ', (EscalasValorativasServ)->
 					#debugger

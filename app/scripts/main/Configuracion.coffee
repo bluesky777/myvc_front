@@ -15,6 +15,19 @@ angular.module('myvcFrontApp')
 	$httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 	delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
+	###
+	$httpProvider.interceptors.push(($q)->
+		{
+			'request': (config)->
+				esplotado = config.url.split('::')
+				if esplotado.length > 1
+					config.url = App.Server + esplotado[1]
+				config
+		}
+
+	)
+	###
+
 
 	uiSelectConfig.theme = 'select2'
 	uiSelectConfig.resetSearchInput = true

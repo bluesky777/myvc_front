@@ -61,18 +61,18 @@ angular.module('myvcFrontApp')
 								'Asignaturas'
 							]
 				resolve:{
-					materias: ['RMaterias', (RMaterias)->
-						RMaterias.getList().then((data)->
+					materias: ['Restangular', (Restangular)->
+						Restangular.one('materias').getList().then((data)->
 							return data
 						)
 					]
-					profesores: ['RProfesores', (RProfesores)->
-						RProfesores.getList().then((data)->
+					profesores: ['Restangular', (Restangular)->
+						Restangular.one('contratos').getList().then((data)->
 							return data
 						)
 					]
-					grupos: ['RGrupos', (RGrupos)->
-						RGrupos.getList().then((data)->
+					grupos: ['Restangular', (Restangular)->
+						Restangular.one('grupos').getList().then((data)->
 							return data
 						)
 					]

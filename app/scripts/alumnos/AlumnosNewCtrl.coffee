@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('AlumnosNewCtrl', ['$scope', '$rootScope', '$interval', 'Restangular', 'RAlumnos', 'RPaises', 'RCiudades', 'RGrupos', '$filter', ($scope, $rootScope, $interval, Restangular, RAlumnos, RPaises, RCiudades, RGrupos, $filter)->
+.controller('AlumnosNewCtrl', ['$scope', '$rootScope', 'toastr', 'Restangular', '$filter', ($scope, $rootScope, toastr, Restangular, $filter)->
 	$scope.data = {} # Para el popup del Datapicker
 
 	$scope.alumno = 
@@ -29,14 +29,14 @@ angular.module("myvcFrontApp")
 
 	$scope.sangres = [{sangre: 'O+'},{sangre: 'O-'}, {sangre: 'A+'}, {sangre: 'A-'}, {sangre: 'B+'}, {sangre: 'B-'}, {sangre: 'AB+'}, {sangre: 'AB-'}]
 
-	RPaises.getList().then((r)->
+	Restangular.one('paises').getList().then((r)->
 		$scope.paises = r
 		$scope.pais_nac = r[0]
 		$scope.paisNacSelect(r[0], $scope.pais_nac)
 	, ()->
 		console.log 'No se pudo traer los paises'
 	)
-	RGrupos.getList().then((r)->
+	Restangular.one('grupos').getList().then((r)->
 		$scope.grupos = r
 	, ()->
 		console.log 'No se pudo traer los grupos'
@@ -51,12 +51,10 @@ angular.module("myvcFrontApp")
 		$scope.alumno.fecha_nac = $filter('date')($scope.alumno.fecha_nac, 'yyyy-MM-dd')
 
 		Restangular.all('alumnos/store').post($scope.alumno).then((r)->
-			console.log 'Se hizo el post del alumno', r
-			$scope.toastr.success 'Alumno '+r.nombres+' creado'
+			toastr.success 'Alumno '+r.nombres+' creado'
 			$scope.$emit 'alumnoguardado', r
 		, (r2)->
-			$scope.toastr.warning 'No se pudo guardar alumno', 'Problema'
-			console.log 'Falló al intentar guardar: ', r2
+			toastr.warning 'No se pudo guardar alumno', 'Problema'
 		)
 
 

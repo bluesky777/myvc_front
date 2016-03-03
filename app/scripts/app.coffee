@@ -22,6 +22,7 @@ angular.module('myvcFrontApp', [
 	'ui.grid.resizeColumns'
 	'ui.grid.exporter'
 	'ui.grid.selection'
+	'ui.grid.autoResize'
 	'angularFileUpload'
 	'FBAngular'
 	#'ui.sortable'
@@ -34,7 +35,7 @@ angular.module('myvcFrontApp', [
 	#dominio = 'http://lalvirtual.com/' 
 	dominio = 'http://localhost/' # Pruebas en mi localhost
 	
-	console.log 'Entra al dominio: ', location.hostname
+	#console.log 'Entra al dominio: ', location.hostname
 	
 	if(location.hostname.match('lalvirtual'))
 		dominio = 'http://lalvirtual.com/'

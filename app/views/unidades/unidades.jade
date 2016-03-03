@@ -1,6 +1,8 @@
 .col-xs-12.col-md-12
 	.well.with-header.with-footer
-		.header.bordered-yellow {{asignatura.materia + ' - ' + asignatura.nombre_grupo + ' - ' + asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}
+		.header.bordered-yellow(ng-hide="no_asignatura") {{asignatura.materia + ' - ' + asignatura.nombre_grupo + ' - ' + asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}
+		.header.bordered-red(ng-show="no_asignatura") 
+			.label.label-danger Vuelva a Asignaturas o cambie de año. La materia seleccionada no existe en el presente año.
 
 		.btn-group
 			a.btn.btn-success.btn-lg(ng-show="inicializado" ui-sref="panel.listasignaturas({profesor_id: asignatura.profesor_id})") 
@@ -16,33 +18,33 @@
 
 		hr.wide
 
+		span(ng-hide="no_asignatura")
+			form.form-inline(ng-submit="crearUnidad()" role="form")
+				input.form-control.definicion-add-unidad(required ng-model="newunidad.definicion" type="text" placeholder="{{UNIDAD}} {{ GENERO_UNI=='M' ? 'nuevo' : 'nueva' }}" uib-tooltip="Definición" tooltip-popup-delay="500")
+				input.form-control(required ng-model="newunidad.porcentaje" min="0" max="100" type="number" placeholder="Porcentaje" uib-tooltip="Porcentaje" tooltip-popup-delay="500")
+				input.btn.btn-primary(type="submit" ng-submit="crearUnidad()" ng-disabled="!activar_crear_unidad" value="Crear {{UNIDAD}}")
 
-		form.form-inline(ng-submit="crearUnidad()" role="form")
-			input.form-control.definicion-add-unidad(required ng-model="newunidad.definicion" type="text" placeholder="{{UNIDAD}} {{ GENERO_UNI=='M' ? 'nuevo' : 'nueva' }}" uib-tooltip="Definición" tooltip-popup-delay="1000")
-			input.form-control(required ng-model="newunidad.porcentaje" min="0" max="100" type="number" placeholder="Porcentaje" uib-tooltip="Porcentaje" tooltip-popup-delay="1000")
-			input.btn.btn-primary(type="submit" ng-submit="crearUnidad()" ng-disabled="!activar_crear_unidad" value="Crear {{UNIDAD}}")
+			hr.wide
 
-		hr.wide
+			.alert.alert-danger.fade.in(ng-show="unidades.porc_unidades>100")
+				i.fa-fw.fa.fa-warning
+				strong Porcentaje incorrecto 
+				| - Sobra un {{unidades.porc_unidades-100}} porciento
 
-		.alert.alert-danger.fade.in(ng-show="unidades.porc_unidades>100")
-			i.fa-fw.fa.fa-warning
-			strong Porcentaje incorrecto 
-			| - Sobra un {{unidades.porc_unidades-100}} porciento
-
-		.alert.alert-warning.fade.in(ng-show="unidades.porc_unidades<100")
-			i.fa-fw.fa.fa-warning
-			strong Porcentaje incorrecto 
-			| - Falta un {{100-unidades.porc_unidades}} porciento
-
-
-		.ddlarga.bordered
-
-			ol(style="padding-left: 0px;")
-				unidad-dir(unidad="unidad" indice="$index" ng-repeat="unidad in unidades")
+			.alert.alert-warning.fade.in(ng-show="unidades.porc_unidades<100")
+				i.fa-fw.fa.fa-warning
+				strong Porcentaje incorrecto 
+				| - Falta un {{100-unidades.porc_unidades}} porciento
 
 
+			.ddlarga.bordered
 
-			a(ui-sref="panel.listasignaturas") Volver
+				ol(style="padding-left: 0px;")
+					unidad-dir(unidad="unidad" indice="$index" ng-repeat="unidad in unidades")
+
+
+
+			a(ui-sref="panel.listasignaturas({profesor_id: asignatura.profesor_id})") Volver
 
 
 

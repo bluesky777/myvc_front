@@ -8,9 +8,9 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 							img.img-responsive.logo-colegio(ng-src="{{perfilPath + year.logo}}")
 						.col-lg-8.col-xs-8.title-encabezado-boletin
 							.nombre-colegio
-								{{year.nombre_colegio + ' - ' + year.abrev_colegio}}
+								| {{year.nombre_colegio + ' - ' + year.abrev_colegio}}
 							.resolucion-colegio
-								{{year.resolucion}}
+								| {{year.resolucion}}
 							.title-descripcion
 								|Puestos periodo {{USER.numero_periodo}}-{{USER.year}} Grupo {{grupo.nombre_grupo}}
 	.row
@@ -49,7 +49,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 					tr(style="border-top: 2px solid;")
 						td   
 						td() Total
-						td(ng-repeat="asignatura in alumnos[0].asignaturas"){{ alumnos | promAsig:asignatura.asignatura_id | decimales:1 }}
+						td(ng-repeat="asignatura in alumnos[0].asignaturas") {{ alumnos | promAsig:asignatura.asignatura_id | decimales:1 }}
 						td(style="font-weight: bold; border-left: 2px solid !important;") {{ alumnos | promGrupoPer | decimales:1 }}
 							span.cant-unidades-perdidas|({{alumnos | notasPerdidasGrupoPer}})
 

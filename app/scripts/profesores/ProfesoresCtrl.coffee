@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('ProfesoresCtrl', ['$scope', '$rootScope', 'RProfesores', 'Restangular', '$interval', '$state', 'App', '$filter', ($scope, $rootScope, RProfesores, Restangular, $interval, $state, App, $filter)->
+.controller('ProfesoresCtrl', ['$scope', '$rootScope', 'toastr', 'Restangular', '$state', 'App', '$filter', ($scope, $rootScope, toastr, Restangular, $state, App, $filter)->
 
 	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
 	$scope.current_year = $scope.USER.year_id
@@ -24,12 +24,12 @@ angular.module("myvcFrontApp")
 		enableFiltering: true,
 		enebleGridColumnMenu: false,
 		columnDefs: [
-			{ name: 'id', displayName:'Id', maxWidth: 50, enableFiltering: false, enableCellEdit: false}
-			{ name: 'edicion', displayName:'Edición', maxWidth: 50, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2, enableCellEdit: false}
-			{ name: 'contrato', displayName:'Contrato', maxWidth: 75, enableSorting: false, enableFiltering: false, cellTemplate: btGrid3, enableCellEdit: false}
-			{ field: 'nombres', enableHiding: false }
-			{ field: 'apellidos' }
-			{ field: 'sexo', maxWidth: 20 }
+			{ field: 'id', displayName:'Id', width: 50, enableFiltering: false, enableCellEdit: false}
+			{ name: 'edicion', displayName:'Edición', width: 50, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2, enableCellEdit: false}
+			{ name: 'contrato', displayName:'Contrato', width: 75, enableSorting: false, enableFiltering: false, cellTemplate: btGrid3, enableCellEdit: false}
+			{ field: 'nombres', enableHiding: false, minWidth: 100 }
+			{ field: 'apellidos', minWidth: 100 }
+			{ field: 'sexo', maxWidth: 40 }
 			{ field: 'fecha_nac', displayName: 'Nacimiento'  }
 			{ field: 'username', displayName: 'Usuario', enableCellEdit: false }
 			{ field: 'facebook'  }
@@ -42,15 +42,15 @@ angular.module("myvcFrontApp")
 				
 				if newValue != oldValue
 					Restangular.one('profesores/update', rowEntity.id).customPUT(rowEntity).then((r)->
-						$scope.toastr.success 'Profesor actualizado con éxito', 'Actualizado'
+						toastr.success 'Profesor actualizado con éxito', 'Actualizado'
 					, (r2)->
-						$scope.toastr.error 'Cambio no guardado', 'Error'
+						toastr.error 'Cambio no guardado', 'Error'
 					)
 				$scope.$apply()
 			)
 
 	
-	RProfesores.getList().then((data)->
+	Restangular.one('profesores').getList().then((data)->
 		$scope.gridOptions.data = data;
 	)
 
@@ -65,19 +65,19 @@ angular.module("myvcFrontApp")
 
 	$scope.quitarContrato = (contrato_id)->
 		Restangular.one('contratos/destroy/' + contrato_id).customDELETE().then((r)->
-			$scope.toastr.success 'Quitado de este año ' + $scope.USER.year.year
+			toastr.success 'Quitado de este año ' + $scope.USER.year.year
 
 			$scope.gridCurrentOptions.data = $filter('filter')($scope.gridCurrentOptions.data, {contrato_id: '!'+contrato_id})
 			
 			actual = $filter('filter')($scope.gridOptions.data, {contrato_id: contrato_id})[0]
 			actual.year_id = null
 		, (r2)->
-			$scope.toastr.error 'No se pudo agregar el profesor al presente año', 'Problema'
+			toastr.error 'No se pudo agregar el profesor al presente año', 'Problema'
 		)
 
 	$scope.contratar = (row)->
 		Restangular.one('contratos').customPOST({profesor_id: row.id}).then((r)->
-			$scope.toastr.success row.nombres + ' contratado para este año'
+			toastr.success row.nombres + ' contratado para este año'
 
 			$scope.gridCurrentOptions.data.push r[0]
 
@@ -85,7 +85,7 @@ angular.module("myvcFrontApp")
 			actual.year_id = $scope.current_year
 			actual.contrato_id = r[0].contrato_id
 		, (r2)->
-			$scope.toastr.error 'No se pudo agregar el profesor al presente año', 'Problema'
+			toastr.error 'No se pudo agregar el profesor al presente año', 'Problema'
 		)
 
 
@@ -96,11 +96,11 @@ angular.module("myvcFrontApp")
 		enableFiltering: true,
 		enebleGridColumnMenu: false,
 		columnDefs: [
-			{ name: 'id', displayName:'Id', maxWidth: 50, enableFiltering: false, enableCellEdit: false}
-			{ name: 'edicion', displayName:'Edición', maxWidth: 50, enableSorting: false, enableFiltering: false, cellTemplate: btGridQuitar, enableCellEdit: false}
-			{ field: 'nombres', enableHiding: false }
-			{ field: 'apellidos' }
-			{ field: 'sexo', maxWidth: 20 }
+			{ field: 'profesor_id', displayName:'Id', width: 50, enableFiltering: false, enableCellEdit: false}
+			{ name: 'edicion', displayName:'Edición', width: 50, enableSorting: false, enableFiltering: false, cellTemplate: btGridQuitar, enableCellEdit: false}
+			{ field: 'nombres', enableHiding: false, minWidth: 100 }
+			{ field: 'apellidos', minWidth: 100 }
+			{ field: 'sexo', width: 40 }
 			{ field: 'fecha_nac', displayName: 'Nacimiento'  }
 			{ field: 'username', displayName: 'Usuario', enableCellEdit: false }
 			{ field: 'facebook'  }
@@ -113,9 +113,9 @@ angular.module("myvcFrontApp")
 				
 				if newValue != oldValue
 					Restangular.one('profesores/update', rowEntity.profesor_id).customPUT(rowEntity).then((r)->
-						$scope.toastr.success 'Profesor actualizado con éxito', 'Actualizado'
+						toastr.success 'Profesor actualizado con éxito', 'Actualizado'
 					, (r2)->
-						$scope.toastr.error 'Cambio no guardado', 'Error'
+						toastr.error 'Cambio no guardado', 'Error'
 						console.log 'Falló al intentar guardar: ', r2
 					)
 				$scope.$apply()
@@ -124,7 +124,7 @@ angular.module("myvcFrontApp")
 	Restangular.all('contratos').getList().then((r)->
 		$scope.gridCurrentOptions.data = r
 	, (r2)->
-		$scope.toastr.error 'No se trajeron los profesores contratados'
+		toastr.error 'No se trajeron los profesores contratados'
 	)
 	
 

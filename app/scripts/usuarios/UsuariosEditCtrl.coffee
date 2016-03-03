@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('UsuariosEditCtrl', ['$scope', '$rootScope', '$state', 'Restangular', 'RAlumnos', 'RPaises', 'RCiudades', ($scope, $rootScope, $state, Restangular, RAlumnos, RPaises, RCiudades)->
+.controller('UsuariosEditCtrl', ['$scope', '$rootScope', '$state', 'Restangular', 'toastr', ($scope, $rootScope, $state, Restangular, toastr)->
 	$scope.data = {} # Para el popup del Datapicker
 	
 	$scope.usuario = {}
@@ -22,13 +22,10 @@ angular.module("myvcFrontApp")
 
 	
 	$scope.guardar = ()->
-		console.log 'A guardar: ', $scope.alumno
 		Restangular.one('alumnos/update', $scope.alumno.id).customPUT($scope.alumno).then((r)->
-			console.log 'Se guardó alumno', r
-			$scope.toastr.success 'Alumno actualizado correctamente'
+			toastr.success 'Alumno actualizado correctamente'
 		, (r2)->
-			console.log 'Falló al intentar guardar: ', r2
-			$scope.toastr.error 'No se pudo guardar el alumno'
+			toastr.error 'No se pudo guardar el alumno'
 		)
 
 

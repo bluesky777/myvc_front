@@ -1,5 +1,5 @@
 angular.module('myvcFrontApp')
-.controller('ComportamientoCtrl', ['$scope', '$filter', '$rootScope', '$state', '$interval', 'RGrupos', 'comportamiento', '$uibModal', 'App', 'Restangular', 'AuthService', ($scope, $filter, $rootScope, $state, $interval, RGrupos, comportamiento, $modal, App, Restangular, AuthService) ->
+.controller('ComportamientoCtrl', ['$scope', '$filter', '$rootScope', '$state', '$interval', 'comportamiento', '$uibModal', 'App', 'Restangular', 'AuthService', ($scope, $filter, $rootScope, $state, $interval, comportamiento, $modal, App, Restangular, AuthService) ->
 
 	AuthService.verificar_acceso()
 
