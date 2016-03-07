@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('VotarPruebaCtrl', ['$scope', '$filter', 'Restangular', 'App', '$state', '$uibModal', '$window', ($scope, $filter, Restangular, App, $state, $modal, $window)->
+.controller('VotarPruebaCtrl', ['$scope', '$filter', '$http', 'App', '$state', '$uibModal', '$window', ($scope, $filter, $http, App, $state, $modal, $window)->
 
 
 	$scope.hover = false
@@ -19,8 +19,8 @@ angular.module("myvcFrontApp")
 		fecha_fin: ''
 	}
 
-	Restangular.one('votaciones/actual').get().then((r)->
-		$scope.votacion = r
+	$http.get('::votaciones/actual').then((r)->
+		$scope.votacion = r.data
 		if $scope.votacion.locked
 			$scope.toastr.warning 'La votación actual está bloqueada'
 			#$state.transitionTo 'panel'
@@ -28,17 +28,15 @@ angular.module("myvcFrontApp")
 	)
 
 	
-	Restangular.all('candidatos/conaspiraciones').getList().then((r)->
-		$scope.aspiraciones = r
+	$http.get('::candidatos/conaspiraciones').getList().then((r)->
+		$scope.aspiraciones = r.data
 	, (r2)->
-		console.log 'No se pudo traer aspiraciones. ', r2
 		$scope.toastr.error 'No se pudo traer las aspiraciones', 'Problema'
 	)
 
-	Restangular.all('participantes/allinscritos').getList().then((r)->
-		$scope.allinscritos = r
+	$http.get('::participantes/allinscritos').then((r)->
+		$scope.allinscritos = r.data
 	, (r2)->
-		console.log 'No se pudo con aspiraciones. ', r2
 		$scope.toastr.error 'No se pudo traer los inscritos', 'Problema'
 	)
 	
@@ -84,7 +82,6 @@ angular.module("myvcFrontApp")
 			})
 			modalInstance.result.then( (selectedItem)->
 				aspiracion.votado.push selectedItem
-				console.log selectedItem
 				$scope.nextAspiracion()
 			, ()->
 				#console.log 'Modal dismissed at: ' + new Date()
@@ -94,7 +91,7 @@ angular.module("myvcFrontApp")
 	return
 ])
 
-.controller('chooseCandidatoPruebaCtrl', ['$scope', 'Restangular', '$uibModalInstance', 'App', 'candidato', 'aspiracion', 'toastr', ($scope, Restangular, $modalInstance, App, candidato, aspiracion, toastr)->
+.controller('chooseCandidatoPruebaCtrl', ['$scope', '$http', '$uibModalInstance', 'App', 'candidato', 'aspiracion', 'toastr', ($scope, $http, $modalInstance, App, candidato, aspiracion, toastr)->
 
 	$scope.candidato = candidato
 	$scope.aspiracion = aspiracion

@@ -1,7 +1,8 @@
 div
-	img(src="{{perfilPath + alumno.userData.foto_nombre}}" style="width: 100px; height: 100px;")
-	img(src="{{perfilPath + alumno.userData.imagen_nombre}}" style="width: 100px; height: 100px;")
+	img(ng-src="{{perfilPath + alumno.userData.foto_nombre}}" alt="foto oficial" style="width: 100px; height: 100px;")
+	img(ng-src="{{perfilPath + alumno.userData.imagen_nombre}}" alt="foto de usuario" style="width: 100px; height: 100px;")
 	br
-	| Facebook: {{alumno.facebook}}
+	span(ng-if="alumno.facebook") Facebook: {{alumno.facebook}}
 	br 
-	| Username: {{alumno.userData.username}}
+	| Usuario: 
+	b {{alumno.userData.username}}

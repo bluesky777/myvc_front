@@ -1,17 +1,17 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-	.config ['$stateProvider', 'App', ($state, App) ->
+	.config ['$stateProvider', ($state) ->
 
 		$state
 			.state 'panel.filemanager',
 				url: '/filemanager'
 				views: 
 					'maincontent':
-						templateUrl: "#{App.views}fileManager/fileManager.tpl.html"
+						templateUrl: "==fileManager/fileManager.tpl.html"
 						controller: 'FileManagerCtrl'
 					'headerContent':
-						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
 						resolve:
 							titulo: [->

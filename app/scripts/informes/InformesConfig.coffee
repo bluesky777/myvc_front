@@ -8,10 +8,10 @@ angular.module('myvcFrontApp')
 			url: '^/informes'
 			views:
 				'maincontent':
-					templateUrl: "#{App.views}informes/informes.tpl.html"
+					templateUrl: "==informes/informes.tpl.html"
 					controller: 'InformesCtrl'
 				'headerContent':
-					templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+					templateUrl: "==panel/panelHeader.tpl.html"
 					controller: 'PanelHeaderCtrl'
 					resolve:
 						titulo: [->
@@ -21,8 +21,8 @@ angular.module('myvcFrontApp')
 				resolved_user: ['AuthService', (AuthService)->
 					AuthService.verificar()
 				]
-				alumnos: ['Restangular', (Restangular)->
-					Restangular.all('alumnos/sin-matriculas').getList()
+				alumnos: ['$http', ($http)->
+					$http.get('::alumnos/sin-matriculas')
 				]
 			}
 			data: 
@@ -41,7 +41,7 @@ angular.module('myvcFrontApp')
 					templateUrl: "#{App.views}informes/boletinesPeriodo.tpl.html"
 					controller: 'BoletinesPeriodoCtrl'
 					resolve:
-						alumnosDat: ['Restangular', '$stateParams', '$q', '$cookieStore', (Restangular, $stateParams, $q, $cookieStore)->
+						alumnosDat: ['$http', '$stateParams', '$q', '$cookieStore', ($http, $stateParams, $q, $cookieStore)->
 
 							d = $q.defer()
 
@@ -52,23 +52,23 @@ angular.module('myvcFrontApp')
 							if requested_alumnos
 
 								console.log 'Pidiendo por varios alumnos: ', requested_alumnos
-								Restangular.one('alumnos/detailed-notas', $stateParams.grupo_id).customPUT({requested_alumnos: requested_alumnos, periodos_a_calcular: $stateParams.periodos_a_calcular}).then((r)->
-									d.resolve r
+								$http.put('::alumnos/detailed-notas/'+$stateParams.grupo_id, {requested_alumnos: requested_alumnos, periodos_a_calcular: $stateParams.periodos_a_calcular}).then((r)->
+									d.resolve r.data
 								, (r2)->
-									d.reject r2
+									d.reject r2.data
 								)
 							else if requested_alumno
-								Restangular.one('alumnos/detailed-notas', requested_alumno[0].grupo_id).customPUT({requested_alumnos: requested_alumno, periodos_a_calcular: $stateParams.periodos_a_calcular}).then((r)->
-									d.resolve r
+								$http.put('::alumnos/detailed-notas/'+requested_alumno[0].grupo_id, {requested_alumnos: requested_alumno, periodos_a_calcular: $stateParams.periodos_a_calcular}).then((r)->
+									d.resolve r.data
 								, (r2)->
-									d.reject r2
+									d.reject r2.data
 								)
 							else
 								console.log 'Pidiendo por grupo:', $stateParams.grupo_id
-								Restangular.one('alumnos/detailed-notas-group', $stateParams.grupo_id).customPUT({periodos_a_calcular: $stateParams.periodos_a_calcular}).then((r)->
-									d.resolve r
+								$http.put('::alumnos/detailed-notas-group/'+$stateParams.grupo_id, {periodos_a_calcular: $stateParams.periodos_a_calcular}).then((r)->
+									d.resolve r.data
 								, (r2)->
-									d.reject r2
+									d.reject r2.data
 								)
 
 
@@ -89,8 +89,8 @@ angular.module('myvcFrontApp')
 					templateUrl: "#{App.views}informes/puestosGrupoPeriodo.tpl.html"
 					controller: 'PuestosGrupoPeriodoCtrl'
 					resolve:
-						alumnosDat: ['Restangular', '$stateParams', (Restangular, $stateParams)->
-							Restangular.one('alumnos/detailed-notas', $stateParams.grupo_id).customPUT();
+						alumnosDat: ['$http', '$stateParams', ($http, $stateParams)->
+							$http.put('::alumnos/detailed-notas/'+$stateParams.grupo_id);
 						],
 						escalas: ['EscalasValorativasServ', (EscalasValorativasServ)->
 							#debugger
@@ -111,11 +111,11 @@ angular.module('myvcFrontApp')
 					templateUrl: "#{App.views}informes/puestosGrupoYear.tpl.html"
 					controller: 'PuestosGrupoYearCtrl'
 					resolve:
-						datos_puestos: ['Restangular', '$stateParams', (Restangular, $stateParams)->
+						datos_puestos: ['$http', '$stateParams', ($http, $stateParams)->
 							datos = 
 								grupo_id: $stateParams.grupo_id
 								periodo_a_calcular: $stateParams.periodo_a_calcular
-							Restangular.one('puestos/detailed-notas-year').customPUT(datos)
+							$http.put('::puestos/detailed-notas-year', datos)
 						],
 						escalas: ['EscalasValorativasServ', (EscalasValorativasServ)->
 							#debugger
@@ -137,11 +137,11 @@ angular.module('myvcFrontApp')
 			url: '/planillas_grupo/:grupo_id/:periodos_a_calcular'
 			views: 
 				'report_content':
-					templateUrl: "#{App.views}informes/planillas.tpl.html"
+					templateUrl: "==informes/planillas.tpl.html"
 					controller: 'PlanillasCtrl'
 					resolve:
-						asignaturas: ['Restangular', '$stateParams', (Restangular, $stateParams)->
-							Restangular.one('planillas/show-grupo', $stateParams.grupo_id).getList()
+						asignaturas: ['$http', '$stateParams', ($http, $stateParams)->
+							$http.get('::planillas/show-grupo/'+$stateParams.grupo_id)
 						]
 			data: 
 				displayName: 'Planillas grupo'
@@ -153,11 +153,11 @@ angular.module('myvcFrontApp')
 			url: '/planillas_profesor/:profesor_id/:periodos_a_calcular'
 			views: 
 				'report_content':
-					templateUrl: "#{App.views}informes/planillas.tpl.html"
+					templateUrl: "==informes/planillas.tpl.html"
 					controller: 'PlanillasCtrl'
 					resolve:
-						asignaturas: ['Restangular', '$stateParams', (Restangular, $stateParams)->
-							Restangular.one('planillas/show-profesor', $stateParams.profesor_id).getList()
+						asignaturas: ['$http', '$stateParams', ($http, $stateParams)->
+							$http.get('::planillas/show-profesor/'+$stateParams.profesor_id)
 						]
 			data: 
 				displayName: 'Planillas profesor'
@@ -180,10 +180,10 @@ angular.module('myvcFrontApp')
 				grupo_id: {value: null}
 			views: 
 				'report_content':
-					templateUrl: "#{App.views}informes/boletinesFinales.tpl.html"
+					templateUrl: "==informes/boletinesFinales.tpl.html"
 					controller: 'BoletinesFinalesCtrl'
 					resolve:
-						alumnosDat: ['Restangular', '$stateParams', '$q', '$cookieStore', (Restangular, $stateParams, $q, $cookieStore)->
+						alumnosDat: ['$http', '$stateParams', '$q', '$cookieStore', ($http, $stateParams, $q, $cookieStore)->
 
 							d = $q.defer()
 
@@ -194,23 +194,23 @@ angular.module('myvcFrontApp')
 							if requested_alumnos
 
 								#console.log 'Pidiendo por varios alumnos: ', requested_alumnos
-								Restangular.one('bolfinales/detailed-notas-year', $stateParams.grupo_id).customPUT({requested_alumnos: requested_alumnos}).then((r)->
-									d.resolve r
+								$http.put('::bolfinales/detailed-notas-year/'+$stateParams.grupo_id, {requested_alumnos: requested_alumnos}).then((r)->
+									d.resolve r.data
 								, (r2)->
-									d.reject r2
+									d.reject r2.data
 								)
 							else if requested_alumno
-								Restangular.one('bolfinales/detailed-notas-year', requested_alumno[0].grupo_id).customPUT({requested_alumnos: requested_alumno}).then((r)->
-									d.resolve r
+								$http.put('::bolfinales/detailed-notas-year/'+requested_alumno[0].grupo_id, {requested_alumnos: requested_alumno}).then((r)->
+									d.resolve r.data
 								, (r2)->
-									d.reject r2
+									d.reject r2.data
 								)
 							else
 								#console.log 'Pidiendo por grupo:', $stateParams.grupo_id
-								Restangular.one('bolfinales/detailed-notas-year-group', $stateParams.grupo_id).customPUT().then((r)->
-									d.resolve r
+								$http.put('::bolfinales/detailed-notas-year-group/'+$stateParams.grupo_id).then((r)->
+									d.resolve r.data
 								, (r2)->
-									d.reject r2
+									d.reject r2.data
 								)
 
 
@@ -235,10 +235,10 @@ angular.module('myvcFrontApp')
 				grupo_id: {value: null}
 			views: 
 				'report_content':
-					templateUrl: "#{App.views}informes/certificadosEstudio.tpl.html"
+					templateUrl: "==informes/certificadosEstudio.tpl.html"
 					controller: 'CertificadosEstudioCtrl'
 					resolve:
-						alumnosDat: ['Restangular', '$stateParams', '$q', '$cookieStore', (Restangular, $stateParams, $q, $cookieStore)->
+						alumnosDat: ['$http', '$stateParams', '$q', '$cookieStore', ($http, $stateParams, $q, $cookieStore)->
 
 							d = $q.defer()
 
@@ -249,25 +249,24 @@ angular.module('myvcFrontApp')
 							if requested_alumnos
 
 								#console.log 'Pidiendo por varios alumnos: ', requested_alumnos
-								Restangular.one('bolfinales/detailed-notas-year', $stateParams.grupo_id).customPUT({requested_alumnos: requested_alumnos}).then((r)->
-									d.resolve r
+								$http.put('::bolfinales/detailed-notas-year/'+$stateParams.grupo_id, {requested_alumnos: requested_alumnos}).then((r)->
+									d.resolve r.data
 								, (r2)->
-									d.reject r2
+									d.reject r2.data
 								)
 							else if requested_alumno
-								Restangular.one('bolfinales/detailed-notas-year', requested_alumno[0].grupo_id).customPUT({requested_alumnos: requested_alumno}).then((r)->
-									d.resolve r
+								$http.put('::bolfinales/detailed-notas-year/'+requested_alumno[0].grupo_id, {requested_alumnos: requested_alumno}).then((r)->
+									d.resolve r.data
 								, (r2)->
-									d.reject r2
+									d.reject r2.data
 								)
 							else
-								#console.log 'Pidiendo por grupo:', $stateParams.grupo_id
-								Restangular.one('bolfinales/detailed-notas-year', $stateParams.grupo_id).customPUT().then((r)->
-									
-									d.resolve r
+								$http.put('::bolfinales/detailed-notas-year/'+$stateParams.grupo_id).then((r)->
+									d.resolve r.data
 								, (r2)->
-									d.reject r2
+									d.reject r2.data
 								)
+								
 
 
 							return d.promise

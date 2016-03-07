@@ -1,7 +1,7 @@
 angular.module('myvcFrontApp')
 
 
-.factory('YearsServ', ['Restangular', '$q', (Restangular, $q) ->
+.factory('YearsServ', ['$http', '$q', ($http, $q) ->
 	
 	years = []
 
@@ -13,8 +13,8 @@ angular.module('myvcFrontApp')
 			if years.length > 0
 				d.resolve(years)
 			else
-				Restangular.one('years').getList().then((r)->
-					years = r
+				$http.get('::years').then((r)->
+					years = r.data
 					d.resolve(years)
 				, (r2)->
 					d.reject(r2)

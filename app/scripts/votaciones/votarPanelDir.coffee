@@ -1,14 +1,14 @@
 angular.module('myvcFrontApp')
 
-.directive('votarPanelDir',['App', 'Perfil', (App, Perfil)-> 
+.directive('votarPanelDir',['App', 'Perfil', '$http', (App, Perfil, $http)-> 
 
 	restrict: 'EA'
-	templateUrl: "#{App.views}votaciones/votarPanel.tpl.html"
+	templateUrl: "==votaciones/votarPanel.tpl.html"
 	scope: 
 		votacion: "="
 
 
-	controller: ($scope, App, Restangular, EscalasValorativasServ, AuthService, toastr, $window, $uibModal)->
+	controller: ($scope, App, toastr, $window, $uibModal)->
 
 		$scope.USER = Perfil.User()
 
@@ -69,7 +69,7 @@ angular.module('myvcFrontApp')
 				return
 			else
 				modalInstance = $uibModal.open({
-					templateUrl: App.views + 'votaciones/chooseCandidato.tpl.html'
+					templateUrl: '==votaciones/chooseCandidato.tpl.html'
 					controller: 'chooseCandidatoCtrl'
 					resolve: 
 						candidato: ()->

@@ -28,10 +28,10 @@
 								div(ng-bind-html="grado.nombre | highlight: $select.search")
 					.form-group
 						label(for="grupo-valor-matricula") Valor matrícula
-						input.form-control#grupo-valormatricula(type="text" ng-model="grupo.valormatricula" placeholder="Valor matrícula")
+						input.form-control#grupo-valormatricula(type="number" step="5" min="0" ng-model="grupo.valormatricula" placeholder="Valor matrícula")
 					.form-group
 						label(for="grupo-valorpension") Valor pensión
-						input.form-control#grupo-valorpension(type="text" ng-model="grupo.valorpension" placeholder="Valor pensión")
+						input.form-control#grupo-valorpension(type="number" step="5" min="0" ng-model="grupo.valorpension" placeholder="Valor pensión")
 					.form-group
 						label Caritas en informes
 						label

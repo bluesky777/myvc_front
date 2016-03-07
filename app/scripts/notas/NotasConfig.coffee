@@ -7,10 +7,10 @@ angular.module('myvcFrontApp')
 			url: '^/notas/:asignatura_id'
 			views: 
 				'maincontent':
-					templateUrl: "#{App.views}notas/notas.tpl.html"
+					templateUrl: "==notas/notas.tpl.html"
 					controller: 'NotasCtrl'
 				'headerContent':
-					templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+					templateUrl: "==panel/panelHeader.tpl.html"
 					controller: 'PanelHeaderCtrl'
 					resolve: 
 						titulo: [->
@@ -30,14 +30,16 @@ angular.module('myvcFrontApp')
 				needed_permissions: [PERMISSIONS.can_work_like_teacher, PERMISSIONS.can_work_like_admin, PERMISSIONS.can_edit_notas]
 				pageTitle: 'Notas - MyVc'
 
+
+
 		.state 'panel.ausencias',
 			url: '^/ausencias/:asignatura_id'
 			views: 
 				'maincontent':
-					templateUrl: "#{App.views}notas/ausencias.tpl.html"
+					templateUrl: "==notas/ausencias.tpl.html"
 					controller: 'AusenciasCtrl'
 				'headerContent':
-					templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+					templateUrl: "==panel/panelHeader.tpl.html"
 					controller: 'PanelHeaderCtrl'
 					resolve: 
 						titulo: [->
@@ -54,14 +56,15 @@ angular.module('myvcFrontApp')
 				pageTitle: 'Ausencias - MyVc'
 
 
+
 		.state 'panel.comportamiento',
 			url: '^/comportamiento/:grupo_id'
 			views: 
 				'maincontent':
-					templateUrl: "#{App.views}notas/comportamiento.tpl.html"
+					templateUrl: "==notas/comportamiento.tpl.html"
 					controller: 'ComportamientoCtrl'
 				'headerContent':
-					templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+					templateUrl: "==panel/panelHeader.tpl.html"
 					controller: 'PanelHeaderCtrl'
 					resolve: 
 						titulo: [->
@@ -78,6 +81,7 @@ angular.module('myvcFrontApp')
 				pageTitle: 'Comportamiento - MyVc'
 
 
+
 		.state 'panel.notas_alumno',
 			url: '^/notas_alumno/:alumno_id'
 			params:
@@ -85,20 +89,20 @@ angular.module('myvcFrontApp')
 					value: null
 			views: 
 				'maincontent':
-					templateUrl: "#{App.views}notas/notasAlumno.tpl.html"
+					templateUrl: "==notas/notasAlumno.tpl.html"
 					controller: 'NotasAlumnoCtrl'
 				'headerContent':
-					templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+					templateUrl: "==panel/panelHeader.tpl.html"
 					controller: 'PanelHeaderCtrl'
 					resolve: 
 						titulo: [->
 							'Notas alumno'
 						]
 			resolve: 
-				alumnos: ['Restangular', 'AuthService', 'resolved_user', (Restangular, AuthService, resolved_user)->
+				alumnos: ['$http', 'AuthService', 'resolved_user', ($http, AuthService, resolved_user)->
 					if AuthService.hasRoleOrPerm(['alumno', 'acudiente'])
 						return 'Sin alumnos'
-					Restangular.all('alumnos/sin-matriculas').getList()
+					$http.get('::alumnos/sin-matriculas')
 				]
 				escalas: ['EscalasValorativasServ', (EscalasValorativasServ)->
 					#debugger

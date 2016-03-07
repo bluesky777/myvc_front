@@ -1,8 +1,9 @@
 angular.module('myvcFrontApp')
-.controller('InformesCtrl', ['$scope', 'Restangular', '$state', '$stateParams', '$rootScope', '$filter', 'App', 'AuthService', 'ProfesoresServ', 'alumnos', '$timeout', '$cookieStore', 'toastr', '$interval', ($scope, Restangular, $state, $stateParams, $rootScope, $filter, App, AuthService, ProfesoresServ, alumnos, $timeout, $cookieStore, toastr, $interval) ->
+.controller('InformesCtrl', ['$scope', '$http', '$state', '$stateParams', '$filter', 'App', 'AuthService', 'ProfesoresServ', 'alumnos', '$timeout', '$cookieStore', 'toastr', '$interval', ($scope, $http, $state, $stateParams, $filter, App, AuthService, ProfesoresServ, alumnos, $timeout, $cookieStore, toastr, $interval) ->
 
 	AuthService.verificar_acceso()
-	$scope.rowsAlum = [] 
+	$scope.rowsAlum = []
+	alumnos = alumnos.data 
 	$scope.config = {
 		periodos_a_calcular: 'de_usuario'  # de_usuario, de_colegio, todos
 		mostrar_foto: true
@@ -15,8 +16,8 @@ angular.module('myvcFrontApp')
 
 	#console.log 'Parametros', $state.params
 
-	Restangular.one('grupos').getList().then((r)->
-		$scope.grupos = r
+	$http.get('::grupos').then((r)->
+		$scope.grupos = r.data
 
 		if $state.params.grupo_id
 			$tempParam = parseInt($state.params.grupo_id)
@@ -26,8 +27,8 @@ angular.module('myvcFrontApp')
 	)
 
 
-	Restangular.one('contratos').getList().then((r)->
-		$scope.profesores = r
+	$http.get('::contratos').then((r)->
+		$scope.profesores = r.data
 
 		if $state.params.profesor_id
 			$tempParam = parseInt($state.params.profesor_id)
@@ -35,7 +36,7 @@ angular.module('myvcFrontApp')
 
 	
 	, (r2)->
-		console.log 'No se pudo traer los profesores: ', r2
+		toastr.error 'No se pudo traer los profesores'
 	)
 
 	if $cookieStore.get 'config'

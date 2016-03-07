@@ -3,7 +3,7 @@
   <div class="widget">
     <div class="widget-header bordered-bottom bordered-blue"><span class="widget-caption">{{asignatura.materia + ' - ' + asignatura.nombre_grupo + ' - ' + asignatura.nombres_profesor}}</span></div>
     <div class="widget-body">
-      <div><a ui-sref="panel.unidades({asignatura_id: asignatura_id})" class="btn btn-info btn-lg">Volver a unidades</a></div>
+      <div><a ui-sref="panel.unidades({asignatura_id: asignatura_id})" class="btn btn-info btn-lg"> <i class="fa fa-arrow-left"></i>Volver a unidades</a></div>
       <div ng-class="{cursorcopy:notaRapida.enable}" class="table-responsive">
         <table class="table table-hover table-condensed table-striped tablenot100">
           <thead>

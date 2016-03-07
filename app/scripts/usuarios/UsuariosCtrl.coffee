@@ -1,5 +1,5 @@
 angular.module('myvcFrontApp')
-.controller('UsuariosCtrl', ['$scope', '$http', 'Restangular', '$state', '$rootScope', 'AuthService', 'Perfil', 'App', '$uibModal', '$filter', 'toastr', ($scope, $http, Restangular, $state, $rootScope, AuthService, Perfil, App, $modal, $filter, toastr) ->
+.controller('UsuariosCtrl', ['$scope', '$http', '$state', '$rootScope', 'AuthService', 'Perfil', 'App', '$uibModal', '$filter', 'toastr', ($scope, $http, $state, $rootScope, AuthService, Perfil, App, $modal, $filter, toastr) ->
 
 	AuthService.verificar_acceso()
 
@@ -10,7 +10,7 @@ angular.module('myvcFrontApp')
 	$scope.eliminar = (row)->
 
 		modalInstance = $modal.open({
-			templateUrl: App.views + 'usuarios/removeUsuario.tpl.html'
+			templateUrl: '==usuarios/removeUsuario.tpl.html'
 			controller: 'RemoveUsuarioCtrl'
 			resolve: 
 				usuario: ()->
@@ -24,7 +24,7 @@ angular.module('myvcFrontApp')
 	$scope.resetPass = (row)->
 		
 		modalInstance = $modal.open({
-			templateUrl: App.views + 'usuarios/resetPass.tpl.html'
+			templateUrl: '==usuarios/resetPass.tpl.html'
 			controller: 'ResetPassCtrl'
 			resolve: 
 				usuario: ()->
@@ -38,13 +38,13 @@ angular.module('myvcFrontApp')
 	$scope.verRoles = (row)->
 
 		modalInstance = $modal.open({
-			templateUrl: App.views + 'usuarios/verRoles.tpl.html'
+			templateUrl: '==usuarios/verRoles.tpl.html'
 			controller: 'VerRolesCtrl'
 			resolve: 
 				usuario: ()->
 					row
 				roles: ()->
-					Restangular.all('roles').getList()
+					$http.get('roles')
 		})
 		modalInstance.result.then( (user)->
 			#console.log 'Resultado del modal: ', user
@@ -99,13 +99,13 @@ angular.module('myvcFrontApp')
 				if newValue != oldValue
 
 					if colDef.field == "username"
-						Restangular.one('perfiles/guardar-username', rowEntity.user_id).customPUT({username: rowEntity.username}).then((r)->
+						$http.put('::perfiles/guardar-username/'+rowEntity.user_id, {username: rowEntity.username}).then((r)->
 							toastr.success 'Nombre de Usuario actualizado con éxito', 'Actualizado'
 						, (r2)->
 							toastr.error 'Cambio no guardado', 'Error'
 						)
 					else
-						Restangular.one('perfiles/update', rowEntity.persona_id).customPUT(rowEntity).then((r)->
+						$http.put('::perfiles/update/'+rowEntity.persona_id, rowEntity).then((r)->
 							toastr.success 'Usuario actualizado con éxito', 'Actualizado'
 						, (r2)->
 							toastr.error 'Cambio no guardado', 'Error'
@@ -114,15 +114,15 @@ angular.module('myvcFrontApp')
 			)
 
 	
-	Restangular.all('perfiles/usuariosall').getList().then((data)->
-		$scope.gridOptions.data = data;
+	$http.get('::perfiles/usuariosall').then((data)->
+		$scope.gridOptions.data = data.data;
 	)
 
 
 
 
 	$scope.crearTodosLosUsuarios = ()->
-		Restangular.one('perfiles/creartodoslosusuarios').customPUT().then((r)->
+		$http.put('::perfiles/creartodoslosusuarios').then((r)->
 			toastr.success 'Usuarios creados con éxito'
 		, (r2)->
 			toastr.error 'No se pudo crear los usuarios', 'Problema'
@@ -148,12 +148,12 @@ angular.module('myvcFrontApp')
 ])
 
 
-.controller('RemoveUsuarioCtrl', ['$scope', '$uibModalInstance', 'usuario', 'Restangular', 'toastr', ($scope, $modalInstance, usuario, Restangular, toastr)->
+.controller('RemoveUsuarioCtrl', ['$scope', '$uibModalInstance', 'usuario', '$http', 'toastr', ($scope, $modalInstance, usuario, $http, toastr)->
 	$scope.usuario = usuario
 
 	$scope.ok = ()->
 
-		Restangular.all('perfiles/destroy/'+usuario.user_id).remove().then((r)->
+		$http.delete('::perfiles/destroy/'+usuario.user_id).then((r)->
 			toastr.success 'Usuario eliminado con éxito.', 'Eliminado'
 		, (r2)->
 			toastr.warning 'No se pudo eliminar al usuario.', 'Problema'
@@ -165,13 +165,13 @@ angular.module('myvcFrontApp')
 
 ])
 
-.controller('ResetPassCtrl', ['$scope', '$uibModalInstance', 'usuario', 'Restangular', 'toastr', ($scope, $modalInstance, usuario, Restangular, toastr)->
+.controller('ResetPassCtrl', ['$scope', '$uibModalInstance', 'usuario', '$http', 'toastr', ($scope, $modalInstance, usuario, $http, toastr)->
 	$scope.usuario = usuario
 	$scope.newpassword = ''
 
 	$scope.ok = ()->
 
-		Restangular.one('perfiles/reset-password/'+usuario.user_id).customPUT({password: $scope.newpassword}).then((r)->
+		$http.put('::perfiles/reset-password/'+usuario.user_id, {password: $scope.newpassword}).then((r)->
 			toastr.success 'Contraseña cambiada.'
 		, (r2)->
 			toastr.warning 'No se pudo cambiar contraseña.', 'Problema'
@@ -184,9 +184,9 @@ angular.module('myvcFrontApp')
 ])
 
 
-.controller('VerRolesCtrl', ['$scope', '$uibModalInstance', 'usuario', 'roles', 'Restangular', 'toastr', ($scope, $modalInstance, usuario, roles, Restangular, toastr)->
+.controller('VerRolesCtrl', ['$scope', '$uibModalInstance', 'usuario', 'roles', '$http', 'toastr', ($scope, $modalInstance, usuario, roles, $http, toastr)->
 	$scope.usuario = usuario
-	$scope.roles = roles
+	$scope.roles = roles.data
 
 	$scope.datos = {selecteds: []}
 
@@ -195,7 +195,7 @@ angular.module('myvcFrontApp')
 
 	$scope.seleccionando = ($item, $model)->
 
-		Restangular.one('roles/addroletouser/'+$item.id).customPUT({user_id: usuario.user_id}).then((r)->
+		$http.put('::roles/addroletouser/'+$item.id, {user_id: usuario.user_id}).then((r)->
 			toastr.success 'Rol agregado con éxito.'
 		, (r2)->
 			toastr.warning 'No se pudo agregar el rol al usuario.', 'Problema'
@@ -203,7 +203,7 @@ angular.module('myvcFrontApp')
 
 	$scope.quitando = ($item, $model)->
 
-		Restangular.one('roles/removeroletouser/'+$item.id).customPUT({user_id: usuario.user_id}).then((r)->
+		$http.put('::roles/removeroletouser/'+$item.id, {user_id: usuario.user_id}).then((r)->
 			toastr.success 'Rol quitado con éxito.'
 		, (r2)->
 			toastr.warning 'No se pudo quitar el rol al usuario.', 'Problema'

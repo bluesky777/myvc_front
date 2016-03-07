@@ -13,7 +13,7 @@ angular.module('myvcFrontApp')
 
 ])
 
-.controller 'ConfigCertificadosCtrl', ['$scope', 'App', 'Restangular', '$state', '$cookies', '$rootScope', 'uiGridConstants', '$filter', ($scope, App, Restangular, $state, $cookies, $rootScope, uiGridConstants, $filter) ->
+.controller 'ConfigCertificadosCtrl', ['$scope', 'App', '$http', '$state', '$cookies', 'toastr', 'uiGridConstants', '$filter', ($scope, App, $http, $state, $cookies, toastr, uiGridConstants, $filter) ->
 
 	#console.log 'Configurando certificados'
 	$scope.newcertif = {
@@ -75,10 +75,10 @@ angular.module('myvcFrontApp')
 				
 				if newValue != oldValue
 
-					Restangular.one('certificados/update').customPUT(rowEntity).then((r)->
-						$scope.toastr.success 'Certificado modificado', 'Actualizado'
+					$http.put('::certificados/update', rowEntity).then((r)->
+						toastr.success 'Certificado modificado', 'Actualizado'
 					, (r2)->
-						$scope.toastr.error 'Cambio no guardado', 'Error'
+						toastr.error 'Cambio no guardado', 'Error'
 					)
 
 				$scope.$apply()
@@ -92,13 +92,13 @@ angular.module('myvcFrontApp')
 
 
 	$scope.guardar = ()->
-		Restangular.one('certificados/store').customPOST($scope.newcertif).then((r)->
-			$scope.toastr.success 'Certificado creado.'
+		$http.post('::certificados/store', $scope.newcertif).then((r)->
+			toastr.success 'Certificado creado.'
 			$scope.creando_certificado = false
-			$scope.certificados.push r 
+			$scope.certificados.push r.data 
 			$scope.gridOptions.data = $scope.certificados
 		, (r2)->
-			$scope.toastr.error 'Certificado no guardado', 'Error'
+			toastr.error 'Certificado no guardado', 'Error'
 		)
 		
 
@@ -124,30 +124,30 @@ angular.module('myvcFrontApp')
 		
 
 	$scope.actualizar = ()->
-		Restangular.one('certificados/update').customPUT($scope.currentCertif).then((r)->
-			$scope.toastr.success 'Certificado modificado', 'Actualizado'
+		$http.put('::certificados/update', $scope.currentCertif).then((r)->
+			toastr.success 'Certificado modificado', 'Actualizado'
 			$scope.editando = false
 		, (r2)->
-			$scope.toastr.error 'Cambio no guardado', 'Error'
+			toastr.error 'Cambio no guardado', 'Error'
 		)
 		
 		
 
 	$scope.eliminar = (certif)->
-		Restangular.one('certificados/destroy/'+certif.id).customDELETE().then((r)->
-			$scope.toastr.success 'Certificado eliminado.'
+		$http.delete('certificados/destroy/'+certif.id).customDELETE().then((r)->
+			toastr.success 'Certificado eliminado.'
 			$scope.certificados = $filter('filter')($scope.certificados, {id: '!'+certif.id})
 			$scope.gridOptions.data = $scope.certificados
 		, (r2)->
-			$scope.toastr.error 'Certificado no eliminado', 'Error'
+			toastr.error 'Certificado no eliminado', 'Error'
 		)
 		
 
 	$scope.certificadoSelect = ($item, $model)->
-		Restangular.one('certificados/actual').customPUT({config_certificado_estudio_id: $item.id, year_id: $scope.year.id}).then((r)->
-			$scope.toastr.success 'Certificado actual cambiado.'
+		$http.put('::certificados/actual', {config_certificado_estudio_id: $item.id, year_id: $scope.year.id}).then((r)->
+			toastr.success 'Certificado actual cambiado.'
 		, (r2)->
-			$scope.toastr.error 'Certificado no cambiado', 'Error'
+			toastr.error 'Certificado no cambiado', 'Error'
 		)
 
 

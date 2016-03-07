@@ -1,10 +1,10 @@
 angular.module("myvcFrontApp")
 
-.controller('PapeleraCtrl', ['$scope', 'App', '$rootScope', '$state', '$interval', 'Restangular', '$uibModal', '$filter', 'toastr', ($scope, App, $rootScope, $state, $interval, Restangular, $modal, $filter, toastr)->
+.controller('PapeleraCtrl', ['$scope', 'App', '$state', '$http', '$uibModal', '$filter', 'toastr', ($scope, App, $state, $http, $modal, $filter, toastr)->
 
 	$scope.restaurarAlum = (alum)->
 		
-		Restangular.one('alumnos/restore', alum.alumno_id).customPUT().then(()->
+		$http.put('::alumnos/restore/'+alum.alumno_id).then(()->
 			$scope.gridAlumnos.data = $filter('filter')($scope.gridAlumnos.data, {alumno_id: '!'+alum.alumno_id})
 			toastr.success 'Éxito', 'Alumno restaurado'
 		, (r2)->
@@ -13,7 +13,7 @@ angular.module("myvcFrontApp")
 	$scope.elimAlum = (alum)->
 
 		modalInstance = $modal.open({
-			templateUrl: App.views + 'papelera/forceRemoveAlumno.tpl.html'
+			templateUrl: '==papelera/forceRemoveAlumno.tpl.html'
 			controller: 'ForceRemoveAlumnoCtrl'
 			resolve: 
 				alumno: ()->
@@ -21,7 +21,6 @@ angular.module("myvcFrontApp")
 		})
 		modalInstance.result.then( (alum)->
 			$scope.gridAlumnos.data = $filter('filter')($scope.gridAlumnos.data, {alumno_id: '!'+alum.alumno_id})
-			console.log 'Resultado del modal: ', alum
 		)
 
 	# ALUMNOS
@@ -34,7 +33,7 @@ angular.module("myvcFrontApp")
 		enebleGridColumnMenu: false,
 		columnDefs: [
 			{ field: 'alumno_id', displayName:'Id', maxWidth: 40}
-			{ name: 'edicion', displayName:'Edición', minWidth: 95, enableSorting: false, enableFiltering: false, cellTemplate: btGridAlum1 + btGridAlum2}
+			{ name: 'edicion', displayName:'Edición', maxWidth: 110, enableSorting: false, enableFiltering: false, cellTemplate: btGridAlum1 + btGridAlum2}
 			{ field: 'nombres', enableHiding: false }
 			{ field: 'apellidos' }
 			{ field: 'sexo', maxWidth: 20 }
@@ -52,7 +51,7 @@ angular.module("myvcFrontApp")
 	# GRUPOS
 
 	$scope.restaurarGrupo = (grupo)->
-		Restangular.one('grupos/restore', grupo.id).customPUT().then(()->
+		$http.put('::grupos/restore/'+grupo.id).then(()->
 			$scope.gridGrupos.data = $filter('filter')($scope.gridGrupos.data, {id: '!'+grupo.id})
 			toastr.success 'Éxito', 'Grupo restaurado'
 		, (r2)->
@@ -61,7 +60,7 @@ angular.module("myvcFrontApp")
 	$scope.elimGrupo = (grupo)->
 
 		modalInstance = $modal.open({
-			templateUrl: App.views + 'papelera/forceRemoveGrupo.tpl.html'
+			templateUrl: '::papelera/forceRemoveGrupo.tpl.html'
 			controller: 'ForceRemoveGrupoCtrl'
 			resolve: 
 				grupo: ()->
@@ -80,7 +79,7 @@ angular.module("myvcFrontApp")
 		enebleGridColumnMenu: false,
 		columnDefs: [
 			{ field: 'id', displayName:'Id', maxWidth: 40}
-			{ name: 'edicion', displayName:'Edición', maxWidth: 50, enableSorting: false, enableFiltering: false, cellTemplate: btGridGrupo1 + btGridGrupo2}
+			{ name: 'edicion', displayName:'Edición', maxWidth: 110, enableSorting: false, enableFiltering: false, cellTemplate: btGridGrupo1 + btGridGrupo2}
 			{ field: 'nombre', enableHiding: false }
 			{ field: 'abrev', displayName: 'Abreviatura'}
 			{ field: 'grado_id', maxWidth: 20 }
@@ -92,13 +91,13 @@ angular.module("myvcFrontApp")
 			$scope.gridApi = gridApi
 
 
-	Restangular.all('alumnos/trashed').getList().then((data)->
-		$scope.gridAlumnos.data = data;
+	$http.get('::alumnos/trashed').then((data)->
+		$scope.gridAlumnos.data = data.data;
 	, (r2)->
 		toastr.warning 'No se pudo traer los alumnos eliminados.'
 	)
-	Restangular.all('grupos/trashed').getList().then((data)->
-		$scope.gridGrupos.data = data;
+	$http.get('::grupos/trashed').then((data)->
+		$scope.gridGrupos.data = data.data;
 	, (r2)->
 		toastr.warning 'No se pudo traer los grupos eliminados.'
 	)
@@ -112,7 +111,7 @@ angular.module("myvcFrontApp")
 	# UNIDADES
 
 	$scope.restaurarUnidad = (unidad)->
-		Restangular.one('unidades/restore', unidad.id).customPUT().then(()->
+		$http.put('::unidades/restore/'+unidad.id).then(()->
 			$scope.gridUnidad.data = $filter('filter')($scope.gridUnidad.data, {id: '!'+unidad.id})
 			toastr.success 'Éxito', 'Unidad restaurada'
 		, (r2)->
@@ -121,7 +120,7 @@ angular.module("myvcFrontApp")
 	$scope.elimUnidad = (unidad)->
 
 		modalInstance = $modal.open({
-			templateUrl: App.views + 'papelera/forceRemoveUnidad.tpl.html'
+			templateUrl: '==papelera/forceRemoveUnidad.tpl.html'
 			controller: 'ForceRemoveUnidadCtrl'
 			resolve: 
 				unidad: ()->
@@ -129,7 +128,6 @@ angular.module("myvcFrontApp")
 		})
 		modalInstance.result.then( (unidad)->
 			$scope.gridUnidad.data = $filter('filter')($scope.gridUnidad.data, {id: '!'+unidad.id})
-			console.log 'Resultado del modal: ', unidad
 		)
 
 	btGridUnidad1 = '<a class="btn btn-default btn-xs shiny info" ng-click="grid.appScope.restaurarUnidad(row.entity)"><i class="fa fa-refresh "></i>Restaurar</a>'
@@ -141,7 +139,7 @@ angular.module("myvcFrontApp")
 		enebleGridColumnMenu: false,
 		columnDefs: [
 			{ field: 'id', displayName:'Id', maxWidth: 40}
-			{ name: 'edicion', displayName:'Edición', maxWidth: 50, enableSorting: false, enableFiltering: false, cellTemplate: btGridUnidad1 + btGridUnidad2}
+			{ name: 'edicion', displayName:'Edición', maxWidth: 110, enableSorting: false, enableFiltering: false, cellTemplate: btGridUnidad1 + btGridUnidad2}
 			{ field: 'definicion', displayName:'Definición', enableHiding: false }
 			{ field: 'alias_materia', displayName: 'Materia'}
 			{ field: 'abrev_grupo', displayName: 'Grupo'}
@@ -154,13 +152,13 @@ angular.module("myvcFrontApp")
 			$scope.gridApi = gridApi
 
 
-	Restangular.all('unidades/trashed').getList().then((data)->
-		$scope.gridUnidad.data = data;
+	$http.get('::unidades/trashed').then((data)->
+		$scope.gridUnidad.data = data.data;
 	, (r2)->
 		toastr.warning 'No se pudo traer las unidades eliminados.'
 	)
-	Restangular.all('unidades/trashed').getList().then((data)->
-		$scope.gridUnidad.data = data;
+	$http.get('::unidades/trashed').then((data)->
+		$scope.gridUnidad.data = data.data;
 	, (r2)->
 		toastr.warning 'No se pudo traer las unidades eliminadas.'
 	)

@@ -3,7 +3,7 @@ angular.module('myvcFrontApp')
 .directive('boletinFinalAlumnoDir',['App', 'Perfil', (App, Perfil)-> 
 
 	restrict: 'EA'
-	templateUrl: "#{App.views}informes/boletinFinalAlumnoDir.tpl.html"
+	templateUrl: "==informes/boletinFinalAlumnoDir.tpl.html"
 	scope: 
 		grupo: "="
 		year: "="

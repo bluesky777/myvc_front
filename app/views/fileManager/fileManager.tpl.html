@@ -54,7 +54,7 @@
                 <ui-select-choices repeat="imagen in imagenes_privadas | filter: {nombre: $select.search}"><img ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + imagen.nombre | highlight: $select.search"></small></ui-select-choices>
               </ui-select>
               <input type="submit" ng-submit="pedirCambioUsuario(dato.imgOficial)" ng-show="!hasRoleOrPerm('profesor')" value="Cambiar foto oficial" class="btn btn-primary shiny">
-              <input type="submit" ng-submit="pedirCambioUsuario(dato.imgOficial)" ng-show="!hasRoleOrPerm('alumno')" value="Pedir para foto oficial" class="btn btn-primary shiny">
+              <input type="submit" ng-submit="pedirCambioUsuario(dato.imgOficial)" ng-show="hasRoleOrPerm(['alumno', 'acudiente'])" value="Pedir para foto oficial" class="btn btn-primary shiny">
             </div>
           </form>
           <form ng-submit="cambiarLogoColegio(dato.imgLogo)" ng-show="hasRoleOrPerm('admin')">
@@ -84,7 +84,7 @@
                     <div class="databox-right padding-top-10 bordered-thick bordered-sky">
                       <div class="databox-text lightcarbon">{{imagen.nombre}}</div>
                       <div class="databox-text darkgray">
-                        <div class="btn-group"><a ng-click="borrarImagen(imagen)" uib-tooltip="Borrar imagen" class="btn btn-darkorange btn-xs"><i class="fa fa-times"></i></a><a ng-click="rotarImagen(imagen)" uib-tooltip="Rotar" class="btn btn-default btn-xs"><i class="fa fa-rotate-right"></i></a><a ng-click="publicarImagen(imagen)" uib-tooltip="Enviar a pública" class="btn btn-default btn-xs"><i class="fa fa-upload"></i></a></div>
+                        <div class="btn-group"><a ng-click="borrarImagen(imagen)" uib-tooltip="Borrar imagen" class="btn btn-darkorange btn-xs"><i class="fa fa-times"></i></a><a ng-click="rotarImagen(imagen)" uib-tooltip="Rotar" class="btn btn-default btn-xs"><i class="fa fa-rotate-right"></i></a><a ng-click="publicarImagen(imagen)" uib-tooltip="Públicar" tooltip-placement="right" class="btn btn-default btn-xs"><i class="fa fa-upload"></i></a></div>
                       </div>
                     </div>
                   </div>
@@ -108,7 +108,7 @@
                     <div class="databox-right padding-top-10 bordered-thick bordered-sky">
                       <div class="databox-text lightcarbon">{{imagen.nombre}}</div>
                       <div class="databox-text darkgray">
-                        <div class="btn-group"><a ng-click="borrarImagen(imagen)" uib-tooltip="Eliminar" class="btn btn-darkorange btn-xs"><i class="fa fa-times"></i></a><a ng-click="rotarImagen(imagen)" uib-tooltip="Rotar imagen" class="btn btn-default btn-xs"><i class="fa fa-rotate-right"></i></a><a ng-click="privatizarImagen(imagen)" uib-tooltip="Privada para el que la subió" class="btn btn-default btn-xs"><i class="fa fa-download"></i></a></div>
+                        <div class="btn-group"><a ng-click="borrarImagen(imagen)" uib-tooltip="Eliminar" class="btn btn-darkorange btn-xs"><i class="fa fa-times"></i></a><a ng-click="rotarImagen(imagen)" uib-tooltip="Rotar imagen" class="btn btn-default btn-xs"><i class="fa fa-rotate-right"></i></a><a ng-click="privatizarImagen(imagen)" uib-tooltip="Privadar" tooltip-placement="right" class="btn btn-default btn-xs"><i class="fa fa-download"></i></a></div>
                       </div>
                     </div>
                   </div>
@@ -183,14 +183,14 @@
             <div class="form-group">
               <label>Profesor</label>
               <ui-select ng-model="dato.profeImgFirma" on-select="imagenSelect($item, $model)" theme="select2" style="min-width: 200px;">
-                <ui-select-match placeholder="Imagen usuario"> <img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombres"></small></ui-select-match>
+                <ui-select-match placeholder="Profesor"> <img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombres"></small></ui-select-match>
                 <ui-select-choices repeat="profe in usuariosprofes | filter: {nombres: $select.search}"><img ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + profe.nombres + ' ' + profe.apellidos | highlight: $select.search"></small></ui-select-choices>
               </ui-select>
             </div>
             <div class="form-group">
               <label>Foto</label>
               <ui-select ng-model="dato.imgOficialProfe" on-select="imagenSelect($item, $model)" theme="select2" style="min-width: 200px;">
-                <ui-select-match placeholder="Imagen usuario"> <img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombre"></small></ui-select-match>
+                <ui-select-match placeholder="Foto profesor"> <img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombre"></small></ui-select-match>
                 <ui-select-choices repeat="imagen in imagenes_publicas | filter: {nombre: $select.search}"><img ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + imagen.nombre | highlight: $select.search"></small></ui-select-choices>
               </ui-select>
               <input type="button" ng-click="cambiarFotoUnProfe(dato.profeImgFirma, dato.imgOficialProfe)" value="Cambiar oficial" class="btn btn-primary shiny">
@@ -198,7 +198,7 @@
             <div class="form-group">
               <label>Firma</label>
               <ui-select ng-model="dato.imgFirma" on-select="imagenSelect($item, $model)" theme="select2" style="min-width: 200px;">
-                <ui-select-match placeholder="Imagen usuario"> <img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombre"></small></ui-select-match>
+                <ui-select-match placeholder="Imagen firma"> <img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombre"></small></ui-select-match>
                 <ui-select-choices repeat="imagen in imagenes_publicas | filter: {nombre: $select.search}"><img ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + imagen.nombre | highlight: $select.search"></small></ui-select-choices>
               </ui-select>
               <input type="button" ng-click="pedirCambioFirma(dato.profeImgFirma, dato.imgFirma)" value="Cambiar firma" class="btn btn-primary shiny">

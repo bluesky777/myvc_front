@@ -28,6 +28,7 @@
         <li ui-sref-active="active"><a ui-sref="panel.listasignaturas" stop-event="click"><span class="menu-text">Asignaturas</span></a></li>
         <li ui-sref-active="active"><a ng-click="listarAsignaturas()" href="" stop-event="click"><span class="menu-text">Notas</span></a></li>
         <li ui-sref-active="active"><a ui-sref="panel.actividades" stop-event="click"><span class="menu-text">Actividades</span><i class="menu-icon fa fa-soccer-ball-o"> </i></a></li>
+        <li ui-sref-active="active"><a ui-sref="panel.copiar" stop-event="click"><span class="menu-text">Copiar</span><i class="menu-icon fa fa-copy"> </i></a></li>
         <li ui-sref-active="active"><a ui-sref="panel.notas_alumno" stop-event="click"><span class="menu-text blue">De un alumno</span></a></li>
       </ul>
     </li><!-- Notas visto por el admin-->
@@ -35,6 +36,7 @@
       <ul class="submenu">
         <li ui-sref-active="active"><a ui-sref="panel.notas_alumno" stop-event="click"><span class="menu-text">De un alumno</span></a></li>
         <li ui-sref-active="active"><a ui-sref="panel.actividades" stop-event="click"><span class="menu-text">Actividades</span><i class="menu-icon fa fa-soccer-ball-o"> </i></a></li>
+        <li ui-sref-active="active"><a ui-sref="panel.copiar" stop-event="click"><span class="menu-text">Copiar </span><i class="menu-icon fa fa-copy"> </i></a></li>
         <li ui-sref-active="active" ng-repeat="profe in profesores"><a ui-sref="panel.listasignaturas({profesor_id: profe.profesor_id})" stop-event="click" uib-tooltip="{{profe.nombres}} {{profe.apellidos}}" tooltip-popup-delay="1500" tooltip-placement="right">
             <div class="menu-text nombresellipsis">{{profe.nombres}} {{profe.apellidos}}</div></a></li>
         <li ng-if="profesores.length==0"><a ui-sref="panel.profesores" stop-event="click" uib-tooltip="Profesores no contratados" tooltip-popup-delay="1500" tooltip-placement="right">

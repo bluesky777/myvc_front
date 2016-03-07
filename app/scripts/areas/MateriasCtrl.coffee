@@ -1,6 +1,6 @@
 angular.module("myvcFrontApp")
 
-.controller('MateriasCtrl', ['$scope', '$rootScope', 'toastr', 'Restangular', 'areas', '$uibModal', '$filter', 'App', ($scope, $rootScope, toastr, Restangular, areas, $modal, $filter, App)->
+.controller('MateriasCtrl', ['$scope', 'toastr', '$http', 'areas', '$uibModal', '$filter', ($scope, toastr, $http, areas, $modal, $filter)->
 
 	$scope.creando = false
 	$scope.editando = false
@@ -17,8 +17,8 @@ angular.module("myvcFrontApp")
 		$scope.editando = false
 
 	$scope.crear = ()->
-		Restangular.one('materias').customPOST($scope.currentmateria).then((r)->
-			$scope.gridOptions.data.push r
+		$http.post('::materias', $scope.currentmateria).then((r)->
+			$scope.gridOptions.data.push r.data
 			delete $scope.currentmateria
 			toastr.success 'Materia creada con éxito'
 		, (r2)->
@@ -26,8 +26,8 @@ angular.module("myvcFrontApp")
 		)
 
 	$scope.guardar = ()->
-		Restangular.one('materias/update', $scope.currentmateriaEdit.id).customPUT($scope.currentmateriaEdit).then((r)->
-			$scope.currentmateriaEdit.area_id = r.area_id # Para actulizar el grid
+		$http.put('::materias/update/'+$scope.currentmateriaEdit.id, $scope.currentmateriaEdit).then((r)->
+			$scope.currentmateriaEdit.area_id = r.data.area_id # Para actulizar el grid
 			delete $scope.currentmateriaEdit
 			toastr.success 'Materia actualizada con éxito'
 			$scope.cancelarEdit()
@@ -37,14 +37,13 @@ angular.module("myvcFrontApp")
 
 	$scope.editar = (row)->
 		row.area = $filter('filter')(areas, id: row.area_id)[0]
-		console.log row
 		$scope.currentmateriaEdit = row
 		$scope.editando = true
 
 	$scope.eliminar = (row)->
 
 		modalInstance = $modal.open({
-			templateUrl: App.views + 'areas/removeMateria.tpl.html'
+			templateUrl: '==areas/removeMateria.tpl.html'
 			controller: 'RemovemateriaCtrl'
 			resolve: 
 				materia: ()->
@@ -97,8 +96,8 @@ angular.module("myvcFrontApp")
 
 	
 
-	Restangular.one('materias').getList().then((data)->
-		$scope.gridOptions.data = data
+	$http.get('::materias').then((data)->
+		$scope.gridOptions.data = data.data
 	)
 ])
 
@@ -115,12 +114,12 @@ angular.module("myvcFrontApp")
 				return 'Elija...'
 ])
 
-.controller('RemovemateriaCtrl', ['$scope', '$uibModalInstance', 'materia', 'Restangular', 'toastr', ($scope, $modalInstance, materia, Restangular, toastr)->
+.controller('RemovemateriaCtrl', ['$scope', '$uibModalInstance', 'materia', '$http', 'toastr', ($scope, $modalInstance, materia, $http, toastr)->
 	$scope.materia = materia
 
 	$scope.ok = ()->
 
-		Restangular.all('materias/destroy/'+materia.id).remove().then((r)->
+		$http.delete('::materias/destroy/'+materia.id).then((r)->
 			toastr.success 'Materia '+materia.nombre+' eliminada con éxito.', 'Eliminada'
 		, (r2)->
 			toastr.warning 'Problema', 'No se pudo eliminar la Materia.'

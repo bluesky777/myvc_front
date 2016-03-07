@@ -1,6 +1,6 @@
 angular.module("myvcFrontApp")
 
-.controller('AsignaturasCtrl', ['$scope', 'Restangular', 'materias', 'grupos', 'profesores', '$uibModal', '$filter', 'App', 'AuthService', 'toastr', ($scope, Restangular, materias, grupos, profesores, $modal, $filter, App, AuthService, toastr)->
+.controller('AsignaturasCtrl', ['$scope', '$http', 'materias', 'grupos', 'profesores', '$uibModal', '$filter', 'App', 'AuthService', 'toastr', ($scope, $http, materias, grupos, profesores, $modal, $filter, App, AuthService, toastr)->
 
 	AuthService.verificar_acceso()
 
@@ -27,7 +27,7 @@ angular.module("myvcFrontApp")
 
 
 	$scope.seleccionaProfe = (item, model)->
-		item =  if item is undefined then {id:'!'} else item
+		item =  if item is undefined then {profesor_id:'!'} else item
 		$scope.gridOptions.data = $filter('filter')($scope.asignaturas, {profesor_id: item.id}, true)
 		
 		if $scope.currentasignatura.grupo != undefined
@@ -56,8 +56,8 @@ angular.module("myvcFrontApp")
 		$scope.editando = false
 
 	$scope.crear = ()->
-		Restangular.one('asignaturas').customPOST($scope.currentasignatura).then((r)->
-			$scope.asignaturas.push r
+		$http.post('::asignaturas', $scope.currentasignatura).then((r)->
+			$scope.asignaturas.push r.data
 			$scope.filtrarAsignaturas()
 			$scope.cancelarCrear()
 			toastr.success 'Asignatura creada con éxito'
@@ -66,12 +66,11 @@ angular.module("myvcFrontApp")
 		)
 
 	$scope.guardar = ()->
-		Restangular.one('asignaturas/update', $scope.currentasignaturaEdit.id).customPUT($scope.currentasignaturaEdit).then((r)->
-			$scope.currentasignaturaEdit.area_id = r.area_id # Para actulizar el grid
+		$http.put('::asignaturas/update/'+$scope.currentasignaturaEdit.id, $scope.currentasignaturaEdit).then((r)->
+			$scope.currentasignaturaEdit.area_id = r.data.area_id # Para actulizar el grid
 			toastr.success 'Asignatura actualizada con éxito'
 			$scope.cancelarEdit()
 		, (r2)->
-			console.log 'No se pudo crear', r2
 			toastr.error 'Error guardando', 'Problema'
 		)
 
@@ -86,7 +85,7 @@ angular.module("myvcFrontApp")
 	$scope.eliminar = (row)->
 
 		modalInstance = $modal.open({
-			templateUrl: App.views + 'areas/removeAsignatura.tpl.html'
+			templateUrl: '==areas/removeAsignatura.tpl.html'
 			controller: 'RemoveAsignaturaCtrl'
 			resolve: 
 				asignatura: ()->
@@ -133,7 +132,7 @@ angular.module("myvcFrontApp")
 			filter: {
 				condition: (searchTerm, cellValue)->
 					foundP 	= $filter('filter')(profesores, {nombres: searchTerm, apellidos: searchTerm})
-					actual 			= $filter('filter')(foundP, {id: cellValue}, true)
+					actual 	= $filter('filter')(foundP, {profesor_id: cellValue}, true)
 					return actual.length > 0;
 			}
 			editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'id', editDropdownValueLabel: 'nombres', enableCellEditOnFocus: true }
@@ -155,8 +154,8 @@ angular.module("myvcFrontApp")
 
 	
 
-	Restangular.one('asignaturas').getList().then((data)->
-		$scope.asignaturas = data
+	$http.get('::asignaturas').then((data)->
+		$scope.asignaturas = data.data
 		$scope.gridOptions.data = $scope.asignaturas
 	)
 ])
@@ -198,12 +197,12 @@ angular.module("myvcFrontApp")
 				return 'Elija...'
 ])
 
-.controller('RemoveAsignaturaCtrl', ['$scope', '$uibModalInstance', 'asignatura', 'Restangular', 'toastr', ($scope, $modalInstance, asignatura, Restangular, toastr)->
+.controller('RemoveAsignaturaCtrl', ['$scope', '$uibModalInstance', 'asignatura', '$http', 'toastr', ($scope, $modalInstance, asignatura, $http, toastr)->
 	$scope.asignatura = asignatura
 
 	$scope.ok = ()->
 
-		Restangular.all('asignaturas/destroy/'+asignatura.id).remove().then((r)->
+		$http.delete('::asignaturas/destroy/'+asignatura.id).then((r)->
 			toastr.success 'asignatura '+asignatura.nombre+' eliminada con éxito.', 'Eliminada'
 		, (r2)->
 			toastr.warning 'Problema', 'No se pudo eliminar la asignatura.'

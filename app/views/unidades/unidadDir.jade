@@ -55,14 +55,15 @@ li.tickets-container.ed-unidades-item
 			
 
 	
-	//ul(ui-sortable="sortableOptions" ng-model="unidad.subunidades")
-	ul.tickets-list(as-sortable="sortableOptions" ng-model="unidad.subunidades" ng-hide="unidad.ocultarSubs" style="padding-left: 30px; ")
+	//ul.tickets-list(as-sortable="sortableOptions" ng-model="unidad.subunidades" ng-hide="unidad.ocultarSubs" style="padding-left: 30px; ")
+	ul.tickets-list(ng-model="unidad.subunidades" ng-hide="unidad.ocultarSubs" style="padding-left: 30px; ")
 		
 
-		//li(ng-repeat="subunidad in unidad.subunidades | orderBy:'orden'")
-		li.ticket-item(as-sortable-item ng-repeat="subunidad in unidad.subunidades | orderBy:'orden'" style="border: none")
+		//li.ticket-item(as-sortable-item ng-repeat="subunidad in unidad.subunidades | orderBy:'orden'" style="border: none")
+		li.ticket-item(ng-repeat="subunidad in unidad.subunidades | orderBy:'orden'" style="border: none")
 			.row(ng-show="!subunidad.editando")
-				.ticket-user.col-lg-10.col-sm-8.col-xs-12(as-sortable-item-handle style="overflow: visible; line-height: 2.4;")
+				//.ticket-user.col-lg-10.col-sm-8.col-xs-12(as-sortable-item-handle style="overflow: visible; line-height: 2.4;")
+				.ticket-user.col-lg-10.col-sm-8.col-xs-12(style="overflow: visible; line-height: 2.4;")
 					//.user-avatar(uib-tooltip="Porcentaje")
 						| {{subunidad.porcentaje}}%
 
@@ -76,7 +77,6 @@ li.tickets-container.ed-unidades-item
 
 				.ticket-type.col-lg-1.col-sm-2.col-xs-6(uib-tooltip="Orden")
 					.divider.hidden-xs
-					//.type {{subunidad.nota_default}}
 					input.form-control.ordenador-subunidad(type="number" min="0" max="99" ng-model="subunidad.orden"
 						ng-change="actualizarSubunidad(subunidad)" ng-model-options="{ updateOn: 'blur'}")
 

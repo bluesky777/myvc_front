@@ -1,7 +1,7 @@
 
-<div ng-if="row.entity.year_id==grid.appScope.current_year" style="text-align:right;"><a ng-click="grid.appScope.quitarContrato(row.entity.contrato_id);" uib-tooltip="Contratado año {{grid.appScope.USER.year.year}}" tooltip-placement="right" href="" class="btn btn-default btn-xs shiny danger">
+<div ng-if="row.entity.year_id==grid.appScope.current_year" style="text-align:right;"><a ng-click="grid.appScope.quitarContrato(row.entity.contrato_id);" uib-tooltip="Contratado año {{grid.appScope.USER.year}}" tooltip-placement="right" href="" class="btn btn-default btn-xs shiny danger">
      
     Dar de baja</a></div>
-<div ng-if="row.entity.year_id!=grid.appScope.current_year" style="text-align:right;"><a ng-click="grid.appScope.contratar(row.entity);" uib-tooltip="Contrato del año {{grid.appScope.USER.year.year}}" tooltip-placement="right" href="" class="btn btn-success btn-xs shiny">
+<div ng-if="row.entity.year_id!=grid.appScope.current_year" style="text-align:right;"><a ng-click="grid.appScope.contratar(row.entity);" uib-tooltip="Contrato del año {{grid.appScope.USER.year}}" tooltip-placement="right" href="" class="btn btn-success btn-xs shiny">
      
     Contratar</a></div>

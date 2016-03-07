@@ -6,10 +6,10 @@ angular.module('myvcFrontApp')
 			url: '^/unidades/:asignatura_id'
 			views: 
 				'maincontent':
-					templateUrl: "#{App.views}unidades/unidades.tpl.html"
+					templateUrl: "==unidades/unidades.tpl.html"
 					controller: 'UnidadesCtrl'
 				'headerContent':
-					templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+					templateUrl: "==panel/panelHeader.tpl.html"
 					controller: 'PanelHeaderCtrl'
 					resolve:
 						titulo: ['AuthService', '$q', (AuthService, $q)->
@@ -18,7 +18,6 @@ angular.module('myvcFrontApp')
 							AuthService.verificar().then((r)->
 								d.resolve r.unidades_displayname
 							, (r2)->
-								console.log 'No se resolvió en Unidades, ', r2
 								d.resolve 'Unidades'
 
 							)
@@ -42,10 +41,10 @@ angular.module('myvcFrontApp')
 			url: '^/copiar'
 			views: 
 				'maincontent':
-					templateUrl: "#{App.views}unidades/copiar.tpl.html"
+					templateUrl: "==unidades/copiar.tpl.html"
 					controller: 'CopiarCtrl'
 				'headerContent':
-					templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+					templateUrl: "==panel/panelHeader.tpl.html"
 					controller: 'PanelHeaderCtrl'
 					resolve:
 							titulo: [->

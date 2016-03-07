@@ -1,12 +1,11 @@
 angular.module("myvcFrontApp")
 
-.controller('PuestosGrupoPeriodoCtrl', ['$scope', 'App', '$rootScope', '$state', 'alumnosDat', 'escalas', 'Restangular', '$uibModal', '$filter', 'AuthService', '$cookieStore', ($scope, App, $rootScope, $state, alumnosDat, escalas, Restangular, $modal, $filter, AuthService, $cookieStore)->
-	
+.controller('PuestosGrupoPeriodoCtrl', ['$scope', '$state', 'alumnosDat', 'escalas', '$cookieStore', ($scope, $state, alumnosDat, escalas, $cookieStore)->
+	alumnosDat = alumnosDat.data
+
 	$scope.grupo = alumnosDat[0]
 	$scope.year = alumnosDat[1]
 	$scope.alumnos = alumnosDat[2]
-
-	console.log '$scope.USER.nota_minima_aceptada', $scope.USER.nota_minima_aceptada
 
 	$scope.escalas = escalas
 

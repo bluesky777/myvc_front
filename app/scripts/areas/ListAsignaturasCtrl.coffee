@@ -1,5 +1,5 @@
 angular.module('myvcFrontApp')
-.controller 'ListAsignaturasCtrl', ['$scope', '$http', 'Restangular', '$state', '$cookies', '$rootScope', 'AuthService', 'Perfil', 'App', 'resolved_user', ($scope, $http, Restangular, $state, $cookies, $rootScope, AuthService, Perfil, App, resolved_user) ->
+.controller 'ListAsignaturasCtrl', ['$scope', '$http', 'toastr', '$state', '$cookies', '$rootScope', 'AuthService', 'App', 'resolved_user', ($scope, $http, toastr, $state, $cookies, $rootScope, AuthService, App, resolved_user) ->
 
 	$scope.UNIDAD = $scope.USER.unidad_displayname
 	$scope.GENERO_UNI = $scope.USER.genero_unidad
@@ -8,7 +8,7 @@ angular.module('myvcFrontApp')
 	$scope.UNIDADES = $scope.USER.unidades_displayname
 	$scope.SUBUNIDADES = $scope.USER.subunidades_displayname
 
-	$scope.views = App.views + 'areas/'
+	$scope.views = App.views + 'areas/' # La uso en jade
 
 	$scope.profesor = {}
 
@@ -16,41 +16,29 @@ angular.module('myvcFrontApp')
 
 		$scope.profesor_id = true
 		
-		Restangular.all('asignaturas/listasignaturas/'+$state.params.profesor_id).getList().then((r)->
-			$scope.asignaturas = r
-
-			Restangular.one('profesores/show/'+$state.params.profesor_id).get().then((r)->
-				$scope.profesor = r
-			, (r2)->
-				console.log 'No se pudo traer el profesor, ', r2
-			)
+		$http.get('::asignaturas/listasignaturas/'+$state.params.profesor_id).then((r)->
+			$scope.asignaturas = r.data.asignaturas
+			$scope.profesor = r.data.info_profesor
+			$scope.gruposcomportamientos = r.data.grados_comp
+			
 
 		, (r2)->
-			console.log 'No se pudo traer las asignaturas, ', r2
+			toastr.error 'No se pudo traer las asignaturas'
 		)
 
 
 	else
-		$scope.profesor_id = false
-
-		Restangular.all('asignaturas/listasignaturas').getList().then((r)->
-			$scope.asignaturas = r
+		$http.get('::asignaturas/listasignaturas').then((r)->
+			$scope.asignaturas = r.data.asignaturas
+			$scope.gruposcomportamientos = r.data.grados_comp
 		, (r2)->
-			console.log 'No se pudo traer tus asignaturas, ', r2
+			toastr.error 'No se pudo traer tus asignaturas'
 		)
 
-	ruta1 = 'grupos/titularias'
-	ruta2 = if $scope.profesor_id then (ruta1 + '/' + $state.params.profesor_id) else ruta1
-
-	Restangular.all(ruta2).getList().then((r)->
-		$scope.gruposcomportamientos = r
-	, (r2)->
-		console.log 'No se pudo traer las titularías, ', r2
-	)
 
 	$scope.open = (asignatura)->
 		$state.go 'panel.unidades', {asignatura_id: asignatura.asignatura_id}
-		console.log asignatura
+
 
 ]
 

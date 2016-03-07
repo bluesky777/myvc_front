@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-.controller 'NivelesCtrl', ['$scope', '$filter', '$state', 'toastr', 'Restangular', ($scope, $filter, $state, toastr, Restangular) ->
+.controller 'NivelesCtrl', ['$scope', '$filter', '$state', 'toastr', '$http', ($scope, $filter, $state, toastr, $http) ->
 
 	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
 
@@ -9,8 +9,8 @@ angular.module('myvcFrontApp')
 		$state.go('panel.niveles.editar', {nivel_id: row.id})
 
 	$scope.eliminar = (row)->
-		row.remove().then((r)->
-			$scope.niveles = $filter('filter')($scope.niveles, {id: '!'+r.id})
+		$htt.delete('niveles_educativos/'+row.id).then((r)->
+			$scope.niveles = $filter('filter')($scope.niveles, {id: '!'+r.data.id})
 			$scope.gridOptions.data = $scope.niveles
 		, (r)->
 			toastr.warning 'No se pudo eliminar.'
@@ -31,14 +31,13 @@ angular.module('myvcFrontApp')
 			{ field: 'abrev', displayName:'Abreviatura', enableCellEditOnFocus: true }
 		],
 		multiSelect: false,
-		#filterOptions: $scope.filterOptions,
 		onRegisterApi: ( gridApi ) ->
 			$scope.gridApi = gridApi
 			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
 				
 				if newValue != oldValue
-					rowEntity.put().then((r)->
-						toastr.success 'Nivel actualizado con éxito', 'Actualizado'
+					$http.put('::niveles_educativos/'+rowEntity.id, rowEntity).then((r)->
+						toastr.success 'Nivel actualizado', 'Actualizado'
 					, (r2)->
 						toastr.error 'Cambio no guardado', 'Error'
 					)
@@ -47,8 +46,8 @@ angular.module('myvcFrontApp')
 
 	
 
-	Restangular.one('niveles_educativos').getList().then((data)->
-		$scope.niveles = data
+	$http.get('::niveles_educativos').then((data)->
+		$scope.niveles = data.data
 		$scope.gridOptions.data = $scope.niveles
 	)
 	return

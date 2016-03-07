@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-.controller('GradosCtrl', ['$scope', '$filter', '$state', 'App', 'niveles', '$uibModal', 'toastr', ($scope, $filter, $state, App, niveles, $modal, toastr) ->
+.controller('GradosCtrl', ['$scope', '$filter', '$state', 'App', 'niveles', '$uibModal', 'toastr', '$http', ($scope, $filter, $state, App, niveles, $modal, toastr, $http) ->
 
 
 	$scope.grados = {nivel: {}}
@@ -15,7 +15,7 @@ angular.module('myvcFrontApp')
 	$scope.eliminar = (row)->
 
 		modalInstance = $modal.open({
-			templateUrl: App.views + 'grados/removeGrado.tpl.html'
+			templateUrl: '==grados/removeGrado.tpl.html'
 			controller: 'RemoveGradoCtrl'
 			size: 'sm',
 			resolve: 
@@ -28,7 +28,7 @@ angular.module('myvcFrontApp')
 		)
 
 
-	editNivel = "#{App.views}grados/editCellNivel.tpl.html"
+	editNivel = "==grados/editCellNivel.tpl.html"
 
 	btGrid1 = '<a uib-tooltip="Editar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
 	btGrid2 = '<a uib-tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-times "></i></a>'
@@ -53,7 +53,7 @@ angular.module('myvcFrontApp')
 			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
 				
 				if newValue != oldValue
-					rowEntity.put().then((r)->
+					$http.put('::grados/update/'+rowEntity.id, rowEntity).then((r)->
 						toastr.success 'Grado actualizado con éxito', 'Actualizado'
 					, (r2)->
 						toastr.error 'Cambio no guardado', 'Error'
@@ -63,8 +63,8 @@ angular.module('myvcFrontApp')
 			
 
 
-	Restangular.one('grados').getList().then((data)->
-		$scope.grados = data
+	$http.get('::grados').then((data)->
+		$scope.grados = data.data
 		$scope.gridOptions.data = $scope.grados;
 	)
 
@@ -88,12 +88,12 @@ angular.module('myvcFrontApp')
 
 
 
-.controller('RemoveGradoCtrl', ['$scope', '$uibModalInstance', 'grado', 'Restangular', 'toastr', ($scope, $modalInstance, grado, Restangular, toastr)->
+.controller('RemoveGradoCtrl', ['$scope', '$uibModalInstance', 'grado', '$http', 'toastr', ($scope, $modalInstance, grado, $http, toastr)->
 	$scope.grado = grado
 
 	$scope.ok = ()->
 
-		grado.remove().then((r)->
+		$http.delete('::grados/destroy/'+grado.id).then((r)->
 			toastr.success 'Grado ' + r.nombre + ' eliminado con éxito', 'Eliminado'
 		, (r)->
 			toastr.error 'No se pudo eliminar a '+row.nombre

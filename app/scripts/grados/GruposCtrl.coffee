@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-.controller('GruposCtrl', ['$scope', '$filter', '$state', 'grados', 'profesores', '$uibModal', 'App', 'Restangular', 'toastr', ($scope, $filter, $state, grados, profesores, $modal, App, Restangular, toastr) ->
+.controller('GruposCtrl', ['$scope', '$filter', '$state', 'grados', 'profesores', '$uibModal', '$http', 'toastr', ($scope, $filter, $state, grados, profesores, $modal, $http, toastr) ->
 
 	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
 
@@ -14,7 +14,7 @@ angular.module('myvcFrontApp')
 	$scope.eliminar = (row)->
 		
 		modalInstance = $modal.open({
-			templateUrl: App.views + 'grados/removeGrupo.tpl.html'
+			templateUrl: '==grados/removeGrupo.tpl.html'
 			controller: 'RemoveGrupoCtrl'
 			resolve: 
 				grupo: ()->
@@ -58,17 +58,16 @@ angular.module('myvcFrontApp')
 						titular_id:	rowEntity.titular_id
 						id:			rowEntity.id
 
-					Restangular.one('grupos/update').customPUT(dato).then((r)->
+					$http.put('::grupos/update', dato).then((r)->
 						toastr.success 'Grupo actualizado con éxito', 'Actualizado'
 					, (r2)->
 						toastr.error 'Cambio no guardado', 'Error'
-						console.log 'Falló al intentar guardar: ', r2
 					)
 				$scope.$apply()
 			)
 
-	Restangular.one('grupos').getList().then((data)->
-		$scope.grupos = data
+	$http.get('::grupos').then((data)->
+		$scope.grupos = data.data
 		$scope.gridOptions.data = $scope.grupos;
 	)
 
@@ -91,12 +90,12 @@ angular.module('myvcFrontApp')
 
 
 
-.controller('RemoveGrupoCtrl', ['$scope', '$uibModalInstance', 'grupo', 'Restangular', 'toastr', ($scope, $modalInstance, grupo, Restangular, toastr)->
+.controller('RemoveGrupoCtrl', ['$scope', '$uibModalInstance', 'grupo', '$http', 'toastr', ($scope, $modalInstance, grupo, $http, toastr)->
 	$scope.grupo = grupo
 
 	$scope.ok = ()->
 
-		Restangular.all('grupos/destroy/'+grupo.id).remove().then((r)->
+		$http.delete('grupos/destroy/'+grupo.id).then((r)->
 			toastr.success 'Grupo '+grupo.nombre+' eliminado con éxito.', 'Eliminado'
 		, (r2)->
 			toastr.warning 'No se pudo eliminar al grupo.', 'Problema'

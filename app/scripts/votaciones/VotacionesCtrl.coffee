@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('VotacionesCtrl', ['$scope', '$filter', 'Restangular', 'resolved_user', 'App', 'toastr', ($scope, $filter, Restangular, resolved_user, App, toastr)->
+.controller('VotacionesCtrl', ['$scope', '$filter', '$http', 'resolved_user', 'App', 'toastr', ($scope, $filter, $http, resolved_user, App, toastr)->
 
 
 	$scope.data = {} # Para el popup del Datapicker
@@ -28,48 +28,45 @@ angular.module("myvcFrontApp")
 
 
 	$scope.addAspiracionEdit = (votacion_id)->
-		Restangular.one('aspiraciones/store').customPOST({votacion_id: votacion_id}).then((r)->
+		$http.post('::aspiraciones/store', {votacion_id: votacion_id}).then((r)->
 			toastr.success 'Aspiración creada.'
-			$scope.votacionEdit.aspiraciones.push {id: r.id, aspiracion: '', abrev: ''}
+			$scope.votacionEdit.aspiraciones.push {id: r.data.id, aspiracion: '', abrev: ''}
 		, (r2)->
-			console.log 'No se pudo crear aspiración.', r2
+			toastr.error 'No se pudo crear aspiración.'
 		)
 		
 
 	$scope.updateAspiracionEdit = (aspiracion)->
-		Restangular.one('aspiraciones/update').customPUT(aspiracion).then((r)->
+		$http.put('::aspiraciones/update', aspiracion).then((r)->
 			toastr.success 'Aspiración modificada.'
 		, (r2)->
-			console.log 'No se pudo modificar aspiración.', r2
+			toastr.error 'No se pudo modificar aspiración.'
 		)
 		
 
 	$scope.removeAspiracionEdit = (aspiracion)->
-		Restangular.one('aspiraciones/destroy').customDELETE(aspiracion.id).then((r)->
+		$http.delete('::aspiraciones/destroy/'+aspiracion.id).then((r)->
 			toastr.success 'Aspiración eliminada.'
 			$scope.votacionEdit.aspiraciones =  $filter('filter')($scope.votacionEdit.aspiraciones, {id: '!'+aspiracion.id})
 		, (r2)->
-			console.log 'No se pudo eliminar aspiración.', r2
+			toastr.error 'No se pudo eliminar aspiración.'
 		)
 		
 
 
 	$scope.editar = (row)->
-		console.log 'Presionado para editar fila: ', row
 		$scope.editing = true
 		$scope.votacionEdit = row
 
 	$scope.eliminar = (row)->
-		Restangular.all('votaciones/destroy/'+row.id).remove().then((r)->
-			console.log 'Se ha eliminado: ', r
-			$scope.gridOptions.data = $filter('filter')($scope.gridOptions.data, {id: '!'+row.id}) ;
+		$http.delete('::votaciones/destroy/'+row.id).then((r)->
+			$scope.gridOptions.data = $filter('filter')($scope.gridOptions.data, {id: '!'+row.id})
 		, (r2)->
-			console.log 'No se pudo eliminar.', r2
+			toastr.error 'No se pudo eliminar.'
 		)
 
 	$scope.cambiarInAction = (row)->
-		Restangular.one('votaciones/set-in-action').customPUT({id: row.id, in_action: row.in_action}).then((r)->
-			console.log 'Se ha cambiado: ', r
+		$http.put('::votaciones/set-in-action', {id: row.id, in_action: row.in_action}).then((r)->
 			if row.in_action 
 				for vot in $scope.gridOptions.data
 					if row.id != vot.id
@@ -79,27 +76,26 @@ angular.module("myvcFrontApp")
 				
 			toastr.success 'Cambiado'
 		, (r2)->
-			console.log 'No se pudo poner en acción.', r2
+			toastr.error 'No se pudo poner en acción.'
 		)
 
 
 	$scope.cambiarLocked = (row)->
-		Restangular.one('votaciones/set-locked').customPUT({id: row.id, locked: row.locked}).then((r)->
+		$http.put('::votaciones/set-locked', {id: row.id, locked: row.locked}).then((r)->
 			toastr.success 'Cambiado'
 		, (r2)->
-			console.log 'No se pudo cambiar bloqueo.', r2
+			toastr.error 'No se pudo cambiar bloqueo.'
 		)
 
 	$scope.cambiarPermisoVerResults = (row)->
-		Restangular.one('votaciones/set-permiso-ver-results').customPUT({id: row.id, can_see_results: row.can_see_results}).then((r)->
+		$http.put('::votaciones/set-permiso-ver-results', {id: row.id, can_see_results: row.can_see_results}).then((r)->
 			toastr.success 'Cambiado'
 		, (r2)->
-			console.log 'No se pudo cambiar el permiso.', r2
+			toastr.error 'No se pudo cambiar el permiso.'
 		)
 
 	$scope.cambiarEventoActual = (row)->
-		Restangular.one('votaciones/set-actual').customPUT({id: row.id, actual: row.actual}).then((r)->
-			console.log 'Se ha vuelto actual: ', r
+		$http.put('::votaciones/set-actual', {id: row.id, actual: row.actual}).then((r)->
 			if row.actual 
 				for vot in $scope.gridOptions.data
 					if row.id != vot.id
@@ -109,17 +105,17 @@ angular.module("myvcFrontApp")
 
 			toastr.success 'Cambiado'
 		, (r2)->
-			console.log 'No se pudo volver actual.', r2
+			toastr.error 'No se pudo volver actual.'
 		)
 
 
 
 	btGrid1 = '<a uib-tooltip="Editar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
 	btGrid2 = '<a uib-tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-times "></i></a>'
-	btActual = "#{App.views}votaciones/botonEventoActual.tpl.html"
-	btBloq = "#{App.views}votaciones/botonEventoLocked.tpl.html"
-	btAccion = "#{App.views}votaciones/botonEventoInAction.tpl.html"
-	btPermiso = "#{App.views}votaciones/botonPermisoVerResults.tpl.html"
+	btActual = "==votaciones/botonEventoActual.tpl.html"
+	btBloq = "==votaciones/botonEventoLocked.tpl.html"
+	btAccion = "==votaciones/botonEventoInAction.tpl.html"
+	btPermiso = "==votaciones/botonPermisoVerResults.tpl.html"
 
 	$scope.gridOptions = 
 		enableSorting: true,
@@ -143,26 +139,24 @@ angular.module("myvcFrontApp")
 				
 				if newValue != oldValue
 
-					Restangular.one('votaciones/update', rowEntity.id).customPUT(rowEntity).then((r)->
-						$scope.toastr.success 'Evento actualizado con éxito', 'Actualizado'
+					$http.put('::votaciones/update/'+rowEntity.id, rowEntity).then((r)->
+						toastr.success 'Evento actualizado con éxito', 'Actualizado'
 					, (r2)->
-						$scope.toastr.error 'Cambio no guardado', 'Error'
-						console.log 'Falló al intentar guardar: ', r2
+						toastr.error 'Cambio no guardado', 'Error'
 					)
 
 				$scope.$apply()
 			)
 
-	Restangular.one('votaciones').getList().then((data)->
-		$scope.gridOptions.data = data;
+	$http.get('::votaciones').then((data)->
+		$scope.gridOptions.data = data.data;
 	, (r2)->
-		console.log 'Error trayendo los eventos. ', r2
+		toastr.error 'Error trayendo los eventos.'
 	)
 
 	$scope.crear = ()->
-		Restangular.all('votaciones/store').post($scope.votacion).then((r)->
-			console.log 'Se hizo el post de la votación', r
-
+		$http.post('::votaciones/store', $scope.votacion).then((r)->
+			r = r.data
 			if r.actual
 				angular.forEach($scope.gridOptions.data, (value, key)->
 					value.actual = 0
@@ -171,14 +165,14 @@ angular.module("myvcFrontApp")
 			$scope.gridOptions.data.push r
 
 		, (r2)->
-			console.log 'Falló al intentar guardar: ', r2
+			toastr.error 'Falló al intentar guardar'
 		)
 
 	$scope.guardar = ()->
-		$scope.votacionEdit.put().then((r)->
-			console.log 'Se hizo el put de la votación', r
+		$http.post('::votaciones/update/'+$scope.votacionEdit.id, $scope.votacionEdit).then((r)->
+			toastr.success 'Se hizo el put de la votación'
 		, (r2)->
-			console.log 'Falló al intentar guardar: ', r2
+			toastr.error 'Falló al intentar guardar'
 		)
 
 

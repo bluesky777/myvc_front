@@ -4,7 +4,9 @@
 			span.widget-caption {{asignatura.materia + ' - ' + asignatura.nombre_grupo + ' - ' + asignatura.nombres_profesor}}
 		.widget-body
 			div
-				a.btn.btn-info.btn-lg(ui-sref="panel.unidades({asignatura_id: asignatura_id})") Volver a unidades
+				a.btn.btn-info.btn-lg(ui-sref="panel.unidades({asignatura_id: asignatura_id})") 
+					i.fa.fa-arrow-left
+					| Volver a unidades
 
 
 			div.table-responsive(ng-class="{cursorcopy:notaRapida.enable}")

@@ -2,8 +2,8 @@
 
 angular.module('myvcFrontApp')
 
-.controller('PanelCtrl', ['$scope', '$http', 'Restangular', '$state', '$cookies', '$rootScope', 'AuthService', 'Perfil', 'App', 'resolved_user', 'toastr', 'cfpLoadingBar', 
-	($scope, $http, Restangular, $state, $cookies, $rootScope, AuthService, Perfil, App, resolved_user, toastr, cfpLoadingBar) ->
+.controller('PanelCtrl', ['$scope', '$http', '$state', '$cookies', '$rootScope', 'AuthService', 'Perfil', 'App', 'resolved_user', 'toastr', 'cfpLoadingBar', 
+	($scope, $http, $state, $cookies, $rootScope, AuthService, Perfil, App, resolved_user, toastr, cfpLoadingBar) ->
 
 		$scope.USER = resolved_user
 		$scope.pageTitle = $rootScope.pageTitle
@@ -35,24 +35,17 @@ angular.module('myvcFrontApp')
 
 		$scope.date = new Date();
 
-		###
-		$scope.traerYears = ()->
-			$http.get('years').then((r)->
-				console.log r
-			)
-		$scope.traerYears()
-		###
 
-		Restangular.one('years').getList().then((r)->
-			$scope.years = r
+		$http.get('::years').then((r)->
+			$scope.years = r.data
 		, (r)->
-			console.log 'No se trajeron los años'
+			toast.error 'No se trajeron los años'
 		)
 
-		Restangular.one('periodos').getList().then((r)->
-			$scope.periodos = r
+		$http.get('::periodos').then((r)->
+			$scope.periodos = r.data
 		, (r)->
-			console.log 'No se trajeron los periodos'
+			toast.error 'No se trajeron los periodos'
 		)
 
 
@@ -87,9 +80,8 @@ angular.module('myvcFrontApp')
 		
 
 		$scope.cambiarPeriodo = (periodo)->
-			console.log 'Voy a cambiar de periodo'
 
-			Restangular.one('periodos/useractive', periodo.id).put().then((r)->
+			$http.put('::periodos/useractive/'+periodo.id).then((r)->
 				toastr.success 'Periodo cambiado con éxito al perido ' + periodo.numero, 'Cambiado' 
 				$scope.USER.periodo_id = periodo.id
 				$scope.USER.numero_periodo = periodo.numero
@@ -98,14 +90,12 @@ angular.module('myvcFrontApp')
 
 			, (r2)->
 				toastr.warning 'No se pudo cambiar de periodo.', 'Problema'
-				console.log 'Error cambiando de periodo: ', r2
 			)
 
 
 		$scope.cambiarYear = (year)->
-			console.log 'Voy a cambiar de año', year, $scope.USER
-
-			Restangular.one('years/useractive', year.id).put().then((r)->
+			$http.put('::years/useractive/'+year.id).then((r)->
+				r = r.data
 				$scope.USER.year_id = year.id
 				$scope.USER.year = year.year
 				$scope.USER.numero_periodo = r.numero
@@ -117,7 +107,6 @@ angular.module('myvcFrontApp')
 
 			, (r2)->
 				toastr.warning 'No se pudo cambiar el año.', 'Problema'
-				console.log 'Error cambiando el año: ', r2
 			)
 
 		$scope.logout = ->
@@ -126,7 +115,6 @@ angular.module('myvcFrontApp')
 		$scope.goFileManager = ()->
 			$state.go 'panel.filemanager'
 
-		#console.log Restangular.all('disciplinas').getList()
 
 		$scope.$on 'cambianImgs', (event, data)->
 			$scope.USER = Perfil.User()

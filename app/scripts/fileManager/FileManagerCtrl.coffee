@@ -2,10 +2,11 @@
 
 angular.module("myvcFrontApp")
 
-.controller('FileManagerCtrl', ['$scope', '$upload', '$timeout', '$filter', 'App', 'Restangular', 'Perfil', '$uibModal', 'resolved_user', ($scope, $upload, $timeout, $filter, App, Restangular, Perfil, $modal, resolved_user)->
+.controller('FileManagerCtrl', ['$scope', '$upload', '$timeout', '$filter', 'App', '$http', 'Perfil', '$uibModal', 'resolved_user', 'toastr', 'AuthService', ($scope, $upload, $timeout, $filter, App, $http, Perfil, $modal, resolved_user, toastr, AuthService)->
 	
 	$scope.USER = resolved_user
 	$scope.subir_intacta = {}
+	$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
 
 	fixDato = ()->
 		$scope.dato = 
@@ -24,12 +25,13 @@ angular.module("myvcFrontApp")
 	$scope.fileReaderSupported = window.FileReader != null && (window.FileAPI == null || FileAPI.html5 != false);
 	$scope.dato.usuarioElegido = []
 
-	Restangular.one('myimages').customGET().then((r)->
+	$http.get('::myimages').then((r)->
+		r = r.data
 		$scope.imagenes_privadas = r.imagenes_privadas
 		$scope.imagenes_publicas = r.imagenes_publicas
 		$scope.dato.imgParaUsuario = r.imagenes_privadas[0]
 	, (r2)->
-		console.log 'No se trajeron las imágenes.', r2
+		toastr.error 'No se trajeron las imágenes.'
 	)
 
 	$scope.upload =  (files)->
@@ -89,93 +91,83 @@ angular.module("myvcFrontApp")
 
 
 	$scope.pedirCambioUsuario = (imgUsu)->
-		Restangular.one('myimages/cambiarimagenperfil', $scope.USER.user_id).put({imagen_id: imgUsu.id}).then((r)->
-
+		$http.put('::myimages/cambiarimagenperfil/'+$scope.USER.user_id, {imagen_id: imgUsu.id}).then((r)->
+			r = r.data
 			Perfil.setImagen(r.imagen_id, imgUsu.nombre)
 			$scope.$emit 'cambianImgs', {image: r}
-			$scope.toastr.success 'Imagen principal cambiada'
+			toastr.success 'Imagen principal cambiada'
 		, (r2)->
-			console.log 'NO Se pedirCambioUsuario: ', r2
-			$scope.toastr.error 'No se pudo cambiar imagen', 'Problema'
+			toastr.error 'No se pudo cambiar imagen', 'Problema'
 		)
 
 	$scope.pedirCambioOficial = (imgOfi)->
-		Restangular.one('myimages/cambiarimagenoficial', $scope.USER.user_id).put({foto_id: imgOfi.id}).then((r)->
-
+		$http.put('::myimages/cambiarimagenoficial/'+$scope.USER.user_id, {foto_id: imgOfi.id}).then((r)->
+			r = r.data
 			if r.asked_by_user_id
-				$scope.toastr.info 'Pedido realizado, espera respuesta.'
+				toastr.info 'Pedido realizado, espera respuesta.'
 			else if r == 'En espera'
-				$scope.toastr.info 'Espera respuesta.'
+				toastr.info 'Espera respuesta.'
 			else
 				Perfil.setOficial(r.foto_id, imgOfi.nombre)
 				$scope.$emit 'cambianImgs', {foto: r}
-				$scope.toastr.success 'Foto oficial cambiada'
+				toastr.success 'Foto oficial cambiada'
 		, (r2)->
-			console.log 'NO Se pedirCambioOficial: ', r2
-			$scope.toastr.error 'No se pudo cambiar foto', 'Problema'
+			toastr.error 'No se pudo cambiar foto', 'Problema'
 		)
 
 	$scope.cambiarLogoColegio = (imgLogo)->
-		Restangular.one('myimages/cambiarlogocolegio').put({logo_id: imgLogo.id}).then((r)->
-
-			#$scope.$emit 'cambianImgs', {foto: r}
-			$scope.toastr.success 'Logo del colegio cambiado'
+		$http.put('::myimages/cambiarlogocolegio', {logo_id: imgLogo.id}).then((r)->
+			toastr.success 'Logo del colegio cambiado'
 		, (r2)->
-			console.log 'No se cambió logo: ', r2
-			$scope.toastr.error 'No se pudo cambiar el logo', 'Problema'
+			toastr.error 'No se pudo cambiar el logo', 'Problema'
 		)
 
 	$scope.imagenSelect = (item, model)->
-		console.log 'imagenSelect: ', item, model
+		#console.log 'imagenSelect: ', item, model
 
 	$scope.fotoSelect = (item, model)->
-		console.log 'imagenSelect: ', item, model
+		#console.log 'imagenSelect: ', item, model
 
 	$scope.grupoSelect = (item, model)->
-		console.log 'grupoSelect: ', item, model
-
-		Restangular.all('grupos/listado/'+item.id).getList().then((r)->
+		#console.log 'grupoSelect: ', item, model
+		$http.get('::grupos/listado/'+item.id).then((r)->
+			r = r.data
 			$scope.alumnos = r
 			$scope.dato.alumnoElegido = r[0]
 		, (r2)->
-			console.log 'No se pudo traer los usuarios'
+			toastr.error 'No se pudo traer los usuarios'
 		)
 
 	$scope.rotarImagen = (imagen)->
-		Restangular.one('myimages/rotarimagen', imagen.id).customPUT().then((r)->
+		$http.put('::myimages/rotarimagen/'+imagen.id).then((r)->
 			imagen.nombre = ''
-			console.log 'Imagen rotada con éxito.'
-			$scope.toastr.success 'Imagen rotada'
+			toastr.success 'Imagen rotada'
 			imagen.nombre = r + '?' + new Date().getTime()
 		, (r2)->
-			console.log 'No se pudo rotar la imagen.', r2
-			$scope.toastr.error 'Imagen no rotada'
+			toastr.error 'Imagen no rotada'
 		)
 
 
 	$scope.publicarImagen = (imagen)->
-		Restangular.one('myimages/publicar-imagen', imagen.id).customPUT().then((r)->
-			console.log 'Ahora la imagen es pública.'
-			$scope.toastr.info 'Ahora la imagen es pública'
+		$http.put('::myimages/publicar-imagen/'+imagen.id).then((r)->
+			toastr.info 'Ahora la imagen es pública'
 
 			$scope.imagenes_privadas = $filter('filter')($scope.imagenes_privadas, {id: '!'+imagen.id})
 			$scope.imagenes_publicas.push imagen
 
 		, (r2)->
-			console.log 'No se pudo publicar la imagen.', r2
-			$scope.toastr.error 'Imagen no publicada'
+			toastr.error 'Imagen no publicada'
 		)
 
 
 	$scope.privatizarImagen = (imagen)->
-		Restangular.one('myimages/privatizar-imagen', imagen.id).customPUT().then((r)->
-			
+		$http.put('::myimages/privatizar-imagen/'+imagen.id).then((r)->
+			r = r.data
 			if r.imagen 
-				$scope.toastr.warning 'No puede ser logo del año ' + r.imagen.is_logo_of_year
+				toastr.warning 'No puede ser logo del año ' + r.imagen.is_logo_of_year
 				return
 
-			console.log 'Ahora la imagen es privada.'
-			$scope.toastr.info 'Ahora la imagen es privada'
+			toastr.info 'Ahora la imagen es privada'
 
 			if imagen.user_id == $scope.USER.id
 				$scope.imagenes_privadas.push imagen
@@ -183,8 +175,7 @@ angular.module("myvcFrontApp")
 			$scope.imagenes_publicas = $filter('filter')($scope.imagenes_publicas, {id: '!'+imagen.id})
 
 		, (r2)->
-			console.log 'No se pudo privatizar la imagen.', r2
-			$scope.toastr.error 'Imagen no privatizada'
+			toastr.error 'Imagen no privatizada'
 		)
 
 
@@ -192,7 +183,7 @@ angular.module("myvcFrontApp")
 	$scope.borrarImagen = (imagen)->
 
 		modalInstance = $modal.open({
-			templateUrl: App.views + 'fileManager/removeImage.tpl.html'
+			templateUrl: '==fileManager/removeImage.tpl.html'
 			controller: 'RemoveImageCtrl'
 			size: 'sm',
 			resolve: 
@@ -206,12 +197,10 @@ angular.module("myvcFrontApp")
 						imagen_id: imagen.id
 						user_id: $scope.USER.id
 
-					Restangular.one('myimages/datos-imagen').customGET('', codigos).then((r)->
-						#console.log 'Datos imagen traidos.', r
-						return $scope.datos_imagen = r
+					$http.get('::myimages/datos-imagen', codigos).then((r)->
+						return $scope.datos_imagen = r.data
 					, (r2)->
-						#console.log 'No se pudo traer datos de imagen.', r2
-						$scope.toastr.error 'Error al traer datos de imagen', 'Problema'
+						toastr.error 'Error al traer datos de imagen', 'Problema'
 						return {}
 					)
 
@@ -221,41 +210,38 @@ angular.module("myvcFrontApp")
 				$scope.imagenes_publicas = $filter('filter')($scope.imagenes_publicas, {id: '!'+imag.id})
 			else
 				$scope.imagenes_privadas = $filter('filter')($scope.imagenes_privadas, {id: '!'+imag.id})
-
-			#console.log 'Resultado del modal: ', imag
 		)
 
 
-	Restangular.all('perfiles/usuariosall').getList().then((r)->
+	$http.get('::perfiles/usuariosall').then((r)->
+		r = r.data
 		$scope.usuariosall = r
-		$scope.usuariosprofes = $filter('filter')(r, {tipo: 'Profesor'}, true)
+		$scope.usuariosprofes = $filter('filter')(r, {tipo: 'Pr'}, true)
 		$scope.dato.usuarioElegido = r[0]
 	, (r2)->
-		console.log 'No se pudo traer los usuarios', r2
+		toastr.error 'No se pudo traer los usuarios', r2
 	)
 
 
 
-	Restangular.one('grupos').getGrupos().then((r)->
-		$scope.grupos = r
+	$http.get('::grupos').then((r)->
+		$scope.grupos = r.data
 	)
 
 	$scope.cambiarImgUnUsuario = (usuarioElegido, imgParaUsuario)->
-		console.log 'Vamos a guardar el cambio de imagen', usuarioElegido, imgParaUsuario
+		
 		aEnviar = {
 			imgParaUsuario: imgParaUsuario.id
 		}
-		Restangular.one('perfiles/cambiarimgunusuario', usuarioElegido.user_id).customPUT(aEnviar).then((r)->
+		$http.put('::perfiles/cambiarimgunusuario/'+usuarioElegido.user_id, aEnviar).then((r)->
 
 			usuarSelect = $filter('filter')($scope.usuariosall, {user_id: usuarioElegido.user_id})
 			usuarSelect[0].imagen_id = imgParaUsuario.id
 			usuarSelect[0].imagen_nombre = imgParaUsuario.nombre
 
-			$scope.toastr.success 'Imagen asignada con éxito'
-			console.log r
+			toastr.success 'Imagen asignada con éxito'
 		, (r2)->
-			console.log 'Error al asignar imagen a usuario', r2
-			$scope.toastr.error 'Error al asignar imagen a usuario', 'Problema'
+			toastr.error 'Error al asignar imagen a usuario', 'Problema'
 		)
 
 	$scope.usuarioSelect = (item, model)->
@@ -263,52 +249,43 @@ angular.module("myvcFrontApp")
 
 
 	$scope.cambiarFotoUnAlumno = (alumnoElegido, imgOficialAlumno)->
-		console.log 'Vamos a guardar el cambio de foto', alumnoElegido, imgOficialAlumno
 		aEnviar = {
 			imgOficialAlumno: imgOficialAlumno.id
 		}
-		Restangular.one('perfiles/cambiarimgunalumno', alumnoElegido.alumno_id).customPUT(aEnviar).then((r)->
+		$http.put('::perfiles/cambiarimgunalumno/'+alumnoElegido.alumno_id, aEnviar).then((r)->
 
 			usuarSelect = $filter('filter')($scope.alumnos, {id: alumnoElegido.id})
 			usuarSelect[0].foto_id = imgOficialAlumno.id
 			usuarSelect[0].foto_nombre = imgOficialAlumno.nombre
 
-			$scope.toastr.success 'Foto oficial asignada con éxito'
-			console.log r
+			toastr.success 'Foto oficial asignada con éxito'
 		, (r2)->
-			console.log 'Error al asignar foto al alumno', r2
-			$scope.toastr.error 'Error al asignar foto al alumno', 'Problema'
+			toastr.error 'Error al asignar foto al alumno', 'Problema'
 		)
 
 	
 
 	$scope.cambiarFotoUnProfe = (profeElegido, imgOficialProfe)->
-		console.log 'Vamos a guardar el cambio de foto', profeElegido, imgOficialProfe
 		aEnviar = {
 			imgOficialProfe: imgOficialProfe.id
 		}
-		Restangular.one('perfiles/cambiarimgunprofe', profeElegido.persona_id).customPUT(aEnviar).then((r)->
-			$scope.toastr.success 'Foto oficial asignada con éxito'
-			console.log r
+		$http.put('::perfiles/cambiarimgunprofe/'+profeElegido.persona_id, aEnviar).then((r)->
+			toastr.success 'Foto oficial asignada con éxito'
 		, (r2)->
-			console.log 'Error al asignar foto al profesor', r2
-			$scope.toastr.error 'Error al asignar foto al profesor', 'Problema'
+			toastr.error 'Error al asignar foto al profesor', 'Problema'
 		)
 
 
 
 	$scope.pedirCambioFirma = (profeElegido, imgFirmaProfe)->
-		console.log 'Cambiaremos firma ', profeElegido, imgFirmaProfe
-
+		
 		aEnviar = {
 			imgFirmaProfe: imgFirmaProfe.id
 		}
-		Restangular.one('perfiles/cambiarfirmaunprofe', profeElegido.persona_id).customPUT(aEnviar).then((r)->
-			$scope.toastr.success 'Firma asignada con éxito'
-			console.log r
+		$http.put('::perfiles/cambiarfirmaunprofe/'+profeElegido.persona_id, aEnviar).then((r)->
+			toastr.success 'Firma asignada con éxito'
 		, (r2)->
-			console.log 'Error al asignar foto al profesor', r2
-			$scope.toastr.error 'Error al asignar foto al profesor', 'Problema'
+			toastr.error 'Error al asignar foto al profesor', 'Problema'
 		)
 
 

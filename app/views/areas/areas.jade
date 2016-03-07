@@ -10,7 +10,7 @@
 					input.form-control(type="text" ng-model="currentArea.alias" placeholder="Alias")
 					.horizontal-space
 				.col-md-3
-					input.form-control(type="number" ng-model="currentArea.orden" placeholder="Orden")
+					input.form-control(type="number" min="0" ng-model="currentArea.orden" placeholder="Orden")
 					.horizontal-space
 			.footer
 				input.btn.btn-primary(type="submit" value="Crear")
@@ -28,7 +28,7 @@
 					input.form-control(type="text" ng-model="currentAreaEdit.alias" placeholder="Alias")
 					.horizontal-space
 				.col-md-3
-					input.form-control(type="number" ng-model="currentAreaEdit.orden" placeholder="Orden")
+					input.form-control(type="number" min="0" ng-model="currentAreaEdit.orden" placeholder="Orden")
 					.horizontal-space
 			.footer
 				input.btn.btn-primary(type="submit" value="Guardar cambios")

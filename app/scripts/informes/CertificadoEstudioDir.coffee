@@ -3,7 +3,7 @@ angular.module('myvcFrontApp')
 .directive('certificadoEstudioDir',['App', 'Perfil', (App, Perfil)-> 
 
 	restrict: 'EA'
-	templateUrl: "#{App.views}informes/certificadoEstudioDir.tpl.html"
+	templateUrl: "==informes/certificadoEstudioDir.tpl.html"
 	scope: 
 		grupo: "="
 		year: "="

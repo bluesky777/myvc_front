@@ -1,7 +1,9 @@
 angular.module('myvcFrontApp')
-.controller('NotasAlumnoCtrl', ['$scope', 'toastr', 'Restangular', '$uibModal', '$state', 'alumnos', 'ProfesoresServ', 'escalas', '$rootScope', '$filter', 'App', 'AuthService', 'Perfil', ($scope, toastr, Restangular, $modal, $state, alumnos, ProfesoresServ, escalas, $rootScope, $filter, App, AuthService, Perfil) ->
+.controller('NotasAlumnoCtrl', ['$scope', 'toastr', '$http', '$uibModal', '$state', 'alumnos', 'escalas', '$rootScope', '$filter', 'App', 'AuthService', 'Perfil', ($scope, toastr, $http, $modal, $state, alumnos, escalas, $rootScope, $filter, App, AuthService, Perfil) ->
 
 	AuthService.verificar_acceso()
+	$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
+	alumnos = alumnos.data
 
 	if !alumnos == 'Sin alumnos'
 		$scope.filtered_alumnos = alumnos
@@ -15,18 +17,11 @@ angular.module('myvcFrontApp')
 
 
 	if !$scope.hasRoleOrPerm(['alumno', 'acudiente'])
-		Restangular.one('grupos').getGrupos().then((r)->
+		$http.get('::grupos').then((r)->
+			r = r.data
 			$scope.grupos = r
 		)
 
-
-
-
-	ProfesoresServ.contratos().then((r)->
-		$scope.profesores = r
-	, (r2)->
-		console.log 'No se pudo traer los profesores: ', r2
-	)
 
 
 	$scope.verNotasAlumno = (alumno_id)->
@@ -34,11 +29,14 @@ angular.module('myvcFrontApp')
 		if !alumno_id
 			alumno_id = $scope.datos.selected_alumno.alumno_id
 		
-		Restangular.one('notas/alumno/'+alumno_id).getList().then((r)->
-			$scope.periodos = r[0].periodos
-			console.log '$scope.periodos', $scope.periodos
+		$http.get('::notas/alumno/'+alumno_id).then((r)->
+			r = r.data
+			if r[0]
+				$scope.periodos = r[0].periodos
+			else
+				$scope.periodos = undefined
+				toastr.warning 'Sin matrícula este año.'
 		, (r2)->
-			console.log 'No se puedo traer las notas', r2
 			toastr.warning 'Lo sentimos, No se trajeron las notas'
 		)
 
@@ -60,12 +58,10 @@ angular.module('myvcFrontApp')
 
 
 	$scope.cambiaNota = (nota, otra)->
-		console.log nota, otra
-		Restangular.one('notas/update', nota.id).customPUT({nota: nota.nota}).then((r)->
+		$http.put('::notas/update/' + nota.id, {nota: nota.nota}).then((r)->
+			r = r.data
 			toastr.success 'Cambiada: ' + nota.nota
-			console.log 'Cuando la nota cambia, el objeto nota: ', nota
 		, (r2)->
-			console.log 'No pudimos guardar la nota ', nota
 			toastr.error 'No pudimos guardar la nota ' + nota.nota
 		)
 

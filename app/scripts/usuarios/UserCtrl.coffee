@@ -1,5 +1,5 @@
 angular.module('myvcFrontApp')
-.controller('UserCtrl', ['$scope', '$http', 'Restangular', '$state', '$rootScope', 'AuthService', 'Perfil', 'App', 'perfilactual', ($scope, $http, Restangular, $state, $rootScope, AuthService, Perfil, App, perfilactual) ->
+.controller('UserCtrl', ['$scope', '$http', '$state', 'AuthService', 'Perfil', 'App', 'perfilactual', ($scope, $http, $state, AuthService, Perfil, App, perfilactual) ->
 
 	username = $state.params.username
 	$scope.perfilactual = perfilactual
@@ -7,7 +7,7 @@ angular.module('myvcFrontApp')
 	$scope.profesores = []
 	$scope.materias = []
 	$scope.canConfig = false
-
+	$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
 
 	$scope.setImagenPrincipal()
 
@@ -29,11 +29,12 @@ angular.module('myvcFrontApp')
 		$scope.imagenOficial = pathOfi
 
 	traerDatos = ()->
-		Restangular.one('perfiles/profesormispersonas').getList().then((r)->
+		$http.get('::perfiles/profesormispersonas').then((r)->
+			r = r.data
 			$scope.perfilactual = r[0]
 			$scope.setImagenPrincipal()
 		,(r2)->
-			console.log 'No se pudo traer el usuario, ', r2
+			toastr.error 'No se pudo traer el usuario'
 			return $state.transitionTo 'panel'
 		)
 

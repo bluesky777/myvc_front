@@ -1,6 +1,6 @@
 angular.module("myvcFrontApp")
 
-.controller('ResultadosCtrl', ['$scope', '$filter', 'Restangular', 'App', '$state', '$uibModal', '$window', ($scope, $filter, Restangular, App, $state, $modal, $window)->
+.controller('ResultadosCtrl', ['$scope', '$http', 'App', ($scope, $http, App)->
 
 
 	$scope.votacion = {
@@ -12,10 +12,10 @@ angular.module("myvcFrontApp")
 
 	$scope.imagesPath = App.images + 'perfil/'
 
-	Restangular.one('votos/show').get().then((r)->
-		$scope.votaciones = r
+	$http.get('::votos/show').then((r)->
+		$scope.votaciones = r.data
 	, (r2)->
-		console.log 'Error trayendo las votaciones. ', r2
+		toastr.error 'Error trayendo las votaciones.'
 	)
 
 

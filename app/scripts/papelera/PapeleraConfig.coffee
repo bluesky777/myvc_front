@@ -1,15 +1,15 @@
 angular.module('myvcFrontApp')
-.config ['$stateProvider', 'App', 'USER_ROLES', 'PERMISSIONS', ($state, App, USER_ROLES, PERMISSIONS) ->
+.config ['$stateProvider', 'USER_ROLES', 'PERMISSIONS', ($state, USER_ROLES, PERMISSIONS) ->
 
 	$state
 		.state 'panel.papelera',
 			url: '^/papelera'
 			views: 
 				'maincontent':
-					templateUrl: "#{App.views}papelera/papelera.tpl.html"
+					templateUrl: "==papelera/papelera.tpl.html"
 					controller: 'PapeleraCtrl'
 				'headerContent':
-					templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+					templateUrl: "==panel/panelHeader.tpl.html"
 					controller: 'PanelHeaderCtrl'
 					resolve:
 						titulo: [->

@@ -1,17 +1,17 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-	.config ['$stateProvider', 'App', ($state, App) ->
+	.config ['$stateProvider', ($state) ->
 
 		$state
 			.state 'panel.niveles',
 				url: '^/niveles'
 				views: 
 					'maincontent':
-						templateUrl: "#{App.views}grados/niveles.tpl.html"
+						templateUrl: "==grados/niveles.tpl.html"
 						controller: 'NivelesCtrl'
 					'headerContent':
-						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
 						resolve:
 							titulo: [->
@@ -27,10 +27,10 @@ angular.module('myvcFrontApp')
 				url: '/nuevo'
 				views: 
 					'edit_nivel':
-						templateUrl: "#{App.views}grados/nivelesNew.tpl.html"
+						templateUrl: "==grados/nivelesNew.tpl.html"
 						controller: 'NivelesNewCtrl'
 					'headerContent':
-						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
 						resolve:
 							titulo: [->
@@ -46,10 +46,10 @@ angular.module('myvcFrontApp')
 				url: '/editar/:nivel_id'
 				views: 
 					'edit_nivel':
-						templateUrl: "#{App.views}grados/nivelesEdit.tpl.html"
+						templateUrl: "==grados/nivelesEdit.tpl.html"
 						controller: 'NivelesEditCtrl'
 					'headerContent':
-						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
 						resolve:
 							titulo: [->
@@ -65,19 +65,19 @@ angular.module('myvcFrontApp')
 				url: '^/grados'
 				views: 
 					'maincontent':
-						templateUrl: "#{App.views}grados/grados.tpl.html"
+						templateUrl: "==grados/grados.tpl.html"
 						controller: 'GradosCtrl'
 					'headerContent':
-						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
 						resolve:
 							titulo: [->
 								'Grados'
 							],
 				resolve: {
-					niveles: ['Restangular', (Restangular)->
-						Restangular.one('niveles').getList().then((data)->
-							return data
+					niveles: ['$http', ($http)->
+						$http.get('::niveles_educativos').then((data)->
+							return data.data
 						)
 					]
 				}
@@ -91,10 +91,10 @@ angular.module('myvcFrontApp')
 				url: '/nuevo'
 				views: 
 					'edit_grado':
-						templateUrl: "#{App.views}grados/gradosNew.tpl.html"
+						templateUrl: "==grados/gradosNew.tpl.html"
 						controller: 'GradosNewCtrl'
 					'headerContent':
-						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
 						resolve:
 							titulo: [->
@@ -111,10 +111,10 @@ angular.module('myvcFrontApp')
 				url: '/editar/:grado_id'
 				views: 
 					'edit_grado':
-						templateUrl: "#{App.views}grados/gradosEdit.tpl.html"
+						templateUrl: "==grados/gradosEdit.tpl.html"
 						controller: 'GradosEditCtrl'
 					'headerContent':
-						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
 						resolve:
 							titulo: [->
@@ -131,24 +131,24 @@ angular.module('myvcFrontApp')
 				url: '^/grupos'
 				views: 
 					'maincontent':
-						templateUrl: "#{App.views}grados/grupos.tpl.html"
+						templateUrl: "==grados/grupos.tpl.html"
 						controller: 'GruposCtrl'
 					'headerContent':
-						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
 						resolve:
 							titulo: [->
 								'Grupos'
 							]
 				resolve:
-					grados: ['Restangular', (Restangular)->
-						Restangular.one('grados').getList().then((data)->
-							return data
+					grados: ['$http', ($http)->
+						$http.get('::grados').then((data)->
+							return data.data
 						)
 					],
-					profesores: ['Restangular', (Restangular)->
-						Restangular.one('contratos').getList().then((data)->
-							return data
+					profesores: ['$http', ($http)->
+						$http.get('::contratos').then((data)->
+							return data.data
 						)
 					]
 				data: 
@@ -161,10 +161,10 @@ angular.module('myvcFrontApp')
 				url: '/nuevo'
 				views: 
 					'edit_grupo':
-						templateUrl: "#{App.views}grados/gruposNew.tpl.html"
+						templateUrl: "==grados/gruposNew.tpl.html"
 						controller: 'GruposNewCtrl'
 					'headerContent':
-						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
 						resolve:
 							titulo: [->
@@ -181,10 +181,10 @@ angular.module('myvcFrontApp')
 				url: '/editar/:grupo_id'
 				views: 
 					'edit_grupo':
-						templateUrl: "#{App.views}grados/gruposEdit.tpl.html"
+						templateUrl: "==grados/gruposEdit.tpl.html"
 						controller: 'GruposEditCtrl'
 					'headerContent':
-						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
 						resolve:
 							titulo: [->

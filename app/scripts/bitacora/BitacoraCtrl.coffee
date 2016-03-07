@@ -1,29 +1,30 @@
 angular.module("myvcFrontApp")
 
-.controller('BitacoraCtrl', ['$scope', '$rootScope', '$state', 'Restangular', 'uiGridConstants', ($scope, $rootScope, $state, Restangular, uiGridConstants)->
+.controller('BitacoraCtrl', ['$scope', 'toastr', '$state', '$http', 'uiGridConstants', 'AuthService', ($scope, toastr, $state, $http, uiGridConstants, AuthService)->
 	$scope.data = {} # Para el popup del Datapicker
 
+	$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
 
-	Restangular.all('contratos').getList().then((r)->
-		$scope.contratos = r
+	$http.get('::contratos').then((r)->
+		$scope.contratos = r.data
 	, (r2)->
-		$scope.toastr.error 'No se trajeron los profesores contratados'
+		toastr.error 'No se trajeron los profesores contratados'
 	)
 
 
-	Restangular.all('bitacoras').getList().then((r)->
-		$scope.gridOptions.data = r
+	$http.get('::bitacoras').then((r)->
+		$scope.gridOptions.data = r.data
 	, (r2)->
-		$scope.toastr.error 'No se pudo traer la bitácora'
+		toastr.error 'No se pudo traer la bitácora'
 	)
 
 
 	$scope.seleccionaProfe = (item, model)->
 
-		Restangular.all('bitacoras/index/'+item.user_id).getList().then((r)->
-			$scope.gridOptions.data = r
+		$http.get('::bitacoras/index/'+item.user_id).then((r)->
+			$scope.gridOptions.data = r.data
 		, (r2)->
-			$scope.toastr.error 'No se pudo traer la bitácora'
+			toastr.error 'No se pudo traer la bitácora'
 		)
 
 
@@ -39,7 +40,9 @@ angular.module("myvcFrontApp")
 			{ field: 'id', type: 'number', width: 60 }
 			{ name: 'edicion', displayName:'Edición', width: 40, enableSorting: false, enableFiltering: false, cellTemplate: btGrid2, enableCellEdit: false}
 			{ field: 'descripcion', displayName:'Descripción', filter: {condition: uiGridConstants.filter.CONTAINS} }
-			{ field: 'affected_person_name', displayName:'Afectado', width: 200, filter: {condition: uiGridConstants.filter.CONTAINS} }
+			{ field: 'affected_element_type', displayName:'Tipo', minWidth: 80, filter: {condition: uiGridConstants.filter.CONTAINS} }
+			{ field: 'affected_element_old_value_int', displayName:'Anterior'}
+			{ field: 'affected_element_new_value_int', displayName:'Nuevo'}
 			{ field: 'created_at', displayName:'Fecha', width: 150, filter: {condition: uiGridConstants.filter.CONTAINS} }
 		],
 		multiSelect: false,

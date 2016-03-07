@@ -1,5 +1,5 @@
 angular.module('myvcFrontApp')
-.controller('UnidadesCtrl', ['$scope', '$uibModal', 'Restangular', '$state', '$filter', '$rootScope', 'AuthService', 'toastr', 'App', 'resolved_user', ($scope, $uibModal, Restangular, $state, $filter, $rootScope, AuthService, toastr, App, resolved_user) ->
+.controller('UnidadesCtrl', ['$scope', '$uibModal', '$http', '$state', '$filter', 'AuthService', 'toastr', 'resolved_user', ($scope, $uibModal, $http, $state, $filter, AuthService, toastr, resolved_user) ->
 
 	AuthService.verificar_acceso()
 
@@ -14,24 +14,25 @@ angular.module('myvcFrontApp')
 	$scope.SUBUNIDADES = $scope.USER.subunidades_displayname
 
 	$scope.activar_crear_unidad = true
+	$scope.unidades = []
 	
 
 
-	Restangular.all('unidades/deasignaturaperiodo/' + $scope.asignatura_id + '/' + $scope.USER.periodo_id).getList().then((r)->
-		$scope.unidades = r
-		$scope.calcularPorcUnidades()
+	$http.get('::unidades/deasignaturaperiodo/' + $scope.asignatura_id + '/' + $scope.USER.periodo_id).then((r)->
+		if r.data.length > 0
+			$scope.unidades = r.data
+			$scope.calcularPorcUnidades()
 	, (r2)->
-		console.log 'No se pudo traer las ' + $scope.UNIDADES, r2
 		toastr.error 'No se pudo traer las ' + $scope.UNIDADES, 'Problemas'
 	)
 
-	Restangular.one('asignaturas/show/' + $scope.asignatura_id).get().then((r)->
+	$http.get('::asignaturas/show/' + $scope.asignatura_id).then((r)->
+		r = r.data
 		$scope.asignatura = r
 		$scope.inicializado = true
 		if not r
 			$scope.no_asignatura = true
 	, (r2)->
-		console.log 'No se pudo traer los datos de la asignatura', r2
 		toastr.error 'No se pudo traer los datos de la asignatura'
 		$scope.no_asignatura = true
 	)
@@ -66,7 +67,8 @@ angular.module('myvcFrontApp')
 
 		$scope.newunidad.asignatura_id = $scope.asignatura.asignatura_id
 
-		Restangular.one('unidades').customPOST($scope.newunidad).then((r)->
+		$http.post('::unidades', $scope.newunidad).then((r)->
+			r = r.data
 			r.subunidades = []
 			$scope.unidades.push r
 
@@ -79,7 +81,6 @@ angular.module('myvcFrontApp')
 			$scope.calcularPorcUnidades()
 			$scope.activar_crear_unidad = true
 		, (r2)->
-			console.log 'No se pudo crear la unidad', r2
 			toastr.error 'No se pudo crear la unidad', 'Problemas'
 			$scope.activar_crear_unidad = true
 		)
@@ -92,7 +93,7 @@ angular.module('myvcFrontApp')
 			definicion: unidad.definicion
 			porcentaje: unidad.porcentaje
 
-		Restangular.one('unidades/update/' + unidad.id).customPUT(datos).then((r)->
+		$http.put('::unidades/update/' + unidad.id, datos).then((r)->
 			
 			actualizado = 'actualizado'
 			if $scope.GENERO_UNI == 'F'
@@ -102,7 +103,6 @@ angular.module('myvcFrontApp')
 			unidad.editando = false
 			$scope.calcularPorcUnidades()
 		, (r2)->
-			console.log 'No se pudo actualizar ' + $scope.UNIDAD, r2
 			toastr.error 'No se pudo actualizar ' + $scope.UNIDAD, 'Problemas'
 		)
 
@@ -111,7 +111,7 @@ angular.module('myvcFrontApp')
 	$scope.removeUnidad = (unidad)->
 
 		modalInstance = $uibModal.open({
-			templateUrl: App.views + 'unidades/removeUnidad.tpl.html'
+			templateUrl: '==unidades/removeUnidad.tpl.html'
 			controller: 'RemoveUnidadCtrl'
 			resolve: 
 				unidad: ()->
@@ -126,16 +126,15 @@ angular.module('myvcFrontApp')
 
 ])
 
-.controller('RemoveUnidadCtrl', ['$scope', '$uibModalInstance', 'unidad', 'Restangular', 'toastr', ($scope, $modalInstance, unidad, Restangular, toastr)->
+.controller('RemoveUnidadCtrl', ['$scope', '$uibModalInstance', 'unidad', '$http', 'toastr', ($scope, $modalInstance, unidad, $http, toastr)->
 	$scope.unidad = unidad
 
 	$scope.ok = ()->
 
-		Restangular.all('unidades/destroy/'+unidad.id).remove().then((r)->
+		$http.delete('::unidades/destroy/'+unidad.id).then((r)->
 			toastr.success 'Unidad eliminada con éxito.', 'Eliminada'
 		, (r2)->
 			toastr.warning 'No se pudo eliminar la unidad.', 'Problema'
-			console.log 'Error eliminando unidad: ', r2
 		)
 		$modalInstance.close(unidad)
 
@@ -144,16 +143,15 @@ angular.module('myvcFrontApp')
 
 ])
 
-.controller('RemoveSubunidadCtrl', ['$scope', '$uibModalInstance', 'subunidad', 'Restangular', 'toastr', ($scope, $modalInstance, subunidad, Restangular, toastr)->
+.controller('RemoveSubunidadCtrl', ['$scope', '$uibModalInstance', 'subunidad', '$http', 'toastr', ($scope, $modalInstance, subunidad, $http, toastr)->
 	$scope.subunidad = subunidad
 
 	$scope.ok = ()->
 
-		Restangular.all('subunidades/destroy/'+subunidad.id).remove().then((r)->
+		$http.delete('::subunidades/destroy/'+subunidad.id).then((r)->
 			toastr.success 'Subunidad eliminada con éxito.', 'Eliminada'
 		, (r2)->
 			toastr.warning 'No se pudo eliminar la subunidad.', 'Problema'
-			console.log 'Error eliminando subunidad: ', r2
 		)
 		$modalInstance.close(subunidad)
 

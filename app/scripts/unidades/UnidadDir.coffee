@@ -12,7 +12,7 @@ angular.module('myvcFrontApp')
 		# Debo agregar la clase .loading-inactive para que desaparezca el loader de la pantalla.
 		# y eso lo puedo hacer con el ng-if
 
-	controller: ($scope, Restangular, toastr, $uibModal, $filter)->
+	controller: ($scope, $http, toastr, $uibModal, $filter)->
 
 		$scope.activar_crear_subunidad = true
 
@@ -38,13 +38,10 @@ angular.module('myvcFrontApp')
 					unidad_id: $scope.unidad.id
 					sortHash: sortHash
 				
-				Restangular.one('unidades/update-orden').customPUT(datos).then((r)->
-					console.log('Orden guardado', r)
+				$http.put('::unidades/update-orden', datos).then((r)->
 					return true
 				, (r2)->
-					console.log('No se pudo guardar el orden', r2)
 					toastr.warning 'No se pudo ordenar', 'Problema'
-					#ui.item.sortable.cancel() # Cancelamos el intento de ordenar
 					return false;
 				)
 
@@ -65,7 +62,7 @@ angular.module('myvcFrontApp')
 				indice_new: 	indice_new
 
 			
-			Restangular.one('subunidades/subir-subunidad').customPUT(datos).then((r)->
+			$http.put('::subunidades/subir-subunidad', datos).then((r)->
 				
 				subsacambiar = $filter('filter')($scope.unidad.subunidades, {orden: indice_new})
 				subsacambiar = $filter('orderBy')(subsacambiar, '-id')[0]
@@ -77,17 +74,15 @@ angular.module('myvcFrontApp')
 				
 				$scope.unidad.subunidades = $filter('orderBy')($scope.unidad.subunidades, 'orden')
 
-				console.log 'Subunidad subida', $scope.unidad.subunidades
 				toastr.success 'Ordenada correctamente'
 
 			, (r2)->
-				console.log 'No se pudo subir ', r2
 				toastr.error 'No se pudo subir '
 			)
 
 
 		$scope.cambiaOrden = ()->
-			console.log "Sisassss"
+			#console.log "Sisassss"
 
 		$scope.bajarSubunidad = (subunidad, indice)->
 
@@ -99,7 +94,7 @@ angular.module('myvcFrontApp')
 				indice_new: 	indice_new
 
 			
-			Restangular.one('subunidades/bajar-subunidad').customPUT(datos).then((r)->
+			$http.put('subunidades/bajar-subunidad', datos).then((r)->
 
 				subsacambiar = $filter('filter')($scope.unidad.subunidades, {orden: indice_new})
 				if subsacambiar.length > 0
@@ -109,12 +104,9 @@ angular.module('myvcFrontApp')
 				subuni.orden 	= indice_new
 
 				$scope.unidad.subunidades = $filter('orderBy')($scope.unidad.subunidades, 'orden')
-
-				console.log 'Subunidad bajada', $scope.unidad.subunidades
 				toastr.success 'Ordenada correctamente'
 
 			, (r2)->
-				console.log 'No se pudo bajar ', r2
 				toastr.error 'No se pudo bajar '
 			)
 
@@ -124,8 +116,8 @@ angular.module('myvcFrontApp')
 			$scope.activar_crear_subunidad = false
 			unidad.newsubunidad.unidad_id = unidad.id
 
-			Restangular.one('subunidades').customPOST(unidad.newsubunidad).then((r)->
-				unidad.subunidades.push r
+			$http.post('::subunidades', unidad.newsubunidad).then((r)->
+				unidad.subunidades.push r.data
 
 				creado = 'creado'
 				if $scope.$parent.GENERO_SUB == 'F'
@@ -136,7 +128,6 @@ angular.module('myvcFrontApp')
 				$scope.$parent.calcularPorcUnidades()
 				$scope.activar_crear_subunidad = true
 			, (r2)->
-				console.log 'No se pudo crear  ' + (if $scope.$parent.GENERO_UNI=="M" then 'el' else 'la') + scope.$parent.SUBUNIDAD, r2
 				toastr.error 'No se pudo crear  ' + (if $scope.$parent.GENERO_UNI=="M" then 'el' else 'la') + scope.$parent.SUBUNIDAD, 'Problemas'
 				$scope.activar_crear_subunidad = true
 			)
@@ -150,7 +141,7 @@ angular.module('myvcFrontApp')
 				nota_default: subunidad.nota_default
 				orden: subunidad.orden
 
-			Restangular.one('subunidades/update/' + subunidad.id).customPUT(datos).then((r)->
+			$http.put('::subunidades/update/' + subunidad.id, datos).then((r)->
 				
 				actualizado = 'actualizado'
 				if $scope.$parent.GENERO_SUB == 'F'
@@ -161,14 +152,13 @@ angular.module('myvcFrontApp')
 
 				$scope.$parent.calcularPorcUnidades()
 			, (r2)->
-				console.log 'No se pudo actualizar ' + $scope.$parent.SUBUNIDAD, r2
 				toastr.error 'No se pudo actualizar ' + $scope.$parent.SUBUNIDAD, 'Problemas'
 			)
 
 		$scope.removeSubunidad = (unidad, subunidad)->
 
 			modalInstance = $uibModal.open({
-				templateUrl: App.views + 'unidades/removeSubunidad.tpl.html'
+				templateUrl: '==unidades/removeSubunidad.tpl.html'
 				controller: 'RemoveSubunidadCtrl'
 				resolve: 
 					subunidad: ()->

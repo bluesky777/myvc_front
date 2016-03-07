@@ -1,6 +1,6 @@
 angular.module('myvcFrontApp')
 
-.directive('anunciosDir',['App', 'Restangular', 'toastr', '$uibModal', '$state', (App, Restangular, toastr, $modal, $state)-> 
+.directive('anunciosDir',['App', '$http', 'toastr', '$uibModal', '$state', (App, $http, toastr, $modal, $state)-> 
 
 	restrict: 'E'
 	templateUrl: "#{App.views}panel/anunciosDir.tpl.html"
@@ -11,8 +11,8 @@ angular.module('myvcFrontApp')
 		scope.perfilPath = App.images+'perfil/'
 
 		if $state.is 'panel'
-			Restangular.one('ChangesAsked/to-me').customGET().then((r)->
-				scope.changes_asked_to_me = r
+			$http.get('::ChangesAsked/to-me').then((r)->
+				scope.changes_asked_to_me = r.data
 			, (r2)->
 				toastr.error 'No se pudo traer los anuncios.'
 			)
@@ -21,39 +21,40 @@ angular.module('myvcFrontApp')
 ])
 
 
-.controller('AnunciosDirCtrl', ['$scope', 'Restangular', 'toastr', '$uibModal', 'App', ($scope, Restangular, toastr, $modal, App)->
+.controller('AnunciosDirCtrl', ['$scope', '$uibModal', 'AuthService', ($scope, $modal, AuthService)->
 	
+	$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
 
 	$scope.aceptarAsked = (row)->
 
 		modalInstance = $modal.open({
-			templateUrl: App.views + 'panel/aceptarAsked.tpl.html'
+			templateUrl: '==panel/aceptarAsked.tpl.html'
 			controller: 'AceptarAskedCtrl'
 			resolve: 
 				asked: ()->
 					row
 		})
 		modalInstance.result.then( (asked)->
-			console.log 'Resultado del modal: ', asked
+			#console.log 'Resultado del modal: ', asked
 		)
 
 	$scope.rechazarAsked = (row)->
 
 		modalInstance = $modal.open({
-			templateUrl: App.views + 'panel/rechazarAsked.tpl.html'
+			templateUrl: '==panel/rechazarAsked.tpl.html'
 			controller: 'RechazarAskedCtrl'
 			resolve: 
 				asked: ()->
 					row
 		})
 		modalInstance.result.then( (asked)->
-			console.log 'Resultado del modal: ', asked
+			#console.log 'Resultado del modal: ', asked
 		)
 
 ])
 
 
-.controller('AceptarAskedCtrl', ['$scope', '$uibModalInstance', 'asked', 'Restangular', 'toastr', 'App', ($scope, $modalInstance, asked, Restangular, toastr, App)->
+.controller('AceptarAskedCtrl', ['$scope', '$uibModalInstance', 'asked', '$http', 'toastr', 'App', ($scope, $modalInstance, asked, $http, toastr, App)->
 	
 	$scope.imagesPath = App.images + 'perfil/'
 	$scope.asked = asked
@@ -62,7 +63,8 @@ angular.module('myvcFrontApp')
 
 		datos = {asked_id: asked.id}
 
-		Restangular.one('ChangesAsked/aceptar').customPUT(datos).then((r)->
+		$http.put('::ChangesAsked/aceptar', datos).then((r)->
+			r = r.data
 			toastr.success 'Pedido aceptado.', 'Éxito'
 			asked.deleted_at 	= r.deleted_at
 			asked.accepted_at 	= r.deleted_at
@@ -73,7 +75,6 @@ angular.module('myvcFrontApp')
 
 		, (r2)->
 			toastr.warning 'Problema', 'No se pudo aceptar petición.'
-			console.log 'Error aceptando asked: ', r2
 		)
 		$modalInstance.close(asked)
 
@@ -85,7 +86,7 @@ angular.module('myvcFrontApp')
 
 
 
-.controller('RechazarAskedCtrl', ['$scope', '$uibModalInstance', 'asked', 'Restangular', 'toastr', 'App', ($scope, $modalInstance, asked, Restangular, toastr, App)->
+.controller('RechazarAskedCtrl', ['$scope', '$uibModalInstance', 'asked', '$http', 'toastr', 'App', ($scope, $modalInstance, asked, $http, toastr, App)->
 	
 	$scope.imagesPath = App.images + 'perfil/'
 	$scope.asked = asked
@@ -94,7 +95,8 @@ angular.module('myvcFrontApp')
 
 		datos = {asked_id: asked.id}
 
-		Restangular.one('ChangesAsked/rechazar').customPUT(datos).then((r)->
+		$http.put('::ChangesAsked/rechazar', datos).then((r)->
+			r = r.data
 			toastr.success 'Pedido aceptado.', 'Éxito'
 			asked.deleted_at 	= r.deleted_at
 			asked.rechazado_at 	= r.deleted_at
@@ -103,7 +105,6 @@ angular.module('myvcFrontApp')
 
 		, (r2)->
 			toastr.warning 'Problema', 'No se pudo rechazar petición.'
-			console.log 'Error rechando asked: ', r2
 		)
 		$modalInstance.close(asked)
 

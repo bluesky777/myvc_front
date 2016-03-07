@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('GruposNewCtrl', ['$scope', 'Restangular', 'toastr', ($scope, Restangular, toastr)->
+.controller('GruposNewCtrl', ['$scope', '$http', 'toastr', ($scope, $http, toastr)->
 
 	$scope.grupo = {
 		orden: 1
@@ -11,11 +11,11 @@ angular.module("myvcFrontApp")
 		valorpension: 0
 	}
 
-	Restangular.one('grados').getList().then((data)->
-		$scope.grados = data;
+	$http.get('::grados').then((data)->
+		$scope.grados = data.data;
 	)
-	Restangular.one('contratos').getList().then((data)->
-		$scope.profesores = data;
+	$http.get('::contratos').then((data)->
+		$scope.profesores = data.data;
 	)
 
 	$scope.restarOrden = ()->
@@ -27,11 +27,10 @@ angular.module("myvcFrontApp")
 
 	$scope.crear = ()->
 
-		Restangular.one('grupos/store').customPOST($scope.grupo).then((r)->
-			$scope.$emit 'grupocreado', r
-			toastr.success 'Grupo '+r.nombre+' creado'
+		$http.post('::grupos/store', $scope.grupo).then((r)->
+			$scope.$emit 'grupocreado', r.data
+			toastr.success 'Grupo '+r.data.nombre+' creado'
 		, (r2)->
-			console.log 'Falló al intentar guardar: ', r2
 			toastr.error 'No se pudo crear el grupo', 'Error'
 		)
 

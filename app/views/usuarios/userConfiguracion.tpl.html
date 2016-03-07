@@ -3,14 +3,14 @@
   <uib-accordion-group heading="Información personal" is-open="true">
     <form role="form" ng-submit="guardar()">
       <div class="row">
-        <div class="col-sm-6">
+        <div ng-if="!perfilactual.tipo=='Us'" class="col-sm-6">
           <div ng-if="canConfig" class="form-group">
             <label for="alumno-no-matr">Nombres</label><span class="input-icon icon-right">
               <input type="text" placeholder="Nombres" ng-model="perfilactual.nombres" class="form-control"><i class="fa fa-user blue"></i></span>
           </div>
           <div ng-if="!canConfig" class="form-group">Nombres: <b>{{perfilactual.nombres}}</b></div>
         </div>
-        <div class="col-sm-6">
+        <div ng-if="!perfilactual.tipo=='Us'" class="col-sm-6">
           <div ng-if="canConfig" class="form-group">
             <label for="alumno-no-matr">Apellidos</label><span class="input-icon icon-right">
               <input type="text" placeholder="Apellidos" ng-model="perfilactual.apellidos" class="form-control"><i class="fa fa-user blue"></i></span>
@@ -52,7 +52,7 @@
           </div>
           <div ng-if="!canConfig" class="form-group"></div>
         </div>
-        <div class="col-sm-6">
+        <div ng-if="!perfilactual.tipo=='Us'" class="col-sm-6">
           <div ng-if="canConfig" class="form-group">
             <label for="perfilcelular">Celular</label><span class="input-icon icon-right">
               <input id="perfilcelular" type="text" placeholder="Celular" ng-model="perfilactual.celular" class="form-control"><i class="fa fa-phone palegreen"></i></span>
@@ -75,7 +75,7 @@
       <div class="row">
         <div class="col-sm-7">
           <div class="form-group">
-            <label>Nombre de usuario</label><span class="input-icon icon-right">
+            <label>Nombre de usuario ({{perfilactual.username}})</label><span class="input-icon icon-right">
               <input ng-model="newusername" type="text" placeholder="Nombre de usuario" ng-init="newusername==perfilactual.username" typeahead="nombresusu as nombresusu.username for nombresusu in nombresdeusuario | filter:{username:$viewValue} | limitTo:8" class="form-control"><i class="fa fa-user azure"></i></span><br><br>
             <button ng-click="comprobarusername(newusername)" class="btn btn-warning"><span ng-hide="comprobando">Comprobar </span><span ng-show="comprobando">Comprobando <i class="fa fa-spinner fa-spin"></i></span></button>
             <div ng-show="mostrarErrorUsername" class="alert alert-warning fade in">

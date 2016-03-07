@@ -30,7 +30,7 @@ angular.module('myvcFrontApp')
 
 .filter('materiasPerdidas', [ ->
 	(alumnos, cant, nota_minima_aceptada) ->
-		console.log 'materiasPerdidas', cant, nota_minima_aceptada
+
 		if cant
 		
 			@alumnos_response = []

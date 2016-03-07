@@ -2,13 +2,14 @@
 
 angular.module("myvcFrontApp")
 
-.controller('VotarCtrl', ['$scope', 'Restangular', 'toastr', ($scope, Restangular, toastr)->
+.controller('VotarCtrl', ['$scope', '$http', 'toastr', ($scope, $http, toastr)->
 
 
 	$scope.votaciones = []
 	$scope.indexVotando = 0
 
-	Restangular.one('votaciones/en-accion-inscrito').get().then((r)->
+	$http.get('::votaciones/en-accion-inscrito').then((r)->
+		r = r.data
 		if r.msg
 			toastr.warning r.msg, 'Atención'
 		else
@@ -29,7 +30,7 @@ angular.module("myvcFrontApp")
 
 
 
-.controller('chooseCandidatoCtrl', ['$scope', 'Restangular', '$uibModalInstance', 'App', 'candidato', 'aspiracion', 'votacion_id', 'toastr', ($scope, Restangular, $modalInstance, App, candidato, aspiracion, votacion_id, toastr)->
+.controller('chooseCandidatoCtrl', ['$scope', '$http', '$uibModalInstance', 'App', 'candidato', 'aspiracion', 'votacion_id', 'toastr', ($scope, $http, $modalInstance, App, candidato, aspiracion, votacion_id, toastr)->
 
 	$scope.candidato = candidato
 	$scope.aspiracion = aspiracion
@@ -40,14 +41,15 @@ angular.module("myvcFrontApp")
 		datos.candidato_id = candidato.candidato_id
 		datos.votacion_id = votacion_id
 
-		Restangular.all('votos/store').post('', datos).then((r)->
+		$http.post('::votos/store', datos).then((r)->
+			r = r.data
 			if r.msg 
 				toastr.info r.msg
 			else
 				toastr.success 'Voto guardado con éxito'
 			$modalInstance.close(r)
 		, (r2)->
-			console.log 'No se pudo guardar el voto.', r2
+			r2 = r2.data
 			if r2.data
 				if r2.data.msg
 					toastr.error r2.data.msg # Mensaje que me devuelve el servidor

@@ -1,5 +1,5 @@
 angular.module('myvcFrontApp')
-.controller('ComportamientoCtrl', ['$scope', '$filter', '$rootScope', '$state', '$interval', 'comportamiento', '$uibModal', 'App', 'Restangular', 'AuthService', ($scope, $filter, $rootScope, $state, $interval, comportamiento, $modal, App, Restangular, AuthService) ->
+.controller('ComportamientoCtrl', ['$scope', '$filter', '$state', 'comportamiento', '$uibModal', 'App', '$http', 'AuthService', 'toastr', ($scope, $filter, $state, comportamiento, $modal, App, $http, AuthService, toastr) ->
 
 	AuthService.verificar_acceso()
 
@@ -25,19 +25,18 @@ angular.module('myvcFrontApp')
 				comportamiento_id:	alumno.nota.id
 				frase_id:			alumno.newfrase.id
 
-			Restangular.one('definiciones_comportamiento/store').customPOST(dato).then((r)->
-				$scope.toastr.success 'Frase agregada con éxito'
-				alumno.newfrase.definicion_id = r.id
+			$http.post('::definiciones_comportamiento/store', dato).then((r)->
+				toastr.success 'Frase agregada con éxito'
+				alumno.newfrase.definicion_id = r.data.id
 				alumno.definiciones.push alumno.newfrase
 				alumno.newfrase = null
 				alumno.agregando_frase = false
 			, (r2)->
-				$scope.toastr.error 'No se pudo agregar la frase', 'Problema'
-				console.log 'No se añadió la frase', r2
+				toastr.error 'No se pudo agregar la frase', 'Problema'
 				alumno.agregando_frase = false
 			)
 		else
-			$scope.toastr.warning 'Debe seleccionar frase'
+			toastr.warning 'Debe seleccionar frase'
 			return
 
 
@@ -50,42 +49,37 @@ angular.module('myvcFrontApp')
 				comportamiento_id:	alumno.nota.id
 				frase:				alumno.newfrase_escrita
 
-			Restangular.one('definiciones_comportamiento/store-escrita').customPOST(dato).then((r)->
-				$scope.toastr.success 'Frase agregada con éxito'
+			$http.post('::definiciones_comportamiento/store-escrita', dato).then((r)->
+				toastr.success 'Frase agregada con éxito'
 				alumno.newfrase_escrita = ''
-				alumno.definiciones.push r
+				alumno.definiciones.push r.data
 				alumno.agregando_frase = false
 			, (r2)->
-				$scope.toastr.error 'No se pudo agregar la frase', 'Problema'
-				console.log 'No se añadió la frase', r2
+				toastr.error 'No se pudo agregar la frase', 'Problema'
 				alumno.agregando_frase = false
 			)
 		else
-			$scope.toastr.warning 'Debe escribir la frase'
+			toastr.warning 'Debe escribir la frase'
 			return
 
 
 	$scope.cambiaNota = (nota)->
-		console.log nota
-
+		
 		temp = nota.nota
 
-		Restangular.one('nota_comportamiento/update', nota.id).customPUT({nota: nota.nota}).then((r)->
-			$scope.toastr.success 'Nota cambiada: ' + nota.nota
+		$http.put('::nota_comportamiento/update/'+nota.id).customPUT({nota: nota.nota}).then((r)->
+			toastr.success 'Nota cambiada: ' + nota.nota
 		, (r2)->
-			console.log 'No pudimos guardar la nota ', nota
-			$scope.toastr.error 'No pudimos guardar la nota ' + nota.nota
+			toastr.error 'No pudimos guardar la nota ' + nota.nota
 			nota.nota = temp
 		)
 
 	$scope.quitarFrase = (definicion, alumno)->
-		Restangular.one('definiciones_comportamiento/destroy/' + definicion.definicion_id).customDELETE().then((r)->
-			$scope.toastr.success 'Definicion quitada'
+		$http.delete('::definiciones_comportamiento/destroy/' + definicion.definicion_id).then((r)->
+			toastr.success 'Definicion quitada'
 			alumno.definiciones = $filter('filter')(alumno.definiciones, {definicion_id: '!'+definicion.definicion_id})
-			console.log alumno.definiciones, definicion.definicion_id
 		, (r2)->
-			console.log 'No pudimos quitar frase ', r2
-			$scope.toastr.error 'No pudimos quitar frase', 'Problema'
+			toastr.error 'No pudimos quitar frase', 'Problema'
 		)
 
 

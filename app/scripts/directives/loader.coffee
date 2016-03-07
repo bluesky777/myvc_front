@@ -1,9 +1,9 @@
 angular.module('myvcFrontApp')
 
-.directive('loader',['App', (App)-> 
+.directive('loader',[()-> 
 
 	restrict: 'E'
-	templateUrl: "#{App.views}directives/loader.tpl.html"
+	templateUrl: "==directives/loader.tpl.html"
 	scope: 
 		cargando: "="
 

@@ -1,0 +1,13 @@
+.modal-header
+	h3.modal-title ¿Seguro que deseas eliminar?
+.modal-body
+	.row
+		.col-lg-12.col-xs-12
+			h4 Profesor: 
+			div(style="text-overflow: ellipsis") {{profesor.nombres}} {{profesor.apellidos}}
+			h5 Id: {{profesor.profesor_id}}
+
+.modal-footer
+	button.btn.btn-labeled.btn-danger(ng-click="ok()") Eliminar
+		i.btn-label.fa.fa-times
+	button.btn.btn-yellow(ng-click="cancel()") Cancelar

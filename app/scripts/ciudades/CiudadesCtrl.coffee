@@ -2,13 +2,10 @@
 
 angular.module("myvcFrontApp")
 
-.controller('CiudadesCtrl', ['$scope', '$rootScope', '$interval', ($scope, $rootScope, $interval)->
+.controller('CiudadesCtrl', ['$scope', 'toastr', '$http', ($scope, toastr, $http)->
 
 	$scope.bigLoader = true
 
-	stop = $interval( ()->
-		$scope.bigLoader = false
-	, 1000)
 
 	$scope.gridOptions = 
 		enableSorting: true,

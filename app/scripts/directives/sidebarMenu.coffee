@@ -1,10 +1,10 @@
 angular.module('myvcFrontApp')
 
-.directive('sidebarMenu',['App', '$rootScope', 'AuthService', 'Restangular', '$uibModal', 'Perfil', 'ProfesoresServ', '$window', '$compile', (App, $rootScope, AuthService, Restangular, $modal, Perfil, ProfesoresServ, $window, $compile)-> 
+.directive('sidebarMenu',['$rootScope', 'AuthService', '$http', '$uibModal', 'Perfil', 'ProfesoresServ', '$window', ($rootScope, AuthService, $http, $modal, Perfil, ProfesoresServ, $window)-> 
 
 	restrict: 'E'
 	replace: true
-	templateUrl: "#{App.views}directives/sidebarMenu.tpl.html"
+	templateUrl: "==directives/sidebarMenu.tpl.html"
 	scope: 
 		cargando: "="
 
@@ -34,23 +34,23 @@ angular.module('myvcFrontApp')
 
 		if $scope.hasRoleOrPerm(['Admin', 'Profesor'])
 
-			Restangular.all('grupos').getList().then((r)->
-				$scope.grupos = r
+			$http.get('::grupos').then((r)->
+				$scope.grupos = r.data
 			, (r2)->
-				console.log 'No se pudo traer los grupos: ', r2
+				toastr.error 'No se pudo traer los grupos del menú'
 			)
 
 		ProfesoresServ.contratos().then((r)->
 			$scope.profesores = r
 			#$rootScope.profesores = $scope.profesores
 		, (r2)->
-			console.log 'No se pudo traer los profesores: ', r2
+			toastr.error 'No se pudo traer los profesores del menú'
 		)
 
 		$scope.listarAsignaturas = ()->
 
 			modalInstance = $modal.open({
-				templateUrl: App.views + 'areas/listasignaturasPop.tpl.html'
+				templateUrl: '==areas/listasignaturasPop.tpl.html'
 				controller: 'ListasignaturasPopCtrl'
 			})
 			modalInstance.result.then( (r)->
@@ -107,7 +107,6 @@ angular.module('myvcFrontApp')
 				else
 					iElem.removeClass 'open'
 					scope.menuIsOpen = false
-				console.log 'Valor de scope.menuIsOpen: ', scope.menuIsOpen
 		else
 
 			sidebarMenuCtrl.addGroup(scope)
@@ -139,8 +138,6 @@ angular.module('myvcFrontApp')
 			iElem.addClass 'open'
 
 		scope.toggleOpen = ()->
-			#debugger
-			console.log 'scope.menuIsOpen', scope.menuIsOpen, scope.menuIsOpen == false
 			if scope.menuIsOpen == true
 				iElem.addClass 'open'
 				scope.menuIsOpen = true
@@ -194,16 +191,16 @@ angular.module('myvcFrontApp')
 			removeElement(groupName, elem)
 
 
-.controller('ListasignaturasPopCtrl', ['$scope', '$uibModalInstance', 'Restangular', 'toastr', '$state', 'Perfil', ($scope, $modalInstance, Restangular, toastr, $state, Perfil)->
+.controller('ListasignaturasPopCtrl', ['$scope', '$uibModalInstance', '$http', 'toastr', '$state', ($scope, $modalInstance, $http, toastr, $state)->
 	
 	$scope.selectAsignatura = (asig_id)->
 		$state.go 'panel.notas', {asignatura_id: asig_id}
 		$modalInstance.close(asig_id)
 
-	Restangular.all('asignaturas/listasignaturas').getList().then((r)->
-		$scope.asignaturas = r
+	$http.get('::asignaturas/listasignaturas-alone').then((r)->
+		$scope.asignaturas = r.data
 	, (r2)->
-		console.log 'No se pudo traer tus asignaturas, ', r2
+		toastr.error 'No se pudo traer tus asignaturas'
 	)
 
 	$scope.cancel = ()->

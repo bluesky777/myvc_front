@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('ProfesoresCtrl', ['$scope', '$rootScope', 'toastr', 'Restangular', '$state', 'App', '$filter', ($scope, $rootScope, toastr, Restangular, $state, App, $filter)->
+.controller('ProfesoresCtrl', ['$scope', '$uibModal', 'toastr', '$http', '$state', 'App', '$filter', ($scope, $uibModal, toastr, $http, $state, App, $filter)->
 
 	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
 	$scope.current_year = $scope.USER.year_id
@@ -12,12 +12,21 @@ angular.module("myvcFrontApp")
 		$state.go('panel.profesores.editar', {profe_id: row.id})
 
 	$scope.eliminar = (row)->
-		$state.go('panel.profesores.eliminar', {profe_id: row.id})
+		modalInstance = $uibModal.open({
+			templateUrl: '==profesores/removeProfesor.tpl.html'
+			controller: 'RemoveProfesorCtrl'
+			resolve: 
+				profesor: ()->
+					row
+		})
+		modalInstance.result.then( (alum)->
+			$scope.gridOptions.data = $filter('filter')($scope.gridOptions.data, {alumno_id: '!'+alum.alumno_id})
+		)
 
 
 	btGrid1 = '<a uib-tooltip="Editar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
 	btGrid2 = '<a uib-tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-times "></i></a>'
-	btGrid3 = "#{App.views}profesores/botonContratar.tpl.html"
+	btGrid3 = "==profesores/botonContratar.tpl.html"
 
 	$scope.gridOptions = 
 		enableSorting: true,
@@ -41,7 +50,7 @@ angular.module("myvcFrontApp")
 			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
 				
 				if newValue != oldValue
-					Restangular.one('profesores/update', rowEntity.id).customPUT(rowEntity).then((r)->
+					$http.put('::profesores/update/'+rowEntity.id, rowEntity).then((r)->
 						toastr.success 'Profesor actualizado con éxito', 'Actualizado'
 					, (r2)->
 						toastr.error 'Cambio no guardado', 'Error'
@@ -50,8 +59,8 @@ angular.module("myvcFrontApp")
 			)
 
 	
-	Restangular.one('profesores').getList().then((data)->
-		$scope.gridOptions.data = data;
+	$http.get('::profesores').then((data)->
+		$scope.gridOptions.data = data.data;
 	)
 
 	$scope.$on 'profesorcreado', (data, prof)->
@@ -64,8 +73,8 @@ angular.module("myvcFrontApp")
 		$scope.mostrandoTodos = false
 
 	$scope.quitarContrato = (contrato_id)->
-		Restangular.one('contratos/destroy/' + contrato_id).customDELETE().then((r)->
-			toastr.success 'Quitado de este año ' + $scope.USER.year.year
+		$http.delete('::contratos/destroy/' + contrato_id).then((r)->
+			toastr.success 'Quitado de este año ' + $scope.USER.year
 
 			$scope.gridCurrentOptions.data = $filter('filter')($scope.gridCurrentOptions.data, {contrato_id: '!'+contrato_id})
 			
@@ -76,16 +85,21 @@ angular.module("myvcFrontApp")
 		)
 
 	$scope.contratar = (row)->
-		Restangular.one('contratos').customPOST({profesor_id: row.id}).then((r)->
+		$http.post('::contratos', {profesor_id: row.id}).then((r)->
 			toastr.success row.nombres + ' contratado para este año'
+			r = r.data[0]
+			$scope.gridCurrentOptions.data.push r
 
-			$scope.gridCurrentOptions.data.push r[0]
+			actual = $filter('filter')($scope.gridOptions.data, {id: r.profesor_id})[0]
 
-			actual = $filter('filter')($scope.gridOptions.data, {contrato_id: row.contrato_id})[0]
 			actual.year_id = $scope.current_year
-			actual.contrato_id = r[0].contrato_id
+			actual.contrato_id = r.contrato_id
 		, (r2)->
-			toastr.error 'No se pudo agregar el profesor al presente año', 'Problema'
+
+			if r2.data.contratado
+				toastr.warning 'Este profesor ya está contratado'
+			else
+				toastr.error 'No se pudo agregar el profesor al presente año', 'Problema'
 		)
 
 
@@ -112,23 +126,39 @@ angular.module("myvcFrontApp")
 			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
 				
 				if newValue != oldValue
-					Restangular.one('profesores/update', rowEntity.profesor_id).customPUT(rowEntity).then((r)->
+					$http.put('::profesores/update/'+rowEntity.profesor_id, rowEntity).then((r)->
 						toastr.success 'Profesor actualizado con éxito', 'Actualizado'
 					, (r2)->
 						toastr.error 'Cambio no guardado', 'Error'
-						console.log 'Falló al intentar guardar: ', r2
 					)
 				$scope.$apply()
 			)
 
-	Restangular.all('contratos').getList().then((r)->
-		$scope.gridCurrentOptions.data = r
+	$http.get('::contratos').then((r)->
+		$scope.gridCurrentOptions.data = r.data
 	, (r2)->
 		toastr.error 'No se trajeron los profesores contratados'
 	)
 	
 
 	return
+])
+
+.controller('RemoveProfesorCtrl', ['$scope', '$uibModalInstance', 'profesor', '$http', 'toastr', ($scope, $modalInstance, profesor, $http, toastr)->
+	$scope.profesor = profesor
+
+	$scope.ok = ()->
+
+		$http.delete('::profesor/destroy/'+profesor.alumno_id).then((r)->
+			toastr.success 'Profesor enviado a la papelera.', 'Eliminado'
+		, (r2)->
+			toastr.warning 'No se pudo enviar a la papelera.', 'Problema'
+		)
+		$modalInstance.close(profesor)
+
+	$scope.cancel = ()->
+		$modalInstance.dismiss('cancel')
+
 ])
 
 

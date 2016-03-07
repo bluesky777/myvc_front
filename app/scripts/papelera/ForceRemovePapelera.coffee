@@ -1,15 +1,14 @@
 angular.module("myvcFrontApp")
 
-.controller('ForceRemoveAlumnoCtrl', ['$scope', '$uibModalInstance', 'alumno', 'Restangular', 'toastr', ($scope, $modalInstance, alumno, Restangular, toastr)->
+.controller('ForceRemoveAlumnoCtrl', ['$scope', '$uibModalInstance', 'alumno', '$http', 'toastr', ($scope, $modalInstance, alumno, $http, toastr)->
 	$scope.alumno = alumno
 
 	$scope.ok = ()->
 
-		Restangular.all('alumnos/forcedelete/'+alumno.alumno_id).remove().then((r)->
+		$http.delete('::alumnos/forcedelete/'+alumno.alumno_id).then((r)->
 			toastr.success 'Alumno eliminado con éxito.', 'Eliminado'
 		, (r2)->
 			toastr.warning 'No se pudo eliminar al alumno.', 'Problema'
-			console.log 'Error eliminando alumno: ', r2
 		)
 		$modalInstance.close(alumno)
 
@@ -18,16 +17,15 @@ angular.module("myvcFrontApp")
 
 ])
 
-.controller('ForceRemoveGrupoCtrl', ['$scope', '$uibModalInstance', 'grupo', 'Restangular', 'toastr', ($scope, $modalInstance, grupo, Restangular, toastr)->
+.controller('ForceRemoveGrupoCtrl', ['$scope', '$uibModalInstance', 'grupo', '$http', 'toastr', ($scope, $modalInstance, grupo, $http, toastr)->
 	$scope.grupo = grupo
 
 	$scope.ok = ()->
 
-		Restangular.all('grupos/forcedelete/'+grupo.id).remove().then((r)->
+		$http.delete('::grupos/forcedelete/'+grupo.id).then((r)->
 			toastr.success 'Grupo eliminado con éxito.', 'Eliminado'
 		, (r2)->
 			toastr.warning 'No se pudo eliminar al grupo.', 'Problema'
-			console.log 'Error eliminando grupo: ', r2
 		)
 		$modalInstance.close(grupo)
 
@@ -36,16 +34,15 @@ angular.module("myvcFrontApp")
 
 ])
 
-.controller('ForceRemoveUnidadCtrl', ['$scope', '$uibModalInstance', 'unidad', 'Restangular', 'toastr', ($scope, $modalInstance, unidad, Restangular, toastr)->
+.controller('ForceRemoveUnidadCtrl', ['$scope', '$uibModalInstance', 'unidad', '$http', 'toastr', ($scope, $modalInstance, unidad, $http, toastr)->
 	$scope.unidad = unidad
 
 	$scope.ok = ()->
 
-		Restangular.all('unidades/forcedelete/'+unidad.id).remove().then((r)->
+		$http.delete('::unidades/forcedelete/'+unidad.id).then((r)->
 			toastr.success 'Unidad eliminada con éxito.', 'Eliminado'
 		, (r2)->
 			toastr.warning 'No se pudo eliminar la unidad.', 'Problema'
-			console.log 'Error eliminando unidad: ', r2
 		)
 		$modalInstance.close(unidad)
 

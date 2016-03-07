@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('ParticipantesCtrl', ['$scope', '$filter', '$rootScope', 'Restangular', 'toastr', 'App', ($scope, $filter, $rootScope, Restangular, toastr, App)->
+.controller('ParticipantesCtrl', ['$scope', '$filter', '$http', 'toastr', ($scope, $filter, $http, toastr)->
 
 	$scope.editing = false
 	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
@@ -19,25 +19,25 @@ angular.module("myvcFrontApp")
 
 	$scope.eliminar = (row)->
 
-		Restangular.one('participantes/destroy/'+row.id).remove().then((r)->
+		$http.delete('::participantes/destroy/'+row.id).then((r)->
 			toastr.success 'Se ha eliminado.'
-			$scope.gridOptions.data = $filter('filter')($scope.gridOptions.data, {id: '!'+r.id})
+			$scope.gridOptions.data = $filter('filter')($scope.gridOptions.data, {id: '!'+r.data.id})
 		, (r2)->
-			console.log 'No se pudo eliminar.', r2
+			toastr.error 'No se pudo eliminar.'
 		)
 
 
 	$scope.cambiarLocked = (row)->
-		Restangular.one('participantes/set-locked').customPUT({id: row.id, locked: row.locked}).then((r)->
+		$http.put('::participantes/set-locked', {id: row.id, locked: row.locked}).then((r)->
 			toastr.success 'Cambiado'
 		, (r2)->
-			console.log 'No se pudo cambiar bloqueo.', r2
+			toastr.error 'No se pudo cambiar bloqueo.'
 		)
 
 
 	
 	btGrid2 = '<a uib-tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-times "></i></a>'
-	btBloq = "#{App.views}votaciones/botonEventoLocked.tpl.html"
+	btBloq = "==votaciones/botonEventoLocked.tpl.html"
 	$scope.gridOptions = 
 		enableSorting: true,
 		showGridFooter: true,
@@ -60,37 +60,37 @@ angular.module("myvcFrontApp")
 			
 
 
-	Restangular.one('participantes').getList().then((data)->
-		$scope.gridOptions.data = data;
+	$http.get('::participantes').then((data)->
+		$scope.gridOptions.data = data.data;
 	, (r2)->
 		toastr.warning 'Asegúrate de tener al menos un evento como actual.'
 	)
 
-	Restangular.one('grupos').getList().then((data)->
-		$scope.grupos = data;
+	$http.get('::grupos').then((data)->
+		$scope.grupos = data.data;
 	, (r2)->
 		#console.log 'Error trayendo los grupos. ', r2
 	)
 
-	Restangular.one('votaciones/actual').get().then((r)->
-		$scope.votacion = r
+	$http.get('::votaciones/actual').then((r)->
+		$scope.votacion = r.data
 	)
 
 	$scope.inscribirGrupo = (grupo)->
-		Restangular.all('participantes/inscribirgrupo/' + grupo.id).post().then((r)->
+		$http.post('::participantes/inscribirgrupo/' + grupo.id).then((r)->
 			toastr.success 'Se inscribió el grupo.'
 			grupo.presionado = true
 		, (r2)->
-			#console.log 'Error al intentar inscribir grupo.', r2
+			toastr.error 'Error al intentar inscribir grupo.'
 		)
 
 
 	$scope.inscribirProfesores = ()->
-		Restangular.all('participantes/inscribir-profesores').post().then((r)->
+		$http.post('::participantes/inscribir-profesores').then((r)->
 			toastr.success 'Se inscribieron los profesores.'
 			btnProfPresionado = true
 		, (r2)->
-			#console.log 'Error al intentar inscribir grupo.', r2
+			toastr.error 'Error al intentar inscribir grupo.'
 		)
 
 	return

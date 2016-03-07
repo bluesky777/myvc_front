@@ -1,6 +1,6 @@
 angular.module("myvcFrontApp")
 
-.controller('AreasCtrl', ['$scope', '$rootScope', '$filter', 'Restangular', 'RAreas', '$uibModal', 'App', ($scope, $rootScope, $filter, Restangular, RAreas, $modal, App)->
+.controller('AreasCtrl', ['$scope', 'toastr', '$filter', '$http', '$uibModal', ($scope, toastr, $filter, $http, $uibModal)->
 
 	$scope.creando = false
 	$scope.editando = false
@@ -16,23 +16,21 @@ angular.module("myvcFrontApp")
 		$scope.editando = false
 
 	$scope.crear = ()->
-		RAreas.post($scope.currentArea).then((r)->
-			$scope.gridOptions.data.push r
+		$http.post('::areas', $scope.currentArea).then((r)->
+			$scope.gridOptions.data.push r.data
 			delete $scope.currentArea
-			$scope.toastr.success 'Area creada con éxito'
+			toastr.success 'Area creada con éxito'
 		, (r2)->
-			console.log 'No se pudo crear', r2
-			$scope.toastr.error 'Error creando', 'Problema'
+			toastr.error 'Error creando', 'Problema'
 		)
 
 	$scope.guardar = ()->
-		Restangular.one('areas/update', $scope.currentAreaEdit.id).customPUT($scope.currentAreaEdit).then((r)->
+		$http.put('::areas/update/'+$scope.currentAreaEdit.id, $scope.currentAreaEdit).then((r)->
 			delete $scope.currentAreaEdit
-			$scope.toastr.success 'Area actualizada con éxito'
+			toastr.success 'Area actualizada con éxito'
 			$scope.cancelarEdit()
 		, (r2)->
-			console.log 'No se pudo crear', r2
-			$scope.toastr.error 'Error guardando', 'Problema'
+			toastr.error 'Error guardando', 'Problema'
 		)
 
 	$scope.editar = (row)->
@@ -41,8 +39,8 @@ angular.module("myvcFrontApp")
 
 	$scope.eliminar = (row)->
 
-		modalInstance = $modal.open({
-			templateUrl: App.views + 'areas/removeArea.tpl.html'
+		modalInstance = $uibModal.open({
+			templateUrl: '==areas/removeArea.tpl.html'
 			controller: 'RemoveAreaCtrl'
 			resolve: 
 				area: ()->
@@ -50,7 +48,6 @@ angular.module("myvcFrontApp")
 		})
 		modalInstance.result.then( (area)->
 			$scope.gridOptions.data = $filter('filter')($scope.areas, {id: '!'+area.id})
-			console.log 'Resultado del modal: ', area
 		)
 
 	btGrid1 = '<a uib-tooltip="Editar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
@@ -73,7 +70,6 @@ angular.module("myvcFrontApp")
 		onRegisterApi: ( gridApi ) ->
 			$scope.gridApi = gridApi
 			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
-				console.log 'Fila editada, ', rowEntity, ' Column:', colDef, ' newValue:' + newValue + ' oldValue:' + oldValue ;
 				
 				if newValue != oldValue
 					$scope.currentAreaEdit = rowEntity
@@ -83,22 +79,21 @@ angular.module("myvcFrontApp")
 
 	
 
-	RAreas.getList().then((data)->
-		$scope.areas = data
+	$http.get('::areas').then((data)->
+		$scope.areas = data.data
 		$scope.gridOptions.data = $scope.areas
 	)
 ])
 
-.controller('RemoveAreaCtrl', ['$scope', '$uibModalInstance', 'area', 'Restangular', 'toastr', ($scope, $modalInstance, area, Restangular, toastr)->
+.controller('RemoveAreaCtrl', ['$scope', '$uibModalInstance', 'area', '$http', 'toastr', ($scope, $modalInstance, area, $http, toastr)->
 	$scope.area = area
 
 	$scope.ok = ()->
 
-		Restangular.all('areas/destroy/'+area.id).remove().then((r)->
-			toastr.success 'Grupo '+area.nombre+' eliminado con éxito.', 'Eliminado'
+		$http.delete('::areas/destroy/'+area.id).then((r)->
+			toastr.success 'Grupo eliminado: '+area.nombre, 'Eliminado'
 		, (r2)->
 			toastr.warning 'Problema', 'No se pudo eliminar el area.'
-			console.log 'Error eliminando area: ', r2
 		)
 		$modalInstance.close(area)
 

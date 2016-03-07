@@ -2,17 +2,17 @@
 
 angular.module("myvcFrontApp")
 
-.controller('GruposEditCtrl', ['$scope', '$state', 'Restangular', 'toastr', ($scope, $state, Restangular, toastr)->
+.controller('GruposEditCtrl', ['$scope', '$state', '$http', 'toastr', ($scope, $state, $http, toastr)->
 
 
-	Restangular.one('grupos/show', $state.params.grupo_id).get().then (r)->
-		$scope.grupo = r
+	$http.get('::grupos/show/'+$state.params.grupo_id).then (r)->
+		$scope.grupo = r.data
 
-	Restangular.one('grados').getList().then((data)->
-		$scope.grados = data
+	$http.get('::grados').then((data)->
+		$scope.grados = data.data
 	)
-	Restangular.one('contratos').getList().then((data)->
-		$scope.profesores = data
+	$http.get('::contratos').then((data)->
+		$scope.profesores = data.data
 	)
 
 	$scope.guardar = ()->
@@ -20,12 +20,11 @@ angular.module("myvcFrontApp")
 		titular = $scope.grupo.titular
 		delete $scope.grupo.titular
 		
-		Restangular.one('grupos/update').customPUT($scope.grupo).then((r)->
-			toastr.success 'Grupo '+r.nombre+' editado.'
+		$http.put('::grupos/update', $scope.grupo).then((r)->
+			toastr.success 'Grupo '+r.data.nombre+' editado.'
 			$scope.grupo.titular = titular
 		, (r2)->
 			$scope.grupo.titular = titular
-			console.log 'Falló al intentar guardar: ', r2
 		)
 
 	$scope.restarOrden = ()->

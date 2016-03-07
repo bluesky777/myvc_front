@@ -1,17 +1,17 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-	.config ['$stateProvider', 'App', ($state, App) ->
+	.config ['$stateProvider', ($state) ->
 
 		$state
 			.state 'panel.profesores.nuevo',
 				url: '/nuevo'
 				views: 
 					'edit_profesor':
-						templateUrl: "#{App.views}profesores/profesoresNew.tpl.html"
+						templateUrl: "==profesores/profesoresNew.tpl.html"
 						controller: 'ProfesoresNewCtrl'
 					'headerContent':
-						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
 						resolve:
 							titulo: [->
@@ -27,10 +27,10 @@ angular.module('myvcFrontApp')
 				url: '/editar/:profe_id'
 				views: 
 					'edit_profesor':
-						templateUrl: "#{App.views}profesores/profesoresEdit.tpl.html"
+						templateUrl: "==profesores/profesoresEdit.tpl.html"
 						controller: 'ProfesoresEditCtrl'
 					'headerContent':
-						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
 						resolve: 
 							titulo: [->

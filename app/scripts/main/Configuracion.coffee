@@ -2,9 +2,9 @@ angular.module('myvcFrontApp')
 
 
 # Configuración principal de nuestra aplicación.
-.config(['$cookiesProvider', '$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationProvider', 'App', 'PERMISSIONS', 'RestangularProvider', '$intervalProvider', '$rootScopeProvider', 'USER_ROLES', 'toastrConfig', 'uiSelectConfig', ($cookies, $state, $urlRouter, $httpProvider, $locationProvider, App, PERMISSIONS, Restangular, $intervalProvider, $rootScopeProvider, USER_ROLES, toastrConfig, uiSelectConfig)->
+.config(['$cookiesProvider', '$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationProvider', 'App', 'PERMISSIONS', '$intervalProvider', '$rootScopeProvider', 'USER_ROLES', 'toastrConfig', 'uiSelectConfig', ($cookies, $state, $urlRouter, $httpProvider, $locationProvider, App, PERMISSIONS, $intervalProvider, $rootScopeProvider, USER_ROLES, toastrConfig, uiSelectConfig)->
 
-	Restangular.setBaseUrl App.Server # Url a la que se harán todas las llamadas.
+	#Restangular.setBaseUrl App.Server # Url a la que se harán todas las llamadas.
 	
 
 	$httpProvider.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
@@ -15,18 +15,24 @@ angular.module('myvcFrontApp')
 	$httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 	delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
-	###
+
 	$httpProvider.interceptors.push(($q)->
 		{
 			'request': (config)->
-				esplotado = config.url.split('::')
-				if esplotado.length > 1
-					config.url = App.Server + esplotado[1]
+				explotado = config.url.split('::')
+				if explotado.length > 1
+					config.url = App.Server + explotado[1]
+				else
+					explotado = config.url.split('==')
+					if explotado.length > 1
+						config.url = App.views + explotado[1]
+
+
 				config
 		}
 
 	)
-	###
+
 
 
 	uiSelectConfig.theme = 'select2'
@@ -95,13 +101,6 @@ angular.module('myvcFrontApp')
 	#$locationProvider.html5Mode true
 
 	$rootScopeProvider.bigLoader = true
-
-	# Agrego la función findByValues a loDash.
-	_.mixin 
-		'findByValues': (collection, property, values)->
-			filtrado = _.filter collection, (item)->
-				_.contains values, item[property]
-			if filtrado.length == 0 then return false else filtrado[0]
 
 	angular.extend(toastrConfig, {
 		allowHtml: true,

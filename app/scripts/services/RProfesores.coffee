@@ -1,18 +1,18 @@
 angular.module('myvcFrontApp')
 
 
-.factory('ProfesoresServ', ['Restangular', '$q', (Restangular, $q) ->
+.factory('ProfesoresServ', ['$http', '$q', ($http, $q) ->
 	profesores = []
 
 	profes = {}
 	profes.contratos = ()->
 		d = $q.defer();
 
-		Restangular.all('contratos').getList().then((r)->
-			d.resolve r
+		$http.get('::contratos').then((r)->
+			d.resolve r.data
 		, (r2)->
 			console.log 'No se trajeron los profesores contratados. ', r2
-			d.reject r2
+			d.reject r2.data
 		)
 
 		return d.promise

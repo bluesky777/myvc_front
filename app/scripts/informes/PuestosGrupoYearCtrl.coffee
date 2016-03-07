@@ -1,7 +1,8 @@
 angular.module("myvcFrontApp")
 
-.controller('PuestosGrupoYearCtrl', ['$scope', 'App', '$rootScope', '$state', 'datos_puestos', 'escalas', 'Restangular', '$uibModal', '$filter', 'AuthService', '$cookieStore', ($scope, App, $rootScope, $state, datos_puestos, escalas, Restangular, $modal, $filter, AuthService, $cookieStore)->
-	
+.controller('PuestosGrupoYearCtrl', ['$scope', 'datos_puestos', 'escalas', '$cookieStore', ($scope, datos_puestos, escalas, $cookieStore)->
+	datos_puestos = datos_puestos.data
+
 	$scope.grupo = datos_puestos.grupo
 	$scope.year = datos_puestos.year
 	$scope.alumnos = datos_puestos.alumnos

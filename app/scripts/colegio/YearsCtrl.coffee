@@ -1,8 +1,8 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-.controller('YearsCtrl', ['App', '$scope', '$http', 'Restangular', '$uibModal', '$state', 'ProfesoresServ', '$cookies', '$rootScope', '$filter', 'toastr', 
-	(App, $scope, $http, Restangular, $modal, $state, ProfesoresServ, $cookies, $rootScope, $filter, toastr) ->
+.controller('YearsCtrl', ['App', '$scope', '$http', '$uibModal', '$state', 'ProfesoresServ', '$cookies', '$rootScope', '$filter', 'toastr', 
+	(App, $scope, $http, $modal, $state, ProfesoresServ, $cookies, $rootScope, $filter, toastr) ->
 
 		if $scope.USER.alumnos_can_see_notas == 1
 			$scope.USER.alumnos_can_see_notas = true
@@ -12,7 +12,8 @@ angular.module('myvcFrontApp')
 		$scope.config = {alumnos_can_see_notas: $scope.USER.alumnos_can_see_notas}
 		$scope.perfilPath = App.images + 'perfil/'
 
-		Restangular.one('years/colegio').customGET().then((r)->
+		$http.get('::years/colegio').then((r)->
+			r = r.data
 			$scope.years = r.years
 			$scope.certificados = r.certificados
 			$scope.imagenes = r.imagenes
@@ -20,13 +21,13 @@ angular.module('myvcFrontApp')
 			ProfesoresServ.contratos().then((r)->
 				$scope.profesores = r
 			, (r2)->
-				console.log 'No se pudo traer los profesores: ', r2
+				toastr.error 'No se pudo traer los profesores'
 			)
 
 
 			$scope.fixControles()
 		, (r)->
-			console.log 'No se trajeron los años'
+			toastr.error 'No se trajeron los años'
 		)
 
 
@@ -62,7 +63,7 @@ angular.module('myvcFrontApp')
 		$scope.addPeriodo = (year)->
 
 			modalInstance = $modal.open({
-			templateUrl: App.views + 'colegio/addPeriodo.tpl.html'
+			templateUrl: '==colegio/addPeriodo.tpl.html'
 			controller: 'AddPeriodoCtrl'
 			resolve: 
 				year: ()->
@@ -77,7 +78,7 @@ angular.module('myvcFrontApp')
 		$scope.removePeriodo = (year, periodo)->
 
 			modalInstance = $modal.open({
-			templateUrl: App.views + 'colegio/removePeriodo.tpl.html'
+			templateUrl: '==colegio/removePeriodo.tpl.html'
 			controller: 'RemovePeriodoCtrl'
 			resolve: 
 				periodo: ()->
@@ -95,11 +96,10 @@ angular.module('myvcFrontApp')
 			if $scope.config.alumnos_can_see_notas == true
 				boleano = 1
 
-			Restangular.one('years/alumnos-can-see-notas', boleano).customPUT().then((r)->
-				toastr.success r
+			$http.put('::years/alumnos-can-see-notas/'+ boleano).then((r)->
+				toastr.success r.data
 			, (r2)->
 				toastr.warning 'No se pudo bloquear o desblequear el sistema.', 'Problema'
-				console.log 'No se pudo bloquear o desblequear el sistema: ', r2
 			)
 
 
@@ -123,30 +123,28 @@ angular.module('myvcFrontApp')
 		
 		$scope.actualPeriodo = (periodo)->
 
-			Restangular.one('periodos/establecer-actual', periodo.id).customPUT().then((r)->
+			$http.put('::periodos/establecer-actual', periodo.id).then((r)->
 				toastr.success 'Periodo ' + periodo.numero + ' establecido como actual.'
 			, (r2)->
 				toastr.warning 'No se pudo establecer como actual.', 'Problema'
-				console.log 'No se pudo establecer como actual: ', r2
 			)
 
 
 
 		$scope.crearNewYear = ()->
 
-			Restangular.one('years/store').customPOST($scope.newYear).then((r)->
+			$http.post('::years/store', $scope.newYear).then((r)->
 				toastr.success 'Año ' + $scope.newYear.year + ' creado. Por favor configúrelo.'
-				$scope.years.push r
+				$scope.years.push r.data
 			, (r2)->
 				toastr.warning 'No se pudo crear año.', 'Problema'
-				console.log 'No se pudo crear año: ', r2
 			)
 
 
 		$scope.deleteYear = (year)->
 
 			modalInstance = $modal.open({
-				templateUrl: App.views + 'colegio/removeYear.tpl.html'
+				templateUrl: '==colegio/removeYear.tpl.html'
 				controller: 'RemoveYearCtrl'
 				resolve: 
 					year: ()->
@@ -167,17 +165,16 @@ angular.module('myvcFrontApp')
 )
 
 
-.controller('RemoveYearCtrl', ['$scope', '$uibModalInstance', 'year', 'Restangular', 'toastr', ($scope, $modalInstance, year, Restangular, toastr)->
+.controller('RemoveYearCtrl', ['$scope', '$uibModalInstance', 'year', '$http', 'toastr', ($scope, $modalInstance, year, $http, toastr)->
 	$scope.year = year
 
 	$scope.ok = ()->
 
-		Restangular.one('years/delete').customDELETE(year.id).then((r)->
-			toastr.success 'Año ' + year + ' enviado a la papelera.'
+		$http.delete('::years/delete/'+year.id).then((r)->
+			toastr.success 'Año ' + year.year + ' enviado a la papelera.'
 			$modalInstance.close(year)
 		, (r2)->
 			toastr.warning 'No se pudo eliminar el año.', 'Problema'
-			console.log 'Error eliminando año: ', r2
 			$modalInstance.dismiss()
 		)
 
@@ -188,17 +185,16 @@ angular.module('myvcFrontApp')
 
 ])
 
-.controller('RemovePeriodoCtrl', ['$scope', '$modalInstance', 'periodo', 'Restangular', 'toastr', ($scope, $modalInstance, periodo, Restangular, toastr)->
+.controller('RemovePeriodoCtrl', ['$scope', '$uibModalInstance', 'periodo', '$http', 'toastr', ($scope, $modalInstance, periodo, $http, toastr)->
 	$scope.periodo = periodo
 
 	$scope.ok = ()->
 
-		Restangular.all('periodos/destroy/'+periodo.id).remove().then((r)->
+		$http.delete('::periodos/destroy/'+periodo.id).then((r)->
 			toastr.success 'Periodo eliminado con éxito.', 'Eliminado'
 			$modalInstance.close(periodo)
 		, (r2)->
 			toastr.warning 'No se pudo eliminar el periodo.', 'Problema'
-			console.log 'Error eliminando periodo: ', r2
 			$modalInstance.dismiss()
 		)
 		
@@ -208,7 +204,7 @@ angular.module('myvcFrontApp')
 
 ])
 
-.controller('AddPeriodoCtrl', ['$scope', '$modalInstance', 'year', 'Restangular', 'toastr', ($scope, $modalInstance, year, Restangular, toastr)->
+.controller('AddPeriodoCtrl', ['$scope', '$uibModalInstance', 'year', '$http', 'toastr', ($scope, $modalInstance, year, $http, toastr)->
 	$scope.year = year
 
 	$scope.new_periodo = {}
@@ -217,12 +213,11 @@ angular.module('myvcFrontApp')
 
 	$scope.ok = ()->
 
-		Restangular.one('periodos/store', year.id).customPOST($scope.new_periodo).then((r)->
+		$http.post('::periodos/store/'+year.id, $scope.new_periodo).then((r)->
 			toastr.success 'Periodo creado con éxito.', 'Creado'
 			$modalInstance.close($scope.new_periodo)
 		, (r2)->
 			toastr.warning 'No se pudo crear el periodo.', 'Problema'
-			console.log 'Error creando periodo: ', r2
 			$modalInstance.dismiss()
 		)
 

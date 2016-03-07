@@ -3,14 +3,14 @@ angular.module('myvcFrontApp')
 .directive('editNotasMatYearDir',['App', 'Perfil', (App, Perfil)-> 
 
 	restrict: 'EA'
-	templateUrl: "#{App.views}informes/editNotasMatYearDir.tpl.html"
+	templateUrl: "==informes/editNotasMatYearDir.tpl.html"
 	scope: 
 		asignatura: "="
 		alumno: "="
 		alumnosasigs: "="
 
 
-	controller: ($scope, App, Restangular, EscalasValorativasServ, AuthService, toastr)->
+	controller: ($scope, App, $http, EscalasValorativasServ, AuthService, toastr)->
 
 		$scope.USER = Perfil.User()
 		$scope.USER.nota_minima_aceptada = parseInt($scope.USER.nota_minima_aceptada)
@@ -33,22 +33,19 @@ angular.module('myvcFrontApp')
 			asignatura_id: $scope.asignatura.asignatura_id
 			periodos_a_calcular: 'de_usuario'
 
-		Restangular.one('editnota/alum-asignatura').customPUT(datos).then((r)->
-			$scope.periodos_materia = r
+		$http.put('::editnota/alum-asignatura', datos).then((r)->
+			$scope.periodos_materia = r.data
 		, (r2)->
-			console.log r2
+			#console.log r2
 		)
 
 
 
 
 		$scope.cambiaNota = (nota, otra)->
-			console.log nota, otra
-			Restangular.one('notas/update', nota.id).customPUT({nota: nota.nota}).then((r)->
+			$http.put('::notas/update/'+nota.id, {nota: nota.nota}).then((r)->
 				toastr.success 'Cambiada: ' + nota.nota
-				console.log 'Cuando la nota cambia, el objeto nota: ', nota
 			, (r2)->
-				console.log 'No pudimos guardar la nota ', nota
 				toastr.error 'No pudimos guardar la nota ' + nota.nota
 			)
 

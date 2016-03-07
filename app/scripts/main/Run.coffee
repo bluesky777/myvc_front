@@ -1,6 +1,6 @@
 angular.module('myvcFrontApp')
 #- Run ejecuta código depués de haber configurado nuestro módulo con config()
-.run ['$rootScope', 'cfpLoadingBar', '$state', '$stateParams', '$translate', '$cookies', 'Restangular', 'Perfil', 'AuthService', 'AUTH_EVENTS', 'toastr', ($rootScope, cfpLoadingBar, $state, $stateParams, $translate, $cookies, Restangular, Perfil, AuthService, AUTH_EVENTS, toastr) ->
+.run ['$rootScope', 'cfpLoadingBar', '$state', '$stateParams', '$cookies', 'Perfil', 'AuthService', 'AUTH_EVENTS', 'toastr', ($rootScope, cfpLoadingBar, $state, $stateParams, $cookies, Perfil, AuthService, AUTH_EVENTS, toastr) ->
 
 
 	#- Asignamos la información de los estados actuales para poder manipularla en las vistas.
@@ -55,11 +55,6 @@ angular.module('myvcFrontApp')
 		if $rootScope.lastState != 'panel'
 			$state.transitionTo 'panel'
 
-
-	#- Se ejecuta cuando se trae un nuevo trozo de traducciones
-	$rootScope.$on '$translatePartialLoaderStructureChanged', () ->
-		$translate.refresh()
-		console.log('Translate refrescado supuestamente.')
 
 
 	$rootScope.$on AUTH_EVENTS.loginSuccess, ()->

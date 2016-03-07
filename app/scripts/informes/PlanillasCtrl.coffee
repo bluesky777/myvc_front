@@ -1,6 +1,7 @@
 angular.module('myvcFrontApp')
 
 .controller('PlanillasCtrl',['$scope', 'App', 'Perfil', 'asignaturas', '$state', ($scope, App, Perfil, asignaturas, $state)-> 
+	asignaturas = asignaturas.data
 
 	$scope.USER = Perfil.User()
 	$scope.USER.nota_minima_aceptada = parseInt($scope.USER.nota_minima_aceptada)
@@ -20,7 +21,6 @@ angular.module('myvcFrontApp')
 
 	if $state.params.profesor_id
 		asig = $scope.asignaturas[0]
-		console.log 'asig', asig
 		$scope.$emit 'cambia_descripcion', $scope.asignaturas.length + ' planillas  del profesor ' + asig.nombres_profesor + ' ' + asig.apellidos_profesor
 	else if $state.params.grupo_id
 		asig = $scope.asignaturas[0]

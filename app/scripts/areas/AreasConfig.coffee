@@ -6,10 +6,10 @@ angular.module('myvcFrontApp')
 				url: '^/areas'
 				views: 
 					'maincontent':
-						templateUrl: "#{App.views}areas/areas.tpl.html"
+						templateUrl: "==areas/areas.tpl.html"
 						controller: 'AreasCtrl'
 					'headerContent':
-						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
 						resolve:
 							titulo: [->
@@ -25,19 +25,19 @@ angular.module('myvcFrontApp')
 				url: '^/materias'
 				views: 
 					'maincontent':
-						templateUrl: "#{App.views}areas/materias.tpl.html"
+						templateUrl: "==areas/materias.tpl.html"
 						controller: 'MateriasCtrl'
 					'headerContent':
-						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
 						resolve:
 							titulo: [->
 								'Materias'
 							]
 				resolve:{
-					areas: ['RAreas', (RAreas)->
-						RAreas.getList().then((data)->
-							return data
+					areas: ['$http', ($http)->
+						$http.get('::areas').then((data)->
+							return data.data
 						)
 					]
 				}
@@ -51,29 +51,29 @@ angular.module('myvcFrontApp')
 				url: '^/asignaturas'
 				views: 
 					'maincontent':
-						templateUrl: "#{App.views}areas/asignaturas.tpl.html"
+						templateUrl: "==areas/asignaturas.tpl.html"
 						controller: 'AsignaturasCtrl'
 					'headerContent':
-						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
 						resolve:
 							titulo: [->
 								'Asignaturas'
 							]
 				resolve:{
-					materias: ['Restangular', (Restangular)->
-						Restangular.one('materias').getList().then((data)->
-							return data
+					materias: ['$http', ($http)->
+						$http.get('::materias').then((data)->
+							return data.data
 						)
 					]
-					profesores: ['Restangular', (Restangular)->
-						Restangular.one('contratos').getList().then((data)->
-							return data
+					profesores: ['$http', ($http)->
+						$http.get('::contratos').then((data)->
+							return data.data
 						)
 					]
-					grupos: ['Restangular', (Restangular)->
-						Restangular.one('grupos').getList().then((data)->
-							return data
+					grupos: ['$http', ($http)->
+						$http.get('::grupos').then((data)->
+							return data.data
 						)
 					]
 				}
@@ -89,10 +89,10 @@ angular.module('myvcFrontApp')
 					profesor_id: { value: null }
 				views: 
 					'maincontent':
-						templateUrl: "#{App.views}areas/listAsignaturas.tpl.html"
+						templateUrl: "==areas/listAsignaturas.tpl.html"
 						controller: 'ListAsignaturasCtrl'
 					'headerContent':
-						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
 						resolve:
 							titulo: [->
@@ -108,10 +108,10 @@ angular.module('myvcFrontApp')
 				url: '^/frases'
 				views: 
 					'maincontent':
-						templateUrl: "#{App.views}areas/frases.tpl.html"
+						templateUrl: "==areas/frases.tpl.html"
 						controller: 'FrasesCtrl'
 					'headerContent':
-						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
 						resolve:
 							titulo: [->

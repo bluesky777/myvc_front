@@ -1,8 +1,9 @@
 angular.module('myvcFrontApp')
-.controller('CopiarCtrl', ['$scope', '$uibModal', 'Restangular', '$filter', '$rootScope', 'AuthService', 'toastr', 'App', 'YearsServ', 
-	($scope, $modal, Restangular, $filter, $rootScope, AuthService, toastr, App, YearsServ) ->
+.controller('CopiarCtrl', ['$scope', '$uibModal', '$http', '$filter', '$rootScope', 'AuthService', 'toastr', 'App', 'YearsServ', 
+	($scope, $modal, $http, $filter, $rootScope, AuthService, toastr, App, YearsServ) ->
 		
 		AuthService.verificar_acceso()
+		$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
 
 		$scope.configuracion = {copiar_subunidades: true, copiar_notas: true}
 		$scope.periodos = []
@@ -10,17 +11,17 @@ angular.module('myvcFrontApp')
 
 		profe_id = $scope.USER.persona_id
 
-		$scope.urlTplSubunidades = "#{App.views}unidades/subunidadespop.tpl.html"
+		$scope.urlTplSubunidades = "==unidades/subunidadespop.tpl.html"
 
 
 		if $scope.hasRoleOrPerm('admin') == true
 			$scope.profesores = []
 			$scope.conprofes = true # Para indicar que el select de años se llene con la selección de un profe y no años traidos por get
 
-			Restangular.all('profesores/conyears').getList().then((r)->
-				$scope.profesores = r
+			$http.get('::profesores/conyears').then((r)->
+				$scope.profesores = r.data
 			,(r)->
-				console.log 'No se pudo traer los profes con años', r
+				toastr.error 'No se pudo traer los profes con años', r
 			)
 
 		else
@@ -30,7 +31,7 @@ angular.module('myvcFrontApp')
 				$scope.years_copy = r
 				$scope.years_copy_to = r
 			, (r)->
-				console.log 'No se pudo traer los años a copiar', r
+				toastr.error 'No se pudo traer los años a copiar', r
 			)
 
 
@@ -53,8 +54,8 @@ angular.module('myvcFrontApp')
 			if $scope.conprofes == true
 				profe_id = $scope.configuracion.profesor_from.id
 
-			Restangular.all('asignaturas/listasignaturasyear/'+profe_id+'/'+$scope.configuracion.periodo_from.id).getList().then((r)->
-				$scope.asignaturas = r
+			$http.get('::asignaturas/listasignaturasyear/'+profe_id+'/'+$scope.configuracion.periodo_from.id).then((r)->
+				$scope.asignaturas = r.data
 
 				if $scope.configuracion.asignatura_from
 					asig_id = $scope.configuracion.asignatura_from.asignatura_id
@@ -64,7 +65,7 @@ angular.module('myvcFrontApp')
 					$scope.asignaturaSelect asig_found
 
 			, (r2)->
-				console.log 'No se pudo traer las asignaturas origen, ', r2
+				toastr.error 'No se pudo traer las asignaturas origen'
 			)
 
 		$scope.asignaturaSelect = ($item, $model)->
@@ -92,7 +93,8 @@ angular.module('myvcFrontApp')
 			if $scope.conprofes == true
 				profe_id = $scope.configuracion.profesor_to.id
 
-			Restangular.all('asignaturas/listasignaturasyear/'+profe_id+'/'+$scope.configuracion.periodo_to.id).getList().then((r)->
+			$http.get('::asignaturas/listasignaturasyear/'+profe_id+'/'+$scope.configuracion.periodo_to.id).then((r)->
+				r = r.data
 				$scope.asignaturas_to = r
 
 				if $scope.configuracion.asignatura_to
@@ -103,7 +105,7 @@ angular.module('myvcFrontApp')
 					$scope.asignaturaToSelect asig_found
 
 			, (r2)->
-				console.log 'No se pudo traer las asignaturas destino, ', r2
+				toastr.error 'No se pudo traer las asignaturas destino, ', r2
 			)
 
 		$scope.asignaturaToSelect = ($item, $model)->
@@ -141,9 +143,9 @@ angular.module('myvcFrontApp')
 
 
 
-			Restangular.one('periodos/copiar').customPUT(datos).then((r)->
+			$http.put('::periodos/copiar', datos).then((r)->
+				r = r.data
 				toastr.success 'Copiado con éxito'
-				console.log 'Copiado con éxito', r
 				$scope.activar_btn_copiar = true
 				$scope.resultado = 'Unidades copiadas: ' + r.unidades_copiadas + 
 									' - Subunidades copiadas: ' + r.subunidades_copiadas +
@@ -156,7 +158,6 @@ angular.module('myvcFrontApp')
 
 			, (r2)->
 				toastr.error 'No se pudieron copiar los datos'
-				console.log 'No se pudieron copiar los datos', r2
 				$scope.activar_btn_copiar = true
 			)
 

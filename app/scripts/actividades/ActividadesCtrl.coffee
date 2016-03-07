@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('ActividadesCtrl', ['$scope', 'App', '$rootScope', '$state', 'Restangular', 'uiGridConstants', '$uibModal', '$filter', 'AuthService', ($scope, App, $rootScope, $state, Restangular, uiGridConstants, $modal, $filter, AuthService)->
+.controller('ActividadesCtrl', ['$scope', 'App', '$rootScope', '$state', '$http', 'uiGridConstants', '$uibModal', '$filter', 'AuthService', ($scope, App, $rootScope, $state, $http, uiGridConstants, $modal, $filter, AuthService)->
 
 	AuthService.verificar_acceso()
 
@@ -34,8 +34,8 @@ angular.module("myvcFrontApp")
 		datos = {alumno_id: row.alumno_id, grupo_id: $scope.dato.grupo.id}
 		
 
-		Restangular.all('matriculas/matricularuno/'+datos.alumno_id+'/'+datos.grupo_id).post().then((r)->
-
+		$http.post('::matriculas/matricularuno/'+datos.alumno_id+'/'+datos.grupo_id).then((r)->
+			r = r.data
 			row.matricula_id = r.id
 			row.grupo_id = r.grupo_id
 			row.nombregrupo = $scope.dato.grupo.nombre
@@ -44,9 +44,7 @@ angular.module("myvcFrontApp")
 			$scope.toastr.success 'Alumno matriculado con éxito', 'Matriculado'
 			return row
 		, (r2)->
-			console.log 'Falla al matricularlo. ', r2
 			$scope.toastr.error 'No se pudo matricular el alumno.', 'Error'
-
 		)
 
 
@@ -55,21 +53,4 @@ angular.module("myvcFrontApp")
 	return
 ])
 
-.controller('RemoveAlumnoCtrl', ['$scope', '$uibModalInstance', 'alumno', 'Restangular', 'toastr', ($scope, $modalInstance, alumno, Restangular, toastr)->
-	$scope.alumno = alumno
-
-	$scope.ok = ()->
-
-		Restangular.all('alumnos/destroy/'+alumno.alumno_id).remove().then((r)->
-			toastr.success 'Alumno eliminado con éxito.', 'Eliminado'
-		, (r2)->
-			toastr.warning 'No se pudo eliminar al alumno.', 'Problema'
-			console.log 'Error eliminando alumno: ', r2
-		)
-		$modalInstance.close(alumno)
-
-	$scope.cancel = ()->
-		$modalInstance.dismiss('cancel')
-
-])
 

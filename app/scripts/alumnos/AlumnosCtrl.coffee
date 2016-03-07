@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('AlumnosCtrl', ['$scope', 'App', '$rootScope', '$state', '$interval', 'Restangular', 'uiGridConstants', '$uibModal', '$filter', 'AuthService', 'toastr', ($scope, App, $rootScope, $state, $interval, Restangular, uiGridConstants, $modal, $filter, AuthService, toastr)->
+.controller('AlumnosCtrl', ['$scope', 'App', '$rootScope', '$state', '$interval', 'uiGridConstants', '$uibModal', '$filter', 'AuthService', 'toastr', '$http', ($scope, App, $rootScope, $state, $interval, uiGridConstants, $modal, $filter, AuthService, toastr, $http)->
 
 	AuthService.verificar_acceso()
 
@@ -12,12 +12,12 @@ angular.module("myvcFrontApp")
 	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
 
 	stop = $interval( ()->
-		$scope.bigLoader = false
+		$scope.bigLoader = true
 	, 1000)
 
 	$scope.dato.grupo = ''
-	Restangular.one('grupos').getList().then((r)->
-		$scope.grupos = r
+	$http.get('::grupos').then((r)->
+		$scope.grupos = r.data
 	)
 
 	$scope.editar = (row)->
@@ -25,7 +25,7 @@ angular.module("myvcFrontApp")
 
 	$scope.eliminar = (row)->
 		modalInstance = $modal.open({
-			templateUrl: App.views + 'alumnos/removeAlumno.tpl.html'
+			templateUrl: '==alumnos/removeAlumno.tpl.html'
 			controller: 'RemoveAlumnoCtrl'
 			resolve: 
 				alumno: ()->
@@ -42,10 +42,8 @@ angular.module("myvcFrontApp")
 		
 		datos = {alumno_id: row.alumno_id, grupo_id: $scope.dato.grupo.id}
 		
-		console.log 'Argumentos: ', datos
-
-		Restangular.all('matriculas/matricularuno/'+datos.alumno_id+'/'+datos.grupo_id).post().then((r)->
-			console.log 'Matriculado. ', r
+		$http.post('::matriculas/matricularuno/'+datos.alumno_id+'/'+datos.grupo_id).then((r)->
+			r = r.data
 			row.matricula_id = r.id
 			row.grupo_id = r.grupo_id
 			row.nombregrupo = $scope.dato.grupo.nombre
@@ -61,7 +59,7 @@ angular.module("myvcFrontApp")
 
 	$scope.cambiarPazysalvo = (fila)->
 		fila.pazysalvo = !fila.pazysalvo
-		Restangular.one('alumnos/update', fila.alumno_id).customPUT(fila).then((r)->
+		$http.put('::alumnos/update/' + fila.alumno_id, fila).then((r)->
 			console.log 'Cambios guardados'
 		, (r2)->
 			fila.pazysalvo = !fila.pazysalvo
@@ -70,8 +68,7 @@ angular.module("myvcFrontApp")
 		
 
 	$scope.resetPass = (row)->
-		console.log 'Presionado para resetear pass: ', row
-
+		
 		modalInstance = $modal.open({
 			templateUrl: App.views + 'usuarios/resetPass.tpl.html'
 			controller: 'ResetPassCtrl'
@@ -80,7 +77,7 @@ angular.module("myvcFrontApp")
 					row
 		})
 		modalInstance.result.then( (user)->
-			console.log 'Resultado del modal: ', user
+			#console.log 'Resultado del modal: ', user
 		)
 
 
@@ -88,7 +85,7 @@ angular.module("myvcFrontApp")
 
 	$scope.eliminarMatricula = (row)->
 
-		Restangular.all('matriculas/destroy/'+row.matricula_id).remove().then((r)->
+		$http.delete('::matriculas/destroy/'+row.matricula_id).then((r)->
 			row.currentyear = 0
 			toastr.success 'Alumno desmatriculado'
 			return row
@@ -142,7 +139,7 @@ angular.module("myvcFrontApp")
 					if colDef.field == "sexo"
 						if newValue == 'M' or newValue == 'F'
 							# Es correcto...
-							Restangular.one('alumnos/update', rowEntity.alumno_id).customPUT(rowEntity).then((r)->
+							$http.put('::alumnos/update/'+rowEntity.alumno_id, rowEntity).then((r)->
 								toastr.success 'Alumno(a) actualizado con éxito', 'Actualizado'
 							, (r2)->
 								toastr.error 'Cambio no guardado', 'Error'
@@ -152,7 +149,7 @@ angular.module("myvcFrontApp")
 							rowEntity.sexo = oldValue
 					else
 
-						Restangular.one('alumnos/update', rowEntity.alumno_id).customPUT(rowEntity).then((r)->
+						$http.put('::alumnos/update', rowEntity.alumno_id).customPUT(rowEntity).then((r)->
 							toastr.success 'Alumno(a) actualizado con éxito', 'Actualizado'
 						, (r2)->
 							toastr.error 'Cambio no guardado', 'Error'
@@ -162,16 +159,9 @@ angular.module("myvcFrontApp")
 			)
 
 	
-	Restangular.one('alumnos').getList().then((data)->
-		$scope.gridOptions.data = data;
+	$http.get('::alumnos').then((r)->
+		$scope.gridOptions.data = r.data;
 	)
-
-	$scope.borrar = (alum)->
-		alum.delete().then((r)->
-			toastr.success 'El alumno fue eliminado', 'Éxito'
-		, (r)->
-			toastr.error 'No se pudo eliminar el alumno', 'Error'
-		)
 
 
 	$scope.$on 'alumnoguardado', (data, alum)->
@@ -180,15 +170,15 @@ angular.module("myvcFrontApp")
 	return
 ])
 
-.controller('RemoveAlumnoCtrl', ['$scope', '$uibModalInstance', 'alumno', 'Restangular', 'toastr', ($scope, $modalInstance, alumno, Restangular, toastr)->
+.controller('RemoveAlumnoCtrl', ['$scope', '$uibModalInstance', 'alumno', '$http', 'toastr', ($scope, $modalInstance, alumno, $http, toastr)->
 	$scope.alumno = alumno
 
 	$scope.ok = ()->
 
-		Restangular.all('alumnos/destroy/'+alumno.alumno_id).remove().then((r)->
-			toastr.success 'Alumno eliminado con éxito.', 'Eliminado'
+		$http.delete('::alumnos/destroy/'+alumno.alumno_id).then((r)->
+			toastr.success 'Alumno enviado a la papelera.', 'Eliminado'
 		, (r2)->
-			toastr.warning 'No se pudo eliminar al alumno.', 'Problema'
+			toastr.warning 'No se pudo enviar a la papelera.', 'Problema'
 		)
 		$modalInstance.close(alumno)
 
@@ -196,4 +186,3 @@ angular.module("myvcFrontApp")
 		$modalInstance.dismiss('cancel')
 
 ])
-

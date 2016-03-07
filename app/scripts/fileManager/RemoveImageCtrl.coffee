@@ -1,6 +1,6 @@
 angular.module("myvcFrontApp")
 
-.controller('RemoveImageCtrl', ['$scope', '$uibModalInstance', 'imagen', 'user_id', 'datos_imagen', 'App', 'Restangular', 'AuthService', ($scope, $modalInstance, imagen, user_id, datos_imagen, App, Restangular, AuthService)->
+.controller('RemoveImageCtrl', ['$scope', '$uibModalInstance', 'imagen', 'user_id', 'datos_imagen', 'App', '$http', 'AuthService', 'toastr', ($scope, $modalInstance, imagen, user_id, datos_imagen, App, $http, AuthService, toastr)->
 
 	$scope.imagesPath = App.images + 'perfil/'
 	$scope.imagen = imagen
@@ -9,10 +9,10 @@ angular.module("myvcFrontApp")
 
 	$scope.ok = ()->
 
-		Restangular.all('myimages/destroy/'+imagen.id).remove().then((r)->
-			console.log 'Imagen removida con éxito.'
+		$http.delete('::myimages/destroy/'+imagen.id).then((r)->
+			toastr.success 'La imagen ha sido removida.'
 		, (r2)->
-			console.log 'No se pudo eliminar la imagen.', r2
+			toastr.error 'No se pudo eliminar la imagen.'
 		)
 		$modalInstance.close(imagen)
 

@@ -2,15 +2,11 @@
 
 angular.module("myvcFrontApp")
 
-.controller('GradosNewCtrl', ['$scope', '$rootScope', 'toastr', 'Restangular', ($scope, $rootScope, toastr, Restangular)->
+.controller('GradosNewCtrl', ['$scope', 'toastr', '$http', ($scope, toastr, $http)->
 
 	$scope.grado = {
 		orden: 1
 	}
-
-	Restangular.one('niveles_educativos').getList().then((data)->
-		$scope.niveles = data;
-	)
 
 	$scope.restarOrden = ()->
 		if $scope.grado.orden > 0
@@ -20,7 +16,8 @@ angular.module("myvcFrontApp")
 			$scope.grado.orden = $scope.grado.orden + 1
 
 	$scope.crear = ()->
-		Restangular.one('grados').post($scope.grado).then((r)->
+		$http.post('::grados/store', $scope.grado).then((r)->
+			r = r.data
 			$scope.$emit 'gradocreado', r
 			toastr.success 'Grado '+r.nombre+' creado'
 		, (r2)->

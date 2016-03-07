@@ -1,6 +1,6 @@
 angular.module('myvcFrontApp')
 
-.factory('AuthService', ['Restangular', '$state', '$http', '$cookies', 'Perfil', '$rootScope', 'AUTH_EVENTS', '$q', '$filter', 'toastr', (Restangular, $state, $http, $cookies, Perfil, $rootScope, AUTH_EVENTS, $q, $filter, toastr)->
+.factory('AuthService', ['$state', '$http', '$cookies', 'Perfil', '$rootScope', 'AUTH_EVENTS', '$q', '$filter', 'toastr', ($state, $http, $cookies, Perfil, $rootScope, AUTH_EVENTS, $q, $filter, toastr)->
 	authService = {}
 
 	authService.verificar = ()->
@@ -63,8 +63,8 @@ angular.module('myvcFrontApp')
 
 		authService.borrarToken()
 
-		Restangular.one('login').post('', credentials).then((user)->
-			#debugger
+		$http.post('::login', credentials).then((r)->
+			user = r.data
 			if user.token
 				$cookies.put('xtoken', user.token)
 				
@@ -81,6 +81,7 @@ angular.module('myvcFrontApp')
 
 
 		, (r2)->
+			r2 = r2.data
 			console.log 'No se pudo loguear. ', r2, $state
 			$rootScope.$broadcast AUTH_EVENTS.loginFailed
 
@@ -106,8 +107,8 @@ angular.module('myvcFrontApp')
 
 		$http.defaults.headers.common['Authorization'] = 'Bearer ' + $cookies.get('xtoken')
 
-		login = Restangular.one('login').post().then((usuario)->
-
+		login = $http.post('::login').then((r)->
+			usuario = r.data
 			$rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
 			d.resolve usuario
 
@@ -120,7 +121,6 @@ angular.module('myvcFrontApp')
 
 
 	authService.logout = (credentials)->
-		#Restangular.one('logout').get();
 		$rootScope.lastState = null
 		$rootScope.lastStateParam = null
 		authService.borrarToken()
@@ -150,7 +150,7 @@ angular.module('myvcFrontApp')
 				return true; # El usuarios no tiene permisos pero no se requiere ninguno
 
 		newArr = []
-		_.each(neededPermissions, (elem)->
+		angular.forEach(neededPermissions, (elem)->
 			if (user.perms.indexOf(elem)) != -1
 				newArr.push elem
 		)
@@ -165,7 +165,7 @@ angular.module('myvcFrontApp')
 				return false;
 
 		rolesFound = []
-		_.each(ReqRoles, (elem)->
+		angular.forEach(ReqRoles, (elem)->
 			rolesFoundTemp = []
 			rolesFoundTemp = $filter('filter')(Perfil.User().roles, {name: elem})
 

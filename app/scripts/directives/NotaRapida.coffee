@@ -1,10 +1,10 @@
 angular.module('myvcFrontApp')
 
-.directive('notaRapida',['App', '$rootScope', 'Restangular', 'toastr', 'EscalasValorativasServ', (App, $rootScope, Restangular, toastr, EscalasValorativasServ)-> 
+.directive('notaRapida',['$rootScope', 'toastr', 'EscalasValorativasServ', ($rootScope, toastr, EscalasValorativasServ)-> 
 
 	restrict: 'AE'
 	transclude: true,
-	templateUrl: "#{App.views}directives/notaRapida.tpl.html"
+	templateUrl: "==directives/notaRapida.tpl.html"
 	#scope: 
 	#	ngModel: "="
 	#require: 'ngModel'
@@ -74,6 +74,11 @@ angular.module('myvcFrontApp')
 		return input
 )
 
+
+.run(['$templateCache', ($templateCache)->
+	$templateCache.put('/tmpls/draggable-default','<div ng-transclude></div>');
+])
+
 .directive('draggable', [ ()->
 	restrict: 'AE'
 	transclude: true
@@ -132,10 +137,6 @@ angular.module('myvcFrontApp')
 		options = angular.extend({}, opts, evts)
 		el.draggable options
 		# make element draggable
-])
-
-.run(['$templateCache', ($templateCache)->
-	$templateCache.put('/tmpls/draggable-default','<div ng-transclude></div>');
 ])
 
 

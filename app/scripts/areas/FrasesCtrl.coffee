@@ -1,6 +1,6 @@
 angular.module("myvcFrontApp")
 
-.controller('FrasesCtrl', ['$scope', '$rootScope', '$filter', 'Restangular', '$uibModal', 'App', 'AuthService', ($scope, $rootScope, $filter, Restangular, $modal, App, AuthService)->
+.controller('FrasesCtrl', ['$scope', 'toastr', '$filter', '$http', '$uibModal', 'App', 'AuthService', ($scope, toastr, $filter, $http, $modal, App, AuthService)->
 
 	AuthService.verificar_acceso()
 
@@ -23,23 +23,21 @@ angular.module("myvcFrontApp")
 		$scope.creando = false
 
 	$scope.crear = ()->
-		Restangular.one('frases/store').customPOST($scope.currentFrase).then((r)->
-			$scope.gridOptions.data.push r
+		$http.post('::frases/store', $scope.currentFrase).then((r)->
+			$scope.gridOptions.data.push r.data
 			$scope.currentFrase.frase = ''
 			$scope.cancelarCrear()
-			$scope.toastr.success 'Frase creada con éxito'
+			toastr.success 'Frase creada con éxito'
 		, (r2)->
-			console.log 'No se pudo crear', r2
-			$scope.toastr.error 'Error creando', 'Problema'
+			toastr.error 'Error creando', 'Problema'
 		)
 
 	$scope.guardar = ()->
-		Restangular.one('frases/update', $scope.currentFraseEdit.id).customPUT($scope.currentFraseEdit).then((r)->
-			$scope.currentFraseEdit.frase = r.frase # Para actualizar el grid
-			$scope.toastr.success 'Frase actualizada con éxito'
+		$http.put('::frases/update/'+$scope.currentFraseEdit.id, $scope.currentFraseEdit).then((r)->
+			$scope.currentFraseEdit.frase = r.data.frase # Para actualizar el grid
+			toastr.success 'Frase actualizada con éxito'
 		, (r2)->
-			console.log 'No se pudo crear', r2
-			$scope.toastr.error 'Error guardando', 'Problema'
+			toastr.error 'Error guardando', 'Problema'
 		)
 
 	$scope.eliminar = (row)->
@@ -53,7 +51,6 @@ angular.module("myvcFrontApp")
 		})
 		modalInstance.result.then( (frase)->
 			$scope.gridOptions.data = $filter('filter')($scope.gridOptions.data, {id: '!'+frase.id})
-			console.log 'Resultado del modal: ', frase
 		)
 
 	btGrid1 = '<a uib-tooltip="Editar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
@@ -83,22 +80,21 @@ angular.module("myvcFrontApp")
 
 	
 
-	Restangular.all('frases').getList().then((data)->
-		$scope.gridOptions.data = data
+	$http.get('::frases').then((data)->
+		$scope.gridOptions.data = data.data
 	)
 
 ])
 
-.controller('RemoveFraseCtrl', ['$scope', '$uibModalInstance', 'frase', 'Restangular', 'toastr', ($scope, $modalInstance, frase, Restangular, toastr)->
+.controller('RemoveFraseCtrl', ['$scope', '$uibModalInstance', 'frase', '$http', 'toastr', ($scope, $modalInstance, frase, $http, toastr)->
 	$scope.frase = frase
 
 	$scope.ok = ()->
 
-		Restangular.all('frases/destroy/'+frase.id).remove().then((r)->
+		$http.delete('::frases/destroy/'+frase.id).then((r)->
 			toastr.success 'frase "'+frase.frase+'" eliminada con éxito.', 'Eliminada'
 		, (r2)->
 			toastr.warning 'Problema', 'No se pudo eliminar la frase.'
-			console.log 'Error eliminando frase: ', r2
 		)
 		$modalInstance.close(frase)
 

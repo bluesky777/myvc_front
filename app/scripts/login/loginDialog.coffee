@@ -3,7 +3,7 @@ angular.module('myvcFrontApp')
 .directive('loginDialog', ['AUTH_EVENTS', 'App', (AUTH_EVENTS, App)->
 	return{
 		restrict: 'A'
-		templateUrl: '#{App.views}/login/login-form.html'
+		templateUrl: '==login/login-form.html'
 
 		#controller: 'LoginCtrl'
 		link: (scope)->

@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-.controller('NotasCtrl', ['$scope', 'toastr', 'Restangular', '$uibModal', '$state', 'notas', '$rootScope', '$filter', 'App', 'AuthService', '$timeout', ($scope, toastr, Restangular, $modal, $state, notas, $rootScope, $filter, App, AuthService, $timeout) ->
+.controller('NotasCtrl', ['$scope', 'toastr', '$http', '$uibModal', '$state', 'notas', '$rootScope', '$filter', 'App', 'AuthService', '$timeout', ($scope, toastr, $http, $modal, $state, notas, $rootScope, $filter, App, AuthService, $timeout) ->
 
 	AuthService.verificar_acceso()
 
@@ -40,7 +40,7 @@ angular.module('myvcFrontApp')
 
 
 	$scope.cambiaNota = (nota, otra)->
-		Restangular.one('notas/update', nota.id).customPUT({nota: nota.nota}).then((r)->
+		$http.put('::notas/update/'+nota.id, {nota: nota.nota}).then((r)->
 			toastr.success 'Cambiada: ' + nota.nota
 		, (r2)->
 			toastr.error 'No pudimos guardar la nota ' + nota.nota
@@ -57,7 +57,7 @@ angular.module('myvcFrontApp')
 				alumno: ()->
 					alumno
 				frases: ()->
-					Restangular.all('frases').getList()
+					$http.all('frases').getList()
 				asignatura: ()->
 					$scope.asignatura
 		})
@@ -111,13 +111,11 @@ angular.module('myvcFrontApp')
 		)
 		return
 
-
-	#console.log Restangular.all('disciplinas').getList()
 	return
 ])
 
 
-.controller('ShowFrasesCtrl', ['$scope', '$uibModalInstance', 'alumno', 'frases', 'asignatura', 'Restangular', 'toastr', '$filter', ($scope, $modalInstance, alumno, frases, asignatura, Restangular, toastr, $filter)->
+.controller('ShowFrasesCtrl', ['$scope', '$uibModalInstance', 'alumno', 'frases', 'asignatura', '$http', 'toastr', '$filter', ($scope, $modalInstance, alumno, frases, asignatura, $http, toastr, $filter)->
 	$scope.alumno = alumno
 	$scope.frases = frases
 	$scope.asignatura = asignatura
@@ -125,8 +123,8 @@ angular.module('myvcFrontApp')
 	$scope.alumno.newFrase = ''
 
 
-	Restangular.all('frases_asignatura/show/'+alumno.alumno_id+'/'+asignatura.asignatura_id).getList().then((r)->
-		$scope.frases_asignatura = r
+	$http.get('::frases_asignatura/show/'+alumno.alumno_id+'/'+asignatura.asignatura_id).then((r)->
+		$scope.frases_asignatura = r.data
 	, (r2)->
 		toastr.warning 'No se pudo traer frases.', 'Problema'
 	)
@@ -141,9 +139,9 @@ angular.module('myvcFrontApp')
 				frase:			$scope.alumno.newFrase
 				asignatura_id:	$scope.asignatura.asignatura_id
 
-			Restangular.all('frases_asignatura/store').customPOST(dato).then((r)->
+			$http.post('::frases_asignatura/store', dato).then((r)->
+				$scope.frases_asignatura = r.data
 				toastr.success 'Frase añadida.'
-				$scope.frases_asignatura = r
 			, (r2)->
 				toastr.warning 'No se pudo añadir frase.', 'Problema'
 			)
@@ -159,9 +157,9 @@ angular.module('myvcFrontApp')
 				frase_id:		$scope.alumno.newFrase_by_id.id
 				asignatura_id:	$scope.asignatura.asignatura_id
 
-			Restangular.all('frases_asignatura/store/'+$scope.alumno.newFrase_by_id.id).customPOST(dato).then((r)->
+			$http.post('::frases_asignatura/store/'+$scope.alumno.newFrase_by_id.id, dato).then((r)->
 				toastr.success 'Frase añadida.'
-				$scope.frases_asignatura = r
+				$scope.frases_asignatura = r.data
 			, (r2)->
 				toastr.warning 'No se pudo añadir frase.', 'Problema'
 			)
@@ -170,7 +168,7 @@ angular.module('myvcFrontApp')
 
 
 	$scope.quitarFrase = (fraseasig)->
-		Restangular.all('frases_asignatura/destroy/'+fraseasig.id).remove().then((r)->
+		$http.delete('::frases_asignatura/destroy/'+fraseasig.id).then((r)->
 			toastr.success 'Frase quitada'
 			$scope.frases_asignatura = $filter('filter')($scope.frases_asignatura, {id: '!'+fraseasig.id})
 		, (r2)->

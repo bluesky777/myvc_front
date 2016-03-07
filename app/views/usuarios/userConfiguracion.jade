@@ -2,20 +2,20 @@ uib-accordion(close-others="true")
 	uib-accordion-group(heading="Información personal" is-open="true")
 		form(role='form' ng-submit="guardar()")
 			.row
-				.col-sm-6
+				.col-sm-6(ng-if="!perfilactual.tipo=='Us'")
 					.form-group(ng-if="canConfig")
 						label(for="alumno-no-matr") Nombres
 						span.input-icon.icon-right
-							input.form-control(type='text', placeholder='Nombres' ng-model="perfilactual.nombres")
+							input.form-control(type='text' placeholder='Nombres' ng-model="perfilactual.nombres")
 							i.fa.fa-user.blue
 					.form-group(ng-if="!canConfig")
 						| Nombres: 
 						b {{perfilactual.nombres}}
-				.col-sm-6
+				.col-sm-6(ng-if="!perfilactual.tipo=='Us'")
 					.form-group(ng-if="canConfig")
 						label(for="alumno-no-matr") Apellidos
 						span.input-icon.icon-right
-							input.form-control(type='text', placeholder='Apellidos' ng-model="perfilactual.apellidos")
+							input.form-control(type='text' placeholder='Apellidos' ng-model="perfilactual.apellidos")
 							i.fa.fa-user.blue
 					.form-group(ng-if="!canConfig")
 						| Apellidos: 
@@ -48,7 +48,7 @@ uib-accordion(close-others="true")
 										i.fa.fa-calendar
 					.form-group(ng-if="!canConfig")
 										
-				.col-sm-6
+				.col-sm-6(ng-if="!perfilactual.tipo=='Us'")
 					.form-group(ng-if="canConfig")
 						label(for="perfilcelular") Celular
 						span.input-icon.icon-right
@@ -74,7 +74,7 @@ uib-accordion(close-others="true")
 			.row
 				.col-sm-7
 					.form-group
-						label Nombre de usuario
+						label Nombre de usuario ({{perfilactual.username}})
 						span.input-icon.icon-right
 							input.form-control(ng-model="newusername" type="text" placeholder="Nombre de usuario" ng-init="newusername==perfilactual.username" typeahead="nombresusu as nombresusu.username for nombresusu in nombresdeusuario | filter:{username:$viewValue} | limitTo:8")
 							i.fa.fa-user.azure

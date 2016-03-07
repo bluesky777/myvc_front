@@ -1,17 +1,17 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-	.config ['$stateProvider', 'App', 'USER_ROLES', 'PERMISSIONS', ($state, App, USER_ROLES, PERMISSIONS) ->
+	.config ['$stateProvider', 'USER_ROLES', 'PERMISSIONS', ($state, USER_ROLES, PERMISSIONS) ->
 
 		$state
 			.state 'panel.alumnos',
 				url: '^/alumnos'
 				views: 
 					'maincontent':
-						templateUrl: "#{App.views}alumnos/alumnos.tpl.html"
+						templateUrl: "==alumnos/alumnos.tpl.html"
 						controller: 'AlumnosCtrl'
 					'headerContent':
-						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
 						resolve:
 							titulo: [->
@@ -29,10 +29,10 @@ angular.module('myvcFrontApp')
 				url: '^/mensajes'
 				views: 
 					'maincontent':
-						templateUrl: "#{App.views}mensajes/mensajes.tpl.html"
+						templateUrl: "==mensajes/mensajes.tpl.html"
 						controller: 'MensajesCtrl'
 					'headerContent':
-						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
 						resolve: 
 							titulo: [->
@@ -46,10 +46,10 @@ angular.module('myvcFrontApp')
 				url: '^/years'
 				views: 
 					'maincontent':
-						templateUrl: "#{App.views}colegio/years.tpl.html"
+						templateUrl: "==colegio/years.tpl.html"
 						controller: 'YearsCtrl'
 					'headerContent':
-						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
 						resolve: 
 							titulo: [->
@@ -69,10 +69,10 @@ angular.module('myvcFrontApp')
 				url: '^/paises'
 				views: 
 					'maincontent':
-						templateUrl: "#{App.views}paises/paises.tpl.html"
+						templateUrl: "==paises/paises.tpl.html"
 						controller: 'PaisesCtrl'
 					'headerContent':
-						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
 						resolve: 
 							titulo: [->
@@ -90,10 +90,10 @@ angular.module('myvcFrontApp')
 				url: '^/profesores'
 				views: 
 					'maincontent':
-						templateUrl: "#{App.views}profesores/profesores.tpl.html"
+						templateUrl: "==profesores/profesores.tpl.html"
 						controller: 'ProfesoresCtrl'
 					'headerContent':
-						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
 						resolve: 
 							titulo: [->
@@ -110,10 +110,10 @@ angular.module('myvcFrontApp')
 				url: '/ciudades'
 				views: 
 					'maincontent':
-						templateUrl: "#{App.views}ciudades/ciudades.tpl.html"
+						templateUrl: "==ciudades/ciudades.tpl.html"
 						controller: 'CiudadesCtrl'
 					'headerContent':
-						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
 						resolve: 
 							titulo: [->
@@ -130,10 +130,10 @@ angular.module('myvcFrontApp')
 				url: '/disciplinas'
 				views: 
 					'maincontent':
-						templateUrl: "#{App.views}disciplinas/disciplinas.tpl.html"
+						templateUrl: "==disciplinas/disciplinas.tpl.html"
 						controller: 'DisciplinasCtrl'
 					'headerContent':
-						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
 						resolve: 
 							titulo: [->
@@ -148,10 +148,10 @@ angular.module('myvcFrontApp')
 				url: '/eventos'
 				views: 
 					'maincontent':
-						templateUrl: "#{App.views}eventos/eventos.tpl.html"
+						templateUrl: "==eventos/eventos.tpl.html"
 						controller: 'EventosCtrl'
 					'headerContent':
-						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
 						resolve: 
 							titulo: [->

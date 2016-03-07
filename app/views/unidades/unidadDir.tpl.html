@@ -36,12 +36,13 @@
   </div>
   <div ng-show="unidad.subunidades.porc_subunidades&gt;100" style="margin-top: 20px; margin-bottom: 2px;" class="alert alert-danger fade in"><i class="fa-fw fa fa-warning"></i><strong>Porcentaje incorrecto </strong>- Sobra un {{unidad.subunidades.porc_subunidades-100}} porciento</div>
   <div ng-show="unidad.subunidades.porc_subunidades&lt;100" style="margin-top: 20px; margin-bottom: 2px;" class="alert alert-warning fade in"><i class="fa-fw fa fa-warning"></i><strong>Porcentaje incorrecto </strong>- Falta un {{100-unidad.subunidades.porc_subunidades}} porciento</div>
-  <!--ul(ui-sortable="sortableOptions" ng-model="unidad.subunidades")-->
-  <ul as-sortable="sortableOptions" ng-model="unidad.subunidades" ng-hide="unidad.ocultarSubs" style="padding-left: 30px; " class="tickets-list">
-    <!--li(ng-repeat="subunidad in unidad.subunidades | orderBy:'orden'")-->
-    <li as-sortable-item ng-repeat="subunidad in unidad.subunidades | orderBy:'orden'" style="border: none" class="ticket-item">
+  <!--ul.tickets-list(as-sortable="sortableOptions" ng-model="unidad.subunidades" ng-hide="unidad.ocultarSubs" style="padding-left: 30px; ")-->
+  <ul ng-model="unidad.subunidades" ng-hide="unidad.ocultarSubs" style="padding-left: 30px; " class="tickets-list">
+    <!--li.ticket-item(as-sortable-item ng-repeat="subunidad in unidad.subunidades | orderBy:'orden'" style="border: none")-->
+    <li ng-repeat="subunidad in unidad.subunidades | orderBy:'orden'" style="border: none" class="ticket-item">
       <div ng-show="!subunidad.editando" class="row">
-        <div as-sortable-item-handle style="overflow: visible; line-height: 2.4;" class="ticket-user col-lg-10 col-sm-8 col-xs-12">
+        <!--.ticket-user.col-lg-10.col-sm-8.col-xs-12(as-sortable-item-handle style="overflow: visible; line-height: 2.4;")-->
+        <div style="overflow: visible; line-height: 2.4;" class="ticket-user col-lg-10 col-sm-8 col-xs-12">
           <!--.user-avatar(uib-tooltip="Porcentaje")
           | {{subunidad.porcentaje}}%
           
@@ -58,7 +59,6 @@
         </div>
         <div uib-tooltip="Orden" class="ticket-type col-lg-1 col-sm-2 col-xs-6">
           <div class="divider hidden-xs"></div>
-          <!--.type {{subunidad.nota_default}}-->
           <input type="number" min="0" max="99" ng-model="subunidad.orden" ng-change="actualizarSubunidad(subunidad)" ng-model-options="{ updateOn: 'blur'}" class="form-control ordenador-subunidad">
         </div>
         <!--.ticket-state.bg-info(ng-click="subirSubunidad(subunidad, $index)" ng-hide="$first" style="right: 75px; ")i.fa.fa-chevron-up(uib-tooltip="Subir")

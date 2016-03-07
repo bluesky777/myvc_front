@@ -7,13 +7,13 @@ angular.module('myvcFrontApp', [
 	'ngMessages'
 	'ngSanitize'
 	'ngTouch'
-	'pascalprecht.translate'
+	#'pascalprecht.translate'
 	'ui.bootstrap'
 	'ui.router'
 	'ui.select'
 	'angular-loading-bar'
 	#'ngCkeditor'
-	'restangular'
+	#'restangular'
 	'uiBreadcrumbs'
 	'toastr'
 	'http-auth-interceptor'
@@ -26,8 +26,7 @@ angular.module('myvcFrontApp', [
 	'angularFileUpload'
 	'FBAngular'
 	#'ui.sortable'
-	'as.sortable'
-	'Chronicle'
+	#'as.sortable'
 ])
 #- Valores que usaremos para nuestro proyecto
 .constant('App', (()->

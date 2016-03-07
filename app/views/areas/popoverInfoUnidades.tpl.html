@@ -1,1 +1,8 @@
-<b>Unidades:</b>
+
+<div style="max-height: 150px; max-width: 400px; overflow: auto;">
+  <div ng-repeat="unidad in asignatura.unidades.items" style="font-size: 11px;"><span>{{$index+1}}. </span><span>{{unidad.definicion}} - {{unidad.porcentaje}}%</span>
+    <ol style="margin-bottom: 4px">
+      <li ng-repeat="subunidad in unidad.subunidades" style="font-size: 9px;">{{subunidad.definicion}}({{subunidad.porcentaje}}%)</li>
+    </ol>
+  </div>
+</div>
