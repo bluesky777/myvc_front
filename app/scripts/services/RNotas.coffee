@@ -48,7 +48,7 @@ angular.module('myvcFrontApp')
 	ausencias.detalladas = (asignatura_id)->
 		d = $q.defer();
 
-		$http.get('ausencias/detailed/'+asignatura_id).then((r)->
+		$http.get('::ausencias/detailed/'+asignatura_id).then((r)->
 			d.resolve r.data
 		, (r2)->
 			d.reject r2
@@ -66,7 +66,7 @@ angular.module('myvcFrontApp')
 	comportamientos.detallados = (grupo_id)->
 		d = $q.defer();
 
-		$http.get('nota_comportamiento/detailed/'+grupo_id).then((r)->
+		$http.get('::nota_comportamiento/detailed/'+grupo_id).then((r)->
 			d.resolve r.data
 		, (r2)->
 			d.reject r2

@@ -11,47 +11,52 @@
                 <div class="widget-header bordered-bottom bordered-pink"><span class="widget-caption">Básica</span></div>
                 <div class="widget-body"> 
                   <div class="row">
-                    <div class="form-group col-lg-4 col-sm-6">
-                      <label for="alumno-nombres">Nombres</label>
-                      <input id="alumno-nombres" type="text" ng-model="alumno.nombres" placeholder="Nombres" class="form-control">
-                    </div>
-                    <div class="form-group col-lg-4 col-sm-6">
-                      <label for="alumno-apellidos">Apellidos</label>
-                      <input id="alumno-apellidos" type="text" ng-model="alumno.apellidos" placeholder="Apellidos" class="form-control">
-                    </div>
-                    <div style="margin-bottom: 5px;" class="form-group col-lg-4 col-sm-6 col-xs-12">
-                      <label>Sexo</label>
+                    <div class="col-lg-2 col-sm-12"><img style="width: 200px" ng-src="{{perfilPath + alumno.foto_nombre}}"></div>
+                    <div class="col-lg-10 col-sm-12">
                       <div class="row">
-                        <div class="col-lg-6 col-sm-4 col-xs-12">
-                          <div class="radio">
-                            <label>
-                              <input type="radio" name="sexo" value="M" ng-model="alumno.sexo" class="inverted"><span class="text">Masculino</span>
-                            </label>
-                          </div>
+                        <div class="form-group col-lg-4 col-sm-6">
+                          <label for="alumno-nombres">Nombres</label>
+                          <input id="alumno-nombres" type="text" ng-model="alumno.nombres" placeholder="Nombres" class="form-control">
                         </div>
-                        <div class="col-lg-6 col-sm-4 col-xs-12">
-                          <div class="radio">
-                            <label>
-                              <input type="radio" name="sexo" value="F" ng-model="alumno.sexo" class="inverted"><span class="text">Femenino</span>
-                            </label>
+                        <div class="form-group col-lg-4 col-sm-6">
+                          <label for="alumno-apellidos">Apellidos</label>
+                          <input id="alumno-apellidos" type="text" ng-model="alumno.apellidos" placeholder="Apellidos" class="form-control">
+                        </div>
+                        <div style="margin-bottom: 5px;" class="form-group col-lg-4 col-sm-6 col-xs-12">
+                          <label>Sexo</label>
+                          <div class="row">
+                            <div class="col-lg-6 col-sm-4 col-xs-12">
+                              <div class="radio">
+                                <label>
+                                  <input type="radio" name="sexo" value="M" ng-model="alumno.sexo" class="inverted"><span class="text">Masculino</span>
+                                </label>
+                              </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-4 col-xs-12">
+                              <div class="radio">
+                                <label>
+                                  <input type="radio" name="sexo" value="F" ng-model="alumno.sexo" class="inverted"><span class="text">Femenino</span>
+                                </label>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="form-group col-lg-4 col-sm-6">
-                      <label for="alumno-no-matr">Número Matrícula</label>
-                      <input id="alumno-no-matr" type="text" ng-model="alumno.no_matricula" placeholder="Número de matrícula" class="form-control">
-                    </div>
-                    <div class="form-group col-lg-4 col-sm-6 col-xs-12">
-                      <label>Grupo</label>
-                      <ui-select ng-model="alumno.grupo" style="width: 100%;">
-                        <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
-                        <ui-select-choices repeat="grupo in grupos | filter: $select.search">
-                          <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
-                        </ui-select-choices>
-                      </ui-select>
+                      <div class="row">
+                        <div class="form-group col-lg-4 col-sm-6">
+                          <label for="alumno-no-matr">Número Matrícula</label>
+                          <input id="alumno-no-matr" type="text" ng-model="alumno.no_matricula" placeholder="Número de matrícula" class="form-control">
+                        </div>
+                        <div class="form-group col-lg-4 col-sm-6 col-xs-12">
+                          <label>Grupo</label>
+                          <ui-select ng-model="alumno.grupo" style="width: 100%;">
+                            <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
+                            <ui-select-choices repeat="grupo in grupos | filter: $select.search">
+                              <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
+                            </ui-select-choices>
+                          </ui-select>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

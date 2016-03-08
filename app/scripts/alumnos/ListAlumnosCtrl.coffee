@@ -1,9 +1,10 @@
 angular.module("myvcFrontApp")
 
-.controller('ListAlumnosCtrl', ['$scope', 'toastr', '$state', '$http', '$filter', ($scope, toastr, $state, $http, $filter)->
+.controller('ListAlumnosCtrl', ['$scope', 'toastr', '$state', '$http', '$filter', 'App', ($scope, toastr, $state, $http, $filter, App)->
 
 	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
 	$scope.dato = {}
+	$scope.perfilPath = App.images+'perfil/'
 
 	$scope.traerListado = (grupo_id)->
 		if not grupo_id
@@ -36,9 +37,10 @@ angular.module("myvcFrontApp")
 		enableFiltering: true,
 		enebleGridColumnMenu: false,
 		columnDefs: [
-			{ field: 'nombres', enableHiding: false }
+			{ field: 'id', displayName: 'No', cellTemplate: '<div class="ui-grid-cell-contents">{{grid.renderContainers.body.visibleRowCache.indexOf(row)+1}}</div>', width: 40 }
+			{ field: 'nombres', enableHiding: false, cellTemplate: '<div class="ui-grid-cell-contents"><img ng-src="{{grid.appScope.perfilPath + row.entity.foto_nombre}}" style="width: 20px" />{{row.entity.nombres}}</div>' }
 			{ field: 'apellidos' }
-			{ field: 'sexo', maxWidth: 20 }
+			{ field: 'sexo', width: 40 }
 			{ field: 'username', displayName: 'Usuario'}
 			{ field: 'fecha_nac', displayName:'Nacimiento', cellFilter: "date:mediumDate", type: 'date'}
 			{ field: 'direccion', displayName: 'Dirección' }

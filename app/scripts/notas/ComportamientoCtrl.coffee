@@ -67,7 +67,7 @@ angular.module('myvcFrontApp')
 		
 		temp = nota.nota
 
-		$http.put('::nota_comportamiento/update/'+nota.id).customPUT({nota: nota.nota}).then((r)->
+		$http.put('::nota_comportamiento/update/'+nota.id, {nota: nota.nota}).then((r)->
 			toastr.success 'Nota cambiada: ' + nota.nota
 		, (r2)->
 			toastr.error 'No pudimos guardar la nota ' + nota.nota

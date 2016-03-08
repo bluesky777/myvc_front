@@ -10,10 +10,9 @@ angular.module("myvcFrontApp")
 	$scope.dato = {}
 	$scope.dato.mostrartoolgrupo = true
 	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
+	$scope.perfilPath = App.images+'perfil/'
 
-	stop = $interval( ()->
-		$scope.bigLoader = true
-	, 1000)
+
 
 	$scope.dato.grupo = ''
 	$http.get('::grupos').then((r)->
@@ -95,9 +94,9 @@ angular.module("myvcFrontApp")
 
 	btGrid1 = '<a uib-tooltip="Editar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
 	btGrid2 = '<a uib-tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-trash "></i></a>'
-	btMatricular = "#{App.views}directives/botonesMatricular.tpl.html"
-	btPazysalvo = "#{App.views}directives/botonesPazysalvo.tpl.html"
-	btUsuario = "#{App.views}directives/botonesResetPassword.tpl.html"
+	btMatricular = "==directives/botonesMatricular.tpl.html"
+	btPazysalvo = "==directives/botonesPazysalvo.tpl.html"
+	btUsuario = "==directives/botonesResetPassword.tpl.html"
 
 
 	$scope.gridOptions = 
@@ -132,7 +131,6 @@ angular.module("myvcFrontApp")
 		onRegisterApi: ( gridApi ) ->
 			$scope.gridApi = gridApi
 			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
-				console.log 'Fila editada, ', rowEntity, ' Column:', colDef, ' newValue:' + newValue + ' oldValue:' + oldValue ;
 				
 				if newValue != oldValue
 

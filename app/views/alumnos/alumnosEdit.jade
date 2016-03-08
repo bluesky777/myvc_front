@@ -12,35 +12,40 @@
 									span.widget-caption Básica
 								.widget-body 
 									.row
-										.form-group.col-lg-4.col-sm-6
-											label(for="alumno-nombres") Nombres
-											input.form-control#alumno-nombres(type="text" ng-model="alumno.nombres" placeholder="Nombres")
-										.form-group.col-lg-4.col-sm-6
-											label(for="alumno-apellidos") Apellidos
-											input#alumno-apellidos.form-control(type="text" ng-model="alumno.apellidos" placeholder="Apellidos")
-										.form-group.col-lg-4.col-sm-6.col-xs-12(style="margin-bottom: 5px;")
-											label Sexo
+										.col-lg-2.col-sm-12
+											img(style="width: 200px" ng-src="{{perfilPath + alumno.foto_nombre}}")
+
+										.col-lg-10.col-sm-12
 											.row
-												.col-lg-6.col-sm-4.col-xs-12
-													.radio
-														label
-															input.inverted(type="radio" name="sexo" value="M" ng-model="alumno.sexo")
-															span.text Masculino
-												.col-lg-6.col-sm-4.col-xs-12
-													.radio
-														label
-															input.inverted(type="radio" name="sexo" value="F" ng-model="alumno.sexo")
-															span.text Femenino
-									.row
-										.form-group.col-lg-4.col-sm-6
-											label(for="alumno-no-matr") Número Matrícula
-											input.form-control#alumno-no-matr(type="text" ng-model="alumno.no_matricula" placeholder="Número de matrícula")
-										.form-group.col-lg-4.col-sm-6.col-xs-12
-											label Grupo
-											ui-select(ng-model="alumno.grupo" style="width: 100%;")
-												ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}}
-												ui-select-choices(repeat="grupo in grupos | filter: $select.search")
-													div(ng-bind-html="grupo.nombre | highlight: $select.search")
+												.form-group.col-lg-4.col-sm-6
+													label(for="alumno-nombres") Nombres
+													input.form-control#alumno-nombres(type="text" ng-model="alumno.nombres" placeholder="Nombres")
+												.form-group.col-lg-4.col-sm-6
+													label(for="alumno-apellidos") Apellidos
+													input#alumno-apellidos.form-control(type="text" ng-model="alumno.apellidos" placeholder="Apellidos")
+												.form-group.col-lg-4.col-sm-6.col-xs-12(style="margin-bottom: 5px;")
+													label Sexo
+													.row
+														.col-lg-6.col-sm-4.col-xs-12
+															.radio
+																label
+																	input.inverted(type="radio" name="sexo" value="M" ng-model="alumno.sexo")
+																	span.text Masculino
+														.col-lg-6.col-sm-4.col-xs-12
+															.radio
+																label
+																	input.inverted(type="radio" name="sexo" value="F" ng-model="alumno.sexo")
+																	span.text Femenino
+											.row
+												.form-group.col-lg-4.col-sm-6
+													label(for="alumno-no-matr") Número Matrícula
+													input.form-control#alumno-no-matr(type="text" ng-model="alumno.no_matricula" placeholder="Número de matrícula")
+												.form-group.col-lg-4.col-sm-6.col-xs-12
+													label Grupo
+													ui-select(ng-model="alumno.grupo" style="width: 100%;")
+														ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}}
+														ui-select-choices(repeat="grupo in grupos | filter: $select.search")
+															div(ng-bind-html="grupo.nombre | highlight: $select.search")
 
 							.widget
 								.widget-header.bordered-bottom.bordered-pink
