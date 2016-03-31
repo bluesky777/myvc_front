@@ -134,7 +134,7 @@ angular.module('myvcFrontApp')
 		
 
 	$scope.eliminar = (certif)->
-		$http.delete('certificados/destroy/'+certif.id).customDELETE().then((r)->
+		$http.delete('::certificados/destroy/'+certif.id).then((r)->
 			toastr.success 'Certificado eliminado.'
 			$scope.certificados = $filter('filter')($scope.certificados, {id: '!'+certif.id})
 			$scope.gridOptions.data = $scope.certificados

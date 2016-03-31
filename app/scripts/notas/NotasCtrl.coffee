@@ -50,14 +50,14 @@ angular.module('myvcFrontApp')
 	$scope.showFrases = (alumno)->
 
 		modalInstance = $modal.open({
-			templateUrl: App.views + 'notas/showFrases.tpl.html'
+			templateUrl: '==notas/showFrases.tpl.html'
 			controller: 'ShowFrasesCtrl'
 			size: 'lg'
 			resolve: 
 				alumno: ()->
 					alumno
 				frases: ()->
-					$http.all('frases').getList()
+					$http.get('::frases')
 				asignatura: ()->
 					$scope.asignatura
 		})
@@ -117,7 +117,7 @@ angular.module('myvcFrontApp')
 
 .controller('ShowFrasesCtrl', ['$scope', '$uibModalInstance', 'alumno', 'frases', 'asignatura', '$http', 'toastr', '$filter', ($scope, $modalInstance, alumno, frases, asignatura, $http, toastr, $filter)->
 	$scope.alumno = alumno
-	$scope.frases = frases
+	$scope.frases = frases.data
 	$scope.asignatura = asignatura
 
 	$scope.alumno.newFrase = ''

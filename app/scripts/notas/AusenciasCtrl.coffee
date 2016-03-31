@@ -1,5 +1,5 @@
 angular.module('myvcFrontApp')
-.controller('AusenciasCtrl', ['$scope', 'toastr', '$state', 'ausencias', '$filter', 'App', 'AuthService', '$uibModal', ($scope, toastr, $state, ausencias, $filter, App, AuthService, $modal) ->
+.controller('AusenciasCtrl', ['$scope', 'toastr', '$state', 'ausencias', '$filter', 'App', 'AuthService', '$uibModal', '$http', ($scope, toastr, $state, ausencias, $filter, App, AuthService, $modal, $http) ->
 
 
 	AuthService.verificar_acceso()
@@ -80,8 +80,7 @@ angular.module('myvcFrontApp')
 			return false
 
 	$scope.deleteAusencia = (alumno, dia)->
-		console.log 'Presionado para elimiar ausencia: ', alumno
-
+		
 		found = $filter('filter')(alumno.ausencias, {mes: parseInt($scope.dato.mes), dia: dia}, true)
 
 
@@ -95,8 +94,7 @@ angular.module('myvcFrontApp')
 		)
 
 	$scope.showAddAusencia = (alumno, dia)->
-		console.log 'Presionado para agregar ausencia: ', alumno
-
+		
 		dato = 
 			asignatura_id: $scope.asignatura_id
 			alumno_id: alumno.alumno_id

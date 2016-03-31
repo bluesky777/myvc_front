@@ -147,7 +147,7 @@ angular.module("myvcFrontApp")
 							rowEntity.sexo = oldValue
 					else
 
-						$http.put('::alumnos/update', rowEntity.alumno_id).customPUT(rowEntity).then((r)->
+						$http.put('::alumnos/update/'+rowEntity.alumno_id, rowEntity).then((r)->
 							toastr.success 'Alumno(a) actualizado con éxito', 'Actualizado'
 						, (r2)->
 							toastr.error 'Cambio no guardado', 'Error'

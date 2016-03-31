@@ -28,7 +28,7 @@ angular.module("myvcFrontApp")
 	)
 
 	
-	$http.get('::candidatos/conaspiraciones').getList().then((r)->
+	$http.get('::candidatos/conaspiraciones').then((r)->
 		$scope.aspiraciones = r.data
 	, (r2)->
 		$scope.toastr.error 'No se pudo traer las aspiraciones', 'Problema'
@@ -71,7 +71,7 @@ angular.module("myvcFrontApp")
 			return
 		else
 			modalInstance = $modal.open({
-				templateUrl: App.views + 'votaciones/chooseCandidato.tpl.html'
+				templateUrl: '==votaciones/chooseCandidato.tpl.html'
 				controller: 'chooseCandidatoCtrl'
 				resolve: 
 					candidato: ()->

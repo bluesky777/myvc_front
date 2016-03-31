@@ -15539,6 +15539,8 @@ body {
     */
 
 
+
+
     @page cartahorizontal{ 
         -webkit-transform: rotate(-90deg);
         -moz-transform:rotate(-90deg);
@@ -15557,13 +15559,16 @@ body {
         size: portrait; 
         margin: 2cm;
         background-color: white;
+        
     }
+    
 
     .page-vertical{
         page: cartavertical;
         width: 22cm;
         margin-bottom: 0px;
         border: 0px;
+        counter-reset: numpagina;
     }
     .page-carta-horizontal{
         page: cartahorizontal;
@@ -15576,6 +15581,18 @@ body {
         width: 31cm;
         margin-bottom: 0px;
         border: 0px;
+    }
+
+    @page{
+        counter-increment: numpagina;
+    }
+
+    .encabezado-boletin:after{
+        content: "Página " counter(page) " de " counter(pages) " y " counter(numpagina);
+    }
+    .divFooter {
+        position: fixed;
+        bottom: 0;
     }
 
     .materia-title{
