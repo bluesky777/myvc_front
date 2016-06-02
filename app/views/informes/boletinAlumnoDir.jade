@@ -19,9 +19,9 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 					.row.descripcion-encabezado
 						.col-lg-6.col-xs-6
 							.grupo-alumno
-								| Grupo: 
+								| Grupo:  
 								b {{grupo.nombre_grupo | capitalize}}
-							.titular-grupo(uib-popover-html="'<img src=\"{{perfilPath + grupo.foto_nombre}}\" style=\"width: 150px; height: 150px;\">'" 
+							.titular-grupo(uib-popover-template="views+'informes/infoTitularPop.tpl.html'" 
 									popover-popup-delay="500" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true" 
 									popover-trigger="mouseenter")
 								| Titular: Pr. {{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor | capitalize}}
@@ -64,7 +64,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 														| {{subunidad.definicion_subunidad}}
 													.col-lg-1.col-xs-1.subunidad-porc()
 														| {{subunidad.porcentaje_subunidad}}%
-													.col-lg-1.col-xs-1.subunidad-nota(style="font-size: 5pt;")
+													.col-lg-1.col-xs-1.subunidad-nota(style="font-size: 5pt; line-height: 2;")
 														| {{ subunidad.nota.nota | juicioValorativo:escalas:true}}
 													.col-lg-1.col-xs-1.subunidad-nota.puntero
 														//i.fa.fa-warning(ng-show="subunidad.nota.nota<USER.nota_minima_aceptada")

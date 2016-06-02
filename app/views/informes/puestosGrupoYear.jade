@@ -46,13 +46,13 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 								| ({{asignatura.perdidos}})
 						td(style="border-left: 2px solid !important;")
 							span {{alumno.promedio_year | number:1}}
-							span.cant-unidades-perdidas(ng-show="alumno.perdidas_year > 0") | ({{ alumno.perdidas_year }})
+							span.cant-unidades-perdidas(ng-show="alumno.perdidos_year > 0") ({{ alumno.perdidos_year }})
 				tfoot
 					tr(style="border-top: 2px solid;")
 						td   
 						td() Total
 						td(ng-repeat="asignatura in alumnos[0].notas_asig") {{ alumnos | promAsigYear:asignatura.asignatura_id | decimales:1 }}
 						td(style="font-weight: bold; border-left: 2px solid !important;") {{ alumnos | promGrupoYear | decimales:1 }}
-							span.cant-unidades-perdidas(ng-show="(alumnos | notasPerdidasGrupoYear) > 0")|({{alumnos | notasPerdidasGrupoYear}})
+							span.cant-unidades-perdidas(ng-show="(alumnos | notasPerdidasGrupoYear) > 0") ({{alumnos | notasPerdidasGrupoYear}})
 
 

@@ -64,7 +64,7 @@ angular.module('myvcFrontApp')
 									d.reject r2.data
 								)
 							else
-								console.log 'Pidiendo por grupo:', $stateParams.grupo_id
+								#console.log 'Pidiendo por grupo:', $stateParams.grupo_id
 								$http.put('::alumnos/detailed-notas-group/'+$stateParams.grupo_id, {periodos_a_calcular: $stateParams.periodos_a_calcular}).then((r)->
 									d.resolve r.data
 								, (r2)->

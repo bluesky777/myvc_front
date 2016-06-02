@@ -89,7 +89,7 @@ angular.module("myvcFrontApp")
 		cant = 0
 
 		for alumno in alumnos
-			cant = cant + alumno.sub_perdidas_year
+			cant = cant + alumno.perdidos_year
 
 
 		return cant

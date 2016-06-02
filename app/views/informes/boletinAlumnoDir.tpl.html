@@ -15,8 +15,8 @@
           </div>
           <div class="row descripcion-encabezado">
             <div class="col-lg-6 col-xs-6">
-              <div class="grupo-alumno">Grupo: <b>{{grupo.nombre_grupo | capitalize}}</b></div>
-              <div uib-popover-html="'&lt;img src=&quot;{{perfilPath + grupo.foto_nombre}}&quot; style=&quot;width: 150px; height: 150px;&quot;&gt;'" popover-popup-delay="500" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true" popover-trigger="mouseenter" class="titular-grupo">Titular: Pr. {{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor | capitalize}}</div>
+              <div class="grupo-alumno">Grupo:  <b>{{grupo.nombre_grupo | capitalize}}</b></div>
+              <div uib-popover-template="views+'informes/infoTitularPop.tpl.html'" popover-popup-delay="500" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true" popover-trigger="mouseenter" class="titular-grupo">Titular: Pr. {{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor | capitalize}}</div>
             </div>
             <div class="col-lg-6 col-xs-6">
               <h5 class="nombre-alumno">{{alumno.nombres + ' ' + alumno.apellidos}}</h5>
@@ -51,7 +51,7 @@
                         <div class="row">
                           <div class="col-lg-9 col-xs-9 subunidad-definicion">{{subunidad.definicion_subunidad}}</div>
                           <div class="col-lg-1 col-xs-1 subunidad-porc">{{subunidad.porcentaje_subunidad}}%</div>
-                          <div style="font-size: 5pt;" class="col-lg-1 col-xs-1 subunidad-nota">{{ subunidad.nota.nota | juicioValorativo:escalas:true}}</div>
+                          <div style="font-size: 5pt; line-height: 2;" class="col-lg-1 col-xs-1 subunidad-nota">{{ subunidad.nota.nota | juicioValorativo:escalas:true}}</div>
                           <div class="col-lg-1 col-xs-1 subunidad-nota puntero">
                             <!--i.fa.fa-warning(ng-show="subunidad.nota.nota<USER.nota_minima_aceptada")--><span ng-class="{'nota-perdida-bold': subunidad.nota.nota&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}" uib-tooltip="Valor nota: {{subunidad.nota.valor}}">{{subunidad.nota.nota}}</span>
                             <!--span.label.label-darkpink(ng-show="subunidad.nota.nota<USER.nota_minima_aceptada && config.show_rojos" style="padding: 2px"){{subunidad.nota.nota}}-->
