@@ -68,7 +68,9 @@ angular.module('myvcFrontApp')
 			filter: {
 				condition: (searchTerm, cellValue, row)->
 					entidad = row.entity
-					return (entidad.username.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1)
+					if entidad.username
+						return (entidad.username.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1)
+					return false
 			}
 			enableHiding: false}
 			
@@ -76,7 +78,9 @@ angular.module('myvcFrontApp')
 			filter: {
 				condition: (searchTerm, cellValue, row)->
 					entidad = row.entity
-					return (entidad.nombres.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) or (entidad.apellidos.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1)
+					if entidad.nombres
+						return (entidad.nombres.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) or (entidad.apellidos.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1)
+					return false
 				}
 			}
 
@@ -114,7 +118,7 @@ angular.module('myvcFrontApp')
 			)
 
 	
-	$http.get('::perfiles/usuariosall').then((data)->
+	$http.get('::perfiles/usuariosall?year_id=' + $scope.USER.year_id).then((data)->
 		$scope.gridOptions.data = data.data;
 	)
 

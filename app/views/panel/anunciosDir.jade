@@ -15,61 +15,44 @@
 
 							li(ng-show="(changes_asked_to_me | filter:{deleted_at:'!'}).length==0") No hay pedidos pendientes
 
-							li.ticket-item(ng-repeat="file in changes_asked_to_me | filter:{deleted_at:'!'} ")
+							li.ticket-item(ng-repeat="change_asked in changes_asked_to_me | filter:{deleted_at:'!'} ")
 								.row
-									.ticket-user.col-lg-10.col-sm-12
-										img.user-avatar(ng-src="{{perfilPath + file.foto_nombre}}" alt="{{file.foto_nombre}}")
-										span.user-name {{file.nombres + ' ' +file.apellidos}} 
-										span.user-company  quiere esta imagen: 
-										img.user-avatar(ng-src="{{perfilPath + file.foto_nombre_asked}}" alt="Imagen pedida")
-										span.user-company como oficial.
+									.ticket-user.ticket-solicitud(ng-click="verDetalles(change_asked)")
+										img.user-avatar(ng-src="{{perfilPath + change_asked.foto_nombre_alum}}" alt="{{change_asked.foto_nombre_alum}}")
+										span.user-name {{change_asked.nombres_alum + ' ' +change_asked.apellidos_alum}} 
+										span.user-company  ha solicitado unos cambios
 										
 
-									.ticket-type.col-lg-2.col-sm-12
-										span.divider.hidden-xs
-
-										input.btn.btn-success.btn-xs(type="button" value="Aceptar" ng-click="aceptarAsked(file)")
-										
-										input.btn.btn-danger.btn-xs(type="button" value="Rechazar" ng-click="rechazarAsked(file)")
 
 
+					span(ng-show="")
+						h6.row-title.before-blue(style="margin-left: -15px;")
+							| Pedidos anteriores 
 
-.row(ng-if="hasRoleOrPerm(['admin', 'profesor'])")
-	.col-xs-12.col-md-12
-		.widget
-			.widget-header.bordered-bottom.bordered-themefourthcolor
-				i.widget-icon.fa.fa-tags.themefourthcolor
-				span.widget-caption.themefourthcolor
-					| Pedidos anteriores 
+						.tickets-container
+							ul.tickets-list
 
-			.widget-body
-				.widget-main.no-padding
+								li(ng-show="(changes_asked_to_me | filter:{deleted_at:'!!'}).length==0") No hay pedidos anteriores
 
+								li.ticket-item(ng-repeat="change_asked in changes_asked_to_me | filter:{deleted_at:'!!'} ")
+									.row
+										.ticket-user.col-lg-10.col-sm-12
+											img.user-avatar(ng-src="{{perfilPath + change_asked.foto_nombre}}" alt="{{change_asked.foto_nombre}}" )
+											span.user-name {{change_asked.nombres + ' ' +change_asked.apellidos}} 
+											span.user-company  quiere esta imagen: 
+											img.user-avatar(ng-src="{{perfilPath + change_asked.foto_nombre_asked}}" alt="Imagen pedida")
+											span.user-company como oficial.
+											
 
-					.tickets-container
-						ul.tickets-list
+										.ticket-type.col-lg-2.col-sm-12
+											span.divider.hidden-xs
 
-							li(ng-show="(changes_asked_to_me | filter:{deleted_at:'!!'}).length==0") No hay pedidos anteriores
-
-							li.ticket-item(ng-repeat="file in changes_asked_to_me | filter:{deleted_at:'!!'} ")
-								.row
-									.ticket-user.col-lg-10.col-sm-12
-										img.user-avatar(ng-src="{{perfilPath + file.foto_nombre}}" alt="{{file.foto_nombre}}" )
-										span.user-name {{file.nombres + ' ' +file.apellidos}} 
-										span.user-company  quiere esta imagen: 
-										img.user-avatar(ng-src="{{perfilPath + file.foto_nombre_asked}}" alt="Imagen pedida")
-										span.user-company como oficial.
-										
-
-									.ticket-type.col-lg-2.col-sm-12
-										span.divider.hidden-xs
-
-										span(ng-show="file.accepted_at")
-											span.label.label-info(uib-tooltip="Aceptado por: {{file.username}}({{file.tipo}}); Cuando: {{file.deleted_at}} ") Aceptado
-										
-										span(ng-show="file.rechazado_at")
-											span.label.label-maroon(uib-tooltip="Rechazado por: {{file.username}}({{file.tipo}}); Cuando: {{file.deleted_at}} ") Rechazado
-										
+											span(ng-show="change_asked.accepted_at")
+												span.label.label-info(uib-tooltip="Aceptado por: {{change_asked.username}}({{change_asked.tipo}}); Cuando: {{change_asked.deleted_at}} ") Aceptado
+											
+											span(ng-show="change_asked.rechazado_at")
+												span.label.label-maroon(uib-tooltip="Rechazado por: {{change_asked.username}}({{change_asked.tipo}}); Cuando: {{change_asked.deleted_at}} ") Rechazado
+											
 
 
 			

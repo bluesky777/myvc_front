@@ -36,8 +36,6 @@ angular.module('myvcFrontApp')
 		user.then((r)->
 			#console.log 'Promise ganada', r
 			return
-		, (r2)->
-			console.log 'Promise de login_credentials rechazada', r2
 		)
 
 

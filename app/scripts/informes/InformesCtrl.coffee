@@ -11,6 +11,7 @@ angular.module('myvcFrontApp')
 	}
 	$scope.filtered_alumnos = alumnos
 	$scope.perfilPath = App.images + 'perfil/'
+	$scope.views = App.views
 
 	$scope.datos = {grupo: ''}
 

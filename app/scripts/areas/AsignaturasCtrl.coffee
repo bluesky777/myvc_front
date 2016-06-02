@@ -28,7 +28,7 @@ angular.module("myvcFrontApp")
 
 	$scope.seleccionaProfe = (item, model)->
 		item =  if item is undefined then {profesor_id:'!'} else item
-		$scope.gridOptions.data = $filter('filter')($scope.asignaturas, {profesor_id: item.id}, true)
+		$scope.gridOptions.data = $filter('filter')($scope.asignaturas, {profesor_id: item.profesor_id}, true)
 		
 		if $scope.currentasignatura.grupo != undefined
 			grupoSearch = $scope.currentasignatura.grupo.id
@@ -128,14 +128,18 @@ angular.module("myvcFrontApp")
 			}
 			editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'id', editDropdownValueLabel: 'nombre', enableCellEditOnFocus: true }
 			
-			{ field: 'profesor_id',	displayName: 'Profesor',	editDropdownOptionsArray: profesores,	cellFilter: 'mapProfesores:grid.appScope.profesores',
+			{ field: 'profesor_id',	displayName: 'Profesor',	editDropdownOptionsArray: profesores,	cellFilter: 'mapProfesores:grid.appScope.profesores', #  cellTemplate: '<div>{{row.entity.nombres + " " + row.entity.apellidos}}</div>',
 			filter: {
 				condition: (searchTerm, cellValue)->
-					foundP 	= $filter('filter')(profesores, {nombres: searchTerm, apellidos: searchTerm})
-					actual 	= $filter('filter')(foundP, {profesor_id: cellValue}, true)
-					return actual.length > 0;
+					foundP 	= $filter('filter')(profesores, (prof)->
+						pru1 = if prof.nombres then (prof.nombres.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) else false
+						pru2 = if prof.apellidos then (prof.apellidos.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) else false
+						pru3 = if prof.profesor_id == cellValue then true else false
+						return (pru1 or pru2) and pru3
+					)
+					return foundP.length > 0;
 			}
-			editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'id', editDropdownValueLabel: 'nombres', enableCellEditOnFocus: true }
+			editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'profesor_id', editDropdownValueLabel: 'nombres', enableCellEditOnFocus: true }
 			
 			{ field: 'creditos', displayName:'Créditos', type: 'number', maxWidth: 50 }
 			{ name: 'nn', displayName: '', width: 10, enableSorting: false, enableFiltering: false, enableColumnMenu: false }
@@ -147,6 +151,7 @@ angular.module("myvcFrontApp")
 			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
 				
 				if newValue != oldValue
+					console.log rowEntity, colDef, newValue, oldValue
 					$scope.currentasignaturaEdit = rowEntity
 					$scope.guardar()
 				$scope.$apply()

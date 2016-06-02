@@ -12,7 +12,8 @@ angular.module('myvcFrontApp')
 
 		if $state.is 'panel'
 			$http.get('::ChangesAsked/to-me').then((r)->
-				scope.changes_asked_to_me = r.data
+				scope.changes_asked_to_me = r.data.cambios
+				scope.changes_asked_elim = r.data.cambios_elim
 			, (r2)->
 				toastr.error 'No se pudo traer los anuncios.'
 			)
@@ -25,14 +26,14 @@ angular.module('myvcFrontApp')
 	
 	$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
 
-	$scope.aceptarAsked = (row)->
+	$scope.verDetalles = (row)->
 
 		modalInstance = $modal.open({
-			templateUrl: '==panel/aceptarAsked.tpl.html'
-			controller: 'AceptarAskedCtrl'
+			templateUrl: '==panel/verDetalles.tpl.html'
+			controller: 'VerDetallesCtrl'
 			resolve: 
 				asked: ()->
-					row
+					$http.get('::change')
 		})
 		modalInstance.result.then( (asked)->
 			#console.log 'Resultado del modal: ', asked
@@ -53,6 +54,35 @@ angular.module('myvcFrontApp')
 
 ])
 
+
+.controller('VerDetallesCtrl', ['$scope', '$uibModalInstance', 'asked', '$http', 'toastr', 'App', ($scope, $modalInstance, asked, $http, toastr, App)->
+	
+	$scope.imagesPath = App.images + 'perfil/'
+	$scope.asked = asked
+
+	$scope.ok = ()->
+
+		datos = {asked_id: asked.id}
+
+		$http.put('::ChangesAsked/aceptar', datos).then((r)->
+			r = r.data
+			toastr.success 'Pedido aceptado.', 'Éxito'
+			asked.deleted_at 	= r.deleted_at
+			asked.accepted_at 	= r.deleted_at
+			asked.deleted_by 	= r.deleted_by
+			asked.comentario 	= r.comentario
+			asked.oficial_image_id = r.oficial_image_id
+			asked.foto_nombre	= asked.foto_nombre_asked
+
+		, (r2)->
+			toastr.warning 'Problema', 'No se pudo aceptar petición.'
+		)
+		$modalInstance.close(asked)
+
+	$scope.cancel = ()->
+		$modalInstance.dismiss('cancel')
+
+])
 
 .controller('AceptarAskedCtrl', ['$scope', '$uibModalInstance', 'asked', '$http', 'toastr', 'App', ($scope, $modalInstance, asked, $http, toastr, App)->
 	

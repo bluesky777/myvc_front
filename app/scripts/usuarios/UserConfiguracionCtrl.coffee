@@ -23,6 +23,11 @@ angular.module('myvcFrontApp')
 		toastr.error 'No se trajeron los nombres de usuario'
 	)
 
+	$scope.dateOptions = 
+		formatYear: 'yyyy'
+		allowInvalid: true
+
+
 	$scope.$watch 'newusername', (oldv, newv)->
 		#console.log 'oldv, newv', oldv, newv
 
@@ -70,6 +75,17 @@ angular.module('myvcFrontApp')
 
 		$http.put('::perfiles/update/'+$scope.perfilactual.persona_id, datos).then((r)->
 			toastr.success 'Datos guardados'
+		, (r2)->
+			toastr.error 'Datos NO guardados', 'Problema'
+			$scope.canSaveUsername = true
+		)
+
+
+	$scope.solicitarCambios = ()->
+		$scope.canSaveUsername = false
+
+		$http.put('::ChangesAsked/solicitar-cambios', $scope.perfilactual).then((r)->
+			toastr.info 'Debes esperar que un administrador acepte cambios', 'Solicitud realizada', {timeOut: 8000}
 		, (r2)->
 			toastr.error 'Datos NO guardados', 'Problema'
 			$scope.canSaveUsername = true

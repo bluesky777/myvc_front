@@ -8,39 +8,25 @@
           <div class="tickets-container">
             <ul class="tickets-list">
               <li ng-show="(changes_asked_to_me | filter:{deleted_at:'!'}).length==0">No hay pedidos pendientes</li>
-              <li ng-repeat="file in changes_asked_to_me | filter:{deleted_at:'!'} " class="ticket-item">
+              <li ng-repeat="change_asked in changes_asked_to_me | filter:{deleted_at:'!'} " class="ticket-item">
                 <div class="row">
-                  <div class="ticket-user col-lg-10 col-sm-12"><img ng-src="{{perfilPath + file.foto_nombre}}" alt="{{file.foto_nombre}}" class="user-avatar"><span class="user-name">{{file.nombres + ' ' +file.apellidos}} </span><span class="user-company"> quiere esta imagen: </span><img ng-src="{{perfilPath + file.foto_nombre_asked}}" alt="Imagen pedida" class="user-avatar"><span class="user-company">como oficial.</span></div>
-                  <div class="ticket-type col-lg-2 col-sm-12"><span class="divider hidden-xs"></span>
-                    <input type="button" value="Aceptar" ng-click="aceptarAsked(file)" class="btn btn-success btn-xs">
-                    <input type="button" value="Rechazar" ng-click="rechazarAsked(file)" class="btn btn-danger btn-xs">
+                  <div ng-click="verDetalles(change_asked)" class="ticket-user ticket-solicitud"><img ng-src="{{perfilPath + change_asked.foto_nombre_alum}}" alt="{{change_asked.foto_nombre_alum}}" class="user-avatar"><span class="user-name">{{change_asked.nombres_alum + ' ' +change_asked.apellidos_alum}} </span><span class="user-company"> ha solicitado unos cambios</span></div>
+                </div>
+              </li>
+            </ul>
+          </div><span ng-show="">
+            <h6 style="margin-left: -15px;" class="row-title before-blue">Pedidos anteriores </h6>
+            <div class="tickets-container">
+              <ul class="tickets-list">
+                <li ng-show="(changes_asked_to_me | filter:{deleted_at:'!!'}).length==0">No hay pedidos anteriores</li>
+                <li ng-repeat="change_asked in changes_asked_to_me | filter:{deleted_at:'!!'} " class="ticket-item">
+                  <div class="row">
+                    <div class="ticket-user col-lg-10 col-sm-12"><img ng-src="{{perfilPath + change_asked.foto_nombre}}" alt="{{change_asked.foto_nombre}}" class="user-avatar"><span class="user-name">{{change_asked.nombres + ' ' +change_asked.apellidos}} </span><span class="user-company"> quiere esta imagen: </span><img ng-src="{{perfilPath + change_asked.foto_nombre_asked}}" alt="Imagen pedida" class="user-avatar"><span class="user-company">como oficial.</span></div>
+                    <div class="ticket-type col-lg-2 col-sm-12"><span class="divider hidden-xs"></span><span ng-show="change_asked.accepted_at"><span uib-tooltip="Aceptado por: {{change_asked.username}}({{change_asked.tipo}}); Cuando: {{change_asked.deleted_at}} " class="label label-info">Aceptado</span></span><span ng-show="change_asked.rechazado_at"><span uib-tooltip="Rechazado por: {{change_asked.username}}({{change_asked.tipo}}); Cuando: {{change_asked.deleted_at}} " class="label label-maroon">Rechazado</span></span></div>
                   </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div ng-if="hasRoleOrPerm(['admin', 'profesor'])" class="row">
-  <div class="col-xs-12 col-md-12">
-    <div class="widget">
-      <div class="widget-header bordered-bottom bordered-themefourthcolor"><i class="widget-icon fa fa-tags themefourthcolor"></i><span class="widget-caption themefourthcolor">Pedidos anteriores </span></div>
-      <div class="widget-body">
-        <div class="widget-main no-padding">
-          <div class="tickets-container">
-            <ul class="tickets-list">
-              <li ng-show="(changes_asked_to_me | filter:{deleted_at:'!!'}).length==0">No hay pedidos anteriores</li>
-              <li ng-repeat="file in changes_asked_to_me | filter:{deleted_at:'!!'} " class="ticket-item">
-                <div class="row">
-                  <div class="ticket-user col-lg-10 col-sm-12"><img ng-src="{{perfilPath + file.foto_nombre}}" alt="{{file.foto_nombre}}" class="user-avatar"><span class="user-name">{{file.nombres + ' ' +file.apellidos}} </span><span class="user-company"> quiere esta imagen: </span><img ng-src="{{perfilPath + file.foto_nombre_asked}}" alt="Imagen pedida" class="user-avatar"><span class="user-company">como oficial.</span></div>
-                  <div class="ticket-type col-lg-2 col-sm-12"><span class="divider hidden-xs"></span><span ng-show="file.accepted_at"><span uib-tooltip="Aceptado por: {{file.username}}({{file.tipo}}); Cuando: {{file.deleted_at}} " class="label label-info">Aceptado</span></span><span ng-show="file.rechazado_at"><span uib-tooltip="Rechazado por: {{file.username}}({{file.tipo}}); Cuando: {{file.deleted_at}} " class="label label-maroon">Rechazado</span></span></div>
-                </div>
-              </li>
-            </ul>
-          </div>
+                </li>
+              </ul>
+            </div></span>
         </div>
       </div>
     </div>

@@ -15586,10 +15586,11 @@ body {
     @page{
         counter-increment: numpagina;
     }
-
+    /*
     .encabezado-boletin:after{
         content: "Página " counter(page) " de " counter(pages) " y " counter(numpagina);
     }
+    */
     .divFooter {
         position: fixed;
         bottom: 0;
@@ -16265,5 +16266,12 @@ input.ocultar-input{
     height:0px!important;
 }
 
+
+.ticket-solicitud{
+    cursor: pointer;
+}
+.ticket-solicitud:hover{
+    background-color: #EEEEEE;
+}
 
 

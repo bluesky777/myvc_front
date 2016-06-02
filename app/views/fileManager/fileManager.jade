@@ -73,7 +73,7 @@
 									img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
 									small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
 
-							input.btn.btn-primary.shiny(type="submit" ng-submit="pedirCambioUsuario(dato.imgOficial)"  ng-show="!hasRoleOrPerm('profesor')" value="Cambiar foto oficial") 
+							input.btn.btn-primary.shiny(type="submit" ng-submit="pedirCambioUsuario(dato.imgOficial)"  ng-show="!hasRoleOrPerm('alumno')" value="Cambiar foto oficial") 
 
 							input.btn.btn-primary.shiny(type="submit" ng-submit="pedirCambioUsuario(dato.imgOficial)"  ng-show="hasRoleOrPerm(['alumno', 'acudiente'])" value="Pedir para foto oficial") 
 					

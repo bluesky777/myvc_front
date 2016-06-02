@@ -81,19 +81,28 @@ angular.module('myvcFrontApp')
 
 
 		, (r2)->
-			r2 = r2.data
-			console.log 'No se pudo loguear. ', r2, $state
 			$rootScope.$broadcast AUTH_EVENTS.loginFailed
 
-			if r2.data
-				if r2.data.error
-					if r2.data.error == 'Token expirado' or r2.error == 'token_expired'
-						toastr.warning 'La sesión ha expirado'
-						if $state.current.name != 'login'
-							$state.go 'login'
-						
-					else
-						$rootScope.$broadcast AUTH_EVENTS.loginFailed
+			if r2
+				if r2.status
+					if r2.status == 400
+						toastr.error 'Datos inválidos', '', {timeOut: 8000}
+					else if r2.status == -1
+						toastr.error 'No parece haber comunicación con el servidor', '', {timeOut: 8000}
+					else if r2.status == 500
+						toastr.error 'No parece haber comunicación con la Base de datos', '', {timeOut: 8000}
+
+				else if r2.data
+					if r2.data.error
+						if r2.data.error == 'Token expirado' or r2.error == 'token_expired'
+							toastr.warning 'La sesión ha expirado'
+							if $state.current.name != 'login'
+								$state.go 'login'
+							
+						else
+							$rootScope.$broadcast AUTH_EVENTS.loginFailed
+				else
+					toastr.error 'No parece haber comunicación con el servidor'
 			else
 				toastr.error 'No parece haber comunicación con el servidor'
 			d.reject 'Error en login'

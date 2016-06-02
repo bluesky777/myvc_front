@@ -32,7 +32,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 				.col-lg-12.col-xs-12.materias
 					.materia-item(ng-repeat="asignatura in alumno.asignaturas")
 						.row.materia-title
-							.col-lg-9.col-xs-9(uib-popover-html="'<img src=\"{{perfilPath + asignatura.foto_nombre}}\" style=\"width: 150px; height: 150px;\">'" 
+							.col-lg-9.col-xs-9(uib-popover-template="views+'informes/infoDocentePop.tpl.html'" 
 									popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" 
 									popover-trigger="mouseenter")
 								span.materia-name {{asignatura.materia}}
@@ -60,10 +60,12 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 										.row.subunidades-list(ng-repeat="subunidad in unidad.subunidades")
 											.col-lg-12.col-xs-12
 												.row
-													.col-lg-10.col-xs-10.subunidad-definicion
+													.col-lg-9.col-xs-9.subunidad-definicion
 														| {{subunidad.definicion_subunidad}}
 													.col-lg-1.col-xs-1.subunidad-porc()
 														| {{subunidad.porcentaje_subunidad}}%
+													.col-lg-1.col-xs-1.subunidad-nota(style="font-size: 5pt;")
+														| {{ subunidad.nota.nota | juicioValorativo:escalas:true}}
 													.col-lg-1.col-xs-1.subunidad-nota.puntero
 														//i.fa.fa-warning(ng-show="subunidad.nota.nota<USER.nota_minima_aceptada")
 														span(ng-class="{'nota-perdida-bold': subunidad.nota.nota<USER.nota_minima_aceptada && config.show_rojos}" uib-tooltip="Valor nota: {{subunidad.nota.valor}}") {{subunidad.nota.nota}}
@@ -162,6 +164,6 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 						.col-lg-6.col-xs-6
 							| Titular
 
-			.divFooter Buuu
+
 
 

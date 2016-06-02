@@ -101,30 +101,16 @@ angular.module('myvcFrontApp')
 	#$locationProvider.html5Mode true
 
 	$rootScopeProvider.bigLoader = true
-
+	
 	angular.extend(toastrConfig, {
 		allowHtml: true,
 		closeButton: true,
-		closeHtml: '<button>&times;</button>',
-		containerId: 'toast-container',
 		extendedTimeOut: 1000,
-		iconClasses: {
-			error: 'toast-error',
-			info: 'toast-info',
-			success: 'toast-success',
-			warning: 'toast-warning'
-		},
+		preventOpenDuplicates: false,
 		maxOpened: 3,
-		messageClass: 'toast-message',
-		newestOnTop: true,
-		onHidden: null,
-		onShown: null,
-		positionClass: 'toast-top-right',
 		tapToDismiss: true,
 		target: 'body',
 		timeOut: 4000,
-		titleClass: 'toast-title',
-		toastClass: 'toast'
 	})
 
 	@

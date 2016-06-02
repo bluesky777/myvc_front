@@ -53,7 +53,7 @@
                 <ui-select-match placeholder="Imagen usuario"> <img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombre"></small></ui-select-match>
                 <ui-select-choices repeat="imagen in imagenes_privadas | filter: {nombre: $select.search}"><img ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + imagen.nombre | highlight: $select.search"></small></ui-select-choices>
               </ui-select>
-              <input type="submit" ng-submit="pedirCambioUsuario(dato.imgOficial)" ng-show="!hasRoleOrPerm('profesor')" value="Cambiar foto oficial" class="btn btn-primary shiny">
+              <input type="submit" ng-submit="pedirCambioUsuario(dato.imgOficial)" ng-show="!hasRoleOrPerm('alumno')" value="Cambiar foto oficial" class="btn btn-primary shiny">
               <input type="submit" ng-submit="pedirCambioUsuario(dato.imgOficial)" ng-show="hasRoleOrPerm(['alumno', 'acudiente'])" value="Pedir para foto oficial" class="btn btn-primary shiny">
             </div>
           </form>

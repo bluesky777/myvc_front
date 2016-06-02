@@ -62,7 +62,7 @@ angular.module('myvcFrontApp')
 			r = r.data
 			toastr.success 'Cambiada: ' + nota.nota
 		, (r2)->
-			toastr.error 'No pudimos guardar la nota ' + nota.nota
+			toastr.error 'No pudimos guardar la nota ' + nota.nota, '', {timeOut: 8000}
 		)
 
 

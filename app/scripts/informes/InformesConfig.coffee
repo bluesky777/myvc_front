@@ -38,7 +38,7 @@ angular.module('myvcFrontApp')
 				periodos_a_calcular: {value: null}
 			views: 
 				'report_content':
-					templateUrl: "#{App.views}informes/boletinesPeriodo.tpl.html"
+					templateUrl: "==informes/boletinesPeriodo.tpl.html"
 					controller: 'BoletinesPeriodoCtrl'
 					resolve:
 						alumnosDat: ['$http', '$stateParams', '$q', '$cookieStore', ($http, $stateParams, $q, $cookieStore)->
@@ -86,7 +86,7 @@ angular.module('myvcFrontApp')
 			url: '/puestos_grupo_periodo/:grupo_id'
 			views: 
 				'report_content':
-					templateUrl: "#{App.views}informes/puestosGrupoPeriodo.tpl.html"
+					templateUrl: "==informes/puestosGrupoPeriodo.tpl.html"
 					controller: 'PuestosGrupoPeriodoCtrl'
 					resolve:
 						alumnosDat: ['$http', '$stateParams', ($http, $stateParams)->
