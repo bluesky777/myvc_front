@@ -11,6 +11,7 @@
               <div class="resolucion-colegio">{{year.resolucion}}</div>
               <div class="title-descripcion">Puestos periodo {{USER.numero_periodo}}-{{USER.year}} Grupo {{grupo.nombre_grupo}}</div>
             </div>
+            <div style="text-align: right" class="col-lg-2 col-xs-2"><span>{{ fechahora | date : 'dd/MM/yyyy h:mma' }}</span></div>
           </div>
         </div>
       </div>
@@ -34,7 +35,7 @@
               <div popover="&lt;img src='{{perfilPath + alumno.userData.foto_nombre}}' style='width: 100px; height: 100px;'&gt;&lt;img src='{{perfilPath + alumno.userData.imagen_nombre}}' style='width: 100px; height: 100px;'&gt;&lt;br&gt;Facebook: {{alumno.facebook}}&lt;br&gt;Username: {{alumno.userData.username}}" popover-popup-delay="1000" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-animation="true" popover-trigger="mouseenter" class="ellipsis200 alumno-planilla"> {{alumno.nombres + ' ' + alumno.apellidos}}</div>
             </td>
             <td ng-repeat="asignatura in alumno.asignaturas" ng-class="{'nota-perdida-puestos': ((asignatura.nota_asignatura | number:0 )*1) &lt; (USER.nota_minima_aceptada*1) }"><span popover="{{ asignatura.unidades | notasAsignatura:USER.numero_periodo }}" popover-trigger="mouseenter" popover-popup-delay="1000">{{asignatura.nota_asignatura | number:0}}</span><span popover="{{ asignatura.unidades | notasPerdidasAsignatura:false:USER.numero_periodo }}" popover-trigger="mouseenter" popover-popup-delay="1000" ng-show="{{asignatura.unidades | notasPerdidasAsignatura:true}} &gt; 0" class="cant-unidades-perdidas puntero">({{asignatura.unidades | notasPerdidasAsignatura:true}})</span></td>
-            <td style="border-left: 2px solid !important;"><span>{{alumno.promedio | number:1}}</span><span class="cant-unidades-perdidas">({{ alumno.asignaturas | notasPerdidasAsignaturaPeriodo:true:USER.numero_periodo}})</span></td>
+            <td style="border-left: 2px solid !important;"><span>{{alumno.promedio | decimales:3}}</span><span class="cant-unidades-perdidas">({{ alumno.asignaturas | notasPerdidasAsignaturaPeriodo:true:USER.numero_periodo}})</span></td>
           </tr>
         </tbody>
         <tfoot>

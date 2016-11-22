@@ -3,6 +3,8 @@ angular.module("myvcFrontApp")
 .controller('PuestosGrupoPeriodoCtrl', ['$scope', '$state', 'alumnosDat', 'escalas', '$cookieStore', ($scope, $state, alumnosDat, escalas, $cookieStore)->
 	alumnosDat = alumnosDat.data
 
+	$scope.fechahora = new Date();
+
 	$scope.grupo = alumnosDat[0]
 	$scope.year = alumnosDat[1]
 	$scope.alumnos = alumnosDat[2]

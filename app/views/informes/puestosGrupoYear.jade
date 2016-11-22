@@ -18,6 +18,9 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 								| {{year.resolucion}}
 							.title-descripcion
 								| Puestos Año {{USER.year}} Grupo {{grupo.nombre_grupo}}
+						.col-lg-2.col-xs-2(style="text-align: right")
+							span
+								| {{ fechahora | date : 'dd/MM/yyyy h:mma' }}
 	.row
 		.col-lg-12
 			table.table-bordered.table-bordered2.table-striped.table-striped2
@@ -45,7 +48,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 							span.cant-unidades-perdidas(ng-show="asignatura.perdidos > 0")
 								| ({{asignatura.perdidos}})
 						td(style="border-left: 2px solid !important;")
-							span {{alumno.promedio_year | number:1}}
+							span {{alumno.promedio_year | decimales:3}}
 							span.cant-unidades-perdidas(ng-show="alumno.perdidos_year > 0") ({{ alumno.perdidos_year }})
 				tfoot
 					tr(style="border-top: 2px solid;")
