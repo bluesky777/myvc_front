@@ -1,5 +1,5 @@
 angular.module('myvcFrontApp')
-.controller('InformesCtrl', ['$scope', '$http', '$state', '$stateParams', '$filter', 'App', 'AuthService', 'ProfesoresServ', 'alumnos', '$timeout', '$cookieStore', 'toastr', '$interval', ($scope, $http, $state, $stateParams, $filter, App, AuthService, ProfesoresServ, alumnos, $timeout, $cookieStore, toastr, $interval) ->
+.controller('InformesCtrl', ['$scope', '$http', '$state', '$stateParams', '$filter', 'App', 'AuthService', 'ProfesoresServ', 'alumnos', '$timeout', '$cookies', 'toastr', '$interval', ($scope, $http, $state, $stateParams, $filter, App, AuthService, ProfesoresServ, alumnos, $timeout, $cookies, toastr, $interval) ->
 
 	AuthService.verificar_acceso()
 	$scope.rowsAlum = []
@@ -40,19 +40,15 @@ angular.module('myvcFrontApp')
 		toastr.error 'No se pudo traer los profesores'
 	)
 
-	if $cookieStore.get 'config'
-		$scope.config = $cookieStore.get 'config'
-		$scope.informe_tab_actual_boletines 	= if $scope.config.informe_tab_actual 	=='boletines' then true else false
-		$scope.informe_tab_actual_puestos 		= if $scope.config.informe_tab_actual 	=='puestos' then true else false
-		$scope.informe_tab_actual_planillas 	= if $scope.config.informe_tab_actual 	=='planillas' then true else false
-		$scope.informe_tab_actual_finales 		= if $scope.config.informe_tab_actual 	=='finales' then true else false
+	if $cookies.getObject 'config'
+		$scope.config = $cookies.getObject 'config'
 		#console.log '$scope.config', $scope.config
 	else
 		$scope.config.orientacion = 'vertical'
 
 
-	if $cookieStore.get 'requested_alumnos'
-		requ = $cookieStore.get 'requested_alumnos'
+	if $cookies.getObject 'requested_alumnos'
+		requ = $cookies.getObject 'requested_alumnos'
 
 		if requ.length > 0
 
@@ -67,15 +63,15 @@ angular.module('myvcFrontApp')
 			$scope.datos.selected_alumno = requ[0]
 
 
-	if $cookieStore.get 'requested_alumno'
-		requ = $cookieStore.get 'requested_alumno'
+	if $cookies.getObject 'requested_alumno'
+		requ = $cookies.getObject 'requested_alumno'
 
 		found = $filter('filter')(alumnos, {alumno_id: requ[0].alumno_id}, true)[0]
 		$scope.datos.selected_alumno = found
 
 	$scope.$watch 'config', (newVal, oldVal)->
 		#console.log 'oldVal, newVal', oldVal, newVal
-		$cookieStore.put 'config', newVal
+		$cookies.putObject 'config', newVal
 
 		$scope.$broadcast 'change_config'
 		
@@ -83,18 +79,13 @@ angular.module('myvcFrontApp')
 
 	$scope.selectTab = (tab)->
 		$scope.config.informe_tab_actual = tab
-		$cookieStore.put 'config', $scope.config
-
-		$scope.informe_tab_actual_boletines 	= if tab=='boletines' then true else false
-		$scope.informe_tab_actual_puestos 		= if tab=='puestos' then true else false
-		$scope.informe_tab_actual_planillas 	= if tab=='planillas' then true else false
-		$scope.informe_tab_actual_finales 		= if tab=='finales' then true else false
+		$cookies.putObject 'config', $scope.config
 
 
 
 
 	$scope.putConfigCookie = ()->
-		$cookieStore.put 'config', $scope.config
+		$cookies.putObject 'config', $scope.config
 
 
 
@@ -102,8 +93,8 @@ angular.module('myvcFrontApp')
 
 
 	$scope.verBoletinesGrupo = ()->
-		$cookieStore.remove 'requested_alumnos'
-		$cookieStore.remove 'requested_alumno'
+		$cookies.remove 'requested_alumnos'
+		$cookies.remove 'requested_alumno'
 		
 		if !$scope.datos.grupo.id
 			toastr.warning 'Debes seleccionar el grupo'
@@ -114,7 +105,7 @@ angular.module('myvcFrontApp')
 	$scope.verBoletinesAlumnos = ()->
 		
 		if $scope.datos.selected_alumnos.length > 0
-			$cookieStore.put 'requested_alumnos', $scope.datos.selected_alumnos
+			$cookies.putObject 'requested_alumnos', $scope.datos.selected_alumnos
 			$state.go 'panel.informes.boletines_periodo', {grupo_id: $scope.datos.grupo.id, periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
 		else
 			toastr.warning 'Debes seleccionar al menos un alumno o cargar boletines del grupo completo'
@@ -123,7 +114,7 @@ angular.module('myvcFrontApp')
 	$scope.verBoletinAlumno = ()->
 		
 		if $scope.datos.selected_alumno
-			$cookieStore.put 'requested_alumno', [$scope.datos.selected_alumno]
+			$cookies.putObject 'requested_alumno', [$scope.datos.selected_alumno]
 			#$state.go 'panel.informes.boletines_periodo', {periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
 			$state.go 'panel.informes'
 			$interval ()->
@@ -171,18 +162,18 @@ angular.module('myvcFrontApp')
 		else
 			$scope.filtered_alumnos = alumnos
 
-			$cookieStore.put 'requested_alumno', ''
-			$cookieStore.put 'requested_alumnos', ''
+			$cookies.putObject 'requested_alumno', ''
+			$cookies.putObject 'requested_alumnos', ''
 
 
 		$scope.datos.selected_alumnos = ''
 		$scope.datos.selected_alumno = ''
 
 	$scope.selectAlumnos = (item)->
-		console.log item
+		#console.log item
 
 	$scope.selectAlumno = (item)->
-		console.log item
+		#console.log item
 
 
 	$scope.$on 'cambia_descripcion', (event, descrip)->
@@ -225,8 +216,8 @@ angular.module('myvcFrontApp')
 
 
 	$scope.verBoletinesFinalesGrupo = ()->
-		$cookieStore.remove 'requested_alumnos'
-		$cookieStore.remove 'requested_alumno'
+		$cookies.remove 'requested_alumnos'
+		$cookies.remove 'requested_alumno'
 		
 		if !$scope.datos.grupo.id
 			toastr.warning 'Debes seleccionar el grupo'
@@ -238,7 +229,7 @@ angular.module('myvcFrontApp')
 	$scope.verBoletinesFinalesAlumnos = ()->
 		
 		if $scope.datos.selected_alumnos.length > 0
-			$cookieStore.put 'requested_alumnos', $scope.datos.selected_alumnos
+			$cookies.putObject 'requested_alumnos', $scope.datos.selected_alumnos
 			$state.go 'panel.informes.boletines_finales', {grupo_id: $scope.datos.grupo.id, periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
 		else
 			toastr.warning 'Debes seleccionar al menos un alumno o cargar boletines del grupo completo'
@@ -247,8 +238,8 @@ angular.module('myvcFrontApp')
 	$scope.verBoletinFinalAlumno = ()->
 		
 		if $scope.datos.selected_alumno
-			$cookieStore.remove 'requested_alumnos'
-			$cookieStore.put 'requested_alumno', [$scope.datos.selected_alumno]
+			$cookies.remove 'requested_alumnos'
+			$cookies.putObject 'requested_alumno', [$scope.datos.selected_alumno]
 			$state.go 'panel.informes'
 			$interval ()->
 				$state.go 'panel.informes.boletines_finales'
@@ -260,8 +251,8 @@ angular.module('myvcFrontApp')
 
 	$scope.verCertificadosEstudioGrupo = ()->
 		
-		$cookieStore.remove 'requested_alumnos'
-		$cookieStore.remove 'requested_alumno'
+		$cookies.remove 'requested_alumnos'
+		$cookies.remove 'requested_alumno'
 		
 		if !$scope.datos.grupo.id
 			toastr.warning 'Debes seleccionar el grupo'
@@ -273,17 +264,18 @@ angular.module('myvcFrontApp')
 	$scope.verCertificadosEstudioAlumnos = ()->
 		
 		if $scope.datos.selected_alumnos.length > 0
-			$cookieStore.put 'requested_alumnos', $scope.datos.selected_alumnos
+			$cookies.putObject 'requested_alumnos', $scope.datos.selected_alumnos
 			$state.go 'panel.informes.certificados_estudio', {grupo_id: $scope.datos.grupo.id, periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
 		else
 			toastr.warning 'Debes seleccionar al menos un alumno o cargar boletines del grupo completo'
 
 
+
 	$scope.verCertificadosEstudioAlumno = ()->
 		
 		if $scope.datos.selected_alumno
-			$cookieStore.remove 'requested_alumnos'
-			$cookieStore.put 'requested_alumno', [$scope.datos.selected_alumno]
+			$cookies.remove 'requested_alumnos'
+			$cookies.putObject 'requested_alumno', [$scope.datos.selected_alumno]
 			$state.go 'panel.informes'
 			$interval ()->
 				$state.go 'panel.informes.certificados_estudio'

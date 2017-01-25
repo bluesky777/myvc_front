@@ -7,8 +7,8 @@
         <div class="widget-buttons"><a href="" ng-init="minimized = false" ng-click="minimized = !minimized"><i ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimized]" class="fa"></i></a><a href="" ng-click="opened=false"><i class="fa fa-times"></i></a></div>
       </div>
       <div ng-class="{'ng-hide':minimized}" class="widget-body">
-        <uib-tabset class="widget-main">
-          <uib-tab heading="Boletines" active="informe_tab_actual_boletines" select="selectTab('boletines')">
+        <uib-tabset active="config.informe_tab_actual" class="widget-main">
+          <uib-tab heading="Boletines" index="'boletines'" select="selectTab('boletines')">
             <div class="row">
               <div class="col-lg-7 col-sm-12 col-xs-12">
                 <div class="form-group">
@@ -110,7 +110,7 @@
             </div><br><br>
             <button ng-click="pdfMaker()" ng-show="false" class="btn btn-default">Prueba pdf</button>
           </uib-tab>
-          <uib-tab heading="Puestos" active="informe_tab_actual_puestos" select="selectTab('puestos')">
+          <uib-tab heading="Puestos" index="'puestos'" select="selectTab('puestos')">
             <div class="row">
               <div class="col-lg-7 col-sm-12 col-xs-12">
                 <div class="form-group">
@@ -130,7 +130,7 @@
               <div class="btn-group"><a href="" ng-click="verPuestosPeriodo()" class="btn btn-default">Puestos del periodo</a><a href="" ng-click="verPuestosYear()" class="btn btn-success">Puestos del año</a></div>
             </div>
           </uib-tab>
-          <uib-tab heading="Planillas" active="informe_tab_actual_planillas" select="selectTab('planillas')">
+          <uib-tab heading="Planillas" index="'planillas'" select="selectTab('planillas')">
             <div class="row">
               <div class="col-lg-7 col-sm-12 col-xs-12">
                 <div class="form-group">
@@ -190,7 +190,7 @@
               </div>
             </div>
           </uib-tab>
-          <uib-tab heading="Finales" active="informe_tab_actual_finales" select="selectTab('finales')"><span ng-include="'views/informes/tabFinales.tpl.html'"></span></uib-tab>
+          <uib-tab heading="Finales" index="'finales'" select="selectTab('finales')"><span ng-include="'views/informes/tabFinales.tpl.html'"></span></uib-tab>
         </uib-tabset>
         <hr class="wide">
         <h5>Orientación de la página:</h5>

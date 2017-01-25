@@ -20,12 +20,15 @@ angular.module('myvcFrontApp')
 
 			ProfesoresServ.contratos().then((r)->
 				$scope.profesores = r
+
+				# Arreglamos paneles y selects cuando ya han llegado todos los datos
+				$scope.fixControles()
+
 			, (r2)->
 				toastr.error 'No se pudo traer los profesores'
 			)
 
 
-			$scope.fixControles()
 		, (r)->
 			toastr.error 'No se trajeron los años'
 		)
@@ -54,9 +57,16 @@ angular.module('myvcFrontApp')
 				genero_subunidad:		$scope.years[ultimo].genero_subunidad
 			}
 
-			# Abramos el año actual
+			
 			for year_cambiar in $scope.years
+				# Abramos panel del año actual
 				year_cambiar.ocultando = if year_cambiar.actual then false else true
+
+				# Arreglemos los selects
+				year_cambiar.rector 	=	$filter('filter')($scope.profesores, profesor_id: year_cambiar.rector_id, true)[0]
+				year_cambiar.secretario =	$filter('filter')($scope.profesores, profesor_id: year_cambiar.secretario_id, true)[0]
+				year_cambiar.tesorero 	=	$filter('filter')($scope.profesores, profesor_id: year_cambiar.tesorero_id, true)[0]
+				
 
 
 		
@@ -89,14 +99,13 @@ angular.module('myvcFrontApp')
 			)
 
 
-		$scope.toggleBloquearNotas = ()->
+		$scope.toggleBloquearNotas = (year_id, can)->
 
 			boleano = 0
-
-			if $scope.config.alumnos_can_see_notas == true
+			if can == true
 				boleano = 1
 
-			$http.put('::years/alumnos-can-see-notas/'+ boleano).then((r)->
+			$http.put('::years/alumnos-can-see-notas', { can: boleano, year_id: year_id }).then((r)->
 				toastr.success r.data
 			, (r2)->
 				toastr.warning 'No se pudo bloquear o desblequear el sistema.', 'Problema'

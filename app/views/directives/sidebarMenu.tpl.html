@@ -6,7 +6,12 @@
   </div><!-- /Page Sidebar Header -->
   <ul class="nav sidebar-menu hidden-print"><!--Dashboard-->
     <li ui-sref-active-eq="active"><a ui-sref="panel"><i class="menu-icon fa fa-home"></i><span class="menu-text">Inicio</span></a></li><!--Alumnos-->
-    <li ui-sref-active="active" ng-if="hasRoleOrPerm('admin')"><a ui-sref="panel.alumnos"><i class="menu-icon fa fa-child"></i><span class="menu-text">Alumnos</span></a></li><!-- Profesores-->
+    <li sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm('admin')" ng-class="{open:$state.includes('panel.alumnos')||$state.includes('panel.matriculas')}"><a href="" class="menu-dropdown"><i class="menu-icon fa fa-graduation-cap"></i><span class="menu-text">Alumnos</span><i class="menu-expand"></i></a>
+      <ul class="submenu">
+        <li ui-sref-active="active"><a ui-sref="panel.alumnos" stop-event="click"><span class="menu-text">Todos</span></a></li>
+        <li ui-sref-active="active"><a ui-sref="panel.matriculas" stop-event="click"><span class="menu-text">Matriculas</span></a></li>
+      </ul>
+    </li><!-- Profesores-->
     <li sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm('admin')" ng-class="{open:$state.includes('panel.profesores')}"><a href="" class="menu-dropdown"><i class="menu-icon fa fa-graduation-cap"></i><span class="menu-text">Profesores</span><i class="menu-expand"></i></a>
       <ul class="submenu">
         <li ui-sref-active="active"><a ui-sref="panel.profesores" stop-event="click"><span class="menu-text">Editar</span></a></li>

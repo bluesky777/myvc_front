@@ -41,13 +41,13 @@ angular.module('myvcFrontApp')
 					templateUrl: "==informes/boletinesPeriodo.tpl.html"
 					controller: 'BoletinesPeriodoCtrl'
 					resolve:
-						alumnosDat: ['$http', '$stateParams', '$q', '$cookieStore', ($http, $stateParams, $q, $cookieStore)->
+						alumnosDat: ['$http', '$stateParams', '$q', '$cookies', ($http, $stateParams, $q, $cookies)->
 
 							d = $q.defer()
 
 
-							requested_alumnos = $cookieStore.get 'requested_alumnos'
-							requested_alumno = $cookieStore.get 'requested_alumno'
+							requested_alumnos = $cookies.getObject 'requested_alumnos'
+							requested_alumno = $cookies.getObject 'requested_alumno'
 							
 							if requested_alumnos
 
@@ -183,13 +183,13 @@ angular.module('myvcFrontApp')
 					templateUrl: "==informes/boletinesFinales.tpl.html"
 					controller: 'BoletinesFinalesCtrl'
 					resolve:
-						alumnosDat: ['$http', '$stateParams', '$q', '$cookieStore', ($http, $stateParams, $q, $cookieStore)->
+						alumnosDat: ['$http', '$stateParams', '$q', '$cookies', ($http, $stateParams, $q, $cookies)->
 
 							d = $q.defer()
 
 
-							requested_alumnos = $cookieStore.get 'requested_alumnos'
-							requested_alumno = $cookieStore.get 'requested_alumno'
+							requested_alumnos = $cookies.getObject 'requested_alumnos'
+							requested_alumno = $cookies.getObject 'requested_alumno'
 							
 							if requested_alumnos
 
@@ -238,13 +238,13 @@ angular.module('myvcFrontApp')
 					templateUrl: "==informes/certificadosEstudio.tpl.html"
 					controller: 'CertificadosEstudioCtrl'
 					resolve:
-						alumnosDat: ['$http', '$stateParams', '$q', '$cookieStore', ($http, $stateParams, $q, $cookieStore)->
+						alumnosDat: ['$http', '$stateParams', '$q', '$cookies', ($http, $stateParams, $q, $cookies)->
 
 							d = $q.defer()
 
 
-							requested_alumnos = $cookieStore.get 'requested_alumnos'
-							requested_alumno = $cookieStore.get 'requested_alumno'
+							requested_alumnos = $cookies.getObject 'requested_alumnos'
+							requested_alumno = $cookies.getObject 'requested_alumno'
 							
 							if requested_alumnos
 

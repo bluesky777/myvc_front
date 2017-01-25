@@ -21,6 +21,7 @@ angular.module('myvcFrontApp')
 					displayName: 'Nuevo'
 					icon_fa: 'fa fa-male'
 					pageTitle: 'Nuevo alumno - MyVc'
+					needed_permissions: [PERMISSIONS.can_work_like_admin]
 
 
 			.state 'panel.alumnos.editar',
@@ -40,6 +41,7 @@ angular.module('myvcFrontApp')
 					displayName: 'Editar'
 					icon_fa: 'fa fa-users'
 					pageTitle: 'Editar alumno - MyVc'
+					needed_permissions: [PERMISSIONS.can_work_like_admin]
 
 
 			.state 'panel.listalumnos',
@@ -61,6 +63,29 @@ angular.module('myvcFrontApp')
 					displayName: 'Listado'
 					icon_fa: 'fa fa-users'
 					pageTitle: 'Listado alumnos - MyVc'
+					needed_permissions: [PERMISSIONS.can_work_like_teacher]
+
+
+
+			.state 'panel.matriculas',
+				url: '^/matriculas/:grupo_id'
+				param:
+					grupo_id: null
+				views: 
+					'maincontent':
+						templateUrl: "#{App.views}alumnos/matriculas.tpl.html"
+						controller: 'MatriculasCtrl'
+					'headerContent':
+						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						controller: 'PanelHeaderCtrl'
+						resolve: 
+							titulo: [->
+								'Matrículas de alumnos'
+							]
+				data: 
+					displayName: 'matriculas'
+					icon_fa: 'fa fa-users'
+					pageTitle: 'Matrículas alumnos - MyVc'
 					needed_permissions: [PERMISSIONS.can_work_like_teacher]
 
 

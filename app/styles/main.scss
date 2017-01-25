@@ -16273,5 +16273,19 @@ input.ocultar-input{
 .ticket-solicitud:hover{
     background-color: #EEEEEE;
 }
-
+.filagris td{
+    color: #ccc;
+}
+.filawarning td{
+    color: #cd9800;
+}
+.filadanger td{
+    color: #d73d32;
+}
+.filasestrechas td{
+    padding: 4px 2px 0px !important;
+}
+.filasestrechas td input[type=date]{
+    width: 135px;
+}
 

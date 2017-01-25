@@ -2,7 +2,7 @@ angular.module('myvcFrontApp')
 
 
 # Configuración principal de nuestra aplicación.
-.config(['$cookiesProvider', '$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationProvider', 'App', 'PERMISSIONS', '$intervalProvider', '$rootScopeProvider', 'USER_ROLES', 'toastrConfig', 'uiSelectConfig', ($cookies, $state, $urlRouter, $httpProvider, $locationProvider, App, PERMISSIONS, $intervalProvider, $rootScopeProvider, USER_ROLES, toastrConfig, uiSelectConfig)->
+.config(['$cookiesProvider', '$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryProvider', '$httpProvider', '$locationProvider', 'App', 'PERMISSIONS', '$intervalProvider', '$rootScopeProvider', 'USER_ROLES', 'toastrConfig', 'uiSelectConfig', ($cookies, $state, $urlRouter, $urlMatcherFactoryProvider, $httpProvider, $locationProvider, App, PERMISSIONS, $intervalProvider, $rootScopeProvider, USER_ROLES, toastrConfig, uiSelectConfig)->
 
 	#Restangular.setBaseUrl App.Server # Url a la que se harán todas las llamadas.
 	
@@ -37,7 +37,9 @@ angular.module('myvcFrontApp')
 
 	uiSelectConfig.theme = 'select2'
 	uiSelectConfig.resetSearchInput = true
-
+	
+	# Los estados con parámetros opcionales siguen sin funcionar cuando se les quita el slash. stricMode arregla al menos los demás que no tienen parametros opcionales
+	$urlMatcherFactoryProvider.strictMode(false);
 
 	#- Definimos los estados
 	$urlRouter.otherwise('/')

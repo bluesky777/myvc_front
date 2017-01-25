@@ -16,10 +16,23 @@
 				i.menu-icon.fa.fa-home
 				span.menu-text Inicio
 		<!--Alumnos-->
-		li(ui-sref-active="active" ng-if="hasRoleOrPerm('admin')")
-			a(ui-sref="panel.alumnos")
-				i.menu-icon.fa.fa-child
+		li(sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm('admin')" ng-class="{open:$state.includes('panel.alumnos')||$state.includes('panel.matriculas')}")
+			a.menu-dropdown(href="")
+				i.menu-icon.fa.fa-graduation-cap
 				span.menu-text Alumnos
+				i.menu-expand
+
+			ul.submenu
+				li( ui-sref-active="active")
+					a(ui-sref="panel.alumnos" stop-event="click")
+						span.menu-text Todos
+						
+				li( ui-sref-active="active")
+					a(ui-sref="panel.matriculas" stop-event="click")
+						span.menu-text Matriculas
+
+
+
 		<!-- Profesores-->
 		li(sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm('admin')" ng-class="{open:$state.includes('panel.profesores')}")
 			a.menu-dropdown(href="")

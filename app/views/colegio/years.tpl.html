@@ -40,9 +40,9 @@
                 <div class="row">
                   <div class="col-sm-12">
                     <div class="form-group">
-                      <label uib-tooltip="Puedes bloquear el sistema momentaneamente para que los alumnos y acudientes no puedan ver las notas.">Alumnos pueden ver sus notas</label>
+                      <label uib-tooltip="Puedes bloquear el sistema momentaneamente para que los alumnos y acudientes no puedan ver las notas.">Alumnos pueden ver sus notas </label>
                       <label>
-                        <input type="checkbox" ng-change="toggleBloquearNotas()" ng-model="year.alumnos_can_see_notas" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                        <input type="checkbox" ng-change="toggleBloquearNotas(year.id, year.alumnos_can_see_notas)" ng-true-value="1" ng-false-value="0" ng-model="year.alumnos_can_see_notas" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
                       </label>
                     </div>
                   </div>
