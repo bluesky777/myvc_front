@@ -5,7 +5,7 @@
 	.col-xs-12.col-md-12
 		.well.with-header.with-footer
 			.header.bordered-yellow Alumnos 
-				a.btn.btn-info.shiny(ui-sref="panel.alumnos.nuevo" uib-tooltip="Ingresa datos de un nuevo alumno") Crear alumno
+				a.btn.btn-info.shiny(ui-sref="panel.matriculas.nuevo" uib-tooltip="Ingresa datos de un nuevo alumno") Crear alumno
 			
 			.form-group
 				label Grupo en el cual matricular
@@ -62,6 +62,10 @@
 						td 
 							| {{ alumno.no_matricula }}
 
+							.menuflotando
+								a.btn.btn-default.btn-xs(ui-sref="panel.matriculas.detalles({alumno_id: alumno.alumno_id})") 
+									i.fa.fa-pencil
+
 						td 
 							div( uib-popover-template="views+'alumnos/popoverAlumnoInfo.tpl.html'" 
 								popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" 
@@ -104,4 +108,5 @@
 						td 
 
 
+.row(ui-view="matricula_detalle")
 

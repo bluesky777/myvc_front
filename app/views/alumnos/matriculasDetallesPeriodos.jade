@@ -1,0 +1,82 @@
+.col-xs-12.col-md-12
+	.row(ng-show="matric_cargando" style="text-align: center; font-size: xx-large;")
+		i.fa.fa-spinner.fa-spin
+		.sr-only  Cargando...
+	.row(ng-if="matricula_detalle")
+		.col-xs-12.col-md-12
+			div(style="padding: 10px") Grupos en los que el estudiante tiene notas en el año de esta matrícula:
+
+			div(ng-repeat="grupo in matricula_detalle")
+
+
+				h5(style="background-color: #8ae0ee; padding: 8px;") 
+					| {{ grupo.nombre }} ({{grupo.abrev}}) - 
+					span(style="font-weight: bold") {{grupo.year}} 
+					span ::: Matricula ID: 
+
+					span(ng-repeat="matricula_year_grupo in grupo.matriculas_year_grupo")
+						span(ng-hide="$first")  -  
+						span.content-menu-elim-matric(style="position: relative;") 
+							| {{matricula_year_grupo.matricula_id}} 
+							span.menu-elim-matric 
+								a.btn.btn-danger(ng-click="eliminarMatriculaDestroy(grupo.matriculas_year_grupo, matricula_year_grupo.matricula_id)")
+									| Eliminar
+
+						span(ng-hide="$last")  -  
+
+
+
+
+				div(style="padding-left: 15px; padding-right: 8px;")
+					uib-accordion(close-others="true")
+						uib-accordion-group(heading="Periodo {{periodo.numero}} " ng-repeat="periodo in grupo.periodos")
+
+							a(ng-click="eliminarNotasPeriodo(periodo, grupo)" href="" style="color: red") Eliminar todas las notas de este periodo (¡peligroso!)
+
+							.materia-item.animated(ng-repeat="asignatura in periodo.asignaturas")
+								.row.materia-title(style="font-size: 10pt;" popover="<img src='{{perfilPath + asignatura.foto_nombre}}' style='width: 150px; height: 150px;'>" 
+													popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" 
+													popover-trigger="mouseenter")
+									.col-lg-9.col-xs-9
+										span.materia-name {{asignatura.materia}}
+										span.materia-profesor(ng-if="!hasRoleOrPerm('profesor')") - Pr. {{asignatura.nombres_profesor | capitalize}}
+									.col-lg-1.col-xs-2(ng-class="{'nota-perdida': asignatura.nota_asignatura<USER.nota_minima_aceptada}")
+										| {{ asignatura.nota_asignatura | juicioValorativo:escalas:true}} 
+									.col-lg-1.col-xs-1
+										div(ng-class="{'nota-perdida-bold': asignatura.nota_asignatura<USER.nota_minima_aceptada}")
+											| {{asignatura.nota_asignatura | number:0}}
+								
+								.row.unidades-list
+									.col-lg-12.col-xs-12
+										.row.unidades-item.animated(ng-repeat="unidad in asignatura.unidades | soloUnidadesConPerdidas:config.solo_notas_perdidas")
+											.col-lg-12.col-xs-12
+												.row
+													.col-lg-10.col-xs-10.unidad-definicion
+														| {{unidad.definicion_unidad}}
+													.col-lg-1.col-xs-2.unidad-porc
+														| {{unidad.porcentaje_unidad}}% - {{unidad.nota_unidad | number:0}}
+												.row.subunidades-list(ng-repeat="subunidad in unidad.subunidades | soloSubunidadesPerdidas:config.solo_notas_perdidas" style="font-size: 9pt;")
+													.col-lg-12.col-xs-12
+														.row
+															.col-lg-10.col-xs-10.subunidad-definicion
+																| {{subunidad.definicion_subunidad}}
+															.col-lg-1.col-xs-1.subunidad-porc()
+																| {{subunidad.porcentaje_subunidad}}%
+
+															.col-lg-1.col-xs-1.subunidad-nota.puntero(ng-if="!hasRoleOrPerm(['admin', 'profesor'])")
+																span(ng-class="{'nota-perdida-bold': subunidad.nota.nota<USER.nota_minima_aceptada}" uib-tooltip="Valor nota: {{subunidad.nota.valor}}") {{subunidad.nota.nota}}
+																
+																span.nota-perdida(ng-show="!subunidad.nota.nota && subunidad.nota.nota!=0" uib-tooltip="Aún sin nota")
+																	i.fa.fa-warning
+
+															.col-lg-1.col-xs-1(ng-class="{'inputnota-perdida': subunidad.nota.nota < USER.nota_minima_aceptada}" 
+																ng-if="hasRoleOrPerm(['admin', 'profesor'])")
+
+																input(type="number" min="0" max="100" 
+																	ng-model="subunidad.nota.nota" 
+																	ng-change="cambiaNota(subunidad.nota, subunidad.nota.nota)"
+																	ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+
+				
+

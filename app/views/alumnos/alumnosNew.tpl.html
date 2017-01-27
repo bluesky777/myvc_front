@@ -242,7 +242,7 @@
               </div>
             </uib-tab>
           </uib-tabset><br>
-          <input type="submit" ng-submit="crear()" value="Crear" class="btn btn-primary btn-lg shiny"><a type="button" ui-sref="panel.alumnos" class="btn btn-danger btn-lg shiny">Ocultar</a>
+          <input type="submit" ng-submit="crear()" value="Crear" class="btn btn-primary btn-lg shiny"><span ng-show="$state.includes('panel.matriculas')"><a type="button" ui-sref="panel.matriculas" class="btn btn-danger btn-lg shiny">Cerrar</a></span><span ng-show="$state.includes('panel.alumnos')"><a type="button" ui-sref="panel.alumnos" class="btn btn-danger btn-lg shiny">Cerrar</a></span>
         </form>
       </div>
     </div>

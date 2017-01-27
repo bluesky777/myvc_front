@@ -16288,4 +16288,24 @@ input.ocultar-input{
 .filasestrechas td input[type=date]{
     width: 135px;
 }
+.fila-seleccionada{
+    background-color: #b6e5f1!important;
+}
+
+.content-menu-elim-matric{
+    position: relative;
+    
+}
+.content-menu-elim-matric:hover .menu-elim-matric{
+    opacity: 1;
+    top: -30px;
+}
+
+.menu-elim-matric{
+    position: absolute; 
+    top: -28px; 
+    left: -18px;
+    transition: all 0.5s;
+    opacity: 0;
+}
 

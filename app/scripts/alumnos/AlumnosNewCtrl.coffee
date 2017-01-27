@@ -2,8 +2,9 @@
 
 angular.module("myvcFrontApp")
 
-.controller('AlumnosNewCtrl', ['$scope', '$rootScope', 'toastr', '$http', '$filter', ($scope, $rootScope, toastr, $http, $filter)->
+.controller('AlumnosNewCtrl', ['$scope', '$rootScope', 'toastr', '$http', '$filter', '$state', ($scope, $rootScope, toastr, $http, $filter, $state)->
 	$scope.data = {} # Para el popup del Datapicker
+	$scope.$state = $state;
 
 	$scope.alumno = 
 		'no_matricula'	: ''

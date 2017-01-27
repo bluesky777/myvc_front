@@ -3,7 +3,7 @@
 <div class="row">
   <div class="col-xs-12 col-md-12">
     <div class="well with-header with-footer">
-      <div class="header bordered-yellow">Alumnos <a ui-sref="panel.alumnos.nuevo" uib-tooltip="Ingresa datos de un nuevo alumno" class="btn btn-info shiny">Crear alumno</a></div>
+      <div class="header bordered-yellow">Alumnos <a ui-sref="panel.matriculas.nuevo" uib-tooltip="Ingresa datos de un nuevo alumno" class="btn btn-info shiny">Crear alumno</a></div>
       <div class="form-group">
         <label>Grupo en el cual matricular</label>
         <div><span uib-tooltip="Debe seleccionar un grupo" tooltip-placement="right">
@@ -33,6 +33,7 @@
             <td>
                
               {{ alumno.no_matricula }}
+              <div class="menuflotando"><a ui-sref="panel.matriculas.detalles({alumno_id: alumno.alumno_id})" class="btn btn-default btn-xs"> <i class="fa fa-pencil"></i></a></div>
             </td>
             <td> 
               <div uib-popover-template="views+'alumnos/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="mouseenter" popover-popup-delay="500"> <img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 20px; height: 20px; margin-top: -3px;">{{ alumno.apellidos }}</div>
@@ -76,3 +77,4 @@
     </div>
   </div>
 </div>
+<div ui-view="matricula_detalle" class="row"></div>

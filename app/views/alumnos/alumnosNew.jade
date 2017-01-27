@@ -197,6 +197,9 @@
 
 					br
 					input.btn.btn-primary.btn-lg.shiny(type="submit" ng-submit="crear()" value="Crear") 
-					a.btn.btn-danger.btn-lg.shiny(type="button" ui-sref="panel.alumnos") Ocultar
+					span(ng-show="$state.includes('panel.matriculas')")
+						a.btn.btn-danger.btn-lg.shiny(type="button" ui-sref="panel.matriculas") Cerrar
+					span(ng-show="$state.includes('panel.alumnos')")
+						a.btn.btn-danger.btn-lg.shiny(type="button" ui-sref="panel.alumnos") Cerrar
 					
 

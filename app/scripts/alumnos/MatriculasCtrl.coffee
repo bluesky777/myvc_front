@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('MatriculasCtrl', ['$scope', 'App', '$rootScope', '$state', '$interval', 'uiGridConstants', '$uibModal', '$filter', 'AuthService', 'toastr', '$http', ($scope, App, $rootScope, $state, $interval, uiGridConstants, $modal, $filter, AuthService, toastr, $http)->
+.controller('MatriculasCtrl', ['$scope', 'App', '$state', '$interval', '$uibModal', '$filter', 'AuthService', 'toastr', '$http', ($scope, App, $state, $interval, $modal, $filter, AuthService, toastr, $http)->
 
 	AuthService.verificar_acceso()
 
@@ -171,19 +171,3 @@ angular.module("myvcFrontApp")
 	return
 ])
 
-.controller('RemoveAlumnoCtrl', ['$scope', '$uibModalInstance', 'alumno', '$http', 'toastr', ($scope, $modalInstance, alumno, $http, toastr)->
-	$scope.alumno = alumno
-
-	$scope.ok = ()->
-
-		$http.delete('::alumnos/destroy/'+alumno.alumno_id).then((r)->
-			toastr.success 'Alumno enviado a la papelera.', 'Eliminado'
-		, (r2)->
-			toastr.warning 'No se pudo enviar a la papelera.', 'Problema'
-		)
-		$modalInstance.close(alumno)
-
-	$scope.cancel = ()->
-		$modalInstance.dismiss('cancel')
-
-])

@@ -1,0 +1,57 @@
+
+.row
+	.col-xs-12.col-md-12
+		.well.with-header.with-footer
+			.header.bordered-yellow Matriculas en detalle
+
+			h3 
+				img(ng-src="{{perfilPath + matriculas[0].foto_nombre}}" style="width: 50px; height: 50px;")
+				| {{ matriculas[0].apellidos }}
+				| {{ matriculas[0].nombres }}
+
+			table.table.table-striped
+				thead
+					tr
+						th(style="max-width: 10px") No
+						th ID 
+						th Matrícula 
+						th Grupo 
+						th Año
+						th Estado
+						th Fecha creación
+						th Fecha matrícula
+						th Eliminada en
+				tbody
+					tr.pointer(ng-repeat="matricula in matriculas" 
+						ng-class="{'filadanger': matricula.deleted_at_matricula!=null, 'fila-seleccionada': matricula.seleccionada==true }"
+						ng-click="matricSeleccionada(matricula)" )
+						
+						td {{ $index+1 }}
+						td {{ matricula.matricula_id }}
+						td {{ matricula.no_matricula }}
+
+						td {{ matricula.nombre_grupo }} ({{ matricula.abrev_grupo }})
+						td {{ matricula.year }}
+						td {{ matricula.estado }}
+						td {{ matricula.fecha_creacion_matr }}
+						td {{ matricula.fecha_matricula }}
+						td 
+							span(ng-show="matricula.deleted_at_matricula!=null" uib-tooltip="Esta matrícula está en papelera de reciclaje")
+								{{ matricula.deleted_at_matricula }}
+
+				tfoot
+					tr
+						td 
+						td 
+						td 
+						td 
+						td 
+						td 
+						td 
+						td 
+
+			matriculas-detalles-periodos-dir
+
+			.row(ui-view="matricula_detalle_periodos")
+
+

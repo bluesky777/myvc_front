@@ -68,9 +68,7 @@ angular.module('myvcFrontApp')
 
 
 			.state 'panel.matriculas',
-				url: '^/matriculas/:grupo_id'
-				param:
-					grupo_id: null
+				url: '^/matriculas'
 				views: 
 					'maincontent':
 						templateUrl: "#{App.views}alumnos/matriculas.tpl.html"
@@ -85,6 +83,70 @@ angular.module('myvcFrontApp')
 				data: 
 					displayName: 'matriculas'
 					icon_fa: 'fa fa-users'
+					pageTitle: 'Matrículas alumnos - MyVc'
+					needed_permissions: [PERMISSIONS.can_work_like_teacher]
+
+
+		$state
+			.state 'panel.matriculas.nuevo',
+				url: '/nuevo'
+				views: 
+					'edit_alumno':
+						templateUrl: "#{App.views}alumnos/alumnosNew.tpl.html"
+						controller: 'AlumnosNewCtrl'
+					'headerContent':
+						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						controller: 'PanelHeaderCtrl'
+						resolve:
+							titulo: [->
+								'Nuevo alumno'
+							]
+				data: 
+					displayName: 'Nuevo'
+					icon_fa: 'fa fa-male'
+					pageTitle: 'Nuevo alumno - MyVc'
+					needed_permissions: [PERMISSIONS.can_work_like_admin]
+
+
+			.state 'panel.matriculas.detalles',
+				url: '^/matriculas/detalles/:alumno_id'
+				param:
+					alumno_id: null
+				views: 
+					'matricula_detalle':
+						templateUrl: "#{App.views}alumnos/matriculasDetalles.tpl.html"
+						controller: 'MatriculasDetallesCtrl'
+					'headerContent':
+						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						controller: 'PanelHeaderCtrl'
+						resolve: 
+							titulo: [->
+								'Matrículas detalladas'
+							]
+				data: 
+					displayName: 'detalles'
+					icon_fa: 'fa fa-pencil'
+					pageTitle: 'Matrículas alumnos - MyVc'
+					needed_permissions: [PERMISSIONS.can_work_like_teacher]
+
+			.state 'panel.matriculas.detalles.periodos',
+				url: '^/matriculas/detalles/:alumno_id/periodos'
+				param:
+					alumno_id: null
+				views: 
+					'matricula_detalle_periodos':
+						templateUrl: "#{App.views}alumnos/matriculasDetallesPeriodos.tpl.html"
+						controller: 'MatriculasDetallesPeriodosCtrl'
+					'headerContent':
+						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						controller: 'PanelHeaderCtrl'
+						resolve: 
+							titulo: [->
+								'Matrículas detalladas'
+							]
+				data: 
+					displayName: 'periodos'
+					icon_fa: 'fa fa-ioxhost'
 					pageTitle: 'Matrículas alumnos - MyVc'
 					needed_permissions: [PERMISSIONS.can_work_like_teacher]
 
