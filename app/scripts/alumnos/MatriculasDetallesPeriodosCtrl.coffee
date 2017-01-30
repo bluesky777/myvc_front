@@ -36,7 +36,7 @@ angular.module("myvcFrontApp")
 		if matriculas_year_grupo.length == 1
 			res = confirm('Solo queda esta matricula para este grupo, ¿Está seguro que quiere eliminarla definitivamente?')
 		else 	
-			res = confirm('¿Está seguro que quiere eliminar matricula ' + matricula_id + ' definitivamente?')
+			res = confirm('¿Está seguro que quiere eliminar la matricula ' + matricula_id + ' definitivamente?')
 
 		if res 
 			
@@ -46,6 +46,8 @@ angular.module("myvcFrontApp")
 					toastr.warning 'No se eliminó matricula'
 				else 
 					toastr.success 'Matricula ' + matricula_id + ' eliminada.'
+					$scope.matriculas 			= $filter('filter')($scope.matriculas, {matricula_id: '!'+matricula_id})
+					matriculas_year_grupo 		= $filter('filter')(matriculas_year_grupo, {matricula_id: '!'+matricula_id})
 			, (r2)->
 				toastr.error 'No se pudo eliminar la matricula ' + matricula_id, 'Error'
 			)

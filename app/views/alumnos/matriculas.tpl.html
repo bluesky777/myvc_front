@@ -28,12 +28,12 @@
           </tr>
         </thead>
         <tbody class="filasestrechas">
-          <tr ng-repeat="alumno in alumnos_all | orderBy:dato.sortType:dato.sortReverse" ng-class="{'filagris': alumno.grupo_id!=dato.grupo.id, 'filawarning': alumno.estado=='RETI', 'filadanger': alumno.estado=='ASIS' }">
+          <tr ng-repeat="alumno in alumnos_all | filter: filterActuales | orderBy:dato.sortType:dato.sortReverse  track by $index" ng-class="{'filagris': alumno.grupo_id!=dato.grupo.id, 'filawarning': alumno.estado=='RETI', 'filadanger': alumno.estado=='ASIS' }">
             <td>{{ $index+1 }}</td>
-            <td>
+            <td class="content-menu-matrics">
                
               {{ alumno.no_matricula }}
-              <div class="menuflotando"><a ui-sref="panel.matriculas.detalles({alumno_id: alumno.alumno_id})" class="btn btn-default btn-xs"> <i class="fa fa-pencil"></i></a></div>
+              <div><a ui-sref="panel.matriculas.detalles({alumno_id: alumno.alumno_id})" uib-tooltip="Ver matrículas" class="btn btn-default btn-xs menu-matrics"> <i class="fa fa-pencil"></i></a></div>
             </td>
             <td> 
               <div uib-popover-template="views+'alumnos/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="mouseenter" popover-popup-delay="500"> <img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 20px; height: 20px; margin-top: -3px;">{{ alumno.apellidos }}</div>
@@ -48,9 +48,42 @@
                   <label ng-model="alumno.estado" uib-btn-radio="'ASIS'" ng-click="setAsistente(alumno)" class="btn btn-info btn-xs">Asis</label>
                   <label ng-model="alumno.estado" uib-btn-radio="'RETI'" ng-click="retirar(alumno)" class="btn btn-info btn-xs">Reti</label></span></span>
               <div ng-show="alumno.grupo_id!=dato.grupo.id " style="margin-top: -2px; padding-bottom: 2px;" class="btn-group">
-                <label ng-click="setNewAsistente(alumno)" class="btn btn-success shiny btn-xs">Asis</label>
-                <label ng-click="matricularUno(alumno)" class="btn btn-success shiny btn-xs">Matric</label>
-                <label ng-click="matricularMas(alumno)" class="btn btn-success shiny btn-xs">...</label>
+                <label ng-click="setNewAsistente(alumno)" uib-tooltip="Inscribir como asistente" class="btn btn-success shiny btn-xs">Asis</label>
+                <label ng-click="matricularUno(alumno)" uib-tooltip="Matricular" class="btn btn-success shiny btn-xs">Matric</label>
+                <label ng-click="matricularEn(alumno)" uib-tooltip="Matricular en..." tooltip-placement="right" class="btn btn-success shiny btn-xs">...</label>
+              </div>
+            </td>
+            <td> 
+              <input ng-model="alumno.fecha_retiro" type="date" ng-show="alumno.estado=='RETI'" ng-change="cambiarFechaRetiro(alumno)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }">
+            </td>
+            <td> 
+              <input ng-model="alumno.fecha_matricula" type="date" ng-change="cambiarFechaMatricula(alumno)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }">
+            </td>
+          </tr>
+          <!-- Ahora mostraremos los que NO son de este, año este grupo-->
+          <tr ng-repeat="alumno in alumnos_all | filter: filterNOActuales | orderBy:dato.sortType:dato.sortReverse  track by $index" ng-class="{'filagris': alumno.grupo_id!=dato.grupo.id, 'filawarning': alumno.estado=='RETI', 'filadanger': alumno.estado=='ASIS' }">
+            <td>{{ $index+1 }}</td>
+            <td class="content-menu-matrics">
+               
+              {{ alumno.no_matricula }}
+              <div><a ui-sref="panel.matriculas.detalles({alumno_id: alumno.alumno_id})" uib-tooltip="Ver matrículas" class="btn btn-default btn-xs menu-matrics"> <i class="fa fa-pencil"></i></a></div>
+            </td>
+            <td> 
+              <div uib-popover-template="views+'alumnos/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="mouseenter" popover-popup-delay="500"> <img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 20px; height: 20px; margin-top: -3px;">{{ alumno.apellidos }}</div>
+            </td>
+            <td>
+               
+              {{ alumno.nombres }}
+            </td>
+            <td>{{ alumno.sexo }}</td>
+            <td><span ng-show="alumno.grupo_id==dato.grupo.id"><span style="margin-top: -2px; padding-bottom: 2px;" class="btn-group">
+                  <label ng-model="alumno.estado" uib-btn-radio="'MATR'" ng-click="reMatricularUno(alumno)" class="btn btn-info btn-xs">Matr</label>
+                  <label ng-model="alumno.estado" uib-btn-radio="'ASIS'" ng-click="setAsistente(alumno)" class="btn btn-info btn-xs">Asis</label>
+                  <label ng-model="alumno.estado" uib-btn-radio="'RETI'" ng-click="retirar(alumno)" class="btn btn-info btn-xs">Reti</label></span></span>
+              <div ng-show="alumno.grupo_id!=dato.grupo.id " style="margin-top: -2px; padding-bottom: 2px;" class="btn-group">
+                <label ng-click="setNewAsistente(alumno)" uib-tooltip="Inscribir como asistente" class="btn btn-success shiny btn-xs">Asis</label>
+                <label ng-click="matricularUno(alumno)" uib-tooltip="Matricular" class="btn btn-success shiny btn-xs">Matric</label>
+                <label ng-click="matricularEn(alumno)" uib-tooltip="Matricular en..." tooltip-placement="right" class="btn btn-success shiny btn-xs">...</label>
               </div>
             </td>
             <td> 

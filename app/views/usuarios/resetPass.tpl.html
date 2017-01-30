@@ -1,6 +1,6 @@
 
 <div class="modal-header">
-  <h3 class="modal-title">¿Seguro que deseas eliminar?</h3>
+  <h3 class="modal-title">Cambiar contraseña</h3>
 </div>
 <div class="modal-body">
   <div class="row">
@@ -13,7 +13,7 @@
       <form role="form" class="form form-inline">
         <div class="form-group">
           <label>Contraseña</label>
-          <input type="text" ng-model="newpassword" placeholder="Puede dejar vacío" class="form-control">
+          <input ng-attr-type="{{ showPassword ? 'text' : 'password' }}" ng-model="newpassword" placeholder="Puede dejar vacío" ng-dblclick="showPassword=!showPassword" class="form-control">
         </div>
       </form>
     </div>

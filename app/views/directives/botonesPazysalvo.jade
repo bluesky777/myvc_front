@@ -3,7 +3,11 @@ div(style="text-align:right;")
 	| {{row.entity.deuda | currency:"$":0 }}
 
 
-	a.btn.btn-xs(ng-class="{'btn-info':row.entity.pazysalvo, 'btn-warning':!row.entity.pazysalvo }" ng-click="grid.appScope.cambiarPazysalvo(row.entity);" uib-tooltip="¿A paz y salvo?" tooltip-placement="left" href="") 
+	a.btn.btn-xs(ng-class="{'btn-info':row.entity.pazysalvo, 'btn-warning':!row.entity.pazysalvo }" 
+		ng-click="grid.appScope.cambiarPazysalvo(row.entity);" 
+		uib-tooltip="NO está al día" tooltip-placement="left" href="" 
+		tooltip-enable="!row.entity.pazysalvo") 
+		
 		i.fa.fa-times(ng-hide="row.entity.pazysalvo")
 		i.fa.fa-check(ng-show="row.entity.pazysalvo")
 		| A paz

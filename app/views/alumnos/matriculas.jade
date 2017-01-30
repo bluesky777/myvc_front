@@ -56,14 +56,15 @@
 								| Matriculado 
 								span.fa.fa-caret-down(ng-show="dato.sortType == 'fecha_matricula' && !dato.sortReverse")
 								span.fa.fa-caret-up(ng-show="dato.sortType == 'fecha_matricula' && dato.sortReverse")
+				
 				tbody.filasestrechas
-					tr(ng-repeat="alumno in alumnos_all | orderBy:dato.sortType:dato.sortReverse" ng-class="{'filagris': alumno.grupo_id!=dato.grupo.id, 'filawarning': alumno.estado=='RETI', 'filadanger': alumno.estado=='ASIS' }")
+					tr(ng-repeat="alumno in alumnos_all | filter: filterActuales | orderBy:dato.sortType:dato.sortReverse  track by $index" ng-class="{'filagris': alumno.grupo_id!=dato.grupo.id, 'filawarning': alumno.estado=='RETI', 'filadanger': alumno.estado=='ASIS' }")
 						td {{ $index+1 }}
-						td 
+						td.content-menu-matrics 
 							| {{ alumno.no_matricula }}
 
-							.menuflotando
-								a.btn.btn-default.btn-xs(ui-sref="panel.matriculas.detalles({alumno_id: alumno.alumno_id})") 
+							div
+								a.btn.btn-default.btn-xs.menu-matrics(ui-sref="panel.matriculas.detalles({alumno_id: alumno.alumno_id})" uib-tooltip="Ver matrículas") 
 									i.fa.fa-pencil
 
 						td 
@@ -86,9 +87,52 @@
 									label.btn.btn-info.btn-xs(ng-model="alumno.estado" uib-btn-radio="'RETI'" ng-click="retirar(alumno)") Reti
 
 							.btn-group(ng-show="alumno.grupo_id!=dato.grupo.id " style="margin-top: -2px; padding-bottom: 2px;")
-								label.btn.btn-success.shiny.btn-xs(ng-click="setNewAsistente(alumno)") Asis
-								label.btn.btn-success.shiny.btn-xs(ng-click="matricularUno(alumno)") Matric
-								label.btn.btn-success.shiny.btn-xs(ng-click="matricularMas(alumno)") ...
+								label.btn.btn-success.shiny.btn-xs(ng-click="setNewAsistente(alumno)" uib-tooltip="Inscribir como asistente") Asis
+								label.btn.btn-success.shiny.btn-xs(ng-click="matricularUno(alumno)" uib-tooltip="Matricular") Matric
+								label.btn.btn-success.shiny.btn-xs(ng-click="matricularEn(alumno)" uib-tooltip="Matricular en..." tooltip-placement="right") ...
+
+						td 
+							input(ng-model="alumno.fecha_retiro" type="date" ng-show="alumno.estado=='RETI'" 
+								ng-change="cambiarFechaRetiro(alumno)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+						td 
+							input(ng-model="alumno.fecha_matricula" type="date" ng-change="cambiarFechaMatricula(alumno)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+
+					
+					// Ahora mostraremos los que NO son de este, año este grupo
+
+					tr(ng-repeat="alumno in alumnos_all | filter: filterNOActuales | orderBy:dato.sortType:dato.sortReverse  track by $index" ng-class="{'filagris': alumno.grupo_id!=dato.grupo.id, 'filawarning': alumno.estado=='RETI', 'filadanger': alumno.estado=='ASIS' }")
+						td {{ $index+1 }}
+						td.content-menu-matrics 
+							| {{ alumno.no_matricula }}
+
+							div
+								a.btn.btn-default.btn-xs.menu-matrics(ui-sref="panel.matriculas.detalles({alumno_id: alumno.alumno_id})" uib-tooltip="Ver matrículas") 
+									i.fa.fa-pencil
+
+						td 
+							div( uib-popover-template="views+'alumnos/popoverAlumnoInfo.tpl.html'" 
+								popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" 
+								popover-trigger="mouseenter" popover-popup-delay="500") 
+
+								img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 20px; height: 20px; margin-top: -3px;")
+								| {{ alumno.apellidos }}
+						td 
+							| {{ alumno.nombres }}
+
+						td {{ alumno.sexo }}
+						td
+							span(ng-show="alumno.grupo_id==dato.grupo.id")
+								
+								span.btn-group(style="margin-top: -2px; padding-bottom: 2px;")
+									label.btn.btn-info.btn-xs(ng-model="alumno.estado" uib-btn-radio="'MATR'" ng-click="reMatricularUno(alumno)") Matr
+									label.btn.btn-info.btn-xs(ng-model="alumno.estado" uib-btn-radio="'ASIS'" ng-click="setAsistente(alumno)") Asis
+									label.btn.btn-info.btn-xs(ng-model="alumno.estado" uib-btn-radio="'RETI'" ng-click="retirar(alumno)") Reti
+
+							.btn-group(ng-show="alumno.grupo_id!=dato.grupo.id " style="margin-top: -2px; padding-bottom: 2px;")
+								label.btn.btn-success.shiny.btn-xs(ng-click="setNewAsistente(alumno)" uib-tooltip="Inscribir como asistente") Asis
+								label.btn.btn-success.shiny.btn-xs(ng-click="matricularUno(alumno)" uib-tooltip="Matricular") Matric
+								label.btn.btn-success.shiny.btn-xs(ng-click="matricularEn(alumno)" uib-tooltip="Matricular en..." tooltip-placement="right") ...
 
 						td 
 							input(ng-model="alumno.fecha_retiro" type="date" ng-show="alumno.estado=='RETI'" 

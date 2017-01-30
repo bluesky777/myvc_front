@@ -16,7 +16,7 @@
 				i.menu-icon.fa.fa-home
 				span.menu-text Inicio
 		<!--Alumnos-->
-		li(sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm('admin')" ng-class="{open:$state.includes('panel.alumnos')||$state.includes('panel.matriculas')}")
+		li(sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm('admin')" ng-class="{open:$state.includes('panel.alumnos')||$state.includes('panel.matriculas')||$state.includes('panel.cartera')}")
 			a.menu-dropdown(href="")
 				i.menu-icon.fa.fa-child
 				span.menu-text Alumnos
@@ -30,6 +30,10 @@
 				li( ui-sref-active="active")
 					a(ui-sref="panel.matriculas" stop-event="click")
 						span.menu-text Matriculas
+
+				li( ui-sref-active="active")
+					a(ui-sref="panel.cartera" stop-event="click")
+						span.menu-text Cartera
 
 
 

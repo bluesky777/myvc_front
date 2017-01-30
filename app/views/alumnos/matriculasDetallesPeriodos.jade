@@ -16,7 +16,7 @@
 
 					span(ng-repeat="matricula_year_grupo in grupo.matriculas_year_grupo")
 						span(ng-hide="$first")  -  
-						span.content-menu-elim-matric(style="position: relative;") 
+						span.content-menu-elim-matric
 							| {{matricula_year_grupo.matricula_id}} 
 							span.menu-elim-matric 
 								a.btn.btn-danger(ng-click="eliminarMatriculaDestroy(grupo.matriculas_year_grupo, matricula_year_grupo.matricula_id)")

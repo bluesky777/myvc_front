@@ -2,8 +2,8 @@
 
 angular.module('myvcFrontApp')
 
-.controller('PanelCtrl', ['$scope', '$http', '$state', '$cookies', '$rootScope', 'AuthService', 'Perfil', 'App', 'resolved_user', 'toastr', 'cfpLoadingBar', 
-	($scope, $http, $state, $cookies, $rootScope, AuthService, Perfil, App, resolved_user, toastr, cfpLoadingBar) ->
+.controller('PanelCtrl', ['$scope', '$http', '$state', '$cookies', '$rootScope', 'AuthService', 'Perfil', 'App', 'resolved_user', 'toastr', 'cfpLoadingBar', '$window',  
+	($scope, $http, $state, $cookies, $rootScope, AuthService, Perfil, App, resolved_user, toastr, cfpLoadingBar, $window) ->
 
 		$scope.USER = resolved_user
 		$scope.pageTitle = $rootScope.pageTitle
@@ -103,7 +103,8 @@ angular.module('myvcFrontApp')
 
 				toastr.success 'Año cambiado con éxito: ' + year.year, 'Cambiado' 
 				
-				$rootScope.reload()
+				$window.location.reload() # Actualizamos toda la página al cambiar el año
+				# $rootScope.reload() # No funciona correctamente
 
 			, (r2)->
 				toastr.warning 'No se pudo cambiar el año.', 'Problema'

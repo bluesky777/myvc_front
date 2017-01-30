@@ -11,6 +11,8 @@ angular.module("myvcFrontApp")
 		sortMatriculaReverse: 	false
 		sortNombres: 			false
 		sortNombresReverse: 	false
+		sortType: 				'apellidos'
+		sortReverse: 			false
 	}
 
 	$scope.year_ant 				= $scope.USER.year - 1
@@ -98,6 +100,9 @@ angular.module("myvcFrontApp")
 
 
 	$scope.reMatricularUno = (row)->
+		if row.estado == 'MATR'
+			return
+
 		if not $scope.dato.grupo.id
 			toastr.warning 'Debes definir el grupo al que vas a matricular.', 'Falta grupo'
 			return
@@ -112,6 +117,24 @@ angular.module("myvcFrontApp")
 			toastr.error 'No se pudo matricular el alumno.', 'Error'
 
 		)
+
+
+	$scope.matricularEn = (row)->
+		modalInstance = $modal.open({
+			templateUrl: '==alumnos/matricularEn.tpl.html'
+			controller: 'MatricularEnCtrl'
+			resolve: 
+				alumno: ()->
+					row
+				grupos: ()->
+					$scope.grupos
+				year_id: ()->
+					$scope.USER.year_id
+		})
+		modalInstance.result.then( (alum)->
+			console.log 'Cierra'
+		)
+
 
 
 	$scope.setAsistente = (fila)->
@@ -168,6 +191,57 @@ angular.module("myvcFrontApp")
 		)
 
 
+	$scope.filterActuales = (item)->
+		return item.grupo_id == $scope.dato.grupo.id
+
+	$scope.filterNOActuales = (item)->
+		return item.grupo_id != $scope.dato.grupo.id
+
+
 	return
 ])
+
+
+.controller('MatricularEnCtrl', ['$scope', '$uibModalInstance', 'alumno', 'grupos', 'year_id', '$http', 'toastr', ($scope, $modalInstance, alumno, grupos, year_id, $http, toastr)->
+	$scope.alumno = alumno
+	$scope.grupos = grupos
+	$scope.dato = {}
+
+
+	if localStorage.matr_grupo 
+		matr_grupo = parseInt(localStorage.matr_grupo)
+
+	for grupo in $scope.grupos
+		if grupo.id == matr_grupo
+			$scope.dato.grupo = grupo
+
+
+	$scope.ok = ()->
+		if not $scope.dato.grupo.id
+			toastr.warning 'Debes definir el grupo al que vas a matricular.', 'Falta grupo'
+			return
+		
+		datos = { alumno_id: $scope.alumno.alumno_id, grupo_id: $scope.dato.grupo.id, year_id: year_id }
+		
+		$http.post('::matriculas/matricular-en', datos).then((r)->
+			r = r.data
+			if r == 'Ya matriculado'
+				toastr.warning 'Ya tiene matrícula en ese grupo'
+				return
+
+			$scope.alumno.matricula_id = r.id
+			$scope.alumno.grupo_id = r.grupo_id
+			toastr.success 'Alumno matriculado con éxito', 'Matriculado'
+			$modalInstance.close($scope.alumno) 
+		, (r2)->
+			toastr.error 'No se pudo matricular el alumno.', 'Error'
+
+		)
+
+	$scope.cancel = ()->
+		$modalInstance.dismiss('cancel')
+
+])
+
+
 

@@ -28,7 +28,13 @@
 						
 						td {{ $index+1 }}
 						td {{ matricula.matricula_id }}
-						td {{ matricula.no_matricula }}
+						td.content-menu-matrics
+							{{ matricula.no_matricula }}
+
+							span.menu-elim-matrics 
+								a.btn.btn-danger.btn-xs(ng-click="eliminarMatric(matricula.matricula_id)")
+									| Eliminar
+
 
 						td {{ matricula.nombre_grupo }} ({{ matricula.abrev_grupo }})
 						td {{ matricula.year }}

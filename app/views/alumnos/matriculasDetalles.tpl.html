@@ -24,7 +24,7 @@
           <tr ng-repeat="matricula in matriculas" ng-class="{'filadanger': matricula.deleted_at_matricula!=null, 'fila-seleccionada': matricula.seleccionada==true }" ng-click="matricSeleccionada(matricula)" class="pointer">
             <td>{{ $index+1 }}</td>
             <td>{{ matricula.matricula_id }}</td>
-            <td>{{ matricula.no_matricula }}</td>
+            <td class="content-menu-matrics">{{ matricula.no_matricula }}<span class="menu-elim-matrics"> <a ng-click="eliminarMatric(matricula.matricula_id)" class="btn btn-danger btn-xs">Eliminar</a></span></td>
             <td>{{ matricula.nombre_grupo }} ({{ matricula.abrev_grupo }})</td>
             <td>{{ matricula.year }}</td>
             <td>{{ matricula.estado }}</td>

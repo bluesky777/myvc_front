@@ -249,7 +249,7 @@
               </div>
             </uib-tab>
           </uib-tabset><br>
-          <input type="submit" ng-submit="guardar()" value="Guardar cambios" class="btn btn-primary btn-lg shiny"><a type="button" ui-sref="panel.alumnos" class="btn btn-warning btn-lg shiny">Ocultar</a>
+          <input type="submit" ng-submit="guardar()" value="Guardar cambios" class="btn btn-primary btn-lg shiny"><span ng-show="$state.includes('panel.cartera')"><a type="button" ui-sref="panel.cartera" class="btn btn-danger btn-lg shiny">Cerrar</a></span><span ng-show="$state.includes('panel.alumnos')"><a type="button" ui-sref="panel.alumnos" class="btn btn-danger btn-lg shiny">Cerrar</a></span>
         </form>
       </div>
     </div>

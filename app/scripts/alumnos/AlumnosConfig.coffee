@@ -151,5 +151,49 @@ angular.module('myvcFrontApp')
 					needed_permissions: [PERMISSIONS.can_work_like_teacher]
 
 
+
+
+
+			.state 'panel.cartera',
+				url: '^/cartera'
+				views: 
+					'maincontent':
+						templateUrl: "#{App.views}alumnos/cartera.tpl.html"
+						controller: 'CarteraCtrl'
+					'headerContent':
+						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						controller: 'PanelHeaderCtrl'
+						resolve: 
+							titulo: [->
+								'Cartera'
+							]
+				data: 
+					displayName: 'cartera'
+					icon_fa: 'fa fa-money'
+					pageTitle: 'Cartera - MyVc'
+					needed_permissions: [PERMISSIONS.can_work_like_teacher]
+
+
+			.state 'panel.cartera.editar',
+				url: '/editar/:alumno_id'
+				views: 
+					'edit_alumno':
+						templateUrl: "#{App.views}alumnos/alumnosEdit.tpl.html"
+						controller: 'AlumnosEditCtrl'
+					'headerContent':
+						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						controller: 'PanelHeaderCtrl'
+						resolve: 
+							titulo: [->
+								'Editar'
+							]
+				data: 
+					displayName: 'editar'
+					icon_fa: 'fa fa-users'
+					pageTitle: 'Editar alumno - MyVc'
+					needed_permissions: [PERMISSIONS.can_work_like_teacher]
+
+
+
 		return
 	]

@@ -17,7 +17,7 @@
 				.widget-body()
 					uib-accordion(close-others="true")
 						uib-accordion-group(heading="Básico" is-open="true")
-							form(role='form')
+							form(role='form' ng-submit="guardar_cambios(year)")
 								.row
 									.col-sm-6
 										.form-group
@@ -71,39 +71,54 @@
 								.row
 									.col-sm-12
 										.form-group
-											label(for='newYear{{year.id}}-resolucion') Resolución
+											label(for='year{{year.id}}-resolucion') Resolución
 											span.input-icon.icon-right
 												input.form-control(type='text', placeholder='Resolución' ng-model="year.resolucion" id="newYear{{year.id}}-resolucion")
 												i.fa.fa-envelope.blue
 								.row
 									.col-sm-5
 										.form-group
-											label(for='newYear-dane') Código dane
+											label(for='year{{year.id}}-dane') Código dane
 											span.input-icon.icon-right
 												input.form-control(type='text', placeholder='Código dane' ng-model="year.codigo_dane" id="newYear{{year.id}}-dane")
 												i.fa.fa-user.palegreen
 									.col-sm-4
 										.form-group
-											label(for='newYear-telefono') Teléfono
+											label(for='year{{year.id}}-telefono') Teléfono
 											span.input-icon.icon-right
 												input.form-control(type='text', placeholder='Teléfono' ng-model="year.telefono" id="newYear{{year.id}}-telefono")
 												i.fa.fa-user.palegreen
 									.col-sm-3
 										.form-group
-											label(for='newYear-celular') Celular
+											label(for='year{{year.id}}-celular') Celular
 											span.input-icon.icon-right
 												input.form-control(type='text', placeholder='Celular' ng-model="year.celular" id="newYear{{year.id}}-celular")
 												i.fa.fa-user.palegreen
+
+								.row
+									.col-sm-5
+										.form-group
+											label(for='year{{year.id}}-website') Sitio web
+											span.input-icon.icon-right
+												input.form-control(type='text', placeholder='Sitio web' ng-model="year.website" id="year{{year.id}}-website")
+												i.fa.fa-user.palegreen
+									.col-sm-4
+										.form-group
+											label(for='year{{year.id}}-websitem' uib-tooltip="Página donde está alojada esta plataforma") Sitio MyVC
+											span.input-icon.icon-right
+												input.form-control(type='text', placeholder='Sitio MyVC' ng-model="year.website_myvc" id="year{{year.id}}-websitem")
+												i.fa.fa-user.palegreen
+									
 								.row
 									.col-sm-3
 										.form-group
-											label(for='newYear-unidad_displayname') Unidad
+											label(for='year{{year.id}}-unidad_displayname') Unidad
 											span.input-icon.icon-right
 												input.form-control(type='text', placeholder='Unidad' ng-model="year.unidad_displayname" id="newYear{{year.id}}-unidad_displayname")
 												i.fa.fa-envelope.blue
 									.col-sm-4
 										.form-group
-											label(for='newYear-unidades_displayname') Unidades
+											label(for='year{{year.id}}-unidades_displayname') Unidades
 											span.input-icon.icon-right
 												input.form-control(type='text', placeholder='Código dane' ng-model="year.unidades_displayname" id="newYear{{year.id}}-unidades_displayname")
 												i.fa.fa-user.palegreen
@@ -125,15 +140,15 @@
 								.row
 									.col-sm-3
 										.form-group
-											label(for='newYear-subunidad_displayname') Subunidad
+											label(for='year{{year.id}}-subunidad_displayname') Subunidad
 											span.input-icon.icon-right
-												input.form-control(type='text', placeholder='Subunidad' ng-model="year.subunidad_displayname" id="newYear{{year.id}}-subunidad_displayname")
+												input.form-control(type='text', placeholder='Subunidad' ng-model="year.subunidad_displayname" id="year{{year.id}}-subunidad_displayname")
 												i.fa.fa-user.palegreen
 									.col-sm-4
 										.form-group
-											label(for='newYear-subunidades_displayname') Subunidades
+											label(for='year{{year.id}}-subunidades_displayname') Subunidades
 											span.input-icon.icon-right
-												input.form-control(type='text', placeholder='Subunidades' ng-model="year.subunidades_displayname" id="newYear{{year.id}}-subunidades_displayname")
+												input.form-control(type='text', placeholder='Subunidades' ng-model="year.subunidades_displayname" id="year{{year.id}}-subunidades_displayname")
 												i.fa.fa-envelope.blue
 									.col-sm-5
 										.form-group

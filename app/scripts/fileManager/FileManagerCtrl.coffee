@@ -213,7 +213,7 @@ angular.module("myvcFrontApp")
 		)
 
 
-	$http.get('::perfiles/usuariosall').then((r)->
+	$http.get('::perfiles/usuariosall?year_id=' + $scope.USER.year_id).then((r)->
 		r = r.data
 		$scope.usuariosall = r
 		$scope.usuariosprofes = $filter('filter')(r, {tipo: 'Pr'}, true)

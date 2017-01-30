@@ -16,9 +16,15 @@ angular.module("myvcFrontApp")
 	)
 
 	$scope.guardar = ()->
-		$scope.grupo.titular_id = $scope.grupo.titular.profesor_id
+		if $scope.grupo.titular.profesor_id
+			$scope.grupo.titular_id = $scope.grupo.titular.profesor_id # Así viene cuando ha sido seleccionado el titular mientras está editando
+		else
+			$scope.grupo.titular_id = $scope.grupo.titular.id # Así viene originalmente al darle editar
+
 		titular = $scope.grupo.titular
 		delete $scope.grupo.titular
+
+		$scope.grupo.grado_id = $scope.grupo['grado'].id
 		
 		$http.put('::grupos/update', $scope.grupo).then((r)->
 			toastr.success 'Grupo '+r.data.nombre+' editado.'

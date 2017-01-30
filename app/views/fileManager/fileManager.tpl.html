@@ -160,8 +160,8 @@
             <div class="form-group">
               <label>Usuario</label>
               <ui-select ng-model="dato.alumnoElegido" on-select="alumSelect($item, $model)" theme="select2" style="min-width: 300px;">
-                <ui-select-match placeholder="Imagen usuario"> <img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombres"></small></ui-select-match>
-                <ui-select-choices repeat="alumno in alumnos | filter: {nombres: $select.search}"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + alumno.nombres | highlight: $select.search"></small></ui-select-choices>
+                <ui-select-match placeholder="Imagen usuario"> <img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.apellidos + ' ' + alumno.nombres"></small></ui-select-match>
+                <ui-select-choices repeat="alumno in alumnos | filter: {nombres: $select.search}"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + alumno.apellidos + ' ' + alumno.nombres | highlight: $select.search"></small></ui-select-choices>
               </ui-select>
             </div>
             <div class="form-group">

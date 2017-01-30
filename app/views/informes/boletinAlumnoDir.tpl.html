@@ -20,7 +20,7 @@
             </div>
             <div class="col-lg-6 col-xs-6">
               <h5 class="nombre-alumno">{{alumno.nombres + ' ' + alumno.apellidos}}</h5>
-              <div class="promedio-alumno">Puntaje: {{alumno.promedio | setDecimal:1 }}% - Puesto: {{alumno.puesto}}/{{grupo.cantidad_alumnos}}</div>
+              <div class="promedio-alumno">Puntaje: {{alumno.promedio | setDecimal:1 }}%<span ng-show="alumno.estado=='RETI'"> - Puesto: {{alumno.puesto}}/{{grupo.cantidad_alumnos}}</span></div>
             </div>
           </div>
         </div>

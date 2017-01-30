@@ -200,7 +200,10 @@
 					br
 					input.btn.btn-primary.btn-lg.shiny(type="submit" ng-submit="guardar()" value="Guardar cambios") 
 
-					a.btn.btn-warning.btn-lg.shiny(type="button" ui-sref="panel.alumnos") Ocultar
+					span(ng-show="$state.includes('panel.cartera')")
+						a.btn.btn-danger.btn-lg.shiny(type="button" ui-sref="panel.cartera") Cerrar
+					span(ng-show="$state.includes('panel.alumnos')")
+						a.btn.btn-danger.btn-lg.shiny(type="button" ui-sref="panel.alumnos") Cerrar
 					
 
 

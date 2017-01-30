@@ -1,5 +1,5 @@
 .modal-header
-	h3.modal-title ¿Seguro que deseas eliminar?
+	h3.modal-title Cambiar contraseña
 .modal-body
 	.row
 		.col-lg-12.col-xs-12
@@ -12,7 +12,8 @@
 			form.form.form-inline(role="form")
 				.form-group
 					label Contraseña
-					input.form-control(type="text" ng-model="newpassword" placeholder="Puede dejar vacío")
+					input.form-control(ng-attr-type="{{ showPassword ? 'text' : 'password' }}" ng-model="newpassword" 
+						placeholder="Puede dejar vacío" ng-dblclick="showPassword=!showPassword")
 
 .modal-footer
 	button.btn.btn-labeled.btn-primary(ng-click="ok()") Cambiar contraseña

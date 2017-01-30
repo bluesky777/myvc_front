@@ -9,9 +9,7 @@
       <div ng-repeat="grupo in matricula_detalle">
         <h5 style="background-color: #8ae0ee; padding: 8px;">
            
-          {{ grupo.nombre }} ({{grupo.abrev}}) - <span style="font-weight: bold">{{grupo.year}} </span><span>::: Matricula ID: </span><span ng-repeat="matricula_year_grupo in grupo.matriculas_year_grupo"><span ng-hide="$first"> -  </span><span style="position: relative;" class="content-menu-elim-matric">
-               
-              {{matricula_year_grupo.matricula_id}} <span class="menu-elim-matric"> <a ng-click="eliminarMatriculaDestroy(grupo.matriculas_year_grupo, matricula_year_grupo.matricula_id)" class="btn btn-danger">Eliminar</a></span></span><span ng-hide="$last"> -  </span></span>
+          {{ grupo.nombre }} ({{grupo.abrev}}) - <span style="font-weight: bold">{{grupo.year}} </span><span>::: Matricula ID: </span><span ng-repeat="matricula_year_grupo in grupo.matriculas_year_grupo"><span ng-hide="$first"> -  </span><span class="content-menu-elim-matric">{{matricula_year_grupo.matricula_id}} <span class="menu-elim-matric"> <a ng-click="eliminarMatriculaDestroy(grupo.matriculas_year_grupo, matricula_year_grupo.matricula_id)" class="btn btn-danger">Eliminar</a></span></span><span ng-hide="$last"> -  </span></span>
         </h5>
         <div style="padding-left: 15px; padding-right: 8px;">
           <uib-accordion close-others="true">

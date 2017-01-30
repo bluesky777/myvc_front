@@ -1,0 +1,25 @@
+.modal-header
+	h3.modal-title Matricular en...
+.modal-body
+	.row
+		.col-lg-12.col-xs-12
+			h5 Id: {{alumno.alumno_id}}
+			div Nombre: 
+			h4(style="text-overflow: ellipsis") {{alumno.nombres}} {{alumno.apellidos}}
+			
+			form.form.form-inline(role="form")
+
+				.form-group
+					label Grupo en el cual matricular
+					div
+						span(uib-tooltip="Debe seleccionar un grupo" tooltip-placement="right")
+							ui-select(ng-model="dato.grupo" theme="select2" style="min-width: 200px;")
+								ui-select-match(placeholder="Grupo a matricular" allow-clear="true") {{$select.selected.nombre}}
+								ui-select-choices(repeat="grupo in grupos | filter: $select.search")
+									div(ng-bind-html="grupo.nombre | highlight: $select.search")
+
+
+.modal-footer
+	button.btn.btn-labeled.btn-primary(ng-click="ok()") Matricular
+		i.btn-label.fa.fa-save
+	button.btn.btn-yellow(ng-click="cancel()") Cancelar

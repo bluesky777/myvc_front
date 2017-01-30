@@ -1,5 +1,5 @@
 
 <div style="text-align:right;">
    
-  {{row.entity.deuda | currency:"$":0 }}<a ng-class="{'btn-info':row.entity.pazysalvo, 'btn-warning':!row.entity.pazysalvo }" ng-click="grid.appScope.cambiarPazysalvo(row.entity);" uib-tooltip="¿A paz y salvo?" tooltip-placement="left" href="" class="btn btn-xs"> <i ng-hide="row.entity.pazysalvo" class="fa fa-times"></i><i ng-show="row.entity.pazysalvo" class="fa fa-check"></i>A paz</a>
+  {{row.entity.deuda | currency:"$":0 }}<a ng-class="{'btn-info':row.entity.pazysalvo, 'btn-warning':!row.entity.pazysalvo }" ng-click="grid.appScope.cambiarPazysalvo(row.entity);" uib-tooltip="NO está al día" tooltip-placement="left" href="" tooltip-enable="!row.entity.pazysalvo" class="btn btn-xs"> <i ng-hide="row.entity.pazysalvo" class="fa fa-times"></i><i ng-show="row.entity.pazysalvo" class="fa fa-check"></i>A paz</a>
 </div>

@@ -144,10 +144,29 @@ angular.module('myvcFrontApp')
 
 			$http.post('::years/store', $scope.newYear).then((r)->
 				toastr.success 'Año ' + $scope.newYear.year + ' creado. Por favor configúrelo.'
+				$scope.nonuevo = false
+
+				for year in $scope.years
+					year.actual = 0
+
 				$scope.years.push r.data
 			, (r2)->
 				toastr.warning 'No se pudo crear año.', 'Problema'
 			)
+
+
+		$scope.guardar_cambios = (year)->
+			year.rector_id 			= if year['rector'] then year['rector'].profesor_id else null
+			year.secretario_id 		= if year['secretario'] then year['secretario'].profesor_id else null
+			year.tesorero_id 		= if year['tesorero'] then year['tesorero'].profesor_id else null
+
+			$http.put('::years/guardar-cambios', year).then((r)->
+				toastr.success 'Cambios guardados.'
+			, (r2)->
+				toastr.warning 'No se pudo guardar cambios.', 'Problema'
+			)
+			
+
 
 
 		$scope.deleteYear = (year)->

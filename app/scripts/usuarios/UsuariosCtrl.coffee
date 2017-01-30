@@ -172,6 +172,7 @@ angular.module('myvcFrontApp')
 .controller('ResetPassCtrl', ['$scope', '$uibModalInstance', 'usuario', '$http', 'toastr', ($scope, $modalInstance, usuario, $http, toastr)->
 	$scope.usuario = usuario
 	$scope.newpassword = ''
+	$scope.showPassword = false
 
 	$scope.ok = ()->
 
