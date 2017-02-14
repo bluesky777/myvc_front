@@ -100,8 +100,6 @@ angular.module("myvcFrontApp")
 
 
 	$scope.reMatricularUno = (row)->
-		if row.estado == 'MATR'
-			return
 
 		if not $scope.dato.grupo.id
 			toastr.warning 'Debes definir el grupo al que vas a matricular.', 'Falta grupo'
@@ -148,7 +146,7 @@ angular.module("myvcFrontApp")
 
 	$scope.setNewAsistente = (fila)->
 		
-		$http.put('::matriculas/set-new-asistente', {alumno: fila, grupo: $scope.dato.grupo}).then((r)->
+		$http.put('::matriculas/set-new-asistente', {alumno_id: fila.alumno_id, grupo_id: $scope.dato.grupo.id}).then((r)->
 			console.log 'Cambios guardados'
 		, (r2)->
 			toastr.error 'No se pudo crear asistente', 'Error'

@@ -22,11 +22,12 @@ angular.module("myvcFrontApp")
 	)
 
 	$scope.crearCandidato = (aspiracion)->
-		datos = []
+		datos = {}
 		datos.participante_id = aspiracion.newParticip.participante_id
 		datos.plancha = aspiracion.newParticip.plancha
 		datos.numero = aspiracion.newParticip.numero
 		datos.aspiracion_id = aspiracion.id
+
 
 		$http.post('::candidatos/store/candidato', datos).then((r)->
 			r = r.data

@@ -9,13 +9,13 @@ angular.module('myvcFrontApp')
 	$scope.roles = []
 	$scope.permissions = []
 
-	$http.get('roles').then((r)->
+	$http.get('::roles').then((r)->
 		$scope.roles = r.data
 	, (r2)->
 		toastr.error 'No se pudo traer los roles ', r2
 	)
 
-	$http.get('permissions').then((r)->
+	$http.get('::permissions').then((r)->
 		$scope.permissions = r.data
 	, (r2)->
 		toastr.error 'No se pudo traer los permissions ', r2

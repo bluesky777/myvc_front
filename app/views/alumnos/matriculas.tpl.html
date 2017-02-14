@@ -49,7 +49,7 @@
                   <label ng-model="alumno.estado" uib-btn-radio="'RETI'" ng-click="retirar(alumno)" class="btn btn-info btn-xs">Reti</label></span></span>
               <div ng-show="alumno.grupo_id!=dato.grupo.id " style="margin-top: -2px; padding-bottom: 2px;" class="btn-group">
                 <label ng-click="setNewAsistente(alumno)" uib-tooltip="Inscribir como asistente" class="btn btn-success shiny btn-xs">Asis</label>
-                <label ng-click="matricularUno(alumno)" uib-tooltip="Matricular" class="btn btn-success shiny btn-xs">Matric</label>
+                <label ng-click="matricularUno(alumno)" uib-tooltip="Matricular" tooltip-popup-delay="1000" class="btn btn-success shiny btn-xs">Matric</label>
                 <label ng-click="matricularEn(alumno)" uib-tooltip="Matricular en..." tooltip-placement="right" class="btn btn-success shiny btn-xs">...</label>
               </div>
             </td>
@@ -82,7 +82,7 @@
                   <label ng-model="alumno.estado" uib-btn-radio="'RETI'" ng-click="retirar(alumno)" class="btn btn-info btn-xs">Reti</label></span></span>
               <div ng-show="alumno.grupo_id!=dato.grupo.id " style="margin-top: -2px; padding-bottom: 2px;" class="btn-group">
                 <label ng-click="setNewAsistente(alumno)" uib-tooltip="Inscribir como asistente" class="btn btn-success shiny btn-xs">Asis</label>
-                <label ng-click="matricularUno(alumno)" uib-tooltip="Matricular" class="btn btn-success shiny btn-xs">Matric</label>
+                <label ng-click="matricularUno(alumno)" uib-tooltip="Matricular" tooltip-popup-delay="1000" class="btn btn-success shiny btn-xs">Matric</label>
                 <label ng-click="matricularEn(alumno)" uib-tooltip="Matricular en..." tooltip-placement="right" class="btn btn-success shiny btn-xs">...</label>
               </div>
             </td>

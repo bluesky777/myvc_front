@@ -16,9 +16,9 @@ angular.module('myvcFrontApp')
 
 
 		$http.get($scope.logoPath).then(()->
-			#alert('imagen existe')
-		).then(()->
-			#alert('image not exist')
+			console.log 'logoPath  existe'
+		, ()->
+			#console.log 'logoPath NO existe'
 			$scope.logoPath = $scope.logoPathDefault # set default image
 		)
 
@@ -86,7 +86,8 @@ angular.module('myvcFrontApp')
 				$scope.USER.periodo_id = periodo.id
 				$scope.USER.numero_periodo = periodo.numero
 
-				$rootScope.reload()
+				#$rootScope.reload()
+				$window.location.reload() # Actualizamos toda la página al cambiar el periodo
 
 			, (r2)->
 				toastr.warning 'No se pudo cambiar de periodo.', 'Problema'

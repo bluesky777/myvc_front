@@ -44,7 +44,7 @@ angular.module('myvcFrontApp')
 				usuario: ()->
 					row
 				roles: ()->
-					$http.get('roles')
+					$http.get('::roles')
 		})
 		modalInstance.result.then( (user)->
 			#console.log 'Resultado del modal: ', user

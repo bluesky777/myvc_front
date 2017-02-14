@@ -94,7 +94,7 @@ angular.module('myvcFrontApp')
 				indice_new: 	indice_new
 
 			
-			$http.put('subunidades/bajar-subunidad', datos).then((r)->
+			$http.put('::subunidades/bajar-subunidad', datos).then((r)->
 
 				subsacambiar = $filter('filter')($scope.unidad.subunidades, {orden: indice_new})
 				if subsacambiar.length > 0

@@ -27,3 +27,18 @@ angular.module('myvcFrontApp')
 		$scope.$emit 'cambia_descripcion', $scope.asignaturas.length + ' planillas  del grupo ' + asig.nombre_grupo
 
 ])
+
+
+
+
+.controller('ControlTardanzaEntradaCtrl',['$scope', 'App', 'Perfil', '$state', ($scope, App, Perfil, $state)-> 
+
+	$scope.USER = Perfil.User()
+	$scope.USER.nota_minima_aceptada = parseInt($scope.USER.nota_minima_aceptada)
+	
+
+	$scope.perfilPath = App.images+'perfil/'
+
+	$scope.$emit 'cambia_descripcion', 'Planillas para el control de tardanzas en la entrada.'
+
+])

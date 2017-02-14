@@ -41,7 +41,7 @@ angular.module("myvcFrontApp")
 		
 		datos = {alumno_id: row.alumno_id, grupo_id: $scope.dato.grupo.id}
 		
-		$http.post('::matriculas/matricularuno/'+datos.alumno_id+'/'+datos.grupo_id).then((r)->
+		$http.post('::matriculas/matricularuno', {alumno_id: datos.alumno_id, grupo_id: datos.grupo_id, year_id: $scope.USER.year_id}).then((r)->
 			r = r.data
 			row.matricula_id = r.id
 			row.grupo_id = r.grupo_id
@@ -58,6 +58,9 @@ angular.module("myvcFrontApp")
 
 	$scope.cambiarPazysalvo = (fila)->
 		fila.pazysalvo = !fila.pazysalvo
+		if not fila.alumno_id
+			fila.alumno_id = fila.id
+
 		$http.put('::alumnos/update/' + fila.alumno_id, fila).then((r)->
 			console.log 'Cambios guardados'
 		, (r2)->
@@ -133,7 +136,10 @@ angular.module("myvcFrontApp")
 			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
 				
 				if newValue != oldValue
-
+				
+					if not rowEntity.alumno_id
+						rowEntity.alumno_id = fila.id
+			
 					if colDef.field == "sexo"
 						if newValue == 'M' or newValue == 'F'
 							# Es correcto...

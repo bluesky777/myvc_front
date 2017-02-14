@@ -34,7 +34,7 @@ angular.module("myvcFrontApp")
 		datos = {alumno_id: row.alumno_id, grupo_id: $scope.dato.grupo.id}
 		
 
-		$http.post('::matriculas/matricularuno/'+datos.alumno_id+'/'+datos.grupo_id).then((r)->
+		$http.post('::matriculas/matricularuno', {alumno_id: datos.alumno_id, grupo_id: datos.grupo_id, year_id: $scope.USER.year_id}).then((r)->
 			r = r.data
 			row.matricula_id = r.id
 			row.grupo_id = r.grupo_id

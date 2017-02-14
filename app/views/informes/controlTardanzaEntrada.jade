@@ -1,0 +1,70 @@
+div(ng-repeat="asignatura in asignaturas")
+
+	div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }")
+		.row
+			.col-lg-12.col-xs-12
+				.row.encabezado-planilla
+					.col-lg-12.col-xs-12
+						.row
+							.col-lg-2.col-xs-2
+								img.img-responsive.logo-colegio(ng-src="{{perfilPath + year.logo}}")
+							.col-lg-8.col-xs-8.title-encabezado-planilla
+								.row
+									.col-lg-12
+										.nombre-colegio
+											| {{year.nombre_colegio + ' - ' + year.abrev_colegio}}
+										.descripcion-title
+											|Planilla de trabajo Per{{USER.numero_periodo}}-{{USER.year}} 
+											b  {{asignatura.nombre_grupo}} - {{asignatura.materia | capitalize}}
+											
+								.row
+									.col-lg-12
+										h5.nombre-profesor(style="padding: 0px; margin: 0px") {{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}
+
+							.col-lg-2.col-xs-2
+								img.img-responsive.img-thumbnail.foto-profe(ng-src="{{perfilPath + asignatura.foto_nombre}}" ng-show="config.mostrar_foto && asignatura.foto_id")
+
+				.row.body-boletin
+					.col-lg-12.col-xs-12.materias
+						.materia-item
+							table.table-bordered.table-bordered2.table-striped.table-striped2
+								thead
+									tr
+										th(rowspan="2")
+											|No
+										th(rowspan="2" style="text-align: center;")
+											|Alumnos
+										th(ng-repeat="periodo in year.periodos" rowspan="2" style="font-size: 8pt")
+											|P{{periodo.numero}}
+										th(ng-repeat="unidad in unidadesdefault track by $index" colspan="10" style="font-size: 8pt")
+											| {{$index + 1}} {{unidad}}
+									tr(style="height: 25px")
+										th(ng-repeat="subuni in subunidadesdefault track by $index" style="width: 50px")
+											| {{subuni}}
+								tbody(style="font-size: 9pt")
+									tr(ng-repeat="alumno in asignatura.alumnos" )
+										td
+											| {{$index + 1}}
+										td
+											.ellipsis200.alumno-planilla
+												| {{alumno.apellidos}} {{alumno.nombres}}
+										td(ng-repeat="periodo in alumno.periodos")
+											.def-per-planilla
+												| {{periodo.nota_asignatura | decimales:1}}
+										td(ng-repeat="subuni in subunidadesdefault track by $index" style="width: 50px")
+											| {{subuni}}
+									tr(style="height: 17px;")
+										td   
+											|  
+										td  
+											|  
+										td(ng-repeat="periodo in asignatura.periodosProm")  
+											.def-per-planilla(style="font-weight: bold;") 
+												| {{periodo.sumatoria / asignatura.alumnos.length | decimales:1}} 
+										td(ng-repeat="subuni in subunidadesdefault track by $index" style="width: 50px")
+											| {{subuni}}
+
+
+
+
+

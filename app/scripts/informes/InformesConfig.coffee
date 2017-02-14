@@ -165,6 +165,18 @@ angular.module('myvcFrontApp')
 				pageTitle: 'Planillas profesor - MyVc'
 
 
+		.state 'panel.informes.control_tardanza_entrada',
+			url: '/control_tardanza_entrada/:grupo_id'
+			views: 
+				'report_content':
+					templateUrl: "==informes/controlTardanzaEntrada.tpl.html" # En archivo PlanillasCtrl.coffee
+					controller: 'ControlTardanzaEntradaCtrl'
+			data: 
+				displayName: 'Control de tardanza entrada'
+				icon_fa: 'fa fa-print'
+				pageTitle: 'Control de tardanza entrada - MyVc'
+
+
 
 
 

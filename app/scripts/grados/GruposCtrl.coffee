@@ -95,7 +95,7 @@ angular.module('myvcFrontApp')
 
 	$scope.ok = ()->
 
-		$http.delete('grupos/destroy/'+grupo.id).then((r)->
+		$http.delete('::grupos/destroy/'+grupo.id).then((r)->
 			toastr.success 'Grupo '+grupo.nombre+' eliminado con éxito.', 'Eliminado'
 		, (r2)->
 			toastr.warning 'No se pudo eliminar al grupo.', 'Problema'
