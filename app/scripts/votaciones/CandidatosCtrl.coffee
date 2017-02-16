@@ -44,7 +44,7 @@ angular.module("myvcFrontApp")
 
 			toastr.success 'Candidato creado con éxito'
 		, (r2)->
-			if r2.data.error.message == 'Candidato ya inscrito.'
+			if r2.data.error.message == 'Candidato ya inscrito'
 				toastr.warning 'Candidato ya inscrito en esta aspiración'
 			else
 				toastr.warning 'No se pudo crear el candidato', 'Problema'

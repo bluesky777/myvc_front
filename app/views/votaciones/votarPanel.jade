@@ -38,19 +38,25 @@
 			.step-content(ng-style="{'min-height': windowHeight}")
 
 				.step-pane(ng-repeat="aspiracion in votacion.aspiraciones" ng-class="{active:wzStep==$index}")
+					
+					.warning(uib-alert ng-show="aspiracion.votado")
+						i.fa-fw.fa.fa-warning
+						| Ya votaste por {{aspiracion.aspiracion}}. Puedes continuar.
+
 					.row
 						.col-lg-9.col-md-8.col-sm-7.col-xs-12
 
-							alert(type="warning" ng-show="aspiracion.votado.length>0")
-								i.fa-fw.fa.fa-warning
-								| Ya votaste por {{aspiracion.aspiracion}}. Puedes continuar.
-							.col-lg-4.col-sm-12.col-xs-12.puntero(ng-repeat="candidato in aspiracion.candidatos" ng-mouseenter="mostrarImagen(candidato)" ng-mouseleave="ocultarImagen(candidato)" ng-click="open(candidato, aspiracion)")
-								.databox.databox-graded.radius-bordered.databox-shadowed
+							
+							.col-lg-6.col-sm-12.col-xs-12.puntero(ng-repeat="candidato in aspiracion.candidatos" ng-mouseenter="mostrarImagen(candidato)" ng-mouseleave="ocultarImagen(candidato)" ng-click="open(candidato, aspiracion)")
+								.databox.databox-xlg.databox-graded.radius-bordered.databox-shadowed
 									.databox-left.no-padding
-										img.img-responsive(ng-src="{{imagesPath + candidato.imagen_nombre}}" style="width:65px; height:65px;" ng-class="{'transparente':!candidato.iluminado}" )
+										img.img-responsive(ng-src="{{imagesPath + candidato.imagen_nombre}}" style="width:170px; height:170px;" ng-class="{'transparente':!candidato.iluminado}" )
 									.databox-right.padding-top-5.bordered-thick.bordered-sky(ng-class="{'bg-white':candidato.iluminado}")
-										.databox-title.lightcarbon {{candidato.nombres + ' ' +candidato.apellidos}}
-										.databox-text.darkgray Plancha {{candidato.plancha}} - Número {{candidato.numero}}
+										.databox-title.lightcarbon(style="font-size: 22px; height: 100px; overflow: hidden; font-weight: 600;") {{candidato.nombres + ' ' +candidato.apellidos}}
+										
+										.databox-text.darkgray(style="font-size: 18px;" ng-show="candidato.plancha") Plancha {{candidato.plancha}} -  
+											span(ng-show="candidato.numero")  Número {{candidato.numero}}
+										
 										.databox-stat.radius-bordered(ng-class="candidato.iluminado ? 'bg-darkorange stat-over' : 'bg-sky'")
 											.stat-text {{candidato.nombre_grupo}}
 											//i.stat-icon.fa.fa-apple

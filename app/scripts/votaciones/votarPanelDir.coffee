@@ -81,7 +81,8 @@ angular.module('myvcFrontApp')
 
 				})
 				modalInstance.result.then( (selectedItem)->
-					aspiracion.votado = selectedItem
+					#aspiracion.votado = selectedItem
+					aspiracion.votado = true
 
 					cantVot = 0
 					for aspi in $scope.votacion.aspiraciones

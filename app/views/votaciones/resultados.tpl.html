@@ -53,12 +53,12 @@
             <div class="well with-header">
               <div class="header bordered-purple">Ganadores</div>
               <div class="row">
-                <div ng-repeat="aspiracion in votacion.aspiraciones" class="col-lg-6 col-sm-12 col-xs-12 puntero">
+                <div ng-repeat="aspiracion in votacion.aspiraciones" class="col-sm-12 col-xs-12 puntero">
                   <div ng-repeat="candidato in aspiracion.candidatos | orderBy:'cantidad':true" ng-if="$index==0" class="databox databox-xlg databox-graded radius-bordered databox-shadowed">
                     <div class="databox-left no-padding"><img ng-src="{{imagesPath + candidato.imagen_nombre}}" style="width:170px; height:170px;" class="img-responsive"></div>
                     <div class="databox-right padding-top-5 bordered-thick bordered-sky">
                       <div class="databox-row row-5 bordered-bottom bordered-platinum padding-10">
-                        <div class="databox-title lightcarbon">{{candidato.nombres + ' ' +candidato.apellidos}}</div>
+                        <div style="font-size: 18px; font-weight: 600;" class="databox-title lightcarbon">{{candidato.nombres + ' ' +candidato.apellidos}}</div>
                         <div class="databox-stat radius-bordered bg-sky">
                           <div class="stat-text">{{candidato.nombre_grupo}}</div>
                         </div>
@@ -67,7 +67,7 @@
                         <div class="databox-title">{{aspiracion.aspiracion}} - {{candidato.cantidad}} votos</div>
                       </div>
                       <div class="databox-row row-3">
-                        <div class="databox-text darkgray">Plancha {{candidato.plancha}} - Número {{candidato.numero}}</div>
+                        <div style="font-size: 18px;" ng-show="candidato.plancha" class="databox-text darkgray">Plancha {{candidato.plancha}} -  <span ng-show="candidato.numero"> Número {{candidato.numero}}</span></div>
                       </div>
                     </div>
                   </div>

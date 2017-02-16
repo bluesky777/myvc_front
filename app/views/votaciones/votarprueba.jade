@@ -42,10 +42,10 @@
 											alert(type="warning" ng-show="aspiracion.votado.length>0")
 												i.fa-fw.fa.fa-warning
 												| Ya votaste por {{aspiracion.aspiracion}}. Puedes continuar.
-											.col-lg-4.col-sm-12.col-xs-12.puntero(ng-repeat="candidato in aspiracion.candidatos" ng-mouseenter="mostrarImagen(candidato)" ng-mouseleave="ocultarImagen(candidato)" ng-click="open(candidato, aspiracion)")
-												.databox.databox-graded.radius-bordered.databox-shadowed
+											.col-lg-6.col-sm-12.col-xs-12.puntero(ng-repeat="candidato in aspiracion.candidatos" ng-mouseenter="mostrarImagen(candidato)" ng-mouseleave="ocultarImagen(candidato)" ng-click="open(candidato, aspiracion)")
+												.databox.databox-xlg.databox-graded.radius-bordered.databox-shadowed
 													.databox-left.no-padding
-														img.img-responsive(ng-src="{{imagesPath + candidato.imagen_nombre}}" style="width:65px; height:65px;" ng-class="{'transparente':!candidato.iluminado}" )
+														img.img-responsive(ng-src="{{imagesPath + candidato.imagen_nombre}}" style="width:170px; height:170px;" ng-class="{'transparente':!candidato.iluminado}" )
 													.databox-right.padding-top-5.bordered-thick.bordered-sky(ng-class="{'bg-white':candidato.iluminado}")
 														.databox-title.lightcarbon {{candidato.nombres + ' ' +candidato.apellidos}}
 														.databox-text.darkgray Plancha {{candidato.plancha}} - Número {{candidato.numero}}

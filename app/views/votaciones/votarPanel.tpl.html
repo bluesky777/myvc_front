@@ -17,15 +17,15 @@
       </div>
       <div ng-style="{'min-height': windowHeight}" class="step-content">
         <div ng-repeat="aspiracion in votacion.aspiraciones" ng-class="{active:wzStep==$index}" class="step-pane">
+          <div uib-alert ng-show="aspiracion.votado" class="warning"><i class="fa-fw fa fa-warning"></i>Ya votaste por {{aspiracion.aspiracion}}. Puedes continuar.</div>
           <div class="row">
             <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12">
-              <alert type="warning" ng-show="aspiracion.votado.length&gt;0"><i class="fa-fw fa fa-warning"></i>Ya votaste por {{aspiracion.aspiracion}}. Puedes continuar.</alert>
-              <div ng-repeat="candidato in aspiracion.candidatos" ng-mouseenter="mostrarImagen(candidato)" ng-mouseleave="ocultarImagen(candidato)" ng-click="open(candidato, aspiracion)" class="col-lg-4 col-sm-12 col-xs-12 puntero">
-                <div class="databox databox-graded radius-bordered databox-shadowed">
-                  <div class="databox-left no-padding"><img ng-src="{{imagesPath + candidato.imagen_nombre}}" style="width:65px; height:65px;" ng-class="{'transparente':!candidato.iluminado}" class="img-responsive"></div>
+              <div ng-repeat="candidato in aspiracion.candidatos" ng-mouseenter="mostrarImagen(candidato)" ng-mouseleave="ocultarImagen(candidato)" ng-click="open(candidato, aspiracion)" class="col-lg-6 col-sm-12 col-xs-12 puntero">
+                <div class="databox databox-xlg databox-graded radius-bordered databox-shadowed">
+                  <div class="databox-left no-padding"><img ng-src="{{imagesPath + candidato.imagen_nombre}}" style="width:170px; height:170px;" ng-class="{'transparente':!candidato.iluminado}" class="img-responsive"></div>
                   <div ng-class="{'bg-white':candidato.iluminado}" class="databox-right padding-top-5 bordered-thick bordered-sky">
-                    <div class="databox-title lightcarbon">{{candidato.nombres + ' ' +candidato.apellidos}}</div>
-                    <div class="databox-text darkgray">Plancha {{candidato.plancha}} - Número {{candidato.numero}}</div>
+                    <div style="font-size: 22px; height: 100px; overflow: hidden; font-weight: 600;" class="databox-title lightcarbon">{{candidato.nombres + ' ' +candidato.apellidos}}</div>
+                    <div style="font-size: 18px;" ng-show="candidato.plancha" class="databox-text darkgray">Plancha {{candidato.plancha}} -  <span ng-show="candidato.numero"> Número {{candidato.numero}}</span></div>
                     <div ng-class="candidato.iluminado ? 'bg-darkorange stat-over' : 'bg-sky'" class="databox-stat radius-bordered">
                       <div class="stat-text">{{candidato.nombre_grupo}}</div>
                       <!--i.stat-icon.fa.fa-apple-->
