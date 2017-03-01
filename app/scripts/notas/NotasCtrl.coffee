@@ -5,15 +5,15 @@ angular.module('myvcFrontApp')
 
 	AuthService.verificar_acceso()
 
-	$scope.asignatura = {}
+	$scope.asignatura 	= {}
 	$scope.asignatura_id = $state.params.asignatura_id
-	$scope.datos = {}
-	$scope.UNIDAD = $scope.USER.unidad_displayname
-	$scope.SUBUNIDAD = $scope.USER.subunidad_displayname
-	$scope.UNIDADES = $scope.USER.unidades_displayname
-	$scope.SUBUNIDADES = $scope.USER.subunidades_displayname
-	$scope.perfilPath = App.images+'perfil/'
-	$scope.views = App.views
+	$scope.datos 		= {}
+	$scope.UNIDAD 		= $scope.USER.unidad_displayname
+	$scope.SUBUNIDAD 	= $scope.USER.subunidad_displayname
+	$scope.UNIDADES 	= $scope.USER.unidades_displayname
+	$scope.SUBUNIDADES 	= $scope.USER.subunidades_displayname
+	$scope.perfilPath 	= App.images+'perfil/'
+	$scope.views 		= App.views
 	$scope.nota_minima_aceptada = parseInt($scope.USER.nota_minima_aceptada)
 
 	$scope.asignatura 	= notas[0]

@@ -6,7 +6,7 @@
 			div
 				a.btn.btn-info.btn-lg(ui-sref="panel.unidades({asignatura_id: asignatura_id})") 
 					i.fa.fa-arrow-left
-					| Volver a unidades
+					| Volver a {{UNIDADES}}
 
 
 			div.table-responsive(ng-class="{cursorcopy:notaRapida.enable}")
@@ -40,9 +40,11 @@
 							td
 								.nombresellipsis( uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" 
 									popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" 
-									popover-trigger="mouseenter" popover-popup-delay="500") 
+									popover-trigger="mouseenter" popover-popup-delay="500" 
+									ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}") 
 									img(ng-src="{{perfilPath + alumno.userData.foto_nombre}}" style="width: 20px; height: 20px;")
-									| {{alumno.apellidos + ' ' + alumno.nombres}}
+									| {{alumno.apellidos + ' ' + alumno.nombres}} 
+									span(ng-show="alumno.estado=='ASIS'" style="font-size: 8pt") (Asis)
 							td
 								a.btn.btn-default.btn-xs(href="" ng-click="showFrases(alumno)" uib-tooltip="Información para el alumno")
 									i.fa.fa-info

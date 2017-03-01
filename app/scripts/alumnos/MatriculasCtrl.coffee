@@ -14,6 +14,17 @@ angular.module("myvcFrontApp")
 		sortType: 				'apellidos'
 		sortReverse: 			false
 	}
+	$scope.dato_f = {
+		sortMatricula: 			false
+		sortMatriculaReverse: 	false
+		sortNombres: 			false
+		sortNombresReverse: 	false
+		sortType: 				'apellidos'
+		sortReverse: 			false
+	}
+
+	$scope.alumnos_encontrados 	= []
+	$scope.texto_a_buscar		= ""
 
 	$scope.year_ant 				= $scope.USER.year - 1
 	$scope.perfilPath 				= App.images+'perfil/'
@@ -186,6 +197,21 @@ angular.module("myvcFrontApp")
 			toastr.success 'Alumno retirado'
 		, (r2)->
 			toastr.error 'No se pudo desmatricular', 'Problema'
+		)
+
+
+
+
+	$scope.buscar_por_nombre = ()->
+		
+		if $scope.texto_a_buscar == ""
+			toastr.warning 'Escriba término a buscar'
+			return
+
+		$http.put('::buscar/por-nombre', {texto_a_buscar: $scope.texto_a_buscar }).then((r)->
+			$scope.alumnos_encontrados = r.data
+		, (r2)->
+			toastr.error 'No se pudo buscar', 'Problema'
 		)
 
 

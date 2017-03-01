@@ -27,8 +27,8 @@ angular.module('myvcFrontApp')
 		columnDefs: [
 			{ field: 'orden', type: 'number', maxWidth: 50, enableSorting: false }
 			{ name: 'edicion', displayName:'Edición', maxWidth: 50, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2, enableCellEdit: false}
-			{ field: 'nombre', enableHiding: false, enableCellEditOnFocus: true }
-			{ field: 'abrev', displayName:'Abreviatura', enableCellEditOnFocus: true }
+			{ field: 'nombre', enableHiding: false }
+			{ field: 'abrev', displayName:'Abreviatura' }
 		],
 		multiSelect: false,
 		onRegisterApi: ( gridApi ) ->

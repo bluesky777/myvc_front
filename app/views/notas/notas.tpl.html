@@ -3,7 +3,7 @@
   <div class="widget">
     <div class="widget-header bordered-bottom bordered-blue"><span class="widget-caption">{{asignatura.materia + ' - ' + asignatura.nombre_grupo + ' - ' + asignatura.nombres_profesor}}</span></div>
     <div class="widget-body">
-      <div><a ui-sref="panel.unidades({asignatura_id: asignatura_id})" class="btn btn-info btn-lg"> <i class="fa fa-arrow-left"></i>Volver a unidades</a></div>
+      <div><a ui-sref="panel.unidades({asignatura_id: asignatura_id})" class="btn btn-info btn-lg"> <i class="fa fa-arrow-left"></i>Volver a {{UNIDADES}}</a></div>
       <div ng-class="{cursorcopy:notaRapida.enable}" class="table-responsive">
         <table class="table table-hover table-condensed table-striped tablenot100">
           <thead>
@@ -37,7 +37,7 @@
                 <div>{{$index+1}}</div>
               </td>
               <td>
-                <div uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="mouseenter" popover-popup-delay="500" class="nombresellipsis"> <img ng-src="{{perfilPath + alumno.userData.foto_nombre}}" style="width: 20px; height: 20px;">{{alumno.apellidos + ' ' + alumno.nombres}}</div>
+                <div uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="mouseenter" popover-popup-delay="500" ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" class="nombresellipsis"> <img ng-src="{{perfilPath + alumno.userData.foto_nombre}}" style="width: 20px; height: 20px;">{{alumno.apellidos + ' ' + alumno.nombres}} <span ng-show="alumno.estado=='ASIS'" style="font-size: 8pt">(Asis)</span></div>
               </td>
               <td><a href="" ng-click="showFrases(alumno)" uib-tooltip="Información para el alumno" class="btn btn-default btn-xs"><i class="fa fa-info"></i></a></td>
               <div>

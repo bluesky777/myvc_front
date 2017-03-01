@@ -26,6 +26,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 									popover-trigger="mouseenter")
 								| Titular: Pr. {{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor | capitalize}}
 						.col-lg-6.col-xs-6
+							h6.nombre-alumno(ng-show="alumno.estado=='ASIS'" style="font-size: 14pt") === ASISTENTE ===
 							h5.nombre-alumno {{alumno.nombres + ' ' + alumno.apellidos}}
 							.promedio-alumno Puntaje: {{alumno.promedio | setDecimal:1 }}%
 								span(ng-show="alumno.estado!='RETI'")  - Puesto: {{alumno.puesto}}/{{grupo.cantidad_alumnos}}

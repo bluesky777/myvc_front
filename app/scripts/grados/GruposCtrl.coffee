@@ -34,6 +34,7 @@ angular.module('myvcFrontApp')
 		enableSorting: true,
 		enableFiltering: true,
 		enebleGridColumnMenu: false,
+		enableCellEditOnFocus: true,
 		columnDefs: [
 			{ field: 'orden', type: 'number', maxWidth: 60 }
 			{ name: 'edicion', displayName:'Edición', maxWidth: 80, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2 + btGrid3, enableCellEdit: false}

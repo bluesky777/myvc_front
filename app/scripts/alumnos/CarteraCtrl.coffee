@@ -58,6 +58,7 @@ angular.module("myvcFrontApp")
 		enableSorting: true,
 		enableFiltering: true,
 		enebleGridColumnMenu: false,
+		enableCellEditOnFocus: true,
 		columnDefs: [
 			{ name: 'no', displayName:'No', width: 45, enableCellEdit: false, enableColumnMenu: false, cellTemplate: '<div class="ui-grid-cell-contents">{{grid.renderContainers.body.visibleRowCache.indexOf(row)+1}}</div>'}
 			{ name: 'edicion', displayName:'Edición', width: 30, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1, enableCellEdit: false, enableColumnMenu: true}

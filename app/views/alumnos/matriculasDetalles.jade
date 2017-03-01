@@ -29,7 +29,7 @@
 						td {{ $index+1 }}
 						td {{ matricula.matricula_id }}
 						td.content-menu-matrics
-							{{ matricula.no_matricula }}
+							| {{ matricula.no_matricula }}
 
 							span.menu-elim-matrics 
 								a.btn.btn-danger.btn-xs(ng-click="eliminarMatric(matricula.matricula_id)")
@@ -43,7 +43,7 @@
 						td {{ matricula.fecha_matricula }}
 						td 
 							span(ng-show="matricula.deleted_at_matricula!=null" uib-tooltip="Esta matrícula está en papelera de reciclaje")
-								{{ matricula.deleted_at_matricula }}
+								| {{ matricula.deleted_at_matricula }}
 
 				tfoot
 					tr

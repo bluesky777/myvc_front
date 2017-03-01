@@ -62,8 +62,8 @@ angular.module("myvcFrontApp")
 			{ field: 'id', type: 'number', maxWidth: 50, enableFiltering: false }
 			{ name: 'edicion', displayName:'Edición', maxWidth: 50, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2, enableCellEdit: false}
 			{ field: 'orden', type: 'number', maxWidth: 40, enableSorting: false }
-			{ field: 'nombre', enableHiding: false, enableCellEditOnFocus: true }
-			{ field: 'alias', displayName:'Alias', enableCellEditOnFocus: true }
+			{ field: 'nombre', enableHiding: false }
+			{ field: 'alias', displayName:'Alias' }
 		],
 		multiSelect: false,
 		#filterOptions: $scope.filterOptions,

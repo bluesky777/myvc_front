@@ -171,10 +171,30 @@ angular.module('myvcFrontApp')
 				'report_content':
 					templateUrl: "==informes/controlTardanzaEntrada.tpl.html" # En archivo PlanillasCtrl.coffee
 					controller: 'ControlTardanzaEntradaCtrl'
+					resolve:
+						grupos: ['$http', '$stateParams', ($http, $stateParams)->
+							$http.put('::planillas-ausencias/tardanza-entrada')
+						]
 			data: 
 				displayName: 'Control de tardanza entrada'
 				icon_fa: 'fa fa-print'
 				pageTitle: 'Control de tardanza entrada - MyVc'
+
+
+		.state 'panel.informes.planillas_ausencias1',
+			url: '/planillas_ausencias1/:profesor_id'
+			views: 
+				'report_content':
+					templateUrl: "==informes/planillasAusencias1.tpl.html"
+					controller: 'PlanillasAusencias1Ctrl'
+					resolve:
+						asignaturas: ['$http', '$stateParams', ($http, $stateParams)->
+							$http.get('::planillas-ausencias/show-profesor/'+$stateParams.profesor_id)
+						]
+			data: 
+				displayName: 'Planillas profesor'
+				icon_fa: 'fa fa-print'
+				pageTitle: 'Planillas profesor - MyVc'
 
 
 

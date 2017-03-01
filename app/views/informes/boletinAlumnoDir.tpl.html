@@ -19,6 +19,7 @@
               <div uib-popover-template="views+'informes/infoTitularPop.tpl.html'" popover-popup-delay="500" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true" popover-trigger="mouseenter" class="titular-grupo">Titular: Pr. {{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor | capitalize}}</div>
             </div>
             <div class="col-lg-6 col-xs-6">
+              <h6 ng-show="alumno.estado=='ASIS'" style="font-size: 14pt" class="nombre-alumno">=== ASISTENTE ===</h6>
               <h5 class="nombre-alumno">{{alumno.nombres + ' ' + alumno.apellidos}}</h5>
               <div class="promedio-alumno">Puntaje: {{alumno.promedio | setDecimal:1 }}%<span ng-show="alumno.estado!='RETI'"> - Puesto: {{alumno.puesto}}/{{grupo.cantidad_alumnos}}</span></div>
             </div>

@@ -151,7 +151,6 @@ angular.module("myvcFrontApp")
 			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
 				
 				if newValue != oldValue
-					console.log rowEntity, colDef, newValue, oldValue
 					$scope.currentasignaturaEdit = rowEntity
 					$scope.guardar()
 				$scope.$apply()

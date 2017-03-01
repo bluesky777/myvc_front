@@ -31,14 +31,46 @@ angular.module('myvcFrontApp')
 
 
 
-.controller('ControlTardanzaEntradaCtrl',['$scope', 'App', 'Perfil', '$state', ($scope, App, Perfil, $state)-> 
+.controller('ControlTardanzaEntradaCtrl',['$scope', 'App', 'Perfil', '$state', 'grupos', ($scope, App, Perfil, $state, grupos)-> 
 
 	$scope.USER = Perfil.User()
-	$scope.USER.nota_minima_aceptada = parseInt($scope.USER.nota_minima_aceptada)
-	
+
+	r = grupos.data[0]
+	$scope.year = r
+	$scope.grupos = r.grupos
+
 
 	$scope.perfilPath = App.images+'perfil/'
 
+	$scope.numberColumExt = 21;
+	$scope.numberColumInt = 4;
+	$scope.getNumber = (num)->
+		return new Array(num)
+
+	for grupo in $scope.grupos 
+		cont = 0
+		for alumno in grupo.alumnos
+			cont++
+			if cont == 3
+				alumno.gris = true
+				cont = 0
+			else
+				alumno.gris = false
+
+
 	$scope.$emit 'cambia_descripcion', 'Planillas para el control de tardanzas en la entrada.'
+
+
+	$scope.dato = {}
+	
+	
+
+	$scope.mesSeleccionado = ()->
+		if $scope.mesMostrar == '-1'
+			$scope.numberColumExt = 21;
+		else
+			$scope.dato.mes = '' + $scope.mesMostrar
+			$scope.dias = $scope.getAllDaysInMonth($scope.dato.mes)
+			$scope.numberColumExt = $scope.dias.length
 
 ])

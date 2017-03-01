@@ -11,12 +11,12 @@
 				a(href="" ng-click="mostrarTodos()" ng-show="!mostrandoTodos") Mostrar
 			div(ng-show="mostrandoTodos")
 				a.btn.btn-info.shiny(ui-sref="panel.profesores.nuevo" uib-tooltip="Ingresa datos de un nuevo alumno") Nuevo profesor
-				#grid1.grid(ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns ui-grid-auto-resize)
+				#grid1.grid(ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns ui-grid-auto-resize ui-grid-cellnav)
 
 			br
 			br
 			.form-title Profesores contratados este año {{USER.year}}:
-			#grid2.grid(ui-grid="gridCurrentOptions" ui-grid-edit ui-grid-resize-columns)
+			#grid2.grid(ui-grid="gridCurrentOptions" ui-grid-edit ui-grid-resize-columns ui-grid-cellnav)
 
 			.footer
 				| Puedes ver todos los profesores de años anteriores y el presente.

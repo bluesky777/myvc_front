@@ -32,6 +32,7 @@ angular.module("myvcFrontApp")
 		enableSorting: true,
 		enableFiltering: true,
 		enebleGridColumnMenu: false,
+		enableCellEditOnFocus: true,
 		columnDefs: [
 			{ field: 'id', displayName:'Id', width: 50, enableFiltering: false, enableCellEdit: false}
 			{ name: 'edicion', displayName:'Edición', width: 50, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2, enableCellEdit: false}
@@ -109,6 +110,7 @@ angular.module("myvcFrontApp")
 		enableSorting: true,
 		enableFiltering: true,
 		enebleGridColumnMenu: false,
+		enableCellEditOnFocus: true,
 		columnDefs: [
 			{ field: 'profesor_id', displayName:'Id', width: 50, enableFiltering: false, enableCellEdit: false}
 			{ name: 'edicion', displayName:'Edición', width: 50, enableSorting: false, enableFiltering: false, cellTemplate: btGridQuitar, enableCellEdit: false}

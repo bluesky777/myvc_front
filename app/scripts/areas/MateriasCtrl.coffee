@@ -70,8 +70,8 @@ angular.module("myvcFrontApp")
 					actual 	= $filter('filter')(foundG, {materia: cellValue})
 					return actual.length > 0;
 			}
-			enableCellEditOnFocus: true }
-			{ field: 'alias', displayName:'Alias', enableCellEditOnFocus: true }
+			}
+			{ field: 'alias', displayName:'Alias' }
 			{ field: 'area_id', displayName: 'Area', editDropdownOptionsArray: areas, cellFilter: 'mapAreas:grid.appScope.areas', editableCellTemplate: 'ui-grid/dropdownEditor', 
 			filter: {
 				condition: (searchTerm, cellValue)->

@@ -31,6 +31,7 @@ angular.module("myvcFrontApp")
 		enableSorting: true,
 		enableFiltering: true,
 		enebleGridColumnMenu: false,
+		enableCellEditOnFocus: true,
 		columnDefs: [
 			{ field: 'alumno_id', displayName:'Id', maxWidth: 40}
 			{ name: 'edicion', displayName:'Edición', maxWidth: 110, enableSorting: false, enableFiltering: false, cellTemplate: btGridAlum1 + btGridAlum2}
@@ -77,6 +78,7 @@ angular.module("myvcFrontApp")
 		enableSorting: true,
 		enableFiltering: true,
 		enebleGridColumnMenu: false,
+		enableCellEditOnFocus: true,
 		columnDefs: [
 			{ field: 'id', displayName:'Id', maxWidth: 40}
 			{ name: 'edicion', displayName:'Edición', maxWidth: 110, enableSorting: false, enableFiltering: false, cellTemplate: btGridGrupo1 + btGridGrupo2}
@@ -137,6 +139,7 @@ angular.module("myvcFrontApp")
 		enableSorting: true,
 		enableFiltering: true,
 		enebleGridColumnMenu: false,
+		enableCellEditOnFocus: true,
 		columnDefs: [
 			{ field: 'id', displayName:'Id', maxWidth: 40}
 			{ name: 'edicion', displayName:'Edición', maxWidth: 110, enableSorting: false, enableFiltering: false, cellTemplate: btGridUnidad1 + btGridUnidad2}

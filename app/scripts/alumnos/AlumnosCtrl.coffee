@@ -107,6 +107,7 @@ angular.module("myvcFrontApp")
 		enableSorting: true,
 		enableFiltering: true,
 		enebleGridColumnMenu: false,
+		enableCellEditOnFocus: true,
 		columnDefs: [
 			{ field: 'alumno_id', displayName:'Id', width: 50, enableCellEdit: false, enableColumnMenu: false}
 			{ field: 'no_matricula', maxWidth: 50, enableSorting: false, enableColumnMenu: true }

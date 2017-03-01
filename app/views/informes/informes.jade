@@ -158,6 +158,9 @@
 								ui-select-choices(repeat="grupo in grupos | filter: $select.search")
 									div(ng-bind-html="grupo.nombre | highlight: $select.search")
 							a.btn.btn-default(href="" ng-click="verPlanillasGrupo()") Ver planillas
+
+						a.btn.btn-default(href="" ng-click="verPlanillasControlTardanzas()") Control de tardanzas entrada
+						br
 						
 						br
 						

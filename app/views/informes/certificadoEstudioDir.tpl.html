@@ -1,5 +1,5 @@
 
-<div ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $parent.$last==false }"><span ng-if="year.config_certificado_estudio_id"><img ng-src="{{perfilPath + year.config_certificado.encabezado_nombre}}" style="width: 22cm; position: absolute; margin-left: -10px;" class="encabezado-membrete"></span>
+<div style="display: table; height: 30cm ; " ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $parent.$last==false }"><span ng-if="year.config_certificado_estudio_id"><img ng-src="{{perfilPath + year.config_certificado.encabezado_nombre}}" style="width: 22cm; position: absolute; margin-left: -10px;" class="encabezado-membrete"></span>
   <div class="row">
     <div ng-style="{ 'margin-top' : year.config_certificado.encabezado_margin_top, 'margin-left' : year.config_certificado.encabezado_margin_left }">
       <div class="col-lg-12 col-xs-12">
@@ -96,5 +96,5 @@
         </div>
       </div>
     </div>
-  </div><span ng-if="year.config_certificado_estudio_id"><img ng-src="{{perfilPath + year.config_certificado.piepagina_nombre}}" style="width: 22cm; position: absolute; margin-left: -10px;" class="footer-membrete"></span>
+  </div><span ng-if="year.config_certificado_estudio_id" style="display: table-row; vertical-align: bottom; height: {{year.config_certificado.piepagina_height}}px;"><img ng-src="{{perfilPath + year.config_certificado.piepagina_nombre}}" style="width: 22cm; position: absolute; margin-left: -10px;" class="footer-membrete"></span>
 </div>

@@ -15680,6 +15680,9 @@ body {
     .popover{
         display: none!important;
     }
+    .popover-inner{
+        display: none!important;
+    }
 
     .comportamiento-boletin{
         page-break-inside:avoid;
@@ -16333,4 +16336,11 @@ input.ocultar-input{
     opacity: 1;
     top: 2px;
 }
+.fondo-gris-td{
+    background-color: #ccc !important;
+}
+.fondo-blanco-td{
+    background-color: #fff !important;
+}
+
 

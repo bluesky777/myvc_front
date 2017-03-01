@@ -37,11 +37,12 @@ angular.module('myvcFrontApp')
 		enableSorting: true,
 		enableFiltering: true,
 		enebleGridColumnMenu: false,
+		enableCellEditOnFocus: true,
 		columnDefs: [
 			{ name: 'edicion', displayName:'Edición', maxWidth: 50, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2, enableCellEdit: false}
-			{ field: 'nombre', enableHiding: false, enableCellEditOnFocus: true }
-			{ field: 'abrev', displayName:'abreviatura', enableCellEditOnFocus: true, maxWidth: 50, enableSorting: false }
-			{ field: 'orden', type: 'number', enableCellEditOnFocus: true, maxWidth: 50 }
+			{ field: 'nombre', enableHiding: false }
+			{ field: 'abrev', displayName:'abreviatura', maxWidth: 50, enableSorting: false }
+			{ field: 'orden', type: 'number', maxWidth: 50 }
 			{ field: 'nivel_educativo_id', displayName: 'Nivel Educativo', editDropdownOptionsArray: niveles, cellFilter: 'mapNivel:grid.appScope.niveles', editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'id', editDropdownValueLabel: 'nombre' }
 			{ name: 'nn', displayName: '', maxWidth: 20, enableSorting: false, enableFiltering: false }
 		],

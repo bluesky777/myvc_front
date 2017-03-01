@@ -61,6 +61,7 @@ angular.module('myvcFrontApp')
 		enableSorting: true,
 		enableFiltering: true,
 		enableGridColumnMenu: false,
+		enableCellEditOnFocus: true,
 		columnDefs: [
 			{ field: 'user_id', width: 70, enableFiltering: false, enableCellEdit: false }
 			{ name: 'edicion', displayName:'Edición', width: 200, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2 + btGrid3 + btGrid4, enableCellEdit: false}

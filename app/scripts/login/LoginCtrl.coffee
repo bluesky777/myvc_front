@@ -15,9 +15,9 @@ angular.module('myvcFrontApp')
 	#$scope.paramuser = {'username': Perfil.User().username }
 
 
-	$http.get($scope.logoPath).success(()->
+	$http.get($scope.logoPath).then(()->
 		#alert('imagen existe')
-	).error(()->
+	).then(()->
 		#alert('image not exist')
 		$scope.logoPath = $scope.logoPathDefault # set default image
 	)

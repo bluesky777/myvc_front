@@ -153,6 +153,9 @@ angular.module('myvcFrontApp')
 	$scope.verPlanillasProfe = ()->
 		$state.go 'panel.informes.planillas_profesor', {profesor_id: $scope.datos.profesor.profesor_id, periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
 
+	$scope.verPlanillasControlTardanzas = ()->
+		$state.go 'panel.informes.control_tardanza_entrada', {reload: true}
+
 
 
 
@@ -287,6 +290,47 @@ angular.module('myvcFrontApp')
 
 
 
+
+
+	# CALCULOS PARA DÍAS Y MESES	
+	$scope.meses = [
+		{nombre: 'Enero'}
+		{nombre: 'Febrero'}
+		{nombre: 'Marzo'}
+		{nombre: 'Abril'}
+		{nombre: 'Mayo'}
+		{nombre: 'Junio'}
+		{nombre: 'Julio'}
+		{nombre: 'Agosto'}
+		{nombre: 'Septiembre'}
+		{nombre: 'Octubre'}
+		{nombre: 'Noviembre'}
+		{nombre: 'Diciembre'}
+	]
+
+	$scope.numYearActual = $scope.USER.year
+
+	DAYS_IN_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+	getDaysInMonth = ( year, month )->
+		if ((month == 1) and (year % 4 == 0) and ((year % 100 != 0) or (year % 400 == 0)))
+			return 29
+		else
+			return DAYS_IN_MONTH[month]
+
+	$scope.getAllDaysInMonth = (month)->
+		
+		num = getDaysInMonth($scope.numYearActual, month)
+		r=[]
+		for i in [1..num]
+			d = new Date($scope.numYearActual, parseInt(month), i)
+			n = d.getDay()
+
+			if n != 0 and n != 6
+				r.push i
+			
+		return r
+
+	# //
 
 
 

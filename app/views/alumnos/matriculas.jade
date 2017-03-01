@@ -85,6 +85,8 @@
 									label.btn.btn-info.btn-xs(ng-model="alumno.estado" uib-btn-radio="'MATR'" ng-click="reMatricularUno(alumno)") Matr
 									label.btn.btn-info.btn-xs(ng-model="alumno.estado" uib-btn-radio="'ASIS'" ng-click="setAsistente(alumno)") Asis
 									label.btn.btn-info.btn-xs(ng-model="alumno.estado" uib-btn-radio="'RETI'" ng-click="retirar(alumno)") Reti
+									label.btn.btn-info.btn-xs(ng-model="alumno.estado" uib-btn-radio="'DESE'" ng-click="desertar(alumno)") Dese
+									label.btn.btn-info.btn-xs(ng-model="alumno.estado" ng-click="matricularEn(alumno)" uib-tooltip="Matricular en..." tooltip-placement="right") ...
 
 							.btn-group(ng-show="alumno.grupo_id!=dato.grupo.id " style="margin-top: -2px; padding-bottom: 2px;")
 								label.btn.btn-success.shiny.btn-xs(ng-click="setNewAsistente(alumno)" uib-tooltip="Inscribir como asistente") Asis
@@ -128,6 +130,8 @@
 									label.btn.btn-info.btn-xs(ng-model="alumno.estado" uib-btn-radio="'MATR'" ng-click="reMatricularUno(alumno)") Matr
 									label.btn.btn-info.btn-xs(ng-model="alumno.estado" uib-btn-radio="'ASIS'" ng-click="setAsistente(alumno)") Asis
 									label.btn.btn-info.btn-xs(ng-model="alumno.estado" uib-btn-radio="'RETI'" ng-click="retirar(alumno)") Reti
+									label.btn.btn-info.btn-xs(ng-model="alumno.estado" uib-btn-radio="'DESE'" ng-click="desertar(alumno)") Dese
+									label.btn.btn-info.btn-xs(ng-model="alumno.estado" uib-tooltip="Matricular en..." tooltip-placement="right" ng-click="matricularEn(alumno)") ...
 
 							.btn-group(ng-show="alumno.grupo_id!=dato.grupo.id " style="margin-top: -2px; padding-bottom: 2px;")
 								label.btn.btn-success.shiny.btn-xs(ng-click="setNewAsistente(alumno)" uib-tooltip="Inscribir como asistente") Asis
@@ -151,6 +155,80 @@
 						td 
 						td 
 
+
+			div Buscar en todo el sistema: 
+				input.form-control(type="text" name="buscar" placeholder="Buscar..." ng-model="texto_a_buscar" style="width: 200px;")
+				button.btn.btn-default(ng-click="buscar_por_nombre()") Por nombre
+				button.btn.btn-default(ng-click="buscar_por_apellido()") Por Apellido
+
+
+			
+			table.table.table-striped(ng-show="alumnos_encontrados.length>0" style="max-height: 700px; overflow-y: scroll; display: block;")
+				thead
+					tr
+						th(style="max-width: 10px") No
+						th 
+							a(href="" ng-click="dato.sortType = 'no_matricula'; dato.sortReverse = !dato.sortReverse")
+								| Matrícula 
+								span.fa.fa-caret-down(ng-show="dato.sortType == 'no_matricula' && !dato.sortReverse")
+								span.fa.fa-caret-up(ng-show="dato.sortType == 'no_matricula' && dato.sortReverse")
+						th 
+							a(href="" ng-click="dato.sortType = 'apellidos'; dato.sortReverse = !dato.sortReverse")
+								| Apellidos 
+								span.fa.fa-caret-down(ng-show="dato.sortType == 'apellidos' && !dato.sortReverse")
+								span.fa.fa-caret-up(ng-show="dato.sortType == 'apellidos' && dato.sortReverse")
+						th 
+							a(href="" ng-click="dato.sortType = 'nombres'; dato.sortReverse = !dato.sortReverse")
+								| Nombres 
+								span.fa.fa-caret-down(ng-show="dato.sortType == 'nombres' && !dato.sortReverse")
+								span.fa.fa-caret-up(ng-show="dato.sortType == 'nombres' && dato.sortReverse")
+						th(style="max-width: 20px; padding: 0px 0px 8px;") 
+							a(href="" ng-click="dato.sortType = 'sexo'; dato.sortReverse = !dato.sortReverse")
+								i(style="font-weight: bold;").fa.fa-venus-mars 
+								span.fa.fa-caret-down(ng-show="dato.sortType == 'sexo' && !dato.sortReverse")
+								span.fa.fa-caret-up(ng-show="dato.sortType == 'sexo' && dato.sortReverse")
+						th(style="min-width: 120px; text-align: center;") 
+							a(href="" ng-click="dato.sortType = 'created_at'; dato.sortReverse = !dato.sortReverse")
+								| Creado en 
+								span.fa.fa-caret-down(ng-show="dato.sortType == 'created_at' && !dato.sortReverse")
+								span.fa.fa-caret-up(ng-show="dato.sortType == 'created_at' && dato.sortReverse")
+						th
+							a(href="" ng-click="dato.sortType = 'updated_at'; dato.sortReverse = !dato.sortReverse")
+								| Modificado 
+								span.fa.fa-caret-down(ng-show="dato.sortType == 'updated_at' && !dato.sortReverse")
+								span.fa.fa-caret-up(ng-show="dato.sortType == 'updated_at' && dato.sortReverse")
+						th
+							a(href="" ng-click="dato.sortType = 'deleted_at'; dato.sortReverse = !dato.sortReverse")
+								| Eliminado 
+								span.fa.fa-caret-down(ng-show="dato.sortType == 'deleted_at' && !dato.sortReverse")
+								span.fa.fa-caret-up(ng-show="dato.sortType == 'deleted_at' && dato.sortReverse")
+				
+				tbody.filasestrechas
+					tr(ng-repeat="alumno in alumnos_encontrados | orderBy:dato_f.sortType:dato_f.sortReverse track by $index" ng-class="{'filagris': alumno.grupo_id!=dato_f.grupo.id, 'filawarning': alumno.estado=='RETI', 'filadanger': alumno.estado=='ASIS' }")
+						td {{ $index+1 }}
+						td.content-menu-matrics 
+							| {{ alumno.no_matricula }}
+
+							div
+								a.btn.btn-default.btn-xs.menu-matrics(ui-sref="panel.matriculas.detalles({alumno_id: alumno.alumno_id})" uib-tooltip="Ver matrículas") 
+									i.fa.fa-pencil
+
+						td 
+							div( uib-popover-template="views+'alumnos/popoverAlumnoInfo.tpl.html'" 
+								popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" 
+								popover-trigger="mouseenter" popover-popup-delay="500") 
+
+								img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 20px; height: 20px; margin-top: -3px;")
+								| {{ alumno.apellidos }}
+						td 
+							| {{ alumno.nombres }}
+
+						td {{ alumno.sexo }}
+						td {{ alumno.created_at }}
+						td {{ alumno.updated_at }}
+						td {{ alumno.deleted_at }}
+
+					
 
 .row(ui-view="matricula_detalle")
 

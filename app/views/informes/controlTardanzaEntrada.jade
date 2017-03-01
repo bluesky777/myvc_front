@@ -1,4 +1,24 @@
-div(ng-repeat="asignatura in asignaturas")
+div.hidden-print(style="padding: 10px; background-color: white; margin: 10px; border: 2px solid #ccc; width: 500px")
+	label Col externas
+		input(type="number" ng-model="numberColumExt" style="width: 40px")
+	label Col externas
+		input(type="number" ng-model="numberColumInt" style="width: 40px")
+	select(multiple ng-click="mesSeleccionado()" ng-model="mesMostrar" style="width: 100px; padding: 0")
+		option(value="-1") Sin días
+		option(value="0") Enero
+		option(value="1") Febrero
+		option(value="2") Marzo
+		option(value="3") Abril
+		option(value="4") Mayo
+		option(value="5") Junio
+		option(value="6") Julio
+		option(value="7") Agosto
+		option(value="8") Septiembre
+		option(value="9") Octubre
+		option(value="10") Noviembre
+		option(value="11") Diciembre
+
+div(ng-repeat="grupo in grupos")
 
 	div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }")
 		.row
@@ -14,15 +34,12 @@ div(ng-repeat="asignatura in asignaturas")
 										.nombre-colegio
 											| {{year.nombre_colegio + ' - ' + year.abrev_colegio}}
 										.descripcion-title
-											|Planilla de trabajo Per{{USER.numero_periodo}}-{{USER.year}} 
-											b  {{asignatura.nombre_grupo}} - {{asignatura.materia | capitalize}}
+											| Control de tardanzas {{USER.year}} 
 											
 								.row
 									.col-lg-12
-										h5.nombre-profesor(style="padding: 0px; margin: 0px") {{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}
+										h5.nombre-profesor(style="padding: 0px; margin: 0px") {{grupo.nombre}} - {{grupo.nombres_titular + ' ' + grupo.apellidos_titular }}
 
-							.col-lg-2.col-xs-2
-								img.img-responsive.img-thumbnail.foto-profe(ng-src="{{perfilPath + asignatura.foto_nombre}}" ng-show="config.mostrar_foto && asignatura.foto_id")
 
 				.row.body-boletin
 					.col-lg-12.col-xs-12.materias
@@ -34,35 +51,25 @@ div(ng-repeat="asignatura in asignaturas")
 											|No
 										th(rowspan="2" style="text-align: center;")
 											|Alumnos
-										th(ng-repeat="periodo in year.periodos" rowspan="2" style="font-size: 8pt")
-											|P{{periodo.numero}}
-										th(ng-repeat="unidad in unidadesdefault track by $index" colspan="10" style="font-size: 8pt")
-											| {{$index + 1}} {{unidad}}
-									tr(style="height: 25px")
-										th(ng-repeat="subuni in subunidadesdefault track by $index" style="width: 50px")
-											| {{subuni}}
+										th(colspan="{{ numberColumExt * numberColumInt }}" style="font-size: 8pt; height: 20px")
+											|  
+									tr(style="height: 20px")
+										th(style="width: 50px" colspan="{{numberColumInt}}" ng-repeat="i in getNumber(numberColumExt) track by $index")
+											span(ng-show="mesMostrar=='-1'")  
+											span(ng-show="mesMostrar != -1 ")  {{ $parent.dias[$index] }}
 								tbody(style="font-size: 9pt")
-									tr(ng-repeat="alumno in asignatura.alumnos" )
-										td
+									tr(ng-repeat-start="alumno in grupo.alumnos" )
+										td(rowspan="2" style="height: 16px;" ng-class-odd="'fondo-gris-td'" ng-class-even="'fondo-blanco-td'" )
 											| {{$index + 1}}
-										td
+										td(rowspan="2" style="height: 16px;" ng-class-odd="'fondo-gris-td'" ng-class-even="'fondo-blanco-td'" )
 											.ellipsis200.alumno-planilla
 												| {{alumno.apellidos}} {{alumno.nombres}}
-										td(ng-repeat="periodo in alumno.periodos")
-											.def-per-planilla
-												| {{periodo.nota_asignatura | decimales:1}}
-										td(ng-repeat="subuni in subunidadesdefault track by $index" style="width: 50px")
-											| {{subuni}}
-									tr(style="height: 17px;")
-										td   
-											|  
-										td  
-											|  
-										td(ng-repeat="periodo in asignatura.periodosProm")  
-											.def-per-planilla(style="font-weight: bold;") 
-												| {{periodo.sumatoria / asignatura.alumnos.length | decimales:1}} 
-										td(ng-repeat="subuni in subunidadesdefault track by $index" style="width: 50px")
-											| {{subuni}}
+										td(ng-repeat="i in getNumber(numberColumExt * numberColumInt) track by $index" style="height: 8px; font-size: 3px;" ng-class="{'fondo-blanco-td': $parent.$odd, 'fondo-gris-td': $parent.$even }")
+											| 
+
+									tr(ng-repeat-end style="height: 8px;")
+										td(ng-repeat="i in getNumber(numberColumExt * numberColumInt) track by $index" style="height: 8px; font-size: 3px;" ng-class="{'fondo-blanco-td': $parent.$odd, 'fondo-gris-td': $parent.$even }")
+											| 
 
 
 
