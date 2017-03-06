@@ -22,13 +22,13 @@
             <th> <a href="" ng-click="dato.sortType = 'apellidos'; dato.sortReverse = !dato.sortReverse">Apellidos <span ng-show="dato.sortType == 'apellidos' &amp;&amp; !dato.sortReverse" class="fa fa-caret-down"></span><span ng-show="dato.sortType == 'apellidos' &amp;&amp; dato.sortReverse" class="fa fa-caret-up"></span></a></th>
             <th> <a href="" ng-click="dato.sortType = 'nombres'; dato.sortReverse = !dato.sortReverse">Nombres <span ng-show="dato.sortType == 'nombres' &amp;&amp; !dato.sortReverse" class="fa fa-caret-down"></span><span ng-show="dato.sortType == 'nombres' &amp;&amp; dato.sortReverse" class="fa fa-caret-up"></span></a></th>
             <th style="max-width: 20px; padding: 0px 0px 8px;"> <a href="" ng-click="dato.sortType = 'sexo'; dato.sortReverse = !dato.sortReverse"><i style="font-weight: bold;" class="fa fa-venus-mars"> </i><span ng-show="dato.sortType == 'sexo' &amp;&amp; !dato.sortReverse" class="fa fa-caret-down"></span><span ng-show="dato.sortType == 'sexo' &amp;&amp; dato.sortReverse" class="fa fa-caret-up"></span></a></th>
-            <th style="min-width: 120px; text-align: center;"> <a href="" ng-click="dato.sortType = 'estado'; dato.sortReverse = !dato.sortReverse">Estado <span ng-show="dato.sortType == 'estado' &amp;&amp; !dato.sortReverse" class="fa fa-caret-down"></span><span ng-show="dato.sortType == 'estado' &amp;&amp; dato.sortReverse" class="fa fa-caret-up"></span></a></th>
+            <th style="min-width: 180px; text-align: center;"> <a href="" ng-click="dato.sortType = 'estado'; dato.sortReverse = !dato.sortReverse">Estado <span ng-show="dato.sortType == 'estado' &amp;&amp; !dato.sortReverse" class="fa fa-caret-down"></span><span ng-show="dato.sortType == 'estado' &amp;&amp; dato.sortReverse" class="fa fa-caret-up"></span></a></th>
             <th><a href="" ng-click="dato.sortType = 'fecha_retiro'; dato.sortReverse = !dato.sortReverse">Retirado <span ng-show="dato.sortType == 'fecha_retiro' &amp;&amp; !dato.sortReverse" class="fa fa-caret-down"></span><span ng-show="dato.sortType == 'fecha_retiro' &amp;&amp; dato.sortReverse" class="fa fa-caret-up"></span></a></th>
             <th><a href="" ng-click="dato.sortType = 'fecha_matricula'; dato.sortReverse = !dato.sortReverse">Matriculado <span ng-show="dato.sortType == 'fecha_matricula' &amp;&amp; !dato.sortReverse" class="fa fa-caret-down"></span><span ng-show="dato.sortType == 'fecha_matricula' &amp;&amp; dato.sortReverse" class="fa fa-caret-up"></span></a></th>
           </tr>
         </thead>
         <tbody class="filasestrechas">
-          <tr ng-repeat="alumno in alumnos_all | filter: filterActuales | orderBy:dato.sortType:dato.sortReverse  track by $index" ng-class="{'filagris': alumno.grupo_id!=dato.grupo.id, 'filawarning': alumno.estado=='RETI', 'filadanger': alumno.estado=='ASIS' }">
+          <tr ng-repeat="alumno in alumnos_all | filter: filterActuales | orderBy:dato.sortType:dato.sortReverse  track by $index" ng-class="{'filagris': alumno.grupo_id!=dato.grupo.id, 'filadanger': alumno.estado=='RETI' || alumno.estado=='DESE', 'filawarning': alumno.estado=='ASIS' }">
             <td>{{ $index+1 }}</td>
             <td class="content-menu-matrics">
                
@@ -47,8 +47,8 @@
                   <label ng-model="alumno.estado" uib-btn-radio="'MATR'" ng-click="reMatricularUno(alumno)" class="btn btn-info btn-xs">Matr</label>
                   <label ng-model="alumno.estado" uib-btn-radio="'ASIS'" ng-click="setAsistente(alumno)" class="btn btn-info btn-xs">Asis</label>
                   <label ng-model="alumno.estado" uib-btn-radio="'RETI'" ng-click="retirar(alumno)" class="btn btn-info btn-xs">Reti</label>
-                  <label ng-model="alumno.estado" uib-btn-radio="'DESE'" ng-click="desertar(alumno)" class="btn btn-info btn-xs">Dese</label>
-                  <label ng-model="alumno.estado" ng-click="matricularEn(alumno)" uib-tooltip="Matricular en..." tooltip-placement="right" class="btn btn-info btn-xs">...</label></span></span>
+                  <label ng-model="alumno.estado" uib-btn-radio="'DESE'" ng-click="desertar(alumno)" uib-tooltip="Desertor" tooltip-placement="right" tooltip-popup-delay="1000" class="btn btn-info btn-xs">Dese</label>
+                  <label ng-model="alumno.estado" ng-click="matricularEn(alumno)" uib-tooltip="Matricular en..." tooltip-placement="right" tooltip-popup-delay="1000" class="btn btn-info btn-xs">...</label></span></span>
               <div ng-show="alumno.grupo_id!=dato.grupo.id " style="margin-top: -2px; padding-bottom: 2px;" class="btn-group">
                 <label ng-click="setNewAsistente(alumno)" uib-tooltip="Inscribir como asistente" class="btn btn-success shiny btn-xs">Asis</label>
                 <label ng-click="matricularUno(alumno)" uib-tooltip="Matricular" tooltip-popup-delay="1000" class="btn btn-success shiny btn-xs">Matric</label>
@@ -56,14 +56,14 @@
               </div>
             </td>
             <td> 
-              <input ng-model="alumno.fecha_retiro" type="date" ng-show="alumno.estado=='RETI'" ng-change="cambiarFechaRetiro(alumno)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }">
+              <input ng-model="alumno.fecha_retiro" type="date" ng-show="alumno.estado=='RETI' || alumno.estado=='DESE'" ng-change="cambiarFechaRetiro(alumno)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }">
             </td>
             <td> 
               <input ng-model="alumno.fecha_matricula" type="date" ng-change="cambiarFechaMatricula(alumno)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }">
             </td>
           </tr>
           <!-- Ahora mostraremos los que NO son de este, año este grupo-->
-          <tr ng-repeat="alumno in alumnos_all | filter: filterNOActuales | orderBy:dato.sortType:dato.sortReverse  track by $index" ng-class="{'filagris': alumno.grupo_id!=dato.grupo.id, 'filawarning': alumno.estado=='RETI', 'filadanger': alumno.estado=='ASIS' }">
+          <tr ng-repeat="alumno in alumnos_all | filter: filterNOActuales | orderBy:dato.sortType:dato.sortReverse  track by $index" ng-class="{'filagris': alumno.grupo_id!=dato.grupo.id, 'filadanger': alumno.estado=='RETI' || alumno.estado=='DESE', 'filawarning': alumno.estado=='ASIS' }">
             <td>{{ $index+1 }}</td>
             <td class="content-menu-matrics">
                
@@ -130,7 +130,7 @@
           </tr>
         </thead>
         <tbody class="filasestrechas">
-          <tr ng-repeat="alumno in alumnos_encontrados | orderBy:dato_f.sortType:dato_f.sortReverse track by $index" ng-class="{'filagris': alumno.grupo_id!=dato_f.grupo.id, 'filawarning': alumno.estado=='RETI', 'filadanger': alumno.estado=='ASIS' }">
+          <tr ng-repeat="alumno in alumnos_encontrados | orderBy:dato_f.sortType:dato_f.sortReverse track by $index" ng-class="{'filagris': alumno.grupo_id!=dato_f.grupo.id, 'filadanger': alumno.estado=='RETI' || alumno.estado=='DESE', 'filawarning': alumno.estado=='ASIS' }">
             <td>{{ $index+1 }}</td>
             <td class="content-menu-matrics">
                

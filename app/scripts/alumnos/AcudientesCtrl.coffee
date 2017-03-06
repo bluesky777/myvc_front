@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('CarteraCtrl', ['$scope', 'App', '$state', '$interval', '$uibModal', '$filter', 'AuthService', 'toastr', '$http', 'uiGridConstants', ($scope, App, $state, $interval, $modal, $filter, AuthService, toastr, $http, uiGridConstants)->
+.controller('AcudientesCtrl', ['$scope', 'App', '$state', '$interval', '$uibModal', '$filter', 'AuthService', 'toastr', '$http', 'uiGridConstants', ($scope, App, $state, $interval, $modal, $filter, AuthService, toastr, $http, uiGridConstants)->
 
 	AuthService.verificar_acceso()
 
@@ -18,18 +18,18 @@ angular.module("myvcFrontApp")
 	
 	$http.get('::grupos').then((r)->
 
-		matr_grupo = 0
+		acud_grupo = 0
 
-		if localStorage.matr_grupo 
-			matr_grupo = parseInt(localStorage.matr_grupo)
+		if localStorage.acud_grupo 
+			acud_grupo = parseInt(localStorage.acud_grupo)
 
 		$scope.grupos = r.data
 
 		for grupo in $scope.grupos
-			if grupo.id == matr_grupo
+			if grupo.id == acud_grupo
 				$scope.dato.grupo = grupo
 
-		$scope.traerAlumnos($scope.dato.grupo)
+		$scope.traerAcudientes($scope.dato.grupo)
 
 	)
 
@@ -38,14 +38,14 @@ angular.module("myvcFrontApp")
 		if not $item
 			return
 
-		localStorage.setItem('matr_grupo', $item.id)
-		$scope.traerAlumnos($item)
+		localStorage.setItem('acud_grupo', $item.id)
+		$scope.traerAcudientes($item)
 
 
 	
 	$scope.editar = (row)->
-		console.log row.alumno_id
-		$state.go('panel.cartera.editar', {alumno_id: row.alumno_id})
+		console.log row
+		$state.go('panel.acudientes.editar', {acudiente_id: row.acudiente_id})
 
 
 	btGrid1 = '<a uib-tooltip="Editar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
@@ -111,9 +111,9 @@ angular.module("myvcFrontApp")
 	
 
 
-	$scope.traerAlumnos = (item)->
+	$scope.traerAcudientes = (item)->
 		
-		$http.put("::cartera/alumnos", {grupo_actual: item}).then((r)->
+		$http.put("::acudientes/datos", {grupo_actual: item}).then((r)->
 			$scope.gridOptions.data = r.data
 
 			$scope.gridOptions.columnDefs[6].visible = false
@@ -145,16 +145,6 @@ angular.module("myvcFrontApp")
 			#console.log 'Resultado del modal: ', user
 		)
 
-
-
-	$scope.traerSoloDeudores = (row)->
-
-		$http.put("::cartera/solo-deudores", {year_id: $scope.USER.year_id }).then((r)->
-			$scope.gridOptions.data = r.data
-
-			$scope.gridOptions.columnDefs[6].visible = true
-			$scope.gridApi.grid.refresh()
-		)
 
 
 

@@ -195,5 +195,26 @@ angular.module('myvcFrontApp')
 
 
 
+			.state 'panel.acudientes',
+				url: '^/acudientes'
+				views: 
+					'maincontent':
+						templateUrl: "#{App.views}alumnos/acudientes.tpl.html"
+						controller: 'AcudientesCtrl'
+					'headerContent':
+						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						controller: 'PanelHeaderCtrl'
+						resolve: 
+							titulo: [->
+								'Acudientes'
+							]
+				data: 
+					displayName: 'Acudientes'
+					icon_fa: 'fa fa-users'
+					pageTitle: 'Acudientes - MyVc'
+					needed_permissions: [PERMISSIONS.can_work_like_teacher]
+
+
+
 		return
 	]

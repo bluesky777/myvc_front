@@ -81,6 +81,7 @@ angular.module("myvcFrontApp")
 			$scope.alumnos_all = r.data
 
 			for alumno in $scope.alumnos_all
+				#console.log alumno.fecha_retiro, new Date(alumno.fecha_retiro.replace( /(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3"))
 				alumno.estado_ant 			= alumno.estado
 				alumno.fecha_retiro_ant 	= alumno.fecha_retiro
 				alumno.fecha_retiro 		= new Date(alumno.fecha_retiro)
@@ -99,9 +100,11 @@ angular.module("myvcFrontApp")
 		
 		$http.post('::matriculas/matricularuno', datos).then((r)->
 			r = r.data
-			row.matricula_id = r.id
-			row.grupo_id = r.grupo_id
-			row.estado 	= 'MATR'
+			row.matricula_id 			= r.id
+			row.grupo_id 				= r.grupo_id
+			row.estado 					= 'MATR'
+			row.fecha_matricula_ant 	= r.fecha_matricula.date
+			row.fecha_matricula 		= new Date(r.fecha_matricula.date)
 			toastr.success 'Alumno matriculado con éxito', 'Matriculado'
 			return row
 		, (r2)->
@@ -183,6 +186,21 @@ angular.module("myvcFrontApp")
 			toastr.error 'No se pudo guardar la fecha', 'Error'
 		)
 		
+
+
+
+
+	$scope.desertar = (row)->
+		fecha = row.fecha_retiro
+		if row.fecha_retiro_ant == null
+			fecha 				= new Date()
+			row.fecha_retiro 	= fecha
+
+		$http.put('::matriculas/desertar', {matricula_id: row.matricula_id, fecha_retiro: row.fecha_retiro }).then((r)->
+			toastr.success 'Alumno desertado'
+		, (r2)->
+			toastr.error 'No se pudo desertar', 'Problema'
+		)
 
 
 

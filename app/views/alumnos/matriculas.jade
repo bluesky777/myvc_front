@@ -41,7 +41,7 @@
 								i(style="font-weight: bold;").fa.fa-venus-mars 
 								span.fa.fa-caret-down(ng-show="dato.sortType == 'sexo' && !dato.sortReverse")
 								span.fa.fa-caret-up(ng-show="dato.sortType == 'sexo' && dato.sortReverse")
-						th(style="min-width: 120px; text-align: center;") 
+						th(style="min-width: 180px; text-align: center;") 
 							a(href="" ng-click="dato.sortType = 'estado'; dato.sortReverse = !dato.sortReverse")
 								| Estado 
 								span.fa.fa-caret-down(ng-show="dato.sortType == 'estado' && !dato.sortReverse")
@@ -58,7 +58,7 @@
 								span.fa.fa-caret-up(ng-show="dato.sortType == 'fecha_matricula' && dato.sortReverse")
 				
 				tbody.filasestrechas
-					tr(ng-repeat="alumno in alumnos_all | filter: filterActuales | orderBy:dato.sortType:dato.sortReverse  track by $index" ng-class="{'filagris': alumno.grupo_id!=dato.grupo.id, 'filawarning': alumno.estado=='RETI', 'filadanger': alumno.estado=='ASIS' }")
+					tr(ng-repeat="alumno in alumnos_all | filter: filterActuales | orderBy:dato.sortType:dato.sortReverse  track by $index" ng-class="{'filagris': alumno.grupo_id!=dato.grupo.id, 'filadanger': alumno.estado=='RETI' || alumno.estado=='DESE', 'filawarning': alumno.estado=='ASIS' }")
 						td {{ $index+1 }}
 						td.content-menu-matrics 
 							| {{ alumno.no_matricula }}
@@ -85,8 +85,8 @@
 									label.btn.btn-info.btn-xs(ng-model="alumno.estado" uib-btn-radio="'MATR'" ng-click="reMatricularUno(alumno)") Matr
 									label.btn.btn-info.btn-xs(ng-model="alumno.estado" uib-btn-radio="'ASIS'" ng-click="setAsistente(alumno)") Asis
 									label.btn.btn-info.btn-xs(ng-model="alumno.estado" uib-btn-radio="'RETI'" ng-click="retirar(alumno)") Reti
-									label.btn.btn-info.btn-xs(ng-model="alumno.estado" uib-btn-radio="'DESE'" ng-click="desertar(alumno)") Dese
-									label.btn.btn-info.btn-xs(ng-model="alumno.estado" ng-click="matricularEn(alumno)" uib-tooltip="Matricular en..." tooltip-placement="right") ...
+									label.btn.btn-info.btn-xs(ng-model="alumno.estado" uib-btn-radio="'DESE'" ng-click="desertar(alumno)" uib-tooltip="Desertor" tooltip-placement="right" tooltip-popup-delay="1000") Dese
+									label.btn.btn-info.btn-xs(ng-model="alumno.estado" ng-click="matricularEn(alumno)" uib-tooltip="Matricular en..." tooltip-placement="right" tooltip-popup-delay="1000") ...
 
 							.btn-group(ng-show="alumno.grupo_id!=dato.grupo.id " style="margin-top: -2px; padding-bottom: 2px;")
 								label.btn.btn-success.shiny.btn-xs(ng-click="setNewAsistente(alumno)" uib-tooltip="Inscribir como asistente") Asis
@@ -94,7 +94,7 @@
 								label.btn.btn-success.shiny.btn-xs(ng-click="matricularEn(alumno)" uib-tooltip="Matricular en..." tooltip-placement="right") ...
 
 						td 
-							input(ng-model="alumno.fecha_retiro" type="date" ng-show="alumno.estado=='RETI'" 
+							input(ng-model="alumno.fecha_retiro" type="date" ng-show="alumno.estado=='RETI' || alumno.estado=='DESE'" 
 								ng-change="cambiarFechaRetiro(alumno)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
 						td 
 							input(ng-model="alumno.fecha_matricula" type="date" ng-change="cambiarFechaMatricula(alumno)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
@@ -103,7 +103,7 @@
 					
 					// Ahora mostraremos los que NO son de este, año este grupo
 
-					tr(ng-repeat="alumno in alumnos_all | filter: filterNOActuales | orderBy:dato.sortType:dato.sortReverse  track by $index" ng-class="{'filagris': alumno.grupo_id!=dato.grupo.id, 'filawarning': alumno.estado=='RETI', 'filadanger': alumno.estado=='ASIS' }")
+					tr(ng-repeat="alumno in alumnos_all | filter: filterNOActuales | orderBy:dato.sortType:dato.sortReverse  track by $index" ng-class="{'filagris': alumno.grupo_id!=dato.grupo.id, 'filadanger': alumno.estado=='RETI' || alumno.estado=='DESE', 'filawarning': alumno.estado=='ASIS' }")
 						td {{ $index+1 }}
 						td.content-menu-matrics 
 							| {{ alumno.no_matricula }}
@@ -204,7 +204,7 @@
 								span.fa.fa-caret-up(ng-show="dato.sortType == 'deleted_at' && dato.sortReverse")
 				
 				tbody.filasestrechas
-					tr(ng-repeat="alumno in alumnos_encontrados | orderBy:dato_f.sortType:dato_f.sortReverse track by $index" ng-class="{'filagris': alumno.grupo_id!=dato_f.grupo.id, 'filawarning': alumno.estado=='RETI', 'filadanger': alumno.estado=='ASIS' }")
+					tr(ng-repeat="alumno in alumnos_encontrados | orderBy:dato_f.sortType:dato_f.sortReverse track by $index" ng-class="{'filagris': alumno.grupo_id!=dato_f.grupo.id, 'filadanger': alumno.estado=='RETI' || alumno.estado=='DESE', 'filawarning': alumno.estado=='ASIS' }")
 						td {{ $index+1 }}
 						td.content-menu-matrics 
 							| {{ alumno.no_matricula }}

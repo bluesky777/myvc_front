@@ -15886,10 +15886,10 @@ body {
 .footer-boletin{
     text-align: center;
     .rector-firma, .titular-firma{
-        height:200px;
+        height:170px;
     }
     .rector-firma img, .titular-firma img{
-        height:200px;
+        height:180px;
     }
     .nombre-rector-firma, .nombre-titular-firma{
         font-weight: bold;
@@ -15927,7 +15927,7 @@ body {
 .dane-certificado{
     margin-top: -10px;
     margin-bottom: 10px;
-    font-size: 9px;
+    font-size: 10px;
 }
 
 
@@ -16342,5 +16342,7 @@ input.ocultar-input{
 .fondo-blanco-td{
     background-color: #fff !important;
 }
-
+.txtcentro{
+    text-align: center;
+}
 

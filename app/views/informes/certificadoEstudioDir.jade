@@ -29,52 +29,59 @@ div(style="display: table; height: 30cm ; " ng-class="{'page-carta-horizontal': 
 								.grupo-alumno
 									| Que, 
 									b {{alumno.nombres + ' ' + alumno.apellidos}}
-									| , cursó y aprobó en éste plantel educativo las áreas correspondientes al grado 
+									| , 
+									span(ng-show="alumno.cant_lost_asig > 1" style="font-weight:bold")
+										| NO aprobó 
+									span(ng-hide="alumno.cant_lost_asig > 1")
+										| cursó y aprobó 
+									| en éste plantel educativo las áreas correspondientes al grado 
 									b {{grupo.nombre_grupo | capitalize}} 
 									| de la {{grupo.nivel_educativo}} 
 									| académica durante el año 
-									b {{year.year}}
+									b {{USER.year}}
 									| , obteniendo los siguientes resultados:
-								.titular-grupo(uib-popover-html="'<img src=\"{{perfilPath + grupo.foto_nombre}}\" style=\"width: 150px; height: 150px;\">'" 
+
+								// Esto no se verá en la impresión
+								.titular-grupo.hidden-print(uib-popover-html="'<img src=\"{{perfilPath + grupo.foto_nombre}}\" style=\"width: 150px; height: 150px;\">'" 
 										popover-popup-delay="500" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true" 
 										popover-trigger="mouseenter" style="float: right")
 									| Titular: {{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor | capitalize}}
 							
 				.row.body-boletin(style="margin-top: 10px; margin-bottom: 10px; ")
-					.col-lg-12.col-xs-12
+					.col-lg-11.col-xs-11(style="padding-left: 50px;")
 						table.table-bordered.table-striped(style="margin: 0 auto;")
 							thead
 								tr(style="border-bottom: 2px solid;")
-									th No
-									th Nombres
-									th Cred
-									th(style="width: 25px") 
+									th.txtcentro No
+									th.txtcentro(style="width: 310px") Nombres
+									th.txtcentro(style="width: 65px") Cred
+									th.txtcentro(style="width: 35px") 
 										i.fa.fa-clock-o.icon-tardanza 
 										| A
-									th(ng-repeat="periodo in year.periodos") Per{{periodo.numero}}
-									th Desempeño
-									th(style="border-left: 2px solid !important;") Prom
+									//th(ng-repeat="periodo in year.periodos") Per{{periodo.numero}}
+									th.txtcentro(style="width: 140px") Valoración 
+									th.txtcentro(style="width: 65px; border-left: 2px solid !important;") %
 							tbody
 								tr(ng-repeat="asignatura in alumno.asignaturas")
 									td {{$index + 1}}
-									td
+									td(style="text-align: justify;")
 										div(uib-popover-html="'<img src=\"{{perfilPath + asignatura.foto_nombre}}\" style=\"width: 150px; height: 150px;\">'" 
 											popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" 
 											popover-trigger="mouseenter") {{asignatura.materia}}
-									td(style="text-align: center;")
+									td.txtcentro
 										| {{ asignatura.creditos }}
-									td(style="text-align: center;") 
+									td.txtcentro
 										span(ng-show="asignatura.ausencias > 0") {{asignatura.ausencias}}
 
-									td(ng-repeat="definitiva in asignatura.definitivas" ng-class="{'nota-perdida-puestos': ((definitiva.DefMateria | decimales_if:1 )*1) < (USER.nota_minima_aceptada*1) }") 
-										| {{ definitiva.DefMateria | decimales_if:1 }}
+									//td(ng-repeat="definitiva in asignatura.definitivas" ng-class="{'nota-perdida-puestos': ((definitiva.DefMateria | number:0 )*1) < (USER.nota_minima_aceptada*1) }") 
+										| {{ definitiva.DefMateria | number:0 }}
 										span.cant-unidades-perdidas(ng-show="{{definitiva.notas_perdidas > 0}}")
 											| ({{definitiva.notas_perdidas}})
 										
-									td(style="text-align: center;")
+									td.txtcentro
 										| {{ asignatura.desempenio }}
-									td.puntero(ng-class="{'nota-perdida-puestos': ((asignatura.promedio | decimales_if:1 )*1) < (USER.nota_minima_aceptada*1) }") 
-										| {{asignatura.promedio | decimales_if:1}}
+									td.puntero.txtcentro(ng-class="{'nota-perdida-puestos': ((asignatura.promedio | number:0 )*1) < (USER.nota_minima_aceptada*1) }") 
+										| {{asignatura.promedio | number:0}}
 										span.cant-unidades-perdidas(ng-show="{{asignatura.notas_perdidas > 0}}")
 											| ({{asignatura.notas_perdidas}})
 
@@ -87,7 +94,7 @@ div(style="display: table; height: 30cm ; " ng-class="{'page-carta-horizontal': 
 
 									td {{alumno.ausencias}}
 
-									td(ng-repeat="periodo in year.periodos") {{ alumno.asignaturas | promedioPeriodo:periodo.id | decimales:0 }}
+									//td(ng-repeat="periodo in year.periodos") {{ alumno.asignaturas | promedioPeriodo:periodo.id | decimales:0 }}
 									td {{ alumno.desempenio }}
 									td(style="font-weight: bold; border-left: 2px solid !important;") 
 										| {{alumno.promedio | decimales:0 }}
@@ -107,7 +114,7 @@ div(style="display: table; height: 30cm ; " ng-class="{'page-carta-horizontal': 
 
 
 				.row.footer-boletin
-					.col-lg-12.col-xs-12
+					.col-lg-12.col-xs-12(style="text-align: left")
 						.row
 							.col-lg-6.col-xs-6.rector-firma
 								img(ng-show="config.show_firma_rector" ng-src="{{perfilPath + year.rector_firma}}")

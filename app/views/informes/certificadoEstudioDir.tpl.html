@@ -17,44 +17,47 @@
             </div>
             <div style="margin-top: 20px; " class="row descripcion-encabezado">
               <div class="col-lg-12 col-xs-12">
-                <div class="grupo-alumno">Que, <b>{{alumno.nombres + ' ' + alumno.apellidos}}</b>, cursó y aprobó en éste plantel educativo las áreas correspondientes al grado <b>{{grupo.nombre_grupo | capitalize}} </b>de la {{grupo.nivel_educativo}} 
-                  académica durante el año <b>{{year.year}}</b>, obteniendo los siguientes resultados:
+                <div class="grupo-alumno">Que, <b>{{alumno.nombres + ' ' + alumno.apellidos}}</b>, <span ng-show="alumno.cant_lost_asig &gt; 1" style="font-weight:bold">NO aprobó </span><span ng-hide="alumno.cant_lost_asig &gt; 1">cursó y aprobó </span>en éste plantel educativo las áreas correspondientes al grado <b>{{grupo.nombre_grupo | capitalize}} </b>de la {{grupo.nivel_educativo}} 
+                  académica durante el año <b>{{USER.year}}</b>, obteniendo los siguientes resultados:
                 </div>
-                <div uib-popover-html="'&lt;img src=&quot;{{perfilPath + grupo.foto_nombre}}&quot; style=&quot;width: 150px; height: 150px;&quot;&gt;'" popover-popup-delay="500" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true" popover-trigger="mouseenter" style="float: right" class="titular-grupo">Titular: {{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor | capitalize}}</div>
+                <!-- Esto no se verá en la impresión-->
+                <div uib-popover-html="'&lt;img src=&quot;{{perfilPath + grupo.foto_nombre}}&quot; style=&quot;width: 150px; height: 150px;&quot;&gt;'" popover-popup-delay="500" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true" popover-trigger="mouseenter" style="float: right" class="titular-grupo hidden-print">Titular: {{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor | capitalize}}</div>
               </div>
             </div>
           </div>
         </div>
         <div style="margin-top: 10px; margin-bottom: 10px; " class="row body-boletin">
-          <div class="col-lg-12 col-xs-12">
+          <div style="padding-left: 50px;" class="col-lg-11 col-xs-11">
             <table style="margin: 0 auto;" class="table-bordered table-striped">
               <thead>
                 <tr style="border-bottom: 2px solid;">
-                  <th>No</th>
-                  <th>Nombres</th>
-                  <th>Cred</th>
-                  <th style="width: 25px"> <i class="fa fa-clock-o icon-tardanza"> </i>A</th>
-                  <th ng-repeat="periodo in year.periodos">Per{{periodo.numero}}</th>
-                  <th>Desempeño</th>
-                  <th style="border-left: 2px solid !important;">Prom</th>
+                  <th class="txtcentro">No</th>
+                  <th style="width: 310px" class="txtcentro">Nombres</th>
+                  <th style="width: 65px" class="txtcentro">Cred</th>
+                  <th style="width: 35px" class="txtcentro"> <i class="fa fa-clock-o icon-tardanza"> </i>A</th>
+                  <!--th(ng-repeat="periodo in year.periodos") Per{{periodo.numero}}-->
+                  <th style="width: 140px" class="txtcentro">Valoración </th>
+                  <th style="width: 65px; border-left: 2px solid !important;" class="txtcentro">%</th>
                 </tr>
               </thead>
               <tbody>
                 <tr ng-repeat="asignatura in alumno.asignaturas">
                   <td>{{$index + 1}}</td>
-                  <td>
+                  <td style="text-align: justify;">
                     <div uib-popover-html="'&lt;img src=&quot;{{perfilPath + asignatura.foto_nombre}}&quot; style=&quot;width: 150px; height: 150px;&quot;&gt;'" popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" popover-trigger="mouseenter">{{asignatura.materia}}</div>
                   </td>
-                  <td style="text-align: center;">{{ asignatura.creditos }}</td>
-                  <td style="text-align: center;"> <span ng-show="asignatura.ausencias &gt; 0">{{asignatura.ausencias}}</span></td>
-                  <td ng-repeat="definitiva in asignatura.definitivas" ng-class="{'nota-perdida-puestos': ((definitiva.DefMateria | decimales_if:1 )*1) &lt; (USER.nota_minima_aceptada*1) }">
+                  <td class="txtcentro">{{ asignatura.creditos }}</td>
+                  <td class="txtcentro"><span ng-show="asignatura.ausencias &gt; 0">{{asignatura.ausencias}}</span></td>
+                  <!--td(ng-repeat="definitiva in asignatura.definitivas" ng-class="{'nota-perdida-puestos': ((definitiva.DefMateria | number:0 )*1) < (USER.nota_minima_aceptada*1) }") 
+                  | {{ definitiva.DefMateria | number:0 }}
+                  span.cant-unidades-perdidas(ng-show="{{definitiva.notas_perdidas > 0}}")
+                  	| ({{definitiva.notas_perdidas}})
+                  
+                  -->
+                  <td class="txtcentro">{{ asignatura.desempenio }}</td>
+                  <td ng-class="{'nota-perdida-puestos': ((asignatura.promedio | number:0 )*1) &lt; (USER.nota_minima_aceptada*1) }" class="puntero txtcentro">
                      
-                    {{ definitiva.DefMateria | decimales_if:1 }}<span ng-show="{{definitiva.notas_perdidas &gt; 0}}" class="cant-unidades-perdidas">({{definitiva.notas_perdidas}})</span>
-                  </td>
-                  <td style="text-align: center;">{{ asignatura.desempenio }}</td>
-                  <td ng-class="{'nota-perdida-puestos': ((asignatura.promedio | decimales_if:1 )*1) &lt; (USER.nota_minima_aceptada*1) }" class="puntero">
-                     
-                    {{asignatura.promedio | decimales_if:1}}<span ng-show="{{asignatura.notas_perdidas &gt; 0}}" class="cant-unidades-perdidas">({{asignatura.notas_perdidas}})</span>
+                    {{asignatura.promedio | number:0}}<span ng-show="{{asignatura.notas_perdidas &gt; 0}}" class="cant-unidades-perdidas">({{asignatura.notas_perdidas}})</span>
                   </td>
                 </tr>
               </tbody>
@@ -64,7 +67,7 @@
                   <td style="text-align: left;">Total</td>
                   <td>{{ alumno.total_creditos }}</td>
                   <td>{{alumno.ausencias}}</td>
-                  <td ng-repeat="periodo in year.periodos">{{ alumno.asignaturas | promedioPeriodo:periodo.id | decimales:0 }}</td>
+                  <!--td(ng-repeat="periodo in year.periodos") {{ alumno.asignaturas | promedioPeriodo:periodo.id | decimales:0 }}-->
                   <td>{{ alumno.desempenio }}</td>
                   <td style="font-weight: bold; border-left: 2px solid !important;">
                      
@@ -81,7 +84,7 @@
           </div>
         </div>
         <div class="row footer-boletin">
-          <div class="col-lg-12 col-xs-12">
+          <div style="text-align: left" class="col-lg-12 col-xs-12">
             <div class="row">
               <div class="col-lg-6 col-xs-6 rector-firma"><img ng-show="config.show_firma_rector" ng-src="{{perfilPath + year.rector_firma}}"></div>
             </div>
