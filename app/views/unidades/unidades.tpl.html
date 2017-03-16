@@ -5,17 +5,26 @@
     <div ng-show="no_asignatura" class="header bordered-red"> 
       <div class="label label-danger">Vuelva a Asignaturas o cambie de año. La materia seleccionada no existe en el presente año.</div>
     </div>
+    <!-- Menú-->
     <div class="btn-group"><a ng-show="inicializado" ui-sref="panel.listasignaturas({profesor_id: asignatura.profesor_id})" class="btn btn-success btn-lg"> <i class="fa fa-arrow-left"></i>Volver a asignaturas</a><a uib-tooltip="¡Copia de una materia a otra!" ui-sref="panel.copiar" class="btn btn-primary btn-lg"> <i class="fa fa-copy"></i>Copiar</a><a ng-show="unidades.length &gt; 0" ui-sref="panel.notas({asignatura_id: asignatura_id})" class="btn btn-primary btn-lg"> <i class="fa fa-apple"></i>NOTAS</a></div>
-    <hr class="wide"><span ng-hide="no_asignatura">
-      <form ng-submit="crearUnidad()" role="form" class="form-inline">
-        <input required ng-model="newunidad.definicion" type="text" placeholder="{{UNIDAD}} {{ GENERO_UNI=='M' ? 'nuevo' : 'nueva' }}" uib-tooltip="Definición" tooltip-popup-delay="500" class="form-control definicion-add-unidad">
-        <input required ng-model="newunidad.porcentaje" min="0" max="100" type="number" placeholder="Porcentaje" uib-tooltip="Porcentaje" tooltip-popup-delay="500" class="form-control">
-        <input type="submit" ng-submit="crearUnidad()" ng-disabled="!activar_crear_unidad" value="Crear {{UNIDAD}}" class="btn btn-primary">
+    <hr class="wide">
+    <!-- Formulario crear--><span ng-hide="no_asignatura">
+      <form ng-submit="crearUnidad()" role="form" class="form-inline row">
+        <div class="form-group definicion-add-unidad col-md-8 col-sm-6 col-xs-12">
+          <label class="sr-only">Edite la definición</label>
+          <textarea required ng-model="newunidad.definicion" placeholder="{{UNIDAD}} {{ GENERO_UNI=='M' ? 'nuevo' : 'nueva' }}" uib-tooltip="Definición" tooltip-popup-delay="1000" style="height: 35px; width: 100%;" class="form-control"></textarea>
+        </div>
+        <div style="padding-right: 0px; padding-left: 0px;" class="form-group col-md-1 col-sm-1 col-xs-12">
+          <input required ng-model="newunidad.porcentaje" min="0" max="100" type="number" placeholder="Porcentaje" uib-tooltip="Porcentaje" tooltip-popup-delay="500" style="width: 100%;" class="form-control">
+        </div>
+        <div class="form-group col-md-1 col-sm-1 col-xs-12">
+          <input type="submit" ng-submit="crearUnidad()" ng-disabled="!activar_crear_unidad" value="Crear {{UNIDAD}}" class="btn btn-primary">
+        </div>
       </form>
       <hr class="wide">
       <div ng-show="unidades.porc_unidades&gt;100" class="alert alert-danger fade in"><i class="fa-fw fa fa-warning"></i><strong>Porcentaje incorrecto </strong>- Sobra un {{unidades.porc_unidades-100}} porciento</div>
       <div ng-show="unidades.porc_unidades&lt;100" class="alert alert-warning fade in"><i class="fa-fw fa fa-warning"></i><strong>Porcentaje incorrecto </strong>- Falta un {{100-unidades.porc_unidades}} porciento</div>
-      <div class="ddlarga bordered">
+      <div style="clear: both;" class="ddlarga bordered">
         <ol style="padding-left: 0px;">
           <unidad-dir unidad="unidad" indice="$index" ng-repeat="unidad in unidades"></unidad-dir>
         </ol>

@@ -320,7 +320,7 @@ angular.module('myvcFrontApp')
 	$scope.getAllDaysInMonth = (month)->
 		
 		num = getDaysInMonth($scope.numYearActual, month)
-		r=[]
+		r = []
 		for i in [1..num]
 			d = new Date($scope.numYearActual, parseInt(month), i)
 			n = d.getDay()

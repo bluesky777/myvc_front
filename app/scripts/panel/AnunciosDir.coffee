@@ -15,7 +15,8 @@ angular.module('myvcFrontApp')
 				scope.changes_asked_to_me = r.data.cambios
 				scope.changes_asked_elim = r.data.cambios_elim
 			, (r2)->
-				toastr.error 'No se pudo traer los anuncios.'
+				#toastr.error 'No se pudo traer los anuncios.'
+				console.log r2
 			)
 
 	controller: 'AnunciosDirCtrl'

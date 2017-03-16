@@ -4,6 +4,8 @@
 		.header.bordered-red(ng-show="no_asignatura") 
 			.label.label-danger Vuelva a Asignaturas o cambie de año. La materia seleccionada no existe en el presente año.
 
+
+		// Menú
 		.btn-group
 			a.btn.btn-success.btn-lg(ng-show="inicializado" ui-sref="panel.listasignaturas({profesor_id: asignatura.profesor_id})") 
 				i.fa.fa-arrow-left
@@ -20,11 +22,21 @@
 
 		hr.wide
 
+		// Formulario crear
 		span(ng-hide="no_asignatura")
-			form.form-inline(ng-submit="crearUnidad()" role="form")
-				input.form-control.definicion-add-unidad(required ng-model="newunidad.definicion" type="text" placeholder="{{UNIDAD}} {{ GENERO_UNI=='M' ? 'nuevo' : 'nueva' }}" uib-tooltip="Definición" tooltip-popup-delay="500")
-				input.form-control(required ng-model="newunidad.porcentaje" min="0" max="100" type="number" placeholder="Porcentaje" uib-tooltip="Porcentaje" tooltip-popup-delay="500")
-				input.btn.btn-primary(type="submit" ng-submit="crearUnidad()" ng-disabled="!activar_crear_unidad" value="Crear {{UNIDAD}}")
+			form.form-inline.row(ng-submit="crearUnidad()" role="form")
+				.form-group.definicion-add-unidad.col-md-8.col-sm-6.col-xs-12
+					label.sr-only Edite la definición
+					textarea.form-control(required ng-model="newunidad.definicion" placeholder="{{UNIDAD}} {{ GENERO_UNI=='M' ? 'nuevo' : 'nueva' }}" 
+						uib-tooltip="Definición" tooltip-popup-delay="1000" style="height: 35px; width: 100%;")
+
+				.form-group.col-md-1.col-sm-1.col-xs-12(style="padding-right: 0px; padding-left: 0px;")
+					input.form-control(required ng-model="newunidad.porcentaje" min="0" max="100" type="number" 
+						placeholder="Porcentaje" uib-tooltip="Porcentaje" tooltip-popup-delay="500" style="width: 100%;")
+
+				.form-group.col-md-1.col-sm-1.col-xs-12
+					input.btn.btn-primary(type="submit" ng-submit="crearUnidad()" ng-disabled="!activar_crear_unidad" value="Crear {{UNIDAD}}")
+
 
 			hr.wide
 
@@ -39,7 +51,7 @@
 				| - Falta un {{100-unidades.porc_unidades}} porciento
 
 
-			.ddlarga.bordered
+			.ddlarga.bordered(style="clear: both;")
 
 				ol(style="padding-left: 0px;")
 					unidad-dir(unidad="unidad" indice="$index" ng-repeat="unidad in unidades")

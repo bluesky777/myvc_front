@@ -80,7 +80,7 @@ angular.module('myvcFrontApp')
 				porcSub = subunidad.porcentaje
 				#console.log subunidad.notas, alumno_id, $filter('filter')(subunidad.notas, {'alumno_id': alumno_id})[0]
 				
-				notaTemp = $filter('filter')(subunidad.notas, {'alumno_id': alumno_id})[0]
+				notaTemp = $filter('filter')(subunidad.notas, {'alumno_id': alumno_id}, true)[0]
 				valorNota = parseInt(notaTemp.nota) * parseInt(porcSub) / 100
 				acumSub = acumSub + valorNota
 
