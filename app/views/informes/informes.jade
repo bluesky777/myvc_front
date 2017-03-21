@@ -107,8 +107,8 @@
 						.row
 							.col-lg-7.col-sm-12.col-xs-12
 								.form-group
-										label Calcular hasta el periodo:
-										input(type="number" ng-model="config.periodo_a_calcular" min="1" max="10") 
+									label Calcular hasta el periodo:
+									input(type="number" ng-model="config.periodo_a_calcular" min="1" max="10") 
 										
 						.form-group
 							label Grupo
@@ -125,23 +125,9 @@
 						.row
 							.col-lg-7.col-sm-12.col-xs-12
 								.form-group
-										label Periodos a calcular:
-										.row
-											.col-lg-4.col-sm-4.col-xs-6
-												.radio
-													label
-														input.inverted(type="radio" value="de_usuario" ng-model="config.periodos_a_calcular")
-														span.text Hasta el actual del usuario
-											.col-lg-4.col-sm-4.col-xs-6
-												.radio
-													label
-														input.inverted(type="radio" value="de_colegio" ng-model="config.periodos_a_calcular")
-														span.text Hasta el actual del colegio
-											.col-lg-4.col-sm-4.col-xs-6
-												.radio
-													label
-														input.inverted(type="radio" value="todos" ng-model="config.periodos_a_calcular")
-														span.text Todos
+									label Calcular hasta el periodo:
+									input(type="number" ng-model="config.periodo_a_calcular" min="1" max="10") 
+										
 						br
 						.form-group
 							label Profesor
@@ -149,7 +135,9 @@
 								ui-select-match(placeholder="Elige un profesor" allow-clear="true") {{$select.selected.nombres + ' ' + $select.selected.apellidos}}
 								ui-select-choices(repeat="profe in profesores | filter: $select.search")
 									div(ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
+							
 							a.btn.btn-default(href="" ng-click="verPlanillasProfe()") Ver planillas
+							a.btn.btn-default(href="" ng-click="verNotasPerdidasProfesor()") Notas perdidas
 
 						.form-group
 							label Grupo
@@ -157,6 +145,7 @@
 								ui-select-match(placeholder="Elige un grupo" allow-clear="true") {{$select.selected.nombre}}
 								ui-select-choices(repeat="grupo in grupos | filter: $select.search")
 									div(ng-bind-html="grupo.nombre | highlight: $select.search")
+							
 							a.btn.btn-default(href="" ng-click="verPlanillasGrupo()") Ver planillas
 
 						a.btn.btn-default(href="" ng-click="verPlanillasControlTardanzas()") Control de tardanzas entrada

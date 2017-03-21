@@ -1,0 +1,66 @@
+div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }")
+	
+	.row
+		.col-lg-12.col-xs-12
+			.row.encabezado-planilla
+				.col-lg-12.col-xs-12
+					.row
+						.col-lg-12
+							.nombre-colegio
+								| {{ grupos[0].asignaturas[0].profesor_apellidos + ' ' + grupos[0].asignaturas[0].profesor_nombres }} - {{USER.year}}
+							.descripcion-title
+								| Alumnos con notas pendientes 
+
+
+	.row
+		.col-lg-12.col-xs-12
+
+			div(ng-repeat="grupo in grupos")
+
+				div(ng-repeat="asignatura in grupo.asignaturas")
+
+					div(style="padding-top: 10px; font-size: 12pt; font-weight: 600; text-align: center;")
+						| {{ grupo.nombre }} - {{ asignatura.materia }}
+
+					table.table-bordered.table-bordered2.table-striped.table-striped2
+						thead
+							tr
+								th(style="width: 20px")
+									| No
+								th(style="text-align: center; width: 200px")
+									| Alumnos
+								th(style="width: 20px")
+									| Per
+								th(style="text-align: center; width: 200px")
+									| Defini
+								th(style="width: 20px")
+									| Nota
+
+						tbody(style="font-size: 9pt")
+							tr(ng-repeat="alumno in asignatura.alumnos" )
+								td
+									| {{ $index + 1 }}
+								td
+									.ellipsis200.alumno-planilla
+										| {{alumno.apellidos}} {{alumno.nombres}} 
+								
+								td
+									div(ng-repeat="nota in alumno.notas | orderBy:'orden_subunidad' track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 8pt")
+										| {{ nota.numero_periodo }}
+
+								td
+									div.ellipsis350(ng-repeat="nota in alumno.notas | orderBy:'orden_subunidad' track by $index" 
+										ng-style=" !$last && {'border-bottom': '1px #111 solid' }" 
+										style="font-size: 8pt" uib-tooltip="{{nota.defin_subunidad}} - {{nota.defin_unidad}}" 
+										tooltip-popup-delay="500" tooltip-class="hidden-print")
+										| {{ nota.defin_subunidad }}
+								td(style="width: 20px;")
+									div(ng-repeat="nota in alumno.notas | orderBy:'orden_subunidad' track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 8pt")
+										| {{ nota.nota }}
+
+
+
+
+
+
+

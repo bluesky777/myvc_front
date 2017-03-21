@@ -5,7 +5,7 @@ angular.module('myvcFrontApp')
 	$scope.rowsAlum = []
 	alumnos = alumnos.data 
 	$scope.config = {
-		periodos_a_calcular: 'de_usuario'  # de_usuario, de_colegio, todos
+		periodos_a_calcular: 1  # de_usuario, de_colegio, todos
 		mostrar_foto: true
 		periodo_a_calcular: $scope.USER.numero_periodo
 	}
@@ -91,7 +91,6 @@ angular.module('myvcFrontApp')
 
 
 
-
 	$scope.verBoletinesGrupo = ()->
 		$cookies.remove 'requested_alumnos'
 		$cookies.remove 'requested_alumno'
@@ -148,14 +147,25 @@ angular.module('myvcFrontApp')
 
 
 	$scope.verPlanillasGrupo = ()->
-		$state.go 'panel.informes.planillas_grupo', {grupo_id: $scope.datos.grupo.id, periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
+		if $scope.datos.grupo.id
+			$state.go 'panel.informes.planillas_grupo', {grupo_id: $scope.datos.grupo.id, periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
+		else
+			toastr.warning 'Elije un grupo'
 
 	$scope.verPlanillasProfe = ()->
-		$state.go 'panel.informes.planillas_profesor', {profesor_id: $scope.datos.profesor.profesor_id, periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
+		if $scope.datos.profesor
+			$state.go 'panel.informes.planillas_profesor', {profesor_id: $scope.datos.profesor.profesor_id, periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
+		else
+			toastr.warning 'Elije un profesor'
 
 	$scope.verPlanillasControlTardanzas = ()->
 		$state.go 'panel.informes.control_tardanza_entrada', {reload: true}
 
+	$scope.verNotasPerdidasProfesor = ()->
+		if $scope.datos.profesor
+			$state.go 'panel.informes.notas_perdidas_profesor', {profesor_id: $scope.datos.profesor.profesor_id, periodo_a_calcular: $scope.config.periodo_a_calcular}, {reload: true}
+		else
+			toastr.warning 'Elije un profesor'
 
 
 

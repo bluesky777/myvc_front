@@ -134,30 +134,8 @@
             <div class="row">
               <div class="col-lg-7 col-sm-12 col-xs-12">
                 <div class="form-group">
-                  <label>Periodos a calcular:</label>
-                  <div class="row">
-                    <div class="col-lg-4 col-sm-4 col-xs-6">
-                      <div class="radio">
-                        <label>
-                          <input type="radio" value="de_usuario" ng-model="config.periodos_a_calcular" class="inverted"><span class="text">Hasta el actual del usuario</span>
-                        </label>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-4 col-xs-6">
-                      <div class="radio">
-                        <label>
-                          <input type="radio" value="de_colegio" ng-model="config.periodos_a_calcular" class="inverted"><span class="text">Hasta el actual del colegio</span>
-                        </label>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-4 col-xs-6">
-                      <div class="radio">
-                        <label>
-                          <input type="radio" value="todos" ng-model="config.periodos_a_calcular" class="inverted"><span class="text">Todos</span>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
+                  <label>Calcular hasta el periodo:</label>
+                  <input type="number" ng-model="config.periodo_a_calcular" min="1" max="10">
                 </div>
               </div>
             </div><br>
@@ -168,7 +146,7 @@
                 <ui-select-choices repeat="profe in profesores | filter: $select.search">
                   <div ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search"></div>
                 </ui-select-choices>
-              </ui-select><a href="" ng-click="verPlanillasProfe()" class="btn btn-default">Ver planillas</a>
+              </ui-select><a href="" ng-click="verPlanillasProfe()" class="btn btn-default">Ver planillas</a><a href="" ng-click="verNotasPerdidasProfesor()" class="btn btn-default">Notas perdidas</a>
             </div>
             <div class="form-group">
               <label>Grupo</label>

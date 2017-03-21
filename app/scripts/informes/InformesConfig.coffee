@@ -149,6 +149,23 @@ angular.module('myvcFrontApp')
 				pageTitle: 'Planillas grupo - MyVc'
 
 
+
+		.state 'panel.informes.notas_perdidas_profesor',
+			url: '/notas_perdidas_profesor/:profesor_id/:periodo_a_calcular'
+			views: 
+				'report_content':
+					templateUrl: "==informes/notasPerdidasProfesor.tpl.html"
+					controller: 'NotasPerdidasProfesorCtrl'
+					resolve:
+						grupos: ['$http', '$stateParams', ($http, $stateParams)->
+							$http.put('::notas-perdidas/profesor-grupos', {profesor_id: $stateParams.profesor_id, periodo_a_calcular: $stateParams.periodo_a_calcular} )
+						]
+			data: 
+				displayName: 'Notas perdidas por profesor'
+				icon_fa: 'fa fa-print'
+				pageTitle: 'Notas perdidas por profesor - MyVc'
+
+
 		.state 'panel.informes.planillas_profesor',
 			url: '/planillas_profesor/:profesor_id/:periodos_a_calcular'
 			views: 
