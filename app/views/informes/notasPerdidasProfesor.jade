@@ -25,38 +25,73 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 					table.table-bordered.table-bordered2.table-striped.table-striped2
 						thead
 							tr
-								th(style="width: 20px")
+								th(style="width: 20px" rowspan="2")
 									| No
-								th(style="text-align: center; width: 200px")
+								th(style="text-align: center; width: 130px" rowspan="2")
 									| Alumnos
-								th(style="width: 20px")
+								th(style="width: 20px" rowspan="2")
 									| Per
-								th(style="text-align: center; width: 200px")
-									| Defini
-								th(style="width: 20px")
+								th(style="text-align: center; width: 200px" rowspan="2")
+									| {{ USER.subunidad_displayname }} / Tema
+								th(style="width: 20px" rowspan="2")
 									| Nota
+								th(style="width: 20px; text-align: center;" rowspan="2")
+									| Nota nueva
+								th(style="width: 20px; text-align: center;" colspan="2")
+									| Asist
+								th(style="width: 80px; text-align: center;" rowspan="2")
+									| Fecha
+								th(style="width: 80px; text-align: center;" rowspan="2")
+									| Método refuerzo
+								th(style="width: 150px; text-align: center;" rowspan="2")
+									| Firma
 
-						tbody(style="font-size: 9pt")
+							tr(style="height: 25px")
+								th(style="width: 25px; text-align: center;")
+									| Si
+								th(style="width: 25px; text-align: center;")
+									| No
+
+						tbody(style="font-size: 10pt")
 							tr(ng-repeat="alumno in asignatura.alumnos" )
 								td
 									| {{ $index + 1 }}
 								td
-									.ellipsis200.alumno-planilla
+									.alumno-planilla
 										| {{alumno.apellidos}} {{alumno.nombres}} 
 								
 								td
-									div(ng-repeat="nota in alumno.notas | orderBy:'orden_subunidad' track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 8pt")
+									div(ng-repeat="nota in alumno.notas | orderBy:'orden_subunidad' track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 10pt")
 										| {{ nota.numero_periodo }}
 
 								td
 									div.ellipsis350(ng-repeat="nota in alumno.notas | orderBy:'orden_subunidad' track by $index" 
 										ng-style=" !$last && {'border-bottom': '1px #111 solid' }" 
-										style="font-size: 8pt" uib-tooltip="{{nota.defin_subunidad}} - {{nota.defin_unidad}}" 
+										style="font-size: 10pt" uib-tooltip="{{nota.defin_subunidad}} - {{nota.defin_unidad}}" 
 										tooltip-popup-delay="500" tooltip-class="hidden-print")
 										| {{ nota.defin_subunidad }}
 								td(style="width: 20px;")
-									div(ng-repeat="nota in alumno.notas | orderBy:'orden_subunidad' track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 8pt")
+									div(ng-repeat="nota in alumno.notas | orderBy:'orden_subunidad' track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 10pt")
 										| {{ nota.nota }}
+
+								td 
+									div(ng-repeat="nota in alumno.notas track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 10pt")
+										|  &nbsp
+								td  
+									div(ng-repeat="nota in alumno.notas track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 10pt")
+										|  &nbsp
+								td(style="width: 25px;")  
+									div(ng-repeat="nota in alumno.notas track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 10pt")
+										|  &nbsp
+								td  
+									div(ng-repeat="nota in alumno.notas track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 10pt")
+										|  &nbsp
+								td  
+									div(ng-repeat="nota in alumno.notas track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 10pt")
+										|  &nbsp
+								td  
+									div(ng-repeat="nota in alumno.notas track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 10pt")
+										|  &nbsp
 
 
 
