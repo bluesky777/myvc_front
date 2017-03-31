@@ -1,4 +1,6 @@
 div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $parent.$last==false }")
+	div
+		img(src="http://localhost/5myvc/public/images/perfil/user_1/logo 30 LAL years.png" style="position: absolute; width: 20cm; max-height: 20cm; margin-top: 5cm; margin-left: 20px")
 	.row
 		.col-lg-12.col-xs-12
 			.row.encabezado-boletin
@@ -43,10 +45,10 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 								i.fa.fa-clock-o.icon-tardanza  
 								span.text-tardanza {{asignatura.total_ausencias}} 
 							.col-lg-1.col-xs-1(ng-class="{'nota-perdida': asignatura.nota_asignatura<USER.nota_minima_aceptada && config.show_rojos}")
-								| {{ asignatura.nota_asignatura | juicioValorativo:escalas:true}} 
+								| {{ asignatura.nota_asignatura | number:0 | juicioValorativo:escalas:true}} 
 							.col-lg-1.col-xs-1
 								div(ng-class="{'nota-perdida-bold': asignatura.nota_asignatura<USER.nota_minima_aceptada && config.show_rojos}")
-									| {{asignatura.nota_asignatura | decimales:1}}
+									| {{asignatura.nota_asignatura | number:0 }}
 						.row.unidades-list
 							.col-lg-12.col-xs-12
 								.row.unidades-item(ng-repeat="unidad in asignatura.unidades")
@@ -57,7 +59,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 											.col-lg-1.col-xs-1.unidad-porc
 												| {{unidad.porcentaje_unidad}}%
 											.col-lg-1.col-xs-1.unidad-nota
-												| {{unidad.nota_unidad}}
+												| {{unidad.nota_unidad | number:0 }}
 										//.row.subunidades-list(ng-repeat="subunidad in unidad.subunidades | orderBy:'orden_subunidad'")
 										.row.subunidades-list(ng-repeat="subunidad in unidad.subunidades")
 											.col-lg-12.col-xs-12
@@ -67,7 +69,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 													.col-lg-1.col-xs-1.subunidad-porc()
 														| {{subunidad.porcentaje_subunidad}}%
 													.col-lg-1.col-xs-1.subunidad-nota(style="font-size: 5pt; line-height: 2;")
-														| {{ subunidad.nota.nota | juicioValorativo:escalas:true}}
+														| {{ subunidad.nota.nota | number:0 | juicioValorativo:escalas:true}}
 													.col-lg-1.col-xs-1.subunidad-nota.puntero
 														//i.fa.fa-warning(ng-show="subunidad.nota.nota<USER.nota_minima_aceptada")
 														span(ng-class="{'nota-perdida-bold': subunidad.nota.nota<USER.nota_minima_aceptada && config.show_rojos}" uib-tooltip="Valor nota: {{subunidad.nota.valor}}") {{subunidad.nota.nota}}
@@ -95,9 +97,9 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 						.col-lg-10.col-xs-10.comportamiento-title
 							i.fa.fa-male(ng-show="alumno.sexo=='M'" style="padding-right: 5px;") 
 							i.fa.fa-female(ng-show="alumno.sexo=='F'" style="padding-right: 5px;") 
-							| Comportamiento
+							| Comportamiento y disciplina
 						.col-lg-1.col-xs-1.comportamiento-desempenio(ng-class="{'nota-perdida-bold': alumno.comportamiento.nota<USER.nota_minima_aceptada && config.show_rojos}")
-							| {{alumno.comportamiento.nota | juicioValorativo:escalas:true}}
+							| {{alumno.comportamiento.nota | number:0 | juicioValorativo:escalas:true}}
 						.col-lg-1.col-xs-1.comportamiento-nota(ng-class="{'nota-perdida-bold': alumno.comportamiento.nota<USER.nota_minima_aceptada && config.show_rojos}")
 							| {{alumno.comportamiento.nota}}
 					.row.comportamiento-body

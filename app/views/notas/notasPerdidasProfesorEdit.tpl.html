@@ -1,0 +1,73 @@
+
+<div ng-if="hasRoleOrPerm(['admin'])" class="widget">
+  <div class="widget-header">
+    <div class="widget-caption">Ver todas las notas</div>
+  </div>
+  <div class="widget-body">
+    <div class="form-group">
+      <label>Profesor</label>
+      <ui-select ng-model="datos.profesor" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;">
+        <ui-select-match placeholder="Elige un profesor" allow-clear="true">{{$select.selected.nombres + ' ' + $select.selected.apellidos}}</ui-select-match>
+        <ui-select-choices repeat="profe in profesores | filter: $select.search">
+          <div ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search"></div>
+        </ui-select-choices>
+      </ui-select><a href="" ng-click="verNotasPerdidasProfesor()" class="btn btn-default">Notas perdidas</a>
+    </div>
+  </div>
+</div>
+<div ng-if="grupos.length &gt; 0" class="widget">
+  <div style="overflow: scroll;" class="widget-body">
+    <div class="row">
+      <div class="col-lg-12 col-xs-12">
+        <div class="row encabezado-planilla">
+          <div class="col-lg-12 col-xs-12">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="nombre-colegio">{{ grupos[0].asignaturas[0].profesor_apellidos + ' ' + grupos[0].asignaturas[0].profesor_nombres }} - {{USER.year}}</div>
+                <div class="descripcion-title">Alumnos con notas pendientes </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div style="padding: 0px;" class="col-lg-12 col-xs-12">
+        <div ng-repeat="grupo in grupos">
+          <div ng-repeat="asignatura in grupo.asignaturas">
+            <div style="padding-top: 10px; font-size: 12pt;" class="text-center"><span style="font-weight: 600;">{{ grupo.nombre }} - </span><span>{{ asignatura.materia }}</span></div>
+            <table align="center" class="table-bordered table-bordered2 table-striped table-striped2">
+              <thead>
+                <tr>
+                  <th style="width: 20px" rowspan="2">No</th>
+                  <th style="width: 150px" rowspan="2" class="text-center">Alumnos</th>
+                  <th style="width: 20px" rowspan="2">Per</th>
+                  <th style="text-align: center; width: 200px" rowspan="2">{{ USER.subunidad_displayname }} / Tema</th>
+                  <th style="width: 20px" rowspan="2">Nota</th>
+                </tr>
+              </thead>
+              <tbody style="font-size: 10pt">
+                <tr ng-repeat="alumno in asignatura.alumnos">
+                  <td>{{ $index + 1 }}</td>
+                  <td>
+                    <div style="width: 150px" class="alumno-planilla">{{alumno.apellidos}} {{alumno.nombres}} </div>
+                  </td>
+                  <td>
+                    <div ng-repeat="nota in alumno.notas | orderBy:'orden_subunidad' track by $index" ng-style=" !$last &amp;&amp; {'border-bottom': '1px #111 solid' }" style="font-size: 10pt">{{ nota.numero_periodo }}</div>
+                  </td>
+                  <td>
+                    <div ng-repeat="nota in alumno.notas | orderBy:'orden_subunidad' track by $index" ng-style=" !$last &amp;&amp; {'border-bottom': '1px #111 solid' }" style="font-size: 10pt" uib-tooltip="{{nota.defin_subunidad}} - {{nota.defin_unidad}} - {{nota.created_at}}" tooltip-popup-delay="500" tooltip-class="hidden-print" class="ellipsis350">{{ nota.defin_subunidad }}</div>
+                  </td>
+                  <td style="width: 20px;">
+                    <div ng-repeat="nota in alumno.notas | orderBy:'orden_subunidad' track by $index" ng-style=" !$last &amp;&amp; {'border-bottom': '1px #111 solid' }" style="font-size: 10pt" class="text-center"><span ng-if="!hasRoleOrPerm(['admin', 'profesor'])"><span ng-class="{'nota-perdida-bold': nota.nota&lt;USER.nota_minima_aceptada}">{{nota.nota}}</span></span><span ng-class="{'inputnota-perdida': nota.nota &lt; USER.nota_minima_aceptada}" ng-if="hasRoleOrPerm(['admin', 'profesor'])">
+                        <input type="number" min="0" max="100" ng-model="nota.nota" ng-change="cambiaNota(nota)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"></span></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

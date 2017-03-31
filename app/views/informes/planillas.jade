@@ -24,7 +24,7 @@ div(ng-repeat="asignatura in asignaturas")
 								img.img-responsive.img-thumbnail.foto-profe(ng-src="{{perfilPath + asignatura.foto_nombre}}" ng-show="config.mostrar_foto && asignatura.foto_id")
 
 				.row.body-boletin
-					.col-lg-12.col-xs-12.materias
+					.col-lg-12.col-xs-12.materias(style="padding:0px")
 						.materia-item
 							table.table-bordered.table-bordered2.table-striped.table-striped2
 								thead

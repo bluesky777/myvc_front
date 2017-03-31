@@ -1,0 +1,100 @@
+.widget(ng-if="hasRoleOrPerm(['admin'])")
+	.widget-header
+		.widget-caption
+			| Ver todas las notas
+	.widget-body
+		.form-group
+			label Profesor
+			ui-select(ng-model="datos.profesor" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;")
+				ui-select-match(placeholder="Elige un profesor" allow-clear="true") {{$select.selected.nombres + ' ' + $select.selected.apellidos}}
+				ui-select-choices(repeat="profe in profesores | filter: $select.search")
+					div(ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
+			
+
+			a.btn.btn-default(href="" ng-click="verNotasPerdidasProfesor()") Notas perdidas
+
+
+
+.widget(ng-if="grupos.length > 0")
+	.widget-body(style="overflow: scroll;")
+		.row
+			.col-lg-12.col-xs-12
+				.row.encabezado-planilla
+					.col-lg-12.col-xs-12
+						.row
+							.col-lg-12
+								.nombre-colegio
+									| {{ grupos[0].asignaturas[0].profesor_apellidos + ' ' + grupos[0].asignaturas[0].profesor_nombres }} - {{USER.year}}
+								.descripcion-title
+									| Alumnos con notas pendientes 
+
+
+		.row
+			.col-lg-12.col-xs-12(style="padding: 0px;")
+
+				div(ng-repeat="grupo in grupos")
+
+					div(ng-repeat="asignatura in grupo.asignaturas")
+
+						div.text-center(style="padding-top: 10px; font-size: 12pt;")
+							span(style="font-weight: 600;") {{ grupo.nombre }} - 
+							span {{ asignatura.materia }}
+
+						table.table-bordered.table-bordered2.table-striped.table-striped2(align="center")
+							thead
+								tr
+									th(style="width: 20px" rowspan="2")
+										| No
+									th.text-center(style="width: 150px" rowspan="2")
+										| Alumnos
+									th(style="width: 20px" rowspan="2")
+										| Per
+									th(style="text-align: center; width: 200px" rowspan="2")
+										| {{ USER.subunidad_displayname }} / Tema
+									th(style="width: 20px" rowspan="2")
+										| Nota
+
+
+							tbody(style="font-size: 10pt")
+								tr(ng-repeat="alumno in asignatura.alumnos" )
+									td
+										| {{ $index + 1 }}
+									td
+										.alumno-planilla(style="width: 150px")
+											| {{alumno.apellidos}} {{alumno.nombres}} 
+									
+									td
+										div(ng-repeat="nota in alumno.notas | orderBy:'orden_subunidad' track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 10pt")
+											| {{ nota.numero_periodo }}
+
+									td
+										div.ellipsis350(ng-repeat="nota in alumno.notas | orderBy:'orden_subunidad' track by $index" 
+											ng-style=" !$last && {'border-bottom': '1px #111 solid' }" 
+											style="font-size: 10pt" uib-tooltip="{{nota.defin_subunidad}} - {{nota.defin_unidad}} - {{nota.created_at}}" 
+											tooltip-popup-delay="500" tooltip-class="hidden-print")
+											| {{ nota.defin_subunidad }}
+									td(style="width: 20px;")
+										div.text-center(ng-repeat="nota in alumno.notas | orderBy:'orden_subunidad' track by $index" 
+											ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 10pt")
+
+											span(ng-if="!hasRoleOrPerm(['admin', 'profesor'])")
+												span(ng-class="{'nota-perdida-bold': nota.nota<USER.nota_minima_aceptada}" ) {{nota.nota}}
+												
+
+											span(ng-class="{'inputnota-perdida': nota.nota < USER.nota_minima_aceptada}" 
+												ng-if="hasRoleOrPerm(['admin', 'profesor'])")
+
+												input(type="number" min="0" max="100" 
+													ng-model="nota.nota" 
+													ng-change="cambiaNota(nota)"
+													ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+
+
+
+
+
+
+
+
+

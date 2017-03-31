@@ -2,11 +2,12 @@
 
 angular.module("myvcFrontApp")
 
-.controller('FileManagerCtrl', ['$scope', '$upload', '$timeout', '$filter', 'App', '$http', 'Perfil', '$uibModal', 'resolved_user', 'toastr', 'AuthService', ($scope, $upload, $timeout, $filter, App, $http, Perfil, $modal, resolved_user, toastr, AuthService)->
+.controller('FileManagerCtrl', ['$scope', 'Upload', '$timeout', '$filter', 'App', '$http', 'Perfil', '$uibModal', 'resolved_user', 'toastr', 'AuthService', ($scope, $upload, $timeout, $filter, App, $http, Perfil, $modal, resolved_user, toastr, AuthService)->
 	
 	$scope.USER = resolved_user
-	$scope.subir_intacta = {}
-	$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
+	$scope.subir_intacta 	= {}
+	$scope.hasRoleOrPerm 	= AuthService.hasRoleOrPerm
+	$scope.cantUp 			= 10
 
 	fixDato = ()->
 		$scope.dato = 
@@ -27,14 +28,24 @@ angular.module("myvcFrontApp")
 
 	$http.get('::myimages').then((r)->
 		r = r.data
-		$scope.imagenes_privadas = r.imagenes_privadas
-		$scope.imagenes_publicas = r.imagenes_publicas
-		$scope.dato.imgParaUsuario = r.imagenes_privadas[0]
+		$scope.imagenes_privadas 	= r.imagenes_privadas
+		$scope.imagenes_publicas 	= r.imagenes_publicas
+		$scope.logo 				= r.logo
+		$scope.dato.imgParaUsuario 	= r.imagenes_privadas[0]
 	, (r2)->
 		toastr.error 'No se trajeron las imágenes.'
 	)
 
-	$scope.upload =  (files)->
+
+	if $scope.hasRoleOrPerm(['profesor', 'admin'])
+		$scope.cantUp = 2
+
+
+
+	$scope.uploadFiles =  (files)->
+		if $scope.imagenes_privadas.length > 2 and $scope.hasRoleOrPerm(['alumno', 'acudiente'])
+			toastr.warning 'No tiene permiso para subir más imágenes'
+			
 		$scope.imgFiles = files
 		$scope.errorMsg = ''
 
@@ -122,12 +133,6 @@ angular.module("myvcFrontApp")
 			toastr.error 'No se pudo cambiar el logo', 'Problema'
 		)
 
-	$scope.imagenSelect = (item, model)->
-		#console.log 'imagenSelect: ', item, model
-
-	$scope.fotoSelect = (item, model)->
-		#console.log 'imagenSelect: ', item, model
-
 	$scope.grupoSelect = (item, model)->
 		#console.log 'grupoSelect: ', item, model
 		$http.get('::grupos/listado/'+item.id).then((r)->
@@ -213,20 +218,22 @@ angular.module("myvcFrontApp")
 		)
 
 
-	$http.get('::perfiles/usuariosall?year_id=' + $scope.USER.year_id).then((r)->
-		r = r.data
-		$scope.usuariosall = r
-		$scope.usuariosprofes = $filter('filter')(r, {tipo: 'Pr'}, true)
-		$scope.dato.usuarioElegido = r[0]
-	, (r2)->
-		toastr.error 'No se pudo traer los usuarios', r2
-	)
+
+	if AuthService.hasRoleOrPerm(['admin', 'profesor'])
+		$http.get('::perfiles/usuariosall?year_id=' + $scope.USER.year_id).then((r)->
+			r = r.data
+			$scope.usuariosall = r
+			$scope.usuariosprofes = $filter('filter')(r, {tipo: 'Pr'}, true)
+			$scope.dato.usuarioElegido = r[0]
+		, (r2)->
+			toastr.error 'No se pudo traer los usuarios', r2
+		)
 
 
 
-	$http.get('::grupos').then((r)->
-		$scope.grupos = r.data
-	)
+		$http.get('::grupos').then((r)->
+			$scope.grupos = r.data
+		)
 
 	$scope.cambiarImgUnUsuario = (usuarioElegido, imgParaUsuario)->
 		

@@ -13,21 +13,22 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 
 
 	.row
-		.col-lg-12.col-xs-12
+		.col-lg-12.col-xs-12(style="padding: 0px;")
 
 			div(ng-repeat="grupo in grupos")
 
 				div(ng-repeat="asignatura in grupo.asignaturas")
 
-					div(style="padding-top: 10px; font-size: 12pt; font-weight: 600; text-align: center;")
-						| {{ grupo.nombre }} - {{ asignatura.materia }}
+					div.text-center(style="padding-top: 10px; font-size: 12pt;")
+						span(style="font-weight: 600;") {{ grupo.nombre }} - 
+						span {{ asignatura.materia }}
 
-					table.table-bordered.table-bordered2.table-striped.table-striped2
+					table.table-bordered.table-bordered2.table-striped.table-striped2(align="center")
 						thead
 							tr
 								th(style="width: 20px" rowspan="2")
 									| No
-								th(style="text-align: center; width: 130px" rowspan="2")
+								th.text-center(style="width: 150px" rowspan="2")
 									| Alumnos
 								th(style="width: 20px" rowspan="2")
 									| Per
@@ -35,21 +36,21 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 									| {{ USER.subunidad_displayname }} / Tema
 								th(style="width: 20px" rowspan="2")
 									| Nota
-								th(style="width: 20px; text-align: center;" rowspan="2")
+								th.text-center(style="width: 20px;" rowspan="2")
 									| Nota nueva
-								th(style="width: 20px; text-align: center;" colspan="2")
+								th.text-center(style="width: 20px;" colspan="2")
 									| Asist
-								th(style="width: 80px; text-align: center;" rowspan="2")
+								th.text-center(style="width: 80px;" rowspan="2")
 									| Fecha
-								th(style="width: 80px; text-align: center;" rowspan="2")
+								th.text-center(style="width: 80px;" rowspan="2")
 									| Método refuerzo
-								th(style="width: 150px; text-align: center;" rowspan="2")
+								th.text-center(style="width: 150px;" rowspan="2")
 									| Firma
 
 							tr(style="height: 25px")
-								th(style="width: 25px; text-align: center;")
+								th.text-center(style="width: 25px;")
 									| Si
-								th(style="width: 25px; text-align: center;")
+								th.text-center(style="width: 25px")
 									| No
 
 						tbody(style="font-size: 10pt")
@@ -57,7 +58,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 								td
 									| {{ $index + 1 }}
 								td
-									.alumno-planilla
+									.alumno-planilla(style="width: 150px")
 										| {{alumno.apellidos}} {{alumno.nombres}} 
 								
 								td
@@ -71,7 +72,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 										tooltip-popup-delay="500" tooltip-class="hidden-print")
 										| {{ nota.defin_subunidad }}
 								td(style="width: 20px;")
-									div(ng-repeat="nota in alumno.notas | orderBy:'orden_subunidad' track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 10pt")
+									div.text-center(ng-repeat="nota in alumno.notas | orderBy:'orden_subunidad' track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 10pt")
 										| {{ nota.nota }}
 
 								td 

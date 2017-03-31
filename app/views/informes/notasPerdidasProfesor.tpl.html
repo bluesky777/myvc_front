@@ -15,34 +15,34 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-lg-12 col-xs-12">
+    <div style="padding: 0px;" class="col-lg-12 col-xs-12">
       <div ng-repeat="grupo in grupos">
         <div ng-repeat="asignatura in grupo.asignaturas">
-          <div style="padding-top: 10px; font-size: 12pt; font-weight: 600; text-align: center;">{{ grupo.nombre }} - {{ asignatura.materia }}</div>
-          <table class="table-bordered table-bordered2 table-striped table-striped2">
+          <div style="padding-top: 10px; font-size: 12pt;" class="text-center"><span style="font-weight: 600;">{{ grupo.nombre }} - </span><span>{{ asignatura.materia }}</span></div>
+          <table align="center" class="table-bordered table-bordered2 table-striped table-striped2">
             <thead>
               <tr>
                 <th style="width: 20px" rowspan="2">No</th>
-                <th style="text-align: center; width: 130px" rowspan="2">Alumnos</th>
+                <th style="width: 150px" rowspan="2" class="text-center">Alumnos</th>
                 <th style="width: 20px" rowspan="2">Per</th>
                 <th style="text-align: center; width: 200px" rowspan="2">{{ USER.subunidad_displayname }} / Tema</th>
                 <th style="width: 20px" rowspan="2">Nota</th>
-                <th style="width: 20px; text-align: center;" rowspan="2">Nota nueva</th>
-                <th style="width: 20px; text-align: center;" colspan="2">Asist</th>
-                <th style="width: 80px; text-align: center;" rowspan="2">Fecha</th>
-                <th style="width: 80px; text-align: center;" rowspan="2">Método refuerzo</th>
-                <th style="width: 150px; text-align: center;" rowspan="2">Firma</th>
+                <th style="width: 20px;" rowspan="2" class="text-center">Nota nueva</th>
+                <th style="width: 20px;" colspan="2" class="text-center">Asist</th>
+                <th style="width: 80px;" rowspan="2" class="text-center">Fecha</th>
+                <th style="width: 80px;" rowspan="2" class="text-center">Método refuerzo</th>
+                <th style="width: 150px;" rowspan="2" class="text-center">Firma</th>
               </tr>
               <tr style="height: 25px">
-                <th style="width: 25px; text-align: center;">Si</th>
-                <th style="width: 25px; text-align: center;">No</th>
+                <th style="width: 25px;" class="text-center">Si</th>
+                <th style="width: 25px" class="text-center">No</th>
               </tr>
             </thead>
             <tbody style="font-size: 10pt">
               <tr ng-repeat="alumno in asignatura.alumnos">
                 <td>{{ $index + 1 }}</td>
                 <td>
-                  <div class="alumno-planilla">{{alumno.apellidos}} {{alumno.nombres}} </div>
+                  <div style="width: 150px" class="alumno-planilla">{{alumno.apellidos}} {{alumno.nombres}} </div>
                 </td>
                 <td>
                   <div ng-repeat="nota in alumno.notas | orderBy:'orden_subunidad' track by $index" ng-style=" !$last &amp;&amp; {'border-bottom': '1px #111 solid' }" style="font-size: 10pt">{{ nota.numero_periodo }}</div>
@@ -51,7 +51,7 @@
                   <div ng-repeat="nota in alumno.notas | orderBy:'orden_subunidad' track by $index" ng-style=" !$last &amp;&amp; {'border-bottom': '1px #111 solid' }" style="font-size: 10pt" uib-tooltip="{{nota.defin_subunidad}} - {{nota.defin_unidad}}" tooltip-popup-delay="500" tooltip-class="hidden-print" class="ellipsis350">{{ nota.defin_subunidad }}</div>
                 </td>
                 <td style="width: 20px;">
-                  <div ng-repeat="nota in alumno.notas | orderBy:'orden_subunidad' track by $index" ng-style=" !$last &amp;&amp; {'border-bottom': '1px #111 solid' }" style="font-size: 10pt">{{ nota.nota }}</div>
+                  <div ng-repeat="nota in alumno.notas | orderBy:'orden_subunidad' track by $index" ng-style=" !$last &amp;&amp; {'border-bottom': '1px #111 solid' }" style="font-size: 10pt" class="text-center">{{ nota.nota }}</div>
                 </td>
                 <td> 
                   <div ng-repeat="nota in alumno.notas track by $index" ng-style=" !$last &amp;&amp; {'border-bottom': '1px #111 solid' }" style="font-size: 10pt"> &nbsp</div>

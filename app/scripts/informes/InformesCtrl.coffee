@@ -150,13 +150,13 @@ angular.module('myvcFrontApp')
 		if $scope.datos.grupo.id
 			$state.go 'panel.informes.planillas_grupo', {grupo_id: $scope.datos.grupo.id, periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
 		else
-			toastr.warning 'Elije un grupo'
+			toastr.warning 'Elige un grupo'
 
 	$scope.verPlanillasProfe = ()->
 		if $scope.datos.profesor
 			$state.go 'panel.informes.planillas_profesor', {profesor_id: $scope.datos.profesor.profesor_id, periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
 		else
-			toastr.warning 'Elije un profesor'
+			toastr.warning 'Elige un profesor'
 
 	$scope.verPlanillasControlTardanzas = ()->
 		$state.go 'panel.informes.control_tardanza_entrada', {reload: true}
@@ -165,7 +165,7 @@ angular.module('myvcFrontApp')
 		if $scope.datos.profesor
 			$state.go 'panel.informes.notas_perdidas_profesor', {profesor_id: $scope.datos.profesor.profesor_id, periodo_a_calcular: $scope.config.periodo_a_calcular}, {reload: true}
 		else
-			toastr.warning 'Elije un profesor'
+			toastr.warning 'Elige un profesor'
 
 
 

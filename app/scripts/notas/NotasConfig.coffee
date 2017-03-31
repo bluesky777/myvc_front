@@ -117,6 +117,29 @@ angular.module('myvcFrontApp')
 
 
 
+		.state 'panel.notas_perdidas_profesor_edit',
+			url: '^/notas_perdidas_profesor_edit'
+			views: 
+				'maincontent':
+					templateUrl: "==notas/notasPerdidasProfesorEdit.tpl.html"
+					controller: 'NotasPerdidasProfesorEditCtrl'
+				'headerContent':
+					templateUrl: "==panel/panelHeader.tpl.html"
+					controller: 'PanelHeaderCtrl'
+					resolve: 
+						titulo: [->
+							'Notas perdidas a editar'
+						]
+			
+
+			data: 
+				displayName: 'Notas perdidas a editar'
+				icon_fa: 'fa fa-graduation-cap'
+				needed_permissions: [PERMISSIONS.can_work_like_teacher, PERMISSIONS.can_work_like_admin, PERMISSIONS.can_edit_notas]
+				pageTitle: 'Notas perdidas a editar - MyVc'
+
+
+
 ])
 
 

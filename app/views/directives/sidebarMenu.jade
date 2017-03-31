@@ -80,7 +80,7 @@
 
 
 		<!-- Notas visto por profesor-->
-		li(sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm(['profesor'])" ng-class="{open:$state.includes('panel.notas')||$state.includes('panel.listasignaturas')||$state.includes('panel.notas_alumno')}")
+		li(sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm(['profesor'])" ng-class="{open:$state.includes('panel.notas')||$state.includes('panel.listasignaturas')||$state.includes('panel.notas_alumno') || $state.includes('panel.notas_perdidas_profesor_edit')}")
 			a.menu-dropdown(href="")
 				i.menu-icon.fa.fa-apple
 				span.menu-text Notas
@@ -94,6 +94,9 @@
 					a(ng-click="listarAsignaturas()" href="" stop-event="click")
 						span.menu-text Notas
 				li(ui-sref-active="active")
+					a(ui-sref="panel.notas_perdidas_profesor_edit" stop-event="click")
+						span.menu-text Perdidas
+				li(ui-sref-active="active")
 					a(ui-sref="panel.actividades" stop-event="click")
 						span.menu-text Actividades
 						i.menu-icon.fa.fa-soccer-ball-o 
@@ -106,7 +109,7 @@
 						span.menu-text.blue De un alumno
 
 		<!-- Notas visto por el admin-->
-		li(sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm(['admin'])" ng-class="{open:$state.includes('panel.listasignaturas')||$state.includes('panel.unidades')||$state.includes('panel.notas')||$state.includes('panel.notas_alumno')}")
+		li(sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm(['admin'])" ng-class="{open:$state.includes('panel.listasignaturas')||$state.includes('panel.unidades')||$state.includes('panel.notas')||$state.includes('panel.notas_alumno') || $state.includes('panel.notas_perdidas_profesor_edit')}")
 			a.menu-dropdown(href="")
 				i.menu-icon.fa.fa-apple
 				span.menu-text Notas
@@ -115,7 +118,10 @@
 			ul.submenu
 				li(ui-sref-active="active")
 					a(ui-sref="panel.notas_alumno" stop-event="click")
-						span.menu-text De un alumno
+						span.menu-text.blue De un alumno
+				li(ui-sref-active="active")
+					a(ui-sref="panel.notas_perdidas_profesor_edit" stop-event="click")
+						span.menu-text Perdidas
 				li(ui-sref-active="active")
 					a(ui-sref="panel.actividades" stop-event="click")
 						span.menu-text Actividades
