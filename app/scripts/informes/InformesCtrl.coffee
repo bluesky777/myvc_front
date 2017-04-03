@@ -17,28 +17,36 @@ angular.module('myvcFrontApp')
 
 	#console.log 'Parametros', $state.params
 
-	$http.get('::grupos').then((r)->
-		$scope.grupos = r.data
 
+
+	$http.put('::informes/datos').then((r)->
+		r 					= r.data
+		$scope.year_actual 	= r.year
+		$scope.grupos 		= r.grupos
+		$scope.profesores 	= r.profesores
+		$scope.imgs_public 	= r.imagenes
+
+		# Grupo seleccionado
 		if $state.params.grupo_id
 			$tempParam = parseInt($state.params.grupo_id)
 			$scope.datos.grupo = $filter('filter')($scope.grupos, {id: $tempParam}, true)[0]
 			$scope.filtered_alumnos = $filter('filter')(alumnos, {grupo_id: $tempParam}, true)
 
-	)
-
-
-	$http.get('::contratos').then((r)->
-		$scope.profesores = r.data
-
+		# Profesor seleccionado
 		if $state.params.profesor_id
 			$tempParam = parseInt($state.params.profesor_id)
 			$scope.datos.profesor = $filter('filter')($scope.profesores, {profesor_id: $tempParam}, true)[0]
 
-	
+
 	, (r2)->
 		toastr.error 'No se pudo traer los profesores'
 	)
+
+
+
+	$scope.range = (n)->
+		return new Array(n);
+
 
 	if $cookies.getObject 'config'
 		$scope.config = $cookies.getObject 'config'
@@ -99,13 +107,13 @@ angular.module('myvcFrontApp')
 			toastr.warning 'Debes seleccionar el grupo'
 			return
 		
-		$state.go 'panel.informes.boletines_periodo', {grupo_id: $scope.datos.grupo.id, periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
+		$state.go 'panel.informes.boletines_periodo', {grupo_id: $scope.datos.grupo.id, periodo_a_calcular: $scope.config.periodo_a_calcular}, {reload: true}
 
 	$scope.verBoletinesAlumnos = ()->
 		
 		if $scope.datos.selected_alumnos.length > 0
 			$cookies.putObject 'requested_alumnos', $scope.datos.selected_alumnos
-			$state.go 'panel.informes.boletines_periodo', {grupo_id: $scope.datos.grupo.id, periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
+			$state.go 'panel.informes.boletines_periodo', {grupo_id: $scope.datos.grupo.id, periodo_a_calcular: $scope.config.periodo_a_calcular}, {reload: true}
 		else
 			toastr.warning 'Debes seleccionar al menos un alumno o cargar boletines del grupo completo'
 
@@ -114,10 +122,9 @@ angular.module('myvcFrontApp')
 		
 		if $scope.datos.selected_alumno
 			$cookies.putObject 'requested_alumno', [$scope.datos.selected_alumno]
-			#$state.go 'panel.informes.boletines_periodo', {periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
 			$state.go 'panel.informes'
 			$interval ()->
-				$state.go 'panel.informes.boletines_periodo', {periodos_a_calcular: $scope.config.periodos_a_calcular}
+				$state.go 'panel.informes.boletines_periodo', {periodo_a_calcular: $scope.config.periodo_a_calcular}
 			, 1, 1
 		else
 			toastr.warning 'Elige un alumno o carga el grupo completo'

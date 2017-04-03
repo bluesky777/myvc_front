@@ -32,10 +32,10 @@ angular.module('myvcFrontApp')
 		})
 
 		.state 'panel.informes.boletines_periodo',
-			url: '/boletines_periodo/:grupo_id/:periodos_a_calcular'
+			url: '/boletines_periodo/:grupo_id/:periodo_a_calcular'
 			params:
 				grupo_id: {value: null}
-				periodos_a_calcular: {value: null}
+				periodo_a_calcular: {value: null}
 			views: 
 				'report_content':
 					templateUrl: "==informes/boletinesPeriodo.tpl.html"
@@ -51,21 +51,20 @@ angular.module('myvcFrontApp')
 							
 							if requested_alumnos
 
-								console.log 'Pidiendo por varios alumnos: ', requested_alumnos
-								$http.put('::alumnos/detailed-notas/'+$stateParams.grupo_id, {requested_alumnos: requested_alumnos, periodos_a_calcular: $stateParams.periodos_a_calcular}).then((r)->
+								$http.put('::alumnos/detailed-notas/'+$stateParams.grupo_id, {requested_alumnos: requested_alumnos, periodo_a_calcular: $stateParams.periodo_a_calcular}).then((r)->
 									d.resolve r.data
 								, (r2)->
 									d.reject r2.data
 								)
 							else if requested_alumno
-								$http.put('::alumnos/detailed-notas/'+requested_alumno[0].grupo_id, {requested_alumnos: requested_alumno, periodos_a_calcular: $stateParams.periodos_a_calcular}).then((r)->
+								$http.put('::alumnos/detailed-notas/'+requested_alumno[0].grupo_id, {requested_alumnos: requested_alumno, periodo_a_calcular: $stateParams.periodo_a_calcular}).then((r)->
 									d.resolve r.data
 								, (r2)->
 									d.reject r2.data
 								)
 							else
 								#console.log 'Pidiendo por grupo:', $stateParams.grupo_id
-								$http.put('::alumnos/detailed-notas-group/'+$stateParams.grupo_id, {periodos_a_calcular: $stateParams.periodos_a_calcular}).then((r)->
+								$http.put('::alumnos/detailed-notas-group/'+$stateParams.grupo_id, {periodo_a_calcular: $stateParams.periodo_a_calcular}).then((r)->
 									d.resolve r.data
 								, (r2)->
 									d.reject r2.data

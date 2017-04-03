@@ -15700,7 +15700,9 @@ body {
     padding-top: 10px;
     
     .logo-colegio{
-        width: 60px;
+        //width: 60px;
+        max-height: 80px;
+        max-width: 100%;
     }
     .descripcion-encabezado{
         font-size: 8pt;

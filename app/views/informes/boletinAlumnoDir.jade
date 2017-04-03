@@ -1,6 +1,9 @@
 div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $parent.$last==false }")
-	div
-		img(src="http://localhost/5myvc/public/images/perfil/user_1/logo 30 LAL years.png" style="position: absolute; width: 20cm; max-height: 20cm; margin-top: 5cm; margin-left: 20px")
+	div(style="position: absolute; margin-bottom: 0; margin-left: -10px; " ng-show="config.cant_imagenes > 0" ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical' } ")
+		img(ng-src="{{ perfilPath + $parent.config.imagen_fondo.nombre }}" 
+			ng-repeat="cant in $parent.range(config.cant_imagenes) track by $index"
+			style="position:relative; max-width: 90%; max-height: 24cm; margin: auto; display: block; padding-top: 5cm;")
+		
 	.row
 		.col-lg-12.col-xs-12
 			.row.encabezado-boletin

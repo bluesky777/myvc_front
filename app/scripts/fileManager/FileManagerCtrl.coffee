@@ -129,6 +129,9 @@ angular.module("myvcFrontApp")
 	$scope.cambiarLogoColegio = (imgLogo)->
 		$http.put('::myimages/cambiarlogocolegio', {logo_id: imgLogo.id}).then((r)->
 			toastr.success 'Logo del colegio cambiado'
+			$scope.logo.logo 	= imgLogo.nombre
+			$scope.logo.logo_id = imgLogo.id
+			console.log $scope.logo, imgLogo
 		, (r2)->
 			toastr.error 'No se pudo cambiar el logo', 'Problema'
 		)
