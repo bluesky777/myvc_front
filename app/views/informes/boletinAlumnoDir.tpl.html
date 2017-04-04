@@ -94,6 +94,10 @@
       </div>
       <div ng-show="alumno.notas_perdidas_year &gt; 0" class="row resumen-perdidas">
         <div class="col-lg-12 col-xs-12">
+          <!-- GRAFICO RESUMEN ASIGNATURA     chart-colors="colors"      chart-get-color="colorCorrespondiente" -->
+          <div class="row resumen-body">
+            <canvas id="bar" height="140" chart-data="data" chart-labels="labels" chart-series="series" chart-options="options" class="chart chart-bar"></canvas>
+          </div>
           <div class="row resumen-head">
             <div class="col-lg-12 col-xs-12 resumen-title">Notas pendientes del año {{year.year}}</div>
           </div>

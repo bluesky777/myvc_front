@@ -114,6 +114,19 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 
 			.row.resumen-perdidas(ng-show="alumno.notas_perdidas_year > 0")
 				.col-lg-12.col-xs-12
+
+
+					// GRAFICO RESUMEN ASIGNATURA     chart-colors="colors"      chart-get-color="colorCorrespondiente" 
+					.row.resumen-body
+						canvas(id="bar" class="chart chart-bar" height="140"
+							chart-data="data" chart-labels="labels" 
+							chart-series="series"
+							chart-options="options")
+
+
+
+
+
 					.row.resumen-head
 						.col-lg-12.col-xs-12.resumen-title
 							| Notas pendientes del año {{year.year}}
@@ -145,6 +158,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 											| {{periodo.cant_perdidas}}
 										td
 											b {{alumno.notas_perdidas_year}}
+
 
 
 

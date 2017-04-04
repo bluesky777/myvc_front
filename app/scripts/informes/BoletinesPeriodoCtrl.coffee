@@ -12,6 +12,7 @@ angular.module("myvcFrontApp")
 	$scope.requested_alumnos = $cookieStore.get 'requested_alumnos'
 	$scope.requested_alumno = $cookieStore.get 'requested_alumno'
 
+
 	
 	$scope.$on 'change_config', ()->
 		$scope.config = $cookieStore.get 'config'

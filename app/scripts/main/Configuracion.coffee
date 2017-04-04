@@ -2,7 +2,7 @@ angular.module('myvcFrontApp')
 
 
 # Configuración principal de nuestra aplicación.
-.config(['$cookiesProvider', '$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryProvider', '$httpProvider', '$locationProvider', 'App', 'PERMISSIONS', '$intervalProvider', '$rootScopeProvider', 'USER_ROLES', 'toastrConfig', 'uiSelectConfig', ($cookies, $state, $urlRouter, $urlMatcherFactoryProvider, $httpProvider, $locationProvider, App, PERMISSIONS, $intervalProvider, $rootScopeProvider, USER_ROLES, toastrConfig, uiSelectConfig)->
+.config(['$cookiesProvider', '$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryProvider', '$httpProvider', '$locationProvider', 'App', 'PERMISSIONS', '$intervalProvider', '$rootScopeProvider', 'USER_ROLES', 'toastrConfig', 'uiSelectConfig', 'ChartJsProvider', ($cookies, $state, $urlRouter, $urlMatcherFactoryProvider, $httpProvider, $locationProvider, App, PERMISSIONS, $intervalProvider, $rootScopeProvider, USER_ROLES, toastrConfig, uiSelectConfig, ChartJsProvider)->
 
 	#Restangular.setBaseUrl App.Server # Url a la que se harán todas las llamadas.
 	
@@ -32,6 +32,13 @@ angular.module('myvcFrontApp')
 		}
 
 	)
+
+	###
+	ChartJsProvider.setOptions({ 
+		defaultFontSize : 9 
+	});
+	###
+
 
 
 
