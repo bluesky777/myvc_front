@@ -27,7 +27,7 @@ angular.module('myvcFrontApp', [
 	#'angularFileUpload'
 	'ngFileUpload'
 	'FBAngular'
-	'chart.js'
+	'nvd3'
 	#'ui.sortable'
 	#'as.sortable'
 ])

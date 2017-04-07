@@ -21,49 +21,45 @@ angular.module('myvcFrontApp')
 		scope.views = App.views
 
 
-		# Para el gráfico
-		scope.colors = ['#25f1aa'];
-		scope.labels = [];
-		scope.data = [];
 
-		for asignatura in scope.alumno.asignaturas
-			scope.labels.push asignatura.alias_materia
-			scope.data.push asignatura.nota_asignatura
 
-		scope.series = ['Asignaturas'];
 		scope.options = {
+			chart: {
+				type: 'discreteBarChart',
+				height: 180,
+				width: scope.$parent.ancho_chart, #  En BoletinesPeriodoCtrl.coffee
+				margin : {
+					top: 20,
+					right: 20,
+					bottom: 60,
+					left: 55
+				},
+				useInteractiveGuideline: true,
+				x: (d)-> return d.label; 
+				y: (d)-> return d.value; 
+				showValues: true,
+				valueFormat: (d)-> d3.format(',.0f')(d);
+				transitionDuration: 500
+			}
 			title: {
-				fontSize: 12,
+				enable: false,
 				text: 'Definitivas por asignaturas'
-				display: true
-				fontColor: '#000'
-			}	
-		}
-		scope.altura_chart = 140
-		scope.indiceColor = 0
-		scope.colores = [
-			['#25f1aa']
-			['#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999']
-			['#25f1aa', '#25f1aa', '#25f1aa', '#25f1aa', '#25f1aa', '#25f1aa', '#25f1aa', '#25f1aa', '#25f1aa', '#25f1aa', '#25f1aa', '#25f1aa', '#25f1aa', '#25f1aa', '#25f1aa', '#25f1aa', '#25f1aa', '#25f1aa', '#25f1aa', '#25f1aa', '#25f1aa', '#25f1aa', '#25f1aa', '#25f1aa', '#25f1aa', '#25f1aa', '#25f1aa', '#25f1aa', '#25f1aa', '#25f1aa']
-		]
+			}
+		};
 
-		scope.colorCorrespondiente = ()->
-			scope.colors = scope.colores[scope.indiceColor]
-			return scope.colores[scope.indiceColor]
 
-		scope.toogleIndiceColor = ()->
-			scope.indiceColor = scope.indiceColor + 1
-			if scope.indiceColor > scope.colores.length - 1 
-				scope.indiceColor = 0
-
-			scope.colors = scope.colores[scope.indiceColor]
-			console.log scope.indiceColor, scope.colors
-			scope.altura_chart = 140
-			scope.altura_chart = 141
-
+		valores = []
+		for asignatura in scope.alumno.asignaturas
+			valores.push { label: asignatura.alias_materia, value: asignatura.nota_asignatura },
 		
+		scope.data = [{
+			key: "Definitivas de asignaturas",
+			values: valores
+		}];
 
-		#console.log scope.config.orientacion
+
+
+
 ])
 
 

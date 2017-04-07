@@ -13,7 +13,7 @@ angular.module('myvcFrontApp')
 				@cant_asig_perdidas = 0
 
 				angular.forEach alumno.notas_asig, (asignatura, key) ->
-					if asignatura.nota_asignatura_year < nota_minima_aceptada
+					if Math.round(asignatura.nota_asignatura_year) < nota_minima_aceptada
 						@cant_asig_perdidas++
 
 				if @cant_asig_perdidas >= cant
@@ -40,7 +40,7 @@ angular.module('myvcFrontApp')
 				@cant_asig_perdidas = 0
 
 				angular.forEach alumno.asignaturas, (asignatura, key) ->
-					if asignatura.nota_asignatura < nota_minima_aceptada
+					if Math.round(asignatura.nota_asignatura) < nota_minima_aceptada
 						@cant_asig_perdidas++
 
 				if @cant_asig_perdidas >= cant

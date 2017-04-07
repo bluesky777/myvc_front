@@ -44,9 +44,9 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 									popover-trigger="mouseenter")
 								span.materia-name {{asignatura.materia}}
 								span.materia-profesor - Pr. {{asignatura.nombres_profesor | capitalize}}
-							.col-lg-1.col-xs-1
+							.col-lg-1.col-xs-1(style="padding: 0px")
 								i.fa.fa-clock-o.icon-tardanza  
-								span.text-tardanza {{asignatura.total_ausencias}} 
+								span.text-tardanza A:{{asignatura.total_ausencias}} / T:{{asignatura.total_tardanzas}}
 							.col-lg-1.col-xs-1(ng-class="{'nota-perdida': asignatura.nota_asignatura<USER.nota_minima_aceptada && config.show_rojos}")
 								| {{ asignatura.nota_asignatura | number:0 | juicioValorativo:escalas:true}} 
 							.col-lg-1.col-xs-1
@@ -106,26 +106,43 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 						.col-lg-1.col-xs-1.comportamiento-nota(ng-class="{'nota-perdida-bold': alumno.comportamiento.nota<USER.nota_minima_aceptada && config.show_rojos}")
 							| {{alumno.comportamiento.nota}}
 					.row.comportamiento-body
-						.col-lg-10.col-xs-10.comportamiento-frases
+						.col-lg-12.col-xs-12.comportamiento-frases
+							div(style="border-bottom: 1px solid #666; text-align: center; padding-bottom: 3px; margin-bottom: 3px;")
+								.row
+									.col-lg-3.col-xs-3
+										b Llegadas tarde  
+										| a la institución: {{ alumno.ausencias_total.cant_tardanzas_entrada }}. 
+									.col-lg-3.col-xs-3
+										b Ausencias  
+										| en la entrada: {{ alumno.ausencias_total.cant_ausencias_entrada }}. 
+									.col-lg-3.col-xs-3
+										b Tardanzas 
+										| a clases: {{ alumno.ausencias_total.cant_tardanzas_clases }}. 
+									.col-lg-3.col-xs-3
+										b Ausencias  
+										| a clases: {{ alumno.ausencias_total.cant_ausencias_clases }}
+
 							.row(ng-repeat="definicion in alumno.comportamiento.definiciones")
 								.col-lg-12.col-xs-12
 									| {{definicion.frase}}
 
 
+
+			// GRÁFICO RESUMEN ASIGNATURA   
+			.row.comportamiento-boletin
+				.col-lg-12.col-xs-12(style="height: 140px;")
+					.row(ng-if="config.show_grafico" style="padding-top: 5px")
+						.col-lg-12.col-xs-12.resumen-title
+							div(style="position: relative")
+								div(style="position: absolute; font-weight: 600; padding-left: 10px") 
+									| Definitivas por asignaturas   
+							
+							nvd3(options='options' data='data' api="api")
+
+
+
 			.row.resumen-perdidas(ng-show="alumno.notas_perdidas_year > 0")
 				.col-lg-12.col-xs-12
-
-
-					// GRAFICO RESUMEN ASIGNATURA     chart-colors="colors"      chart-get-color="colorCorrespondiente" 
-					.row.resumen-body
-						canvas(id="bar" class="chart chart-bar" height="140"
-							chart-data="data" chart-labels="labels" 
-							chart-series="series"
-							chart-options="options")
-
-
-
-
 
 					.row.resumen-head
 						.col-lg-12.col-xs-12.resumen-title

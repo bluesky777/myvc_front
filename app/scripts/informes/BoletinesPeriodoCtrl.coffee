@@ -12,6 +12,15 @@ angular.module("myvcFrontApp")
 	$scope.requested_alumnos = $cookieStore.get 'requested_alumnos'
 	$scope.requested_alumno = $cookieStore.get 'requested_alumno'
 
+	
+	# Cuadro el ancho que van a tener los gráficos de los boletines
+	if $scope.alumnos[0].asignaturas.length < 10
+		$scope.ancho_chart = 50 * $scope.alumnos[0].asignaturas.length
+	else
+		$scope.ancho_chart = 35 * $scope.alumnos[0].asignaturas.length
+
+	if $scope.ancho_chart > 800
+		$scope.ancho_chart = 800
 
 	
 	$scope.$on 'change_config', ()->

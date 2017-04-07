@@ -19,27 +19,7 @@
 								.form-group
 									label Calcular hasta el periodo:
 									input(type="number" ng-model="config.periodo_a_calcular" min="1" max="10") 
-									
-							.col-lg-7.col-sm-12.col-xs-12(ng-show="false")
-
-								.form-group
-										label Periodos a calcular:
-										.row
-											.col-lg-4.col-sm-4.col-xs-6
-												.radio
-													label
-														input.inverted(type="radio" value="de_usuario" ng-model="config.periodos_a_calcular")
-														span.text Hasta el actual del usuario
-											.col-lg-4.col-sm-4.col-xs-6
-												.radio
-													label
-														input.inverted(type="radio" value="de_colegio" ng-model="config.periodos_a_calcular")
-														span.text Hasta el actual del colegio
-											.col-lg-4.col-sm-4.col-xs-6
-												.radio
-													label
-														input.inverted(type="radio" value="todos" ng-model="config.periodos_a_calcular")
-														span.text Todos
+								
 						br
 						.row
 							.col-lg-12.col-xs-12
@@ -85,6 +65,12 @@
 									label Mostrar foto
 									label
 										input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.mostrar_foto")
+										span.text.si-no
+							.col-lg-2.col-sm-4.col-xs-12
+								.form-group
+									label Gráfico
+									label
+										input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.show_grafico")
 										span.text.si-no
 							.col-lg-2.col-sm-4.col-xs-12
 								.form-group

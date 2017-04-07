@@ -46,7 +46,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 								| ({{asignatura.unidades | notasPerdidasAsignatura:true}})
 
 						td(style="border-left: 2px solid !important;")
-							span {{alumno.promedio | decimales:3}}
+							span {{alumno.promedio | decimales:2}}
 							span.cant-unidades-perdidas|({{ alumno.asignaturas | notasPerdidasAsignaturaPeriodo:true:USER.numero_periodo}})
 				tfoot
 					tr(style="border-top: 2px solid;")

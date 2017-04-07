@@ -51,20 +51,20 @@ angular.module('myvcFrontApp')
 							
 							if requested_alumnos
 
-								$http.put('::alumnos/detailed-notas/'+$stateParams.grupo_id, {requested_alumnos: requested_alumnos, periodo_a_calcular: $stateParams.periodo_a_calcular}).then((r)->
+								$http.put('::boletines/detailed-notas/'+$stateParams.grupo_id, {requested_alumnos: requested_alumnos, periodo_a_calcular: $stateParams.periodo_a_calcular}).then((r)->
 									d.resolve r.data
 								, (r2)->
 									d.reject r2.data
 								)
 							else if requested_alumno
-								$http.put('::alumnos/detailed-notas/'+requested_alumno[0].grupo_id, {requested_alumnos: requested_alumno, periodo_a_calcular: $stateParams.periodo_a_calcular}).then((r)->
+								$http.put('::boletines/detailed-notas/'+requested_alumno[0].grupo_id, {requested_alumnos: requested_alumno, periodo_a_calcular: $stateParams.periodo_a_calcular}).then((r)->
 									d.resolve r.data
 								, (r2)->
 									d.reject r2.data
 								)
 							else
 								#console.log 'Pidiendo por grupo:', $stateParams.grupo_id
-								$http.put('::alumnos/detailed-notas-group/'+$stateParams.grupo_id, {periodo_a_calcular: $stateParams.periodo_a_calcular}).then((r)->
+								$http.put('::boletines/detailed-notas-group/'+$stateParams.grupo_id, {periodo_a_calcular: $stateParams.periodo_a_calcular}).then((r)->
 									d.resolve r.data
 								, (r2)->
 									d.reject r2.data
@@ -89,7 +89,7 @@ angular.module('myvcFrontApp')
 					controller: 'PuestosGrupoPeriodoCtrl'
 					resolve:
 						alumnosDat: ['$http', '$stateParams', ($http, $stateParams)->
-							$http.put('::alumnos/detailed-notas/'+$stateParams.grupo_id);
+							$http.put('::boletines/detailed-notas/'+$stateParams.grupo_id);
 						],
 						escalas: ['EscalasValorativasServ', (EscalasValorativasServ)->
 							#debugger

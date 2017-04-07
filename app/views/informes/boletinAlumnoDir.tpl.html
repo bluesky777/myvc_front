@@ -32,7 +32,7 @@
           <div ng-repeat="asignatura in alumno.asignaturas" class="materia-item">
             <div class="row materia-title">
               <div uib-popover-template="views+'informes/infoDocentePop.tpl.html'" popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" popover-trigger="mouseenter" class="col-lg-9 col-xs-9"><span class="materia-name">{{asignatura.materia}}</span><span class="materia-profesor">- Pr. {{asignatura.nombres_profesor | capitalize}}</span></div>
-              <div class="col-lg-1 col-xs-1"><i class="fa fa-clock-o icon-tardanza"> </i><span class="text-tardanza">{{asignatura.total_ausencias}} </span></div>
+              <div style="padding: 0px" class="col-lg-1 col-xs-1"><i class="fa fa-clock-o icon-tardanza"> </i><span class="text-tardanza">A:{{asignatura.total_ausencias}} / T:{{asignatura.total_tardanzas}}</span></div>
               <div ng-class="{'nota-perdida': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}" class="col-lg-1 col-xs-1">{{ asignatura.nota_asignatura | number:0 | juicioValorativo:escalas:true}} </div>
               <div class="col-lg-1 col-xs-1">
                 <div ng-class="{'nota-perdida-bold': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}">{{asignatura.nota_asignatura | number:0 }}</div>
@@ -84,7 +84,15 @@
             <div ng-class="{'nota-perdida-bold': alumno.comportamiento.nota&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}" class="col-lg-1 col-xs-1 comportamiento-nota">{{alumno.comportamiento.nota}}</div>
           </div>
           <div class="row comportamiento-body">
-            <div class="col-lg-10 col-xs-10 comportamiento-frases">
+            <div class="col-lg-12 col-xs-12 comportamiento-frases">
+              <div style="border-bottom: 1px solid #666; text-align: center; padding-bottom: 3px; margin-bottom: 3px;">
+                <div class="row">
+                  <div class="col-lg-3 col-xs-3"><b>Llegadas tarde  </b>a la institución: {{ alumno.ausencias_total.cant_tardanzas_entrada }}. </div>
+                  <div class="col-lg-3 col-xs-3"><b>Ausencias  </b>en la entrada: {{ alumno.ausencias_total.cant_ausencias_entrada }}. </div>
+                  <div class="col-lg-3 col-xs-3"><b>Tardanzas </b>a clases: {{ alumno.ausencias_total.cant_tardanzas_clases }}. </div>
+                  <div class="col-lg-3 col-xs-3"><b>Ausencias  </b>a clases: {{ alumno.ausencias_total.cant_ausencias_clases }}</div>
+                </div>
+              </div>
               <div ng-repeat="definicion in alumno.comportamiento.definiciones" class="row">
                 <div class="col-lg-12 col-xs-12">{{definicion.frase}}</div>
               </div>
@@ -92,12 +100,24 @@
           </div>
         </div>
       </div>
+      <!-- GRÁFICO RESUMEN ASIGNATURA   -->
+      <div class="row comportamiento-boletin">
+        <div style="height: 140px;" class="col-lg-12 col-xs-12">
+          <div ng-if="config.show_grafico" style="padding-top: 5px" class="row">
+            <div class="col-lg-12 col-xs-12 resumen-title">
+              <div style="position: relative">
+                <div style="position: absolute; font-weight: 600; padding-left: 10px">
+                   
+                  Definitivas por asignaturas   
+                </div>
+              </div>
+              <nvd3 options="options" data="data" api="api"></nvd3>
+            </div>
+          </div>
+        </div>
+      </div>
       <div ng-show="alumno.notas_perdidas_year &gt; 0" class="row resumen-perdidas">
         <div class="col-lg-12 col-xs-12">
-          <!-- GRAFICO RESUMEN ASIGNATURA     chart-colors="colors"      chart-get-color="colorCorrespondiente" -->
-          <div class="row resumen-body">
-            <canvas id="bar" height="140" chart-data="data" chart-labels="labels" chart-series="series" chart-options="options" class="chart chart-bar"></canvas>
-          </div>
           <div class="row resumen-head">
             <div class="col-lg-12 col-xs-12 resumen-title">Notas pendientes del año {{year.year}}</div>
           </div>
