@@ -14647,7 +14647,7 @@ tr.fc-last td {
     font-size: 11px;
     text-transform: uppercase;
 }
-.ticket-item .ticket-state {
+.ticket-state {
     position: absolute;
     top: 13px;
     right: -12px;
@@ -16346,5 +16346,21 @@ input.ocultar-input{
 }
 .txtcentro{
     text-align: center;
+}
+
+.button-aprobar{
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background-clip: padding-box;
+    background-color: #e5e5e5;
+    text-align: center;
+    -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, .2);
+    -moz-box-shadow: 0 0 3px rgba(0, 0, 0, .2);
+    box-shadow: 0 0 3px rgba(0, 0, 0, .2);
+    border: 2px solid #fff;
+    padding-top: 4px;
+    font-size: 20px;
 }
 

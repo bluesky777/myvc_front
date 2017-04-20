@@ -11,8 +11,8 @@ angular.module('myvcFrontApp')
 		periodo_a_calcular: $scope.USER.numero_periodo
 	}
 	$scope.filtered_alumnos = alumnos
-	$scope.perfilPath = App.images + 'perfil/'
-	$scope.views = App.views
+	$scope.perfilPath 		= App.images + 'perfil/'
+	$scope.views 			= App.views
 
 	$scope.datos = {grupo: ''}
 

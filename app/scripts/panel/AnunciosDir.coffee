@@ -12,8 +12,7 @@ angular.module('myvcFrontApp')
 
 		if $state.is 'panel'
 			$http.get('::ChangesAsked/to-me').then((r)->
-				scope.changes_asked_to_me = r.data.cambios
-				scope.changes_asked_elim = r.data.cambios_elim
+				scope.changes_asked = r.data
 			, (r2)->
 				#toastr.error 'No se pudo traer los anuncios.'
 				console.log r2
@@ -23,22 +22,36 @@ angular.module('myvcFrontApp')
 ])
 
 
-.controller('AnunciosDirCtrl', ['$scope', '$uibModal', 'AuthService', ($scope, $modal, AuthService)->
+.controller('AnunciosDirCtrl', ['$scope', '$uibModal', 'AuthService', '$http', ($scope, $modal, AuthService, $http)->
 	
 	$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
 
-	$scope.verDetalles = (row)->
+	$scope.verDetalles = (change_asked)->
+		if change_asked.mostrando
+			change_asked.mostrando = false
+		else
+			change_asked.mostrando = true
 
-		modalInstance = $modal.open({
-			templateUrl: '==panel/verDetalles.tpl.html'
-			controller: 'VerDetallesCtrl'
-			resolve: 
-				asked: ()->
-					$http.get('::change')
-		})
-		modalInstance.result.then( (asked)->
-			#console.log 'Resultado del modal: ', asked
-		)
+			if not change_asked.detalles
+				datos = { asked_id: change_asked.asked_id,  }
+
+				$http.put('::ChangesAsked/ver-detalles', datos).then((r)->
+					change_asked.detalles = r.data.detalles
+				, (r2)->
+					console.log 'Error trayendo detalles', r2
+				)
+				###
+				modalInstance = $modal.open({
+					templateUrl: '==panel/verDetalles.tpl.html'
+					controller: 'VerDetallesCtrl'
+					resolve: 
+						asked: ()->
+							
+				})
+				modalInstance.result.then( (asked)->
+					#console.log 'Resultado del modal: ', asked
+				)
+				###
 
 	$scope.rechazarAsked = (row)->
 

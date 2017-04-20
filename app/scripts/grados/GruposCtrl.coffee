@@ -1,12 +1,14 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-.controller('GruposCtrl', ['$scope', '$filter', '$state', 'grados', 'profesores', '$uibModal', '$http', 'toastr', ($scope, $filter, $state, grados, profesores, $modal, $http, toastr) ->
+.controller('GruposCtrl', ['$scope', '$filter', '$state', 'grados', 'profesores', '$uibModal', '$http', 'toastr', 'AuthService', ($scope, $filter, $state, grados, profesores, $modal, $http, toastr, AuthService) ->
 
 	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
 
 	$scope.grados = grados
 	$scope.profesores = profesores
+
+	$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
 
 	$scope.editar = (row)->
 		$state.go('panel.grupos.editar', {grupo_id: row.id})
@@ -42,6 +44,7 @@ angular.module('myvcFrontApp')
 			{ field: 'abrev', displayName:'Abreviatura', maxWidth: 50, enableSorting: false }
 			{ field: 'titular_id', displayName: 'Titular', editDropdownOptionsArray: profesores, cellFilter: 'mapProfesores:grid.appScope.profesores', editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'profesor_id', editDropdownValueLabel: 'nombres' }
 			{ field: 'grado_id', displayName: 'Grado', editDropdownOptionsArray: grados, cellFilter: 'mapGrado:grid.appScope.grados', editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'id', editDropdownValueLabel: 'nombre' }
+			{ field: 'caritas', width: 60, cellTemplate: '<input type="checkbox" ng-model="row.entity.caritas" ng-true-value="1" ng-false-value="0" ng-change="grid.appScope.guardarToggleCaritas(row.entity)" >'}
 			# { name: 'nn', displayName: '', maxWidth: 20, enableSorting: false, enableFiltering: false }
 		],
 		multiSelect: false,
@@ -66,6 +69,16 @@ angular.module('myvcFrontApp')
 					)
 				$scope.$apply()
 			)
+
+
+	$scope.guardarToggleCaritas = (rowEntity)->
+		$http.put('::grupos/toggle-caritas', { id: rowEntity.id, caritas: rowEntity.caritas }).then((r)->
+			toastr.success 'Caritas actualizado con éxito', 'Actualizado'
+		, (r2)->
+			toastr.error 'Cambio no guardado', 'Error'
+			console.log 'Falló al intentar guardar: ', r2
+		)
+
 
 	$http.get('::grupos').then((data)->
 		$scope.grupos = data.data

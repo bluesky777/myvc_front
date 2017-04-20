@@ -1,5 +1,7 @@
 uib-accordion(close-others="true")
-	uib-accordion-group(heading="Información personal" is-open="true")
+
+	.panel-default(uib-accordion-group heading="Información personal" is-open="true")
+		
 		form(ng-submit="solicitarCambios()")
 
 			div(ng-if="perfilactual.tipo=='Al'")
@@ -174,7 +176,7 @@ uib-accordion(close-others="true")
 			br
 			br
 
-	uib-accordion-group(heading="Datos de usuario" ng-if="canConfig")
+	.panel-default(uib-accordion-group heading="Datos de usuario" ng-if="canConfig")
 		form(role="form")
 			.row
 				.col-sm-7
@@ -199,7 +201,7 @@ uib-accordion(close-others="true")
 
 
 
-	uib-accordion-group(heading="Cambiar contraseña" ng-if="canConfig" is-open="status.passCambiado")
+	.panel-default(uib-accordion-group heading="Cambiar contraseña" ng-if="canConfig" is-open="status.passCambiado")
 		form(role="form" ng-submit="CambiarPass(newpass, newpassverif, passantiguo)")
 			.row
 				.col-sm-7

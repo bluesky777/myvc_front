@@ -62,7 +62,7 @@
     </div>
   </div>
   <uib-accordion close-others="true">
-    <uib-accordion-group heading="Periodo {{periodo.numero}} ({{periodo.asignaturas | notasPerdidasAsignaturas}})" ng-repeat="periodo in periodos">
+    <div uib-accordion-group heading="Periodo {{periodo.numero}} ({{periodo.asignaturas | notasPerdidasAsignaturas}})" ng-repeat="periodo in periodos" class="panel-default">
       <div ng-repeat="asignatura in periodo.asignaturas | soloAsignaturasConPerdidas:config.solo_notas_perdidas" class="materia-item animated">
         <div style="font-size: 10pt;" popover="&lt;img src='{{perfilPath + asignatura.foto_nombre}}' style='width: 150px; height: 150px;'&gt;" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" popover-trigger="mouseenter" class="row materia-title">
           <div class="col-lg-9 col-xs-9"><span class="materia-name">{{asignatura.materia}}</span><span ng-if="!hasRoleOrPerm('profesor')" class="materia-profesor">- Pr. {{asignatura.nombres_profesor | capitalize}}</span></div>
@@ -96,7 +96,7 @@
           </div>
         </div>
       </div>
-    </uib-accordion-group>
+    </div>
   </uib-accordion>
 </div>
 <div ng-if="!USER.alumnos_can_see_notas &amp;&amp; hasRoleOrPerm(['alumno', 'acudiente'])" class="col-lg-12">

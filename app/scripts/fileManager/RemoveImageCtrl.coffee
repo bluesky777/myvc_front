@@ -10,7 +10,7 @@ angular.module("myvcFrontApp")
 	$scope.ok = ()->
 
 		$http.delete('::myimages/destroy/'+imagen.id).then((r)->
-			toastr.success 'La imagen ha sido removida.'
+			console.log 'Proceso de eliminado exitoso'
 		, (r2)->
 			toastr.error 'No se pudo eliminar la imagen.'
 		)

@@ -7,26 +7,49 @@
         <div class="widget-main no-padding">
           <div class="tickets-container">
             <ul class="tickets-list">
-              <li ng-show="(changes_asked_to_me | filter:{deleted_at:'!'}).length==0">No hay pedidos pendientes</li>
-              <li ng-repeat="change_asked in changes_asked_to_me | filter:{deleted_at:'!'} " class="ticket-item">
+              <li ng-show="changes_asked.alumnos.length==0">No hay pedidos pendientes</li>
+              <li ng-repeat="change_asked in changes_asked.alumnos " class="ticket-item">
                 <div class="row">
-                  <div ng-click="verDetalles(change_asked)" class="ticket-user ticket-solicitud"><img ng-src="{{perfilPath + change_asked.foto_nombre_alum}}" alt="{{change_asked.foto_nombre_alum}}" class="user-avatar"><span class="user-name">{{change_asked.nombres_alum + ' ' +change_asked.apellidos_alum}} </span><span class="user-company"> ha solicitado unos cambios</span></div>
+                  <div ng-click="verDetalles(change_asked)" class="ticket-user ticket-solicitud"><img ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}" class="user-avatar"><span class="user-name">{{change_asked.nombres + ' ' + change_asked.apellidos }} </span><span class="user-company"> de <b>{{change_asked.grupo_nombre}} </b> ha solicitado unos cambios</span></div>
+                </div>
+                <div ng-show="change_asked.mostrando" class="row">
+                  <div style="padding: 10px; white-space: nowrap; text-overflow: ellipsis;">
+                    <table class="table">
+                      <!--thead
+                      tr
+                      	th No
+                      	th No
+                      	th No
+                      -->
+                      <!--tbody-->
+                      <tr ng-if="change_asked.detalles.image_new_nombre"> 
+                        <td>Imagen perfil actual: <img ng-src="{{perfilPath + change_asked.imagen_nombre }}" alt="{{ change_asked.imagen_nombre }}" style="width: 50px" class="user-avatar"></td>
+                        <td>
+                           
+                          Nueva: <img ng-src="{{perfilPath + change_asked.detalles.image_new_nombre }}" alt="{{ change_asked.detalles.image_new_nombre }}" style="width: 50px" class="user-avatar">
+                        </td>
+                        <td> 
+                          <div ng-click="rechazarCambio(change_asked)" class="button-aprobar bg-red"><i style="color: #fff;" class="fa fa-times"></i></div>
+                          <div ng-click="aprobarCambio(change_asked)" class="button-aprobar bg-palegreen"><i style="color: #fff;" class="fa fa-check"></i></div>
+                        </td>
+                      </tr>
+                      <tr ng-if="change_asked.detalles.foto_new_nombre"> 
+                        <td>Foto oficial actual: <img ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}" style="width: 50px" class="user-avatar"></td>
+                        <td>
+                           
+                          Nueva: <img ng-src="{{perfilPath + change_asked.detalles.foto_new_nombre }}" alt="{{ change_asked.detalles.foto_new_nombre }}" style="width: 50px" class="user-avatar">
+                        </td>
+                        <td> 
+                          <div ng-click="rechazarCambio(change_asked)" class="button-aprobar bg-red"><i style="color: #fff;" class="fa fa-times"></i></div>
+                          <div ng-click="aprobarCambio(change_asked)" class="button-aprobar bg-palegreen"><i style="color: #fff;" class="fa fa-check"></i></div>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
                 </div>
               </li>
             </ul>
-          </div><span ng-show="">
-            <h6 style="margin-left: -15px;" class="row-title before-blue">Pedidos anteriores </h6>
-            <div class="tickets-container">
-              <ul class="tickets-list">
-                <li ng-show="(changes_asked_to_me | filter:{deleted_at:'!!'}).length==0">No hay pedidos anteriores</li>
-                <li ng-repeat="change_asked in changes_asked_to_me | filter:{deleted_at:'!!'} " class="ticket-item">
-                  <div class="row">
-                    <div class="ticket-user col-lg-10 col-sm-12"><img ng-src="{{perfilPath + change_asked.foto_nombre}}" alt="{{change_asked.foto_nombre}}" class="user-avatar"><span class="user-name">{{change_asked.nombres + ' ' +change_asked.apellidos}} </span><span class="user-company"> quiere esta imagen: </span><img ng-src="{{perfilPath + change_asked.foto_nombre_asked}}" alt="Imagen pedida" class="user-avatar"><span class="user-company">como oficial.</span></div>
-                    <div class="ticket-type col-lg-2 col-sm-12"><span class="divider hidden-xs"></span><span ng-show="change_asked.accepted_at"><span uib-tooltip="Aceptado por: {{change_asked.username}}({{change_asked.tipo}}); Cuando: {{change_asked.deleted_at}} " class="label label-info">Aceptado</span></span><span ng-show="change_asked.rechazado_at"><span uib-tooltip="Rechazado por: {{change_asked.username}}({{change_asked.tipo}}); Cuando: {{change_asked.deleted_at}} " class="label label-maroon">Rechazado</span></span></div>
-                  </div>
-                </li>
-              </ul>
-            </div></span>
+          </div>
         </div>
       </div>
     </div>
