@@ -15,7 +15,7 @@
 
 							li(ng-show="changes_asked.alumnos.length==0") No hay pedidos pendientes
 
-							li.ticket-item(ng-repeat="change_asked in changes_asked.alumnos ")
+							li.ticket-item(ng-repeat="change_asked in changes_asked.alumnos " ng-if="!change_asked.finalizado")
 								.row
 									.ticket-user.ticket-solicitud(ng-click="verDetalles(change_asked)")
 										img.user-avatar(ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}")
@@ -24,40 +24,52 @@
 											b {{change_asked.grupo_nombre}} 
 											|  ha solicitado unos cambios
 								.row(ng-show="change_asked.mostrando")
-									div(style="padding: 10px; white-space: nowrap; text-overflow: ellipsis;")
+									div(style="padding: 10px; white-space: nowrap; text-overflow: ellipsis; overflow-x: auto;")
 										table.table
-											//thead
-												tr
-													th No
-													th No
-													th No
-											//tbody
-											tr(ng-if="change_asked.detalles.image_new_nombre") 
+											tr(ng-if="change_asked.detalles.image_new_nombre && change_asked.detalles.image_id_accepted==null") 
 												td
-													| Imagen perfil actual: 
+													span(style="display: inline-block; width: 170px") Imagen perfil actual: 
 													img.user-avatar(ng-src="{{perfilPath + change_asked.imagen_nombre }}" alt="{{ change_asked.imagen_nombre }}" style="width: 50px")
 												td 
 													| Nueva: 
 													img.user-avatar(ng-src="{{perfilPath + change_asked.detalles.image_new_nombre }}" alt="{{ change_asked.detalles.image_new_nombre }}" style="width: 50px")
 												td 
-													.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked)")
+													button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'img_perfil')" uib-tooltip="Rechazar cambio")
 														i.fa.fa-times(style="color: #fff;")
-													.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked)")
+													button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'img_perfil', change_asked.detalles.image_id_new)" uib-tooltip="Aprobar cambio")
 														i.fa.fa-check(style="color: #fff;")
 
 
-											tr(ng-if="change_asked.detalles.foto_new_nombre") 
+											tr(ng-if="change_asked.detalles.foto_new_nombre && change_asked.detalles.foto_id_accepted==null") 
 												td
-													| Foto oficial actual: 
+													span(style="display: inline-block; width: 170px") Foto oficial actual: 
 													img.user-avatar(ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}" style="width: 50px")
 												td 
 													| Nueva: 
 													img.user-avatar(ng-src="{{perfilPath + change_asked.detalles.foto_new_nombre }}" alt="{{ change_asked.detalles.foto_new_nombre }}" style="width: 50px")
 												td 
-													.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked)")
+													button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'foto_oficial')" uib-tooltip="Rechazar cambio")
 														i.fa.fa-times(style="color: #fff;")
-													.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked)")
+													button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'foto_oficial', change_asked.detalles.foto_id_new)" uib-tooltip="Aprobar cambio")
 														i.fa.fa-check(style="color: #fff;")
+
+
+											tr(ng-if="change_asked.detalles.image_to_delete_id && change_asked.detalles.image_to_delete_accepted==null") 
+												td
+													div Desea eliminar esta imagen,  
+													div  la cual fue subida por un administrador:
+												td 
+													img.user-avatar(ng-src="{{perfilPath + change_asked.detalles.image_to_delete_nombre }}" alt="{{ change_asked.detalles.image_to_delete_nombre }}" style="width: 50px")
+												td 
+													button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'img_delete')" uib-tooltip="Rechazar cambio")
+														i.fa.fa-times(style="color: #fff;")
+													button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'img_delete', change_asked.detalles.image_to_delete_id)" uib-tooltip="Aprobar cambio")
+														i.fa.fa-check(style="color: #fff;")
+
+									button.btn.btn-danger(uib-tooltip="Eliminar por completo estas peticiones" style="float:right; margin: 10px"
+										ng-click="eliminarSolicitudes(change_asked)") Ignorar solicitudes
+
+
 
 
 											

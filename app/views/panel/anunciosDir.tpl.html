@@ -8,44 +8,49 @@
           <div class="tickets-container">
             <ul class="tickets-list">
               <li ng-show="changes_asked.alumnos.length==0">No hay pedidos pendientes</li>
-              <li ng-repeat="change_asked in changes_asked.alumnos " class="ticket-item">
+              <li ng-repeat="change_asked in changes_asked.alumnos " ng-if="!change_asked.finalizado" class="ticket-item">
                 <div class="row">
                   <div ng-click="verDetalles(change_asked)" class="ticket-user ticket-solicitud"><img ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}" class="user-avatar"><span class="user-name">{{change_asked.nombres + ' ' + change_asked.apellidos }} </span><span class="user-company"> de <b>{{change_asked.grupo_nombre}} </b> ha solicitado unos cambios</span></div>
                 </div>
                 <div ng-show="change_asked.mostrando" class="row">
-                  <div style="padding: 10px; white-space: nowrap; text-overflow: ellipsis;">
+                  <div style="padding: 10px; white-space: nowrap; text-overflow: ellipsis; overflow-x: auto;">
                     <table class="table">
-                      <!--thead
-                      tr
-                      	th No
-                      	th No
-                      	th No
-                      -->
-                      <!--tbody-->
-                      <tr ng-if="change_asked.detalles.image_new_nombre"> 
-                        <td>Imagen perfil actual: <img ng-src="{{perfilPath + change_asked.imagen_nombre }}" alt="{{ change_asked.imagen_nombre }}" style="width: 50px" class="user-avatar"></td>
+                      <tr ng-if="change_asked.detalles.image_new_nombre &amp;&amp; change_asked.detalles.image_id_accepted==null"> 
+                        <td><span style="display: inline-block; width: 170px">Imagen perfil actual: </span><img ng-src="{{perfilPath + change_asked.imagen_nombre }}" alt="{{ change_asked.imagen_nombre }}" style="width: 50px" class="user-avatar"></td>
                         <td>
                            
                           Nueva: <img ng-src="{{perfilPath + change_asked.detalles.image_new_nombre }}" alt="{{ change_asked.detalles.image_new_nombre }}" style="width: 50px" class="user-avatar">
                         </td>
                         <td> 
-                          <div ng-click="rechazarCambio(change_asked)" class="button-aprobar bg-red"><i style="color: #fff;" class="fa fa-times"></i></div>
-                          <div ng-click="aprobarCambio(change_asked)" class="button-aprobar bg-palegreen"><i style="color: #fff;" class="fa fa-check"></i></div>
+                          <button ng-click="rechazarCambio(change_asked, 'img_perfil')" uib-tooltip="Rechazar cambio" class="button-aprobar bg-red"><i style="color: #fff;" class="fa fa-times"></i></button>
+                          <button ng-click="aprobarCambio(change_asked, 'img_perfil', change_asked.detalles.image_id_new)" uib-tooltip="Aprobar cambio" class="button-aprobar bg-palegreen"><i style="color: #fff;" class="fa fa-check"></i></button>
                         </td>
                       </tr>
-                      <tr ng-if="change_asked.detalles.foto_new_nombre"> 
-                        <td>Foto oficial actual: <img ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}" style="width: 50px" class="user-avatar"></td>
+                      <tr ng-if="change_asked.detalles.foto_new_nombre &amp;&amp; change_asked.detalles.foto_id_accepted==null"> 
+                        <td><span style="display: inline-block; width: 170px">Foto oficial actual: </span><img ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}" style="width: 50px" class="user-avatar"></td>
                         <td>
                            
                           Nueva: <img ng-src="{{perfilPath + change_asked.detalles.foto_new_nombre }}" alt="{{ change_asked.detalles.foto_new_nombre }}" style="width: 50px" class="user-avatar">
                         </td>
                         <td> 
-                          <div ng-click="rechazarCambio(change_asked)" class="button-aprobar bg-red"><i style="color: #fff;" class="fa fa-times"></i></div>
-                          <div ng-click="aprobarCambio(change_asked)" class="button-aprobar bg-palegreen"><i style="color: #fff;" class="fa fa-check"></i></div>
+                          <button ng-click="rechazarCambio(change_asked, 'foto_oficial')" uib-tooltip="Rechazar cambio" class="button-aprobar bg-red"><i style="color: #fff;" class="fa fa-times"></i></button>
+                          <button ng-click="aprobarCambio(change_asked, 'foto_oficial', change_asked.detalles.foto_id_new)" uib-tooltip="Aprobar cambio" class="button-aprobar bg-palegreen"><i style="color: #fff;" class="fa fa-check"></i></button>
+                        </td>
+                      </tr>
+                      <tr ng-if="change_asked.detalles.image_to_delete_id &amp;&amp; change_asked.detalles.image_to_delete_accepted==null"> 
+                        <td>
+                          <div>Desea eliminar esta imagen,  </div>
+                          <div> la cual fue subida por un administrador:</div>
+                        </td>
+                        <td> <img ng-src="{{perfilPath + change_asked.detalles.image_to_delete_nombre }}" alt="{{ change_asked.detalles.image_to_delete_nombre }}" style="width: 50px" class="user-avatar"></td>
+                        <td> 
+                          <button ng-click="rechazarCambio(change_asked, 'img_delete')" uib-tooltip="Rechazar cambio" class="button-aprobar bg-red"><i style="color: #fff;" class="fa fa-times"></i></button>
+                          <button ng-click="aprobarCambio(change_asked, 'img_delete', change_asked.detalles.image_to_delete_id)" uib-tooltip="Aprobar cambio" class="button-aprobar bg-palegreen"><i style="color: #fff;" class="fa fa-check"></i></button>
                         </td>
                       </tr>
                     </table>
                   </div>
+                  <button uib-tooltip="Eliminar por completo estas peticiones" style="float:right; margin: 10px" ng-click="eliminarSolicitudes(change_asked)" class="btn btn-danger">Ignorar solicitudes</button>
                 </div>
               </li>
             </ul>

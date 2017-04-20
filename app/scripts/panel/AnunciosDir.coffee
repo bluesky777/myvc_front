@@ -22,7 +22,7 @@ angular.module('myvcFrontApp')
 ])
 
 
-.controller('AnunciosDirCtrl', ['$scope', '$uibModal', 'AuthService', '$http', ($scope, $modal, AuthService, $http)->
+.controller('AnunciosDirCtrl', ['$scope', '$uibModal', 'AuthService', '$http', 'toastr', ($scope, $modal, AuthService, $http, toastr)->
 	
 	$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
 
@@ -40,117 +40,130 @@ angular.module('myvcFrontApp')
 				, (r2)->
 					console.log 'Error trayendo detalles', r2
 				)
-				###
-				modalInstance = $modal.open({
-					templateUrl: '==panel/verDetalles.tpl.html'
-					controller: 'VerDetallesCtrl'
-					resolve: 
-						asked: ()->
-							
-				})
-				modalInstance.result.then( (asked)->
-					#console.log 'Resultado del modal: ', asked
-				)
-				###
 
-	$scope.rechazarAsked = (row)->
+
+	$scope.rechazarCambio = (asked, tipo)->
 
 		modalInstance = $modal.open({
 			templateUrl: '==panel/rechazarAsked.tpl.html'
 			controller: 'RechazarAskedCtrl'
 			resolve: 
 				asked: ()->
-					row
+					asked
+				tipo: ()->
+					tipo
 		})
-		modalInstance.result.then( (asked)->
-			#console.log 'Resultado del modal: ', asked
+		modalInstance.result.then( (r)->
+			toastr.info 'Pedido rechazado.'
+			asked.finalizado = r.finalizado
+
+			if tipo == 'img_perfil' 	then asked.detalles.image_id_accepted = false
+			if tipo == 'foto_oficial' 	then asked.detalles.foto_id_accepted = false
+			if tipo == 'img_delete' 	then asked.detalles.image_to_delete_accepted = false
+		)
+
+	$scope.aprobarCambio = (asked, tipo, valor_nuevo)->
+
+		modalInstance = $modal.open({
+			templateUrl: '==panel/aceptarAsked.tpl.html'
+			controller: 'AceptarAskedCtrl'
+			resolve: 
+				asked: ()->
+					asked
+				tipo: ()->
+					tipo
+				valor_nuevo: ()->
+					valor_nuevo
+		})
+		modalInstance.result.then( (r)->
+			toastr.success 'Pedido aceptado.'
+			asked.finalizado = r.finalizado
+
+			if tipo == 'img_perfil' 	then asked.detalles.image_id_accepted = false
+			if tipo == 'img_delete' 	then asked.detalles.image_to_delete_accepted = false
+			if tipo == 'foto_oficial'
+				asked.detalles.foto_id_accepted = false
+				asked.foto_nombre 				= asked.detalles.foto_new_nombre
+		)
+
+	$scope.eliminarSolicitudes = (asked)->
+
+		modalInstance = $modal.open({
+			templateUrl: '==panel/eliminarAsked.tpl.html'
+			controller: 'EliminarAskedCtrl'
+			resolve: 
+				asked: ()->
+					asked
+		})
+		modalInstance.result.then( (r)->
+			toastr.success 'Pedido eliminado.'
+			asked.finalizado = true
 		)
 
 ])
 
 
-.controller('VerDetallesCtrl', ['$scope', '$uibModalInstance', 'asked', '$http', 'toastr', 'App', ($scope, $modalInstance, asked, $http, toastr, App)->
+
+.controller('AceptarAskedCtrl', ['$scope', '$uibModalInstance', 'asked', 'tipo', 'valor_nuevo', '$http', 'toastr', 'App', ($scope, $modalInstance, asked, tipo, valor_nuevo, $http, toastr, App)->
 	
 	$scope.imagesPath = App.images + 'perfil/'
 	$scope.asked = asked
 
 	$scope.ok = ()->
 
-		datos = {asked_id: asked.id}
+		datos = { asked_id: asked.asked_id, data_id: asked.detalles.data_id, tipo: tipo, valor_nuevo: valor_nuevo, asker_id: asked.asked_by_user_id }
 
-		$http.put('::ChangesAsked/aceptar', datos).then((r)->
-			r = r.data
-			toastr.success 'Pedido aceptado.', 'Éxito'
-			asked.deleted_at 	= r.deleted_at
-			asked.accepted_at 	= r.deleted_at
-			asked.deleted_by 	= r.deleted_by
-			asked.comentario 	= r.comentario
-			asked.oficial_image_id = r.oficial_image_id
-			asked.foto_nombre	= asked.foto_nombre_asked
-
+		$http.put('::ChangesAsked/aceptar-alumno', datos).then((r)->
+			$modalInstance.close(r.data)
 		, (r2)->
 			toastr.warning 'Problema', 'No se pudo aceptar petición.'
 		)
-		$modalInstance.close(asked)
+
 
 	$scope.cancel = ()->
 		$modalInstance.dismiss('cancel')
 
 ])
 
-.controller('AceptarAskedCtrl', ['$scope', '$uibModalInstance', 'asked', '$http', 'toastr', 'App', ($scope, $modalInstance, asked, $http, toastr, App)->
+
+
+
+.controller('RechazarAskedCtrl', ['$scope', '$uibModalInstance', 'asked', 'tipo', '$http', 'toastr', 'App', ($scope, $modalInstance, asked, tipo, $http, toastr, App)->
 	
 	$scope.imagesPath = App.images + 'perfil/'
 	$scope.asked = asked
 
 	$scope.ok = ()->
 
-		datos = {asked_id: asked.id}
-
-		$http.put('::ChangesAsked/aceptar', datos).then((r)->
-			r = r.data
-			toastr.success 'Pedido aceptado.', 'Éxito'
-			asked.deleted_at 	= r.deleted_at
-			asked.accepted_at 	= r.deleted_at
-			asked.deleted_by 	= r.deleted_by
-			asked.comentario 	= r.comentario
-			asked.oficial_image_id = r.oficial_image_id
-			asked.foto_nombre	= asked.foto_nombre_asked
-
-		, (r2)->
-			toastr.warning 'Problema', 'No se pudo aceptar petición.'
-		)
-		$modalInstance.close(asked)
-
-	$scope.cancel = ()->
-		$modalInstance.dismiss('cancel')
-
-])
-
-
-
-
-.controller('RechazarAskedCtrl', ['$scope', '$uibModalInstance', 'asked', '$http', 'toastr', 'App', ($scope, $modalInstance, asked, $http, toastr, App)->
-	
-	$scope.imagesPath = App.images + 'perfil/'
-	$scope.asked = asked
-
-	$scope.ok = ()->
-
-		datos = {asked_id: asked.id}
+		datos = { asked_id: asked.asked_id, data_id: asked.detalles.data_id, tipo: tipo, asker_id: asked.asked_by_user_id }
 
 		$http.put('::ChangesAsked/rechazar', datos).then((r)->
-			r = r.data
-			toastr.success 'Pedido aceptado.', 'Éxito'
-			asked.deleted_at 	= r.deleted_at
-			asked.rechazado_at 	= r.deleted_at
-			asked.deleted_by 	= r.deleted_by
-			asked.comentario 	= r.comentario
-
+			$modalInstance.close(r.data)
 		, (r2)->
-			toastr.warning 'Problema', 'No se pudo rechazar petición.'
+			toastr.error 'Problema', 'No se pudo rechazar petición.'
 		)
-		$modalInstance.close(asked)
+		
+
+	$scope.cancel = ()->
+		$modalInstance.dismiss('cancel')
+
+])
+
+
+.controller('EliminarAskedCtrl', ['$scope', '$uibModalInstance', 'asked', '$http', 'toastr', 'App', ($scope, $modalInstance, asked, $http, toastr, App)->
+	$scope.imagesPath = App.images + 'perfil/'
+	$scope.asked = asked
+
+	$scope.ok = ()->
+
+		datos = { asked_id: asked.asked_id, data_id: asked.detalles.data_id }
+		console.log datos
+		$http.put('::ChangesAsked/destruir', datos).then((r)->
+			$modalInstance.close(r.data)
+		, (r2)->
+			toastr.error 'Problema', 'No se pudo eliminar peticiones.'
+		)
+		
 
 	$scope.cancel = ()->
 		$modalInstance.dismiss('cancel')

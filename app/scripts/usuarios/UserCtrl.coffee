@@ -8,6 +8,7 @@ angular.module('myvcFrontApp')
 	$scope.materias = []
 	$scope.canConfig = false
 	$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
+	$scope.perfilPath = App.images+'perfil/'
 
 	$scope.setImagenPrincipal()
 

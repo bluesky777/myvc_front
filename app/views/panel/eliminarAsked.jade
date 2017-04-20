@@ -1,0 +1,13 @@
+.modal-header
+	h3.modal-title ¿Seguro que deseas eliminar pedido?
+
+
+.modal-body(ng-if="asked.foto_nombre_asked")
+	.row
+		.col-lg-6.col-xs-12.text-center
+
+
+.modal-footer
+	button.btn.btn-default(ng-click="cancel()") Cancelar
+	button.btn.btn-labeled.btn-danger(ng-click="ok()") Eliminar todo
+		i.btn-label.fa.fa-times

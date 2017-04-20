@@ -8,6 +8,8 @@ angular.module('myvcFrontApp')
 	$scope.mostrarErrorUsername = false
 	$scope.mostrarErrorPassword = false
 	$scope.canSaveUsername = false
+	$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
+	$scope.perfilPath = App.images+'perfil/'
 
 	$scope.newusername = ''
 	$scope.passantiguo = ''

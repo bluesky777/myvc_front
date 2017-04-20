@@ -54,6 +54,8 @@ angular.module("myvcFrontApp")
 		$scope.tabFileManager = localStorage.tabFileManager
 	else
 		localStorage.tabFileManager = $scope.tabFileManager
+		$timeout ()->
+			$scope.tabFileManager 	= 'mis_img'
 
 
 	
