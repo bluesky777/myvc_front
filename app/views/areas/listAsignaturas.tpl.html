@@ -10,19 +10,21 @@
 <div class="row">
   <div ng-repeat="asignatura in asignaturas" class="col-lg-6 col-xs-12">
     <div uib-popover-template="views + 'popoverInfoUnidades.tpl.html'" popover-trigger="outsideClick" popover-title="{{UNIDADES}}" class="databox databox-graded radius-bordered databox-shadowed">
-      <div ng-class="{'bg-azure': asignatura.unidades.items.length&gt;0 &amp;&amp; asignatura.unidades.porc_unidades==100 &amp;&amp; asignatura.unidades.porc_subunidades_incorrecto==false &amp;&amp; asignatura.unidades.porc_notas_incorrecto==false, 'bg-danger': asignatura.unidades.items.length==0 || asignatura.unidades.porc_unidades!=100 || asignatura.unidades.porc_notas_incorrecto || asignatura.unidades.porc_subunidades_incorrecto}" uib-tooltip="{{asignatura.nombre_grupo}}" class="databox-left">
+      <div ng-class="{'bg-primary': asignatura.unidades.items.length&gt;0 &amp;&amp; asignatura.unidades.porc_unidades==100 &amp;&amp; asignatura.unidades.porc_subunidades_incorrecto==false &amp;&amp; asignatura.unidades.porc_notas_incorrecto==false, 'bg-danger': asignatura.unidades.items.length==0 || asignatura.unidades.porc_unidades!=100 || asignatura.unidades.porc_notas_incorrecto || asignatura.unidades.porc_subunidades_incorrecto}" uib-tooltip="{{asignatura.nombre_grupo}}" style="background-image: url(images/book-library-2.png)" class="databox-left">
+        <!-- #2da7e8-->
         <div class="databox-piechart">
           <div style="width: 47px; height: 47px; line-height: 47px;" class="easyPieChart">
-            <div class="white font-150">{{asignatura.abrev_grupo}}</div>
+            <div class="white font-150">{{asignatura.abrev_grupo}}°</div>
           </div>
         </div>
       </div>
-      <div uib-tooltip="De click para ver detalles" tooltip-placement="left" class="databox-right padding-top-5 radius-bordered bg-white">
+      <div uib-tooltip="De click para ver detalles" tooltip-placement="left" tooltip-popup-delay="1000" class="databox-right padding-top-5 radius-bordered bg-white">
+        <!-- style="background-image: url(images/book-library-back-2.png); background-repeat: no-repeat; background-position: right;")-->
         <div class="databox-title lightcarbon">{{ asignatura.materia }}</div>
         <div class="databox-text darkgray">
           <div class="btn-group"><a ui-sref="panel.unidades({asignatura_id: asignatura.asignatura_id})" class="btn btn-default btn-sm">{{UNIDADES}}</a><a ui-sref="panel.ausencias({asignatura_id: asignatura.asignatura_id})" class="btn btn-default btn-sm">Ausencias</a><span> {{UNIDADES}}: {{asignatura.unidades.items.length}} </span><span ng-show="asignatura.unidades.porc_subunidades_incorrecto">- {{SUBUNIDADES}} incorrectos. </span><span ng-show="asignatura.unidades.porc_notas_incorrecto">- notas NO agregadas.</span></div>
         </div>
-        <div class="databox-stat radius-bordered bg-azure">
+        <div class="databox-stat radius-bordered bg-primary">
           <div class="stat-text">{{asignatura.nombre_grupo}}</div>
           <!--i.stat-icon.fa.fa-apple-->
         </div>
@@ -35,10 +37,10 @@
 <div class="row">
   <div ng-repeat="grupo in gruposcomportamientos" class="col-lg-6 col-xs-12">
     <div ng-click="openComportamiento(grupo.id)" class="databox databox-graded radius-bordered databox-shadowed">
-      <div class="databox-left bg-azure">
+      <div class="databox-left bg-primary">
         <div class="databox-piechart">
           <div style="width: 47px; height: 47px; line-height: 47px;" class="easyPieChart">
-            <div class="white font-150">{{grupo.abrev}}</div>
+            <div class="white font-150">{{grupo.abrev}}°</div>
           </div>
         </div>
       </div>

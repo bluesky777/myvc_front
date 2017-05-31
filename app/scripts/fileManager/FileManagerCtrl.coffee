@@ -191,7 +191,7 @@ angular.module("myvcFrontApp")
 		$http.put('::images-users/rotarimagen/'+imagen.id).then((r)->
 			imagen.nombre = ''
 			toastr.success 'Imagen rotada'
-			imagen.nombre = r + '?' + new Date().getTime()
+			imagen.nombre = r.data + '?' + new Date().getTime()
 		, (r2)->
 			toastr.error 'Imagen no rotada'
 		)

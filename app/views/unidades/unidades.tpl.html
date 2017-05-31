@@ -15,18 +15,138 @@
           <textarea required ng-model="newunidad.definicion" placeholder="{{UNIDAD}} {{ GENERO_UNI=='M' ? 'nuevo' : 'nueva' }}" uib-tooltip="Definición" tooltip-popup-delay="1000" style="height: 35px; width: 100%;" class="form-control"></textarea>
         </div>
         <div style="padding-right: 0px; padding-left: 0px;" class="form-group col-md-1 col-sm-1 col-xs-12">
-          <input required ng-model="newunidad.porcentaje" min="0" max="100" type="number" placeholder="Porcentaje" uib-tooltip="Porcentaje" tooltip-popup-delay="500" style="width: 100%;" class="form-control">
+          <input required ng-model="newunidad.porcentaje" min="0" max="100" type="number" placeholder="Porcentaje" uib-tooltip="Porcentaje" tooltip-popup-delay="500" style="width: 100%; padding: 5px;" class="form-control">
         </div>
         <div class="form-group col-md-1 col-sm-1 col-xs-12">
           <input type="submit" ng-submit="crearUnidad()" ng-disabled="!activar_crear_unidad" value="Crear {{UNIDAD}}" class="btn btn-primary">
         </div>
       </form>
       <hr class="wide">
-      <div ng-show="unidades.porc_unidades&gt;100" class="alert alert-danger fade in"><i class="fa-fw fa fa-warning"></i><strong>Porcentaje incorrecto </strong>- Sobra un {{unidades.porc_unidades-100}} porciento</div>
-      <div ng-show="unidades.porc_unidades&lt;100" class="alert alert-warning fade in"><i class="fa-fw fa fa-warning"></i><strong>Porcentaje incorrecto </strong>- Falta un {{100-unidades.porc_unidades}} porciento</div>
+      <div ng-show="unidades.porc_unidades &amp;&amp; unidades.porc_unidades&gt;100" class="alert alert-danger fade in"><i class="fa-fw fa fa-warning"></i><strong>Porcentaje incorrecto: </strong>Sobra {{unidades.porc_unidades-100}}%</div>
+      <div ng-show="unidades.porc_unidades &amp;&amp; unidades.porc_unidades&lt;100" class="alert alert-warning fade in"><i class="fa-fw fa fa-warning"></i><strong>Porcentaje incorrecto: </strong>Falta {{100-unidades.porc_unidades}}%</div>
       <div style="clear: both;" class="ddlarga bordered">
-        <ol style="padding-left: 0px;">
-          <unidad-dir unidad="unidad" indice="$index" ng-repeat="unidad in unidades"></unidad-dir>
+        <ol style="padding-left: 0px;" sv-root="root-unidades" sv-on-sort="onSortUnidades($item, $partFrom, $partTo, $indexFrom, $indexTo)" sv-part="unidades">
+          <!--.ticket-item(sv-placeholder style="padding: 20px; border: 4px #888 dashed; background-color: #ccc")
+          | Puedes soltar aquí
+          
+          
+          -->
+          <!--unidad-dir(unidad="unidad" indice="$index" ng-repeat="unidad in unidades")-->
+          <li sv-element ng-repeat="unidad in unidades" class="tickets-container ed-unidades-item">
+            <div class="ticket-item">
+              <div ng-show="!unidad.editando" class="row">
+                <div ng-show="!unidad.editando" style="overflow: visible; line-height: 2.4;" class="ticket-user col-lg-10 col-sm-10 col-xs-12">
+                  <button sv-handle tabindex="-1" style="margin-bottom: 65px; display: inline-block; cursor: move;" class="btn btn-default btn-sm"><span class="fa fa-sort"></span></button>
+                  <div style="margin-bottom: 20px; font-weight: bold; " class="definicion-unidad-inside"> <span editable-text="unidad.porcentaje">{{$parent.$index+1}}.  </span><span>{{unidad.definicion}}</span></div>
+                </div>
+                <div uib-tooltip="Porcentaje" tooltip-popup-delay="1000" class="ticket-time col-lg-2 col-sm-2 col-xs-12">
+                  <div class="divider hidden-xs"></div>{{unidad.porcentaje}}%
+                </div>
+                <div ng-show="unidad.ocultarSubs" ng-click="unidad.ocultarSubs=false" style="right: 55px; " class="ticket-state bg-palegreen"><i uib-tooltip="Mostrar {{ SUBUNIDADES}}" class="fa fa-chevron-down"></i></div>
+                <div ng-show="!unidad.ocultarSubs" ng-click="unidad.ocultarSubs=true" style="right: 55px; " class="ticket-state bg-palegreen"><i uib-tooltip="Ocultar {{ SUBUNIDADES}}" class="fa fa-chevron-up"></i></div>
+                <div ng-click="unidad.editando=true" style="right: 15px; " class="ticket-state bg-palegreen"><i uib-tooltip="Editar" class="fa fa-pencil"></i></div>
+                <div ng-click=" removeUnidad(unidad)" class="ticket-state bg-darkorange"><i uib-tooltip="Eliminar" class="fa fa-times"></i></div>
+              </div>
+              <div ng-show="unidad.editando" class="row">
+                <div ng-show="unidad.editando" style="overflow: visible" class="ticket-user col-md-10 col-sm-12">
+                  <form role="form" ng-submit="actualizarUnidad(unidad)" class="form-inline">
+                    <div class="form-group unidaddefinicion col-md-10 col-sm-8 col-xs-12">
+                      <label class="sr-only">Edite la definición</label>
+                      <textarea required ng-model="unidad.definicion" placeholder="Edite la definición" uib-tooltip="Definición" tooltip-popup-delay="1000" style="height: 35px;" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group unidadporcentaje col-md-2 col-sm-4 col-xs-12">
+                      <label class="sr-only">Porcentaje</label>
+                      <input required type="number" min="0" max="100" ng-model="unidad.porcentaje" placeholder="Edite el porcentaje" uib-tooltip="Porcentaje" tooltip-popup-delay="1000" class="form-control">
+                    </div>
+                  </form>
+                </div>
+                <div class="ticket-type col-md-2 col-xs-12">
+                  <div class="btn-group">
+                    <button type="button" ng-click="unidad.editando=false" class="btn btn-default btn-xs">Cancelar</button>
+                    <button type="button" ng-click="actualizarUnidad(unidad)" class="btn btn-primary btn-xs">Guardar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div ng-show="unidad.subunidades.porc_subunidades &amp;&amp; unidad.subunidades.porc_subunidades&gt;100" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px" class="alert alert-danger fade in"><i class="fa-fw fa fa-warning"></i><strong>Porcentaje incorrecto: </strong>Sobra {{unidad.subunidades.porc_subunidades-100}}%</div>
+            <div ng-show="unidad.subunidades.porc_subunidades &amp;&amp; unidad.subunidades.porc_subunidades&lt;100" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px" class="alert alert-warning fade in"><i class="fa-fw fa fa-warning"></i><strong>Porcentaje incorrecto: </strong>Falta {{100-unidad.subunidades.porc_subunidades}}%</div>
+            <ul ng-model="unidad.subunidades" ng-hide="unidad.ocultarSubs" style="padding-left: 30px; " sv-root="root-subunidades-$index" sv-part="unidad.subunidades" sv-on-sort="onSortSubunidades($item, $partFrom, $partTo, $indexFrom, $indexTo, unidad)" class="tickets-list">
+              <li ng-repeat="subunidad in unidad.subunidades" style="border: none" sv-element class="ticket-item">
+                <div ng-show="!subunidad.editando" class="row">
+                  <div style="overflow: visible; line-height: 2.4;" class="ticket-user col-lg-10 col-sm-8 col-xs-12">
+                    <!--.user-avatar(uib-tooltip="Porcentaje")
+                    | {{subunidad.porcentaje}}%
+                    
+                    -->
+                    <button sv-handle tabindex="-1" style="margin-bottom: 25px; display: inline-block; cursor: move;" class="btn btn-default btn-sm"><span class="fa fa-sort"></span></button>
+                    <div class="user-name definicion-subunidad-inside"> 
+                      <div uib-tooltip="{{subunidad.definicion}}" tooltip-popup-delay="1000">
+                         
+                        {{$index+1}}. {{subunidad.definicion}}
+                      </div>
+                    </div>
+                  </div>
+                  <div uib-tooltip="Porcentaje" tooltip-popup-delay="1000" class="ticket-time col-lg-1 col-sm-2 col-xs-6">
+                    <div class="divider hidden-xs"></div>{{subunidad.porcentaje}}%
+                  </div>
+                  <div uib-tooltip="Orden" tooltip-popup-delay="1000" class="ticket-type col-lg-1 col-sm-2 col-xs-6">
+                    <div class="divider hidden-xs"></div>
+                    <input type="number" min="0" max="99" ng-model="subunidad.orden" ng-change="actualizarSubunidad(subunidad)" ng-model-options="{ updateOn: 'blur'}" class="form-control ordenador-subunidad">
+                  </div>
+                  <div ng-click="subunidad.editando=true" style="right: 15px; " class="ticket-state bg-palegreen"><i uib-tooltip="Editar" class="fa fa-pencil"></i></div>
+                  <div ng-click="removeSubunidad(unidad, subunidad)" class="ticket-state bg-darkorange"><i uib-tooltip="Eliminar" class="fa fa-times"></i></div>
+                </div>
+                <!-- Formulario para EDITAR SUBUNIDAD		-->
+                <div ng-show="subunidad.editando" class="row">
+                  <div ng-show="subunidad.editando" style="overflow: visible" class="ticket-user col-md-10 col-sm-12">
+                    <form role="form" ng-submit="actualizarSubunidad(subunidad)" class="form-inline">
+                      <div style="padding: 0;" class="form-group unidaddefinicion col-md-8 col-sm-8 col-xs-12">
+                        <label class="sr-only">Edite la definición</label>
+                        <textarea required ng-model="subunidad.definicion" placeholder="Edite la definición" uib-tooltip="Definición" style="height: 35px;" class="form-control"></textarea>
+                      </div>
+                      <div class="form-group unidadporcentaje col-md-2 col-sm-2 col-xs-12">
+                        <label class="sr-only">Porcentaje</label>
+                        <input required type="number" min="0" max="100" ng-model="subunidad.porcentaje" placeholder="%Porcentaje" uib-tooltip="Edite el porcentaje" style="padding: 5px;" class="form-control">
+                      </div>
+                      <div style="padding: 0;" class="form-group col-md-2 col-sm-2 col-xs-12">
+                        <input required ng-model="subunidad.nota_default" min="0" max="100" type="number" placeholder="Nota por defecto" uib-tooltip="Nota por defecto de {{ SUBUNIDAD}}" class="form-control">
+                      </div>
+                    </form>
+                  </div>
+                  <div class="ticket-type col-md-2 col-xs-12">
+                    <div class="btn-group">
+                      <button type="button" ng-click="subunidad.editando=false" class="btn btn-default btn-xs">Cancelar</button>
+                      <button type="button" ng-click="actualizarSubunidad(subunidad)" class="btn btn-primary btn-xs">Guardar</button>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <!-- Formulario para CREAR NUEVA SUBUNIDAD-->
+            <div ng-hide="unidad.ocultarSubs" style="margin: 10px 10px 10px 30px;  box-shadow: 0px 0px 5px rgb(123, 123, 241);" class="row">
+              <div style="background-color: rgb(214, 225, 245);" class="ticket-item">
+                <div class="row">
+                  <div style="overflow: visible" class="ticket-user col-md-10 col-sm-12">
+                    <form ng-submit="addSubunidad(unidad)" class="form-inline">
+                      <div style="padding: 0;" class="form-group unidaddefinicion col-md-8 col-sm-8 col-xs-12">
+                        <label class="sr-only">{{ GENERO_SUB=='M' ? 'Nuevo' : 'Nueva' }} {{ SUBUNIDAD}}: </label>
+                        <textarea required ng-model="unidad.newsubunidad.definicion" placeholder="Crea {{ GENERO_SUB=='M' ? 'nuevo' : 'nueva' }} {{ SUBUNIDAD}}" uib-tooltip="Definición del {{ GENERO_SUB=='M' ? 'nuevo' : 'nueva' }} {{ SUBUNIDAD}}" tooltip-popup-delay="1000" style="height: 35px;" class="form-control"></textarea>
+                      </div>
+                      <div class="form-group unidadporcentaje col-md-2 col-sm-2 col-xs-12">
+                        <input required ng-model="unidad.newsubunidad.porcentaje" min="0" max="100" type="number" placeholder="%Porcentaje" uib-tooltip="Porcentaje {{ GENERO_SUB=='M' ? 'del' : 'de la' }} {{ SUBUNIDAD}}" tooltip-popup-delay="1000" style="padding: 5px;" class="form-control">
+                      </div>
+                      <div style="padding: 0;" class="form-group col-md-2 col-sm-2 col-xs-12">
+                        <input required ng-model="unidad.newsubunidad.nota_default" min="0" max="100" type="number" placeholder="Nota por defecto" uib-tooltip="Nota por defecto {{  GENERO_SUB=='M' ? 'del' : 'de la' }} {{ SUBUNIDAD}}" tooltip-popup-delay="1000" class="form-control">
+                      </div>
+                    </form>
+                  </div>
+                  <div class="ticket-type col-md-2 col-xs-12">
+                    <input type="button" ng-disabled="!activar_crear_subunidad" ng-click="addSubunidad(unidad)" value="Añadir {{ SUBUNIDAD}}" class="btn btn-primary">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
         </ol>
       </div><a ui-sref="panel.listasignaturas({profesor_id: asignatura.profesor_id})">Volver</a></span>
   </div>

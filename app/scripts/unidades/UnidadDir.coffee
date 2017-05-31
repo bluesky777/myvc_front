@@ -4,6 +4,7 @@ angular.module('myvcFrontApp')
 
 	restrict: 'E'
 	templateUrl: "#{App.views}unidades/unidadDir.tpl.html"
+	transclude: true
 	scope: 
 		unidad: "="
 		indice: "="
@@ -17,98 +18,74 @@ angular.module('myvcFrontApp')
 		$scope.activar_crear_subunidad = true
 
 
+		$scope.onSortSubunidades = ($item, $partFrom, $partTo, $indexFrom, $indexTo)->
+			
+			if $partFrom == $partTo
 
-		idContainment = '#sortable-container' + $scope.unidad.id
-
-		# Configuración para el sortable
-		$scope.sortableOptions = 
-			containment: idContainment
-		
-			dragEnd: (sourceItemHandleScope, destSortableScope)->
-				
 				sortHash = []
 
-				for subunidad, index in $scope.unidad.subunidades
-					if subunidad.id != -1
-						hashEntry = {}
-						hashEntry["" + subunidad.id] = index
-						sortHash.push(hashEntry)
+				for subunidad, index in $partFrom #subunidades
+					subunidad.orden = index
+
+					hashEntry = {}
+					hashEntry["" + subunidad.id] = index
+					sortHash.push(hashEntry)
 				
 				datos = 
-					unidad_id: $scope.unidad.id
 					sortHash: sortHash
 				
-				$http.put('::unidades/update-orden', datos).then((r)->
+				$http.put('::subunidades/update-orden', datos).then((r)->
 					return true
 				, (r2)->
 					toastr.warning 'No se pudo ordenar', 'Problema'
 					return false;
 				)
 
-			
+			else
 
+				sortHash1 	= []
+				sortHash2 	= []
+				datos 		= {}
 
+				# Actualizamos la primera parte
+				for subunidad, index in $partFrom #subunidades
+					subunidad.orden = index
+
+					hashEntry = {}
+					hashEntry["" + subunidad.id] = index
+					sortHash1.push(hashEntry)
+				
+
+				if sortHash1.length > 0
+					datos.unidad1_id 	= $partFrom.unidad_id
+					datos.sortHash1 	= sortHash1
+				
+				# Actualizamos la Segunda parte
+				for subunidad, index in $partTo 
+					subunidad.orden = index
+
+					hashEntry = {}
+					hashEntry["" + subunidad.id] = index
+					sortHash2.push(hashEntry)
+				
+
+				if sortHash1.length > 0
+					datos.unidad2_id 	= $partTo.unidad_id
+					datos.sortHash2 	= sortHash2
+				
+				$http.put('::subunidades/update-orden-varias', datos).then((r)->
+					return true
+				, (r2)->
+					toastr.warning 'No se pudo ordenar', 'Problema'
+					return false;
+				)
+
+			$scope.$parent.calcularPorcUnidades()
 			
 
 		
 
-		$scope.subirSubunidad = (subunidad, indice)->
 
-			indice_new = indice - 1
-
-			datos = 
-				subunidad_id: 	subunidad.id
-				unidad_id:		subunidad.unidad_id
-				indice_new: 	indice_new
-
-			
-			$http.put('::subunidades/subir-subunidad', datos).then((r)->
-				
-				subsacambiar = $filter('filter')($scope.unidad.subunidades, {orden: indice_new})
-				subsacambiar = $filter('orderBy')(subsacambiar, '-id')[0]
-				subsacambiar.orden = indice
-
-
-				subuni 			= $filter('filter')($scope.unidad.subunidades, {id: subunidad.id})[0]
-				subuni.orden 	= indice_new
-				
-				$scope.unidad.subunidades = $filter('orderBy')($scope.unidad.subunidades, 'orden')
-
-				toastr.success 'Ordenada correctamente'
-
-			, (r2)->
-				toastr.error 'No se pudo subir '
-			)
-
-
-		$scope.cambiaOrden = ()->
-			#console.log "Sisassss"
-
-		$scope.bajarSubunidad = (subunidad, indice)->
-
-			indice_new = indice + 1
-
-			datos = 
-				subunidad_id: 	subunidad.id
-				unidad_id:		subunidad.unidad_id
-				indice_new: 	indice_new
-
-			
-			$http.put('::subunidades/bajar-subunidad', datos).then((r)->
-
-				subsacambiar = $filter('filter')($scope.unidad.subunidades, {orden: indice_new})
-				if subsacambiar.length > 0
-					subsacambiar[0].orden = indice
-				
-				subuni 			= $filter('filter')($scope.unidad.subunidades, {id: subunidad.id})[0]
-				subuni.orden 	= indice_new
-
-				$scope.unidad.subunidades = $filter('orderBy')($scope.unidad.subunidades, 'orden')
-				toastr.success 'Ordenada correctamente'
-
-			, (r2)->
-				toastr.error 'No se pudo bajar '
-			)
 
 
 		$scope.addSubunidad = (unidad)->

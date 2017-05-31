@@ -4,10 +4,11 @@ angular.module('myvcFrontApp')
 
 	AuthService.verificar_acceso()
 
-	$scope.asignatura = {}
-	$scope.asignatura_id = $state.params.asignatura_id
-	$scope.dato = {}
-	$scope.perfilPath = App.images+'perfil/'
+	$scope.asignatura 		= {}
+	$scope.asignatura_id 	= $state.params.asignatura_id
+	$scope.profesor_id 		= localStorage.profesor_id
+	$scope.dato 			= {}
+	$scope.perfilPath 		= App.images+'perfil/'
 
 	$scope.meses = [
 		{nombre: 'Enero'}

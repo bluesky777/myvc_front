@@ -27,9 +27,10 @@ angular.module('myvcFrontApp', [
 	#'angularFileUpload'
 	'ngFileUpload'
 	'FBAngular'
-	'nvd3'
+	'nvd3' # Para los gráficos
 	#'ui.sortable'
 	#'as.sortable'
+	'angular-sortable-view'
 ])
 #- Valores que usaremos para nuestro proyecto
 .constant('App', (()->

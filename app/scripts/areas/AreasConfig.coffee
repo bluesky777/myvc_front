@@ -95,8 +95,9 @@ angular.module('myvcFrontApp')
 						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
 						resolve:
-							titulo: [->
-								'Listado de asignaturas'
+							titulo: ['$stateParams', ($stateParams)->
+								localStorage.profesor_id = $stateParams.profesor_id
+								return 'Listado de asignaturas'
 							]
 				data: 
 					displayName: 'Listado de asignaturas'

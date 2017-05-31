@@ -10,13 +10,15 @@ h6.row-title.before-blue(ng-if="profesor_id")
 .row
 	.col-lg-6.col-xs-12(ng-repeat="asignatura in asignaturas")
 		.databox.databox-graded.radius-bordered.databox-shadowed(uib-popover-template="views + 'popoverInfoUnidades.tpl.html'" popover-trigger="outsideClick" popover-title="{{UNIDADES}}")
-			.databox-left(ng-class="{'bg-azure': asignatura.unidades.items.length>0 && asignatura.unidades.porc_unidades==100 && asignatura.unidades.porc_subunidades_incorrecto==false && asignatura.unidades.porc_notas_incorrecto==false, 'bg-danger': asignatura.unidades.items.length==0 || asignatura.unidades.porc_unidades!=100 || asignatura.unidades.porc_notas_incorrecto || asignatura.unidades.porc_subunidades_incorrecto}"
-				uib-tooltip="{{asignatura.nombre_grupo}}")
+			.databox-left(ng-class="{'bg-primary': asignatura.unidades.items.length>0 && asignatura.unidades.porc_unidades==100 && asignatura.unidades.porc_subunidades_incorrecto==false && asignatura.unidades.porc_notas_incorrecto==false, 'bg-danger': asignatura.unidades.items.length==0 || asignatura.unidades.porc_unidades!=100 || asignatura.unidades.porc_notas_incorrecto || asignatura.unidades.porc_subunidades_incorrecto}"
+				uib-tooltip="{{asignatura.nombre_grupo}}" style="background-image: url(images/book-library-2.png)")
+				// #2da7e8
 				.databox-piechart
 					.easyPieChart(style="width: 47px; height: 47px; line-height: 47px;")
 						.white.font-150
-							| {{asignatura.abrev_grupo}}
-			.databox-right.padding-top-5.radius-bordered.bg-white(uib-tooltip="De click para ver detalles" tooltip-placement="left")
+							| {{asignatura.abrev_grupo}}°
+			.databox-right.padding-top-5.radius-bordered.bg-white(uib-tooltip="De click para ver detalles" tooltip-placement="left" tooltip-popup-delay="1000")
+				// style="background-image: url(images/book-library-back-2.png); background-repeat: no-repeat; background-position: right;")
 				.databox-title.lightcarbon {{ asignatura.materia }}
 				.databox-text.darkgray
 					.btn-group
@@ -25,7 +27,7 @@ h6.row-title.before-blue(ng-if="profesor_id")
 						span  {{UNIDADES}}: {{asignatura.unidades.items.length}} 
 						span(ng-show="asignatura.unidades.porc_subunidades_incorrecto") - {{SUBUNIDADES}} incorrectos. 
 						span(ng-show="asignatura.unidades.porc_notas_incorrecto") - notas NO agregadas.
-				.databox-stat.radius-bordered.bg-azure
+				.databox-stat.radius-bordered.bg-primary
 					.stat-text {{asignatura.nombre_grupo}}
 					//i.stat-icon.fa.fa-apple
 
@@ -38,11 +40,11 @@ h6.row-title.before-blue(ng-show="gruposcomportamientos.length == 0")
 .row
 	.col-lg-6.col-xs-12(ng-repeat="grupo in gruposcomportamientos")
 		.databox.databox-graded.radius-bordered.databox-shadowed(ng-click="openComportamiento(grupo.id)")
-			.databox-left.bg-azure
+			.databox-left.bg-primary
 				.databox-piechart
 					.easyPieChart(style="width: 47px; height: 47px; line-height: 47px;")
 						.white.font-150
-							| {{grupo.abrev}}
+							| {{grupo.abrev}}°
 			.databox-right.padding-top-5.radius-bordered.bg-white
 				.databox-title.lightcarbon {{ grupo.nombre }}
 				.databox-text.darkgray

@@ -51,7 +51,7 @@ div(ng-repeat="asignatura in asignaturas")
 													| (Asis)
 										td(ng-repeat="periodo in alumno.periodos")
 											.def-per-planilla
-												| {{periodo.nota_asignatura | decimales:1}}
+												| {{periodo.nota_asignatura | number:0}}
 										td(ng-repeat="subuni in subunidadesdefault track by $index" style="width: 50px")
 											| {{subuni}}
 									tr(style="height: 17px;")
@@ -61,7 +61,7 @@ div(ng-repeat="asignatura in asignaturas")
 											|  
 										td(ng-repeat="periodo in asignatura.periodosProm")  
 											.def-per-planilla(style="font-weight: bold;") 
-												| {{periodo.sumatoria / asignatura.alumnos.length | decimales:1}} 
+												| {{periodo.sumatoria / asignatura.alumnos.length | number:0}} 
 										td(ng-repeat="subuni in subunidadesdefault track by $index" style="width: 50px")
 											| {{subuni}}
 

@@ -33,7 +33,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 						.col-lg-6.col-xs-6
 							h6.nombre-alumno(ng-show="alumno.estado=='ASIS'" style="font-size: 14pt") === ASISTENTE ===
 							h5.nombre-alumno {{alumno.nombres + ' ' + alumno.apellidos}}
-							.promedio-alumno Puntaje: {{alumno.promedio | setDecimal:1 }}%
+							.promedio-alumno Puntaje: {{alumno.promedio | number:0 }}%
 								span(ng-show="alumno.estado!='RETI'")  - Puesto: {{alumno.puesto}}/{{grupo.cantidad_alumnos}}
 			.row.body-boletin
 				.col-lg-12.col-xs-12.materias
@@ -47,7 +47,8 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 							.col-lg-1.col-xs-1(style="padding: 0px")
 								i.fa.fa-clock-o.icon-tardanza  
 								span.text-tardanza A:{{asignatura.total_ausencias}} / T:{{asignatura.total_tardanzas}}
-							.col-lg-1.col-xs-1(ng-class="{'nota-perdida': asignatura.nota_asignatura<USER.nota_minima_aceptada && config.show_rojos}")
+							.col-lg-1.col-xs-1(ng-class="{'nota-perdida': asignatura.nota_asignatura<USER.nota_minima_aceptada && config.show_rojos}"
+								style="padding: 0px; text-align: center;")
 								| {{ asignatura.nota_asignatura | number:0 | juicioValorativo:escalas:true}} 
 							.col-lg-1.col-xs-1
 								div(ng-class="{'nota-perdida-bold': asignatura.nota_asignatura<USER.nota_minima_aceptada && config.show_rojos}")
@@ -101,7 +102,8 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 							i.fa.fa-male(ng-show="alumno.sexo=='M'" style="padding-right: 5px;") 
 							i.fa.fa-female(ng-show="alumno.sexo=='F'" style="padding-right: 5px;") 
 							| Comportamiento y disciplina
-						.col-lg-1.col-xs-1.comportamiento-desempenio(ng-class="{'nota-perdida-bold': alumno.comportamiento.nota<USER.nota_minima_aceptada && config.show_rojos}")
+						.col-lg-1.col-xs-1.comportamiento-desempenio(ng-class="{'nota-perdida-bold': alumno.comportamiento.nota<USER.nota_minima_aceptada && config.show_rojos}"
+							style="padding: 0px; text-align: center;")
 							| {{alumno.comportamiento.nota | number:0 | juicioValorativo:escalas:true}}
 						.col-lg-1.col-xs-1.comportamiento-nota(ng-class="{'nota-perdida-bold': alumno.comportamiento.nota<USER.nota_minima_aceptada && config.show_rojos}")
 							| {{alumno.comportamiento.nota}}

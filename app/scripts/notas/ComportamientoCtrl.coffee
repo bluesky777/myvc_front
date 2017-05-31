@@ -3,12 +3,13 @@ angular.module('myvcFrontApp')
 
 	AuthService.verificar_acceso()
 
-	$scope.perfilPath = App.images+'perfil/'
+	$scope.perfilPath 	= App.images+'perfil/'
+	$scope.profesor_id 	= localStorage.profesor_id
 
-	$scope.frases = comportamiento[0]
-	$scope.alumnos = comportamiento[1]
-	$scope.grupo = comportamiento[2]
-	$scope.tipos = [
+	$scope.frases 	= comportamiento[0]
+	$scope.alumnos 	= comportamiento[1]
+	$scope.grupo 	= comportamiento[2]
+	$scope.tipos 	= [
 		{tipo_frase:	'Todas'}
 		{tipo_frase:	'Debilidad'}
 		{tipo_frase:	'Amenaza'}
