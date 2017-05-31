@@ -35,7 +35,37 @@ angular.module('myvcFrontApp')
 
 
 
-	$scope.traerSubunidad = (unidad)->
+
+	$scope.setTabVertically = ()->
+		filas = angular.element('table tr')
+
+		angular.forEach(filas, (value, key)->
+			fila 	= angular.element(value);
+			inputs 	= fila.find('input[type="number"]')
+
+			angular.forEach(inputs, (value2, key2)->
+				a = angular.element(value2);
+				a.attr('tabindex', key2+1)
+			)
+		)
+		$scope.eleFocus.focus()
+
+		
+
+	$scope.setTabHorizontally = ()->
+		filas = angular.element('table tr input[type="number"]')
+
+		angular.forEach(filas, (value, key)->
+			a = angular.element(value);
+			a.attr('tabindex', key+1)
+		)
+		$scope.eleFocus.focus()
+
+	$scope.onInputFocus = ($event)->
+		$scope.eleFocus = $event.currentTarget
+
+
+		
 
 
 
@@ -87,7 +117,7 @@ angular.module('myvcFrontApp')
 			valorUni = acumSub * parseInt(porcUni) / 100
 			acumUni = acumUni + valorUni
 
-		return $filter('number')(acumUni, 2);
+		return $filter('number')(acumUni, 1);
 
 
 	$scope.verifClickNotaRapida = (notaObject)->

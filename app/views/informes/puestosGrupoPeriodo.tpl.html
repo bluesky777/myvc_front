@@ -32,7 +32,10 @@
           <tr ng-repeat="alumno in alumnos | orderBy:'-promedio' | materiasPerdidas:filtrar.materias_perdidas:USER.nota_minima_aceptada">
             <td>{{$index + 1}}</td>
             <td>
-              <div popover="&lt;img src='{{perfilPath + alumno.userData.foto_nombre}}' style='width: 100px; height: 100px;'&gt;&lt;img src='{{perfilPath + alumno.userData.imagen_nombre}}' style='width: 100px; height: 100px;'&gt;&lt;br&gt;Facebook: {{alumno.facebook}}&lt;br&gt;Username: {{alumno.userData.username}}" popover-popup-delay="1000" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-animation="true" popover-trigger="mouseenter" class="ellipsis200 alumno-planilla"> {{alumno.nombres + ' ' + alumno.apellidos}}</div>
+              <div uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" class="nombresellipsis">
+                 
+                 {{alumno.nombres + ' ' + alumno.apellidos}}
+              </div>
             </td>
             <td ng-repeat="asignatura in alumno.asignaturas" ng-class="{'nota-perdida-puestos': ((asignatura.nota_asignatura | number:0 )*1) &lt; (USER.nota_minima_aceptada*1) }"><span popover="{{ asignatura.unidades | notasAsignatura:USER.numero_periodo }}" popover-trigger="mouseenter" popover-popup-delay="1000">{{asignatura.nota_asignatura | number:0}}</span><span popover="{{ asignatura.unidades | notasPerdidasAsignatura:false:USER.numero_periodo }}" popover-trigger="mouseenter" popover-popup-delay="1000" ng-show="{{asignatura.unidades | notasPerdidasAsignatura:true}} &gt; 0" class="cant-unidades-perdidas puntero">({{asignatura.unidades | notasPerdidasAsignatura:true}})</span></td>
             <td style="border-left: 2px solid !important;"><span>{{alumno.promedio | decimales:2}}</span><span class="cant-unidades-perdidas">({{ alumno.asignaturas | notasPerdidasAsignaturaPeriodo:true:USER.numero_periodo}})</span></td>

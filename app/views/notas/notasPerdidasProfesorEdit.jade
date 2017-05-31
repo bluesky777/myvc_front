@@ -60,9 +60,13 @@
 									td
 										| {{ $index + 1 }}
 									td
-										.alumno-planilla(style="width: 150px")
-											| {{alumno.apellidos}} {{alumno.nombres}} 
-									
+										.nombresellipsis( uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" 
+											popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" 
+											popover-trigger="'mouseenter'" popover-popup-delay="500" 
+											ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}") 
+											
+											| {{alumno.apellidos + ' ' + alumno.nombres}} 
+											
 									td
 										div(ng-repeat="nota in alumno.notas | orderBy:'orden_subunidad' track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 10pt")
 											| {{ nota.numero_periodo }}

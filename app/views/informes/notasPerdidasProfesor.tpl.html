@@ -42,7 +42,10 @@
               <tr ng-repeat="alumno in asignatura.alumnos">
                 <td>{{ $index + 1 }}</td>
                 <td>
-                  <div style="width: 150px" class="alumno-planilla">{{alumno.apellidos}} {{alumno.nombres}} </div>
+                  <div uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" class="nombresellipsis">
+                     
+                    {{alumno.apellidos + ' ' + alumno.nombres}} 
+                  </div>
                 </td>
                 <td>
                   <div ng-repeat="nota in alumno.notas | orderBy:'orden_subunidad' track by $index" ng-style=" !$last &amp;&amp; {'border-bottom': '1px #111 solid' }" style="font-size: 10pt">{{ nota.numero_periodo }}</div>

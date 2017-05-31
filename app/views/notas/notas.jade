@@ -4,9 +4,17 @@
 			span.widget-caption {{asignatura.materia + ' - ' + asignatura.nombre_grupo + ' - ' + asignatura.nombres_profesor}}
 		.widget-body
 			div
-				a.btn.btn-info.btn-lg(ui-sref="panel.unidades({asignatura_id: asignatura_id})") 
+				a.btn.btn-primary.btn-lg(ui-sref="panel.unidades({asignatura_id: asignatura_id})") 
 					i.fa.fa-arrow-left
 					| Volver a {{UNIDADES}}
+
+			.btn-group(style="margin-top: 20px; margin-bottom: 10px; ")
+				button.btn.btn-default(ng-click="setTabVertically()") 
+					| Verticalmente 
+					i.fa.fa-arrows-h
+				button.btn.btn-default(ng-click="setTabHorizontally()") 
+					| Horizontalmente 
+					i.fa.fa-arrows-v
 
 
 			div.table-responsive(ng-class="{cursorcopy:notaRapida.enable}")
@@ -40,7 +48,7 @@
 							td
 								.nombresellipsis( uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" 
 									popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" 
-									popover-trigger="mouseenter" popover-popup-delay="500" 
+									popover-trigger="'mouseenter'" popover-popup-delay="500" 
 									ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}") 
 									img(ng-src="{{perfilPath + alumno.userData.foto_nombre}}" style="width: 20px; height: 20px;")
 									| {{alumno.apellidos + ' ' + alumno.nombres}} 
@@ -48,6 +56,14 @@
 							td
 								a.btn.btn-default.btn-xs(href="" ng-click="showFrases(alumno)" uib-tooltip="Información para el alumno")
 									i.fa.fa-info
+									
+									.badge.badge-success(ng-show="alumno.frases.length>0" 
+										style="background-color: cornflowerblue; padding-top: 3px; position: absolute;"
+										uib-popover-template="views+'notas/popoverFrasesAlumAsig.tpl.html'" 
+										popover-title="Frases en esta materia" popover-placement="bottom"
+										popover-trigger="'mouseenter'" popover-popup-delay="500"
+										popover-append-to-body="true") 
+										| {{ alumno.frases.length }}
 							div
 								td(ng-repeat="subunidad in subunidadesunidas")
 									div.text-center(ng-class="{'inputnota-perdida': subunidad.notas[$parent.$index].nota < nota_minima_aceptada, 'inputnota-superior': subunidad.notas[$parent.$index].nota > 90, 'cursorcell': notaRapida.enable == true}" 
@@ -57,7 +73,8 @@
 											ng-model="subunidad.notas[$parent.$index].nota" 
 											ng-change="cambiaNota(subunidad.notas[$parent.$index], subunidad.notas[$parent.$index].nota)"
 											ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
-											ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])")
+											ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])"
+											ng-focus="onInputFocus($event)")
 
 									div.text-center(uib-tooltip="No hay subunidad" tooltip-popup-delay="500" ng-show="subunidad.empty")
 										i.fa.fa-frown-o

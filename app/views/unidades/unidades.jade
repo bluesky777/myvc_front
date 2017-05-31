@@ -40,12 +40,12 @@
 
 			hr.wide
 
-			.alert.alert-danger.fade.in(ng-show="unidades.porc_unidades && unidades.porc_unidades>100")
+			.alert.alert-danger.fade.in.radius-bordered(ng-show="unidades.porc_unidades && unidades.porc_unidades>100")
 				i.fa-fw.fa.fa-warning
 				strong Porcentaje incorrecto: 
 				| Sobra {{unidades.porc_unidades-100}}%
 
-			.alert.alert-warning.fade.in(ng-show="unidades.porc_unidades && unidades.porc_unidades<100")
+			.alert.alert-warning.fade.in.radius-bordered(ng-show="unidades.porc_unidades && unidades.porc_unidades<100")
 				i.fa-fw.fa.fa-warning
 				strong Porcentaje incorrecto: 
 				| Falta {{100-unidades.porc_unidades}}%
@@ -106,12 +106,12 @@
 										button.btn.btn-default.btn-xs(type="button" ng-click="unidad.editando=false") Cancelar
 										button.btn.btn-primary.btn-xs(type="button" ng-click="actualizarUnidad(unidad)") Guardar
 
-						.alert.alert-danger.fade.in(ng-show="unidad.subunidades.porc_subunidades && unidad.subunidades.porc_subunidades>100" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px")
+						.alert.alert-danger.fade.in.radius-bordered(ng-show="unidad.subunidades.porc_subunidades && unidad.subunidades.porc_subunidades>100" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px")
 							i.fa-fw.fa.fa-warning
 							strong Porcentaje incorrecto: 
 							| Sobra {{unidad.subunidades.porc_subunidades-100}}%
 
-						.alert.alert-warning.fade.in(ng-show="unidad.subunidades.porc_subunidades && unidad.subunidades.porc_subunidades<100" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px")
+						.alert.alert-warning.fade.in.radius-bordered(ng-show="unidad.subunidades.porc_subunidades && unidad.subunidades.porc_subunidades<100" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px")
 							i.fa-fw.fa.fa-warning
 							strong Porcentaje incorrecto: 
 							| Falta {{100-unidad.subunidades.porc_subunidades}}%
@@ -129,7 +129,7 @@
 							li.ticket-item(ng-repeat="subunidad in unidad.subunidades" style="border: none" sv-element)
 								.row(ng-show="!subunidad.editando")
 									
-									.ticket-user.col-lg-10.col-sm-8.col-xs-12(style="overflow: visible; line-height: 2.4;")
+									.ticket-user.col-lg-10.col-sm-9.col-xs-12(style="overflow: visible; line-height: 2.4;")
 										//.user-avatar(uib-tooltip="Porcentaje")
 											| {{subunidad.porcentaje}}%
 
@@ -145,14 +145,14 @@
 										.divider.hidden-xs
 										| {{subunidad.porcentaje}}%
 
-									.ticket-type.col-lg-1.col-sm-2.col-xs-6(uib-tooltip="Orden"  tooltip-popup-delay="1000")
+									//.ticket-type.col-lg-1.col-sm-2.col-xs-6(uib-tooltip="Orden"  tooltip-popup-delay="1000")
 										.divider.hidden-xs
 										input.form-control.ordenador-subunidad(type="number" min="0" max="99" ng-model="subunidad.orden"
 											ng-change="actualizarSubunidad(subunidad)" ng-model-options="{ updateOn: 'blur'}")
 
-									.ticket-state.bg-palegreen(ng-click="subunidad.editando=true" style="right: 15px; ")
+									.ticket-state.bg-palegreen(ng-click="subunidad.editando=true" style="right: 30px; ")
 										i.fa.fa-pencil(uib-tooltip="Editar")
-									.ticket-state.bg-darkorange(ng-click="removeSubunidad(unidad, subunidad)" )
+									.ticket-state.bg-darkorange(ng-click="removeSubunidad(unidad, subunidad)"  style="right: 3px; ")
 										i.fa.fa-times(uib-tooltip="Eliminar")
 											
 

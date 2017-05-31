@@ -34,9 +34,11 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 					tr(ng-repeat="alumno in alumnos | orderBy:'-promedio_year' | materiasPerdidasYear:filtrar.materias_perdidas:USER.nota_minima_aceptada" )
 						td {{$index + 1}}
 						td(ng-class="{'nota-sobre':alumno.sobre }")
-							.ellipsis200.alumno-planilla(popover="<img src='{{perfilPath + alumno.foto_nombre}}' style='width: 100px; height: 100px;'><img src='{{perfilPath + alumno.imagen_nombre}}' style='width: 100px; height: 100px;'><br>Facebook: {{alumno.facebook}}<br>Username: {{alumno.username}}" 
-								popover-popup-delay="500" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-animation="true" 
-								popover-trigger="mouseenter" )
+							.nombresellipsis( uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" 
+								popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" 
+								popover-trigger="'mouseenter'" popover-popup-delay="500" 
+								ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}") 
+												
 
 								| {{alumno.nombres + ' ' + alumno.apellidos}}
 

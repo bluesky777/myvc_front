@@ -22,8 +22,8 @@
         </div>
       </form>
       <hr class="wide">
-      <div ng-show="unidades.porc_unidades &amp;&amp; unidades.porc_unidades&gt;100" class="alert alert-danger fade in"><i class="fa-fw fa fa-warning"></i><strong>Porcentaje incorrecto: </strong>Sobra {{unidades.porc_unidades-100}}%</div>
-      <div ng-show="unidades.porc_unidades &amp;&amp; unidades.porc_unidades&lt;100" class="alert alert-warning fade in"><i class="fa-fw fa fa-warning"></i><strong>Porcentaje incorrecto: </strong>Falta {{100-unidades.porc_unidades}}%</div>
+      <div ng-show="unidades.porc_unidades &amp;&amp; unidades.porc_unidades&gt;100" class="alert alert-danger fade in radius-bordered"><i class="fa-fw fa fa-warning"></i><strong>Porcentaje incorrecto: </strong>Sobra {{unidades.porc_unidades-100}}%</div>
+      <div ng-show="unidades.porc_unidades &amp;&amp; unidades.porc_unidades&lt;100" class="alert alert-warning fade in radius-bordered"><i class="fa-fw fa fa-warning"></i><strong>Porcentaje incorrecto: </strong>Falta {{100-unidades.porc_unidades}}%</div>
       <div style="clear: both;" class="ddlarga bordered">
         <ol style="padding-left: 0px;" sv-root="root-unidades" sv-on-sort="onSortUnidades($item, $partFrom, $partTo, $indexFrom, $indexTo)" sv-part="unidades">
           <!--.ticket-item(sv-placeholder style="padding: 20px; border: 4px #888 dashed; background-color: #ccc")
@@ -68,12 +68,12 @@
                 </div>
               </div>
             </div>
-            <div ng-show="unidad.subunidades.porc_subunidades &amp;&amp; unidad.subunidades.porc_subunidades&gt;100" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px" class="alert alert-danger fade in"><i class="fa-fw fa fa-warning"></i><strong>Porcentaje incorrecto: </strong>Sobra {{unidad.subunidades.porc_subunidades-100}}%</div>
-            <div ng-show="unidad.subunidades.porc_subunidades &amp;&amp; unidad.subunidades.porc_subunidades&lt;100" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px" class="alert alert-warning fade in"><i class="fa-fw fa fa-warning"></i><strong>Porcentaje incorrecto: </strong>Falta {{100-unidad.subunidades.porc_subunidades}}%</div>
+            <div ng-show="unidad.subunidades.porc_subunidades &amp;&amp; unidad.subunidades.porc_subunidades&gt;100" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px" class="alert alert-danger fade in radius-bordered"><i class="fa-fw fa fa-warning"></i><strong>Porcentaje incorrecto: </strong>Sobra {{unidad.subunidades.porc_subunidades-100}}%</div>
+            <div ng-show="unidad.subunidades.porc_subunidades &amp;&amp; unidad.subunidades.porc_subunidades&lt;100" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px" class="alert alert-warning fade in radius-bordered"><i class="fa-fw fa fa-warning"></i><strong>Porcentaje incorrecto: </strong>Falta {{100-unidad.subunidades.porc_subunidades}}%</div>
             <ul ng-model="unidad.subunidades" ng-hide="unidad.ocultarSubs" style="padding-left: 30px; " sv-root="root-subunidades-$index" sv-part="unidad.subunidades" sv-on-sort="onSortSubunidades($item, $partFrom, $partTo, $indexFrom, $indexTo, unidad)" class="tickets-list">
               <li ng-repeat="subunidad in unidad.subunidades" style="border: none" sv-element class="ticket-item">
                 <div ng-show="!subunidad.editando" class="row">
-                  <div style="overflow: visible; line-height: 2.4;" class="ticket-user col-lg-10 col-sm-8 col-xs-12">
+                  <div style="overflow: visible; line-height: 2.4;" class="ticket-user col-lg-10 col-sm-9 col-xs-12">
                     <!--.user-avatar(uib-tooltip="Porcentaje")
                     | {{subunidad.porcentaje}}%
                     
@@ -89,12 +89,14 @@
                   <div uib-tooltip="Porcentaje" tooltip-popup-delay="1000" class="ticket-time col-lg-1 col-sm-2 col-xs-6">
                     <div class="divider hidden-xs"></div>{{subunidad.porcentaje}}%
                   </div>
-                  <div uib-tooltip="Orden" tooltip-popup-delay="1000" class="ticket-type col-lg-1 col-sm-2 col-xs-6">
-                    <div class="divider hidden-xs"></div>
-                    <input type="number" min="0" max="99" ng-model="subunidad.orden" ng-change="actualizarSubunidad(subunidad)" ng-model-options="{ updateOn: 'blur'}" class="form-control ordenador-subunidad">
-                  </div>
-                  <div ng-click="subunidad.editando=true" style="right: 15px; " class="ticket-state bg-palegreen"><i uib-tooltip="Editar" class="fa fa-pencil"></i></div>
-                  <div ng-click="removeSubunidad(unidad, subunidad)" class="ticket-state bg-darkorange"><i uib-tooltip="Eliminar" class="fa fa-times"></i></div>
+                  <!--.ticket-type.col-lg-1.col-sm-2.col-xs-6(uib-tooltip="Orden"  tooltip-popup-delay="1000")
+                  .divider.hidden-xs
+                  input.form-control.ordenador-subunidad(type="number" min="0" max="99" ng-model="subunidad.orden"
+                  	ng-change="actualizarSubunidad(subunidad)" ng-model-options="{ updateOn: 'blur'}")
+                  
+                  -->
+                  <div ng-click="subunidad.editando=true" style="right: 30px; " class="ticket-state bg-palegreen"><i uib-tooltip="Editar" class="fa fa-pencil"></i></div>
+                  <div ng-click="removeSubunidad(unidad, subunidad)" style="right: 3px; " class="ticket-state bg-darkorange"><i uib-tooltip="Eliminar" class="fa fa-times"></i></div>
                 </div>
                 <!-- Formulario para EDITAR SUBUNIDAD		-->
                 <div ng-show="subunidad.editando" class="row">

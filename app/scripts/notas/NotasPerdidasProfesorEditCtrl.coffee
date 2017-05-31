@@ -8,6 +8,8 @@ angular.module('myvcFrontApp')
 	$scope.datos 		= {}
 	$scope.grupos 		= []
 	$scope.profesores 	= []
+	$scope.perfilPath 	= App.images+'perfil/'
+	$scope.views 		= App.views
 
 	if AuthService.hasRoleOrPerm(['profesor'])
 		$http.put('::notas-perdidas/profesor-grupos', {profesor_id: $scope.USER.persona_id, periodo_a_calcular: $scope.USER.numero_periodo}).then((r)->
