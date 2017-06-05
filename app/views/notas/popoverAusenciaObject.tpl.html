@@ -1,0 +1,12 @@
+
+<div class="row">
+  <div class="col-lg-7 col-sm-7 col-xs-12">
+    <div uib-datepicker ng-model="ausencia_edit.fecha_hora" datepicker-options="opts_picker" style="margin: 0px;" class="well well-sm"></div>
+  </div>
+  <div style="padding: 0px" class="col-lg-5 col-sm-5 col-xs-12">
+    <div uib-timepicker ng-model="ausencia_edit.fecha_hora" ng-change="changed()"></div>
+    <button ng-click="guardarCambioAusencia(ausencia_edit)" class="btn btn-primary">Guardar</button>
+    <button ng-click="cancelarCambioAusencia(ausencia_edit)" class="btn btn-default">Cancelar</button>
+    <button ng-click="eliminarAusencia(ausencia_edit)" style="margin-top: 10px" class="btn btn-danger btn-xs">Eliminar ausencia</button>
+  </div>
+</div>

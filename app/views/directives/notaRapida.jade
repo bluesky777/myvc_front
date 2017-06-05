@@ -4,14 +4,15 @@ draggable
 			span.widget-caption Nota rápida
 
 			.widget-buttons
-				a(href="" ng-init="minimized = true" ng-click="minimized = !minimized")
+				a(href="" ng-init="minimized = true" ng-click="minimized = !minimized"
+					uib-tooltip="Mostrar notas en botones")
 					i.fa(ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimized]")
 				a(href="" ng-click="opened=false")
 					i.fa.fa-times
 		.widget-body
 
 			table.table.table-hover.table-condensed.table-striped(ng-class="{'ng-hide':minimized}")
-				tr(ng-repeat="escala in escalas")
+				tr(ng-repeat="escala in escalas" uib-tooltip="{{escala.desempenio}}" tooltip-append-to-body="true")
 					td
 						| {{escala.valoracion}}
 					td

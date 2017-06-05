@@ -8,26 +8,36 @@
 					i.fa.fa-arrow-left
 					| Volver a {{UNIDADES}}
 
-			.btn-group(style="margin-top: 20px; margin-bottom: 10px; ")
-				button.btn.btn-default(ng-click="setTabVertically()") 
-					| Verticalmente 
-					i.fa.fa-arrows-h
-				button.btn.btn-default(ng-click="setTabHorizontally()") 
-					| Horizontalmente 
-					i.fa.fa-arrows-v
+			.row(style="margin-top: 20px; margin-bottom: 10px; ")
+				.col-lg-12.col-sm-12
+					.btn-group
+						button.btn.btn-default(ng-click="setTabVertically()" uib-tooltip="Pasar Verticalmente al usar la tecla Tab y Shift+Tab") 
+							| Verticalmente 
+							i.fa.fa-arrows-v
+						button.btn.btn-default(ng-click="setTabHorizontally()" uib-tooltip="Pasar Horizontalmente al usar la tecla Tab y Shift+Tab") 
+							| Horizontalmente 
+							i.fa.fa-arrows-h
 
+
+					button.btn.btn-default(ng-click="toggleAusencias()" uib-tooltip="Editar Ausencias y Tardanzas") 
+						| Ausencias 
+						i.fa.fa-clock-o
 
 			div.table-responsive(ng-class="{cursorcopy:notaRapida.enable}")
 				
 				
 
-				table.table.table-hover.table-condensed.table-striped.tablenot100
+				table.table.table-hover.table-condensed.table-striped.tablenot100(ng-class="{'ocultando-ausencias': ocultando_ausencias }")
 					thead
 						tr
 							th(rowspan="2" style="width: 20px; line-height: 3;")
 								div No
 							th.text-center(rowspan="2" style="min-width: 50px; line-height: 3;") 
 								div Nombres
+							th.td-ausencia.text-center(rowspan="2" style="min-width: 250px; line-height: 3; background-color: #d0d0d0 !important") 
+								div Ausencias
+							th.td-ausencia.text-center(rowspan="2" style="min-width: 250px; line-height: 3; background-color: #d0d0d0 !important") 
+								div Tardanzas
 							th.text-center(rowspan="2" style="min-width: 50px; line-height: 3;") 
 								div 
 							th(ng-repeat="unidad in unidades" colspan="{{unidad.subunidades.length}}")
@@ -36,7 +46,7 @@
 								div Total
 						
 						tr
-							th(ng-repeat="subunidad in subunidadesunidas")
+							th(ng-repeat="subunidad in subunidadesunidas" ng-click="columnaNotaRapida(subunidad)")
 								div.text-center.nombresellipsis(uib-tooltip="{{subunidad.porcentaje}}% {{subunidad.definicion}}" tooltip-popup-delay="500" ng-hide="subunidad.empty") {{$index + 1}}
 								div.text-center(uib-tooltip="No hay subunidad" tooltip-popup-delay="500" ng-show="subunidad.empty")
 									i.fa.fa-frown-o
@@ -45,7 +55,7 @@
 						tr(ng-repeat="alumno in alumnos | filter:searchAlum" ng-class="{'danger': promedioTotal(alumno.alumno_id) < nota_minima_aceptada}")
 							td
 								div {{$index+1}}
-							td
+							td(ng-click="filaNotaRapida(alumno, $index)")
 								.nombresellipsis( uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" 
 									popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" 
 									popover-trigger="'mouseenter'" popover-popup-delay="500" 
@@ -53,6 +63,47 @@
 									img(ng-src="{{perfilPath + alumno.userData.foto_nombre}}" style="width: 20px; height: 20px;")
 									| {{alumno.apellidos + ' ' + alumno.nombres}} 
 									span(ng-show="alumno.estado=='ASIS'" style="font-size: 8pt") (Asis)
+							
+							// Ausencias
+							td.td-ausencia 
+								input.input-ausencia(uib-tooltip="" tooltip-popup-delay="500" 
+									type="number" min="0" max="99" 
+									ng-model="alumno.ausencias_count" 
+									ng-change="cambiaAusencia(alumno)"
+									ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
+									ng-focus="onInputFocus($event)")
+
+								button.btn.btn-xs(ng-repeat="ausencia in alumno.ausencias" 
+									ng-click="clickAusenciaObject(ausencia)"
+									uib-popover-template="views+'notas/popoverAusenciaObject.tpl.html'"
+									popover-title="Editar ausencia" style="width: 55px"
+									popover-trigger="'none'" popover-is-open="ausencia.isOpen")
+
+									span(ng-hide="ausencia.fecha_hora") 
+										i.fa.fa-clock-o
+									span(ng-show="ausencia.fecha_hora") {{ ausencia.fecha_hora | date:'d MMM' }}
+
+
+							// Tardanzas
+							td.td-ausencia  
+								input.input-ausencia(uib-tooltip="" tooltip-popup-delay="500" 
+									type="number" min="0" max="99" 
+									ng-model="alumno.tardanzas_count" 
+									ng-change="cambiaTardanza(alumno)"
+									ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
+									ng-focus="onInputFocus($event)")
+
+								button.btn.btn-xs(ng-repeat="tardanza in alumno.tardanzas" 
+									ng-click="clickTardanzaObject(tardanza)"
+									uib-popover-template="views+'notas/popoverTardanzaObject.tpl.html'"
+									popover-title="Editar tardanza" style="width: 55px"
+									popover-trigger="'none'" popover-is-open="tardanza.isOpen")
+
+									span(ng-hide="tardanza.fecha_hora") 
+										i.fa.fa-clock-o
+									span(ng-show="tardanza.fecha_hora") {{ tardanza.fecha_hora | date:'d MMM' }}
+
+
 							td
 								a.btn.btn-default.btn-xs(href="" ng-click="showFrases(alumno)" uib-tooltip="Información para el alumno")
 									i.fa.fa-info
@@ -68,7 +119,7 @@
 								td(ng-repeat="subunidad in subunidadesunidas")
 									div.text-center(ng-class="{'inputnota-perdida': subunidad.notas[$parent.$index].nota < nota_minima_aceptada, 'inputnota-superior': subunidad.notas[$parent.$index].nota > 90, 'cursorcell': notaRapida.enable == true}" 
 										ng-hide="subunidad.empty")
-										input(uib-tooltip="{{subunidad.porcentaje}}% {{subunidad.definicion}}" tooltip-popup-delay="500" 
+										input.input-nota(uib-tooltip="{{subunidad.porcentaje}}% {{subunidad.definicion}}" tooltip-popup-delay="500" 
 											type="number" min="0" max="100" 
 											ng-model="subunidad.notas[$parent.$index].nota" 
 											ng-change="cambiaNota(subunidad.notas[$parent.$index], subunidad.notas[$parent.$index].nota)"

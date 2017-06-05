@@ -14,7 +14,13 @@ angular.module('myvcFrontApp')
 		# y eso lo puedo hacer con el ng-if
 		
 		scope.valorNotaRapida = 100
-		scope.activado = false
+		
+
+
+		if $rootScope.notaRapida.enable
+			scope.activado = true
+		else
+			scope.activado = false
 
 		scope.activar = ()->
 			if !scope.activado

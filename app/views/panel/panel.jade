@@ -13,7 +13,8 @@ loader(ng-if="bigLoader")
 
 			<!-- /Navbar Barnd -->
 			<!-- Sidebar Collapse -->
-			#sidebar-collapse(ng-click="toggleCompactMenu()" ng-class="{'active': menucompacto, 'sidebar-collapse': true}")
+			#sidebar-collapse(ng-click="toggleCompactMenu()" ng-class="{'active': menucompacto, 'sidebar-collapse': true}"
+				uib-tooltip="Esconder menú lateral")
 				i.collapse-icon.fa.fa-bars
 			<!-- /Sidebar Collapse -->
 
@@ -25,7 +26,7 @@ loader(ng-if="bigLoader")
 
 						<!-- Periodo Dropdown-->
 						li.dropdown-periodos(my-drop-down ng-click="toggleOpen()" is-open="false")
-							a.dropdown-toggle.link-dropdown-periodos(data-toggle="dropdown" title="Tasks" href="")
+							a.dropdown-toggle.link-dropdown-periodos.wave.in(data-toggle="dropdown" title="Tasks" href="")
 								i.icon.fa.fa-ioxhost  Per {{ USER.numero_periodo }}
 								span.badge
 							ul.pull-right.dropdown-menu.dropdown-tasks.dropdown-arrow

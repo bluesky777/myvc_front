@@ -23,6 +23,9 @@ angular.module('myvcFrontApp')
 		)
 
 
+		if localStorage.menucompacto
+			$rootScope.menucompacto = localStorage.menucompacto
+
 		# Para evitar una supuesta espera infinita
 		cfpLoadingBar.complete()
 		
@@ -71,6 +74,7 @@ angular.module('myvcFrontApp')
 
 		$scope.toggleCompactMenu = ()->
 			$rootScope.menucompacto = !$rootScope.menucompacto
+			localStorage.menucompacto = $rootScope.menucompacto
 
 		$scope.seeDropdownPeriodos = false
 

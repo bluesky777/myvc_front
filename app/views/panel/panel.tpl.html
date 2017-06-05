@@ -6,12 +6,12 @@
     <div class="navbar-container"><!-- Navbar Barnd -->
       <div class="navbar-header pull-left"><a ui-sref="panel" class="navbar-brand"><small><img ng-src="{{logoPath}}" alt=""></small></a></div><!-- /Navbar Barnd -->
       <!-- Sidebar Collapse -->
-      <div id="sidebar-collapse" ng-click="toggleCompactMenu()" ng-class="{'active': menucompacto, 'sidebar-collapse': true}"><i class="collapse-icon fa fa-bars"></i></div><!-- /Sidebar Collapse -->
+      <div id="sidebar-collapse" ng-click="toggleCompactMenu()" ng-class="{'active': menucompacto, 'sidebar-collapse': true}" uib-tooltip="Esconder menú lateral"><i class="collapse-icon fa fa-bars"></i></div><!-- /Sidebar Collapse -->
       <!-- Account Area and Settings -->
       <div class="navbar-header pull-right">
         <div class="navbar-account">
           <ul class="account-area"><!-- Periodo Dropdown-->
-            <li my-drop-down ng-click="toggleOpen()" is-open="false" class="dropdown-periodos"><a data-toggle="dropdown" title="Tasks" href="" class="dropdown-toggle link-dropdown-periodos"><i class="icon fa fa-ioxhost"> Per {{ USER.numero_periodo }}</i><span class="badge"></span></a>
+            <li my-drop-down ng-click="toggleOpen()" is-open="false" class="dropdown-periodos"><a data-toggle="dropdown" title="Tasks" href="" class="dropdown-toggle link-dropdown-periodos wave in"><i class="icon fa fa-ioxhost"> Per {{ USER.numero_periodo }}</i><span class="badge"></span></a>
               <ul class="pull-right dropdown-menu dropdown-tasks dropdown-arrow">
                 <li class="dropdown-header bordered-blueberry"><i class="fa fa-ioxhost"> </i><span>Periodos</span></li>
                 <li ng-repeat="periodo in periodos"><a href="" ng-click="cambiarPeriodo(periodo)">

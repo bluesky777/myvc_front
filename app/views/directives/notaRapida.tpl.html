@@ -2,11 +2,11 @@
 <draggable>
   <div options="{addClasses: false, opacity: 0.35}" ng-init="opened=true" ng-show="opened" class="widget">
     <div style="cursor:move" class="widget-header"><span class="widget-caption">Nota rápida</span>
-      <div class="widget-buttons"><a href="" ng-init="minimized = true" ng-click="minimized = !minimized"><i ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimized]" class="fa"></i></a><a href="" ng-click="opened=false"><i class="fa fa-times"></i></a></div>
+      <div class="widget-buttons"><a href="" ng-init="minimized = true" ng-click="minimized = !minimized" uib-tooltip="Mostrar notas en botones"><i ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimized]" class="fa"></i></a><a href="" ng-click="opened=false"><i class="fa fa-times"></i></a></div>
     </div>
     <div class="widget-body">
       <table ng-class="{'ng-hide':minimized}" class="table table-hover table-condensed table-striped">
-        <tr ng-repeat="escala in escalas">
+        <tr ng-repeat="escala in escalas" uib-tooltip="{{escala.desempenio}}" tooltip-append-to-body="true">
           <td>{{escala.valoracion}}</td>
           <td>
             <div class="btn-group"><a ng-repeat="n in [] | range:escala.porc_inicial:escala.porc_final" ng-class="escala.perdido ? 'btn-danger':'btn-default'" ng-click="setValor(n)" class="btn btn-xs">{{n}}</a></div>
