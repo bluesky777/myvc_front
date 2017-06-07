@@ -1,0 +1,67 @@
+
+<div class="row">
+  <div class="col-xs-12 col-md-12">
+    <div class="well with-header with-footer">
+      <div class="row">
+        <div class="col-lg-12 col-sm-12">
+          <div class="form-group">
+            <label for="act-descrip">Descripción</label>
+            <input id="act-descrip" type="text" ng-model="actividad.descripcion" placeholder="Descripción" class="form-control">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-sm-12">		
+          <div class="row">
+            <div uib-tooltip="Redirecciona automáticamente al alumno a esta actividad al loguearse" tooltip-popup-delay="500" class="form-group col-lg-3 col-sm-6 col-xs-12">
+              <label>En ejecución</label>
+              <label>
+                <input type="checkbox" ng-model="actividad.in_action" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+              </label>
+            </div>
+            <div uib-tooltip="Mostrar todas las preguntas o de una en una" tooltip-popup-delay="500" class="form-group col-lg-3 col-sm-6 col-xs-12">
+              <label>Una por una</label>
+              <label>
+                <input type="checkbox" ng-model="actividad.one_by_one" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+              </label>
+            </div>
+            <div ng-hide="actividad.one_by_one" class="form-group col-lg-3 col-sm-6 col-xs-12">
+              <label for="act-duraexamen">Duracion examen</label>
+              <div class="spinner spinner-horizontal">
+                <input id="act-duraexamen" type="text" minlength="1" maxlength="999" ng-model="actividad.duracion_exam" class="spinner-input form-control">
+                <div class="spinner-buttons btn-group">
+                  <button type="button" ng-click="restarDuraExamen()" class="btn spinner-down blueberry"><i class="fa fa-minus"></i></button>
+                  <button type="button" ng-click="sumarDuraExamen()" class="btn spinner-up purple"><i class="fa fa-plus"></i></button>
+                </div>
+              </div>
+            </div>
+            <div ng-show="actividad.one_by_one" class="form-group col-lg-3 col-sm-6 col-xs-12">
+              <label for="act-durapreg">Duracion pregunta</label>
+              <div class="spinner spinner-horizontal">
+                <input id="act-durapreg" type="text" minlength="1" maxlength="999" ng-model="actividad.duracion_preg" class="spinner-input form-control">
+                <div class="spinner-buttons btn-group">
+                  <button type="button" ng-click="restarDuraPreg()" class="btn spinner-down blueberry"><i class="fa fa-minus"></i></button>
+                  <button type="button" ng-click="sumarDuraPreg()" class="btn spinner-up purple"><i class="fa fa-plus"></i></button>
+                </div>
+              </div>
+            </div>
+            <div uib-tooltip="La nota se define sumando los puntos por pregunta o promediandolas" tooltip-popup-delay="500" class="form-group col-lg-3 col-sm-6 col-xs-12">
+              <label>Puntaje por promedio</label>
+              <label>
+                <input type="checkbox" ng-model="actividad.puntaje_por_promedio" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+              </label>
+            </div>
+            <div style="margin-bottom: 12px;" class="form-group col-lg-4 col-sm-6 col-xs-12">
+              <label for="act-fecha-nac">Fecha de entrega</label>
+              <div class="controls">
+                <div class="input-group"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                  <input id="act-fecha-nac" type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="actividad.finaliza_at" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2030-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Finaliza en" class="form-control active">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

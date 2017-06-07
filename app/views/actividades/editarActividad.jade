@@ -1,0 +1,60 @@
+.row
+	.col-xs-12.col-md-12
+		.well.with-header.with-footer
+
+			.row
+				.col-lg-12.col-sm-12
+					.form-group
+						label(for="act-descrip") Descripción
+						input.form-control#act-descrip(type="text" ng-model="actividad.descripcion" placeholder="Descripción")
+			.row
+				.col-lg-12.col-sm-12		
+					.row
+						.form-group.col-lg-3.col-sm-6.col-xs-12(uib-tooltip="Redirecciona automáticamente al alumno a esta actividad al loguearse" tooltip-popup-delay="500")
+							label En ejecución
+							label
+								input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="actividad.in_action")
+								span.text.si-no
+									
+						.form-group.col-lg-3.col-sm-6.col-xs-12(uib-tooltip="Mostrar todas las preguntas o de una en una" tooltip-popup-delay="500")
+							label Una por una
+							label
+								input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="actividad.one_by_one")
+								span.text.si-no
+									
+						.form-group.col-lg-3.col-sm-6.col-xs-12(ng-hide="actividad.one_by_one")
+							label(for="act-duraexamen") Duracion examen
+							.spinner.spinner-horizontal
+								input.spinner-input.form-control#act-duraexamen(type="text" minlength="1" maxlength="999" ng-model="actividad.duracion_exam")
+								.spinner-buttons.btn-group
+									button.btn.spinner-down.blueberry(type="button" ng-click="restarDuraExamen()")
+										i.fa.fa-minus
+									button.btn.spinner-up.purple(type="button" ng-click="sumarDuraExamen()")
+										i.fa.fa-plus
+									
+						.form-group.col-lg-3.col-sm-6.col-xs-12(ng-show="actividad.one_by_one")
+							label(for="act-durapreg") Duracion pregunta
+							.spinner.spinner-horizontal
+								input.spinner-input.form-control#act-durapreg(type="text" minlength="1" maxlength="999" ng-model="actividad.duracion_preg")
+								.spinner-buttons.btn-group
+									button.btn.spinner-down.blueberry(type="button" ng-click="restarDuraPreg()")
+										i.fa.fa-minus
+									button.btn.spinner-up.purple(type="button" ng-click="sumarDuraPreg()")
+										i.fa.fa-plus
+
+						.form-group.col-lg-3.col-sm-6.col-xs-12(uib-tooltip="La nota se define sumando los puntos por pregunta o promediandolas" tooltip-popup-delay="500")
+							label Puntaje por promedio
+							label
+								input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="actividad.puntaje_por_promedio")
+								span.text.si-no
+
+						.form-group.col-lg-4.col-sm-6.col-xs-12(style="margin-bottom: 12px;")
+							label(for="act-fecha-nac") Fecha de entrega
+							.controls
+								.input-group
+									span.input-group-addon
+										i.fa.fa-calendar
+									input.form-control.active#act-fecha-nac(type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="actividad.finaliza_at" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2030-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Finaliza en")
+						
+									
+

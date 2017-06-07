@@ -41,7 +41,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 						.row.materia-title
 							.col-lg-9.col-xs-9(uib-popover-template="views+'informes/infoDocentePop.tpl.html'" 
 									popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" 
-									popover-trigger="mouseenter")
+									popover-trigger="'mouseenter'")
 								span.materia-name {{asignatura.materia}}
 								span.materia-profesor - Pr. {{asignatura.nombres_profesor | capitalize}}
 							.col-lg-1.col-xs-1(style="padding: 0px")

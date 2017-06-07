@@ -13548,7 +13548,7 @@ div[data-role="editor-toolbar"] {
     padding: 4px;
     text-align: center;
 }
-.mail-container .mail-header .header-buttons li a {
+.mail-container .mail-header .header-buttons li a, .btn-mail {
     display: block;
     width: 28px;
     height: 28px;
@@ -13560,19 +13560,19 @@ div[data-role="editor-toolbar"] {
     border-radius: 50%;
     background-clip: padding-box;
 }
-.mail-container .mail-header .header-buttons li a:hover {
+.mail-container .mail-header .header-buttons li a:hover, .btn-mail:hover {
     cursor: pointer;
     border-color: #2dc3e8;
 }
-.mail-container .mail-header .header-buttons li a:hover i {
+.mail-container .mail-header .header-buttons li a:hover i, , .btn-mail:hover i {
     color: #2dc3e8;
 }
-.mail-container .mail-header .header-buttons li a i {
+.mail-container .mail-header .header-buttons li a i, .btn-mail i {
     line-height: 24px;
     color: #d0d0d0;
     font-size: 14px;
 }
-.mail-container .mail-header .header-buttons li a i.fa {
+.mail-container .mail-header .header-buttons li a i.fa, .btn-mail i.fa {
     line-height: 28px;
     font-size: 16px;
 }
@@ -16368,3 +16368,18 @@ input.ocultar-input{
 }
 
 
+.list-item:hover .item-menu{
+  right: 5px;
+  opacity: 1;
+}
+.item-menu{
+    position: absolute;
+    right: -25px;
+    top: 5px;
+    opacity: 0;
+    transition: all 0.3s;
+}
+.btn-mail{
+    display: inline-block;
+    text-align: center;
+}

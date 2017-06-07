@@ -2,55 +2,68 @@
 
 angular.module("myvcFrontApp")
 
-.controller('ActividadesCtrl', ['$scope', 'App', '$rootScope', '$state', '$http', 'uiGridConstants', '$uibModal', '$filter', 'AuthService', ($scope, App, $rootScope, $state, $http, uiGridConstants, $modal, $filter, AuthService)->
+.controller('ActividadesCtrl', ['$scope', 'App', '$rootScope', '$state', '$http', '$uibModal', '$filter', 'AuthService', 'datos', '$stateParams', 'toastr', ($scope, App, $rootScope, $state, $http, $modal, $filter, AuthService, datos, $stateParams, toastr)->
 
 	AuthService.verificar_acceso()
+
+	$scope.grupo_id 			= $stateParams.grupo_id
+	$scope.grupos 				= datos.grupos
+	$scope.otras_asignaturas 	= datos.otras_asignaturas
+	$scope.mis_asignaturas 		= datos.mis_asignaturas
+
+	$scope.perfilPath 		= App.images + 'perfil/'
+	$scope.views 			= App.views
 
 	
 	$rootScope.menucompacto = true
 
 
-	$scope.editar = (row)->
-		$state.go('panel.alumnos.editar', {alumno_id: row.alumno_id})
+	$scope.crear = (asignatura_id)->
+		$http.post('::actividades/crear', { asignatura_id: asignatura_id }).then((r)->
+			r = r.data
+			toastr.success 'Actividad creada', 'Ahora a editar'
+			$state.go('panel.editar_actividad', {actividad_id: r.id})
+		, (r2)->
+			toastr.error 'No se pudo crear actividad.', 'Error'
+		)
+		
 
-	$scope.eliminar = (row)->
+
+	$scope.eliminarActividad = (row, asignatura)->
 
 		modalInstance = $modal.open({
-			templateUrl: App.views + 'alumnos/removeAlumno.tpl.html'
-			controller: 'RemoveAlumnoCtrl'
+			templateUrl: App.views + 'actividades/removeActividad.tpl.html'
+			controller: 'RemoveActividadCtrl'
 			resolve: 
-				alumno: ()->
+				actividad: ()->
 					row
 		})
-		modalInstance.result.then( (alum)->
-			$scope.gridOptions.data = $filter('filter')($scope.gridOptions.data, {alumno_id: '!'+alum.alumno_id})
-		)
-
-	$scope.matricularUno = (row)->
-		if not $scope.dato.grupo.id
-			$scope.toastr.warning 'Debes definir el grupo al que vas a matricular.', 'Falta grupo'
-			return
-		
-		datos = {alumno_id: row.alumno_id, grupo_id: $scope.dato.grupo.id}
-		
-
-		$http.post('::matriculas/matricularuno', {alumno_id: datos.alumno_id, grupo_id: datos.grupo_id, year_id: $scope.USER.year_id}).then((r)->
-			r = r.data
-			row.matricula_id = r.id
-			row.grupo_id = r.grupo_id
-			row.nombregrupo = $scope.dato.grupo.nombre
-			row.abrevgrupo = $scope.dato.grupo.abrev
-			row.actual = 1
-			$scope.toastr.success 'Alumno matriculado con éxito', 'Matriculado'
-			return row
-		, (r2)->
-			$scope.toastr.error 'No se pudo matricular el alumno.', 'Error'
+		modalInstance.result.then( (activ)->
+			asignatura.actividades = $filter('filter')(asignatura.actividades, {id: '!'+activ.id})
 		)
 
 
 
 
 	return
+])
+
+
+.controller('RemoveActividadCtrl', ['$scope', '$uibModalInstance', 'actividad', '$http', 'toastr', ($scope, $modalInstance, actividad, $http, toastr)->
+	$scope.actividad = actividad
+
+	$scope.ok = ()->
+
+		$http.delete('::actividades/destroy/'+actividad.id).then((r)->
+			toastr.success 'Actividad enviada a la papelera.', 'Eliminado'
+		, (r2)->
+			toastr.warning 'No se pudo enviar a la papelera.', 'Problema'
+		)
+		$modalInstance.close(actividad)
+
+	$scope.cancel = ()->
+		$modalInstance.dismiss('cancel')
+
 ])
 
 
