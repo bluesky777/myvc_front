@@ -12,7 +12,7 @@ angular.module('myvcFrontApp', [
 	'ui.router'
 	'ui.select'
 	'angular-loading-bar'
-	#'ngCkeditor'
+	'ckeditor'
 	#'restangular'
 	'uiBreadcrumbs'
 	'toastr'

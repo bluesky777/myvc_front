@@ -1,0 +1,67 @@
+.mail-container(style="background-color: #fbfbfb;")
+
+	.mail-sidebar
+		ul.mail-menu(style="max-height: 360px; overflow: scroll;")
+
+			li(ui-sref-active="active")
+				a(href="" ui-sref="panel.mis_actividades.compartidas")
+					i.fa.fa-share-alt
+					| Compartidas
+
+			li.divider
+
+
+		ul.mail-menu(style="max-height: 400px; overflow: scroll;")
+
+			li(ng-repeat="asignatura in mis_asignaturas" ng-class="{ 'active': asignatura.asignatura_id == asign_id }" 
+				uib-popover-template="views+'informes/infoDocentePop.tpl.html'" 
+				popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" 
+				popover-trigger="'mouseenter'")
+
+				a(href="" ui-sref="panel.mis_actividades({asign_id: asignatura.asignatura_id})")
+					span.badge.badge-default.badge-square.pull-right(ng-if="asignatura.actividades.length>0") 
+						| {{ asignatura.actividades.length }}
+
+					| {{asignatura.materia}}
+
+
+		ul.mail-menu(style="height: 300px; overflow: scroll;")
+			li.divider
+
+			li(ui-sref-active="active")
+				a(href="" ui-sref="panel.mis_actividades.votaciones")
+					i.fa.fa-legal
+					span.badge.badge-default.badge-square.pull-right 6
+					| Votaciones
+
+	div
+		.mail-header
+			ul.header-buttons(style="width: 90%")
+
+				li(style="width: 90%"
+					uib-popover-template="views+'informes/infoDocentePop.tpl.html'" 
+					popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" 
+					popover-trigger="'mouseenter'" popover-placement="bottom")
+
+					h6(style="font-weight: bolder !important")
+						| {{ asignatura.alias_materia }} - {{ asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor }}
+
+
+
+		.mail-body
+			.mail-list
+				li.list-item(ng-repeat="actividad in actividades " style="height: 38px;")
+					//.item-check
+						label
+							input(type="checkbox")
+							span.text
+
+					.item-sender(style="width: 80%;")
+						a.col-name(href="" ui-sref="panel.mi_actividad({actividad_id: actividad.id})") {{ actividad.descripcion }}
+							span(ng-hide="actividad.descripcion" style="font") (Sin descripción)
+
+
+
+
+
+

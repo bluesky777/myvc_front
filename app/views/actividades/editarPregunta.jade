@@ -1,0 +1,132 @@
+.col-lg-12#scroll-pregunta(style="padding: 0px;")
+	.well.bordered-bottom.bordered-blueberry(style="padding: 8px; ")
+		
+		div(ckeditor="editor_options" ng-model="pregunta.enunciado")
+
+
+
+		div.btn-group(uib-dropdown style="margin-top: 15px; margin-bottom: 15px")
+			button.btn.btn-primary.btn-lg(type="button" uib-dropdown-toggle)
+				span Tipo de pregunta:   
+				span(style="margin-left: 10px; margin-right: 10px") 
+					i.fa(ng-class="{ 'fa-dot-circle-o': pregunta.tipo_pregunta=='Test', 'fa-check-square-o': pregunta.tipo_pregunta=='Múltiple', 'fa-align-left': pregunta.tipo_pregunta=='Texto', 'fa-th': pregunta.tipo_pregunta=='Cuadrícula' }") 
+					|   {{ pregunta.tipo_pregunta }} 
+				span.caret
+
+			ul.dropdown-menu(uib-dropdown-menu)
+				li
+					a(href="" ng-click="pregunta.tipo_pregunta = 'Test' " style="font-size: 14pt;") 
+						i.fa.fa-dot-circle-o 
+						|   Test
+				li
+					a(href="" ng-click="pregunta.tipo_pregunta = 'Múltiple' " style="font-size: 14pt;") 
+						i.fa.fa-check-square-o 
+						|   Múltiple
+				li.divider
+
+				li
+					a(href="" ng-click="pregunta.tipo_pregunta = 'Texto' " style="font-size: 14pt;") 
+						i.fa.fa-align-left 
+						|   Texto
+
+					a(href="" ng-click="pregunta.tipo_pregunta = 'Cuadrícula' " style="font-size: 14pt;") 
+						i.fa.fa-th 
+						|  Cuadrícula
+
+
+		.row(ng-hide="actividad.puntaje_por_promedio")
+			.form-group.col-lg-12.col-sm-12.col-xs-12(style="width: 250px;")
+				label(for="preg-puntos") Puntos que se otorgan:
+				.spinner.spinner-horizontal
+					input.spinner-input.form-control#preg-puntos(type="text" minlength="1" maxlength="999" ng-model="pregunta.puntos")
+					.spinner-buttons.btn-group
+						button.btn.spinner-down.blueberry(type="button" ng-click="restar('puntos')")
+							i.fa.fa-minus
+						button.btn.spinner-up.purple(type="button" ng-click="sumar('puntos')")
+							i.fa.fa-plus
+
+		
+		div(style="margin-top: 20px")
+
+		div(ng-show=" pregunta.tipo_pregunta=='Test' ")
+
+			div
+				.row(ng-repeat="opcion in pregunta.opciones" style="margin-top: 5px")
+					.col-md-12
+						.input-group(ng-class="{'has-success': opcion.is_correct}")
+							span.input-group-btn
+								button.btn.btn-default.shiny(type="button" ng-click="setOpcionCorrect(opcion)" ng-hide="opcion.is_correct")
+									i.fa.fa-circle-o
+									| Incorrecto
+								button.btn.btn-success.shiny(type="button" ng-show="opcion.is_correct" style="width: 106px; text-align: left;")
+									i.fa.fa-dot-circle-o
+									| Correcto
+
+							input.form-control(ng-model="opcion.definicion" 
+									ng-change="guardar_cambios(opcion)"
+									ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+							
+							span.input-group-btn
+								button.btn.btn-danger(type="button" ng-click="eliminarOpcion(opcion)")
+									i.fa.fa-times
+
+
+			.row(style="margin-top: 8px")
+				.col-md-12
+					a(href="" ng-click="add_opcion()")
+						i.fa.fa-plus
+						|  Agregar opción
+					
+					a.add-option-otra(href="" ng-click="add_opcion_otra" ng-hide="(!actividad.puntaje_por_promedio && pregunta.puntos>0) || actividad.puntaje_por_promedio")
+						i.fa.fa-plus
+						|  Agregar opción "Otra..."
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		div(ng-show=" pregunta.tipo_pregunta=='Múltiple' ")
+
+			div
+				div(ng-repeat="opcion in pregunta.opciones")
+
+
+			div
+				span(style="font-size: 16px")
+					i.fa.fa-square-o
+
+				a(href="")
+					i.fa.fa-plus
+					|  Agregar opción
+				
+				a.add-option-otra(href="")
+					i.fa.fa-plus
+					|  Agregar opción "Otra..."
+
+
+
+
+
+		.row(style="margin-top: 10px")
+			.col-lg-12.col-sm-12(style="text-align: right;")
+				button.btn.btn-default(ng-click="cancelar()") Cancelar
+				button.btn.btn-primary(ng-click="guardar_cambios()") Guardar
+				button.btn.btn-primary(ng-click="guardar_cambios(true)") Finalizar
+
+
+	

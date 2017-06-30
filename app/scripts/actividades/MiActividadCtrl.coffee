@@ -2,15 +2,11 @@
 
 angular.module("myvcFrontApp")
 
-.controller('ActividadesCtrl', ['$scope', 'App', '$rootScope', '$state', '$http', '$uibModal', '$filter', 'AuthService', 'datos', '$stateParams', 'toastr', ($scope, App, $rootScope, $state, $http, $modal, $filter, AuthService, datos, $stateParams, toastr)->
+.controller('MiActividadCtrl', ['$scope', 'App', '$rootScope', '$state', '$http', '$uibModal', '$filter', 'AuthService', 'datos', '$stateParams', 'toastr', ($scope, App, $rootScope, $state, $http, $modal, $filter, AuthService, datos, $stateParams, toastr)->
 
 	AuthService.verificar_acceso()
 
-	$scope.grupo_id 			= $stateParams.grupo_id # Puede que solo esté este
-	$scope.asign_id 			= $stateParams.asign_id # o solo este
-	$scope.grupos 				= datos.grupos
-	$scope.otras_asignaturas 	= datos.otras_asignaturas
-	$scope.mis_asignaturas 		= datos.mis_asignaturas
+	$scope.actividad_id 		= $stateParams.actividad_id 
 
 	$scope.perfilPath 		= App.images + 'perfil/'
 	$scope.views 			= App.views
@@ -19,18 +15,6 @@ angular.module("myvcFrontApp")
 	$rootScope.menucompacto = true
 
 
-	if $stateParams.asign_id
-		$scope.grupo_id = datos.grupo_id
-
-
-	$scope.crear = (asignatura_id)->
-		$http.post('::actividades/crear', { asignatura_id: asignatura_id }).then((r)->
-			r = r.data
-			toastr.success 'Actividad creada', 'Ahora a editar'
-			$state.go('panel.editar_actividad', {actividad_id: r.id})
-		, (r2)->
-			toastr.error 'No se pudo crear actividad.', 'Error'
-		)
 		
 
 

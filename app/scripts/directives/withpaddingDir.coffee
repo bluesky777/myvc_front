@@ -6,7 +6,7 @@ angular.module('myvcFrontApp')
 
 				listener = (event, toState, toParams)->
 
-					if $state.includes('panel.actividades')
+					if $state.includes('panel.actividades') or $state.includes('panel.mis_actividades')
 						angular.element(element).addClass('no-padding')
 					else
 						angular.element(element).removeClass('no-padding')
@@ -15,7 +15,7 @@ angular.module('myvcFrontApp')
 
 				listener2 = (event, viewConfig)->
 
-					if $state.includes('panel.actividades')
+					if $state.includes('panel.actividades') or $state.includes('panel.mis_actividades')
 						angular.element(element).addClass('no-padding')
 					else
 						angular.element(element).removeClass('no-padding')

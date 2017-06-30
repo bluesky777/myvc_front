@@ -3,8 +3,8 @@ angular.module('myvcFrontApp')
 
 	AuthService.verificar_acceso()
 	$scope.rowsAlum = []
-	alumnos = alumnos.data 
-	$scope.config = {
+	alumnos 		= alumnos.data 
+	$scope.config 	= {
 		periodos_a_calcular: 1  # de_usuario, de_colegio, todos
 		mostrar_foto: true
 		mostrar_grafico: true
@@ -14,7 +14,7 @@ angular.module('myvcFrontApp')
 	$scope.perfilPath 		= App.images + 'perfil/'
 	$scope.views 			= App.views
 
-	$scope.datos = {grupo: ''}
+	$scope.datos = { grupo: '' }
 
 	#console.log 'Parametros', $state.params
 
@@ -29,14 +29,14 @@ angular.module('myvcFrontApp')
 
 		# Grupo seleccionado
 		if $state.params.grupo_id
-			$tempParam = parseInt($state.params.grupo_id)
-			$scope.datos.grupo = $filter('filter')($scope.grupos, {id: $tempParam}, true)[0]
+			$tempParam 				= parseInt($state.params.grupo_id)
+			$scope.datos.grupo 		= $filter('filter')($scope.grupos, {id: $tempParam}, true)[0]
 			$scope.filtered_alumnos = $filter('filter')(alumnos, {grupo_id: $tempParam}, true)
 
 		# Profesor seleccionado
 		if $state.params.profesor_id
-			$tempParam = parseInt($state.params.profesor_id)
-			$scope.datos.profesor = $filter('filter')($scope.profesores, {profesor_id: $tempParam}, true)[0]
+			$tempParam 				= parseInt($state.params.profesor_id)
+			$scope.datos.profesor 	= $filter('filter')($scope.profesores, {profesor_id: $tempParam}, true)[0]
 
 
 	, (r2)->

@@ -1,60 +1,134 @@
 .row
 	.col-xs-12.col-md-12
-		.well.with-header.with-footer
+		.well.with-header(style="padding-top: 80px")
+			.header.bordered-yellow 
+				.form-group(style="margin-bottom: 0px; ")
+					label.col-xs-12.col-sm-2.col-md-2.control-label.no-padding-right(for="act-descrip" style="margin-top: 10px;") Descripción: 
+					.col-xs-12.col-sm-10.col-md-10
+						input.form-control#act-descrip(type="text" ng-model="actividad.descripcion" placeholder="Descripción" uib-tooltip="Descripción de la actividad")
 
 			.row
-				.col-lg-12.col-sm-12
-					.form-group
-						label(for="act-descrip") Descripción
-						input.form-control#act-descrip(type="text" ng-model="actividad.descripcion" placeholder="Descripción")
-			.row
 				.col-lg-12.col-sm-12		
+					
 					.row
-						.form-group.col-lg-3.col-sm-6.col-xs-12(uib-tooltip="Redirecciona automáticamente al alumno a esta actividad al loguearse" tooltip-popup-delay="500")
-							label En ejecución
-							label
-								input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="actividad.in_action")
-								span.text.si-no
-									
-						.form-group.col-lg-3.col-sm-6.col-xs-12(uib-tooltip="Mostrar todas las preguntas o de una en una" tooltip-popup-delay="500")
+						.form-group.col-lg-12.col-sm-12.col-xs-12
+							| Tipo de pregunta: 
+							.btn-group.btn-group-justified
+								label.btn.btn-default.shiny(ng-model="actividad.tipo" uib-btn-radio="'Contenido'" uib-tooltip="La actividad/tarea solo tiene contenido" tooltip-popup-delay="500" tooltip-append-to-body="true") Contenido
+								label.btn.btn-default.shiny(ng-model="actividad.tipo" uib-btn-radio="'Autoevaluacion'" uib-tooltip="Pide una nota al alumno" tooltip-popup-delay="500" tooltip-append-to-body="true") Autoevaluación
+								label.btn.btn-default.shiny(ng-model="actividad.tipo" uib-btn-radio="'Cuestionario'" uib-tooltip="Encuesta o cuestionario sin tiempo" tooltip-popup-delay="500" tooltip-append-to-body="true") Cuestionario
+								label.btn.btn-default.shiny(ng-model="actividad.tipo" uib-btn-radio="'Examen'" uib-tooltip="Examen con tiempo establecido por tiempo o pregunta" tooltip-popup-delay="500" tooltip-append-to-body="true") Examen
+					
+					.row(ng-show="actividad.tipo == 'Cuestionario' || actividad.tipo == 'Examen' ")
+						.form-group.col-lg-12.col-sm-12.col-xs-12(uib-tooltip="Mostrar todas las preguntas o de una en una" tooltip-popup-delay="500" style="width: 150px;")
 							label Una por una
 							label
-								input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="actividad.one_by_one")
+								input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="actividad.one_by_one" ng-true-value="1" ng-false-value="0")
 								span.text.si-no
 									
-						.form-group.col-lg-3.col-sm-6.col-xs-12(ng-hide="actividad.one_by_one")
+						.form-group.col-lg-12.col-sm-12.col-xs-12(ng-hide="actividad.one_by_one" style="width: 150px;")
 							label(for="act-duraexamen") Duracion examen
 							.spinner.spinner-horizontal
 								input.spinner-input.form-control#act-duraexamen(type="text" minlength="1" maxlength="999" ng-model="actividad.duracion_exam")
 								.spinner-buttons.btn-group
-									button.btn.spinner-down.blueberry(type="button" ng-click="restarDuraExamen()")
+									button.btn.spinner-down.blueberry(type="button" ng-click="restar('duracion_exam')")
 										i.fa.fa-minus
-									button.btn.spinner-up.purple(type="button" ng-click="sumarDuraExamen()")
+									button.btn.spinner-up.purple(type="button" ng-click="sumar('duracion_exam')")
 										i.fa.fa-plus
 									
-						.form-group.col-lg-3.col-sm-6.col-xs-12(ng-show="actividad.one_by_one")
+						.form-group.col-lg-12.col-sm-12.col-xs-12(ng-show="actividad.one_by_one" style="width: 150px;")
 							label(for="act-durapreg") Duracion pregunta
 							.spinner.spinner-horizontal
 								input.spinner-input.form-control#act-durapreg(type="text" minlength="1" maxlength="999" ng-model="actividad.duracion_preg")
 								.spinner-buttons.btn-group
-									button.btn.spinner-down.blueberry(type="button" ng-click="restarDuraPreg()")
+									button.btn.spinner-down.blueberry(type="button" ng-click="restar('duracion_preg')")
 										i.fa.fa-minus
-									button.btn.spinner-up.purple(type="button" ng-click="sumarDuraPreg()")
+									button.btn.spinner-up.purple(type="button" ng-click="sumar('duracion_preg')")
 										i.fa.fa-plus
 
-						.form-group.col-lg-3.col-sm-6.col-xs-12(uib-tooltip="La nota se define sumando los puntos por pregunta o promediandolas" tooltip-popup-delay="500")
+						.form-group.col-lg-12.col-sm-12.col-xs-12(uib-tooltip="La nota se define sumando los puntos por pregunta o promediandolas" tooltip-popup-delay="500")
 							label Puntaje por promedio
 							label
-								input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="actividad.puntaje_por_promedio")
+								input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="actividad.puntaje_por_promedio" ng-true-value="1" ng-false-value="0")
 								span.text.si-no
 
-						.form-group.col-lg-4.col-sm-6.col-xs-12(style="margin-bottom: 12px;")
-							label(for="act-fecha-nac") Fecha de entrega
+					.row
+						.form-group.col-lg-3.col-sm-4.col-xs-12(style="margin-top: 5px;")
+							label(for="act-finaliza_at") Fecha de entrega
 							.controls
 								.input-group
 									span.input-group-addon
 										i.fa.fa-calendar
-									input.form-control.active#act-fecha-nac(type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="actividad.finaliza_at" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2030-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Finaliza en")
-						
-									
+									input.form-control.active#act-finaliza_at(type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="actividad.finaliza_at" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2030-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Finaliza en")
 
+						.col-lg-5.col-sm-5.col-xs-12(style="padding: 0px")
+							div(uib-timepicker ng-model="actividad.finaliza_at" )
+					
+					.row
+						.form-group.col-lg-3.col-sm-6.col-xs-12(uib-tooltip="Redirecciona automáticamente al alumno a esta actividad al loguearse" tooltip-popup-delay="500")
+							label En ejecución
+							label
+								input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="actividad.in_action" ng-true-value="1" ng-false-value="0")
+								span.text.si-no
+
+					.row
+						.form-group.col-lg-3.col-sm-6.col-xs-12(uib-tooltip="Defina si esta actividad se responde subiendo archivo" tooltip-popup-delay="500")
+							label Responder con archivo
+							label
+								input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="actividad.can_upload" ng-true-value="1" ng-false-value="0")
+								span.text.si-no
+
+					
+					.row(ng-show="actividad.tipo == 'Contenido' || actividad.tipo == 'Autoevaluacion' ")
+						.form-group.col-lg-12.col-sm-12.col-xs-12(style="margin-bottom: 12px;")
+
+							div(ckeditor="editor_options" ng-model="actividad.contenido" ready="onEditorReady")
+
+			
+					.row
+						.col-lg-12.col-sm-12(style="text-align: right;")
+							button.btn.btn-success(ng-click="verResultados()")
+								| Ver resultados
+					
+							button.btn.btn-primary(ng-click="guardarActividad()")
+								| Guardar ajustes
+					
+							button.btn.btn-primary(ng-click="guardarActividad(true)")
+								| Guardar y salir
+					
+
+.row(ng-show="actividad.tipo == 'Cuestionario' || actividad.tipo == 'Examen' ")
+	.col-xs-12.col-md-12
+		.well.with-header.with-footer
+			.header.bordered-yellow 
+				| Preguntas
+			
+			.row
+				.col-lg-12.col-sm-12
+					button.btn.btn-primary(ng-click="crearPregunta()") 
+						| Crear pregunta
+
+
+			.row(style="margin-top: 10px")
+				.col-lg-12.col-sm-12
+
+					div(ui-view="preguntacontent")
+
+
+			.row(style="margin-top: 10px")
+				.col-lg-12.col-sm-12
+
+					.well.well-pregunta(ng-repeat="pregunta in actividad.preguntas" style="padding: 8px; margin-bottom: 5px; ")
+						
+						span(ng-bind-html="pregunta.enunciado")
+
+
+
+						.item-menu(style="top: 5px;")
+							a.btn-mail.tooltip-primary(href="" uib-tooltip="Editar" ng-click="editar_pregunta(pregunta)" 
+								tooltip-placement="left" tooltip-popup-delay="500")
+								i.fa.fa-pencil
+
+							a.btn-mail.tooltip-danger(href="" uib-tooltip="Eliminar" ng-click="eliminar_pregunta(pregunta.id)" 
+								tooltip-placement="left" style="margin-left: 4px;" tooltip-popup-delay="500")
+								i.fa.fa-times

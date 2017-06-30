@@ -1,0 +1,40 @@
+
+<div style="background-color: #fbfbfb;" class="mail-container">
+  <div class="mail-sidebar">
+    <ul style="max-height: 360px; overflow: scroll;" class="mail-menu">
+      <li ui-sref-active="active"><a href="" ui-sref="panel.mis_actividades.compartidas"><i class="fa fa-share-alt"></i>Compartidas</a></li>
+      <li class="divider"></li>
+    </ul>
+    <ul style="max-height: 400px; overflow: scroll;" class="mail-menu">
+      <li ng-repeat="asignatura in mis_asignaturas" ng-class="{ 'active': asignatura.asignatura_id == asign_id }" uib-popover-template="views+'informes/infoDocentePop.tpl.html'" popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" popover-trigger="'mouseenter'"><a href="" ui-sref="panel.mis_actividades({asign_id: asignatura.asignatura_id})"><span ng-if="asignatura.actividades.length&gt;0" class="badge badge-default badge-square pull-right">
+             
+            {{ asignatura.actividades.length }}</span>{{asignatura.materia}}</a></li>
+    </ul>
+    <ul style="height: 300px; overflow: scroll;" class="mail-menu">
+      <li class="divider"></li>
+      <li ui-sref-active="active"><a href="" ui-sref="panel.mis_actividades.votaciones"><i class="fa fa-legal"></i><span class="badge badge-default badge-square pull-right">6</span>Votaciones</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="mail-header">
+      <ul style="width: 90%" class="header-buttons">
+        <li style="width: 90%" uib-popover-template="views+'informes/infoDocentePop.tpl.html'" popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" popover-trigger="'mouseenter'" popover-placement="bottom">
+          <h6 style="font-weight: bolder !important">{{ asignatura.alias_materia }} - {{ asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor }}</h6>
+        </li>
+      </ul>
+    </div>
+    <div class="mail-body">
+      <div class="mail-list">
+        <li ng-repeat="actividad in actividades " style="height: 38px;" class="list-item">
+          <!--.item-check
+          label
+          	input(type="checkbox")
+          	span.text
+          
+          -->
+          <div style="width: 80%;" class="item-sender"><a href="" ui-sref="panel.mi_actividad({actividad_id: actividad.id})" class="col-name">{{ actividad.descripcion }}<span ng-hide="actividad.descripcion" style="font">(Sin descripción)</span></a></div>
+        </li>
+      </div>
+    </div>
+  </div>
+</div>

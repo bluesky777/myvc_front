@@ -16383,3 +16383,11 @@ input.ocultar-input{
     display: inline-block;
     text-align: center;
 }
+
+.well-pregunta:hover .item-menu{
+  right: 5px;
+  opacity: 1;
+}
+.add-option-otra{
+    margin-left: 8px;
+}

@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('ActividadesCtrl', ['$scope', 'App', '$rootScope', '$state', '$http', '$uibModal', '$filter', 'AuthService', 'datos', '$stateParams', 'toastr', ($scope, App, $rootScope, $state, $http, $modal, $filter, AuthService, datos, $stateParams, toastr)->
+.controller('MisActividadesCtrl', ['$scope', 'App', '$rootScope', '$state', '$http', '$uibModal', '$filter', 'AuthService', 'datos', '$stateParams', 'toastr', ($scope, App, $rootScope, $state, $http, $modal, $filter, AuthService, datos, $stateParams, toastr)->
 
 	AuthService.verificar_acceso()
 
@@ -20,8 +20,11 @@ angular.module("myvcFrontApp")
 
 
 	if $stateParams.asign_id
-		$scope.grupo_id = datos.grupo_id
 
+		for asign in $scope.mis_asignaturas
+			if asign.asignatura_id == parseInt($scope.asign_id)
+				$scope.actividades 		= asign.actividades
+				$scope.asignatura 		= asign
 
 	$scope.crear = (asignatura_id)->
 		$http.post('::actividades/crear', { asignatura_id: asignatura_id }).then((r)->
