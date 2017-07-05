@@ -1,6 +1,6 @@
 
 <div id="scroll-pregunta" style="padding: 0px;" class="col-lg-12">
-  <div style="padding: 8px; " class="well bordered-bottom bordered-blueberry">
+  <div style="padding: 8px; " class="well bordered-bottom bordered-blueberry bg-themethirdcolor">
     <div ckeditor="editor_options" ng-model="pregunta.enunciado"></div>
     <div uib-dropdown style="margin-top: 15px; margin-bottom: 15px" class="btn-group">
       <button type="button" uib-dropdown-toggle class="btn btn-primary btn-lg"><span>Tipo de pregunta:   </span><span style="margin-left: 10px; margin-right: 10px"> <i ng-class="{ 'fa-dot-circle-o': pregunta.tipo_pregunta=='Test', 'fa-check-square-o': pregunta.tipo_pregunta=='Múltiple', 'fa-align-left': pregunta.tipo_pregunta=='Texto', 'fa-th': pregunta.tipo_pregunta=='Cuadrícula' }" class="fa"> </i>  {{ pregunta.tipo_pregunta }} </span><span class="caret"></span></button>
@@ -11,7 +11,7 @@
         <li><a href="" ng-click="pregunta.tipo_pregunta = 'Texto' " style="font-size: 14pt;"> <i class="fa fa-align-left"> </i>  Texto</a><a href="" ng-click="pregunta.tipo_pregunta = 'Cuadrícula' " style="font-size: 14pt;"> <i class="fa fa-th"> </i> Cuadrícula</a></li>
       </ul>
     </div>
-    <div ng-hide="actividad.puntaje_por_promedio" class="row">
+    <div ng-show="actividad.tipo_calificacion=='Por puntos' " class="row">
       <div style="width: 250px;" class="form-group col-lg-12 col-sm-12 col-xs-12">
         <label for="preg-puntos">Puntos que se otorgan:</label>
         <div class="spinner spinner-horizontal">
@@ -24,23 +24,36 @@
       </div>
     </div>
     <div style="margin-top: 20px"></div>
+    <!-- TIPO Test ************************************************************-->
     <div ng-show=" pregunta.tipo_pregunta=='Test' ">
       <div>
         <div ng-repeat="opcion in pregunta.opciones" style="margin-top: 5px" class="row">
           <div class="col-md-12">
-            <div ng-class="{'has-success': opcion.is_correct}" class="input-group"><span class="input-group-btn">
-                <button type="button" ng-click="setOpcionCorrect(opcion)" ng-hide="opcion.is_correct" class="btn btn-default shiny"><i class="fa fa-circle-o"></i>Incorrecto</button>
-                <button type="button" ng-show="opcion.is_correct" style="width: 106px; text-align: left;" class="btn btn-success shiny"><i class="fa fa-dot-circle-o"></i>Correcto</button></span>
+            <div class="input-group"><span ng-if="actividad.tipo_calificacion=='Por puntos' &amp;&amp; pregunta.puntos&gt;0" class="input-group-btn">
+                <button type="button" ng-click="setOpcionCorrect(opcion)" ng-hide="opcion.is_correct" class="btn btn-default shiny"><i class="fa fa-circle-o"></i><span> Incorrecto</span></button>
+                <button type="button" ng-show="opcion.is_correct" style="width: 106px; text-align: left;" class="btn btn-success shiny"><i class="fa fa-dot-circle-o"></i><span> Correcto</span></button></span><span ng-hide="actividad.tipo_calificacion=='Por puntos' &amp;&amp; pregunta.puntos&gt;0" class="input-group-btn">
+                <button type="button" class="btn shiny"><i class="fa fa-circle-o"></i></button></span>
               <input ng-model="opcion.definicion" ng-change="guardar_cambios(opcion)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" class="form-control"><span class="input-group-btn">
                 <button type="button" ng-click="eliminarOpcion(opcion)" class="btn btn-danger"><i class="fa fa-times"></i></button></span>
             </div>
           </div>
         </div>
+        <!-- OPCION OTRA--><span ng-if="pregunta.opcion_otra">
+          <div ng-hide="(actividad.tipo_calificacion=='Por puntos' &amp;&amp; pregunta.puntos&gt;0) || actividad.tipo_calificacion=='Por promedio' " style="margin-top: 5px" class="row">
+            <div class="col-md-12">
+              <div class="input-group"><span class="input-group-btn">
+                  <button type="button" disabled="disabled" class="btn btn-default shiny"><i class="fa fa-circle-o"></i>Otra...</button></span>
+                <input disabled="disabled" value="Escriba su respuesta" class="form-control"><span class="input-group-btn">
+                  <button type="button" ng-click="toggle_opcion_otra(false)" class="btn btn-danger"><i class="fa fa-times"></i></button></span>
+              </div>
+            </div>
+          </div></span>
       </div>
       <div style="margin-top: 8px" class="row">
-        <div class="col-md-12"><a href="" ng-click="add_opcion()"><i class="fa fa-plus"></i> Agregar opción</a><a href="" ng-click="add_opcion_otra" ng-hide="(!actividad.puntaje_por_promedio &amp;&amp; pregunta.puntos&gt;0) || actividad.puntaje_por_promedio" class="add-option-otra"><i class="fa fa-plus"></i> Agregar opción "Otra..."</a></div>
+        <div class="col-md-12"><a href="" ng-click="add_opcion()"><i class="fa fa-plus"></i> Agregar opción</a><span ng-if="!pregunta.opcion_otra"><a href="" ng-click="toggle_opcion_otra(true)" ng-hide="(actividad.tipo_calificacion=='Por puntos' &amp;&amp; pregunta.puntos&gt;0) || actividad.tipo_calificacion=='Por promedio' " class="add-option-otra"><i class="fa fa-plus"></i> Agregar opción "Otra..."</a></span></div>
       </div>
     </div>
+    <!-- TIPO Múltiple *******************************************************-->
     <div ng-show=" pregunta.tipo_pregunta=='Múltiple' ">
       <div>
         <div ng-repeat="opcion in pregunta.opciones"></div>

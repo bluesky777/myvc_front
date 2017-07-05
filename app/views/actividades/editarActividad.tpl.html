@@ -13,7 +13,7 @@
       <div class="row">
         <div class="col-lg-12 col-sm-12">		
           <div class="row">
-            <div class="form-group col-lg-12 col-sm-12 col-xs-12">Tipo de pregunta: 
+            <div class="form-group col-lg-12 col-sm-12 col-xs-12">Tipo de actividad: 
               <div class="btn-group btn-group-justified">
                 <label ng-model="actividad.tipo" uib-btn-radio="'Contenido'" uib-tooltip="La actividad/tarea solo tiene contenido" tooltip-popup-delay="500" tooltip-append-to-body="true" class="btn btn-default shiny">Contenido</label>
                 <label ng-model="actividad.tipo" uib-btn-radio="'Autoevaluacion'" uib-tooltip="Pide una nota al alumno" tooltip-popup-delay="500" tooltip-append-to-body="true" class="btn btn-default shiny">Autoevaluación</label>
@@ -22,7 +22,43 @@
               </div>
             </div>
           </div>
+          <hr class="wide">
           <div ng-show="actividad.tipo == 'Cuestionario' || actividad.tipo == 'Examen' " class="row">
+            <div uib-tooltip="¿Actividad para una asignatura o para docentes, acudientes y varios grupos?" tooltip-popup-delay="500" style="width: 250px;" class="form-group col-lg-12 col-sm-12 col-xs-12">
+              <label>Compartida</label>
+              <label>
+                <input type="checkbox" ng-model="actividad.compartida" ng-change="toggle_compartida(actividad.compartida)" ng-true-value="1" ng-false-value="0" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+              </label>
+            </div>
+            <!-- Se muestra si NO es compartida **-->
+            <div style="width: 90%" uib-popover-template="views+'informes/infoDocentePop.tpl.html'" popover-popup-delay="500" popover-title="Titular: {{actividad.nombres_profesor + ' ' + actividad.apellidos_profesor}}" popover-animation="true" popover-trigger="'mouseenter'" ng-show="!actividad.compartida" class="col-sm-12">
+              <h6 style="border: 1px solid #ccc; border-radius: 4px; padding: 8px">Solo {{ actividad.nombre_grupo }} -- {{ actividad.materia }}</h6>
+            </div>
+            <!-- Se muestra si ES compartida **-->
+            <div ng-show="actividad.compartida" class="col-sm-12">
+              <div class="form-group">
+                <div class="btn-group btn-group-justified">
+                  <label uib-btn-checkbox ng-click="para_alumnos_toggle(actividad.para_alumnos)" ng-model="actividad.para_alumnos" uib-tooltip="Varios grupos podrán realizar esta actividad" tooltip-popup-delay="500" tooltip-append-to-body="true" ng-true-value="1" ng-false-value="0" class="btn btn-default shiny">Para alumnos</label>
+                  <label uib-btn-checkbox ng-click="para_profesores_toggle(actividad.para_docentes)" ng-model="actividad.para_profesores" uib-tooltip="Actividad para los docentes" tooltip-popup-delay="500" tooltip-append-to-body="true" ng-true-value="1" ng-false-value="0" class="btn btn-default shiny">Para profesores</label>
+                  <label uib-btn-checkbox ng-click="para_acudientes_toggle(actividad.para_acudientes)" ng-model="actividad.para_acudientes" uib-tooltip="Actividad para los acudientes" tooltip-popup-delay="500" tooltip-append-to-body="true" ng-true-value="1" ng-false-value="0" class="btn btn-default shiny">Para acudientes</label>
+                </div>
+              </div>
+              <div ng-show="actividad.para_alumnos" class="form-group">
+                <label class="col-sm-2 control-label no-padding-right">Grupos</label>
+                <div class="col-sm-10">
+                  <ui-select ng-model="datos.selected_grupos" multiple on-select="select_grupo_compartido($item)" on-remove="quitando_grupo_compartido($item, $model)" style="width: 100%;">
+                    <ui-select-match placeholder="Grupos" allow-clear="true">
+                       
+                      {{$item.nombre}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="grupo in grupos | filter: $select.search"><small ng-bind-html="grupo.nombre | highlight: $select.search"></small></ui-select-choices>
+                  </ui-select>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12">		
+              <hr class="wide">
+            </div>
             <div uib-tooltip="Mostrar todas las preguntas o de una en una" tooltip-popup-delay="500" style="width: 150px;" class="form-group col-lg-12 col-sm-12 col-xs-12">
               <label>Una por una</label>
               <label>
@@ -49,11 +85,15 @@
                 </div>
               </div>
             </div>
-            <div uib-tooltip="La nota se define sumando los puntos por pregunta o promediandolas" tooltip-popup-delay="500" class="form-group col-lg-12 col-sm-12 col-xs-12">
-              <label>Puntaje por promedio</label>
-              <label>
-                <input type="checkbox" ng-model="actividad.puntaje_por_promedio" ng-true-value="1" ng-false-value="0" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
-              </label>
+            <div uib-tooltip="La nota se define sumando los puntos por pregunta o promediándolas" tooltip-popup-delay="500" class="form-group col-lg-12 col-sm-12 col-xs-12">
+              <label class="col-sm-2">Calificación:</label>
+              <div class="col-sm-10">
+                <select ng-model="actividad.tipo_calificacion" class="form-control">
+                  <option value="Por promedio">Por promedio</option>
+                  <option value="Por puntos">Por puntos</option>
+                  <option value="Sin puntaje">Sin calificación</option>
+                </select>
+              </div>
             </div>
           </div>
           <div class="row">
@@ -124,9 +164,11 @@
       </div>
       <div style="margin-top: 10px" class="row">
         <div class="col-lg-12 col-sm-12">
-          <div ng-repeat="pregunta in actividad.preguntas" style="padding: 8px; margin-bottom: 5px; " class="well well-pregunta"><span ng-bind-html="pregunta.enunciado"></span>
-            <div style="top: 5px;" class="item-menu"><a href="" uib-tooltip="Editar" ng-click="editar_pregunta(pregunta)" tooltip-placement="left" tooltip-popup-delay="500" class="btn-mail tooltip-primary"><i class="fa fa-pencil"></i></a><a href="" uib-tooltip="Eliminar" ng-click="eliminar_pregunta(pregunta.id)" tooltip-placement="left" style="margin-left: 4px;" tooltip-popup-delay="500" class="btn-mail tooltip-danger"><i class="fa fa-times"></i></a></div>
-          </div>
+          <ol sv-root="root-preguntas" sv-on-sort="on_sort_preguntas($item, $partFrom, $partTo, $indexFrom, $indexTo)" sv-part="actividad.preguntas" style="padding-left: 20px;">
+            <li ng-repeat="pregunta in actividad.preguntas" sv-element style="padding: 8px; margin-bottom: 5px; " class="well well-pregunta"><span ng-bind-html="pregunta.enunciado"></span>
+              <div style="top: 5px;" class="item-menu"><a href="" sv-handle uib-tooltip="Ordenar" ng-click="duplicar_pregunta(pregunta)" tooltip-placement="left" tooltip-popup-delay="500" style="margin-right: 4px;" class="btn-mail tooltip-primary"><i class="fa fa-arrows"></i></a><a href="" uib-tooltip="Duplicar pregunta" ng-click="duplicar_pregunta(pregunta)" tooltip-placement="left" tooltip-popup-delay="500" style="margin-right: 4px;" class="btn-mail tooltip-primary"><i class="fa fa-copy"></i></a><a href="" uib-tooltip="Editar" ng-click="editar_pregunta(pregunta)" tooltip-placement="left" tooltip-popup-delay="500" class="btn-mail tooltip-primary"><i class="fa fa-pencil"></i></a><a href="" uib-tooltip="Eliminar" ng-click="eliminar_pregunta(pregunta.id)" tooltip-placement="left" style="margin-left: 4px;" tooltip-popup-delay="500" class="btn-mail tooltip-danger btn-danger"><i class="fa fa-times"></i></a></div>
+            </li>
+          </ol>
         </div>
       </div>
     </div>

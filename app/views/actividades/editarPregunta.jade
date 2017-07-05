@@ -1,5 +1,5 @@
 .col-lg-12#scroll-pregunta(style="padding: 0px;")
-	.well.bordered-bottom.bordered-blueberry(style="padding: 8px; ")
+	.well.bordered-bottom.bordered-blueberry.bg-themethirdcolor(style="padding: 8px; ")
 		
 		div(ckeditor="editor_options" ng-model="pregunta.enunciado")
 
@@ -34,7 +34,7 @@
 						|  Cuadrícula
 
 
-		.row(ng-hide="actividad.puntaje_por_promedio")
+		.row(ng-show="actividad.tipo_calificacion=='Por puntos' ")
 			.form-group.col-lg-12.col-sm-12.col-xs-12(style="width: 250px;")
 				label(for="preg-puntos") Puntos que se otorgan:
 				.spinner.spinner-horizontal
@@ -48,19 +48,26 @@
 		
 		div(style="margin-top: 20px")
 
+
+		// TIPO Test ************************************************************
 		div(ng-show=" pregunta.tipo_pregunta=='Test' ")
 
 			div
 				.row(ng-repeat="opcion in pregunta.opciones" style="margin-top: 5px")
 					.col-md-12
-						.input-group(ng-class="{'has-success': opcion.is_correct}")
-							span.input-group-btn
+						.input-group
+							span.input-group-btn(ng-if="actividad.tipo_calificacion=='Por puntos' && pregunta.puntos>0")
 								button.btn.btn-default.shiny(type="button" ng-click="setOpcionCorrect(opcion)" ng-hide="opcion.is_correct")
 									i.fa.fa-circle-o
-									| Incorrecto
+									span  Incorrecto
 								button.btn.btn-success.shiny(type="button" ng-show="opcion.is_correct" style="width: 106px; text-align: left;")
 									i.fa.fa-dot-circle-o
-									| Correcto
+									span  Correcto
+
+							span.input-group-btn(ng-hide="actividad.tipo_calificacion=='Por puntos' && pregunta.puntos>0")
+								button.btn.shiny(type="button")
+									i.fa.fa-circle-o
+
 
 							input.form-control(ng-model="opcion.definicion" 
 									ng-change="guardar_cambios(opcion)"
@@ -70,6 +77,21 @@
 								button.btn.btn-danger(type="button" ng-click="eliminarOpcion(opcion)")
 									i.fa.fa-times
 
+				// OPCION OTRA
+				span(ng-if="pregunta.opcion_otra")
+					.row(ng-hide="(actividad.tipo_calificacion=='Por puntos' && pregunta.puntos>0) || actividad.tipo_calificacion=='Por promedio' " style="margin-top: 5px")
+						.col-md-12
+							.input-group
+								span.input-group-btn
+									button.btn.btn-default.shiny(type="button" disabled="disabled")
+										i.fa.fa-circle-o
+										| Otra...
+								input.form-control(disabled="disabled" value="Escriba su respuesta") 
+								
+								span.input-group-btn
+									button.btn.btn-danger(type="button" ng-click="toggle_opcion_otra(false)")
+										i.fa.fa-times
+
 
 			.row(style="margin-top: 8px")
 				.col-md-12
@@ -77,9 +99,10 @@
 						i.fa.fa-plus
 						|  Agregar opción
 					
-					a.add-option-otra(href="" ng-click="add_opcion_otra" ng-hide="(!actividad.puntaje_por_promedio && pregunta.puntos>0) || actividad.puntaje_por_promedio")
-						i.fa.fa-plus
-						|  Agregar opción "Otra..."
+					span(ng-if="!pregunta.opcion_otra")
+						a.add-option-otra(href="" ng-click="toggle_opcion_otra(true)" ng-hide="(actividad.tipo_calificacion=='Por puntos' && pregunta.puntos>0) || actividad.tipo_calificacion=='Por promedio' ")
+							i.fa.fa-plus
+							|  Agregar opción "Otra..."
 
 
 
@@ -99,7 +122,7 @@
 
 
 
-
+		// TIPO Múltiple *******************************************************
 		div(ng-show=" pregunta.tipo_pregunta=='Múltiple' ")
 
 			div

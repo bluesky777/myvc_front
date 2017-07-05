@@ -1,0 +1,13 @@
+.modal-header
+	h3.modal-title ¿Seguro que deseas finalizar actividad?
+.modal-body
+	.row
+		.col-lg-12.col-xs-12
+			h4 Actividad: 
+			h3(style="text-overflow: ellipsis") {{actividad.descripcion}}
+			h5 Id: {{actividad.id}}
+
+.modal-footer
+	button.btn.btn-default(ng-click="cancel()") Quedarme
+	button.btn.btn-labeled.btn-primary(ng-click="ok()") Finalizar
+		i.btn-label.fa.fa-check

@@ -28,7 +28,7 @@
                 <input type="checkbox"><span class="text"></span>
               </label>
             </div>
-            <div style="width: 80%;" class="item-sender"><a href="" class="col-name">{{ actividad.descripcion }}<span ng-hide="actividad.descripcion" style="font">(Sin descripción)</span></a></div>
+            <div style="width: 80%;" class="item-sender"><a href="" ui-sref="panel.respuestas({actividad_id: actividad.id})" class="col-name">{{ actividad.descripcion }}<span ng-hide="actividad.descripcion" style="font">(Sin descripción)</span></a></div>
             <div style="top: 5px;" class="item-menu"><a href="" uib-tooltip="Editar" ui-sref="panel.editar_actividad({ actividad_id: actividad.id })" tooltip-placement="left" tooltip-popup-delay="500" class="btn-mail tooltip-primary"><i class="fa fa-pencil"></i></a><a href="" uib-tooltip="Eliminar" ng-click="eliminarActividad(actividad, asignatura)" tooltip-placement="left" style="margin-left: 4px;" tooltip-popup-delay="500" class="btn-mail tooltip-danger"><i class="fa fa-times"></i></a></div>
           </li>
         </div>

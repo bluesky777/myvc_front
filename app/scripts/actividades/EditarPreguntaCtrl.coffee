@@ -27,11 +27,14 @@ angular.module("myvcFrontApp")
 		console.log 'Editor listo'
 
 
-	$scope.guardar_cambios = (opcion)->
+	$scope.guardar_cambios = (finalizar)->
 
-		$http.put('::opciones/guardar', opcion ).then((r)->
+		$http.put('::preguntas/guardar', $scope.pregunta ).then((r)->
 			r = r.data
+			$scope.$parent.cambios_pregunta_guardados($scope.pregunta)
 			toastr.success 'Cambios guardados'
+			if finalizar
+				$state.go('panel.editar_actividad', { actividad_id: $scope.pregunta.actividad_id })
 		(r2)->
 			toastr.error 'No se pudo guardar cambios'
 		)
@@ -67,6 +70,17 @@ angular.module("myvcFrontApp")
 		)
 
 
+	$scope.toggle_opcion_otra = (otra)->
+
+		$http.put('::preguntas/toggle-opcion-otra', {id: $scope.pregunta.id, opcion_otra: otra} ).then((r)->
+			r = r.data
+			toastr.success 'Opción OTRA agregada'
+			$scope.pregunta.opcion_otra = otra
+		(r2)->
+			toastr.error 'No se pudo agregar OTRA'
+		)
+
+
 	$scope.setOpcionCorrect = (opcion)->
 
 		$http.put('::opciones/set-opcion-correct', opcion ).then((r)->
@@ -87,6 +101,7 @@ angular.module("myvcFrontApp")
 		(r2)->
 			toastr.error 'No se pudo establecer correcta'
 		)
+
 
 
 

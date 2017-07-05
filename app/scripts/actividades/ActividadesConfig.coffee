@@ -44,6 +44,45 @@ angular.module('myvcFrontApp')
 					pageTitle: 'Actividades - MyVc'
 
 
+		$state
+			.state 'panel.respuestas',
+				url: '^/respuestas?actividad_id'
+				params: {
+					actividad_id: null
+				}
+				views: 
+					'maincontent':
+						templateUrl: "#{App.views}actividades/respuestas.tpl.html"
+						controller: 'RespuestasCtrl'
+						resolve:
+							datos: ['$q', '$http', '$stateParams', ($q, $http, $stateParams)->
+								d = $q.defer();
+
+								parametros = {
+									actividad_id: $stateParams.actividad_id
+								}
+
+								$http.put('::respuestas/actividad', parametros).then((r)->
+									d.resolve r.data
+								, (r2)->
+									d.reject r2
+								)
+								return d.promise
+							]
+					'headerContent':
+						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						controller: 'PanelHeaderCtrl'
+						resolve:
+							titulo: [->
+								'Respuestas'
+							]
+
+				data: 
+					displayName: 'Respuestas'
+					icon_fa: 'fa fa-soccer-ball-o'
+					pageTitle: 'Respuestas - MyVc'
+
+
 
 		$state
 			.state 'panel.mis_actividades',

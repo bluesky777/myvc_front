@@ -47,7 +47,7 @@
 								span.text
 
 						.item-sender(style="width: 80%;")
-							a.col-name(href="") {{ actividad.descripcion }}
+							a.col-name(href="" ui-sref="panel.respuestas({actividad_id: actividad.id})") {{ actividad.descripcion }}
 								span(ng-hide="actividad.descripcion" style="font") (Sin descripción)
 
 
