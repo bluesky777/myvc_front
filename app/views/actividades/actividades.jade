@@ -12,7 +12,7 @@
 
 
 			li(ui-sref-active="active")
-				a(href="" ui-sref="panel.actividades.compartidas")
+				a(href="" ui-sref="panel.actividades({compartidas: true})")
 					i.fa.fa-share-alt
 					| Compartidas
 			li(ui-sref-active="active")
@@ -61,8 +61,123 @@
 								i.fa.fa-times
 
 
+	// *********************************************
+	// ***********    COMPARTIDAS    ***************
+	// *********************************************
 
-	div
+	div(ng-if="compartidas")
+		.mail-header
+			ul.header-buttons(style="width: 90%")
+				li(style="width: 90%")
+
+					h6(style="font-weight: bolder !important")
+						| Para Alumnos:
+		.mail-body
+			.mail-list
+				li.list-item(ng-repeat="actividad in actv_alumnos " style="height: 38px;")
+					.item-check
+						label {{ actividad.id }}							
+
+					.item-sender(style="width: 80%;")
+						a.col-name(href="" ui-sref="panel.respuestas({actividad_id: actividad.id})") {{ actividad.descripcion }}
+							span(ng-hide="actividad.descripcion" style="font-style: italic") (Sin descripción)
+
+
+					.item-menu(style="top: 5px;")
+						a.btn-mail.tooltip-primary(href="" uib-tooltip="Editar" ui-sref="panel.editar_actividad({ actividad_id: actividad.id })" 
+							tooltip-placement="left" tooltip-popup-delay="500")
+							i.fa.fa-pencil
+
+						a.btn-mail.tooltip-danger(href="" uib-tooltip="Eliminar" ng-click="eliminarActividad(actividad, asignatura)" 
+							tooltip-placement="left" style="margin-left: 4px;" tooltip-popup-delay="500")
+							i.fa.fa-times
+
+		.mail-header
+			ul.header-buttons(style="width: 90%")
+				li(style="width: 90%")
+
+					h6(style="font-weight: bolder !important")
+						| Para Profesores:
+		.mail-body
+			.mail-list
+				li.list-item(ng-repeat="actividad in actv_profes " style="height: 38px;")
+					.item-check
+						label {{ actividad.id }}
+
+					.item-sender(style="width: 80%;")
+						a.col-name(href="" ui-sref="panel.respuestas({actividad_id: actividad.id})") {{ actividad.descripcion }}
+							span(ng-hide="actividad.descripcion" style="font-style: italic") (Sin descripción)
+
+
+					.item-menu(style="top: 5px;")
+						a.btn-mail.tooltip-primary(href="" uib-tooltip="Editar" ui-sref="panel.editar_actividad({ actividad_id: actividad.id })" 
+							tooltip-placement="left" tooltip-popup-delay="500")
+							i.fa.fa-pencil
+
+						a.btn-mail.tooltip-danger(href="" uib-tooltip="Eliminar" ng-click="eliminarActividad(actividad, asignatura)" 
+							tooltip-placement="left" style="margin-left: 4px;" tooltip-popup-delay="500")
+							i.fa.fa-times
+
+				li.list-item(ng-if="actv_profes.length == 0" style="height: 38px;")
+					.item-sender(style="width: 80%; font-style: italic")
+						a.col-name (No has creado ninguna actividad para Profesores)
+
+		.mail-header
+			ul.header-buttons(style="width: 90%")
+				li(style="width: 90%")
+
+					h6(style="font-weight: bolder !important")
+						| Para Acudientes:
+		.mail-body
+			.mail-list
+				li.list-item(ng-repeat="actividad in actv_acudi " style="height: 38px;")
+					.item-check
+						label {{ actividad.id }}
+
+					.item-sender(style="width: 80%;")
+						a.col-name(href="" ui-sref="panel.respuestas({actividad_id: actividad.id})") {{ actividad.descripcion }}
+							span(ng-hide="actividad.descripcion" style="font-style: italic") (Sin descripción)
+
+					.item-menu(style="top: 5px;")
+						a.btn-mail.tooltip-primary(href="" uib-tooltip="Editar" ui-sref="panel.editar_actividad({ actividad_id: actividad.id })" 
+							tooltip-placement="left" tooltip-popup-delay="500")
+							i.fa.fa-pencil
+
+						a.btn-mail.tooltip-danger(href="" uib-tooltip="Eliminar" ng-click="eliminarActividad(actividad, asignatura)" 
+							tooltip-placement="left" style="margin-left: 4px;" tooltip-popup-delay="500")
+							i.fa.fa-times
+
+				li.list-item(ng-if="actv_acudi.length == 0" style="height: 38px;")
+					.item-sender(style="width: 80%; font-style: italic")
+						a.col-name (No has creado ninguna actividad para acudientes)
+
+
+
+		.mail-header
+			ul.header-buttons(style="width: 90%")
+				li(style="width: 90%")
+
+					h6(style="font-weight: bolder !important")
+						| POR RESPONDER:
+		.mail-body
+			.mail-list
+				li.list-item(ng-repeat="actividad in actv_x_respon" style="height: 38px;")
+					.item-check
+						label {{ actividad.id }}
+					.item-sender(style="width: 80%;")
+						a.col-name(href="" ui-sref="panel.mi_actividad({actividad_id: actividad.id})") {{ actividad.descripcion }}
+							span(ng-hide="actividad.descripcion" style="font-style: italic") (Sin descripción)
+
+				li.list-item(ng-if="actv_x_respon.length == 0" style="height: 38px;")
+					.item-sender(style="width: 80%; font-style: italic")
+						.col-name (No tienes ninguna actividad asignada)
+
+
+
+
+
+
+	div(ng-if="!compartidas")
 		div(ng-hide="AuthService.hasRoleOrPerm('admin')" style="border-top: 3px solid #ccc;")
 			.mail-header
 				ul.header-buttons(style="width: 90%")

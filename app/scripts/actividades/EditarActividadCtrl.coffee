@@ -2,12 +2,13 @@
 
 angular.module("myvcFrontApp")
 
-.controller('EditarActividadCtrl', ['$scope', 'App', '$rootScope', '$state', '$http', '$uibModal', '$filter', 'AuthService', 'datos', 'toastr', '$stateParams', '$timeout', ($scope, App, $rootScope, $state, $http, $modal, $filter, AuthService, datos, toastr, $stateParams, $timeout)->
+.controller('EditarActividadCtrl', ['$scope', 'App', '$rootScope', '$state', '$http', '$uibModal', '$filter', 'AuthService', 'datos', 'toastr', '$stateParams', '$timeout', '$location', '$anchorScroll', ($scope, App, $rootScope, $state, $http, $modal, $filter, AuthService, datos, toastr, $stateParams, $timeout, $location, $anchorScroll)->
 
 	AuthService.verificar_acceso()
 
 	$scope.actividad_id 	= $stateParams.actividad_id
 	$scope.datos 			= { selected_grupos: [] }
+	$scope.mostrando_detalles_actividad = true
 
 	$scope.perfilPath 		= App.images + 'perfil/'
 	$scope.views 			= App.views
@@ -33,6 +34,10 @@ angular.module("myvcFrontApp")
 		$scope.actividad.inicia_at = new Date($scope.actividad.inicia_at)
 	else
 		$scope.actividad.inicia_at = new Date()
+
+	$scope.actividad.para_alumnos 		= if $scope.actividad.para_alumnos 		then true else false
+	$scope.actividad.para_profesores 	= if $scope.actividad.para_profesores 	then true else false
+	$scope.actividad.para_acudientes 	= if $scope.actividad.para_acudientes 	then true else false
 	
 	$scope.editor_options = 
 		allowedContent: true,
@@ -107,16 +112,19 @@ angular.module("myvcFrontApp")
 		$scope.actividad.preguntas.push preg_editada
 		$scope.actividad.preguntas = $filter('orderBy')($scope.actividad.preguntas, 'orden')
 
-		console.log $scope.actividad.preguntas, preg_editada
 
 		
 
 	$scope.duplicar_pregunta = (pregunta)->
-
+		pregunta.orden = $scope.actividad.preguntas.length
 		$http.put('::preguntas/duplicar-pregunta', pregunta ).then((r)->
 			r = r.data
 			toastr.success 'Pregunta duplicada'
 			$scope.actividad.preguntas.push r
+			$timeout(()->
+				$location.hash('end-preguntas');
+				$anchorScroll();
+			)
 		(r2)->
 			toastr.error 'No se pudo duplicar'
 		)
@@ -210,6 +218,13 @@ angular.module("myvcFrontApp")
 			toastr.warning 'No se pudo quitar grupo', 'Problema'
 			return false;
 		)
+
+	$scope.ver_preguntas = ()->
+		$scope.mostrando_preguntas = true
+		$scope.mostrando_detalles_actividad = false
+
+	$scope.ver_detalles_actividad = ()->
+		$scope.mostrando_detalles_actividad = true
 
 	return
 ])

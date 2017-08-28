@@ -8,9 +8,15 @@ angular.module("myvcFrontApp")
 
 	$scope.grupo_id 			= $stateParams.grupo_id # Puede que solo esté este
 	$scope.asign_id 			= $stateParams.asign_id # o solo este
+	$scope.compartidas 			= $stateParams.compartidas
 	$scope.grupos 				= datos.grupos
 	$scope.otras_asignaturas 	= datos.otras_asignaturas
 	$scope.mis_asignaturas 		= datos.mis_asignaturas
+
+	$scope.actv_alumnos 		= datos.actv_alumnos
+	$scope.actv_profes 			= datos.actv_profes
+	$scope.actv_acudi 			= datos.actv_acudi
+	$scope.actv_x_respon 		= datos.actv_x_respon
 
 	$scope.perfilPath 		= App.images + 'perfil/'
 	$scope.views 			= App.views

@@ -10,10 +10,30 @@ angular.module("myvcFrontApp")
 
 	$scope.perfilPath 		= App.images + 'perfil/'
 	$scope.views 			= App.views
+	$scope.plantilla		= $scope.views + 'notas/popoverAlumnoInfo.tpl.html?' + Math.random().toString(36).slice(2)
 
-	$scope.actividad 			= datos.actividad
+	$scope.actividad 		= datos.actividad
+	$scope.grupos 			= datos.grupos
 	$rootScope.menucompacto = true
 
+
+	$scope.alumnos_unidos = []
+
+
+	# Los alumnos están en cada Grupo. Necesito agregarlos juntos en un solo Array
+	for grupo in $scope.grupos
+		for alumno in grupo.alumnos
+			$scope.alumnos_unidos.push alumno
+
+
+
+	# Cantidad de Opciones Maximas
+	$scope.cantOpcMaxi = 0
+	for pregunta in $scope.actividad.preguntas
+		$scope.cantOpcMaxi = if pregunta.opciones.length>$scope.cantOpcMaxi then pregunta.opciones.length else $scope.cantOpcMaxi
+
+	$scope.getOpcionesMaximas = ()->
+		return new Array($scope.cantOpcMaxi)
 
 
 	$scope.finalizar_actividad = ()->

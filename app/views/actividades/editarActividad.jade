@@ -7,7 +7,7 @@
 					.col-xs-12.col-sm-10.col-md-10
 						input.form-control#act-descrip(type="text" ng-model="actividad.descripcion" placeholder="Descripción" uib-tooltip="Descripción de la actividad")
 
-			.row
+			.row(ng-show="mostrando_detalles_actividad")
 				.col-lg-12.col-sm-12		
 					
 					.row
@@ -42,12 +42,12 @@
 						// Se muestra si ES compartida **
 						.col-sm-12(ng-show="actividad.compartida")
 
-							.form-group
-								.btn-group.btn-group-justified
-									label.btn.btn-default.shiny(uib-btn-checkbox ng-click="para_alumnos_toggle(actividad.para_alumnos)" ng-model="actividad.para_alumnos" uib-tooltip="Varios grupos podrán realizar esta actividad" tooltip-popup-delay="500" tooltip-append-to-body="true" ng-true-value="1" ng-false-value="0") Para alumnos
-									label.btn.btn-default.shiny(uib-btn-checkbox ng-click="para_profesores_toggle(actividad.para_docentes)" ng-model="actividad.para_profesores" uib-tooltip="Actividad para los docentes" tooltip-popup-delay="500" tooltip-append-to-body="true" ng-true-value="1" ng-false-value="0") Para profesores
-									label.btn.btn-default.shiny(uib-btn-checkbox ng-click="para_acudientes_toggle(actividad.para_acudientes)" ng-model="actividad.para_acudientes" uib-tooltip="Actividad para los acudientes" tooltip-popup-delay="500" tooltip-append-to-body="true" ng-true-value="1" ng-false-value="0") Para acudientes
-						
+							.form-group 
+								.btn-group
+									label.btn.btn-default.shiny(uib-btn-checkbox ng-click="para_alumnos_toggle(actividad.para_alumnos)" ng-model="actividad.para_alumnos" uib-tooltip="Varios grupos podrán realizar esta actividad" tooltip-popup-delay="500" tooltip-append-to-body="true" ) Para alumnos
+									label.btn.btn-default.shiny(uib-btn-checkbox ng-click="para_profesores_toggle(actividad.para_profesores)" ng-model="actividad.para_profesores" uib-tooltip="Actividad para los docentes" tooltip-popup-delay="500" tooltip-append-to-body="true" ) Para profesores
+									label.btn.btn-default.shiny(uib-btn-checkbox ng-click="para_acudientes_toggle(actividad.para_acudientes)" ng-model="actividad.para_acudientes" uib-tooltip="Actividad para los acudientes" tooltip-popup-delay="500" tooltip-append-to-body="true" ) Para acudientes
+							
 							.form-group(ng-show="actividad.para_alumnos")
 								label.col-sm-2.control-label.no-padding-right Grupos
 								.col-sm-10
@@ -138,48 +138,58 @@
 					
 							button.btn.btn-primary(ng-click="guardarActividad(true)")
 								| Guardar y salir
+				
+			.row(ng-hide="mostrando_detalles_actividad" style="margin-top: 10px")
+				.col-lg-12.col-sm-12
+					a(href="" ng-click="ver_detalles_actividad()") Mostrar detalles actividad
 					
 
 .row(ng-show="actividad.tipo == 'Cuestionario' || actividad.tipo == 'Examen' ")
 	.col-xs-12.col-md-12
 		.well.with-header.with-footer
 			.header.bordered-yellow 
-				| Preguntas
+				a(href="" ng-click="ver_preguntas()" ng-hide="mostrando_preguntas") Ver Preguntas
+				a(href="" ng-click="ver_preguntas()" ng-show="mostrando_preguntas") Preguntas
 			
-			.row
+			.row(ng-show="mostrando_preguntas")
 				.col-lg-12.col-sm-12
 					button.btn.btn-primary(ng-click="crearPregunta()") 
+						i.fa.fa-plus
 						| Crear pregunta
 
 
-			.row(style="margin-top: 10px")
-				.col-lg-12.col-sm-12
+				.row(style="margin-top: 10px")
+					.col-lg-12.col-sm-12
 
-					div(ui-view="preguntacontent")
-
-
-			.row(style="margin-top: 10px")
-				.col-lg-12.col-sm-12
-					ol( sv-root="root-preguntas" sv-on-sort="on_sort_preguntas($item, $partFrom, $partTo, $indexFrom, $indexTo)" sv-part="actividad.preguntas" style="padding-left: 20px;")
-						li.well.well-pregunta(ng-repeat="pregunta in actividad.preguntas" sv-element style="padding: 8px; margin-bottom: 5px; ")
-							
-							span(ng-bind-html="pregunta.enunciado")
+						div(ui-view="preguntacontent")
 
 
+				.row(style="margin-top: 10px")
+					.col-lg-12.col-sm-12
+						ol( sv-root="root-preguntas" sv-on-sort="on_sort_preguntas($item, $partFrom, $partTo, $indexFrom, $indexTo)" sv-part="actividad.preguntas")
+							li.well.well-pregunta(ng-repeat="pregunta in actividad.preguntas" sv-element style="padding: 8px; margin-bottom: 5px; ")
+								
+								span(ng-bind-html="pregunta.enunciado")
 
-							.item-menu(style="top: 5px;")
-								a.btn-mail.tooltip-primary(href="" sv-handle uib-tooltip="Ordenar" ng-click="duplicar_pregunta(pregunta)" 
-									tooltip-placement="left" tooltip-popup-delay="500" style="margin-right: 4px;")
-									i.fa.fa-arrows
 
-								a.btn-mail.tooltip-primary(href="" uib-tooltip="Duplicar pregunta" ng-click="duplicar_pregunta(pregunta)" 
-									tooltip-placement="left" tooltip-popup-delay="500" style="margin-right: 4px;")
-									i.fa.fa-copy
 
-								a.btn-mail.tooltip-primary(href="" uib-tooltip="Editar" ng-click="editar_pregunta(pregunta)" 
-									tooltip-placement="left" tooltip-popup-delay="500")
-									i.fa.fa-pencil
+								.item-menu(style="top: 5px;")
+									a.btn-mail.tooltip-primary(href="" sv-handle uib-tooltip="Ordenar" ng-click="duplicar_pregunta(pregunta)" 
+										tooltip-placement="left" tooltip-popup-delay="500" style="margin-right: 4px;")
+										i.fa.fa-arrows
 
-								a.btn-mail.tooltip-danger.btn-danger(href="" uib-tooltip="Eliminar" ng-click="eliminar_pregunta(pregunta.id)" 
-									tooltip-placement="left" style="margin-left: 4px;" tooltip-popup-delay="500")
-									i.fa.fa-times
+									a.btn-mail.tooltip-primary(href="" uib-tooltip="Duplicar pregunta" ng-click="duplicar_pregunta(pregunta)" 
+										tooltip-placement="left" tooltip-popup-delay="500" style="margin-right: 4px;")
+										i.fa.fa-copy
+
+									a.btn-mail.tooltip-primary(href="" uib-tooltip="Editar" ng-click="editar_pregunta(pregunta)" 
+										tooltip-placement="left" tooltip-popup-delay="500")
+										i.fa.fa-pencil
+
+									a.btn-mail.tooltip-danger.btn-danger(href="" uib-tooltip="Eliminar" ng-click="eliminar_pregunta(pregunta.id)" 
+										tooltip-placement="left" style="margin-left: 4px;" tooltip-popup-delay="500")
+										i.fa.fa-times
+
+					// Para scrollear cuando duplique pregunta
+					div#end-preguntas 
+

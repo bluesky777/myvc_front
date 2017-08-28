@@ -3,22 +3,53 @@
 		h3 {{ actividad.descripcion }}
 
 
-		.row(ng-show="actividad.tipo == 'Cuestionario' || actividad.tipo == 'Examen' ")
-			.col-xs-12.col-md-12
+		.row(ng-show="actividad.tipo == 'Cuestionario' || actividad.tipo == 'Examen' " style="margin-top: 10px")
+			.col-lg-12.col-sm-12.table-responsive
+				
+				table.table-bordered.table-bordered2.table-striped.table-striped2
+					thead
+						tr
+							th.text-center(rowspan="2" style="width: 20px; line-height: 3;") No
+							th.text-center(rowspan="2" style="width: 20px; line-height: 3;") Preguntas
+							th.text-center(ng-repeat="grupo in grupos" colspan="{{grupo.alumnos.length}}")
+								|  {{ grupo.nombre }}
+
+						tr
+							th(ng-repeat="alumno in alumnos_unidos")
+								div.text-center.nombresellipsis(uib-popover-template="plantilla" 
+									popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" 
+									popover-trigger="'mouseenter'" popover-append-to-body="true") {{$index + 1}}
+								
+
+					tbody
+						tr(ng-repeat="pregunta in actividad.preguntas")
+							td {{ $index + 1 }}
+							td
+								span(ng-bind-html="pregunta.enunciado")
+
+							td(ng-repeat="alumno in alumnos_unidos")
+								| {{ alumno.respuestas[$parent.$index].orden }}
+
 
 
 				.row(style="margin-top: 10px")
 					.col-lg-12.col-sm-12
-						ol(style="padding-left: 20px;")
-							li.well.well-pregunta(ng-repeat="pregunta in actividad.preguntas" style="padding: 8px; margin-bottom: 5px; ")
-									
-								span(ng-bind-html="pregunta.enunciado")
+						table.table-bordered.table-bordered2.table-striped.table-striped2
+							thead
+								tr
+									th.text-center(rowspan="2") No
+									th.text-center(rowspan="2") Preguntas
+									th.text-center(rowspan="2" ng-repeat="i in getOpcionesMaximas() track by $index")
+										|  {{indexChar($index)}}
 
-								.dd.shadowed
-									ol.dd-list.row-title.before-blue(ng-repeat="opcion in pregunta.opciones")
-										li.dd-item.bordered-blue 
-											.dd-handle(ng-click="seleccionar_opcion(pregunta, opcion)" ng-class="{'bg-warning': opcion.seleccionada}")
-												| {{opcion.definicion}}
+							tbody
+								tr(ng-repeat="pregunta in actividad.preguntas")
+									td {{ $index + 1 }}
+									td
+										div(ng-bind-html="pregunta.enunciado" style="")
+
+									td(ng-repeat="i in getOpcionesMaximas() track by $index")
+										|    
 
 
 

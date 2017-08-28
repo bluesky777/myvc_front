@@ -2,21 +2,49 @@
 <div class="col-lg-12">
   <div class="well bordered-top bordered-blueberry">
     <h3>{{ actividad.descripcion }}</h3>
-    <div ng-show="actividad.tipo == 'Cuestionario' || actividad.tipo == 'Examen' " class="row">
-      <div class="col-xs-12 col-md-12">
+    <div ng-show="actividad.tipo == 'Cuestionario' || actividad.tipo == 'Examen' " style="margin-top: 10px" class="row">
+      <div class="col-lg-12 col-sm-12 table-responsive">
+        <table class="table-bordered table-bordered2 table-striped table-striped2">
+          <thead>
+            <tr>
+              <th rowspan="2" style="width: 20px; line-height: 3;" class="text-center">No</th>
+              <th rowspan="2" style="width: 20px; line-height: 3;" class="text-center">Preguntas</th>
+              <th ng-repeat="grupo in grupos" colspan="{{grupo.alumnos.length}}" class="text-center"> {{ grupo.nombre }}</th>
+            </tr>
+            <tr>
+              <th ng-repeat="alumno in alumnos_unidos">
+                <div uib-popover-template="plantilla" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-append-to-body="true" class="text-center nombresellipsis">{{$index + 1}}</div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="pregunta in actividad.preguntas">
+              <td>{{ $index + 1 }}</td>
+              <td><span ng-bind-html="pregunta.enunciado"></span></td>
+              <td ng-repeat="alumno in alumnos_unidos">{{ alumno.respuestas[$parent.$index].orden }}</td>
+            </tr>
+          </tbody>
+        </table>
         <div style="margin-top: 10px" class="row">
           <div class="col-lg-12 col-sm-12">
-            <ol style="padding-left: 20px;">
-              <li ng-repeat="pregunta in actividad.preguntas" style="padding: 8px; margin-bottom: 5px; " class="well well-pregunta"><span ng-bind-html="pregunta.enunciado"></span>
-                <div class="dd shadowed">
-                  <ol ng-repeat="opcion in pregunta.opciones" class="dd-list row-title before-blue">
-                    <li class="dd-item bordered-blue"> 
-                      <div ng-click="seleccionar_opcion(pregunta, opcion)" ng-class="{'bg-warning': opcion.seleccionada}" class="dd-handle">{{opcion.definicion}}</div>
-                    </li>
-                  </ol>
-                </div>
-              </li>
-            </ol>
+            <table class="table-bordered table-bordered2 table-striped table-striped2">
+              <thead>
+                <tr>
+                  <th rowspan="2" class="text-center">No</th>
+                  <th rowspan="2" class="text-center">Preguntas</th>
+                  <th rowspan="2" ng-repeat="i in getOpcionesMaximas() track by $index" class="text-center"> {{indexChar($index)}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="pregunta in actividad.preguntas">
+                  <td>{{ $index + 1 }}</td>
+                  <td>
+                    <div ng-bind-html="pregunta.enunciado" style=""></div>
+                  </td>
+                  <td ng-repeat="i in getOpcionesMaximas() track by $index">   </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

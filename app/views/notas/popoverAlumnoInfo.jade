@@ -1,8 +1,21 @@
 div
-	img(ng-src="{{perfilPath + alumno.userData.foto_nombre}}" alt="foto oficial" style="width: 100px; height: 100px;")
-	img(ng-src="{{perfilPath + alumno.userData.imagen_nombre}}" alt="foto de usuario" style="width: 100px; height: 100px;")
+	img(ng-show="alumno.userData.foto_nombre" ng-src="{{perfilPath + alumno.userData.foto_nombre}}" alt="foto oficial" style="width: 100px; height: 100px;")
+	img(ng-show="alumno.userData.imagen_nombre" ng-src="{{perfilPath + alumno.userData.imagen_nombre}}" alt="foto de usuario" style="width: 100px; height: 100px;")
+	
+	img(ng-show="alumno.foto_nombre" ng-src="{{perfilPath + alumno.foto_nombre}}" alt="foto oficial" style="width: 100px; height: 100px;")
+	img(ng-show="alumno.imagen_nombre" ng-src="{{perfilPath + alumno.imagen_nombre}}" alt="foto de usuario" style="width: 100px; height: 100px;")
+	
 	br
 	span(ng-if="alumno.facebook") Facebook: {{alumno.facebook}}
+	span(ng-if="alumno.userData.facebook") Facebook: {{alumno.userData.facebook}}
+	
 	br 
-	| Usuario: 
-	b {{alumno.userData.username}}
+
+	div(ng-if="alumno.username")
+		| Usuario:  
+		b {{alumno.username}}
+	
+	div(ng-if="alumno.userData.username")
+		| Usuario:  
+		b {{alumno.userData.username}}
+	

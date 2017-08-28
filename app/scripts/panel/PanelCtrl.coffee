@@ -122,9 +122,13 @@ angular.module('myvcFrontApp')
 			$state.go 'panel.filemanager'
 
 
+		$scope.indexChar = (index)->
+			return String.fromCharCode(65 + index)
+
 		$scope.$on 'cambianImgs', (event, data)->
 			$scope.USER = Perfil.User()
 			$scope.setImagenPrincipal()
+
 
 		return
 	]

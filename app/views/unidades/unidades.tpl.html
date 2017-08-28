@@ -37,7 +37,7 @@
               <div ng-show="!unidad.editando" class="row">
                 <div ng-show="!unidad.editando" style="overflow: visible; line-height: 2.4;" class="ticket-user col-lg-10 col-sm-10 col-xs-12">
                   <button sv-handle tabindex="-1" style="margin-bottom: 65px; display: inline-block; cursor: move;" class="btn btn-default btn-sm"><span class="fa fa-sort"></span></button>
-                  <div style="margin-bottom: 20px; font-weight: bold; " class="definicion-unidad-inside"> <span editable-text="unidad.porcentaje">{{$parent.$index+1}}.  </span><span>{{unidad.definicion}}</span></div>
+                  <div style="margin-bottom: 20px; font-weight: bold; " class="definicion-unidad-inside"> <span editable-text="unidad.porcentaje">{{$index+1}}.  </span><span>{{unidad.definicion}}</span></div>
                 </div>
                 <div uib-tooltip="Porcentaje" tooltip-popup-delay="1000" class="ticket-time col-lg-2 col-sm-2 col-xs-12">
                   <div class="divider hidden-xs"></div>{{unidad.porcentaje}}%

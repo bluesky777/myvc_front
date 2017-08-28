@@ -4,19 +4,14 @@ angular.module('myvcFrontApp')
 .controller('YearsCtrl', ['App', '$scope', '$http', '$uibModal', '$state', 'ProfesoresServ', '$cookies', '$rootScope', '$filter', 'toastr', 
 	(App, $scope, $http, $modal, $state, ProfesoresServ, $cookies, $rootScope, $filter, toastr) ->
 
-		if $scope.USER.alumnos_can_see_notas == 1
-			$scope.USER.alumnos_can_see_notas = true
-		if $scope.USER.alumnos_can_see_notas == 0
-			$scope.USER.alumnos_can_see_notas = false
-
-		$scope.config = {alumnos_can_see_notas: $scope.USER.alumnos_can_see_notas}
+		#$scope.config = {alumnos_can_see_notas: $scope.USER.alumnos_can_see_notas}
 		$scope.perfilPath = App.images + 'perfil/'
 
 		$http.get('::years/colegio').then((r)->
-			r = r.data
-			$scope.years = r.years
-			$scope.certificados = r.certificados
-			$scope.imagenes = r.imagenes
+			r 						= r.data
+			$scope.years 			= r.years
+			$scope.certificados 	= r.certificados
+			$scope.imagenes 		= r.imagenes
 
 			ProfesoresServ.contratos().then((r)->
 				$scope.profesores = r
@@ -101,11 +96,7 @@ angular.module('myvcFrontApp')
 
 		$scope.toggleBloquearNotas = (year_id, can)->
 
-			boleano = 0
-			if can == true
-				boleano = 1
-
-			$http.put('::years/alumnos-can-see-notas', { can: boleano, year_id: year_id }).then((r)->
+			$http.put('::years/alumnos-can-see-notas', { can: can, year_id: year_id }).then((r)->
 				toastr.success r.data
 			, (r2)->
 				toastr.warning 'No se pudo bloquear o desblequear el sistema.', 'Problema'
@@ -130,10 +121,14 @@ angular.module('myvcFrontApp')
 
 
 		
-		$scope.actualPeriodo = (periodo)->
+		$scope.actualPeriodo = (year, periodo)->
 
-			$http.put('::periodos/establecer-actual', periodo.id).then((r)->
+			$http.put('::periodos/establecer-actual/'+periodo.id).then((r)->
 				toastr.success 'Periodo ' + periodo.numero + ' establecido como actual.'
+				for peri in year.periodos
+					peri.actual = false
+				periodo.actual = true
+
 			, (r2)->
 				toastr.warning 'No se pudo establecer como actual.', 'Problema'
 			)
@@ -243,7 +238,7 @@ angular.module('myvcFrontApp')
 
 		$http.post('::periodos/store/'+year.id, $scope.new_periodo).then((r)->
 			toastr.success 'Periodo creado con éxito.', 'Creado'
-			$modalInstance.close($scope.new_periodo)
+			$modalInstance.close(r.data)
 		, (r2)->
 			toastr.warning 'No se pudo crear el periodo.', 'Problema'
 			$modalInstance.dismiss()

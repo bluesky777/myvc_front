@@ -6,7 +6,7 @@
     </ul>
     <ul style="height: 300px; overflow: scroll;" class="mail-menu">
       <li class="divider"></li>
-      <li ui-sref-active="active"><a href="" ui-sref="panel.actividades.compartidas"><i class="fa fa-share-alt"></i>Compartidas</a></li>
+      <li ui-sref-active="active"><a href="" ui-sref="panel.actividades({compartidas: true})"><i class="fa fa-share-alt"></i>Compartidas</a></li>
       <li ui-sref-active="active"><a href="" ui-sref="panel.actividades.votaciones"><i class="fa fa-legal"></i><span class="badge badge-default badge-square pull-right">6</span>Votaciones</a></li>
     </ul>
   </div>
@@ -35,7 +35,94 @@
       </div>
     </div>
   </div>
-  <div>
+  <!-- *********************************************-->
+  <!-- ***********    COMPARTIDAS    ***************-->
+  <!-- *********************************************-->
+  <div ng-if="compartidas">
+    <div class="mail-header">
+      <ul style="width: 90%" class="header-buttons">
+        <li style="width: 90%">
+          <h6 style="font-weight: bolder !important">Para Alumnos:</h6>
+        </li>
+      </ul>
+    </div>
+    <div class="mail-body">
+      <div class="mail-list">
+        <li ng-repeat="actividad in actv_alumnos " style="height: 38px;" class="list-item">
+          <div class="item-check">
+            <label>{{ actividad.id }}							</label>
+          </div>
+          <div style="width: 80%;" class="item-sender"><a href="" ui-sref="panel.respuestas({actividad_id: actividad.id})" class="col-name">{{ actividad.descripcion }}<span ng-hide="actividad.descripcion" style="font-style: italic">(Sin descripción)</span></a></div>
+          <div style="top: 5px;" class="item-menu"><a href="" uib-tooltip="Editar" ui-sref="panel.editar_actividad({ actividad_id: actividad.id })" tooltip-placement="left" tooltip-popup-delay="500" class="btn-mail tooltip-primary"><i class="fa fa-pencil"></i></a><a href="" uib-tooltip="Eliminar" ng-click="eliminarActividad(actividad, asignatura)" tooltip-placement="left" style="margin-left: 4px;" tooltip-popup-delay="500" class="btn-mail tooltip-danger"><i class="fa fa-times"></i></a></div>
+        </li>
+      </div>
+    </div>
+    <div class="mail-header">
+      <ul style="width: 90%" class="header-buttons">
+        <li style="width: 90%">
+          <h6 style="font-weight: bolder !important">Para Profesores:</h6>
+        </li>
+      </ul>
+    </div>
+    <div class="mail-body">
+      <div class="mail-list">
+        <li ng-repeat="actividad in actv_profes " style="height: 38px;" class="list-item">
+          <div class="item-check">
+            <label>{{ actividad.id }}</label>
+          </div>
+          <div style="width: 80%;" class="item-sender"><a href="" ui-sref="panel.respuestas({actividad_id: actividad.id})" class="col-name">{{ actividad.descripcion }}<span ng-hide="actividad.descripcion" style="font-style: italic">(Sin descripción)</span></a></div>
+          <div style="top: 5px;" class="item-menu"><a href="" uib-tooltip="Editar" ui-sref="panel.editar_actividad({ actividad_id: actividad.id })" tooltip-placement="left" tooltip-popup-delay="500" class="btn-mail tooltip-primary"><i class="fa fa-pencil"></i></a><a href="" uib-tooltip="Eliminar" ng-click="eliminarActividad(actividad, asignatura)" tooltip-placement="left" style="margin-left: 4px;" tooltip-popup-delay="500" class="btn-mail tooltip-danger"><i class="fa fa-times"></i></a></div>
+        </li>
+        <li ng-if="actv_profes.length == 0" style="height: 38px;" class="list-item">
+          <div style="width: 80%; font-style: italic" class="item-sender"><a class="col-name">(No has creado ninguna actividad para Profesores)</a></div>
+        </li>
+      </div>
+    </div>
+    <div class="mail-header">
+      <ul style="width: 90%" class="header-buttons">
+        <li style="width: 90%">
+          <h6 style="font-weight: bolder !important">Para Acudientes:</h6>
+        </li>
+      </ul>
+    </div>
+    <div class="mail-body">
+      <div class="mail-list">
+        <li ng-repeat="actividad in actv_acudi " style="height: 38px;" class="list-item">
+          <div class="item-check">
+            <label>{{ actividad.id }}</label>
+          </div>
+          <div style="width: 80%;" class="item-sender"><a href="" ui-sref="panel.respuestas({actividad_id: actividad.id})" class="col-name">{{ actividad.descripcion }}<span ng-hide="actividad.descripcion" style="font-style: italic">(Sin descripción)</span></a></div>
+          <div style="top: 5px;" class="item-menu"><a href="" uib-tooltip="Editar" ui-sref="panel.editar_actividad({ actividad_id: actividad.id })" tooltip-placement="left" tooltip-popup-delay="500" class="btn-mail tooltip-primary"><i class="fa fa-pencil"></i></a><a href="" uib-tooltip="Eliminar" ng-click="eliminarActividad(actividad, asignatura)" tooltip-placement="left" style="margin-left: 4px;" tooltip-popup-delay="500" class="btn-mail tooltip-danger"><i class="fa fa-times"></i></a></div>
+        </li>
+        <li ng-if="actv_acudi.length == 0" style="height: 38px;" class="list-item">
+          <div style="width: 80%; font-style: italic" class="item-sender"><a class="col-name">(No has creado ninguna actividad para acudientes)</a></div>
+        </li>
+      </div>
+    </div>
+    <div class="mail-header">
+      <ul style="width: 90%" class="header-buttons">
+        <li style="width: 90%">
+          <h6 style="font-weight: bolder !important">POR RESPONDER:</h6>
+        </li>
+      </ul>
+    </div>
+    <div class="mail-body">
+      <div class="mail-list">
+        <li ng-repeat="actividad in actv_x_respon" style="height: 38px;" class="list-item">
+          <div class="item-check">
+            <label>{{ actividad.id }}</label>
+          </div>
+          <div style="width: 80%;" class="item-sender"><a href="" ui-sref="panel.mi_actividad({actividad_id: actividad.id})" class="col-name">{{ actividad.descripcion }}<span ng-hide="actividad.descripcion" style="font-style: italic">(Sin descripción)</span></a></div>
+        </li>
+        <li ng-if="actv_x_respon.length == 0" style="height: 38px;" class="list-item">
+          <div style="width: 80%; font-style: italic" class="item-sender">
+            <div class="col-name">(No tienes ninguna actividad asignada)</div>
+          </div>
+        </li>
+      </div>
+    </div>
+  </div>
+  <div ng-if="!compartidas">
     <div ng-hide="AuthService.hasRoleOrPerm('admin')" style="border-top: 3px solid #ccc;">
       <div class="mail-header">
         <ul style="width: 90%" class="header-buttons">

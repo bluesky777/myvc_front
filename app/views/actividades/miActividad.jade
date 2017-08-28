@@ -18,7 +18,8 @@
 									ol.dd-list.row-title.before-blue(ng-repeat="opcion in pregunta.opciones")
 										li.dd-item.bordered-blue 
 											.dd-handle(ng-click="seleccionar_opcion(pregunta, opcion)" ng-class="{'bg-warning': opcion.seleccionada}")
-												| {{opcion.definicion}}
+												|  {{indexChar($index)}}.  
+												|  {{opcion.definicion}}
 
 
 

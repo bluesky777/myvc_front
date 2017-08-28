@@ -5,10 +5,11 @@ angular.module('myvcFrontApp')
 
 		$state
 			.state 'panel.actividades',
-				url: '^/actividades?grupo_id&asign_id'
+				url: '^/actividades?grupo_id&asign_id&compartidas'
 				params: {
 					grupo_id: null
 					asign_id: null
+					compartidas: null
 				}
 				views: 
 					'maincontent':
@@ -18,16 +19,24 @@ angular.module('myvcFrontApp')
 							datos: ['$q', '$http', '$stateParams', ($q, $http, $stateParams)->
 								d = $q.defer();
 
-								parametros = {
-									grupo_id: $stateParams.grupo_id
-									asign_id: $stateParams.asign_id
-								}
+								if $stateParams.compartidas
 
-								$http.put('::actividades/datos', parametros).then((r)->
-									d.resolve r.data
-								, (r2)->
-									d.reject r2
-								)
+									$http.put('::actividades/compartidas').then((r)->
+										d.resolve r.data
+									, (r2)->
+										d.reject r2
+									)
+								else
+									parametros = {
+										grupo_id: $stateParams.grupo_id
+										asign_id: $stateParams.asign_id
+									}
+
+									$http.put('::actividades/datos', parametros).then((r)->
+										d.resolve r.data
+									, (r2)->
+										d.reject r2
+									)
 								return d.promise
 							]
 					'headerContent':

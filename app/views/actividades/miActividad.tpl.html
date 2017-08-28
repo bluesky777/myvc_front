@@ -11,7 +11,10 @@
                 <div class="dd shadowed">
                   <ol ng-repeat="opcion in pregunta.opciones" class="dd-list row-title before-blue">
                     <li class="dd-item bordered-blue"> 
-                      <div ng-click="seleccionar_opcion(pregunta, opcion)" ng-class="{'bg-warning': opcion.seleccionada}" class="dd-handle">{{opcion.definicion}}</div>
+                      <div ng-click="seleccionar_opcion(pregunta, opcion)" ng-class="{'bg-warning': opcion.seleccionada}" class="dd-handle">
+                         {{indexChar($index)}}.  
+                         {{opcion.definicion}}
+                      </div>
                     </li>
                   </ol>
                 </div>

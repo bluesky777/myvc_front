@@ -69,7 +69,7 @@
     </div>
   </div>
   <button ng-click="cancelConfig()" class="btn btn-default">Cancelar</button>
-  <button ng-click="guardar()" class="btn btn-primary">Crear</button>
+  <button ng-click="guardar()" class="btn btn-primary"><i class="fa fa-save"> </i>Crear</button>
 </div>
 <div ng-show="editando">
   <div class="row">
@@ -146,7 +146,7 @@
 <div ng-hide="creando_certificado">
   <div ng-repeat="configcert in configcertificados"><span>{{configcert}}</span></div>
   <div id="grid1" ui-grid="gridOptions" ui-grid-edit ui-grid-auto-resize ui-grid-resize-columns style="height: 300px" class="grid"></div>
-  <button ng-click="crearConfig()" class="btn btn-primary">Crear configuración</button><br><br>
+  <button ng-click="crearConfig()" class="btn btn-primary"> <i class="fa fa-plus"> </i>Crear configuración</button><br><br>
   <div class="form-group">
     <label>Actual: </label>
     <ui-select ng-model="certificado.config_actual" on-select="certificadoSelect($item, $model)" theme="select2" style="min-width: 200px;">

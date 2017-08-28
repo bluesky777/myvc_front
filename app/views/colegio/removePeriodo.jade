@@ -3,8 +3,14 @@
 .modal-body
 	.row
 		.col-lg-12.col-xs-12
-			h4 Periodo: 
-			div(style="text-overflow: ellipsis") "{{periodo.numero}}" - Fechas: {{periodo.fecha_inicio}} - {{periodo.fecha_fin}} 
+			h4 Periodo 
+				span(style="font-weight: bold") {{periodo.numero}}
+			div(style="text-overflow: ellipsis") Fechas: 
+				span(ng-show="periodo.fecha_inicio") {{periodo.fecha_inicio}} - 
+				span(ng-show="!periodo.fecha_inicio" style="font-style: italic") (Sin fecha inicial) - 
+
+				span(ng-show="periodo.fecha_fin") {{periodo.fecha_fin}} 
+				span(ng-show="!periodo.fecha_fin" style="font-style: italic") (Sin fecha final).
 			h5 Id: {{periodo.id}}
 
 .modal-footer
