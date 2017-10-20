@@ -165,6 +165,23 @@ angular.module('myvcFrontApp')
 				pageTitle: 'Notas perdidas por profesor - MyVc'
 
 
+		.state 'panel.informes.ver_ausencias',
+			url: '/ver_ausencias/:grupo_id/:periodos_a_calcular'
+			views: 
+				'report_content':
+					templateUrl: "==informes/verAusencias.tpl.html"
+					controller: 'VerAusenciasCtrl' # En NotasPerdidasProfesorCtrl.coffee
+					resolve:
+						grupos_ausencias: ['$http', '$stateParams', ($http, $stateParams)->
+							$http.get('::planillas/ver-ausencias/'+$stateParams.grupo_id)
+						]
+			data: 
+				displayName: 'Planillas grupo'
+				icon_fa: 'fa fa-print'
+				pageTitle: 'Planillas grupo - MyVc'
+
+
+
 		.state 'panel.informes.planillas_profesor',
 			url: '/planillas_profesor/:profesor_id/:periodos_a_calcular'
 			views: 

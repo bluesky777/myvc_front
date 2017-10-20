@@ -1,6 +1,6 @@
 div
-	img(ng-show="alumno.userData.foto_nombre" ng-src="{{perfilPath + alumno.userData.foto_nombre}}" alt="foto oficial" style="width: 100px; height: 100px;")
-	img(ng-show="alumno.userData.imagen_nombre" ng-src="{{perfilPath + alumno.userData.imagen_nombre}}" alt="foto de usuario" style="width: 100px; height: 100px;")
+	img(ng-show="alumno.userData.foto_nombre && !alumno.foto_nombre" ng-src="{{perfilPath + alumno.userData.foto_nombre}}" alt="foto oficial" style="width: 100px; height: 100px;")
+	img(ng-show="alumno.userData.imagen_nombre && !alumno.imagen_nombre" ng-src="{{perfilPath + alumno.userData.imagen_nombre}}" alt="foto de usuario" style="width: 100px; height: 100px;")
 	
 	img(ng-show="alumno.foto_nombre" ng-src="{{perfilPath + alumno.foto_nombre}}" alt="foto oficial" style="width: 100px; height: 100px;")
 	img(ng-show="alumno.imagen_nombre" ng-src="{{perfilPath + alumno.imagen_nombre}}" alt="foto de usuario" style="width: 100px; height: 100px;")

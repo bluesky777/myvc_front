@@ -1,0 +1,66 @@
+div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }")
+	
+	.row
+		.col-lg-12.col-xs-12
+			.row.encabezado-planilla
+				.col-lg-12.col-xs-12
+					.row
+						.col-lg-12
+							.nombre-colegio
+								| Tardanzas por grupos - {{USER.year}}
+
+
+	.row
+		.col-lg-12.col-xs-12(style="padding: 4px;")
+
+			div(ng-repeat="grupo in grupos_ausencias track by $index")
+
+			
+				div.text-center(style="padding-top: 10px; font-size: 12pt;")
+					span(style="font-weight: 600;") {{ grupo.nombre }}
+
+				table.table-bordered.table-bordered2.table-striped.table-striped2(align="center")
+					thead
+						tr
+							th(style="width: 20px")
+								| No
+							th.text-center(style="width: 190px" )
+								| Alumnos
+							th(style="width: 147px;" ng-repeat="periodo in grupo.periodos track by $index")
+								| Per{{$index+1}}
+							th(style="text-align: center; width: 40px;")
+								| Total
+							
+
+
+					tbody(style="font-size: 10pt")
+						tr(ng-repeat="alumno in grupo.alumnos track by $index")
+							td
+								| {{ $index + 1 }}
+							td
+								
+								.nombresellipsis( uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" 
+									popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" 
+									popover-trigger="'mouseenter'" popover-popup-delay="500" 
+									ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}"
+									style="width: 190px;") 
+									
+									| {{alumno.apellidos + ' ' + alumno.nombres}} 
+								
+							td(ng-repeat="periodo in alumno.periodos track by $index")
+								span(style="font-weight: 800") {{periodo.ausencias.length}}   
+								span(ng-repeat="ausencia in periodo.ausencias track by $index"  
+									style="font-size: 8pt; border: 1px solid #555; white-space: nowrap; display: inline-block;" tooltip-popup-delay="500" tooltip-class="hidden-print" uib-tooltip="{{ausencia.username}}")
+									|   {{ ausencia.fecha_hora | fechaHoraStringShort:ausencia.created_at }}  
+
+							td
+								div.text-center(style="font-size: 10pt; font-weight: 800")
+									| {{ alumno.total_aus_alum }}
+
+
+
+
+
+
+
+

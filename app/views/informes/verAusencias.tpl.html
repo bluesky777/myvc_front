@@ -1,0 +1,48 @@
+
+<div ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }">
+  <div class="row">
+    <div class="col-lg-12 col-xs-12">
+      <div class="row encabezado-planilla">
+        <div class="col-lg-12 col-xs-12">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="nombre-colegio">Tardanzas por grupos - {{USER.year}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div style="padding: 4px;" class="col-lg-12 col-xs-12">
+      <div ng-repeat="grupo in grupos_ausencias track by $index">
+        <div style="padding-top: 10px; font-size: 12pt;" class="text-center"><span style="font-weight: 600;">{{ grupo.nombre }}</span></div>
+        <table align="center" class="table-bordered table-bordered2 table-striped table-striped2">
+          <thead>
+            <tr>
+              <th style="width: 20px">No</th>
+              <th style="width: 190px" class="text-center">Alumnos</th>
+              <th style="width: 147px;" ng-repeat="periodo in grupo.periodos track by $index">Per{{$index+1}}</th>
+              <th style="text-align: center; width: 40px;">Total</th>
+            </tr>
+          </thead>
+          <tbody style="font-size: 10pt">
+            <tr ng-repeat="alumno in grupo.alumnos track by $index">
+              <td>{{ $index + 1 }}</td>
+              <td>
+                <div uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="width: 190px;" class="nombresellipsis">
+                   
+                  {{alumno.apellidos + ' ' + alumno.nombres}} 
+                </div>
+              </td>
+              <td ng-repeat="periodo in alumno.periodos track by $index"><span style="font-weight: 800">{{periodo.ausencias.length}}   </span><span ng-repeat="ausencia in periodo.ausencias track by $index" style="font-size: 8pt; border: 1px solid #555; white-space: nowrap; display: inline-block;" tooltip-popup-delay="500" tooltip-class="hidden-print" uib-tooltip="{{ausencia.username}}">  {{ ausencia.fecha_hora | fechaHoraStringShort:ausencia.created_at }}  </span></td>
+              <td>
+                <div style="font-size: 10pt; font-weight: 800" class="text-center">{{ alumno.total_aus_alum }}</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

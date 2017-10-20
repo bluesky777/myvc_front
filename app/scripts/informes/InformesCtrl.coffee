@@ -160,11 +160,18 @@ angular.module('myvcFrontApp')
 		else
 			toastr.warning 'Elige un grupo'
 
+
 	$scope.verPlanillasProfe = ()->
 		if $scope.datos.profesor
 			$state.go 'panel.informes.planillas_profesor', {profesor_id: $scope.datos.profesor.profesor_id, periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
 		else
 			toastr.warning 'Elige un profesor'
+
+	$scope.verAusencias = ()->
+		if $scope.datos.grupo.id
+			$state.go 'panel.informes.ver_ausencias', {grupo_id: $scope.datos.grupo.id, periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
+		else
+			toastr.warning 'Elige un grupo'
 
 	$scope.verPlanillasControlTardanzas = ()->
 		$state.go 'panel.informes.control_tardanza_entrada', {reload: true}
@@ -174,7 +181,6 @@ angular.module('myvcFrontApp')
 			$state.go 'panel.informes.notas_perdidas_profesor', {profesor_id: $scope.datos.profesor.profesor_id, periodo_a_calcular: $scope.config.periodo_a_calcular}, {reload: true}
 		else
 			toastr.warning 'Elige un profesor'
-
 
 
 	$scope.selectGrupo = (item)->
@@ -356,6 +362,26 @@ angular.module('myvcFrontApp')
 	
 ])
 
+
+
+.filter('fechaHoraStringShort', ['$filter', ($filter)->
+	(fecha_hora, created_at) ->
+
+		if fecha_hora
+			fecha_hora = new Date(fecha_hora)
+			if isNaN(fecha_hora)
+				fecha_hora = new Date(fecha_hora)
+			else
+				fecha_hora = new Date(created_at)
+				
+			fecha_hora = $filter('date')(fecha_hora, 'MMMdd H:mm')
+			return fecha_hora
+
+		else
+			return ''
+
+		
+])
 
 
 
