@@ -4,6 +4,7 @@ angular.module('myvcFrontApp')
 	AuthService.verificar_acceso()
 	$scope.rowsAlum = []
 	alumnos 		= alumnos.data 
+	$scope.$state 	= $state
 	$scope.config 	= {
 		periodos_a_calcular: 1  # de_usuario, de_colegio, todos
 		mostrar_foto: true
@@ -38,9 +39,10 @@ angular.module('myvcFrontApp')
 			$tempParam 				= parseInt($state.params.profesor_id)
 			$scope.datos.profesor 	= $filter('filter')($scope.profesores, {profesor_id: $tempParam}, true)[0]
 
-
+		$scope.$parent.bigLoader 	= false
 	, (r2)->
 		toastr.error 'No se pudo traer los profesores'
+		$scope.$parent.bigLoader 	= false
 	)
 
 
@@ -168,10 +170,8 @@ angular.module('myvcFrontApp')
 			toastr.warning 'Elige un profesor'
 
 	$scope.verAusencias = ()->
-		if $scope.datos.grupo.id
-			$state.go 'panel.informes.ver_ausencias', {grupo_id: $scope.datos.grupo.id, periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
-		else
-			toastr.warning 'Elige un grupo'
+		$state.go 'panel.informes.ver_ausencias', {periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
+
 
 	$scope.verPlanillasControlTardanzas = ()->
 		$state.go 'panel.informes.control_tardanza_entrada', {reload: true}

@@ -7,6 +7,7 @@ angular.module('myvcFrontApp')
 
 		$scope.USER = resolved_user
 		$scope.pageTitle = $rootScope.pageTitle
+		$scope.bigLoader = true
 
 
 		# Si el colegio quiere que aparezca su imagen en el encabezado, puede hacerlo.
@@ -47,6 +48,7 @@ angular.module('myvcFrontApp')
 
 		$http.get('::periodos').then((r)->
 			$scope.periodos = r.data
+			$scope.bigLoader = false
 		, (r)->
 			toast.error 'No se trajeron los periodos'
 		)
@@ -84,6 +86,7 @@ angular.module('myvcFrontApp')
 		
 
 		$scope.cambiarPeriodo = (periodo)->
+			$scope.bigLoader = true
 
 			$http.put('::periodos/useractive/'+periodo.id).then((r)->
 				toastr.success 'Periodo cambiado con éxito al perido ' + periodo.numero, 'Cambiado' 
@@ -99,6 +102,8 @@ angular.module('myvcFrontApp')
 
 
 		$scope.cambiarYear = (year)->
+			$scope.bigLoader = true
+
 			$http.put('::years/useractive/'+year.id).then((r)->
 				r = r.data
 				$scope.USER.year_id = year.id

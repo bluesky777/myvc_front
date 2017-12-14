@@ -15518,10 +15518,22 @@ body {
     width: 36cm;
 }
 
+@media screen {
+    .informes-pages {
+        overflow-x: auto;
+        position: relative;
+    }
+    .altura-informe{
+        height: 1000px;
+    }
+}
+
 
 @media print {
 
-
+    .fa-search, .sidebar-header-wrapper{
+        display: none;
+    }
 
     
     .page-content{
@@ -15544,19 +15556,19 @@ body {
         -webkit-transform: rotate(-90deg);
         -moz-transform:rotate(-90deg);
         filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-        margin: 5mm 25mm 25mm 5mm;
+        margin: 0mm;
         background-color: white;
     }
     @page oficiohorizontal{ 
         -webkit-transform: rotate(-90deg);
         -moz-transform:rotate(-90deg);
         filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-        margin: 5mm 25mm 25mm 5mm;
+        margin: 0mm;
         background-color: white;
     }
     @page cartavertical{ 
         size: portrait; 
-        margin: 2cm;
+        margin: 0cm;
         background-color: white;
         
     }
@@ -16390,3 +16402,26 @@ input.ocultar-input{
 .add-option-otra{
     margin-left: 8px;
 }
+
+
+
+// Probando para arreglar el input number de Mozila
+input[type="number"] {
+    -moz-appearance: textfield;
+    width: 41px;
+}
+input[type="number"]:hover,
+input[type="number"]:focus {
+    -moz-appearance: number-input;
+}
+// ******
+
+.ui-select-match + .select2-search-field,
+.ui-select-match + .select2-search-field input{
+    width: 100% !important;
+}
+
+.ui-select-dropdown.select2-drop.select2-with-searchbox.select2-drop-active{
+    opacity: 1!important;
+}
+

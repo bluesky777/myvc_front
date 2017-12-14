@@ -21,8 +21,6 @@ angular.module('myvcFrontApp')
 .controller('VerAusenciasCtrl',['$scope', 'App', 'Perfil', 'grupos_ausencias', '$state', ($scope, App, Perfil, grupos_ausencias, $state)-> 
 	$scope.grupos_ausencias = grupos_ausencias.data
 
-	console.log grupos_ausencias
-
 	$scope.USER = Perfil.User()
 
 	$scope.perfilPath = App.images+'perfil/'

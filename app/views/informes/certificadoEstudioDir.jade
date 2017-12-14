@@ -1,4 +1,4 @@
-div(style="display: table; height: 30cm ; " ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $parent.$last==false }")
+div(style="display: table; height: 30cm ; position: relative; " ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $parent.$last==false }")
 	span(ng-if="year.config_certificado_estudio_id")
 		img.encabezado-membrete(ng-src="{{perfilPath + year.config_certificado.encabezado_nombre}}"
 			style="width: 22cm; position: absolute; margin-left: -10px;")
@@ -42,9 +42,9 @@ div(style="display: table; height: 30cm ; " ng-class="{'page-carta-horizontal': 
 									| , obteniendo los siguientes resultados:
 
 								// Esto no se verá en la impresión
-								.titular-grupo.hidden-print(uib-popover-html="'<img src=\"{{perfilPath + grupo.foto_nombre}}\" style=\"width: 150px; height: 150px;\">'" 
+								.titular-grupo.hidden-print(uib-popover-template="views+'informes/infoTitularPop.tpl.html'"  
 										popover-popup-delay="500" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true" 
-										popover-trigger="mouseenter" style="float: right")
+										popover-trigger="mouseenter" style="float: right" popover-append-to-body="true")
 									| Titular: {{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor | capitalize}}
 							
 				.row.body-boletin(style="margin-top: 10px; margin-bottom: 10px; ")
@@ -65,9 +65,9 @@ div(style="display: table; height: 30cm ; " ng-class="{'page-carta-horizontal': 
 								tr(ng-repeat="asignatura in alumno.asignaturas")
 									td {{$index + 1}}
 									td(style="text-align: justify;")
-										div(uib-popover-html="'<img src=\"{{perfilPath + asignatura.foto_nombre}}\" style=\"width: 150px; height: 150px;\">'" 
+										div(uib-popover-template="views+'informes/infoDocentePop.tpl.html'"
 											popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" 
-											popover-trigger="mouseenter") {{asignatura.materia}}
+											popover-trigger="mouseenter" popover-append-to-body="true") {{asignatura.materia}}
 									td.txtcentro
 										| {{ asignatura.creditos }}
 									td.txtcentro

@@ -17,7 +17,7 @@ angular.module('myvcFrontApp')
 		console.log 'Acceso no permitido, vamos a loguear', r
 		$state.transitionTo 'login'
 
-	ingresar = ()->
+	$rootScope.ingresar = ()->
 		#- Si lastState es null, quiere decir que hemos entrado directamente a login sin ser redireccionados.
 		if $rootScope.lastState == null or $rootScope.lastState == 'login' or $rootScope.lastState == '/' or $rootScope.lastState == 'main'
 			$state.transitionTo 'panel' #- Por lo tanto nos vamos a panel después de autenticarnos.
@@ -28,7 +28,7 @@ angular.module('myvcFrontApp')
 	#- Evento ejecutado cuando nos logueamos despues del servidor haber pedido autenticación.
 	$rootScope.$on 'event:auth-loginConfirmed', ()->
 		console.log 'Logueado con éxito!'
-		ingresar()
+		$rootScope.ingresar()
 
 
 	#- Evento que se ejecuta cuando vamos a cambiar de estado.
@@ -67,7 +67,7 @@ angular.module('myvcFrontApp')
 					toastr.success 'Hay ' + usuario.votaciones.length + ' votaciones en ejecución.'
 				$state.go 'panel.actividades.votaciones.votar'
 			else
-				ingresar()
+				$rootScope.ingresar()
 
 
 

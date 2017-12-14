@@ -7,7 +7,7 @@ angular.module('myvcFrontApp')
 	$scope.logueando = true
 	$scope.recuperando = false
 	$scope.registrando = false
-	
+
 
 	# Si el colegio quiere que aparezca su imagen en el encabezado, puede hacerlo.
 	$scope.logoPathDefault = 'images/Logo_MyVc_Header.gif'
@@ -31,10 +31,14 @@ angular.module('myvcFrontApp')
 	$scope.host = $location.host()
 
 	$scope.login = (credentials)->
-		user = AuthService.login_credentials(credentials)
+		AuthService.login_credentials(credentials).then((r)->
 		
-		user.then((r)->
-			#console.log 'Promise ganada', r
+			AuthService.verificar().then((r2)->
+				#if localStorage.getItem('logueando') == 'token_verificado'
+				localStorage.removeItem('token_verificado')
+			, (r3)->
+				console.log('Falló en Verificar')
+			)
 			return
 		)
 

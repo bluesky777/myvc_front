@@ -18,6 +18,7 @@ angular.module('myvcFrontApp')
 		scope.USER = Perfil.User()
 		scope.USER.nota_minima_aceptada = parseInt(scope.USER.nota_minima_aceptada)
 		scope.perfilPath = App.images+'perfil/'
+		scope.views = App.views;
 
 		#console.log scope.config.orientacion
 ])

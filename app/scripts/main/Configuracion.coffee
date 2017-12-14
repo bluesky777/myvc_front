@@ -4,8 +4,7 @@ angular.module('myvcFrontApp')
 # Configuración principal de nuestra aplicación.
 .config(['$cookiesProvider', '$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryProvider', '$httpProvider', '$locationProvider', 'App', 'PERMISSIONS', '$intervalProvider', '$rootScopeProvider', 'USER_ROLES', 'toastrConfig', 'uiSelectConfig', ($cookies, $state, $urlRouter, $urlMatcherFactoryProvider, $httpProvider, $locationProvider, App, PERMISSIONS, $intervalProvider, $rootScopeProvider, USER_ROLES, toastrConfig, uiSelectConfig)->
 
-	#Restangular.setBaseUrl App.Server # Url a la que se harán todas las llamadas.
-	
+
 
 	$httpProvider.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
 	$httpProvider.defaults.headers.put['X-CSRFToken'] = $cookies.csrftoken;
@@ -26,7 +25,6 @@ angular.module('myvcFrontApp')
 					explotado = config.url.split('==')
 					if explotado.length > 1
 						config.url = App.views + explotado[1]
-
 
 				config
 		}

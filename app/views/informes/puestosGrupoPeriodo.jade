@@ -31,7 +31,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 						td
 							.nombresellipsis( uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" 
 								popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" 
-								popover-trigger="'mouseenter'" popover-popup-delay="500" 
+								popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true" 
 								ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}") 
 												
 								|  {{alumno.nombres + ' ' + alumno.apellidos}}
@@ -39,12 +39,12 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 						td(ng-repeat="asignatura in alumno.asignaturas" ng-class="{'nota-perdida-puestos': ((asignatura.nota_asignatura | number:0 )*1) < (USER.nota_minima_aceptada*1) }")
 
 							span(popover="{{ asignatura.unidades | notasAsignatura:USER.numero_periodo }}" 
-								popover-trigger="mouseenter" popover-popup-delay="1000")
+								popover-trigger="mouseenter" popover-popup-delay="1000" popover-append-to-body="true")
 								| {{asignatura.nota_asignatura | number:0}}
 							
 							span.cant-unidades-perdidas.puntero(popover="{{ asignatura.unidades | notasPerdidasAsignatura:false:USER.numero_periodo }}" 
 								popover-trigger="mouseenter" popover-popup-delay="1000" 
-								ng-show="{{asignatura.unidades | notasPerdidasAsignatura:true}} > 0")
+								ng-show="{{asignatura.unidades | notasPerdidasAsignatura:true}} > 0" popover-append-to-body="true")
 								| ({{asignatura.unidades | notasPerdidasAsignatura:true}})
 
 						td(style="border-left: 2px solid !important;")

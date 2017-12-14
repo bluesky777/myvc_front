@@ -212,12 +212,12 @@
 				span.menu-text  Bitacora
 
 		<!-- Informes-->
-		li(ui-sref-active="active" ng-if="!hasRoleOrPerm(['admin']) && hasRoleOrPerm(['profesor'])" )
-			a(ui-sref="panel.informes")
+		li(ui-sref-active="active" ng-if="hasRoleOrPerm(['admin']) || hasRoleOrPerm(['profesor'])" )
+			a(ng-click="ir_a_informes()" href="")
 				i.menu-icon.fa.fa-print
 				span.menu-text Informes
 
-		li(sub-menu ng-show="hasRoleOrPerm('admin')" ng-click="toggleOpen()" menu-is-open="false" ng-class="{active:$state.includes('panel.informes')}")
+		//li(sub-menu ng-show="hasRoleOrPerm('admin')" ng-click="toggleOpen()" menu-is-open="false" ng-class="{active:$state.includes('panel.informes')}")
 			a.menu-dropdown(href="")
 				i.menu-icon.fa.fa-print
 				span.menu-text Informes
@@ -263,20 +263,9 @@
 					a(ui-sref='panel.usuarios' stop-event="click")
 						span.menu-text Usuarios
 
-				li(sub-menu ng-click="toggleOpen()" hija="true" stop-event="click")
-					a.menu-dropdown(href="")
+				li(ui-sref-active="active")
+					a(ui-sref='panel.ciudades' stop-event="click")
 						span.menu-text Ciudades
-						i.menu-expand
-
-					ul.submenu
-						li
-							a(ui-sref="panel.paises" stop-event="click")
-								i.menu-icon.fa.fa-rocket
-								span.menu-text Paises
-						li
-							a(ui-sref="panel.ciudades" stop-event="click")
-								i.menu-icon.fa.fa-stats
-								span.menu-text Ciudades
 
 				
 

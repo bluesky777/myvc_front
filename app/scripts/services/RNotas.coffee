@@ -31,6 +31,14 @@ angular.module('myvcFrontApp')
 		else
 			$http.get('::escalas').then((r)->
 				escalas = r.data
+				for escala in escalas
+					escala.orden 		= parseInt(escala.orden)
+					escala.perdido 		= parseInt(escala.perdido)
+					escala.porc_final 	= parseInt(escala.porc_final)
+					escala.porc_inicial = parseInt(escala.porc_inicial)
+					escala.id 			= parseInt(escala.id)
+					escala.year_id 		= parseInt(escala.year_id)
+
 				d.resolve escalas
 			, (r2)->
 				d.reject r2

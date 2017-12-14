@@ -1,0 +1,5 @@
+div(style="width=100%; height: 60px; text-align: center; border: 1px solid #ccc; overflow-y: auto; background-color: #eee;")
+    .btn-group
+        button.btn.btn-default(ng-repeat="grupo in grupos" ng-class="{active: grupo.active}"
+            ng-click="selectGrupo(grupo)" uib-tooltip="{{grupo.nombre}}" tooltip-append-to-body="true") 
+            | {{ grupo.abrev }}

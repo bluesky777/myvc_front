@@ -10,7 +10,9 @@ angular.module('myvcFrontApp')
 			d.resolve Perfil.User()
 		else
 			if $cookies.get('xtoken')
+				console.log 'En VERIFICAR. xtoken=', $cookies.get('xtoken') != undefined and $cookies.get('xtoken') != 'undefined'  and $cookies.get('xtoken') != '[object Object]', $cookies.get('xtoken')
 				if $cookies.get('xtoken') != undefined and $cookies.get('xtoken') != 'undefined'  and $cookies.get('xtoken') != '[object Object]'
+					console.log 'vamos a login from token'
 					authService.login_from_token().then((usuario)->
 						Perfil.setUser usuario
 						d.resolve usuario
@@ -63,7 +65,20 @@ angular.module('myvcFrontApp')
 
 		authService.borrarToken()
 
-		$http.post('::login', credentials).then((r)->
+		$http.post('::login/credentials', credentials).then((r)->
+			respuesta = r.data
+			if respuesta.el_token
+				$cookies.put('xtoken', respuesta.el_token)
+				
+				$http.defaults.headers.common['Authorization'] = 'Bearer ' + $cookies.get('xtoken')
+				localStorage.logueando = 'token_verificado'
+				
+				d.resolve respuesta.el_token
+			else
+				#console.log 'No se trajo un token en el login.', user
+				$rootScope.$broadcast AUTH_EVENTS.loginFailed
+				d.reject 'Error en login'
+			###
 			user = r.data
 			if user.token
 				$cookies.put('xtoken', user.token)
@@ -78,6 +93,7 @@ angular.module('myvcFrontApp')
 				#console.log 'No se trajo un token en el login.', user
 				$rootScope.$broadcast AUTH_EVENTS.loginFailed
 				d.reject 'Error en login'
+			###
 
 
 		, (r2)->

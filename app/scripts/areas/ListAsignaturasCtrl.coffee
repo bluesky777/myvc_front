@@ -1,5 +1,7 @@
 angular.module('myvcFrontApp')
 .controller 'ListAsignaturasCtrl', ['$scope', '$http', 'toastr', '$state', '$cookies', '$rootScope', 'AuthService', 'App', 'resolved_user', ($scope, $http, toastr, $state, $cookies, $rootScope, AuthService, App, resolved_user) ->
+	
+	$scope.$parent.bigLoader 	= true
 
 	$scope.UNIDAD = $scope.USER.unidad_displayname
 	$scope.GENERO_UNI = $scope.USER.genero_unidad
@@ -20,19 +22,22 @@ angular.module('myvcFrontApp')
 			$scope.asignaturas = r.data.asignaturas
 			$scope.profesor = r.data.info_profesor
 			$scope.gruposcomportamientos = r.data.grados_comp
-			
+			$scope.$parent.bigLoader 	= false
 
 		, (r2)->
 			toastr.error 'No se pudo traer las asignaturas'
+			$scope.$parent.bigLoader 	= false
 		)
 
 
 	else
 		$http.get('::asignaturas/listasignaturas').then((r)->
-			$scope.asignaturas = r.data.asignaturas
-			$scope.gruposcomportamientos = r.data.grados_comp
+			$scope.asignaturas 				= r.data.asignaturas
+			$scope.gruposcomportamientos 	= r.data.grados_comp
+			$scope.$parent.bigLoader 		= false
 		, (r2)->
 			toastr.error 'No se pudo traer tus asignaturas'
+			$scope.$parent.bigLoader 	= false
 		)
 
 

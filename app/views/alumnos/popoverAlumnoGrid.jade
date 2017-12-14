@@ -1,0 +1,17 @@
+div
+	img(ng-show="row.entity.foto_nombre" ng-src="{{grid.appScope.perfilPath + row.entity.foto_nombre}}" alt="foto oficial" style="width: 100px; height: 100px;")
+	img(ng-show="!row.entity.foto_nombre" ng-src="{{grid.appScope.perfilPath + row.entity.imagen_nombre}}" alt="foto de usuario" style="width: 100px; height: 100px;")
+	
+	br
+	span(ng-if="row.entity.facebook") Facebook: {{row.entity.facebook}}
+	
+	br 
+
+	div
+		| Códido:  
+		b {{ row.entity.alumno_id }}
+	div
+		| Usuario:  
+		b {{ row.entity.username }}
+	
+	

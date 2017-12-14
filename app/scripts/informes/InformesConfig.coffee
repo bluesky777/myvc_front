@@ -166,19 +166,19 @@ angular.module('myvcFrontApp')
 
 
 		.state 'panel.informes.ver_ausencias',
-			url: '/ver_ausencias/:grupo_id/:periodos_a_calcular'
+			url: '/ver_ausencias'
 			views: 
 				'report_content':
 					templateUrl: "==informes/verAusencias.tpl.html"
 					controller: 'VerAusenciasCtrl' # En NotasPerdidasProfesorCtrl.coffee
 					resolve:
 						grupos_ausencias: ['$http', '$stateParams', ($http, $stateParams)->
-							$http.get('::planillas/ver-ausencias/'+$stateParams.grupo_id)
+							$http.get('::planillas/ver-ausencias')
 						]
 			data: 
-				displayName: 'Planillas grupo'
+				displayName: 'Ausencias'
 				icon_fa: 'fa fa-print'
-				pageTitle: 'Planillas grupo - MyVc'
+				pageTitle: 'Ausencias - MyVc'
 
 
 

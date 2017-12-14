@@ -24,7 +24,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 								b {{grupo.nombre_grupo | capitalize}}
 							.titular-grupo(uib-popover-html="'<img src=\"{{perfilPath + grupo.foto_nombre}}\" style=\"width: 150px; height: 150px;\">'" 
 									popover-popup-delay="1000" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true" 
-									popover-trigger="mouseenter")
+									popover-trigger="mouseenter" popover-append-to-body="true")
 								| Titular: {{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor | capitalize}}
 						.col-lg-6.col-xs-6
 							h5.nombre-alumno {{alumno.nombres + ' ' + alumno.apellidos}}
@@ -46,9 +46,9 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 							tr(ng-repeat="asignatura in alumno.asignaturas")
 								td {{$index + 1}}
 								td
-									div(uib-popover-html="'<img src=\"{{perfilPath + asignatura.foto_nombre}}\" style=\"width: 150px; height: 150px;\">'" 
+									div(uib-popover-template="views+'informes/infoDocentePop.tpl.html'"
 										popover-popup-delay="1000" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" 
-										popover-trigger="mouseenter") {{asignatura.materia}}
+										popover-trigger="mouseenter"  popover-append-to-body="true") {{asignatura.materia}}
 								td.txtcentro 
 									span(ng-show="asignatura.ausencias > 0") {{asignatura.ausencias}}
 
@@ -65,6 +65,15 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 									span.cant-unidades-perdidas(ng-show="{{asignatura.notas_perdidas > 0}}")
 										| ({{asignatura.notas_perdidas}})
 
+							tr
+								td
+								td 
+									i Comportamiento
+								td(colspan="6")
+								td.txtcentro 
+									i {{alumno.nota_comportamiento_year}}
+								
+
 						tfoot
 							tr(style="border-top: 2px solid;")
 								td   
@@ -73,6 +82,8 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 								td.txtcentro {{alumno.ausencias}}
 
 								td.txtcentro(ng-repeat="periodo in year.periodos") {{ alumno.asignaturas | promedioPeriodo:periodo.id | decimales:0 }}
+								
+								td
 
 								td.txtcentro(style="font-weight: bold; border-left: 2px solid !important;") 
 									| {{alumno.promedio | decimales:0 }}
@@ -92,7 +103,10 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 
 			.row
 				.col-lg-12.col-xs-12
-					h4(style="text-align:center; font-weight: bold")
+					h4(style="text-align:center; font-weight: bold" ng-show="alumno.cant_lost_asig == 1")
+						span Promoción pendiente
+						
+					h4(style="text-align:center; font-weight: bold" ng-show="alumno.cant_lost_asig != 1")
 						span(ng-switch on="alumno.sexo")
 							span(ng-switch-when="F") La alumna 
 							span(ng-switch-default) El alumno 

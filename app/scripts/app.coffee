@@ -13,7 +13,6 @@ angular.module('myvcFrontApp', [
 	'ui.select'
 	'angular-loading-bar'
 	'ckeditor'
-	#'restangular'
 	'uiBreadcrumbs'
 	'toastr'
 	'http-auth-interceptor'
@@ -24,6 +23,9 @@ angular.module('myvcFrontApp', [
 	'ui.grid.selection'
 	'ui.grid.cellNav'
 	'ui.grid.autoResize'
+	'ui.grid.pinning'
+	'ui.grid.expandable'
+	#'angular-ui-grid-translate' 
 	#'angularFileUpload'
 	'ngFileUpload'
 	'FBAngular'
@@ -38,15 +40,18 @@ angular.module('myvcFrontApp', [
 	#dominio = 'http://lalvirtual.com/' 
 	#dominio = 'http://localhost/' # Pruebas en mi localhost
 	#console.log 'Entra al dominio: ', location.hostname
-	dominio = location.protocol + '//' + location.hostname + '/'
 
-	if(location.hostname.match('lalvirtual'))
-		dominio = 'http://lalvirtual.com/'
+	#if(location.hostname.match('lalvirtual'))
+	#	dominio = location.protocol + '//lalvirtual.com/'
 	
 	#server = dominio + 'myvc_server/public/'
-	server = dominio + '5myvc/public/'
-	frontapp = dominio + 'myvc_front/'
+	#server 		= dominio + '5myvc/public/'
+	#frontapp 	= dominio + 'myvc_front/'
 
+	dominio 	= location.protocol + '//' + location.hostname + '/'
+
+	server 		= dominio + '5myvc/public/'
+	frontapp 	= location.origin + '/myvc_front/'
 
 
 

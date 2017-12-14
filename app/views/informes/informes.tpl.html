@@ -154,8 +154,9 @@
                 <ui-select-choices repeat="grupo in grupos | filter: $select.search">
                   <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
                 </ui-select-choices>
-              </ui-select><a href="" ng-click="verPlanillasGrupo()" class="btn btn-default">Ver planillas</a><a href="" ng-click="verAusencias()" class="btn btn-default">Ver ausencias</a>
-            </div><a href="" ng-click="verPlanillasControlTardanzas()" class="btn btn-default">Control de tardanzas entrada</a><br><br>
+              </ui-select><a href="" ng-click="verPlanillasGrupo()" class="btn btn-default">Ver planillas</a>
+            </div>
+            <div class="btn-group"><a href="" ng-click="verPlanillasControlTardanzas()" class="btn btn-default">Control de tardanzas entrada</a><a href="" ng-click="verAusencias()" class="btn btn-default">Ver ausencias</a></div><br><br>
             <div class="row">
               <div class="col-lg-2 col-sm-4 col-xs-12">
                 <div class="form-group">
@@ -208,6 +209,7 @@
     </div>
   </div>
 </div>
-<div ui-view="report_content" class="informes-pages">
+<!-- ng-class="{'altura-informe': !$state.is('panel.informes.certificados_estudio') } "-->
+<div ui-view="report_content" class="informes-pages altura-informe"> 
   <h5 style="text-align: center">Aquí saldrán tus reportes</h5>
 </div>

@@ -28,7 +28,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 								b {{grupo.nombre_grupo | capitalize}}
 							.titular-grupo(uib-popover-template="views+'informes/infoTitularPop.tpl.html'" 
 									popover-popup-delay="500" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true" 
-									popover-trigger="mouseenter")
+									popover-trigger="mouseenter" popover-append-to-body="true")
 								| Titular: Pr. {{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor | capitalize}}
 						.col-lg-6.col-xs-6
 							h6.nombre-alumno(ng-show="alumno.estado=='ASIS'" style="font-size: 14pt") === ASISTENTE ===
@@ -41,7 +41,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 						.row.materia-title
 							.col-lg-9.col-xs-9(uib-popover-template="views+'informes/infoDocentePop.tpl.html'" 
 									popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" 
-									popover-trigger="'mouseenter'")
+									popover-trigger="'mouseenter'"  popover-append-to-body="true")
 								span.materia-name {{asignatura.materia}}
 								span.materia-profesor - Pr. {{asignatura.nombres_profesor | capitalize}}
 							.col-lg-1.col-xs-1(style="padding: 0px")

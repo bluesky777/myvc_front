@@ -6,14 +6,14 @@
 
 			a(href="" style="font-size: 10pt;" popover="<img src='{{perfilPath + asignatura.foto_nombre}}' style='width: 150px; height: 150px;'>" 
 				popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" 
-				popover-trigger="mouseenter") 
+				popover-trigger="mouseenter" popover-append-to-body="true") 
 				| {{ asignatura.materia }} 
 
 			|  de 
 
 			a(href="" popover="<img src='{{perfilPath + alumno.foto_nombre}}' style='width: 100px; height: 100px;'><img src='{{perfilPath + alumno.imagen_nombre}}' style='width: 100px; height: 100px;'><br>Facebook: {{alumno.facebook}}<br>Username: {{alumno.username}}" 
 				popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-animation="true" 
-				popover-trigger="mouseenter" ) 
+				popover-trigger="mouseenter" popover-append-to-body="true") 
 				| {{ alumno.nombres }} 
 
 

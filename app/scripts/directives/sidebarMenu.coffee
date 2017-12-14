@@ -24,7 +24,7 @@ angular.module('myvcFrontApp')
 		)
 
 
-	controller: ($scope, $attrs)->
+	controller: ($scope, $attrs, $state)->
 		# This array keeps track of the accordion groups
 		this.groups = []
 		$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
@@ -56,6 +56,10 @@ angular.module('myvcFrontApp')
 			modalInstance.result.then( (r)->
 				#console.log 'Resultado del modal: ', r
 			)
+
+		$scope.ir_a_informes = ()->
+			$scope.$parent.bigLoader 	= true
+			$state.go 'panel.informes'
 
 
 		this.clikeando = ->

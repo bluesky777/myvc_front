@@ -81,27 +81,44 @@
       </ul>
     </li>
     <li ui-sref-active="active" ng-if="!hasRoleOrPerm(['admin']) &amp;&amp; hasRoleOrPerm(['profesor'])"><a ui-sref="panel.bitacora" stop-event="click"><i class="menu-icon fa fa-align-justify"></i><span class="menu-text"> Bitacora</span></a></li><!-- Informes-->
-    <li ui-sref-active="active" ng-if="!hasRoleOrPerm(['admin']) &amp;&amp; hasRoleOrPerm(['profesor'])"><a ui-sref="panel.informes"><i class="menu-icon fa fa-print"></i><span class="menu-text">Informes</span></a></li>
-    <li sub-menu ng-show="hasRoleOrPerm('admin')" ng-click="toggleOpen()" menu-is-open="false" ng-class="{active:$state.includes('panel.informes')}"><a href="" class="menu-dropdown"><i class="menu-icon fa fa-print"></i><span class="menu-text">Informes</span><i class="menu-expand"></i></a>
-      <ul class="submenu">
-        <li><a ui-sref="panel.informes" stop-event="click"><span class="menu-text">Informes</span></a></li>
-        <li><a href="" stop-event="click"><span class="menu-text">Puestos</span></a></li>
-        <li><a href="" stop-event="click"><span class="menu-text">3 primeros</span></a></li>
-        <li><a href="" stop-event="click"><span class="menu-text">Boletines</span></a></li>
-        <li><a href="" stop-event="click"><span class="menu-text">Boletines finales</span></a></li>
-        <li><a href="" stop-event="click"><span class="menu-text">Por alumno</span></a></li>
-      </ul>
-    </li><!-- Colegio-->
+    <li ui-sref-active="active" ng-if="hasRoleOrPerm(['admin']) || hasRoleOrPerm(['profesor'])"><a ng-click="ir_a_informes()" href=""><i class="menu-icon fa fa-print"></i><span class="menu-text">Informes</span></a></li>
+    <!--li(sub-menu ng-show="hasRoleOrPerm('admin')" ng-click="toggleOpen()" menu-is-open="false" ng-class="{active:$state.includes('panel.informes')}")
+    a.menu-dropdown(href="")
+    	i.menu-icon.fa.fa-print
+    	span.menu-text Informes
+    	i.menu-expand
+    
+    ul.submenu
+    	li
+    		a(ui-sref="panel.informes" stop-event="click")
+    			span.menu-text Informes
+    	li
+    		a(href="" stop-event="click")
+    			span.menu-text Puestos
+    
+    	li
+    		a(href="" stop-event="click")
+    			span.menu-text 3 primeros
+    	li
+    		a(href="" stop-event="click")
+    			span.menu-text Boletines
+    	li
+    		a(href="" stop-event="click")
+    			span.menu-text Boletines finales
+    	li
+    		a(href="" stop-event="click")
+    			span.menu-text Por alumno
+    
+    
+    
+    
+    
+    --><!-- Colegio-->
     <li sub-menu ng-click="toggleOpen()" ng-show="hasRoleOrPerm('admin')" ng-class="{open:$state.includes('panel.years')||$state.includes('panel.usuarios')||$state.includes('panel.papelera')}"><a href="" class="menu-dropdown"><i class="menu-icon fa fa-institution"></i><span class="menu-text">Colegio</span><i class="menu-expand"></i></a>
       <ul class="submenu">
         <li ui-sref-active="active"><a stop-event="click" ui-sref="panel.years"><span class="menu-text">Configuración</span></a></li>
         <li ui-sref-active="active"><a ui-sref="panel.usuarios" stop-event="click"><span class="menu-text">Usuarios</span></a></li>
-        <li sub-menu ng-click="toggleOpen()" hija="true" stop-event="click"><a href="" class="menu-dropdown"><span class="menu-text">Ciudades</span><i class="menu-expand"></i></a>
-          <ul class="submenu">
-            <li><a ui-sref="panel.paises" stop-event="click"><i class="menu-icon fa fa-rocket"></i><span class="menu-text">Paises</span></a></li>
-            <li><a ui-sref="panel.ciudades" stop-event="click"><i class="menu-icon fa fa-stats"></i><span class="menu-text">Ciudades</span></a></li>
-          </ul>
-        </li>
+        <li ui-sref-active="active"><a ui-sref="panel.ciudades" stop-event="click"><span class="menu-text">Ciudades</span></a></li>
         <li ui-sref="panel.anuncios" stop-event="click" ng-if="false"><a href="" stop-event="click"><span class="menu-text">Anuncios</span></a></li>
         <li ui-sref-active="active" ng-if="false"><a ui-sref="panel.mensajes" stop-event="click"><span class="menu-text"> Mensajes</span></a></li>
         <li ui-sref-active="active"><a ui-sref="panel.bitacora" stop-event="click"><span class="menu-text"> Bitacora</span></a></li>

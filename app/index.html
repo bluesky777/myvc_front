@@ -36,7 +36,9 @@
     <!-- endbuild -->
 
     <!--Fonts-->
-    <!----><link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300" rel="stylesheet" type="text/css">
+    <!--
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300" rel="stylesheet" type="text/css">
+    -->
     
     
   </head>
@@ -56,17 +58,25 @@
 
 
 
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-     <!--<script>
-       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-109619340-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-       ga('create', 'UA-XXXXX-X');
-       ga('send', 'pageview');
+      gtag('config', 'UA-109619340-1');
     </script>
-    -->
+
+    <script type="text/javascript">
+        if(!document.getElementById('id-open-font')) {
+            var link = document.createElement('link');
+            link.id = 'id-open-font';
+            link.rel = 'stylesheet';
+            link.href = location.protocol + '//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300';
+            document.head.appendChild(link);
+        }
+    </script>
     <!-- build:js(.) scripts/oldieshim.js -->
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
@@ -120,6 +130,7 @@
         <script src="scripts/colegio/ConfigCertificados.js"></script>
         <script src="scripts/alumnos/AlumnosConfig.js"></script>
         <script src="scripts/alumnos/AlumnosCtrl.js"></script>
+        <script src="scripts/grados/selectorGrupoDir.js"></script>
         <script src="scripts/alumnos/AlumnosNewCtrl.js"></script>
         <script src="scripts/alumnos/AlumnosEditCtrl.js"></script>
         <script src="scripts/alumnos/ListAlumnosCtrl.js"></script>
@@ -128,6 +139,7 @@
         <script src="scripts/alumnos/MatriculasDetallesPeriodosCtrl.js"></script>
         <script src="scripts/alumnos/CarteraCtrl.js"></script>
         <script src="scripts/alumnos/AcudientesCtrl.js"></script>
+        <script src="scripts/alumnos/NewAcudienteModalCtrl.js"></script>
         <script src="scripts/notas/NotasConfig.js"></script>
         <script src="scripts/notas/NotasFilter.js"></script>
         <script src="scripts/notas/NotasCtrl.js"></script>
@@ -237,8 +249,8 @@
         <script src="scripts/services/RYears.js"></script>
 
         <script src="scripts/main/angular-locale_es-es.js"></script>
-
         
+
         
 
         <!-- endbuild -->

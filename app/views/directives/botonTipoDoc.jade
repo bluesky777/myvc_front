@@ -1,0 +1,7 @@
+ui-select(ng-model="MODEL_COL_FIELD" append-to-body="true" style="width: 100%;")
+ 
+	ui-select-match(placeholder="Elija...") {{ COL_FIELD }}
+	ui-select-choices(repeat="item in grid.appScope.tipos_doc | filter: $select.search")
+		span(font-weight: 800) {{ item.abrev }}
+		span(style="font-size: 7pt")
+			| - {{ item.tipo }}

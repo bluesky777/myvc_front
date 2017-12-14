@@ -1,0 +1,3 @@
+<span style="padding-left: 2px; padding-top: 4px;" class="btn-group">
+  <button ng-show="row.entity.nombres" ng-click="grid.appScope.cambiarAcudiente(row.entity)" class="btn btn-info btn-xs">{{ row.entity.nombres }}</button>
+  <button ng-hide="row.entity.nombres" ng-click="grid.appScope.agregarAcudiente(grid.parentRow.entity)" class="btn btn-info btn-xs">Agregar...</button></span>

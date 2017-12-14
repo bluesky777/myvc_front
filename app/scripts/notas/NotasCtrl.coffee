@@ -51,6 +51,7 @@ angular.module('myvcFrontApp')
 			if tardanza.fecha_hora
 				tardanza.fecha_hora = new Date(tardanza.fecha_hora)
 
+	$scope.$parent.bigLoader 	= false
 
 	$scope.setTabVertically = ()->
 		filas = angular.element('table tr')

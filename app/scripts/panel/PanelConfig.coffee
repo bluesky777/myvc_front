@@ -112,12 +112,19 @@ angular.module('myvcFrontApp')
 					'maincontent':
 						templateUrl: "==ciudades/ciudades.tpl.html"
 						controller: 'CiudadesCtrl'
+						resolve: 
+							paises: ['$http', ($http)->
+								$http.get("::paises")
+							]
 					'headerContent':
 						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
 						resolve: 
 							titulo: [->
 								'Ciudades'
+							]
+							paises: ['$http', ($http)->
+								$http.get("::paises")
 							]
 				data: 
 					displayName: 'Ciudades'

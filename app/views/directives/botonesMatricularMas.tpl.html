@@ -1,0 +1,6 @@
+<span style="padding-left: 2px; padding-top: 4px;" class="btn-group">
+  <label ng-model="row.entity.estado" uib-btn-radio="'MATR'" ng-click="grid.appScope.reMatricularUno(row.entity)" class="btn btn-info btn-xs">Matr</label>
+  <label ng-model="row.entity.estado" uib-btn-radio="'ASIS'" ng-click="grid.appScope.setAsistente(row.entity)" class="btn btn-info btn-xs">Asis</label>
+  <label ng-model="row.entity.estado" uib-btn-radio="'RETI'" ng-click="grid.appScope.retirar(row.entity)" uib-tooltip="Retirar" tooltip-placement="right" tooltip-popup-delay="800" class="btn btn-info btn-xs">Reti</label>
+  <label ng-model="row.entity.estado" uib-btn-radio="'DESE'" ng-click="grid.appScope.desertar(row.entity)" uib-tooltip="Desertor" tooltip-placement="right" tooltip-popup-delay="800" class="btn btn-info btn-xs">Dese</label>
+  <label ng-model="row.entity.estado" ng-click="grid.appScope.matricularEn(row.entity)" uib-tooltip="Matricular en..." tooltip-placement="right" tooltip-popup-delay="800" class="btn btn-info btn-xs">...</label></span>

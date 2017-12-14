@@ -64,7 +64,7 @@
                   <tr ng-repeat-start="alumno in grupo.alumnos">
                     <td rowspan="2" style="height: 16px;" ng-class-odd="'fondo-gris-td'" ng-class-even="'fondo-blanco-td'">{{$index + 1}}</td>
                     <td rowspan="2" style="height: 16px;" ng-class-odd="'fondo-gris-td'" ng-class-even="'fondo-blanco-td'">
-                      <div uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" class="nombresellipsis">
+                      <div uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true" ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" class="nombresellipsis">
                          
                         {{alumno.apellidos + ' ' + alumno.nombres}} 
                       </div>

@@ -1,20 +1,20 @@
 'use strict';
 angular.module("ngLocale", [], ["$provide", function($provide) {
 var PLURAL_CATEGORY = {ZERO: "zero", ONE: "one", TWO: "two", FEW: "few", MANY: "many", OTHER: "other"};
-$provide.value("$locale", {
-  "DATETIME_FORMATS": {
+$provide.value('$locale', {
+  'DATETIME_FORMATS': {
     "AMPMS": [
       "a. m.",
       "p. m."
     ],
-    "DAY": [
-      "domingo",
-      "lunes",
-      "martes",
-      "mi\u00e9rcoles",
-      "jueves",
-      "viernes",
-      "s\u00e1bado"
+    'DAY': [
+      'domingo',
+      'lunes',
+      'martes',
+      'mi\u00e9rcoles',
+      'jueves',
+      'viernes',
+      's\u00e1bado'
     ],
     "ERANAMES": [
       "antes de Cristo",

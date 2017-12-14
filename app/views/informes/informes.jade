@@ -156,9 +156,11 @@
 									div(ng-bind-html="grupo.nombre | highlight: $select.search")
 							
 							a.btn.btn-default(href="" ng-click="verPlanillasGrupo()") Ver planillas
-							a.btn.btn-default(href="" ng-click="verAusencias()") Ver ausencias
+							
 
-						a.btn.btn-default(href="" ng-click="verPlanillasControlTardanzas()") Control de tardanzas entrada
+						.btn-group
+							a.btn.btn-default(href="" ng-click="verPlanillasControlTardanzas()") Control de tardanzas entrada
+							a.btn.btn-default(href="" ng-click="verAusencias()") Ver ausencias
 						br
 						
 						br
@@ -215,8 +217,9 @@
 				h5 {{descripcion_informe}}
 
 
+// ng-class="{'altura-informe': !$state.is('panel.informes.certificados_estudio') } "
 
-.informes-pages(ui-view="report_content")
+.informes-pages.altura-informe(ui-view="report_content" ) 
 	h5(style="text-align: center") Aquí saldrán tus reportes
 
 
