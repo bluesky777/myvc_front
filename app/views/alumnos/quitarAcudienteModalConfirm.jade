@@ -1,0 +1,15 @@
+.modal-header
+	h3.modal-title ¿Seguro que deseas quitar?
+.modal-body
+	div(style="padding-bottom: 10px;")
+		img(ng-src="{{ perfilPath + alumno.foto_nombre }}" style="width: 70px")
+		h3(style="display: inline;") {{ alumno.nombres }} {{ alumno.apellidos }}
+	.row
+		.col-lg-12.col-xs-12
+			h4 Acudiente: 
+			h3(style="text-overflow: ellipsis") {{acudiente.parentesco}}: {{acudiente.nombres}} {{acudiente.apellidos}}
+
+.modal-footer
+	button.btn.btn-yellow(ng-click="cancel()") Cancelar
+	button.btn.btn-labeled.btn-primary(ng-click="ok()") Quitar
+		i.btn-label.fa.fa-times

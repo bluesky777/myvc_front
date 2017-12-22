@@ -155,3 +155,28 @@ angular.module("myvcFrontApp")
 	return
 ])
 
+
+
+
+.controller('QuitarAcudienteModalConfirmCtrl', ['$scope', '$uibModalInstance', 'alumno', 'acudiente', '$http', 'toastr', 'App', ($scope, $modalInstance, alumno, acudiente, $http, toastr, App)->
+	$scope.alumno 		= alumno
+	$scope.acudiente 	= acudiente
+	$scope.perfilPath 	= App.images+'perfil/'
+
+
+	$scope.ok = ()->
+
+		$http.put('::acudientes/quitar-parentesco-alumno', {alumno_id: alumno.alumno_id, parentesco_id: acudiente.parentesco_id}).then((r)->
+			toastr.success 'Alumno enviado a la papelera.', 'Eliminado'
+			$modalInstance.close(acudiente)
+		, (r2)->
+			toastr.warning 'No se pudo enviar a la papelera.', 'Problema'
+		)
+		
+
+	$scope.cancel = ()->
+		$modalInstance.dismiss('cancel')
+
+])
+
+

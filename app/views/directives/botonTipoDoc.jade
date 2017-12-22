@@ -1,7 +1,11 @@
-ui-select(ng-model="MODEL_COL_FIELD" append-to-body="true" style="width: 100%;")
+ui-select(ng-model="MODEL_COL_FIELD" on-select="grid.appScope.tipoDocSeleccionado($item, row.entity)" append-to-body="true" style="width: 100%;")
  
-	ui-select-match(placeholder="Elija...") {{ COL_FIELD }}
+	ui-select-match(placeholder="Elija...") 
+		span(style="font-size: 9pt") 
+			span(style="font-weight: 600") {{ COL_FIELD.abrev }} 
+			span(style="font-size: 7pt")
+				| - {{ COL_FIELD.tipo }}
 	ui-select-choices(repeat="item in grid.appScope.tipos_doc | filter: $select.search")
-		span(font-weight: 800) {{ item.abrev }}
+		span(style="font-weight: 800") {{ item.abrev }}
 		span(style="font-size: 7pt")
 			| - {{ item.tipo }}

@@ -1,2 +1,4 @@
-<span style="padding-left: 2px; padding-top: 4px;" class="btn-group">
-  <button ng-click="grid.appScope.cambiarCiudadNac(row.entity)" class="btn btn-info btn-xs">{{ row.entity.ciudad_nac_nombre }}</button></span>
+
+<div style="padding-left: 2px; padding-top: 4px; overflow: hidden;">
+  <button ng-click="grid.appScope.cambiarCiudad(row.entity, 'ciudad_nac')" style="min-height: 15px;" class="btn btn-info btn-xs">{{ row.entity.ciudad_nac_nombre }}</button>
+</div>

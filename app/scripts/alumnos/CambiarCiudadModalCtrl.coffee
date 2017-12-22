@@ -1,10 +1,10 @@
-'use strict'
-
 angular.module("myvcFrontApp")
 
-.controller('CiudadesCtrl', ['$scope', 'toastr', '$http', 'paises', '$filter', ($scope, toastr, $http, paises, $filter)->
-
-	$scope.paises 				= paises.data
+.controller('CambiarCiudadModalCtrl', ['$scope', '$uibModalInstance', 'persona', 'paises', 'tipo_ciudad', 'tipo_persona', '$http', 'toastr', '$filter', ($scope, $modalInstance, persona, paises, tipo_ciudad, tipo_persona, $http, toastr, $filter)->
+	$scope.persona 				= persona
+	$scope.paises 				= paises
+	$scope.tipo_ciudad 			= tipo_ciudad
+	$scope.modificarCiudades 	= false
 	$scope.datos 				= {}
 
 
@@ -149,6 +149,35 @@ angular.module("myvcFrontApp")
 			toastr.warning 'No se pudo enviar a la papelera.', 'Problema'
 		)
 
+	$scope.ok = (ciudad)->
+		if $scope.seleccionandoCiudad
+			return
+		$scope.seleccionandoCiudad = true
 
-	return
+		ciudad_selec = $scope.datos.ciudad
+		if ciudad
+			ciudad_selec = ciudad
+
+		datos = { propiedad: tipo_ciudad, valor: ciudad_selec.id }
+
+		if tipo_persona == 'acudiente'
+			datos.acudiente_id 	= persona.id
+			datos.parentesco_id = persona.parentesco_id
+			datos.user_acud_id 	= persona.user_id
+		else
+			datos.alumno_id = persona.alumno_id
+
+		$http.put('::' + tipo_persona + 's/guardar-valor', datos ).then((r)->
+			toastr.success 'Seleccionado.'
+			persona[tipo_ciudad + '_nombre'] 	= ciudad_selec.ciudad
+			persona[tipo_ciudad] 				= ciudad_selec.id
+			$modalInstance.close(persona)
+		, (r2)->
+			toastr.warning 'No se pudo seleccionar.', 'Problema'
+		)
+		
+
+	$scope.cancel = ()->
+		$modalInstance.dismiss('cancel')
+
 ])

@@ -3,7 +3,7 @@
 angular.module("myvcFrontApp")
 
 
-.controller('NewAcudienteModalCtrl', ['$scope', 'App', '$uibModalInstance', 'alumno', 'paises', 'tipos_doc', 'parentescos', '$http', 'toastr', ($scope, App, $modalInstance, alumno, paises, tipos_doc, parentescos, $http, toastr)->
+.controller('NewAcudienteModalCtrl', ['$scope', 'App', '$uibModalInstance', 'alumno', 'paises', 'tipos_doc', 'parentescos', '$http', 'toastr', '$filter', '$rootScope', ($scope, App, $modalInstance, alumno, paises, tipos_doc, parentescos, $http, toastr, $filter, $rootScope)->
 	$scope.alumno 				= alumno
 	$scope.paises 				= paises
 	$scope.parentescos 			= parentescos
@@ -13,13 +13,14 @@ angular.module("myvcFrontApp")
 	$scope.selectTabSelected 	= true
 	$scope.perfilPath 			= App.images+'perfil/'
 	$scope.acudiente 	= {
-		sexo:	'M'
+		sexo:			'M'
+		parentesco: 	$scope.parentescos[0]
+		tipo_doc: 		$scope.tipos_doc[0]
 	}
 
 	$scope.acudientes = [  ]
 
 
-	$scope.acudiente.parentesco = $scope.parentescos[0]
 
 
 	$scope.selectCrearTab = ()->
@@ -50,19 +51,20 @@ angular.module("myvcFrontApp")
 	$scope.refreshAcudientes = (termino)->
 		if termino
 			$http.put('::acudientes/buscar', { termino: termino } ).then((r)->
-				$scope.acudientes = r.data
+				res = []
+				for acudi in r.data
+					$scope.existe = false
+					for pariente in alumno.subGridOptions.data
+						if pariente.id == acudi.id
+							$scope.existe = true
+					
+					if !$scope.existe
+						res.push acudi
+							
+				$scope.acudientes = res
 			, (r2)->
 				toastr.warning 'No se pudo encontrar nada.', 'Problema'
 			)
-
-	$scope.selectAcudiente = ($item)->
-		if termino
-			$http.put('::acudientes/buscar', { termino: termino } ).then((r)->
-				$scope.acudientes = r.data
-			, (r2)->
-				toastr.warning 'No se pudo encontrar nada.', 'Problema'
-			)
-
 
 	
 	$scope.paisNacSelect = ($item, $model)->
@@ -77,7 +79,7 @@ angular.module("myvcFrontApp")
 		)
 
 	$scope.departNacSelect = ($item)->
-		$http.get("::ciudades/pordepartamento/"+$item.departamento).then((r)->
+		$http.get("::ciudades/por-departamento/"+$item.departamento).then((r)->
 			$scope.ciudadesNac = r.data
 
 			if typeof $scope.acudiente.departamento_doc is 'undefined'
@@ -92,7 +94,7 @@ angular.module("myvcFrontApp")
 		)
 
 	$scope.departSeleccionado = ($item)->
-		$http.get("::ciudades/pordepartamento/"+$item.departamento).then((r)->
+		$http.get("::ciudades/por-departamento/"+$item.departamento).then((r)->
 			$scope.ciudades = r.data
 		)
 
@@ -118,18 +120,21 @@ angular.module("myvcFrontApp")
 		, (r2)->
 			toastr.warning 'No se pudo crear al alumno.', 'Problema'
 		)
-		$modalInstance.close()
 
 
 	$scope.seleccionarAcudiente = ()->
+		datos = { acudiente_id: $scope.datos.acudiente.id, alumno_id: alumno.alumno_id, parentesco: $scope.acudiente.parentesco.parentesco }
 		
-		$http.post('::acudientes/seleccionar-parentesco', $scope.acudiente ).then((r)->
+		if $rootScope.acudiente_cambiar
+			datos.parentesco_acudiente_cambiar_id = $rootScope.acudiente_cambiar.parentesco_id
+
+		$http.put('::acudientes/seleccionar-parentesco', datos ).then((r)->
 			toastr.success 'Acudiente seleccionado.'
+			delete $rootScope.acudiente_cambiar
 			$modalInstance.close(r.data)
 		, (r2)->
 			toastr.warning 'No se pudo seleccionar.', 'Problema'
 		)
-		$modalInstance.close()
 
 
 ])

@@ -43,14 +43,14 @@ angular.module('myvcFrontApp')
 		$http.get('::years').then((r)->
 			$scope.years = r.data
 		, (r)->
-			toast.error 'No se trajeron los años'
+			toastr.error 'No se trajeron los años'
 		)
 
 		$http.get('::periodos').then((r)->
 			$scope.periodos = r.data
 			$scope.bigLoader = false
 		, (r)->
-			toast.error 'No se trajeron los periodos'
+			toastr.error 'No se trajeron los periodos'
 		)
 
 

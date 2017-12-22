@@ -1,0 +1,119 @@
+.modal-header
+	h3.modal-title Cambiar ciudad 
+		span(style="font-weight: 700") - {{ persona[tipo_ciudad + '_nombre'] }}
+.modal-body
+	.row(ng-show="!modificarCiudades") 
+		.col-lg-12.col-xs-12
+			h4(style="text-overflow: ellipsis") {{persona.nombres}} {{persona.apellidos}}
+			
+			.row 
+				.form-group.col-lg-4.col-sm-6.col-xs-12
+					label Pais
+					ui-select(ng-model="datos.pais" on-select="paisSelect($item, 1)" style="width: 100%;")
+						ui-select-match(placeholder="Elija Pais" allow-clear="true") {{$select.selected.pais}} ({{$select.selected.abrev}})
+						ui-select-choices(repeat="pais in paises | filter: $select.search")
+							div(ng-bind-html="pais.pais | highlight: $select.search")
+							small {{ pais.departamento | highlight: $select.search}}
+				.form-group.col-lg-4.col-sm-6.col-xs-12
+					label Departamento
+					ui-select(ng-model="datos.departamento" on-select="departamentoSelect($item, 1)" style="width: 100%;" autofocus focus-on="paisSeleccionadoEvent1" )
+						ui-select-match(placeholder="Elija Departamento" allow-clear="true") {{$select.selected.departamento}}
+						ui-select-choices(repeat="departamento in departamentos | filter: $select.search")
+							div(ng-bind-html="departamento.departamento | highlight: $select.search")
+
+				.form-group.col-lg-4.col-sm-6.col-xs-12
+					label Ciudad
+					ui-select(ng-model="datos.ciudad" style="width: 100%;" focus-on="departamentoSeleccionadoEvent1")
+						ui-select-match(placeholder="Elija Ciudad" allow-clear="true") {{$select.selected.ciudad}}
+						ui-select-choices(repeat="ciudad in ciudades | filter: $select.search")
+							div(ng-bind-html="ciudad.ciudad | highlight: $select.search")
+
+				
+				.col-lg-6.col-sm-6.col-xs-12
+					a(href="" ng-click="modificarCiudades = !modificarCiudades" style="margin-top: 30px; display: block;") 
+						| Modificar / Agregar ciudades
+
+	.row(ng-show="modificarCiudades") 
+
+
+		uib-tabset.widget-main(active="")
+			uib-tab(heading="Editar ciudades")
+
+
+				.row
+					.form-group.col-lg-4.col-sm-6.col-xs-12
+						label Pais
+						ui-select(ng-model="datos.pais" on-select="paisSelect($item, 2)" style="width: 100%;")
+							ui-select-match(placeholder="Pais" allow-clear="true") {{$select.selected.pais}}
+							ui-select-choices(repeat="pais in paises | filter: $select.search")
+								div(ng-bind-html="pais.pais | highlight: $select.search")
+
+					.form-group.col-lg-4.col-sm-6.col-xs-12
+						label Departamento
+						ui-select(ng-model="datos.departamento" on-select="departamentoSelect($item, 2)" style="width: 100%;" focus-on="paisSeleccionadoEvent2")
+							ui-select-match(placeholder="Departamento" allow-clear="true") {{$select.selected.departamento}}
+							ui-select-choices(repeat="depart in departamentos | filter: $select.search")
+								div(ng-bind-html="depart.departamento | highlight: $select.search")
+					
+					.col-lg-6.col-sm-6.col-xs-12(ng-show="!mostrarAgregarCiudad")
+						a(href="" ng-click="mostrarAgregarCiudad = true") Crear ciudad/departamento
+
+					.form-group.col-lg-6.col-sm-6.col-xs-12(ng-show="mostrarAgregarCiudad")
+						input.form-control(type="text" ng-model="departamento_new" ng-change="escribeEnDepartamentoNew()" placeholder="Departamento nuevo" uib-tooltip="Escriba nuevo o elija de arriba ")
+
+
+					.form-group.col-lg-6.col-sm-6.col-xs-12(ng-show="mostrarAgregarCiudad")
+						form(ng-submit="guardarCiudad(ciudad_new, departamento_new)") 
+							.input-group
+								input.form-control(type="text" ng-model="ciudad_new" placeholder="Nueva ciudad")
+								.input-group-btn
+									button.btn.btn-default(type="submit" aria-label="Agregar ciudad" uib-tooltip="Guardar nueva ciudadd")
+										i.fa.fa-plus 
+
+				.row
+					.col-lg-12
+						.orders-container.listado-ciudades-edit
+							.orders-header(style="text-align: center")
+								h6(style="font-size: 14pt") Ciudad - Departamento
+							ul.orders-list
+								li.order-item(ng-repeat="ciudad in ciudades track by $index" ng-dblclick="ok(ciudad)" style="padding: 0px 10px;") 
+									.row
+										.col-lg-7.col-md-7.col-sm-6.item-left
+											.btn-group(style="margin-right: 10px; margin-top: -5px;")
+												button.btn.btn-danger.btn-sm(ng-hide="ciudad.editandoCiudad" ng-click="eliminarCiudad(ciudad)" aria-label="Eliminar ciudad" uib-tooltip="Eliminar ciudad")
+													.fa.fa-trash
+												button.btn.btn-default.btn-sm(ng-hide="ciudad.editandoCiudad" ng-click="ciudad.editandoCiudad=!ciudad.editandoCiudad" aria-label="Editar ciudad" uib-tooltip="Editar ciudad")
+													.fa.fa-pencil
+
+											span.item-booker(ng-hide="ciudad.editandoCiudad" style="font-weight: bold; font-size: 12pt; display: inline-block;" ng-click="ciudad.editandoCiudad=!ciudad.editandoCiudad") {{ciudad.ciudad}}
+											span.item-booker(ng-show="ciudad.editandoCiudad")
+												form(ng-submit="actualizarCiudad(ciudad)") 
+													.input-group(style="margin-top: -12px; padding-bottom: 5px;")
+														input.form-control(ng-model="ciudad.ciudad" style="height: 30px;")
+														.input-group-btn
+															button.btn.btn-default.btn-sm(ng-show="ciudad.editandoCiudad" type="submit" aria-label="Editar ciudad"  uib-tooltip="Editar ciudad")
+																.fa.fa-save
+											
+										.col-lg-5.col-md-5.col-sm-6.col-xs-6.item-right
+											.item-price(style="margin: 0px auto; color: #999")
+												span(ng-hide="ciudad.editandoDepart" ng-click="ciudad.editandoDepart=!ciudad.editandoDepart") ({{ciudad.departamento}}) 
+												span(ng-show="ciudad.editandoDepart") 
+													form(ng-submit="actualizarDepartamento(ciudad)") 
+														.input-group(style="margin-top: 6px; padding-bottom: 5px;")
+															input.form-control(ng-model="ciudad.departamento" style="height: 30px;")
+															.input-group-btn
+																button.btn.btn-default.btn-sm(ng-show="ciudad.editandoDepart" type="submit" aria-label="Editar departamento" uib-tooltip="Editar departamento")
+																	.fa.fa-save
+												button.btn.btn-default.btn-sm(ng-hide="ciudad.editandoDepart" ng-click="ciudad.editandoDepart=!ciudad.editandoDepart" aria-label="Editar departamento")
+													.fa.fa-pencil
+									
+
+
+				
+								
+
+.modal-footer
+	
+	button.btn.btn-yellow(ng-click="cancel()") Cancelar
+	button.btn.btn-labeled.btn-primary(ng-click="ok()") Seleccionar
+		i.btn-label.fa.fa-check

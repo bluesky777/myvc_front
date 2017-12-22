@@ -10,13 +10,22 @@
     <uib-tab heading="Seleccionar" index="'seleccionar'" select="selectSelectTab()">
       <div class="row">
         <div class="col-lg-12 col-xs-12">
-          <h4>Acudientes: </h4>
-          <div class="form-group">
-            <label>Seleccione</label>
-            <ui-select ng-model="datos.acudiente" autofocus="true" spinner-enabled="true" on-select="selectAcudiente($item)" style="width: 300px; display: inline-block;">
-              <ui-select-match placeholder="Elige un acudiente" allow-clear="true">{{$select.selected.nombres}} {{$select.selected.apellidos}}</ui-select-match>
-              <ui-select-choices repeat="acudiente in acudientes track by $index | filter: $select.search" refresh="refreshAcudientes($select.search)" refresh-delay="1">
+          <h4>Acudientes </h4>
+          <div class="form-group col-lg-6 col-sm-12 col-xs-12">
+            <label>Seleccione </label>
+            <ui-select ng-model="datos.acudiente" autofocus="true" style="width: 100%;">
+              <ui-select-match placeholder="Escribe mínimo 1 letra" allow-clear="true">{{$select.selected.nombres}} {{$select.selected.apellidos}}</ui-select-match>
+              <ui-select-choices repeat="acudiente in acudientes track by $index" refresh="refreshAcudientes($select.search)" refresh-delay="1">
                 <div ng-bind-html="acudiente.nombres + ' ' + acudiente.apellidos | highlight: $select.search"></div>
+              </ui-select-choices>
+            </ui-select>
+          </div>
+          <div class="form-group col-lg-6 col-sm-12 col-xs-12">
+            <label>Parentesco</label>
+            <ui-select ng-model="acudiente.parentesco" on-select="parentescoSelect($item, $model)" style="width: 100%;">
+              <ui-select-match placeholder="Parentesco" allow-clear="true">{{$select.selected.parentesco}}</ui-select-match>
+              <ui-select-choices repeat="parentesc in parentescos | filter: $select.search">
+                <div ng-bind-html="parentesc.parentesco | highlight: $select.search"></div><small>{{ pais.departamento | highlight: $select.search}}</small>
               </ui-select-choices>
             </ui-select>
           </div>
@@ -33,7 +42,7 @@
           <label for="acudiente-new-apellidos">Apellidos</label>
           <input id="acudiente-new-apellidos" type="text" ng-model="acudiente.apellidos" placeholder="Apellidos" class="form-control">
         </div>
-        <div style="margin-bottom: 5px;" class="form-group col-lg-5 col-sm-12 col-xs-12">
+        <div style="margin-bottom: 5px;" class="form-group col-lg-4 col-sm-12 col-xs-12">
           <label style="display: block">Sexo: {{ acudiente.sexo == 'M' ? 'Masculino' : 'Femenino' }}</label>
           <div class="btn-group">
             <label style="padding: 1px" tooltip="Masculino" ng-model="acudiente.sexo" uib-btn-radio="'M'" class="btn btn-default"><img style="width: 60px" tooltip="Masculino" ng-src="images/perfil/default_male.png"></label>
@@ -60,7 +69,7 @@
           </div>
         </div>
         <div class="form-group col-lg-4 col-sm-6 col-xs-12">
-          <label>Pais</label>
+          <label>Pais nacimiento</label>
           <ui-select ng-model="acudiente.pais_nac" on-select="paisNacSelect($item, $model)" style="width: 100%;">
             <ui-select-match placeholder="Pais nacimiento" allow-clear="true">{{$select.selected.pais}} ({{$select.selected.abrev}})</ui-select-match>
             <ui-select-choices repeat="pais in paises | filter: $select.search">
@@ -69,7 +78,7 @@
           </ui-select>
         </div>
         <div class="form-group col-lg-4 col-sm-6 col-xs-12">
-          <label>Departamento</label>
+          <label>Departamento nac</label>
           <ui-select ng-model="acudiente.departamento_nac" on-select="departNacSelect($item, $model)" style="width: 100%;">
             <ui-select-match placeholder="Departamento nacimiento" allow-clear="true">{{$select.selected.departamento}}</ui-select-match>
             <ui-select-choices repeat="departamento in departamentosNac | filter: $select.search">
@@ -78,7 +87,7 @@
           </ui-select>
         </div>
         <div class="form-group col-lg-4 col-sm-6 col-xs-12">
-          <label>Ciudad</label>
+          <label>Ciudad nacimiento</label>
           <ui-select ng-model="acudiente.ciudad_nac" style="width: 100%;">
             <ui-select-match placeholder="Ciudad nacimiento" allow-clear="true">{{$select.selected.ciudad}}</ui-select-match>
             <ui-select-choices repeat="ciudad in ciudadesNac | filter: $select.search">
@@ -102,7 +111,7 @@
           <input id="acudiente-new-documento" type="text" ng-model="acudiente.documento" placeholder="Número documento" class="form-control">
         </div>
         <div class="form-group col-lg-4 col-sm-6 col-xs-12">
-          <label>Pais</label>
+          <label>Pais documento</label>
           <ui-select ng-model="acudiente.pais_doc" on-select="paisSelecionado($item, $model)" style="width: 100%;">
             <ui-select-match placeholder="Pais documento" allow-clear="true">{{$select.selected.pais}} ({{$select.selected.abrev}})</ui-select-match>
             <ui-select-choices repeat="pais in paises | filter: $select.search">
@@ -113,7 +122,7 @@
       </div>
       <div class="row">
         <div class="form-group col-lg-4 col-sm-6 col-xs-12">
-          <label>Departamento</label>
+          <label>Departamento doc</label>
           <ui-select ng-model="acudiente.departamento_doc" on-select="departSeleccionado($item, $model)" style="width: 100%;">
             <ui-select-match placeholder="Departamento documento" allow-clear="true">{{$select.selected.departamento}}</ui-select-match>
             <ui-select-choices repeat="departamento in departamentos | filter: $select.search">
@@ -122,7 +131,7 @@
           </ui-select>
         </div>
         <div class="form-group col-lg-4 col-sm-6 col-xs-12">
-          <label>Ciudad</label>
+          <label>Ciudad documento</label>
           <ui-select ng-model="acudiente.ciudad_doc" theme="select2" style="width: 100%;">
             <ui-select-match placeholder="Ciudad documento" allow-clear="true">{{$select.selected.ciudad}}</ui-select-match>
             <ui-select-choices repeat="ciudad in ciudades | filter: $select.search">

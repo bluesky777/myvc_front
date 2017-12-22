@@ -1,0 +1,8 @@
+form(ng-submit="grid.appScope.religionEditPressEnter(row.entity)")
+	input(type="text"
+		typeahead-append-to-body="true" typeahead-min-length="1"
+		uib-typeahead="religion for religion in grid.appScope.religiones | filter:$viewValue | limitTo:8"
+		ng-class="'colt' + col.uid" ng-change="grid.appScope.religionSelected(row.entity)"
+		typeahead-on-select="grid.appScope.religionSelected(row.entity, $item)"
+		ng-model="MODEL_COL_FIELD")
+

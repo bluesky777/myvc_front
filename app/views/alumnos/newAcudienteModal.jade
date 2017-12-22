@@ -9,13 +9,21 @@
 		uib-tab(heading="Seleccionar" index="'seleccionar'" select="selectSelectTab()")
 			.row
 				.col-lg-12.col-xs-12
-					h4 Acudientes: 
-					.form-group
-						label Seleccione
-						ui-select(ng-model="datos.acudiente" autofocus="true" spinner-enabled="true" on-select="selectAcudiente($item)" style="width: 300px; display: inline-block;")
-							ui-select-match(placeholder="Elige un acudiente" allow-clear="true") {{$select.selected.nombres}} {{$select.selected.apellidos}}
-							ui-select-choices(repeat="acudiente in acudientes track by $index | filter: $select.search" refresh="refreshAcudientes($select.search)" refresh-delay="1")
+					h4 Acudientes 
+					.form-group.col-lg-6.col-sm-12.col-xs-12
+						label Seleccione 
+						ui-select(ng-model="datos.acudiente" autofocus="true" style="width: 100%;")
+							ui-select-match(placeholder="Escribe mínimo 1 letra" allow-clear="true") {{$select.selected.nombres}} {{$select.selected.apellidos}}
+							ui-select-choices(repeat="acudiente in acudientes track by $index" refresh="refreshAcudientes($select.search)" refresh-delay="1" )
 								div(ng-bind-html="acudiente.nombres + ' ' + acudiente.apellidos | highlight: $select.search")
+					.form-group.col-lg-6.col-sm-12.col-xs-12
+						label Parentesco
+						ui-select(ng-model="acudiente.parentesco" on-select="parentescoSelect($item, $model)" style="width: 100%;")
+							ui-select-match(placeholder="Parentesco" allow-clear="true") {{$select.selected.parentesco}}
+							ui-select-choices(repeat="parentesc in parentescos | filter: $select.search")
+								div(ng-bind-html="parentesc.parentesco | highlight: $select.search")
+								small {{ pais.departamento | highlight: $select.search}}
+					
 
 
 		uib-tab(heading="Crear nuevo" index="'nuevo'" select="selectCrearTab()")
@@ -26,7 +34,7 @@
 				.form-group.col-lg-4.col-sm-6
 					label(for="acudiente-new-apellidos") Apellidos
 					input#acudiente-new-apellidos.form-control(type="text" ng-model="acudiente.apellidos" placeholder="Apellidos")
-				.form-group.col-lg-5.col-sm-12.col-xs-12(style="margin-bottom: 5px;")
+				.form-group.col-lg-4.col-sm-12.col-xs-12(style="margin-bottom: 5px;")
 					label(style="display: block") Sexo: {{ acudiente.sexo == 'M' ? 'Masculino' : 'Femenino' }}
 					.btn-group
 						label(style="padding: 1px" tooltip="Masculino" class="btn btn-default" ng-model="acudiente.sexo" uib-btn-radio="'M'")
@@ -52,21 +60,21 @@
 							input.form-control.active#acudiente-new-fecha-nac(type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="acudiente.fecha_nac" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2020-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha nacimiento")
 				
 				.form-group.col-lg-4.col-sm-6.col-xs-12
-					label Pais
+					label Pais nacimiento
 					ui-select(ng-model="acudiente.pais_nac" on-select="paisNacSelect($item, $model)" style="width: 100%;")
 						ui-select-match(placeholder="Pais nacimiento" allow-clear="true") {{$select.selected.pais}} ({{$select.selected.abrev}})
 						ui-select-choices(repeat="pais in paises | filter: $select.search")
 							div(ng-bind-html="pais.pais | highlight: $select.search")
 							small {{ pais.departamento | highlight: $select.search}}
 				.form-group.col-lg-4.col-sm-6.col-xs-12
-					label Departamento
+					label Departamento nac
 					ui-select(ng-model="acudiente.departamento_nac" on-select="departNacSelect($item, $model)" style="width: 100%;")
 						ui-select-match(placeholder="Departamento nacimiento" allow-clear="true") {{$select.selected.departamento}}
 						ui-select-choices(repeat="departamento in departamentosNac | filter: $select.search")
 							div(ng-bind-html="departamento.departamento | highlight: $select.search")
 
 				.form-group.col-lg-4.col-sm-6.col-xs-12
-					label Ciudad
+					label Ciudad nacimiento
 					ui-select(ng-model="acudiente.ciudad_nac" style="width: 100%;")
 						ui-select-match(placeholder="Ciudad nacimiento" allow-clear="true") {{$select.selected.ciudad}}
 						ui-select-choices(repeat="ciudad in ciudadesNac | filter: $select.search")
@@ -86,7 +94,7 @@
 					input#acudiente-new-documento.form-control(type="text" ng-model="acudiente.documento" placeholder="Número documento")
 
 				.form-group.col-lg-4.col-sm-6.col-xs-12
-					label Pais
+					label Pais documento
 					ui-select(ng-model="acudiente.pais_doc" on-select="paisSelecionado($item, $model)" style="width: 100%;")
 						ui-select-match(placeholder="Pais documento" allow-clear="true") {{$select.selected.pais}} ({{$select.selected.abrev}})
 						ui-select-choices(repeat="pais in paises | filter: $select.search")
@@ -95,14 +103,14 @@
 			
 			.row
 				.form-group.col-lg-4.col-sm-6.col-xs-12
-					label Departamento
+					label Departamento doc
 					ui-select(ng-model="acudiente.departamento_doc" on-select="departSeleccionado($item, $model)" style="width: 100%;")
 						ui-select-match(placeholder="Departamento documento" allow-clear="true") {{$select.selected.departamento}}
 						ui-select-choices(repeat="departamento in departamentos | filter: $select.search")
 							div(ng-bind-html="departamento.departamento | highlight: $select.search")
 
 				.form-group.col-lg-4.col-sm-6.col-xs-12
-					label Ciudad
+					label Ciudad documento
 					ui-select(ng-model="acudiente.ciudad_doc" theme="select2" style="width: 100%;")
 						ui-select-match(placeholder="Ciudad documento" allow-clear="true") {{$select.selected.ciudad}}
 						ui-select-choices(repeat="ciudad in ciudades | filter: $select.search")

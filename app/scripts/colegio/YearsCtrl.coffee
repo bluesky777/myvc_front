@@ -23,6 +23,11 @@ angular.module('myvcFrontApp')
 				toastr.error 'No se pudo traer los profesores'
 			)
 
+			for anio in $scope.years
+				for perio in anio.periodos
+					perio.fecha_inicio 	= new Date(perio.fecha_inicio)
+					perio.fecha_fin 	= new Date(perio.fecha_fin)
+
 
 		, (r)->
 			toastr.error 'No se trajeron los años'
@@ -176,6 +181,36 @@ angular.module('myvcFrontApp')
 			modalInstance.result.then( (year)->
 				$scope.years = $filter('filter')($scope.years, {id: '!'+year.id})
 			)
+
+		$scope.cambiarFechaInicio = (periodo, fecha)->
+			$http.put('::periodos/cambiar-fecha-inicio', {periodo_id: periodo.id, fecha: fecha }).then((r)->
+				toastr.success 'Fecha guardada.'
+			, (r2)->
+				toastr.warning 'No se pudo guardar fecha.', 'Problema'
+			)
+			
+		$scope.cambiarFechaFin = (periodo, fecha)->
+			$http.put('::periodos/cambiar-fecha-fin', {periodo_id: periodo.id, fecha: fecha }).then((r)->
+				toastr.success 'Fecha guardada.'
+			, (r2)->
+				toastr.warning 'No se pudo guardar fecha.', 'Problema'
+			)
+
+		$scope.toggleProfesPuedenEditarNotas = (periodo, pueden)->
+			$http.put('::periodos/toggle-profes-pueden-editar-notas', {periodo_id: periodo.id, pueden: pueden }).then((r)->
+				toastr.success 'Cambiado.'
+			, (r2)->
+				toastr.warning 'No se pudo guardar fecha.', 'Problema'
+			)
+
+		$scope.toggleProfesPuedenNivelar = (periodo, pueden)->
+			$http.put('::periodos/toggle-profes-pueden-nivelar', {periodo_id: periodo.id, pueden: pueden }).then((r)->
+				toastr.success 'Cambiado.'
+			, (r2)->
+				toastr.warning 'No se pudo guardar fecha.', 'Problema'
+			)
+			
+
 
 
 

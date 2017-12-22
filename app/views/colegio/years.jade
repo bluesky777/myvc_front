@@ -178,16 +178,41 @@
 
 						.panel-default(uib-accordion-group heading="Periodos")
 							.row
-								.col-sm-6
+								.col-sm-12
 									.list-periodos
-										h5.row-title(ng-repeat="periodo in year.periodos |  orderBy: 'numero' " style="margin: 5px 0" ng-class="{ 'before-success': periodo.actual }") 
-											i.fa.fa-ioxhost.blue(ng-class="{ 'green': periodo.actual }")
-											| Periodo 
-											span(style="font-weight: bold !important") {{periodo.numero}}  
-											.btn-group.btn-group-sm
-												button.btn.btn-danger.btn-sm.shiny(ng-click="removePeriodo(year, periodo)") 
+
+										h4.row-title(ng-repeat="periodo in year.periodos |  orderBy: 'numero' " style="margin: 5px 0" ng-class="{ 'before-success': periodo.actual }") 
+											
+											.col-lg-3.col-sm-6.col-xs-12
+												i.fa.fa-ioxhost.blue(ng-class="{ 'green': periodo.actual }")
+												| Periodo 
+												span(style="font-weight: bold !important") {{periodo.numero}}  
+											
+											.form-group.col-lg-3.col-sm-6.col-xs-12(style="margin-bottom: 0px")
+												label(uib-tooltip="¿Los profesores pueden editar notas, indicadores y comportamiento?") ¿Editan notas?
+												label
+													input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleProfesPuedenEditarNotas(periodo, periodo.profes_pueden_editar_notas)" ng-true-value="1" ng-false-value="0" ng-model="periodo.profes_pueden_editar_notas")
+													span.text.si-no
+
+											.form-group.col-lg-3.col-sm-6.col-xs-12(style="margin-bottom: 0px")
+												label(uib-tooltip="¿Los profesores pueden nivelar?") ¿Nivelan?
+												label
+													input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleProfesPuedenNivelar(periodo, periodo.profes_pueden_nivelar)" ng-true-value="1" ng-false-value="0" ng-model="periodo.profes_pueden_nivelar")
+													span.text.si-no
+
+											.form-group.col-lg-3.col-sm-6.col-xs-12(style="margin-bottom: 0px; font-size: 9pt;")
+												label(uib-tooltip="Fecha de inicio") Fecha ini
+												input(type="date" ng-model="periodo.fecha_inicio" ng-change="cambiarFechaInicio(periodo, periodo.fecha_inicio)")
+
+											.form-group.col-lg-3.col-sm-6.col-xs-12(style="margin-bottom: 0px; font-size: 9pt;")
+												label(uib-tooltip="Fecha en que termina el periodo") Fecha fin
+												input(type="date" ng-model="periodo.fecha_fin" ng-change="cambiarFechaFin(periodo, periodo.fecha_fin)")
+
+
+											.btn-group.btn-group-sm.col-lg-3.col-sm-6.col-xs-12
+												button.btn.btn-danger.btn-sm.shiny(ng-click="removePeriodo(year, periodo)" style="height: 30px;" uib-tooltip="Eliminar periodo") 
 													i.fa.fa-times
-												button.btn.btn-default.btn-sm.shiny(ng-click="actualPeriodo(year, periodo)" ng-show="!periodo.actual") Actual
+												button.btn.btn-default.btn-sm.shiny(ng-show="!periodo.actual" ng-click="actualPeriodo(year, periodo)" uib-tooltip="Establecer periodo como actual") Actual
 												button.btn.btn-success.btn-sm.shiny(ng-show="periodo.actual" disabled="disabled") En curso
 
 									button.btn.btn-success(ng-click="addPeriodo(year)") 

@@ -1,0 +1,11 @@
+input(type="text"
+	typeahead-append-to-body="true" typeahead-min-length="2"
+	uib-typeahead="username_check for username_check in grid.appScope.cambiaUsernameCheck($viewValue)"
+	ng-class="'colt' + col.uid" ui-grid-editor 
+	ng-model="MODEL_COL_FIELD"
+	typeahead-loading="grid.appScope.loadingUsernames" typeahead-no-results="grid.appScope.noResults")
+
+i.fa.fa-refresh(ng-show="grid.appScope.loadingUsernames" style="font-size: 7pt")
+div(ng-show="grid.appScope.noResults" style="font-size: 7pt")
+	i.fa.fa-check 
+	| Disponible

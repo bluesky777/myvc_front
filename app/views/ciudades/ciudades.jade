@@ -1,162 +1,131 @@
 .row
 	.col-xs-12.col-md-8
 		.well.with-header.with-footer
-			.header.bordered-yellow Alumnos
+			.header.bordered-yellow Ciudades - Paises
 
 
 			uib-tabset.widget-main(active="")
-				uib-tab(heading="Ciudades" index="'boletines'" select="selectTab('boletines')")
+				uib-tab(heading="Editar ciudades")
 
-					button.btn.btn-default(ng-click="crearCiudad()" ng-hide="creandociudad") Agregar ciudad
-				
-					
-					hr
-					br
-					.row(ng-show="!creandociudad")
+
+					.row
 						.form-group.col-lg-4.col-sm-6.col-xs-12
 							label Pais
-							ui-select(ng-model="crearciudad.pais" on-select="paisSeleccionado($item, $model)" style="width: 100%;")
+							ui-select(ng-model="datos.pais" on-select="paisSelect($item, 2)" style="width: 100%;")
 								ui-select-match(placeholder="Pais" allow-clear="true") {{$select.selected.pais}}
 								ui-select-choices(repeat="pais in paises | filter: $select.search")
 									div(ng-bind-html="pais.pais | highlight: $select.search")
 
 						.form-group.col-lg-4.col-sm-6.col-xs-12
 							label Departamento
-							ui-select(ng-model="crearciudad.depart" on-select="departamentoSeleccionado($item, $model)" style="width: 100%;")
+							ui-select(ng-model="datos.departamento" on-select="departamentoSelect($item, 2)" style="width: 100%;" focus-on="paisSeleccionadoEvent2")
 								ui-select-match(placeholder="Departamento" allow-clear="true") {{$select.selected.departamento}}
 								ui-select-choices(repeat="depart in departamentos | filter: $select.search")
 									div(ng-bind-html="depart.departamento | highlight: $select.search")
+						
+						.col-lg-6.col-sm-6.col-xs-12(ng-show="!mostrarAgregarCiudad")
+							a(href="" ng-click="mostrarAgregarCiudad = true") Crear ciudad/departamento
+
+						.form-group.col-lg-6.col-sm-6.col-xs-12(ng-show="mostrarAgregarCiudad")
+							input.form-control(type="text" ng-model="departamento_new" ng-change="escribeEnDepartamentoNew()" placeholder="Departamento nuevo" uib-tooltip="Escriba nuevo o elija de arriba ")
+
+
+						.form-group.col-lg-6.col-sm-6.col-xs-12(ng-show="mostrarAgregarCiudad")
+							form(ng-submit="guardarCiudad(ciudad_new, departamento_new)") 
+								.input-group
+									input.form-control(type="text" ng-model="ciudad_new" placeholder="Nueva ciudad")
+									.input-group-btn
+										button.btn.btn-default(type="submit" aria-label="Agregar ciudad" uib-tooltip="Guardar nueva ciudadd")
+											i.fa.fa-plus 
 
 					.row
 						.col-lg-6
-							.orders-container
+							.orders-container.listado-ciudades-edit
 								.orders-header(style="text-align: center")
 									h6(style="font-size: 14pt") Ciudad - Departamento
 								ul.orders-list
-									li.order-item(ng-repeat="ciudad in ciudades track by $index" ng-click="editarCiudad(ciudad)") 
+									li.order-item(ng-repeat="ciudad in ciudades track by $index" ng-dblclick="ok(ciudad)" style="padding: 0px 10px;") 
 										.row
-											.col-lg-6.col-md-6.col-sm-6.item-left
-												.item-booker(ng-hide="ciudad.editandoCiudad" style="font-weight: bold; font-size: 12pt; display: inline-block;" ng-click="ciudad.editandoCiudad=!ciudad.editandoCiudad") {{ciudad.ciudad}}
-												.item-booker(ng-show="ciudad.editandoCiudad")
-													input(ng-model="ciudad.ciudad")
-												button.btn.btn-default.btn-sm(ng-hide="ciudad.editandoCiudad" ng-click="ciudad.editandoCiudad=!ciudad.editandoCiudad" aria-label="Editar ciudad")
-													.fa.fa-pencil
-												button.btn.btn-default.btn-sm(ng-show="ciudad.editandoCiudad" ng-click="actualizarCiudad(ciudad)" aria-label="Editar ciudad")
-													.fa.fa-save
-											.col-lg-6.col-md-6.col-sm-6.col-xs-6.item-right
+											.col-lg-7.col-md-7.col-sm-6.item-left
+												.btn-group(style="margin-right: 10px; margin-top: -5px;")
+													button.btn.btn-danger.btn-sm(ng-hide="ciudad.editandoCiudad" ng-click="eliminarCiudad(ciudad)" aria-label="Eliminar ciudad" uib-tooltip="Eliminar ciudad")
+														.fa.fa-trash
+													button.btn.btn-default.btn-sm(ng-hide="ciudad.editandoCiudad" ng-click="ciudad.editandoCiudad=!ciudad.editandoCiudad" aria-label="Editar ciudad" uib-tooltip="Editar ciudad")
+														.fa.fa-pencil
+
+												span.item-booker(ng-hide="ciudad.editandoCiudad" style="font-weight: bold; font-size: 12pt; display: inline-block;" ng-click="ciudad.editandoCiudad=!ciudad.editandoCiudad") {{ciudad.ciudad}}
+												span.item-booker(ng-show="ciudad.editandoCiudad")
+													form(ng-submit="actualizarCiudad(ciudad)") 
+														.input-group(style="margin-top: -12px; padding-bottom: 5px;")
+															input.form-control(ng-model="ciudad.ciudad" style="height: 30px;")
+															.input-group-btn
+																button.btn.btn-default.btn-sm(ng-show="ciudad.editandoCiudad" type="submit" aria-label="Editar ciudad"  uib-tooltip="Editar ciudad")
+																	.fa.fa-save
+												
+											.col-lg-5.col-md-5.col-sm-6.col-xs-6.item-right
 												.item-price(style="margin: 0px auto; color: #999")
 													span(ng-hide="ciudad.editandoDepart" ng-click="ciudad.editandoDepart=!ciudad.editandoDepart") ({{ciudad.departamento}}) 
 													span(ng-show="ciudad.editandoDepart") 
-														input(ng-model="ciudad.departamento")
+														form(ng-submit="actualizarDepartamento(ciudad)") 
+															.input-group(style="margin-top: 6px; padding-bottom: 5px;")
+																input.form-control(ng-model="ciudad.departamento" style="height: 30px;")
+																.input-group-btn
+																	button.btn.btn-default.btn-sm(ng-show="ciudad.editandoDepart" type="submit" aria-label="Editar departamento" uib-tooltip="Editar departamento")
+																		.fa.fa-save
 													button.btn.btn-default.btn-sm(ng-hide="ciudad.editandoDepart" ng-click="ciudad.editandoDepart=!ciudad.editandoDepart" aria-label="Editar departamento")
 														.fa.fa-pencil
-													button.btn.btn-default.btn-sm(ng-show="ciudad.editandoDepart" ng-click="actualizarDepartamento(ciudad)" aria-label="Editar departamento")
-														.fa.fa-save
-										a.item-more(href="")
-											i(style="font-size: 17px;display: inline-block;font-family: 'FontAwesome';font-style: normal;font-weight: normal;line-height: 1; -webkit-font-smoothing: antialiased;").fa.fa-times
+										
+							
+				// TAL VEZ DESPUÉS TENGA QUE HACER LA EDICIÓN DE PAISES. AHORITA NO LO HARÉ
+					uib-tab(heading="Paises" index="'paises'" select="selectTab('boletines')")
 
-							md-toolbar.md-hue-3(style="background-color: rgb(63, 81, 181); color: rgb(255, 255, 255);" layout="row")
-								div.md-toolbar-tools
-									span Ciudades
-							md-list(style="height: 600px; border: 1px solid #ccc; overflow: auto" )
-								md-list-item(ng-repeat="ciudad in ciudades track by $index" ng-click="editarCiudad(ciudad)") 
-									p.row()
-										.col-lg-6(ng-hide="ciudad.editandoCiudad" style="font-weight: bold; font-size: 13pt" ng-click="ciudad.editandoCiudad=!ciudad.editandoCiudad") {{ciudad.ciudad}}
-										.col-lg-6(ng-show="ciudad.editandoCiudad") 
-											input(ng-model="ciudad.ciudad")
-										md-button.md-icon-button(ng-hide="ciudad.editandoCiudad" ng-click="ciudad.editandoCiudad=!ciudad.editandoCiudad" aria-label="Editar ciudad")
-											.fa.fa-pencil
-										md-button.md-icon-button(ng-show="ciudad.editandoCiudad" ng-click="actualizarCiudad(ciudad)" aria-label="Editar ciudad")
-											.fa.fa-save
-
-										.col-lg-6(ng-hide="ciudad.editandoDepart" ng-click="ciudad.editandoDepart=!ciudad.editandoDepart") ({{ciudad.departamento}})
-										.col-lg-6(ng-show="ciudad.editandoDepart") 
-											input(ng-model="ciudad.departamento")
-										md-button.md-icon-button(ng-hide="ciudad.editandoDepart" ng-click="ciudad.editandoDepart=!ciudad.editandoDepart" aria-label="Editar departamento")
-											.fa.fa-pencil
-										md-button.md-icon-button(ng-show="ciudad.editandoDepart" ng-click="actualizarDepartamento(ciudad)" aria-label="Editar departamento")
-											.fa.fa-save
-
-									md-button.md-icon-button(aria-label="Eliminar")
-										.fa.fa-times
-
-				uib-tab(heading="Paises" index="'paises'" select="selectTab('boletines')")
-
-					button.btn.btn-default(ng-click="crearPais()" ng-hide="creandopais") Agregar Pais
+						button.btn.btn-default(ng-click="crearPais()" ng-hide="creandopais") Agregar Pais
 
 
-					form(ng-show="creandopais" ng-submit="guardarPais()")
+						form(ng-show="creandopais" ng-submit="guardarPais()")
+
+							.row
+								.col-lg-4.col-sm-12.col-xs-12
+									md-input-container.md-block(flex-gt-sm style=" padding-bottom: 0!important")
+										label Pais
+										input(ng-model="crearpais.paisnuevo")
+								
+								.col-lg-4.col-sm-12.col-xs-12
+									md-input-container.md-block(flex-gt-sm style=" padding-bottom: 0!important")
+										label Abreviatura
+										input(ng-model="crearpais.abrev")
+								.row
+									.col-lg-12
+										md-button.md-raised.md-default(type="button" ng-click="creandopais=false") Cancelar
+
+										md-button.md-raised.md-primary(type="submit") Guardar
 
 						.row
-							.col-lg-4.col-sm-12.col-xs-12
-								md-input-container.md-block(flex-gt-sm style=" padding-bottom: 0!important")
-									label Pais
-									input(ng-model="crearpais.paisnuevo")
-							
-							.col-lg-4.col-sm-12.col-xs-12
-								md-input-container.md-block(flex-gt-sm style=" padding-bottom: 0!important")
-									label Abreviatura
-									input(ng-model="crearpais.abrev")
-							.row
-								.col-lg-12
-									md-button.md-raised.md-default(type="button" ng-click="creandopais=false") Cancelar
-
-									md-button.md-raised.md-primary(type="submit") Guardar
-
-					.row
-						.col-lg-6
-							md-toolbar.md-hue-3(style="background-color: rgb(63, 81, 181); color: rgb(255, 255, 255);" layout="row")
-								div.md-toolbar-tools
-									span Paises
-							md-list(style="height: 600px; border: 1px solid #ccc; overflow: auto")
-								md-list-item(ng-repeat="pais in paises track by $index" ng-click="editarPais(pais)") 
-									p.row
-										.col-lg-6(ng-hide="pais.editandoPais" style="font-weight: bold; font-size: 13pt" ng-click="pais.editandoPais=!pais.editandoPais") {{pais.pais}}
-										.col-lg-6(ng-show="pais.editandoPais") 
-											input(ng-model="pais.pais")
-										md-button.md-icon-button(ng-hide="pais.editandoPais" ng-click="pais.editandoPais=!pais.editandoPais" aria-label="Editar pais")
-											.fa.fa-pencil
-										md-button.md-icon-button(ng-show="pais.editandoPais" ng-click="actualizarPais(pais)" aria-label="Editar pais")
-											.fa.fa-save
-										.col-lg-6(ng-hide="pais.editandoAbrev" ng-click="pais.editandoAbrev=!pais.editandoAbrev") ({{pais.abrev}})
-										.col-lg-6(ng-show="pais.editandoAbrev") 
-											input(ng-model="pais.abrev")
-										md-button.md-icon-button(ng-hide="pais.editandoAbrev" ng-click="pais.editandoAbrev=!pais.editandoAbrev" aria-label="Editar Abrev")
-											.fa.fa-pencil
-										md-button.md-icon-button(ng-show="pais.editandoAbrev" ng-click="actualizarPais(pais)" aria-label="Editar Abrev")
-											.fa.fa-save
-									md-button.md-icon-button(aria-label="Eliminar")
-										.fa.fa-times
-		
-
-
+							.col-lg-6
+								md-toolbar.md-hue-3(style="background-color: rgb(63, 81, 181); color: rgb(255, 255, 255);" layout="row")
+									div.md-toolbar-tools
+										span Paises
+								md-list(style="height: 600px; border: 1px solid #ccc; overflow: auto")
+									md-list-item(ng-repeat="pais in paises track by $index" ng-click="editarPais(pais)") 
+										p.row
+											.col-lg-6(ng-hide="pais.editandoPais" style="font-weight: bold; font-size: 13pt" ng-click="pais.editandoPais=!pais.editandoPais") {{pais.pais}}
+											.col-lg-6(ng-show="pais.editandoPais") 
+												input(ng-model="pais.pais")
+											md-button.md-icon-button(ng-hide="pais.editandoPais" ng-click="pais.editandoPais=!pais.editandoPais" aria-label="Editar pais")
+												.fa.fa-pencil
+											md-button.md-icon-button(ng-show="pais.editandoPais" ng-click="actualizarPais(pais)" aria-label="Editar pais")
+												.fa.fa-save
+											.col-lg-6(ng-hide="pais.editandoAbrev" ng-click="pais.editandoAbrev=!pais.editandoAbrev") ({{pais.abrev}})
+											.col-lg-6(ng-show="pais.editandoAbrev") 
+												input(ng-model="pais.abrev")
+											md-button.md-icon-button(ng-hide="pais.editandoAbrev" ng-click="pais.editandoAbrev=!pais.editandoAbrev" aria-label="Editar Abrev")
+												.fa.fa-pencil
+											md-button.md-icon-button(ng-show="pais.editandoAbrev" ng-click="actualizarPais(pais)" aria-label="Editar Abrev")
+												.fa.fa-save
+										md-button.md-icon-button(aria-label="Eliminar")
+											.fa.fa-times
 			
 
-			.footer
-				code &lt; tr class="active/success/danger/warning" &gt;
-	.col-xs-12.col-md-4
-		.well.with-header.with-footer
-			.header.bordered-sky Contextual Columns
-			table.table.table-bordered.table-hover
-				thead
-					tr
-						th #
-						th Column
-						th Column
-						th Column
-						th Column
-				tbody
-					tr
-						td 3
-						td active
-						td success
-						td.warning warning
-						td danger
-					tr
-						td 4
-						td active
-						td.success success
-						td warning
-						td danger
+						
 			.footer
 				code &lt; td class="active/success/danger/warning" &gt;
