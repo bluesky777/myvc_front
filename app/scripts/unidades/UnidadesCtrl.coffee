@@ -17,10 +17,10 @@ angular.module('myvcFrontApp')
 
 	$scope.activar_crear_unidad = true
 	$scope.unidades = []
-	
 
 
-	$http.get('::unidades/deasignaturaperiodo/' + $scope.asignatura_id + '/' + $scope.USER.periodo_id).then((r)->
+
+	$http.get('::unidades/de-asignatura-periodo/' + $scope.asignatura_id + '/' + $scope.USER.periodo_id).then((r)->
 		if r.data.length > 0
 			$scope.unidades = r.data
 			$scope.unidades = $filter('orderBy')($scope.unidades, 'orden')
@@ -61,7 +61,7 @@ angular.module('myvcFrontApp')
 
 		$scope.unidades.porc_unidades 	= sum
 		$scope.$parent.bigLoader 		= false
-		
+
 
 
 
@@ -102,11 +102,11 @@ angular.module('myvcFrontApp')
 			porcentaje: unidad.porcentaje
 
 		$http.put('::unidades/update/' + unidad.id, datos).then((r)->
-			
+
 			actualizado = 'actualizado'
 			if $scope.GENERO_UNI == 'F'
 				actualizado = 'actualizada'
-			
+
 			toastr.success $scope.UNIDAD + ' ' + actualizado + ' con éxito.'
 			unidad.editando = false
 			$scope.calcularPorcUnidades()
@@ -121,7 +121,7 @@ angular.module('myvcFrontApp')
 		modalInstance = $uibModal.open({
 			templateUrl: '==unidades/removeUnidad.tpl.html'
 			controller: 'RemoveUnidadCtrl'
-			resolve: 
+			resolve:
 				unidad: ()->
 					unidad
 		})
@@ -133,7 +133,7 @@ angular.module('myvcFrontApp')
 
 
 	$scope.onSortUnidades = ($item, $partFrom, $partTo, $indexFrom, $indexTo)->
-		
+
 		sortHash = []
 
 		for unidad, index in $partFrom
@@ -142,10 +142,10 @@ angular.module('myvcFrontApp')
 			hashEntry = {}
 			hashEntry["" + unidad.id] = index
 			sortHash.push(hashEntry)
-		
-		datos = 
+
+		datos =
 			sortHash: sortHash
-		
+
 		$http.put('::unidades/update-orden', datos).then((r)->
 			return true
 		, (r2)->
@@ -155,7 +155,7 @@ angular.module('myvcFrontApp')
 
 
 		$scope.calcularPorcUnidades()
-		
+
 
 
 
@@ -166,7 +166,7 @@ angular.module('myvcFrontApp')
 
 
 	$scope.onSortSubunidades = ($item, $partFrom, $partTo, $indexFrom, $indexTo)->
-		
+
 		if $partFrom == $partTo
 
 			sortHash = []
@@ -177,10 +177,10 @@ angular.module('myvcFrontApp')
 				hashEntry = {}
 				hashEntry["" + subunidad.id] = index
 				sortHash.push(hashEntry)
-			
-			datos = 
+
+			datos =
 				sortHash: sortHash
-			
+
 			$http.put('::subunidades/update-orden', datos).then((r)->
 				return true
 			, (r2)->
@@ -201,25 +201,25 @@ angular.module('myvcFrontApp')
 				hashEntry = {}
 				hashEntry["" + subunidad.id] = index
 				sortHash1.push(hashEntry)
-			
+
 
 			if sortHash1.length > 0
 				datos.unidad1_id 	= $partFrom.unidad_id
 				datos.sortHash1 	= sortHash1
-			
+
 			# Actualizamos la Segunda parte
-			for subunidad, index in $partTo 
+			for subunidad, index in $partTo
 				subunidad.orden = index
 
 				hashEntry = {}
 				hashEntry["" + subunidad.id] = index
 				sortHash2.push(hashEntry)
-			
+
 
 			if sortHash1.length > 0
 				datos.unidad2_id 	= $partTo.unidad_id
 				datos.sortHash2 	= sortHash2
-			
+
 			$http.put('::subunidades/update-orden-varias', datos).then((r)->
 				return true
 			, (r2)->
@@ -228,9 +228,9 @@ angular.module('myvcFrontApp')
 			)
 
 		$scope.calcularPorcUnidades()
-		
 
-	
+
+
 
 
 
@@ -269,11 +269,11 @@ angular.module('myvcFrontApp')
 			orden: subunidad.orden
 
 		$http.put('::subunidades/update/' + subunidad.id, datos).then((r)->
-			
+
 			actualizado = 'actualizado'
 			if $scope.GENERO_SUB == 'F'
 				actualizado = 'actualizada'
-			
+
 			toastr.success $scope.SUBUNIDAD + ' ' + actualizado + ' con éxito.'
 			subunidad.editando = false
 
@@ -287,7 +287,7 @@ angular.module('myvcFrontApp')
 		modalInstance = $uibModal.open({
 			templateUrl: '==unidades/removeSubunidad.tpl.html'
 			controller: 'RemoveSubunidadCtrl'
-			resolve: 
+			resolve:
 				subunidad: ()->
 					subunidad
 		})

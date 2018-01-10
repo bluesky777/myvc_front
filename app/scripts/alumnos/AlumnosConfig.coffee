@@ -6,7 +6,7 @@ angular.module('myvcFrontApp')
 		$state
 			.state 'panel.alumnos.nuevo',
 				url: '/nuevo'
-				views: 
+				views:
 					'edit_alumno':
 						templateUrl: "#{App.views}alumnos/alumnosNew.tpl.html"
 						controller: 'AlumnosNewCtrl'
@@ -17,7 +17,7 @@ angular.module('myvcFrontApp')
 							titulo: [->
 								'Nuevo alumno'
 							]
-				data: 
+				data:
 					displayName: 'Nuevo'
 					icon_fa: 'fa fa-male'
 					pageTitle: 'Nuevo alumno - MyVc'
@@ -26,18 +26,18 @@ angular.module('myvcFrontApp')
 
 			.state 'panel.alumnos.editar',
 				url: '/editar/:alumno_id'
-				views: 
+				views:
 					'edit_alumno':
 						templateUrl: "#{App.views}alumnos/alumnosEdit.tpl.html"
 						controller: 'AlumnosEditCtrl'
 					'headerContent':
 						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
-						resolve: 
+						resolve:
 							titulo: [->
 								'Editar alumno'
 							]
-				data: 
+				data:
 					displayName: 'Editar'
 					icon_fa: 'fa fa-users'
 					pageTitle: 'Editar alumno - MyVc'
@@ -48,18 +48,18 @@ angular.module('myvcFrontApp')
 				url: '^/listalumnos/:grupo_id'
 				param:
 					grupo_id: null
-				views: 
+				views:
 					'maincontent':
 						templateUrl: "#{App.views}alumnos/listAlumnos.tpl.html"
 						controller: 'ListAlumnosCtrl'
 					'headerContent':
 						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
-						resolve: 
+						resolve:
 							titulo: [->
 								'Listado de alumnos'
 							]
-				data: 
+				data:
 					displayName: 'Listado'
 					icon_fa: 'fa fa-users'
 					pageTitle: 'Listado alumnos - MyVc'
@@ -69,18 +69,18 @@ angular.module('myvcFrontApp')
 
 			.state 'panel.matriculas',
 				url: '^/matriculas'
-				views: 
+				views:
 					'maincontent':
 						templateUrl: "#{App.views}alumnos/matriculas.tpl.html"
 						controller: 'MatriculasCtrl'
 					'headerContent':
 						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
-						resolve: 
+						resolve:
 							titulo: [->
 								'Matrículas de alumnos'
 							]
-				data: 
+				data:
 					displayName: 'matriculas'
 					icon_fa: 'fa fa-users'
 					pageTitle: 'Matrículas alumnos - MyVc'
@@ -90,7 +90,7 @@ angular.module('myvcFrontApp')
 		$state
 			.state 'panel.matriculas.nuevo',
 				url: '/nuevo'
-				views: 
+				views:
 					'edit_alumno':
 						templateUrl: "#{App.views}alumnos/alumnosNew.tpl.html"
 						controller: 'AlumnosNewCtrl'
@@ -101,7 +101,7 @@ angular.module('myvcFrontApp')
 							titulo: [->
 								'Nuevo alumno'
 							]
-				data: 
+				data:
 					displayName: 'Nuevo'
 					icon_fa: 'fa fa-male'
 					pageTitle: 'Nuevo alumno - MyVc'
@@ -112,18 +112,39 @@ angular.module('myvcFrontApp')
 				url: '^/matriculas/detalles/:alumno_id'
 				param:
 					alumno_id: null
-				views: 
+				views:
 					'matricula_detalle':
 						templateUrl: "#{App.views}alumnos/matriculasDetalles.tpl.html"
 						controller: 'MatriculasDetallesCtrl'
 					'headerContent':
 						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
-						resolve: 
+						resolve:
 							titulo: [->
 								'Matrículas detalladas'
 							]
-				data: 
+				data:
+					displayName: 'detalles'
+					icon_fa: 'fa fa-pencil'
+					pageTitle: 'Matrículas alumnos - MyVc'
+					needed_permissions: [PERMISSIONS.can_work_like_teacher]
+
+			.state 'panel.alumnos.matricula_detalles',
+				url: '^/alumnos/matricula_detalles/:alumno_id'
+				param:
+					alumno_id: null
+				views:
+					'matricula_detalle':
+						templateUrl: "#{App.views}alumnos/matriculasDetalles.tpl.html"
+						controller: 'MatriculasDetallesCtrl'
+					'headerContent':
+						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						controller: 'PanelHeaderCtrl'
+						resolve:
+							titulo: [->
+								'Matrículas detalladas'
+							]
+				data:
 					displayName: 'detalles'
 					icon_fa: 'fa fa-pencil'
 					pageTitle: 'Matrículas alumnos - MyVc'
@@ -133,18 +154,18 @@ angular.module('myvcFrontApp')
 				url: '^/matriculas/detalles/:alumno_id/periodos'
 				param:
 					alumno_id: null
-				views: 
+				views:
 					'matricula_detalle_periodos':
 						templateUrl: "#{App.views}alumnos/matriculasDetallesPeriodos.tpl.html"
 						controller: 'MatriculasDetallesPeriodosCtrl'
 					'headerContent':
 						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
-						resolve: 
+						resolve:
 							titulo: [->
 								'Matrículas detalladas'
 							]
-				data: 
+				data:
 					displayName: 'periodos'
 					icon_fa: 'fa fa-ioxhost'
 					pageTitle: 'Matrículas alumnos - MyVc'
@@ -156,18 +177,18 @@ angular.module('myvcFrontApp')
 
 			.state 'panel.cartera',
 				url: '^/cartera'
-				views: 
+				views:
 					'maincontent':
 						templateUrl: "#{App.views}alumnos/cartera.tpl.html"
 						controller: 'CarteraCtrl'
 					'headerContent':
 						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
-						resolve: 
+						resolve:
 							titulo: [->
 								'Cartera'
 							]
-				data: 
+				data:
 					displayName: 'cartera'
 					icon_fa: 'fa fa-money'
 					pageTitle: 'Cartera - MyVc'
@@ -176,18 +197,18 @@ angular.module('myvcFrontApp')
 
 			.state 'panel.cartera.editar',
 				url: '/editar/:alumno_id'
-				views: 
+				views:
 					'edit_alumno':
 						templateUrl: "#{App.views}alumnos/alumnosEdit.tpl.html"
 						controller: 'AlumnosEditCtrl'
 					'headerContent':
 						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
-						resolve: 
+						resolve:
 							titulo: [->
 								'Editar'
 							]
-				data: 
+				data:
 					displayName: 'editar'
 					icon_fa: 'fa fa-users'
 					pageTitle: 'Editar alumno - MyVc'
@@ -197,18 +218,18 @@ angular.module('myvcFrontApp')
 
 			.state 'panel.acudientes',
 				url: '^/acudientes'
-				views: 
+				views:
 					'maincontent':
 						templateUrl: "#{App.views}alumnos/acudientes.tpl.html"
 						controller: 'AcudientesCtrl'
 					'headerContent':
 						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
-						resolve: 
+						resolve:
 							titulo: [->
 								'Acudientes'
 							]
-				data: 
+				data:
 					displayName: 'Acudientes'
 					icon_fa: 'fa fa-users'
 					pageTitle: 'Acudientes - MyVc'

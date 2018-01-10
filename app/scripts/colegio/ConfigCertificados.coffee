@@ -1,6 +1,6 @@
 angular.module('myvcFrontApp')
 
-.directive('configuracionCertificados',['App', (App)-> 
+.directive('configuracionCertificados',['App', (App)->
 
 	restrict: 'E'
 	templateUrl: "#{App.views}colegio/configCertificados.tpl.html"
@@ -13,7 +13,7 @@ angular.module('myvcFrontApp')
 
 ])
 
-.controller 'ConfigCertificadosCtrl', ['$scope', 'App', '$http', '$state', '$cookies', 'toastr', 'uiGridConstants', '$filter', ($scope, App, $http, $state, $cookies, toastr, uiGridConstants, $filter) ->
+.controller 'ConfigCertificadosCtrl', ['$scope', 'App', '$http', '$state', 'toastr', 'uiGridConstants', '$filter', ($scope, App, $http, $state, toastr, uiGridConstants, $filter) ->
 
 	#console.log 'Configurando certificados'
 	$scope.newcertif = {
@@ -31,16 +31,16 @@ angular.module('myvcFrontApp')
 	$scope.currentCertif = {}
 	$scope.certificado = {}
 
-	
+
 	certs = $filter('filter')($scope.certificados, {id: $scope.year.config_certificado_estudio_id})
 	if certs
-		if certs.length > 0	
-			$scope.certificado.config_actual = certs[0]	
+		if certs.length > 0
+			$scope.certificado.config_actual = certs[0]
 
 
 	$scope.crearConfig = ()->
 		$scope.creando_certificado = true
-	
+
 	$scope.cancelConfig = ()->
 		$scope.creando_certificado = false
 
@@ -50,7 +50,7 @@ angular.module('myvcFrontApp')
 	btGrid2 = '<a uib-tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-trash "></i></a>'
 
 
-	$scope.gridOptions = 
+	$scope.gridOptions =
 		showGridFooter: true,
 		enableSorting: true,
 		enableFiltering: false,
@@ -72,7 +72,7 @@ angular.module('myvcFrontApp')
 		onRegisterApi: ( gridApi ) ->
 			$scope.gridApi = gridApi
 			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
-				
+
 				if newValue != oldValue
 
 					$http.put('::certificados/update', rowEntity).then((r)->
@@ -84,7 +84,7 @@ angular.module('myvcFrontApp')
 				$scope.$apply()
 			)
 
-	
+
 
 	$scope.gridOptions.data = $scope.certificados;
 
@@ -95,12 +95,12 @@ angular.module('myvcFrontApp')
 		$http.post('::certificados/store', $scope.newcertif).then((r)->
 			toastr.success 'Certificado creado.'
 			$scope.creando_certificado = false
-			$scope.certificados.push r.data 
+			$scope.certificados.push r.data
 			$scope.gridOptions.data = $scope.certificados
 		, (r2)->
 			toastr.error 'Certificado no guardado', 'Error'
 		)
-		
+
 
 
 	$scope.editar = (certif)->
@@ -116,12 +116,12 @@ angular.module('myvcFrontApp')
 		if pie_img.length > 0
 			pie_img = pie_img[0]
 			$scope.currentCertif.piepagina_img = pie_img
-	
-		
+
+
 
 	$scope.cancelEdit = ()->
 		$scope.editando = false
-		
+
 
 	$scope.actualizar = ()->
 		$http.put('::certificados/update', $scope.currentCertif).then((r)->
@@ -130,8 +130,8 @@ angular.module('myvcFrontApp')
 		, (r2)->
 			toastr.error 'Cambio no guardado', 'Error'
 		)
-		
-		
+
+
 
 	$scope.eliminar = (certif)->
 		$http.delete('::certificados/destroy/'+certif.id).then((r)->
@@ -141,7 +141,7 @@ angular.module('myvcFrontApp')
 		, (r2)->
 			toastr.error 'Certificado no eliminado', 'Error'
 		)
-		
+
 
 	$scope.certificadoSelect = ($item, $model)->
 		$http.put('::certificados/actual', {config_certificado_estudio_id: $item.id, year_id: $scope.year.id}).then((r)->

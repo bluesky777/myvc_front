@@ -19,7 +19,7 @@
           <ul class="account-area"><!-- Periodo Dropdown-->
             <li my-drop-down ng-click="toggleOpen()" is-open="false" class="dropdown-periodos"><a data-toggle="dropdown" title="Tasks" href="" class="dropdown-toggle link-dropdown-periodos wave in"><i class="icon fa fa-ioxhost"> Per{{ USER.numero_periodo }}</i><span class="badge"></span></a>
               <ul class="pull-right dropdown-menu dropdown-tasks dropdown-arrow">
-                <li class="dropdown-header bordered-blueberry"><i class="fa fa-ioxhost"> </i><span>Periodos</span></li>
+                <li class="dropdown-header bordered-blueberry"><i class="fa fa-ioxhost"></i><span>Periodos</span></li>
                 <li ng-repeat="periodo in periodos"><a href="" ng-click="cambiarPeriodo(periodo)">
                     <div class="clearfix"><span class="pull-left">Periodo {{ periodo.numero }}</span>
                       <div ng-show="periodo.actual" class="pull-right">En curso</div>
@@ -41,9 +41,9 @@
                     <div class="clearfix">
                       <div class="notification-icon"><i ng-if="year.actual" class="fa fa-check bg-themeprimary white"></i><i ng-if="!year.actual" class="fa bg-warning white"></i></div>
                       <div class="notification-body"><span class="title">{{year.year}}</span></div>
-                      <div class="notification-extra"><i ng-if="year.actual" class="fa fa-calendar"> En curso  </i><i ng-if="year.actual" class="fa fa-clock-o themeprimary"></i><i ng-if="!year.actual" class="fa fa-clock-o darkorange"></i></div>
+                      <div class="notification-extra"><i ng-if="year.actual" class="fa fa-calendar"> En curso</i><i ng-if="year.actual" class="fa fa-clock-o themeprimary"></i><i ng-if="!year.actual" class="fa fa-clock-o darkorange"></i></div>
                     </div></a></li>
-                <li class="dropdown-footer"><span>Hoy, {{::date | date:"EEEE dd ' de ' MMMM"}} </span></li>
+                <li class="dropdown-footer"><span>Hoy, {{::date | date:"EEEE dd ' de ' MMMM"}}</span></li>
               </ul><!--/ Año Dropdown-->
             </li>
             <li my-drop-down ng-click="toggleOpen()" is-open="false" evitar-cierre="true" ng-if="false"><a data-toggle="dropdown" title="Ayuda" href="" class="dropdown-toggle"><i class="icon fa fa-warning"></i></a><!--Notification Dropdown-->
@@ -137,9 +137,7 @@
       <div ui-view="headerContent" class="page-header position-relative hidden-print"></div><!-- /Page Header ************************************* -->
       <!-- Page Body -->
       <!-- Con esto quito espacios para el contenedor cuando sea el estado actividades-->
-      <div withpadding-dir class="page-body">
-         
-        <!-- Main Content ************************************* -->
+      <div withpadding-dir class="page-body margin-padding-lados-xs"><!-- Main Content ************************************* -->
         <div ui-view="maincontent">
           <anuncios-dir></anuncios-dir><br><br>
           <h3>Entra a los resultados:</h3>

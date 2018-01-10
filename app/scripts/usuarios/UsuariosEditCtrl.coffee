@@ -39,7 +39,7 @@ angular.module("myvcFrontApp")
 		)
 
 	$scope.departNacSelect = ($item)->
-		$http.get("::ciudades/pordepartamento/"+$item.departamento).get().then((r)->
+		$http.get("::ciudades/por-departamento/"+$item.departamento).get().then((r)->
 			$scope.ciudadesNac = r
 
 			if typeof $scope.alumno.departamento_doc is 'undefined'
@@ -54,7 +54,7 @@ angular.module("myvcFrontApp")
 		)
 
 	$scope.departSeleccionado = ($item)->
-		$http.get("::ciudades/pordepartamento/"+$item.departamento).then((r)->
+		$http.get("::ciudades/por-departamento/"+$item.departamento).then((r)->
 			$scope.ciudades = r.data
 		)
 

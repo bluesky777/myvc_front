@@ -31,6 +31,9 @@ angular.module("myvcFrontApp")
 	$scope.gridOptions = 
 		enableSorting: true,
 		enableFiltering: true,
+		exporterSuppressColumns: [ 'edicion' ],
+		exporterCsvColumnSeparator: ';'
+		enableGridMenu: true,
 		enebleGridColumnMenu: false,
 		enableCellEditOnFocus: true,
 		columnDefs: [
@@ -40,10 +43,10 @@ angular.module("myvcFrontApp")
 			{ field: 'nombres', enableHiding: false, minWidth: 100 }
 			{ field: 'apellidos', minWidth: 100 }
 			{ field: 'sexo', maxWidth: 40 }
-			{ field: 'fecha_nac', displayName: 'Nacimiento'  }
-			{ field: 'username', displayName: 'Usuario', enableCellEdit: false }
-			{ field: 'facebook'  }
-			{ field: 'celular' }
+			{ field: 'fecha_nac', displayName: 'Nacimiento', minWidth: 100  }
+			{ field: 'username', displayName: 'Usuario', enableCellEdit: false, minWidth: 100 }
+			{ field: 'facebook', minWidth: 100  }
+			{ field: 'celular', minWidth: 100 }
 		]
 		multiSelect: false,
 		onRegisterApi: ( gridApi ) ->
@@ -109,6 +112,9 @@ angular.module("myvcFrontApp")
 	$scope.gridCurrentOptions = 
 		enableSorting: true,
 		enableFiltering: true,
+		exporterSuppressColumns: [ 'edicion' ],
+		exporterCsvColumnSeparator: ';'
+		enableGridMenu: true,
 		enebleGridColumnMenu: false,
 		enableCellEditOnFocus: true,
 		columnDefs: [
@@ -117,10 +123,10 @@ angular.module("myvcFrontApp")
 			{ field: 'nombres', enableHiding: false, minWidth: 100 }
 			{ field: 'apellidos', minWidth: 100 }
 			{ field: 'sexo', width: 40 }
-			{ field: 'fecha_nac', displayName: 'Nacimiento'  }
-			{ field: 'username', displayName: 'Usuario', enableCellEdit: false }
-			{ field: 'facebook'  }
-			{ field: 'celular' }
+			{ field: 'fecha_nac', displayName: 'Nacimiento', minWidth: 100  }
+			{ field: 'username', displayName: 'Usuario', minWidth: 100, enableCellEdit: false }
+			{ field: 'facebook', minWidth: 100  }
+			{ field: 'celular', minWidth: 100 }
 		]
 		multiSelect: false,
 		onRegisterApi: ( gridApi ) ->

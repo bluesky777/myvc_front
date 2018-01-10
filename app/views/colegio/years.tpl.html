@@ -8,7 +8,8 @@
         </div>
         <div ng-if="!year.ocultando" class="widget-body">
           <uib-accordion close-others="true">
-            <div uib-accordion-group heading="Básico" is-open="true" class="panel-default">
+            <div uib-accordion-group is-open="status.open_year" class="panel-default">
+              <uib-accordion-heading>Básico<i ng-class="{'fa-chevron-down': status.open_year, 'fa-chevron-right': !status.open_year}" class="pull-right fa"></i></uib-accordion-heading>
               <form role="form" ng-submit="guardar_cambios(year)">
                 <div class="row">
                   <div class="col-sm-6">
@@ -40,7 +41,7 @@
                 <div class="row">
                   <div class="col-sm-12">
                     <div class="form-group">
-                      <label uib-tooltip="Puedes bloquear el sistema momentaneamente para que los alumnos y acudientes no puedan ver las notas.">Alumnos pueden ver sus notas </label>
+                      <label uib-tooltip="Puedes bloquear el sistema momentaneamente para que los alumnos y acudientes no puedan ver las notas.">Alumnos pueden ver sus notas</label>
                       <label>
                         <input type="checkbox" ng-change="toggleBloquearNotas(year.id, year.alumnos_can_see_notas)" ng-true-value="1" ng-false-value="0" ng-model="year.alumnos_can_see_notas" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
                       </label>
@@ -53,7 +54,7 @@
                       <label class="col-sm-2 control-label no-padding-right">Rector(a)</label>
                       <div class="col-sm-10">
                         <ui-select ng-model="year.rector" theme="select2" style="width: 300px;">
-                          <ui-select-match placeholder="Rector(a)" allow-clear="true"> <img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombres + ' ' + $select.selected.apellidos"></small></ui-select-match>
+                          <ui-select-match placeholder="Rector(a)" allow-clear="true"><img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombres + ' ' + $select.selected.apellidos"></small></ui-select-match>
                           <ui-select-choices repeat="profe in profesores | filter: $select.search"><img ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + profe.nombres + ' ' + profe.apellidos | highlight: $select.search"></small></ui-select-choices>
                         </ui-select>
                       </div>
@@ -186,12 +187,13 @@
                 </div>
               </form>
             </div>
-            <div uib-accordion-group heading="Periodos" class="panel-default">
+            <div uib-accordion-group is-open="status.open_pers" class="panel-default">
+              <uib-accordion-heading>Periodos<i ng-class="{'fa-chevron-down': status.open_pers, 'fa-chevron-right': !status.open_pers}" class="pull-right fa"></i></uib-accordion-heading>
               <div class="row">
                 <div class="col-sm-12">
                   <div class="list-periodos">
-                    <h4 ng-repeat="periodo in year.periodos |  orderBy: 'numero' " style="margin: 5px 0" ng-class="{ 'before-success': periodo.actual }" class="row-title"> 
-                      <div class="col-lg-3 col-sm-6 col-xs-12"><i ng-class="{ 'green': periodo.actual }" class="fa fa-ioxhost blue"></i>Periodo <span style="font-weight: bold !important">{{periodo.numero}}  </span></div>
+                    <h4 ng-repeat="periodo in year.periodos |  orderBy: 'numero' " style="margin: 5px 0" ng-class="{ 'before-success': periodo.actual }" class="row-title">
+                      <div class="col-lg-3 col-sm-6 col-xs-12"><i ng-class="{ 'green': periodo.actual }" class="fa fa-ioxhost blue"></i>Periodo<span style="font-weight: bold !important">{{periodo.numero}}</span></div>
                       <div style="margin-bottom: 0px" class="form-group col-lg-3 col-sm-6 col-xs-12">
                         <label uib-tooltip="¿Los profesores pueden editar notas, indicadores y comportamiento?">¿Editan notas?</label>
                         <label>
@@ -213,23 +215,33 @@
                         <input type="date" ng-model="periodo.fecha_fin" ng-change="cambiarFechaFin(periodo, periodo.fecha_fin)">
                       </div>
                       <div class="btn-group btn-group-sm col-lg-3 col-sm-6 col-xs-12">
-                        <button ng-click="removePeriodo(year, periodo)" style="height: 30px;" uib-tooltip="Eliminar periodo" class="btn btn-danger btn-sm shiny"> <i class="fa fa-times"></i></button>
+                        <button ng-click="removePeriodo(year, periodo)" style="height: 30px;" uib-tooltip="Eliminar periodo" class="btn btn-danger btn-sm shiny"><i class="fa fa-times"></i></button>
                         <button ng-show="!periodo.actual" ng-click="actualPeriodo(year, periodo)" uib-tooltip="Establecer periodo como actual" class="btn btn-default btn-sm shiny">Actual</button>
                         <button ng-show="periodo.actual" disabled="disabled" class="btn btn-success btn-sm shiny">En curso</button>
                       </div>
                     </h4>
                   </div>
-                  <button ng-click="addPeriodo(year)" class="btn btn-success"> <i class="fa fa-plus"></i>Crear periodo</button>
+                  <button ng-click="addPeriodo(year)" class="btn btn-success"><i class="fa fa-plus"></i>Crear periodo</button>
                 </div>
               </div>
             </div>
-            <div uib-accordion-group heading="Certificados" class="panel-default">
+            <div uib-accordion-group is-open="status.open_certi" class="panel-default">
+              <uib-accordion-heading>Certificados<i ng-class="{'fa-chevron-down': status.open_certi, 'fa-chevron-right': !status.open_certi}" class="pull-right fa"></i></uib-accordion-heading>
               <configuracion-certificados></configuracion-certificados>
             </div>
+            <div uib-accordion-group is-open="status.open_escalas" class="panel-default">
+              <uib-accordion-heading>Escalas de valoración<i ng-class="{'fa-chevron-down': status.open_escalas, 'fa-chevron-right': !status.open_escalas}" class="pull-right fa"></i></uib-accordion-heading>
+              <configuracion-escalas></configuracion-escalas>
+            </div>
+            <div uib-accordion-group is-open="status.open_borrar" class="panel-danger">
+              <uib-accordion-heading>Borrar año<i ng-class="{'fa-chevron-down': status.open_borrar, 'fa-chevron-right': !status.open_borrar}" class="pull-right fa"></i></uib-accordion-heading>
+              <div style="text-align: center">
+                <h4>¡Operación peligrosa!</h4>
+                <p>Para enviar este año a la papelera de reciclaje, presione el siguiente botón:</p>
+                <button ng-click="deleteYear(year)" class="btn btn-danger"><i class="fa fa-times"></i>Eliminar año {{year.year}}</button>
+              </div>
+            </div>
           </uib-accordion>
-          <div style="text-align: center">
-            <button ng-click="deleteYear(year)" class="btn btn-danger"> <i class="fa fa-times"></i>Eliminar año {{year.year}}</button>
-          </div>
         </div>
       </div>
     </div>

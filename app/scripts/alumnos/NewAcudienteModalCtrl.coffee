@@ -40,33 +40,41 @@ angular.module("myvcFrontApp")
 
 		switch (reason)
 			when "backdrop click", "escape key press"
-				if (!confirm('¿Seguro que quiere cerrar sin guardar acudiente?')) 
+				if (!confirm('¿Seguro que quiere cerrar sin guardar acudiente?'))
 					event.preventDefault();
 
-			
 
+
+	)
+
+
+	$http.put('::acudientes/ultimos').then((r)->
+		$scope.sin_repetir(r.data)
 	)
 
 
 	$scope.refreshAcudientes = (termino)->
 		if termino
 			$http.put('::acudientes/buscar', { termino: termino } ).then((r)->
-				res = []
-				for acudi in r.data
-					$scope.existe = false
-					for pariente in alumno.subGridOptions.data
-						if pariente.id == acudi.id
-							$scope.existe = true
-					
-					if !$scope.existe
-						res.push acudi
-							
-				$scope.acudientes = res
+				$scope.sin_repetir(r.data)
 			, (r2)->
 				toastr.warning 'No se pudo encontrar nada.', 'Problema'
 			)
 
-	
+	$scope.sin_repetir = (respuesta)->
+		res = []
+		for acudi in respuesta
+			$scope.existe = false
+			for pariente in alumno.subGridOptions.data
+				if pariente.id == acudi.id
+					$scope.existe = true
+
+			if !$scope.existe
+				res.push acudi
+
+		$scope.acudientes = res
+
+
 	$scope.paisNacSelect = ($item, $model)->
 		$http.get("::ciudades/departamentos/"+$item.id).then((r)->
 			$scope.departamentosNac = r.data
@@ -88,7 +96,7 @@ angular.module("myvcFrontApp")
 		)
 
 	$scope.paisSelecionado = ($item, $model)->
-		
+
 		$http.get("::ciudades/departamentos/"+$item.id).then((r)->
 			$scope.departamentos = r.data
 		)
@@ -98,7 +106,7 @@ angular.module("myvcFrontApp")
 			$scope.ciudades = r.data
 		)
 
-	$scope.dateOptions = 
+	$scope.dateOptions =
 		formatYear: 'yy'
 
 
@@ -111,7 +119,7 @@ angular.module("myvcFrontApp")
 
 
 	$scope.crearAcudiente = ()->
-		
+
 		$scope.acudiente.alumno_id = alumno.alumno_id
 
 		$http.post('::acudientes/crear', $scope.acudiente ).then((r)->
@@ -124,7 +132,7 @@ angular.module("myvcFrontApp")
 
 	$scope.seleccionarAcudiente = ()->
 		datos = { acudiente_id: $scope.datos.acudiente.id, alumno_id: alumno.alumno_id, parentesco: $scope.acudiente.parentesco.parentesco }
-		
+
 		if $rootScope.acudiente_cambiar
 			datos.parentesco_acudiente_cambiar_id = $rootScope.acudiente_cambiar.parentesco_id
 

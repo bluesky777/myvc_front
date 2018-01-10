@@ -39,7 +39,7 @@ datalist#religiones-list
 								span.badge
 							ul.pull-right.dropdown-menu.dropdown-tasks.dropdown-arrow
 								li.dropdown-header.bordered-blueberry
-									i.fa.fa-ioxhost 
+									i.fa.fa-ioxhost
 									span Periodos
 								li(ng-repeat="periodo in periodos")
 									a(href="" ng-click="cambiarPeriodo(periodo)")
@@ -53,7 +53,7 @@ datalist#religiones-list
 											.progress-bar(style="width:65%")
 										.progress.progress-xs
 											.progress-bar.progress-bar-success(style="width:05%")
-										
+
 						<!--/ Periodo Dropdown-->
 
 						li(my-drop-down ng-click="toggleOpen()" is-open="false" evitar-cierre="true")
@@ -70,12 +70,12 @@ datalist#religiones-list
 											.notification-body
 												span.title {{year.year}}
 											.notification-extra
-												i.fa.fa-calendar(ng-if="year.actual")  En curso  
+												i.fa.fa-calendar(ng-if="year.actual")  En curso
 												i.fa.fa-clock-o.themeprimary(ng-if="year.actual")
 												i.fa.fa-clock-o.darkorange(ng-if="!year.actual")
-								
+
 								li.dropdown-footer
-									span Hoy, {{::date | date:"EEEE dd ' de ' MMMM"}} 
+									span Hoy, {{::date | date:"EEEE dd ' de ' MMMM"}}
 							<!--/ Año Dropdown-->
 
 						li(my-drop-down ng-click="toggleOpen()" is-open="false" evitar-cierre="true" ng-if="false")
@@ -183,7 +183,7 @@ datalist#religiones-list
 											span.pull-right 35%
 										.progress.progress-xs
 											.progress-bar.progress-bar-success(style="width:35%")
-										
+
 							<!--/Tasks Dropdown-->
 
 						<!--  Área de usuario -->
@@ -230,7 +230,7 @@ datalist#religiones-list
 .main-container.container-fluid
 	<!-- Page Container -->
 	.page-container
-		
+
 
 
 
@@ -258,21 +258,21 @@ datalist#religiones-list
 
 			<!-- Page Body -->
 			// Con esto quito espacios para el contenedor cuando sea el estado actividades
-			.page-body(withpadding-dir) 
+			.page-body.margin-padding-lados-xs(withpadding-dir)
 
 
 				<!-- Main Content ************************************* -->
-				
 
-				
+
+
 				div(ui-view="maincontent")
-					
+
 					anuncios-dir
 
 
 					br
 					br
-						
+
 					h3 Entra a los resultados:
 					button.btn.btn-primary.btn-lg(ui-sref="panel.actividades.votaciones.resultados()") VOTACIONES
 
@@ -280,7 +280,7 @@ datalist#religiones-list
 
 
 				<!-- /Main Content ************************************ -->
-				
+
 		<!-- /Page Content -->
 
 	<!-- /Page Container -->

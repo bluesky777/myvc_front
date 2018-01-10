@@ -1312,7 +1312,7 @@ a:focus, a:active {
 }
 .navbar {
     padding: 0;
-    margin: 0; 
+    margin: 0;
     border: none;
     height: 45px;
     min-height: 45px;
@@ -15450,7 +15450,7 @@ body {
 .maxwidth15{
     max-width: 700px;
 }
-.inputnota-perdida input{  
+.inputnota-perdida input{
     border-color: #E61900;
     color: #F11A00;
     box-shadow: none;
@@ -15491,8 +15491,8 @@ body {
 
 
 .page-vertical{
-    @page { 
-        size:22cm 31cm; 
+    @page {
+        size:22cm 31cm;
         margin: 2cm;
         background-color: white;
     }
@@ -15501,8 +15501,8 @@ body {
     margin-bottom: 10px;
 }
 .page-carta-horizontal{
-    @page { 
-        size:31cm 22cm; 
+    @page {
+        size:31cm 22cm;
         margin: 2cm;
         background-color: white;
     }
@@ -15510,8 +15510,8 @@ body {
 }
 
 .page-oficio-horizontal{
-    @page { 
-        size:36cm 22cm; 
+    @page {
+        size:36cm 22cm;
         margin: 2cm;
         background-color: white;
     }
@@ -15535,7 +15535,7 @@ body {
         display: none;
     }
 
-    
+
     .page-content{
         margin-left: 0px;
     }
@@ -15552,27 +15552,27 @@ body {
 
 
 
-    @page cartahorizontal{ 
+    @page cartahorizontal{
         -webkit-transform: rotate(-90deg);
         -moz-transform:rotate(-90deg);
         filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
         margin: 0mm;
         background-color: white;
     }
-    @page oficiohorizontal{ 
+    @page oficiohorizontal{
         -webkit-transform: rotate(-90deg);
         -moz-transform:rotate(-90deg);
         filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
         margin: 0mm;
         background-color: white;
     }
-    @page cartavertical{ 
-        size: portrait; 
+    @page cartavertical{
+        size: portrait;
         margin: 0cm;
         background-color: white;
-        
+
     }
-    
+
 
     .page-vertical{
         page: cartavertical;
@@ -15611,7 +15611,7 @@ body {
         border-radius: 5px 5px 0 0;
         //background-color: #A7C7EB!important;
         background-color: #000!important;
-        -webkit-print-color-adjust: exact; 
+        -webkit-print-color-adjust: exact;
     }
 
     .materia-item{
@@ -15627,7 +15627,7 @@ body {
         border: 1px solid #000!important;
         margin: 0px 10px 0px 10px;
     }
-    
+
     .unidades-list{
         border-radius: 0 0 5px 5px;
         border-top: none;
@@ -15647,7 +15647,7 @@ body {
         border: 1px solid;
         font-weight: 100;
     }
-    
+
     .nota-perdida-puestos{
         background-color: rgb(255, 77, 77);
         color: white;
@@ -15709,7 +15709,7 @@ body {
 .boletin-alumno .encabezado-boletin{
     padding: 15px;
     padding-top: 10px;
-    
+
     .logo-colegio{
         //width: 60px;
         max-height: 80px;
@@ -15799,13 +15799,13 @@ body {
     font-size: 8pt;
 
     .subunidad-definicion{
-        
+
     }
     .subunidad-porc{
-        
+
     }
     .subunidad-nota{
-        
+
     }
 }
 .definicion-subunidad-inside, .definicion-unidad-inside{
@@ -15854,7 +15854,7 @@ body {
     }
 
     .comportamiento-title, .comportamiento-body{
-        
+
     }
     .comportamiento-title{
 
@@ -16035,9 +16035,9 @@ body {
 
 
 
-.an.ng-enter, 
+.an.ng-enter,
 .an.ng-leave
-{ 
+{
   -webkit-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
   -moz-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
   -ms-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
@@ -16045,15 +16045,15 @@ body {
   transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
   position: relative;
   display: block;
-} 
- 
-.an.ng-enter.ng-enter-active, 
+}
+
+.an.ng-enter.ng-enter-active,
 .an.ng-leave {
   opacity: 1;
   top: 0;
   height: 30px;
 }
- 
+
 .an.ng-leave.ng-leave-active,
 .an.ng-enter {
   opacity: 0;
@@ -16063,8 +16063,8 @@ body {
   overflow: hidden;
 }
 
-.animated.ng-enter, 
-.animated.ng-leave, 
+.animated.ng-enter,
+.animated.ng-leave,
 .animated.ng-move {
   -webkit-transition: 0.5s linear all;
   transition: 0.5s linear all;
@@ -16267,7 +16267,7 @@ body {
     }
 }
 .ordenador-subunidad{
-    width: 50px; 
+    width: 50px;
     padding: 5px;
         /* border-radius: 0px 15px !important; */
     border-left: none!important;
@@ -16277,8 +16277,8 @@ body {
 }
 
 input.ocultar-input{
-    width:0px!important; 
-    margin:0px!important; 
+    width:0px!important;
+    margin:0px!important;
     height:0px!important;
 }
 
@@ -16310,7 +16310,7 @@ input.ocultar-input{
 
 .content-menu-elim-matric, .content-menu-matrics{
     position: relative;
-    
+
 }
 .content-menu-elim-matric:hover .menu-elim-matric{
     opacity: 1;
@@ -16319,8 +16319,8 @@ input.ocultar-input{
 
 
 .menu-elim-matric{
-    position: absolute; 
-    top: -28px; 
+    position: absolute;
+    top: -28px;
     left: -18px;
     transition: all 0.5s;
     opacity: 0;
@@ -16331,16 +16331,16 @@ input.ocultar-input{
     top: 5px;
 }
 .menu-elim-matrics{
-    position: absolute; 
-    top: 10px; 
+    position: absolute;
+    top: 10px;
     transition: all 0.5s;
     opacity: 0;
 }
 
 
 .menu-matrics{
-    position: absolute; 
-    top: 7px; 
+    position: absolute;
+    top: 7px;
     left: 0px;
     transition: all 0.5s;
     opacity: 0;
@@ -16424,5 +16424,12 @@ input[type="number"]:focus {
 .ui-select-dropdown.select2-drop.select2-with-searchbox.select2-drop-active{
     opacity: 1!important;
 }
+@media only screen and (max-width:800px) {
+  .margin-padding-lados-xs{
+    margin-left: 0px;
+    margin-right: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
 
-
+  }
+}

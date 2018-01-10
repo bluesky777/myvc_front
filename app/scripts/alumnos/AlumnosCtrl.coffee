@@ -6,16 +6,20 @@ angular.module("myvcFrontApp")
 
 	AuthService.verificar_acceso()
 
-	$scope.$parent.bigLoader 	= true
-	$scope.dato 				= {} # Seguro puedo eliminarlo
-	$scope.dato.mostrartoolgrupo = true
-	$scope.gridScope 			= $scope # Para getExternalScopes de ui-Grid
-	$scope.perfilPath 			= App.images+'perfil/'
-	$scope.year_ant 			= $scope.USER.year - 1
-	$scope.gridOptions 			= {}
-	$scope.paises 				= []
-	$scope.religiones			= ['Adventista', 'Católico', 'Pentecostal', 'Cuadrangular', 'Testigo de Jehová', 'Mormón', 'Otra', 'Ninguna']
-	$scope.tipos_sangre 		= ['AB+', 'AB-', 'A+', 'A-', 'B+', 'B-', 'O+', 'O-']
+	$scope.$parent.bigLoader			= true
+	$scope.dato 						= {}
+	$scope.dato.mostrartoolgrupo 		= true
+	$scope.gridScope 					= $scope # Para getExternalScopes de ui-Grid
+	$scope.views 						= App.views
+	$scope.perfilPath 		  	      	= App.images+'perfil/'
+	$scope.year_ant 					= $scope.USER.year - 1
+	$scope.gridOptions 			        = {}
+	$scope.gridOptionsSinMatricula 		= {}
+	$scope.paises 						= []
+	$scope.religiones					= ['Adventista', 'Católico', 'Pentecostal', 'Cuadrangular', 'Testigo de Jehová', 'Mormón', 'Otra', 'Ninguna']
+	$scope.tipos_sangre 				= ['AB+', 'AB-', 'A+', 'A-', 'B+', 'B-', 'O+', 'O-']
+	$scope.mostrar_pasado     = false
+	$scope.mostrar_retirados  = false
 
 	$scope.parentescos 			= [
 		{ parentesco: 	'Padre' }
@@ -32,7 +36,7 @@ angular.module("myvcFrontApp")
 	$http.get('::grupos/con-paises-tipos').then((r)->
 		matr_grupo = 0
 
-		if localStorage.matr_grupo 
+		if localStorage.matr_grupo
 			matr_grupo = parseInt(localStorage.matr_grupo)
 
 		$scope.grupos 		= r.data.grupos
@@ -68,76 +72,80 @@ angular.module("myvcFrontApp")
 		# Quería mandar los grupos anteriores, pero solo voy a mandar el grado_id
 		if grupos_ant.length > 0
 			grado_ant_id 	= grupos_ant[0].grado_id
-		else 
+		else
 			grado_ant_id 	= null
 
-		$http.put("::matriculas/alumnos-con-grado-anterior", {grupo_actual: grupo, grado_ant_id: grado_ant_id, year_ant: $scope.year_ant}).then((r)->
-			$scope.gridOptions.data 	= r.data.AlumnosActuales
-			$scope.AlumnosDesertRetir 	= r.data.AlumnosDesertRetir
-			$scope.AlumnosSinMatricula 	= r.data.AlumnosSinMatricula
 
-			for alumno in $scope.gridOptions.data
-				#console.log alumno.fecha_retiro, new Date(alumno.fecha_retiro.replace( /(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3"))
-				alumno.estado_ant 			= alumno.estado
-				alumno.fecha_retiro_ant 	= alumno.fecha_retiro
-				alumno.fecha_retiro 		= new Date(alumno.fecha_retiro)
-				alumno.fecha_matricula_ant 	= alumno.fecha_matricula
-				alumno.fecha_matricula 		= new Date(alumno.fecha_matricula)
-				alumno.fecha_nac 			= new Date(alumno.fecha_nac)
+		$scope.traerAlumnnosConGradosAnterior = ()->
+			$http.put("::matriculas/alumnos-con-grado-anterior", {grupo_actual: grupo, grado_ant_id: grado_ant_id, year_ant: $scope.year_ant}).then((r)->
+				$scope.gridOptions.data 	            = r.data.AlumnosActuales
+				$scope.AlumnosDesertRetir 	          = r.data.AlumnosDesertRetir
+				$scope.gridOptionsSinMatricula.data 	= r.data.AlumnosSinMatricula
 
-				for tipo_doc in $scope.tipos_doc
-					if tipo_doc.id == alumno.tipo_doc
-						alumno.tipo_doc = tipo_doc
+				for alumno in $scope.gridOptions.data
+					#console.log alumno.fecha_retiro, new Date(alumno.fecha_retiro.replace( /(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3"))
+					alumno.estado_ant 			= alumno.estado
+					alumno.fecha_retiro_ant 	= alumno.fecha_retiro
+					alumno.fecha_retiro 		= new Date(alumno.fecha_retiro)
+					alumno.fecha_matricula_ant 	= alumno.fecha_matricula
+					alumno.fecha_matricula 		= new Date(alumno.fecha_matricula)
+					alumno.fecha_nac 			= new Date(alumno.fecha_nac)
 
-				for pariente in alumno.subGridOptions.data
-					pariente.fecha_nac_ant 	= pariente.fecha_nac
-					pariente.fecha_nac 		= new Date(pariente.fecha_nac)
+					for tipo_doc in $scope.tipos_doc
+						if tipo_doc.id == alumno.tipo_doc
+							alumno.tipo_doc = tipo_doc
 
-
-				alumno.subGridOptions.onRegisterApi = ( gridApi ) ->
-					gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
-						if newValue != oldValue
-							if colDef.field == "sexo"
-								newValue = newValue.toUpperCase()
-								if !(newValue == 'M' or newValue == 'F')
-									toastr.warning 'Debe usar M o F'
-									rowEntity.sexo = oldValue
-									return
-
-							if colDef.field == 'email'
-								re = /\S+@\S+\.\S+/
-								if !re.test(newValue)
-									toastr.warning 'Email no válido'
-									rowEntity.email = oldValue
-									return
-
-							$http.put('::acudientes/guardar-valor', {parentesco_id: rowEntity.parentesco_id, acudiente_id: rowEntity.id, user_id: rowEntity.user_id, propiedad: colDef.field, valor: newValue } ).then((r)->
-								toastr.success 'Acudiente actualizado con éxito'
-							, (r2)->
-								rowEntity[colDef.field] = oldValue
-								toastr.error 'Cambio no guardado', 'Error'
-							)
-						$scope.$apply()
-					)
+					for pariente in alumno.subGridOptions.data
+						pariente.fecha_nac_ant 	= pariente.fecha_nac
+						pariente.fecha_nac 		= new Date(pariente.fecha_nac)
 
 
-			for alumno in $scope.AlumnosDesertRetir
-				#console.log alumno.fecha_retiro, new Date(alumno.fecha_retiro.replace( /(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3"))
-				alumno.estado_ant 			= alumno.estado
-				alumno.fecha_retiro_ant 	= alumno.fecha_retiro
-				alumno.fecha_retiro 		= new Date(alumno.fecha_retiro)
-				alumno.fecha_matricula_ant 	= alumno.fecha_matricula
-				alumno.fecha_matricula 		= new Date(alumno.fecha_matricula)
+					alumno.subGridOptions.onRegisterApi = ( gridApi ) ->
+						gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
+							if newValue != oldValue
+								if colDef.field == "sexo"
+									newValue = newValue.toUpperCase()
+									if !(newValue == 'M' or newValue == 'F')
+										toastr.warning 'Debe usar M o F'
+										rowEntity.sexo = oldValue
+										return
 
-			for alumno in $scope.AlumnosSinMatricula
-				#console.log alumno.fecha_retiro, new Date(alumno.fecha_retiro.replace( /(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3"))
-				alumno.estado_ant 			= alumno.estado
-				alumno.fecha_retiro_ant 	= alumno.fecha_retiro
-				alumno.fecha_retiro 		= new Date(alumno.fecha_retiro)
-				alumno.fecha_matricula_ant 	= alumno.fecha_matricula
-				alumno.fecha_matricula 		= new Date(alumno.fecha_matricula)
+								if colDef.field == 'email'
+									re = /\S+@\S+\.\S+/
+									if !re.test(newValue)
+										toastr.warning 'Email no válido'
+										rowEntity.email = oldValue
+										return
 
-		)
+								$http.put('::acudientes/guardar-valor', {parentesco_id: rowEntity.parentesco_id, acudiente_id: rowEntity.id, user_id: rowEntity.user_id, propiedad: colDef.field, valor: newValue } ).then((r)->
+									toastr.success 'Acudiente actualizado con éxito'
+								, (r2)->
+									rowEntity[colDef.field] = oldValue
+									toastr.error 'Cambio no guardado', 'Error'
+								)
+							$scope.$apply()
+						)
+
+
+				for alumno in $scope.AlumnosDesertRetir
+					#console.log alumno.fecha_retiro, new Date(alumno.fecha_retiro.replace( /(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3"))
+					alumno.estado_ant 			= alumno.estado
+					alumno.fecha_retiro_ant 	= alumno.fecha_retiro
+					alumno.fecha_retiro 		= new Date(alumno.fecha_retiro)
+					alumno.fecha_matricula_ant 	= alumno.fecha_matricula
+					alumno.fecha_matricula 		= new Date(alumno.fecha_matricula)
+
+				for alumno in $scope.gridOptionsSinMatricula.data
+					#console.log alumno.fecha_retiro, new Date(alumno.fecha_retiro.replace( /(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3"))
+					alumno.estado_ant 			= alumno.estado
+					alumno.fecha_retiro_ant 	= alumno.fecha_retiro
+					alumno.fecha_retiro 		= new Date(alumno.fecha_retiro)
+					alumno.fecha_matricula_ant 	= alumno.fecha_matricula
+					alumno.fecha_matricula 		= new Date(alumno.fecha_matricula)
+
+			)
+
+		$scope.traerAlumnnosConGradosAnterior()
 
 
 
@@ -149,7 +157,7 @@ angular.module("myvcFrontApp")
 		modalInstance = $modal.open({
 			templateUrl: '==alumnos/removeAlumno.tpl.html'
 			controller: 'RemoveAlumnoCtrl'
-			resolve: 
+			resolve:
 				alumno: ()->
 					row
 		})
@@ -165,7 +173,7 @@ angular.module("myvcFrontApp")
 		modalInstance = $modal.open({
 			templateUrl: '==alumnos/newAcudienteModal.tpl.html'
 			controller: 'NewAcudienteModalCtrl'
-			resolve: 
+			resolve:
 				alumno: ()->
 					rowAlum
 				paises: ()->
@@ -188,7 +196,7 @@ angular.module("myvcFrontApp")
 		modalInstance = $modal.open({
 			templateUrl: '==alumnos/newAcudienteModal.tpl.html'
 			controller: 'NewAcudienteModalCtrl'
-			resolve: 
+			resolve:
 				alumno: ()->
 					rowAlum
 				paises: ()->
@@ -209,11 +217,11 @@ angular.module("myvcFrontApp")
 
 
 	$scope.quitarAcudiente = (rowAlum, acudiente)->
-		
+
 		modalInstance = $modal.open({
 			templateUrl: '==alumnos/quitarAcudienteModalConfirm.tpl.html'
 			controller: 'QuitarAcudienteModalConfirmCtrl'
-			resolve: 
+			resolve:
 				alumno: ()->
 					rowAlum
 				acudiente: ()->
@@ -233,7 +241,7 @@ angular.module("myvcFrontApp")
 		modalInstance = $modal.open({
 			templateUrl: '==alumnos/cambiarCiudadModal.tpl.html'
 			controller: 'CambiarCiudadModalCtrl'
-			resolve: 
+			resolve:
 				persona: ()->
 					row
 				paises: ()->
@@ -260,7 +268,7 @@ angular.module("myvcFrontApp")
 		#datosAlum = angular.copy(fila)
 		#delete datosAlum.subGridOptions
 
-		datos = 
+		datos =
 			alumno_id: 	fila.alumno_id
 			propiedad: 	'pazysalvo'
 			valor: 		fila.pazysalvo
@@ -271,14 +279,14 @@ angular.module("myvcFrontApp")
 			fila.pazysalvo = !fila.pazysalvo
 			toastr.error 'Cambio no guardado', 'Error'
 		)
-		
+
 
 	$scope.resetPass = (row)->
-		
+
 		modalInstance = $modal.open({
 			templateUrl: App.views + 'usuarios/resetPass.tpl.html'
 			controller: 'ResetPassCtrl'
-			resolve: 
+			resolve:
 				usuario: ()->
 					row
 		})
@@ -299,7 +307,8 @@ angular.module("myvcFrontApp")
 			toastr.error 'No se pudo desmatricular', 'Problema'
 		)
 
-	btGrid1 = '<a uib-tooltip="Editar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
+	#btGrid1 = '<a uib-tooltip="Editar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
+	btGrid1 = ''
 	btGrid2 = '<a uib-tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-trash "></i></a>'
 	bt2 	= '<span style="padding-left: 2px; padding-top: 4px;" class="btn-group">' + btGrid1 + btGrid2 + '</span>'
 	btMatricular = "==directives/botonesMatricularMas.tpl.html"
@@ -316,15 +325,21 @@ angular.module("myvcFrontApp")
 	appendPopover = 'uib-popover-template="views+' + appendPopover1 + '" popover-trigger="'+appendPopover2+'" popover-title="{{ row.entity.nombres + ' + append3 + ' + row.entity.apellidos }}" popover-popup-delay="500" popover-append-to-body="true"'
 
 
-	$scope.gridOptions = 
+	$scope.gridOptions =
 		showGridFooter: true,
 		enableSorting: true,
 		enableFiltering: true,
+		exporterSuppressColumns: [ 'edicion' ],
+		exporterCsvColumnSeparator: ';',
+		exporterMenuPdf: false,
+		exporterMenuExcel: false,
+		exporterCsvFilename: "Alumnos - MyVC.csv",
+		enableGridMenu: true,
 		enebleGridColumnMenu: false,
 		enableCellEditOnFocus: true,
 		expandableRowTemplate: '==alumnos/expandableRowTemplate.tpl.html',
 		expandableRowHeight: 110,
-		expandableRowScope: 
+		expandableRowScope:
 			agregarAcudiente: 		$scope.agregarAcudiente
 			quitarAcudiente: 		$scope.quitarAcudiente
 			cambiarAcudiente: 		$scope.cambiarAcudiente
@@ -342,7 +357,7 @@ angular.module("myvcFrontApp")
 			}
 			enableHiding: false, cellTemplate: '<div class="ui-grid-cell-contents" style="padding: 0px;" ' + appendPopover + '><img ng-src="{{grid.appScope.perfilPath + row.entity.foto_nombre}}" style="width: 35px" />{{row.entity.nombres}}</div>' }
 			{ field: 'apellidos', minWidth: 80, filter: { condition: uiGridConstants.filter.CONTAINS }}
-			{ name: 'edicion', displayName:'Edici', width: 54, enableSorting: false, enableFiltering: false, cellTemplate: bt2, enableCellEdit: false, enableColumnMenu: true}
+			{ name: 'edicion', displayName:'Elimi', width: 54, enableSorting: false, enableFiltering: false, cellTemplate: bt2, enableCellEdit: false, enableColumnMenu: true}
 			{ field: 'sexo', displayName: 'Sex', width: 40 }
 			{ field: 'grupo_id', displayName: 'Matrícula', enableCellEdit: false, cellTemplate: btMatricular, minWidth: 180, enableFiltering: false }
 			{ field: 'fecha_matricula', displayName: 'Fecha matrícula', cellFilter: "date:mediumDate", type: 'date', minWidth: 100 }
@@ -364,26 +379,58 @@ angular.module("myvcFrontApp")
 		],
 		multiSelect: false,
 		#filterOptions: $scope.filterOptions,
+		exporterHeaderFilter: ( displayName )->
+			if( displayName == 'A paz?' )
+				return 'Paz y salvo';
+			else if displayName == 'Matrícula'
+				return 'Grupo'
+			else
+				return displayName;
+		,
+		exporterFieldCallback: ( grid, row, col, input )->
+			if col.name == 'no'
+				return grid.renderContainers.body.visibleRowCache.indexOf(row) + 1
+			if col.name == 'grupo_id'
+				return $scope.dato.grupo.nombre
+			if col.name == 'ciudad_nac'
+				return row.entity.ciudad_nac_nombre
+
+			if( col.name == 'pazysalvo' )
+				if input
+					return 'Si'
+				else
+					return 'No'
+			else if col.name == 'tipo_doc'
+				if input
+					if input.tipo
+						return input.tipo
+					else
+						return input
+				else
+					return input
+			else
+				return input;
+		,
 		onRegisterApi: ( gridApi ) ->
 			$scope.gridApi = gridApi
 			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
-				
+
 				if newValue != oldValue
-				
+
 					if not rowEntity.alumno_id
 						rowEntity.alumno_id = fila.id
 
-					
+
 					if colDef.field == "sexo"
 						newValue = newValue.toUpperCase()
 						if !(newValue == 'M' or newValue == 'F')
 							toastr.warning 'Debe usar M o F'
 							rowEntity.sexo = oldValue
 							return
-						
+
 					if colDef.field == "fecha_matricula"
 						return $scope.cambiarFechaMatricula(rowEntity)
-					
+
 
 					if colDef.field == "tipo_sangre"
 						newValue = newValue.toUpperCase()
@@ -391,14 +438,14 @@ angular.module("myvcFrontApp")
 							toastr.warning 'Debe usar: ' + $scope.tipos_sangre.join(' ')
 							rowEntity.tipo_sangre = oldValue
 							return
-						
+
 
 					if colDef.field == "estrato"
-						if newValue < 0 or newValue > 9 
+						if newValue < 0 or newValue > 9
 							toastr.warning 'Valor no admitido'
 							rowEntity.estrato = oldValue
 							return
-						
+
 
 					$http.put('::alumnos/guardar-valor', {alumno_id: rowEntity.alumno_id, propiedad: colDef.field, valor: newValue } ).then((r)->
 						toastr.success 'Alumno(a) actualizado con éxito'
@@ -414,6 +461,41 @@ angular.module("myvcFrontApp")
 
 
 
+
+
+	### ---------------- ---------------- ---------------- ---------------- ----------------
+	Alumnos del año pasado Grid
+	---------------- ---------------- ---------------- ---------------- ---------------- ###
+	btMatr1 = '<label ng-click="grid.appScope.setNewAsistente(row.entity)" uib-tooltip="Inscribir como asistente" tooltip-append-to-body="true" class="btn btn-success shiny btn-xs">Asis</label>'
+	btMatr2 = '<label ng-click="grid.appScope.matricularUno(row.entity, true)" uib-tooltip="Matricular" tooltip-append-to-body="true" tooltip-popup-delay="1000" class="btn btn-success shiny btn-xs">Matric</label>'
+	btMatr3 = '<label ng-click="grid.appScope.matricularEn(row.entity)" uib-tooltip="Matricular en..." tooltip-append-to-body="true" tooltip-placement="right" class="btn btn-success shiny btn-xs">Otro grupo...</label>'
+	btMatrCom 	= '<span style="padding-left: 2px; padding-top: 4px;" class="btn-group">' + btMatr1 + btMatr2 + btMatr3 + '</span>'
+
+
+	$scope.gridOptionsSinMatricula =
+		showGridFooter: true,
+		enableSorting: true,
+		enableFiltering: true,
+		columnDefs: [
+			{ field: 'no', cellTemplate: '<div class="ui-grid-cell-contents">{{grid.renderContainers.body.visibleRowCache.indexOf(row) + 1}}</div>', width: 40 }
+			{ field: 'nombres', minWidth: 120,
+			filter: {
+				condition: (searchTerm, cellValue, row)->
+					entidad = row.entity
+					return (entidad.nombres.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1)
+			}
+			enableHiding: false, cellTemplate: '<div class="ui-grid-cell-contents" style="padding: 0px;" ' + appendPopover + '><img ng-src="{{grid.appScope.perfilPath + row.entity.foto_nombre}}" style="width: 35px" />{{row.entity.nombres}}</div>' }
+			{ field: 'apellidos', minWidth: 80, filter: { condition: uiGridConstants.filter.CONTAINS }}
+			{ field: 'sexo', displayName: 'Sex', width: 40 }
+			{ field: 'grupo_id', displayName: 'Matrícula', cellTemplate: btMatrCom, minWidth: 180, enableFiltering: false }
+			{ field: 'fecha_matricula', displayName: 'Fecha matrícula', cellFilter: "date:mediumDate", type: 'date', minWidth: 100 }
+			{ field: 'no_matricula', displayName: '# matrícula', minWidth: 80, enableColumnMenu: true }
+			{ field: 'fecha_nac', displayName:'Nacimiento', cellFilter: "date:mediumDate", type: 'date', minWidth: 100}
+			{ field: 'telefono', displayName: 'Teléfono', minWidth: 70 }
+		],
+		multiSelect: true,
+
+
 	$scope.religionSelected = (row, evento)->
 		if $scope.religiones.indexOf(row.religion) > -1
 			$scope.$broadcast(uiGridEditConstants.events.END_CELL_EDIT);
@@ -422,7 +504,7 @@ angular.module("myvcFrontApp")
 	$scope.religionEditPressEnter = (row)->
 		$scope.$broadcast(uiGridEditConstants.events.END_CELL_EDIT);
 
-	
+
 	$scope.tipoDocSeleccionado = ($item, row)->
 		datos = { propiedad: 'tipo_doc', valor: $item.id }
 		person = 'acudientes'
@@ -442,14 +524,14 @@ angular.module("myvcFrontApp")
 			toastr.error 'Cambio no guardado', 'Error'
 		)
 
-	
-	$scope.matricularUno = (row)->
+
+	$scope.matricularUno = (row, recargar)->
 		if not $scope.dato.grupo.id
 			toastr.warning 'Debes definir el grupo al que vas a matricular.', 'Falta grupo'
 			return
-		
+
 		datos = { alumno_id: row.alumno_id, grupo_id: $scope.dato.grupo.id, year_id: $scope.USER.year_id }
-		
+
 		$http.post('::matriculas/matricularuno', datos).then((r)->
 			r = r.data
 			row.matricula_id 			= r.id
@@ -458,6 +540,8 @@ angular.module("myvcFrontApp")
 			row.fecha_matricula_ant 	= r.fecha_matricula.date
 			row.fecha_matricula 		= new Date(r.fecha_matricula.date)
 			toastr.success 'Alumno matriculado con éxito', 'Matriculado'
+			if recargar
+				$scope.traerAlumnnosConGradosAnterior()
 			return row
 		, (r2)->
 			toastr.error 'No se pudo matricular el alumno.', 'Error'
@@ -481,9 +565,9 @@ angular.module("myvcFrontApp")
 		if not $scope.dato.grupo.id
 			toastr.warning 'Debes definir el grupo al que vas a matricular.', 'Falta grupo'
 			return
-		
+
 		datos = { matricula_id: row.matricula_id }
-		
+
 		$http.put('::matriculas/re-matricularuno', datos).then((r)->
 			r = r.data
 			toastr.success 'Alumno rematriculado', 'Matriculado'
@@ -498,7 +582,7 @@ angular.module("myvcFrontApp")
 		modalInstance = $modal.open({
 			templateUrl: '==alumnos/matricularEn.tpl.html'
 			controller: 'MatricularEnCtrl'
-			resolve: 
+			resolve:
 				alumno: ()->
 					row
 				grupos: ()->
@@ -508,37 +592,39 @@ angular.module("myvcFrontApp")
 		})
 		modalInstance.result.then( (alum)->
 			console.log 'Cierra'
+			$scope.traerAlumnnosConGradosAnterior()
 		)
 
 
 
 	$scope.setAsistente = (fila)->
-		
+
 		$http.put('::matriculas/set-asistente', {matricula_id: fila.matricula_id, grupo_id: $scope.dato.grupo.grupo_id}).then((r)->
 			toastr.success 'Guardado como asistente'
 		, (r2)->
 			toastr.error 'No se pudo guardar como asistente', 'Error'
 		)
-		
+
 
 	$scope.setNewAsistente = (fila)->
-		
+
 		$http.put('::matriculas/set-new-asistente', {alumno_id: fila.alumno_id, grupo_id: $scope.dato.grupo.id}).then((r)->
 			console.log 'Cambios guardados'
+			$scope.traerAlumnnosConGradosAnterior()
 		, (r2)->
 			toastr.error 'No se pudo crear asistente', 'Error'
 		)
-		
+
 
 	$scope.cambiarFechaRetiro = (row)->
-		
+
 		$http.put('::matriculas/cambiar-fecha-retiro', { matricula_id: row.matricula_id, fecha_retiro: row.fecha_retiro }).then((r)->
 			toastr.success 'Fecha retiro guardada'
 		, (r2)->
 			row.fecha_retiro = row.fecha_retiro_ant
 			toastr.error 'No se pudo guardar la fecha', 'Error'
 		)
-		
+
 
 	$scope.cambiarFechaMatricula = (row)->
 
@@ -548,7 +634,7 @@ angular.module("myvcFrontApp")
 			row.fecha_matricula = row.fecha_matricula_ant
 			toastr.error 'No se pudo guardar la fecha', 'Error'
 		)
-		
+
 
 
 
@@ -579,6 +665,22 @@ angular.module("myvcFrontApp")
 		, (r2)->
 			toastr.error 'No se pudo desmatricular', 'Problema'
 		)
+
+
+
+	$scope.buscar_por_nombre = ()->
+
+		if $scope.texto_a_buscar == ""
+			toastr.warning 'Escriba término a buscar'
+			return
+
+		$http.put('::buscar/por-nombre', {texto_a_buscar: $scope.texto_a_buscar }).then((r)->
+			$scope.alumnos_encontrados = r.data
+		, (r2)->
+			toastr.error 'No se pudo buscar', 'Problema'
+		)
+
+
 
 
 

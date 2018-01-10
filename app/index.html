@@ -10,7 +10,7 @@
         //forceLoad: true, html5: false //to debug flash in HTML5 browsers
         //wrapInsideDiv: true, //experimental for fixing css issues
         //only one of jsPath or jsUrl.
-        //jsPath: '/js/FileAPI.min.js/folder/', 
+        //jsPath: '/js/FileAPI.min.js/folder/',
         //jsUrl: 'yourcdn.com/js/FileAPI.min.js',
 
         //only one of staticPath or flashUrl.
@@ -39,8 +39,8 @@
     <!--
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300" rel="stylesheet" type="text/css">
     -->
-    
-    
+
+
   </head>
   <body keypress-events>
     <!--[if lt IE 7]>
@@ -49,12 +49,12 @@
 
     <!-- Site or application content  <div login-dialog ng-if="!isLoginPage"></div>-->
     <div ng-controller="ApplicationController">
-        
+
         <div ui-view="principal"></div>
-       
+
 
     </div>
-    
+
 
 
 
@@ -128,6 +128,7 @@
         <script src="scripts/panel/anunciosDir.js"></script>
         <script src="scripts/colegio/YearsCtrl.js"></script>
         <script src="scripts/colegio/ConfigCertificados.js"></script>
+        <script src="scripts/colegio/ConfigEscalas.js"></script>
         <script src="scripts/alumnos/AlumnosConfig.js"></script>
         <script src="scripts/alumnos/AlumnosCtrl.js"></script>
         <script src="scripts/grados/selectorGrupoDir.js"></script>
@@ -203,7 +204,7 @@
         <script src="scripts/unidades/CopiarCtrl.js"></script>
         <script src="scripts/unidades/UnidadDir.js"></script>
         <script src="scripts/unidades/ContentEditableDir.js"></script>
-        
+
         <script src="scripts/informes/InformesConfig.js"></script>
         <script src="scripts/informes/InformesCtrl.js"></script>
         <script src="scripts/informes/BoletinesPeriodoCtrl.js"></script>
@@ -250,14 +251,17 @@
         <script src="scripts/services/RYears.js"></script>
 
         <script src="scripts/main/angular-locale_es-es.js"></script>
-        
 
-        
+
+
 
         <!-- endbuild -->
 <!--
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-i18n/1.5.0/angular-locale_es-es.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.35/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.35/vfs_fonts.js"></script>
 -->
-        
+
 </body>
 </html>

@@ -1,14 +1,24 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-.controller('YearsCtrl', ['App', '$scope', '$http', '$uibModal', '$state', 'ProfesoresServ', '$cookies', '$rootScope', '$filter', 'toastr', 
+.controller('YearsCtrl', ['App', '$scope', '$http', '$uibModal', '$state', 'ProfesoresServ', '$cookies', '$rootScope', '$filter', 'toastr',
 	(App, $scope, $http, $modal, $state, ProfesoresServ, $cookies, $rootScope, $filter, toastr) ->
 
 		#$scope.config = {alumnos_can_see_notas: $scope.USER.alumnos_can_see_notas}
 		$scope.perfilPath = App.images + 'perfil/'
+		$scope.status     = {
+      open_year: true
+    }
 
 		$http.get('::years/colegio').then((r)->
-			r 						= r.data
+			r = r.data
+
+			for anio in r.years
+				for perio in anio.periodos
+					perio.fecha_inicio 	= new Date(perio.fecha_inicio)
+					perio.fecha_fin 	= new Date(perio.fecha_fin)
+					perio.fecha_plazo 	= new Date(perio.fecha_plazo)
+
 			$scope.years 			= r.years
 			$scope.certificados 	= r.certificados
 			$scope.imagenes 		= r.imagenes
@@ -22,11 +32,6 @@ angular.module('myvcFrontApp')
 			, (r2)->
 				toastr.error 'No se pudo traer los profesores'
 			)
-
-			for anio in $scope.years
-				for perio in anio.periodos
-					perio.fecha_inicio 	= new Date(perio.fecha_inicio)
-					perio.fecha_fin 	= new Date(perio.fecha_fin)
 
 
 		, (r)->
@@ -57,7 +62,7 @@ angular.module('myvcFrontApp')
 				genero_subunidad:		$scope.years[ultimo].genero_subunidad
 			}
 
-			
+
 			for year_cambiar in $scope.years
 				# Abramos panel del año actual
 				year_cambiar.ocultando = if year_cambiar.actual then false else true
@@ -66,16 +71,16 @@ angular.module('myvcFrontApp')
 				year_cambiar.rector 	=	$filter('filter')($scope.profesores, profesor_id: year_cambiar.rector_id, true)[0]
 				year_cambiar.secretario =	$filter('filter')($scope.profesores, profesor_id: year_cambiar.secretario_id, true)[0]
 				year_cambiar.tesorero 	=	$filter('filter')($scope.profesores, profesor_id: year_cambiar.tesorero_id, true)[0]
-				
 
 
-		
+
+
 		$scope.addPeriodo = (year)->
 
 			modalInstance = $modal.open({
 			templateUrl: '==colegio/addPeriodo.tpl.html'
 			controller: 'AddPeriodoCtrl'
-			resolve: 
+			resolve:
 				year: ()->
 					year
 			})
@@ -83,14 +88,14 @@ angular.module('myvcFrontApp')
 				year.periodos.push periodo
 			)
 
-		
-		
+
+
 		$scope.removePeriodo = (year, periodo)->
 
 			modalInstance = $modal.open({
 			templateUrl: '==colegio/removePeriodo.tpl.html'
 			controller: 'RemovePeriodoCtrl'
-			resolve: 
+			resolve:
 				periodo: ()->
 					periodo
 			})
@@ -125,7 +130,7 @@ angular.module('myvcFrontApp')
 				$scope.newYear.nota_minima_aceptada = $scope.newYear.nota_minima_aceptada + 0.1
 
 
-		
+
 		$scope.actualPeriodo = (year, periodo)->
 
 			$http.put('::periodos/establecer-actual/'+periodo.id).then((r)->
@@ -165,7 +170,7 @@ angular.module('myvcFrontApp')
 			, (r2)->
 				toastr.warning 'No se pudo guardar cambios.', 'Problema'
 			)
-			
+
 
 
 
@@ -174,7 +179,7 @@ angular.module('myvcFrontApp')
 			modalInstance = $modal.open({
 				templateUrl: '==colegio/removeYear.tpl.html'
 				controller: 'RemoveYearCtrl'
-				resolve: 
+				resolve:
 					year: ()->
 						year
 			})
@@ -188,7 +193,7 @@ angular.module('myvcFrontApp')
 			, (r2)->
 				toastr.warning 'No se pudo guardar fecha.', 'Problema'
 			)
-			
+
 		$scope.cambiarFechaFin = (periodo, fecha)->
 			$http.put('::periodos/cambiar-fecha-fin', {periodo_id: periodo.id, fecha: fecha }).then((r)->
 				toastr.success 'Fecha guardada.'
@@ -209,7 +214,7 @@ angular.module('myvcFrontApp')
 			, (r2)->
 				toastr.warning 'No se pudo guardar fecha.', 'Problema'
 			)
-			
+
 
 
 
@@ -236,7 +241,7 @@ angular.module('myvcFrontApp')
 			$modalInstance.dismiss()
 		)
 
-		
+
 
 	$scope.cancel = ()->
 		$modalInstance.dismiss('cancel')
@@ -255,7 +260,7 @@ angular.module('myvcFrontApp')
 			toastr.warning 'No se pudo eliminar el periodo.', 'Problema'
 			$modalInstance.dismiss()
 		)
-		
+
 
 	$scope.cancel = ()->
 		$modalInstance.dismiss('cancel')

@@ -11,10 +11,10 @@ div(ng-show="creando_certificado")
 	.row
 		.col-sm-6
 			.form-group
-				
+
 				label Imagen
 				ui-select(ng-model="newcertif.encabezado_img_id" on-select="usuarioSelect($item, $model)" theme="select2" style="min-width: 300px;")
-					ui-select-match(placeholder="Encabezado") 
+					ui-select-match(placeholder="Encabezado")
 						img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
 						small(ng-bind-html="' ' + $select.selected.nombre ")
 					ui-select-choices(repeat="imagen in imagenes | filter: {nombre: $select.search}")
@@ -50,7 +50,7 @@ div(ng-show="creando_certificado")
 			.form-group
 				label Imagen
 				ui-select(ng-model="newcertif.piepagina_img_id" on-select="usuarioSelect($item, $model)" theme="select2" style="min-width: 300px;")
-					ui-select-match(placeholder="Pie de página") 
+					ui-select-match(placeholder="Pie de página")
 						img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
 						small(ng-bind-html="' ' + $select.selected.nombre ")
 					ui-select-choices(repeat="imagen in imagenes | filter: {nombre: $select.search}")
@@ -83,7 +83,7 @@ div(ng-show="creando_certificado")
 
 	button.btn.btn-default(ng-click="cancelConfig()") Cancelar
 	button.btn.btn-primary(ng-click="guardar()")
-		i.fa.fa-save 
+		i.fa.fa-save
 		| Crear
 
 
@@ -102,10 +102,10 @@ div(ng-show="editando")
 	.row
 		.col-sm-6
 			.form-group
-				
+
 				label Imagen
 				ui-select(ng-model="currentCertif.encabezado_img" theme="select2" style="min-width: 300px;")
-					ui-select-match(placeholder="Encabezado") 
+					ui-select-match(placeholder="Encabezado")
 						img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
 						small(ng-bind-html="' ' + $select.selected.nombre ")
 					ui-select-choices(repeat="imagen in imagenes | filter: {nombre: $select.search}")
@@ -141,7 +141,7 @@ div(ng-show="editando")
 			.form-group
 				label Imagen
 				ui-select(ng-model="currentCertif.piepagina_img" theme="select2" style="min-width: 300px;")
-					ui-select-match(placeholder="Pie de página") 
+					ui-select-match(placeholder="Pie de página")
 						img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
 						small(ng-bind-html="' ' + $select.selected.nombre ")
 					ui-select-choices(repeat="imagen in imagenes | filter: {nombre: $select.search}")
@@ -180,16 +180,16 @@ div(ng-hide="creando_certificado")
 	div(ng-repeat="configcert in configcertificados")
 		span {{configcert}}
 
-	#grid1.grid(ui-grid="gridOptions" ui-grid-edit ui-grid-auto-resize ui-grid-resize-columns style="height: 300px")
-	button.btn.btn-primary(ng-click="crearConfig()") 
-		i.fa.fa-plus 
+	#grid1.grid(ui-grid="gridOptions" ui-grid-edit ui-grid-auto-resize ui-grid-resize-columns style="height: 180px")
+	button.btn.btn-primary(ng-click="crearConfig()")
+		i.fa.fa-plus
 		| Crear configuración
 	br
 	br
 	.form-group
-		label Actual: 
+		label Actual:
 		ui-select(ng-model="certificado.config_actual" on-select="certificadoSelect($item, $model)" theme="select2" style="min-width: 200px;")
-			ui-select-match(placeholder="Cerfiticado estudio" allow-clear="true") {{$select.selected.nombre}} 
+			ui-select-match(placeholder="Cerfiticado estudio" allow-clear="true") {{$select.selected.nombre}}
 			ui-select-choices(repeat="certif in certificados | filter: $select.search")
 				div(ng-bind-html="certif.nombre | highlight: $select.search")
 				small {{ certif.nombre | highlight: $select.search}}

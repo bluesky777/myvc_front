@@ -38,12 +38,12 @@ angular.module('myvcFrontApp')
 		next = $state.current
 
 		if next.data.needed_permissions
-			needed_permissions = next.data.needed_permissions 
+			needed_permissions = next.data.needed_permissions
 
 			if (!authService.isAuthorized(needed_permissions))
 				#event.preventDefault()
 				#console.log 'No tiene permisos, y... '
-				
+
 				$rootScope.lastState = next.name
 				if (authService.isAuthenticated())
 					# user is not allowed
@@ -69,10 +69,10 @@ angular.module('myvcFrontApp')
 			respuesta = r.data
 			if respuesta.el_token
 				$cookies.put('xtoken', respuesta.el_token)
-				
+
 				$http.defaults.headers.common['Authorization'] = 'Bearer ' + $cookies.get('xtoken')
 				localStorage.logueando = 'token_verificado'
-				
+
 				d.resolve respuesta.el_token
 			else
 				#console.log 'No se trajo un token en el login.', user
@@ -82,7 +82,7 @@ angular.module('myvcFrontApp')
 			user = r.data
 			if user.token
 				$cookies.put('xtoken', user.token)
-				
+
 				$http.defaults.headers.common['Authorization'] = 'Bearer ' + $cookies.get('xtoken')
 
 				Perfil.setUser user
@@ -114,7 +114,7 @@ angular.module('myvcFrontApp')
 							toastr.warning 'La sesión ha expirado'
 							if $state.current.name != 'login'
 								$state.go 'login'
-							
+
 						else
 							$rootScope.$broadcast AUTH_EVENTS.loginFailed
 				else
@@ -145,11 +145,17 @@ angular.module('myvcFrontApp')
 		return d.promise
 
 
-	authService.logout = (credentials)->
+	authService.logout = ()->
+
+		login = $http.put('::login/logout', {user_id: Perfil.User().user_id}).then((r)->
+			console.log('Sesión cerrada');
+		, (r2)->
+			console.log 'No se registró el cierre de sesión.'
+		)
 		$rootScope.lastState = null
 		$rootScope.lastStateParam = null
-		authService.borrarToken()
 		Perfil.deleteUser()
+		authService.borrarToken()
 		$state.transitionTo 'login'
 
 	authService.borrarToken = ()->
@@ -198,7 +204,7 @@ angular.module('myvcFrontApp')
 				if rolesFoundTemp.length > 0
 					rolesFound.push elem
 		)
-		
+
 		return (rolesFound.length > 0)
 
 

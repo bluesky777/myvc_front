@@ -1,0 +1,11 @@
+div
+	div(ng-repeat="configcert in configcertificados")
+		span {{configcert}}
+
+	#grid1.grid(ui-grid="gridOptions" ui-grid-edit ui-grid-auto-resize ui-grid-resize-columns style="height: 250px")
+	button.btn.btn-primary(ng-click="crearEscala()")
+		i.fa.fa-plus
+		| Crear escala
+
+
+

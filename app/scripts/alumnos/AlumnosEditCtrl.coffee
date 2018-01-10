@@ -10,29 +10,33 @@ angular.module("myvcFrontApp")
 	$scope.sangres = [{sangre: 'O+'},{sangre: 'O-'}, {sangre: 'A+'}, {sangre: 'A-'}, {sangre: 'B+'}, {sangre: 'B-'}, {sangre: 'AB+'}, {sangre: 'AB-'}]
 
 	$http.get('::alumnos/show/'+$state.params.alumno_id).then (r)->
-		$scope.alumno = r.data
-		$scope.alumno.username = r.user.username if r.user
-		$scope.alumno.email2 = r.user.email if r.user
+		
+		$scope.alumno 				= r.data
+		$scope.alumno.username 		= r.data.user.username if r.data.user
+		$scope.alumno.email2 		= r.data.user.email if r.data.user
+		$scope.alumno.ciudad_nac_id = r.data.ciudad_nac
+		$scope.alumno.ciudad_doc_id = r.data.ciudad_doc
 
 		if $scope.alumno.ciudad_nac == null
 			$scope.alumno.pais_nac = {id: 1, pais: 'COLOMBIA', abrev: 'CO'}
 			$scope.paisNacSelect($scope.alumno.pais_nac, $scope.alumno.pais_nac)
 		else
-			$http.get('::ciudades/datosciudad/'+$scope.alumno.ciudad_nac).then (r2)->
-				$scope.paises = r2.data.paises
-				$scope.departamentosNac = r2.departamentos
-				$scope.ciudadesNac = r2.ciudades
-				$scope.alumno.pais_nac = r2.pais
+			$http.get('::ciudades/datosciudad/'+$scope.alumno.ciudad_nac_id).then (r2)->
+				$scope.paises 				= r2.data.paises
+				$scope.departamentosNac 	= r2.departamentos
+				$scope.ciudadesNac 			= r2.ciudades
+				$scope.alumno.pais_nac 		= r2.pais
 				$scope.alumno.departamento_nac = r2.departamento
-				$scope.alumno.ciudad_nac = r2.ciudad
+				$scope.alumno.ciudad_nac 	= r2.ciudad
 
-			$http.get('::ciudades/datosciudad/'+$scope.alumno.ciudad_doc).then (r2)->
-				$scope.paises = r2.data.paises
-				$scope.departamentos = r2.departamentos
-				$scope.ciudades = r2.ciudades
-				$scope.alumno.pais_doc = r2.pais
+		if $scope.alumno.ciudad_doc > 0
+			$http.get('::ciudades/datosciudad/'+$scope.alumno.ciudad_doc_id).then (r2)->
+				$scope.paises 				= r2.data.paises
+				$scope.departamentos 		= r2.departamentos
+				$scope.ciudades 			= r2.ciudades
+				$scope.alumno.pais_doc 		= r2.pais
 				$scope.alumno.departamento_doc = r2.departamento
-				$scope.alumno.ciudad_doc = r2.ciudad
+				$scope.alumno.ciudad_doc 	= r2.ciudad
 
 
 	
@@ -63,7 +67,7 @@ angular.module("myvcFrontApp")
 		)
 
 	$scope.departNacSelect = ($item)->
-		$http.get("::ciudades/pordepartamento/"+$item.departamento).then((r)->
+		$http.get("::ciudades/por-departamento/"+$item.departamento).then((r)->
 			$scope.ciudadesNac = r.data
 
 			if typeof $scope.alumno.departamento_doc is 'undefined'
@@ -78,7 +82,7 @@ angular.module("myvcFrontApp")
 		)
 
 	$scope.departSeleccionado = ($item)->
-		$http.get("::ciudades/pordepartamento/"+$item.departamento).then((r)->
+		$http.get("::ciudades/por-departamento/"+$item.departamento).then((r)->
 			$scope.ciudades = r.data
 		)
 

@@ -12,9 +12,12 @@ angular.module("myvcFrontApp")
 	$scope.matricula_detalle 		= false
 	$scope.matric_cargando 			= false
 
-	$http.put('::detalles/alumno', { year_id: $scope.USER.year_id, alumno_id: parseInt($state.params.alumno_id) }).then((r)->
-		$scope.matriculas = r.data
-	)
+
+	$scope.detallesAlumno = ()->
+		$http.put('::detalles/alumno', { year_id: $scope.USER.year_id, alumno_id: parseInt($state.params.alumno_id) }).then((r)->
+			$scope.matriculas = r.data
+		)
+	$scope.detallesAlumno()
 
 
 	$scope.matricSeleccionada = (row)->
@@ -25,9 +28,9 @@ angular.module("myvcFrontApp")
 				matric.seleccionada = false
 
 
-		datos = { 
-			alumno_id: 		row.alumno_id, 
-			year_id: 		row.year_id, 
+		datos = {
+			alumno_id: 		row.alumno_id,
+			year_id: 		row.year_id,
 			matricula_id: 	row.matricula_id
 		}
 
@@ -52,19 +55,19 @@ angular.module("myvcFrontApp")
 		res = false
 		res = confirm('¿Está seguro que quiere eliminar la matricula ' + matricula_id + ' definitivamente?')
 
-		if res 
+		if res
 
 			$http.put('::detalles/eliminar-matricula-destroy', {matricula_id: matricula_id}).then((r)->
-				
+
 				if parseInt(r.data) == 0
 					toastr.warning 'No se eliminó matricula'
-				else 
+				else
 					toastr.success 'Matricula ' + matricula_id + ' eliminada.'
 					$scope.matriculas = $filter('filter')($scope.matriculas, {matricula_id: '!'+matricula_id}, true)
 			, (r2)->
 				toastr.error 'No se pudo eliminar la matricula ' + matricula_id, 'Error'
 			)
-		
+
 
 
 
