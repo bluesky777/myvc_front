@@ -10,9 +10,7 @@ angular.module('myvcFrontApp')
 			d.resolve Perfil.User()
 		else
 			if $cookies.get('xtoken')
-				console.log 'En VERIFICAR. xtoken=', $cookies.get('xtoken') != undefined and $cookies.get('xtoken') != 'undefined'  and $cookies.get('xtoken') != '[object Object]', $cookies.get('xtoken')
 				if $cookies.get('xtoken') != undefined and $cookies.get('xtoken') != 'undefined'  and $cookies.get('xtoken') != '[object Object]'
-					console.log 'vamos a login from token'
 					authService.login_from_token().then((usuario)->
 						Perfil.setUser usuario
 						d.resolve usuario

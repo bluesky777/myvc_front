@@ -4,7 +4,7 @@
 			.widget-header.bordered-bottom.bordered-themesecondary
 				i.widget-icon.fa.fa-tags.themesecondary
 				span.widget-caption.themesecondary(uib-tooltip="Hay alumnos que piden algunos cambios. Tú podrías aceptar o rechazar esas peticiones.")
-					| Pedidos que esperan tu aprobación 
+					| Pedidos que esperan tu aprobación
 
 			.widget-body
 				.widget-main.no-padding
@@ -13,54 +13,57 @@
 					.tickets-container
 						ul.tickets-list
 
-							li(ng-show="changes_asked.alumnos.length==0") No hay pedidos pendientes
+							li.ticket-item(ng-show="changes_asked.alumnos.length==0")
+								.row
+									.ticket-user(style="height: 40px;")
+										i No hay pedidos pendientes de alumnos
 
 							li.ticket-item(ng-repeat="change_asked in changes_asked.alumnos " ng-if="!change_asked.finalizado")
 								.row
 									.ticket-user.ticket-solicitud(ng-click="verDetalles(change_asked)")
 										img.user-avatar(ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}")
-										span.user-name {{change_asked.nombres + ' ' + change_asked.apellidos }} 
-										span.user-company  de 
-											b {{change_asked.grupo_nombre}} 
+										span.user-name {{change_asked.nombres + ' ' + change_asked.apellidos }}
+										span.user-company  de
+											b {{change_asked.grupo_nombre}}
 											|  ha solicitado unos cambios
 								.row(ng-show="change_asked.mostrando")
 									div(style="padding: 10px; white-space: nowrap; text-overflow: ellipsis; overflow-x: auto;")
 										table.table
-											tr(ng-if="change_asked.detalles.image_new_nombre && change_asked.detalles.image_id_accepted==null") 
+											tr(ng-if="change_asked.detalles.image_new_nombre && change_asked.detalles.image_id_accepted==null")
 												td
-													span(style="display: inline-block; width: 170px") Imagen perfil actual: 
+													span(style="display: inline-block; width: 170px") Imagen perfil actual:
 													img.user-avatar(ng-src="{{perfilPath + change_asked.imagen_nombre }}" alt="{{ change_asked.imagen_nombre }}" style="width: 50px")
-												td 
-													| Nueva: 
+												td
+													| Nueva:
 													img.user-avatar(ng-src="{{perfilPath + change_asked.detalles.image_new_nombre }}" alt="{{ change_asked.detalles.image_new_nombre }}" style="width: 50px")
-												td 
+												td
 													button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'img_perfil')" uib-tooltip="Rechazar cambio")
 														i.fa.fa-times(style="color: #fff;")
 													button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'img_perfil', change_asked.detalles.image_id_new)" uib-tooltip="Aprobar cambio")
 														i.fa.fa-check(style="color: #fff;")
 
 
-											tr(ng-if="change_asked.detalles.foto_new_nombre && change_asked.detalles.foto_id_accepted==null") 
+											tr(ng-if="change_asked.detalles.foto_new_nombre && change_asked.detalles.foto_id_accepted==null")
 												td
-													span(style="display: inline-block; width: 170px") Foto oficial actual: 
+													span(style="display: inline-block; width: 170px") Foto oficial actual:
 													img.user-avatar(ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}" style="width: 50px")
-												td 
-													| Nueva: 
+												td
+													| Nueva:
 													img.user-avatar(ng-src="{{perfilPath + change_asked.detalles.foto_new_nombre }}" alt="{{ change_asked.detalles.foto_new_nombre }}" style="width: 50px")
-												td 
+												td
 													button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'foto_oficial')" uib-tooltip="Rechazar cambio")
 														i.fa.fa-times(style="color: #fff;")
 													button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'foto_oficial', change_asked.detalles.foto_id_new)" uib-tooltip="Aprobar cambio")
 														i.fa.fa-check(style="color: #fff;")
 
 
-											tr(ng-if="change_asked.detalles.image_to_delete_id && change_asked.detalles.image_to_delete_accepted==null") 
+											tr(ng-if="change_asked.detalles.image_to_delete_id && change_asked.detalles.image_to_delete_accepted==null")
 												td
-													div Desea eliminar esta imagen,  
+													div Desea eliminar esta imagen,
 													div  la cual fue subida por un administrador:
-												td 
+												td
 													img.user-avatar(ng-src="{{perfilPath + change_asked.detalles.image_to_delete_nombre }}" alt="{{ change_asked.detalles.image_to_delete_nombre }}" style="width: 50px")
-												td 
+												td
 													button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'img_delete')" uib-tooltip="Rechazar cambio")
 														i.fa.fa-times(style="color: #fff;")
 													button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'img_delete', change_asked.detalles.image_to_delete_id)" uib-tooltip="Aprobar cambio")
@@ -72,9 +75,44 @@
 
 
 
-											
+
+
+
+							// Solicitudes de los docentes
+							li.ticket-item(ng-show="changes_asked.profesores.length==0 && USER.is_superuser")
+								.row
+									.ticket-user(style="height: 40px;")
+										i No hay pedidos pendientes de profesores
+
+							li.ticket-item(ng-repeat="change_asked in changes_asked.profesores "  ng-if="!change_asked.finalizado")
+								.row
+									.ticket-user
+										span
+											img.user-avatar(ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}")
+											span.user-name(uib-tooltip="{{change_asked.profesor_nombres + ' ' + change_asked.profesor_apellidos }}") {{change_asked.profesor_nombres }}
+											span.user-company(ng-show="change_asked.materia_to_add_id")  ha pedido
+												b(style="padding: 0 4px") {{ change_asked.nombre_materia_to_add }}
+												| para
+												b(style="padding: 0 4px") {{ change_asked.nombre_grupo_add }},
+												| Cred: {{change_asked.creditos_new}}
+
+											span.user-company(ng-show="change_asked.asignatura_to_remove_id")  Solicitó quitar
+												b(style="padding: 0 4px") {{ change_asked.nombre_materia_to_remove }}
+												| del grupo
+												b(style="padding: 0 4px") {{ change_asked.nombre_grupo_remove }}
+
+										span(style="margin-top: -5px; float: right;")
+											button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'asignatura')" uib-tooltip="Rechazar cambio")
+												i.fa.fa-times(style="color: #fff;")
+											button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'asignatura')" uib-tooltip="Aprobar cambio")
+												i.fa.fa-check(style="color: #fff;")
 
 
 
 
-			
+
+
+
+
+
+

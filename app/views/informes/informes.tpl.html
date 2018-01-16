@@ -35,7 +35,7 @@
                 <div class="form-group">
                   <label>Alumnos</label>
                   <ui-select ng-model="datos.selected_alumnos" multiple on-select="selectAlumnos($item)" style="width: 100%;">
-                    <ui-select-match placeholder="Alumnos del grupo {{datos.grupo.abrev}}" allow-clear="true"> <img ng-src="{{perfilPath + $item.foto_nombre}}" style="width:25px; height:25px;">{{$item.nombres}}</ui-select-match>
+                    <ui-select-match placeholder="Alumnos del grupo {{datos.grupo.abrev}}" allow-clear="true"><img ng-src="{{perfilPath + $item.foto_nombre}}" style="width:25px; height:25px;">{{$item.nombres}}</ui-select-match>
                     <ui-select-choices repeat="alumno in filtered_alumnos | filter: $select.search"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;"><small ng-show="alumno.estado=='RETI'" ng-bind-html="'&lt;i&gt; -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)&lt;/i&gt;'"></small><small ng-hide="alumno.estado=='RETI'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search"></small></ui-select-choices>
                   </ui-select><a href="" ng-click="verBoletinesAlumnos()" class="btn btn-default">Cargar boletines</a>
                 </div>
@@ -46,7 +46,7 @@
                 <div class="form-group">
                   <label>Alumno</label>
                   <ui-select ng-model="datos.selected_alumno" on-select="selectAlumno($item)" style="width: 300px;">
-                    <ui-select-match placeholder="Elige un alumno" allow-clear="true"> <img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;">{{$select.selected.nombres}} {{$select.selected.apellidos}}</ui-select-match>
+                    <ui-select-match placeholder="Elige un alumno" allow-clear="true"><img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;">{{$select.selected.nombres}} {{$select.selected.apellidos}}</ui-select-match>
                     <ui-select-choices repeat="alumno in filtered_alumnos | filter: $select.search"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;"><small ng-show="alumno.estado=='RETI'" ng-bind-html="'&lt;i&gt; -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)&lt;/i&gt;'"></small><small ng-hide="alumno.estado=='RETI'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search"></small></ui-select-choices>
                   </ui-select><a href="" ng-click="verBoletinAlumno()" class="btn btn-default">Cargar boletin</a>
                 </div>
@@ -58,14 +58,6 @@
                   <label>Mostrar foto</label>
                   <label>
                     <input type="checkbox" ng-model="config.mostrar_foto" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
-                  </label>
-                </div>
-              </div>
-              <div class="col-lg-2 col-sm-4 col-xs-12">
-                <div class="form-group">
-                  <label>Gráfico</label>
-                  <label>
-                    <input type="checkbox" ng-model="config.show_grafico" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
                   </label>
                 </div>
               </div>
@@ -97,9 +89,9 @@
             <div class="row">
               <div class="col-lg-12 col-xs-12">
                 <div class="form-group">
-                  <label>Imagen de fondo </label>
+                  <label>Imagen de fondo</label>
                   <ui-select ng-model="config.imagen_fondo" on-select="putConfigCookie($item)" style="width: 300px; display: inline-block;">
-                    <ui-select-match placeholder="Imagen de Fondo" allow-clear="true"> <img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;">{{$select.selected.nombre}}</ui-select-match>
+                    <ui-select-match placeholder="Imagen de Fondo" allow-clear="true"><img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;">{{$select.selected.nombre}}</ui-select-match>
                     <ui-select-choices repeat="imagen in imgs_public | filter: $select.search"><img ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="imagen.nombre | highlight: $select.search"></small></ui-select-choices>
                   </ui-select>
                   <label>Cantidad:</label>
@@ -156,7 +148,7 @@
                 </ui-select-choices>
               </ui-select><a href="" ng-click="verPlanillasGrupo()" class="btn btn-default">Ver planillas</a>
             </div>
-            <div class="btn-group"><a href="" ng-click="verPlanillasControlTardanzas()" class="btn btn-default">Control de tardanzas entrada</a><a href="" ng-click="verAusencias()" class="btn btn-default">Ver ausencias</a></div><br><br>
+            <div class="btn-group"><a href="" ng-click="verPlanillasControlTardanzas()" class="btn btn-default">Control de tardanzas entrada</a><a href="" ng-click="verAusencias()" class="btn btn-default">Ver ausencias</a><a href="" ng-click="verSimat()" class="btn btn-default">SIMAT {{USER.year}}</a></div><br><br>
             <div class="row">
               <div class="col-lg-2 col-sm-4 col-xs-12">
                 <div class="form-group">
@@ -197,7 +189,7 @@
           <h5>Filtrar:</h5>
           <div class="control-group">
             <div class="radio">
-              <label>Mostrar alumnos con: 
+              <label>Mostrar alumnos con:
                 <input type="number" ng-model="filtrar.materias_perdidas" ng-value="0" min="0" max="20" ng-init="filtrar.materias_perdidas=0">materias perdidas o más.
               </label>
             </div>
@@ -210,6 +202,6 @@
   </div>
 </div>
 <!-- ng-class="{'altura-informe': !$state.is('panel.informes.certificados_estudio') } "-->
-<div ui-view="report_content" class="informes-pages altura-informe"> 
+<div ui-view="report_content" class="informes-pages altura-informe">
   <h5 style="text-align: center">Aquí saldrán tus reportes</h5>
 </div>

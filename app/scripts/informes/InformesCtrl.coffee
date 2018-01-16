@@ -3,12 +3,11 @@ angular.module('myvcFrontApp')
 
 	AuthService.verificar_acceso()
 	$scope.rowsAlum = []
-	alumnos 		= alumnos.data 
+	alumnos 		= alumnos.data
 	$scope.$state 	= $state
 	$scope.config 	= {
 		periodos_a_calcular: 1  # de_usuario, de_colegio, todos
 		mostrar_foto: true
-		mostrar_grafico: true
 		periodo_a_calcular: $scope.USER.numero_periodo
 	}
 	$scope.filtered_alumnos = alumnos
@@ -85,7 +84,7 @@ angular.module('myvcFrontApp')
 		$cookies.putObject 'config', newVal
 
 		$scope.$broadcast 'change_config'
-		
+
 	, true
 
 	$scope.selectTab = (tab)->
@@ -105,15 +104,15 @@ angular.module('myvcFrontApp')
 	$scope.verBoletinesGrupo = ()->
 		$cookies.remove 'requested_alumnos'
 		$cookies.remove 'requested_alumno'
-		
+
 		if !$scope.datos.grupo.id
 			toastr.warning 'Debes seleccionar el grupo'
 			return
-		
+
 		$state.go 'panel.informes.boletines_periodo', {grupo_id: $scope.datos.grupo.id, periodo_a_calcular: $scope.config.periodo_a_calcular}, {reload: true}
 
 	$scope.verBoletinesAlumnos = ()->
-		
+
 		if $scope.datos.selected_alumnos.length > 0
 			$cookies.putObject 'requested_alumnos', $scope.datos.selected_alumnos
 			$state.go 'panel.informes.boletines_periodo', {grupo_id: $scope.datos.grupo.id, periodo_a_calcular: $scope.config.periodo_a_calcular}, {reload: true}
@@ -122,7 +121,7 @@ angular.module('myvcFrontApp')
 
 
 	$scope.verBoletinAlumno = ()->
-		
+
 		if $scope.datos.selected_alumno
 			$cookies.putObject 'requested_alumno', [$scope.datos.selected_alumno]
 			$state.go 'panel.informes'
@@ -172,6 +171,9 @@ angular.module('myvcFrontApp')
 	$scope.verAusencias = ()->
 		$state.go 'panel.informes.ver_ausencias', {periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
 
+	$scope.verSimat = ()->
+		$state.go 'panel.informes.ver_simat', {reload: true}
+
 
 	$scope.verPlanillasControlTardanzas = ()->
 		$state.go 'panel.informes.control_tardanza_entrada', {reload: true}
@@ -208,7 +210,7 @@ angular.module('myvcFrontApp')
 
 
 	$scope.pdfMaker = ()->
-		
+
 		docDefinition = {
 			content: [
 				['Este es un ejemplo de reporte en pdf'],
@@ -236,7 +238,7 @@ angular.module('myvcFrontApp')
 
 
 
-	
+
 
 
 
@@ -245,16 +247,16 @@ angular.module('myvcFrontApp')
 	$scope.verBoletinesFinalesGrupo = ()->
 		$cookies.remove 'requested_alumnos'
 		$cookies.remove 'requested_alumno'
-		
+
 		if !$scope.datos.grupo.id
 			toastr.warning 'Debes seleccionar el grupo'
 			return
-		
+
 		$state.go 'panel.informes.boletines_finales', {grupo_id: $scope.datos.grupo.id, periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
 
 
 	$scope.verBoletinesFinalesAlumnos = ()->
-		
+
 		if $scope.datos.selected_alumnos.length > 0
 			$cookies.putObject 'requested_alumnos', $scope.datos.selected_alumnos
 			$state.go 'panel.informes.boletines_finales', {grupo_id: $scope.datos.grupo.id, periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
@@ -263,7 +265,7 @@ angular.module('myvcFrontApp')
 
 
 	$scope.verBoletinFinalAlumno = ()->
-		
+
 		if $scope.datos.selected_alumno
 			$cookies.remove 'requested_alumnos'
 			$cookies.putObject 'requested_alumno', [$scope.datos.selected_alumno]
@@ -277,19 +279,19 @@ angular.module('myvcFrontApp')
 
 
 	$scope.verCertificadosEstudioGrupo = ()->
-		
+
 		$cookies.remove 'requested_alumnos'
 		$cookies.remove 'requested_alumno'
-		
+
 		if !$scope.datos.grupo.id
 			toastr.warning 'Debes seleccionar el grupo'
 			return
-		
+
 		$state.go 'panel.informes.certificados_estudio', {grupo_id: $scope.datos.grupo.id}, {reload: true}
 
 
 	$scope.verCertificadosEstudioAlumnos = ()->
-		
+
 		if $scope.datos.selected_alumnos.length > 0
 			$cookies.putObject 'requested_alumnos', $scope.datos.selected_alumnos
 			$state.go 'panel.informes.certificados_estudio', {grupo_id: $scope.datos.grupo.id, periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
@@ -299,7 +301,7 @@ angular.module('myvcFrontApp')
 
 
 	$scope.verCertificadosEstudioAlumno = ()->
-		
+
 		if $scope.datos.selected_alumno
 			$cookies.remove 'requested_alumnos'
 			$cookies.putObject 'requested_alumno', [$scope.datos.selected_alumno]
@@ -316,7 +318,7 @@ angular.module('myvcFrontApp')
 
 
 
-	# CALCULOS PARA DÍAS Y MESES	
+	# CALCULOS PARA DÍAS Y MESES
 	$scope.meses = [
 		{nombre: 'Enero'}
 		{nombre: 'Febrero'}
@@ -342,7 +344,7 @@ angular.module('myvcFrontApp')
 			return DAYS_IN_MONTH[month]
 
 	$scope.getAllDaysInMonth = (month)->
-		
+
 		num = getDaysInMonth($scope.numYearActual, month)
 		r = []
 		for i in [1..num]
@@ -351,7 +353,7 @@ angular.module('myvcFrontApp')
 
 			if n != 0 and n != 6
 				r.push i
-			
+
 		return r
 
 	# //
@@ -359,7 +361,7 @@ angular.module('myvcFrontApp')
 
 
 
-	
+
 ])
 
 
@@ -373,14 +375,14 @@ angular.module('myvcFrontApp')
 				fecha_hora = new Date(fecha_hora)
 			else
 				fecha_hora = new Date(created_at)
-				
+
 			fecha_hora = $filter('date')(fecha_hora, 'MMMdd H:mm')
 			return fecha_hora
 
 		else
 			return ''
 
-		
+
 ])
 
 

@@ -25,6 +25,7 @@ angular.module("myvcFrontApp")
 		{ parentesco: 	'Padre' }
 		{ parentesco: 	'Madre' }
 		{ parentesco: 	'Hermano(a)' }
+		{ parentesco: 	'Abuelo(a)' }
 		{ parentesco: 	'Tío(a)' }
 		{ parentesco: 	'Primo(a)' }
 		{ parentesco: 	'Responsable' }
@@ -86,10 +87,10 @@ angular.module("myvcFrontApp")
 					#console.log alumno.fecha_retiro, new Date(alumno.fecha_retiro.replace( /(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3"))
 					alumno.estado_ant 			= alumno.estado
 					alumno.fecha_retiro_ant 	= alumno.fecha_retiro
-					alumno.fecha_retiro 		= new Date(alumno.fecha_retiro)
+					alumno.fecha_retiro 		= if alumno.fecha_retiro then new Date(alumno.fecha_retiro.replace(/-/g, '\/')) else alumno.fecha_retiro
 					alumno.fecha_matricula_ant 	= alumno.fecha_matricula
-					alumno.fecha_matricula 		= new Date(alumno.fecha_matricula)
-					alumno.fecha_nac 			= new Date(alumno.fecha_nac)
+					alumno.fecha_matricula 		= if alumno.fecha_matricula then new Date(alumno.fecha_matricula.replace(/-/g, '\/')) else alumno.fecha_matricula
+					alumno.fecha_nac 			= if alumno.fecha_nac then new Date(alumno.fecha_nac.replace(/-/g, '\/')) else alumno.fecha_nac
 
 					for tipo_doc in $scope.tipos_doc
 						if tipo_doc.id == alumno.tipo_doc
@@ -97,7 +98,7 @@ angular.module("myvcFrontApp")
 
 					for pariente in alumno.subGridOptions.data
 						pariente.fecha_nac_ant 	= pariente.fecha_nac
-						pariente.fecha_nac 		= new Date(pariente.fecha_nac)
+						pariente.fecha_nac 		= if pariente.fecha_nac then new Date(pariente.fecha_nac.replace(/-/g, '\/')) else pariente.fecha_nac
 
 
 					alumno.subGridOptions.onRegisterApi = ( gridApi ) ->
@@ -131,17 +132,17 @@ angular.module("myvcFrontApp")
 					#console.log alumno.fecha_retiro, new Date(alumno.fecha_retiro.replace( /(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3"))
 					alumno.estado_ant 			= alumno.estado
 					alumno.fecha_retiro_ant 	= alumno.fecha_retiro
-					alumno.fecha_retiro 		= new Date(alumno.fecha_retiro)
+					alumno.fecha_retiro 		= if alumno.fecha_retiro then new Date(alumno.fecha_retiro.replace(/-/g, '\/')) else alumno.fecha_retiro
 					alumno.fecha_matricula_ant 	= alumno.fecha_matricula
-					alumno.fecha_matricula 		= new Date(alumno.fecha_matricula)
+					alumno.fecha_matricula 		= if alumno.fecha_matricula then new Date(alumno.fecha_matricula.replace(/-/g, '\/')) else alumno.fecha_matricula
 
 				for alumno in $scope.gridOptionsSinMatricula.data
 					#console.log alumno.fecha_retiro, new Date(alumno.fecha_retiro.replace( /(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3"))
 					alumno.estado_ant 			= alumno.estado
 					alumno.fecha_retiro_ant 	= alumno.fecha_retiro
-					alumno.fecha_retiro 		= new Date(alumno.fecha_retiro)
+					alumno.fecha_retiro 		= if alumno.fecha_retiro then new Date(alumno.fecha_retiro.replace(/-/g, '\/')) else alumno.fecha_retiro
 					alumno.fecha_matricula_ant 	= alumno.fecha_matricula
-					alumno.fecha_matricula 		= new Date(alumno.fecha_matricula)
+					alumno.fecha_matricula 		= if alumno.fecha_matricula then new Date(alumno.fecha_matricula.replace(/-/g, '\/')) else alumno.fecha_matricula
 
 			)
 
@@ -316,8 +317,11 @@ angular.module("myvcFrontApp")
 	btPazysalvo = "==directives/botonPazysalvo.tpl.html"
 	btUsuario = "==directives/botonesResetPassword.tpl.html"
 	btCiudadNac = "==directives/botonCiudadNac.tpl.html"
+	btCiudadDoc = "==directives/botonCiudadDoc.tpl.html"
+	btCiudadResid = "==directives/botonCiudadResid.tpl.html"
 	btTipoDoc = "==directives/botonTipoDoc.tpl.html"
 	btEditUsername = "==alumnos/botonEditUsername.tpl.html"
+	btEditEPS = "==alumnos/botonEditEps.tpl.html"
 
 	appendPopover1 = "'==alumnos/popoverAlumnoGrid.tpl.html'"
 	appendPopover2 = "'mouseenter'"
@@ -363,19 +367,21 @@ angular.module("myvcFrontApp")
 			{ field: 'fecha_matricula', displayName: 'Fecha matrícula', cellFilter: "date:mediumDate", type: 'date', minWidth: 100 }
 			{ field: 'no_matricula', displayName: '# matrícula', minWidth: 80, enableColumnMenu: true }
 			{ field: 'username', filter: { condition: uiGridConstants.filter.CONTAINS }, displayName: 'Usuario', cellTemplate: btUsuario, editableCellTemplate: btEditUsername, minWidth: 135 }
-			{ field: 'fecha_nac', displayName:'Nacimiento', cellFilter: "date:mediumDate", type: 'date', minWidth: 100}
 			{ field: 'deuda', displayName: 'Deuda', type: 'number', cellFilter: 'currency:"$":0', minWidth: 70 }
 			{ field: 'pazysalvo', displayName: 'A paz?', cellTemplate: btPazysalvo, minWidth: 60, enableCellEdit: false }
 			{ field: 'religion', displayName: 'Religión', minWidth: 70, editableCellTemplate: btEditReligion }
-			{ field: 'ciudad_nac', displayName: 'Ciud Nacimi', minWidth: 120, cellTemplate: btCiudadNac, enableCellEdit: false }
 			{ field: 'tipo_doc', displayName: 'Tipo documento', minWidth: 120, cellTemplate: btTipoDoc, enableCellEdit: false }
 			{ field: 'documento', minWidth: 80 }
+			{ field: 'ciudad_doc', displayName: 'Ciud Docu', minWidth: 120, cellTemplate: btCiudadDoc, enableCellEdit: false }
 			{ field: 'tipo_sangre', displayName: 'RH', minWidth: 70 }
+			{ field: 'estrato', minWidth: 70, type: 'number' }
+			{ field: 'fecha_nac', displayName:'Nacimiento', cellFilter: "date:mediumDate", type: 'date', minWidth: 100}
+			{ field: 'ciudad_nac', displayName: 'Ciud Nacimi', minWidth: 120, cellTemplate: btCiudadNac, enableCellEdit: false }
 			{ field: 'direccion', displayName: 'Dirección', minWidth: 70 }
 			{ field: 'barrio', minWidth: 70 }
-			{ field: 'telefono', displayName: 'Teléfono', minWidth: 70 }
-			{ field: 'eps', displayName: 'EPS', minWidth: 70 }
-			{ field: 'estrato', minWidth: 70, type: 'number' }
+			{ field: 'ciudad_resid', displayName: 'Ciud Resid', minWidth: 120, cellTemplate: btCiudadResid, enableCellEdit: false }
+			{ field: 'telefono', displayName: 'Teléfono', minWidth: 80 }
+			{ field: 'eps', displayName: 'EPS', minWidth: 100, editableCellTemplate: btEditEPS }
 		],
 		multiSelect: false,
 		#filterOptions: $scope.filterOptions,
@@ -559,6 +565,18 @@ angular.module("myvcFrontApp")
 				return item.username
 			)
 		)
+
+
+	$scope.cambiaEpsCheck = (texto)->
+		$scope.verificandoEps = true
+		return $http.put('::alumnos/eps-check', {texto: texto}).then((r)->
+			$scope.eps_match 		= r.data.eps
+			$scope.verificandoEps 	= false
+			return $scope.eps_match.map((item)->
+				return item.eps
+			)
+		)
+
 
 	$scope.reMatricularUno = (row)->
 

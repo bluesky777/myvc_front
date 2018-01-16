@@ -1,12 +1,36 @@
 
-<!--.col-lg-12.col-xs-12
-.widget
-	.widget-header.bordered-bottom.bordered-blue
-		span.widget-caption Asignaturas
-	.widget-body
-		.row
--->
 <h6 ng-if="profesor_id" class="row-title before-blue">Profesor: {{profesor.nombres_profesor + ' ' + profesor.apellidos_profesor}}</h6>
+<div ng-if="USER.tipo == 'Profesor' &amp;&amp; mes &lt; 5 " class="row">
+  <div class="col-xs-12 col-md-12">
+    <div class="well with-header">
+      <div class="header bordered-blue">Solicitar cambios en la carga académica</div>
+      <label>Grupo
+        <ui-select ng-model="dato.grupo" theme="select2" style="width: 180px;">
+          <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
+          <ui-select-choices repeat="grupo in grupos | filter: $select.search">
+            <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
+          </ui-select-choices>
+        </ui-select>
+      </label>
+      <label>Materia
+        <ui-select ng-model="dato.materia" theme="select2" style="width: 250px;">
+          <ui-select-match placeholder="Materia deseada" allow-clear="true">{{$select.selected.materia}}</ui-select-match>
+          <ui-select-choices repeat="materia in materias | filter: $select.search">
+            <div ng-bind-html="materia.materia | highlight: $select.search"></div>
+          </ui-select-choices>
+        </ui-select>
+      </label>
+      <input type="number" min="1" max="20" ng-model="dato.creditos" placeholder="Créditos" style="width: 100px; display: inline-block;" class="form-control"><a ng-click="solicitarMateria()" class="btn btn-info shiny">Solicitar materia</a>
+      <hr class="wide">
+      <div class="assigment_solicitados">
+        <div ng-repeat="pedido in pedidos" style="font-size: 8pt;" class="pedido">
+          <div ng-if="pedido.materia_to_add_id"><a ng-click="quitarSolicitud(pedido)" uib-tooltip="Quitar solicitud" style="margin-right: 4px;" class="btn btn-info btn-xs shiny"><i class="fa fa-times"></i></a><span style="font-weight: 800; text-decoration: underline;">{{ ::pedido.estado }}</span><span ng-class="{ 'texto-gris': pedido.materia_to_add_accepted == 0 || pedido.materia_to_add_accepted == 1 }"><span>Pediste</span><b style="padding: 0 4px">{{ pedido.nombre_materia_to_add }}</b>en el grupo<b style="padding: 0 4px">{{ pedido.nombre_grupo_add }},</b>Cred: {{pedido.creditos_new}}</span></div>
+          <div ng-if="pedido.asignatura_to_remove_id"><a ng-click="quitarSolicitud(pedido)" uib-tooltip="Quitar solicitud" style="margin-right: 4px;" class="btn btn-info btn-xs shiny"><i class="fa fa-times"></i></a><span style="font-weight: 800; text-decoration: underline;">{{ ::pedido.estado }}</span><span ng-class="{ 'texto-gris': pedido.asignatura_to_remove_accepted == 0 || pedido.asignatura_to_remove_accepted == 1 }"><span>Pediste quitar</span><b style="padding: 0 4px">{{ pedido.nombre_materia_to_remove }}</b>del grupo<b style="padding: 0 4px">{{ pedido.nombre_grupo_remove }}</b></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="row">
   <div ng-repeat="asignatura in asignaturas" class="col-lg-6 col-xs-12">
     <div uib-popover-template="views + 'popoverInfoUnidades.tpl.html'" popover-trigger="outsideClick" popover-title="{{UNIDADES}}" class="databox databox-graded radius-bordered databox-shadowed">
@@ -22,7 +46,7 @@
         <!-- style="background-image: url(images/book-library-back-2.png); background-repeat: no-repeat; background-position: right;")-->
         <div class="databox-title lightcarbon">{{ asignatura.materia }}</div>
         <div class="databox-text darkgray">
-          <div class="btn-group"><a ui-sref="panel.unidades({asignatura_id: asignatura.asignatura_id})" class="btn btn-default btn-sm">{{UNIDADES}}</a><a ui-sref="panel.ausencias({asignatura_id: asignatura.asignatura_id})" class="btn btn-default btn-sm">Ausencias</a><span> {{UNIDADES}}: {{asignatura.unidades.items.length}} </span><span ng-show="asignatura.unidades.porc_subunidades_incorrecto">- {{SUBUNIDADES}} incorrectos. </span><span ng-show="asignatura.unidades.porc_notas_incorrecto">- notas NO agregadas.</span></div>
+          <div class="btn-group"><a ui-sref="panel.unidades({asignatura_id: asignatura.asignatura_id})" class="btn btn-default btn-sm">{{UNIDADES}}</a><a ng-click="noEsMia(asignatura)" class="btn btn-default btn-sm">No es mía</a><span> IH: {{asignatura.creditos}}  -</span><span> {{UNIDADES}}: {{asignatura.unidades.items.length}}</span><span ng-show="asignatura.unidades.porc_subunidades_incorrecto">- {{SUBUNIDADES}} incorrectos.</span><span ng-show="asignatura.unidades.porc_notas_incorrecto">- notas NO agregadas.</span></div>
         </div>
         <div class="databox-stat radius-bordered bg-primary">
           <div class="stat-text">{{asignatura.nombre_grupo}}</div>

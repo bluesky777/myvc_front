@@ -17,7 +17,7 @@ angular.module('myvcFrontApp')
 						titulo: [->
 							'Informes interactivos'
 						]
-			resolve: { 
+			resolve: {
 				resolved_user: ['AuthService', (AuthService)->
 					AuthService.verificar()
 				]
@@ -25,7 +25,7 @@ angular.module('myvcFrontApp')
 					$http.get('::alumnos/sin-matriculas')
 				]
 			}
-			data: 
+			data:
 				displayName: 'Informes'
 				icon_fa: 'fa fa-print'
 				pageTitle: 'Informes - MyVc'
@@ -36,7 +36,7 @@ angular.module('myvcFrontApp')
 			params:
 				grupo_id: {value: null}
 				periodo_a_calcular: {value: null}
-			views: 
+			views:
 				'report_content':
 					templateUrl: "==informes/boletinesPeriodo.tpl.html"
 					controller: 'BoletinesPeriodoCtrl'
@@ -48,7 +48,7 @@ angular.module('myvcFrontApp')
 
 							requested_alumnos = $cookies.getObject 'requested_alumnos'
 							requested_alumno = $cookies.getObject 'requested_alumno'
-							
+
 							if requested_alumnos
 
 								$http.put('::boletines/detailed-notas/'+$stateParams.grupo_id, {requested_alumnos: requested_alumnos, periodo_a_calcular: $stateParams.periodo_a_calcular}).then((r)->
@@ -77,13 +77,13 @@ angular.module('myvcFrontApp')
 							#debugger
 							EscalasValorativasServ.escalas()
 						]
-			data: 
+			data:
 				displayName: 'Boletines periodo'
 				pageTitle: 'Boletines periodo - MyVc'
 
 		.state 'panel.informes.puestos_grupo_periodo',
 			url: '/puestos_grupo_periodo/:grupo_id'
-			views: 
+			views:
 				'report_content':
 					templateUrl: "==informes/puestosGrupoPeriodo.tpl.html"
 					controller: 'PuestosGrupoPeriodoCtrl'
@@ -95,7 +95,7 @@ angular.module('myvcFrontApp')
 							#debugger
 							EscalasValorativasServ.escalas()
 						]
-			data: 
+			data:
 				pageTitle: 'Puestos periodo - MyVc'
 
 
@@ -105,13 +105,13 @@ angular.module('myvcFrontApp')
 
 		.state 'panel.informes.puestos_grupo_year',
 			url: '/puestos_grupo_year/:grupo_id/:periodo_a_calcular'
-			views: 
+			views:
 				'report_content':
 					templateUrl: "#{App.views}informes/puestosGrupoYear.tpl.html"
 					controller: 'PuestosGrupoYearCtrl'
 					resolve:
 						datos_puestos: ['$http', '$stateParams', ($http, $stateParams)->
-							datos = 
+							datos =
 								grupo_id: $stateParams.grupo_id
 								periodo_a_calcular: $stateParams.periodo_a_calcular
 							$http.put('::puestos/detailed-notas-year', datos)
@@ -120,7 +120,7 @@ angular.module('myvcFrontApp')
 							#debugger
 							EscalasValorativasServ.escalas()
 						]
-			data: 
+			data:
 				displayName: 'Puestos del año'
 				icon_fa: 'fa fa-print'
 				pageTitle: 'Puestos del año - MyVc'
@@ -134,7 +134,7 @@ angular.module('myvcFrontApp')
 
 		.state 'panel.informes.planillas_grupo',
 			url: '/planillas_grupo/:grupo_id/:periodos_a_calcular'
-			views: 
+			views:
 				'report_content':
 					templateUrl: "==informes/planillas.tpl.html"
 					controller: 'PlanillasCtrl'
@@ -142,7 +142,7 @@ angular.module('myvcFrontApp')
 						asignaturas: ['$http', '$stateParams', ($http, $stateParams)->
 							$http.get('::planillas/show-grupo/'+$stateParams.grupo_id)
 						]
-			data: 
+			data:
 				displayName: 'Planillas grupo'
 				icon_fa: 'fa fa-print'
 				pageTitle: 'Planillas grupo - MyVc'
@@ -151,7 +151,7 @@ angular.module('myvcFrontApp')
 
 		.state 'panel.informes.notas_perdidas_profesor',
 			url: '/notas_perdidas_profesor/:profesor_id/:periodo_a_calcular'
-			views: 
+			views:
 				'report_content':
 					templateUrl: "==informes/notasPerdidasProfesor.tpl.html"
 					controller: 'NotasPerdidasProfesorCtrl'
@@ -159,7 +159,7 @@ angular.module('myvcFrontApp')
 						grupos: ['$http', '$stateParams', ($http, $stateParams)->
 							$http.put('::notas-perdidas/profesor-grupos', {profesor_id: $stateParams.profesor_id, periodo_a_calcular: $stateParams.periodo_a_calcular} )
 						]
-			data: 
+			data:
 				displayName: 'Notas perdidas por profesor'
 				icon_fa: 'fa fa-print'
 				pageTitle: 'Notas perdidas por profesor - MyVc'
@@ -167,7 +167,7 @@ angular.module('myvcFrontApp')
 
 		.state 'panel.informes.ver_ausencias',
 			url: '/ver_ausencias'
-			views: 
+			views:
 				'report_content':
 					templateUrl: "==informes/verAusencias.tpl.html"
 					controller: 'VerAusenciasCtrl' # En NotasPerdidasProfesorCtrl.coffee
@@ -175,16 +175,33 @@ angular.module('myvcFrontApp')
 						grupos_ausencias: ['$http', '$stateParams', ($http, $stateParams)->
 							$http.get('::planillas/ver-ausencias')
 						]
-			data: 
+			data:
 				displayName: 'Ausencias'
 				icon_fa: 'fa fa-print'
 				pageTitle: 'Ausencias - MyVc'
 
 
 
+		.state 'panel.informes.ver_simat',
+			url: '/ver_simat'
+			views:
+				'report_content':
+					templateUrl: "==informes/verSimat.tpl.html"
+					controller: 'VerSimatCtrl' # En NotasPerdidasProfesorCtrl.coffee
+					resolve:
+						grupos_simat: ['$http', '$stateParams', ($http, $stateParams)->
+							$http.get('::planillas/ver-simat')
+						]
+			data:
+				displayName: 'SIMAT'
+				icon_fa: 'fa fa-print'
+				pageTitle: 'SIMAT - MyVc'
+
+
+
 		.state 'panel.informes.planillas_profesor',
 			url: '/planillas_profesor/:profesor_id/:periodos_a_calcular'
-			views: 
+			views:
 				'report_content':
 					templateUrl: "==informes/planillas.tpl.html"
 					controller: 'PlanillasCtrl'
@@ -192,7 +209,7 @@ angular.module('myvcFrontApp')
 						asignaturas: ['$http', '$stateParams', ($http, $stateParams)->
 							$http.get('::planillas/show-profesor/'+$stateParams.profesor_id)
 						]
-			data: 
+			data:
 				displayName: 'Planillas profesor'
 				icon_fa: 'fa fa-print'
 				pageTitle: 'Planillas profesor - MyVc'
@@ -200,7 +217,7 @@ angular.module('myvcFrontApp')
 
 		.state 'panel.informes.control_tardanza_entrada',
 			url: '/control_tardanza_entrada/:grupo_id'
-			views: 
+			views:
 				'report_content':
 					templateUrl: "==informes/controlTardanzaEntrada.tpl.html" # En archivo PlanillasCtrl.coffee
 					controller: 'ControlTardanzaEntradaCtrl'
@@ -208,7 +225,7 @@ angular.module('myvcFrontApp')
 						grupos: ['$http', '$stateParams', ($http, $stateParams)->
 							$http.put('::planillas-ausencias/tardanza-entrada')
 						]
-			data: 
+			data:
 				displayName: 'Control de tardanza entrada'
 				icon_fa: 'fa fa-print'
 				pageTitle: 'Control de tardanza entrada - MyVc'
@@ -216,7 +233,7 @@ angular.module('myvcFrontApp')
 
 		.state 'panel.informes.planillas_ausencias1',
 			url: '/planillas_ausencias1/:profesor_id'
-			views: 
+			views:
 				'report_content':
 					templateUrl: "==informes/planillasAusencias1.tpl.html"
 					controller: 'PlanillasAusencias1Ctrl'
@@ -224,7 +241,7 @@ angular.module('myvcFrontApp')
 						asignaturas: ['$http', '$stateParams', ($http, $stateParams)->
 							$http.get('::planillas-ausencias/show-profesor/'+$stateParams.profesor_id)
 						]
-			data: 
+			data:
 				displayName: 'Planillas profesor'
 				icon_fa: 'fa fa-print'
 				pageTitle: 'Planillas profesor - MyVc'
@@ -243,7 +260,7 @@ angular.module('myvcFrontApp')
 			url: '/boletines_finales/:grupo_id'
 			params:
 				grupo_id: {value: null}
-			views: 
+			views:
 				'report_content':
 					templateUrl: "==informes/boletinesFinales.tpl.html"
 					controller: 'BoletinesFinalesCtrl'
@@ -255,7 +272,7 @@ angular.module('myvcFrontApp')
 
 							requested_alumnos = $cookies.getObject 'requested_alumnos'
 							requested_alumno = $cookies.getObject 'requested_alumno'
-							
+
 							if requested_alumnos
 
 								#console.log 'Pidiendo por varios alumnos: ', requested_alumnos
@@ -285,7 +302,7 @@ angular.module('myvcFrontApp')
 							#debugger
 							EscalasValorativasServ.escalas()
 						]
-			data: 
+			data:
 				displayName: 'Boletines finales'
 				pageTitle: 'Boletines finales - MyVc'
 
@@ -298,7 +315,7 @@ angular.module('myvcFrontApp')
 			url: '/certificados_estudio/:grupo_id'
 			params:
 				grupo_id: {value: null}
-			views: 
+			views:
 				'report_content':
 					templateUrl: "==informes/certificadosEstudio.tpl.html"
 					controller: 'CertificadosEstudioCtrl'
@@ -310,7 +327,7 @@ angular.module('myvcFrontApp')
 
 							requested_alumnos = $cookies.getObject 'requested_alumnos'
 							requested_alumno = $cookies.getObject 'requested_alumno'
-							
+
 							if requested_alumnos
 
 								#console.log 'Pidiendo por varios alumnos: ', requested_alumnos
@@ -331,7 +348,7 @@ angular.module('myvcFrontApp')
 								, (r2)->
 									d.reject r2.data
 								)
-								
+
 
 
 							return d.promise
@@ -340,7 +357,7 @@ angular.module('myvcFrontApp')
 							#debugger
 							EscalasValorativasServ.escalas()
 						]
-			data: 
+			data:
 				displayName: 'Certificados de estudio'
 				pageTitle: 'Certificados de estudio - MyVc'
 

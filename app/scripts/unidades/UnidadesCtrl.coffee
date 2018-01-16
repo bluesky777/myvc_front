@@ -3,7 +3,6 @@ angular.module('myvcFrontApp')
 
 	AuthService.verificar_acceso()
 
-	$scope.$parent.bigLoader 	= true
 
 	$scope.asignatura 		= {}
 	$scope.asignatura_id 	= $state.params.asignatura_id
@@ -60,7 +59,6 @@ angular.module('myvcFrontApp')
 			unidad.subunidades.unidad_id = unidad.id # El ordenador me borra esta propiedad a cada rato, por eso la pongo aquí
 
 		$scope.unidades.porc_unidades 	= sum
-		$scope.$parent.bigLoader 		= false
 
 
 
@@ -257,7 +255,6 @@ angular.module('myvcFrontApp')
 		)
 
 	$scope.ir_a_notas = (datos)->
-		$scope.$parent.bigLoader 	= true
 		$state.go 'panel.notas', datos
 
 	$scope.actualizarSubunidad = (subunidad)->

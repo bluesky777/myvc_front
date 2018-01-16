@@ -78,12 +78,6 @@ angular.module("myvcFrontApp")
 	$scope.paisNacSelect = ($item, $model)->
 		$http.get("::ciudades/departamentos/"+$item.id).then((r)->
 			$scope.departamentosNac = r.data
-
-			if typeof $scope.acudiente.pais_doc is 'undefined'
-				for un_pais in $scope.paises
-					if un_pais.id == $item.id
-						$scope.acudiente.pais_doc = un_pais
-				$scope.paisSelecionado(un_pais)
 		)
 
 	$scope.departNacSelect = ($item)->
@@ -99,6 +93,12 @@ angular.module("myvcFrontApp")
 
 		$http.get("::ciudades/departamentos/"+$item.id).then((r)->
 			$scope.departamentos = r.data
+
+			if typeof $scope.acudiente.pais_nac is 'undefined'
+				for un_pais in $scope.paises
+					if un_pais.id == $item.id
+						$scope.acudiente.pais_nac = un_pais
+						$scope.paisNacSelect(un_pais)
 		)
 
 	$scope.departSeleccionado = ($item)->
@@ -131,7 +131,7 @@ angular.module("myvcFrontApp")
 
 
 	$scope.seleccionarAcudiente = ()->
-		datos = { acudiente_id: $scope.datos.acudiente.id, alumno_id: alumno.alumno_id, parentesco: $scope.acudiente.parentesco.parentesco }
+		datos = { acudiente_id: $scope.datos.acudiente.id, alumno_id: alumno.alumno_id, parentesco: $scope.acudiente.parentesco.parentesco, ocupacion: $scope.acudiente.ocupacion }
 
 		if $rootScope.acudiente_cambiar
 			datos.parentesco_acudiente_cambiar_id = $rootScope.acudiente_cambiar.parentesco_id
@@ -144,5 +144,15 @@ angular.module("myvcFrontApp")
 			toastr.warning 'No se pudo seleccionar.', 'Problema'
 		)
 
+
+	$scope.ocupacionCheck = (texto)->
+		$scope.verificandoOcupacion = true
+		return $http.put('::acudientes/ocupaciones-check', {texto: texto}).then((r)->
+			$scope.ocupaciones_match 		= r.data.ocupaciones
+			$scope.verificandoOcupacion 	= false
+			return $scope.ocupaciones_match.map((item)->
+				return item.ocupacion
+			)
+		)
 
 ])

@@ -10,9 +10,9 @@
     <uib-tab heading="Seleccionar" index="'seleccionar'" select="selectSelectTab()">
       <div class="row">
         <div class="col-lg-12 col-xs-12">
-          <h4>Acudientes </h4>
-          <div class="form-group col-lg-6 col-sm-12 col-xs-12">
-            <label>Seleccione </label>
+          <h4>Acudientes</h4>
+          <div class="form-group col-lg-6 col-sm-6 col-xs-12">
+            <label>Seleccione</label>
             <ui-select ng-model="datos.acudiente" autofocus="true" style="width: 100%;">
               <ui-select-match placeholder="Escribe mínimo 1 letra" allow-clear="true">{{$select.selected.nombres}} {{$select.selected.apellidos}}</ui-select-match>
               <ui-select-choices repeat="acudiente in acudientes track by $index" refresh="refreshAcudientes($select.search)" refresh-delay="1">
@@ -20,7 +20,7 @@
               </ui-select-choices>
             </ui-select>
           </div>
-          <div class="form-group col-lg-6 col-sm-12 col-xs-12">
+          <div class="form-group col-lg-6 col-sm-6 col-xs-12">
             <label>Parentesco</label>
             <ui-select ng-model="acudiente.parentesco" on-select="parentescoSelect($item, $model)" style="width: 100%;">
               <ui-select-match placeholder="Parentesco" allow-clear="true">{{$select.selected.parentesco}}</ui-select-match>
@@ -29,11 +29,16 @@
               </ui-select-choices>
             </ui-select>
           </div>
+          <div id="ocupacion-autocompletar1" class="form-group col-lg-6 col-sm-6 col-xs-12">
+            <label for="acudiente-select-ocupacion">Ocupación</label>
+            <input id="acudiente-select-ocupacion" type="text" ng-model="acudiente.ocupacion" placeholder="Ocupación" typeahead-append-to="'#ocupacion-autocompletar1'" typeahead-min-length="1" uib-typeahead="ocupacion_check for ocupacion_check in ocupacionCheck($viewValue)" typeahead-loading="loadingOcupaciones" typeahead-no-results="noResults" class="form-control"><i ng-show="loadingOcupaciones" style="font-size: 7pt" class="fa fa-refresh"></i>
+            <div ng-show="noResults" style="font-size: 7pt"><i class="fa fa-check"></i>No existe. Puedes agregarla.</div>
+          </div>
         </div>
       </div>
     </uib-tab>
     <uib-tab heading="Crear nuevo" index="'nuevo'" select="selectCrearTab()">
-      <div class="row"> 
+      <div class="row">
         <div class="form-group col-lg-4 col-sm-6">
           <label for="acudiente-new-nombres">Nombres</label>
           <input id="acudiente-new-nombres" type="text" ng-model="acudiente.nombres" placeholder="Nombres" class="form-control">
@@ -58,8 +63,61 @@
             </ui-select-choices>
           </ui-select>
         </div>
+        <div id="ocupacion-autocompletar2" class="form-group col-lg-6 col-sm-6 col-xs-12">
+          <label for="acudiente-select-ocupacion">Ocupación</label>
+          <input id="acudiente-select-ocupacion" type="text" ng-model="acudiente.ocupacion" placeholder="Ocupación" typeahead-append-to="'#ocupacion-autocompletar2'" typeahead-min-length="1" uib-typeahead="ocupacion_check for ocupacion_check in ocupacionCheck($viewValue)" typeahead-loading="loadingOcupaciones" typeahead-no-results="noResults" class="form-control"><i ng-show="loadingOcupaciones" style="font-size: 7pt" class="fa fa-refresh"></i>
+          <div ng-show="noResults" style="font-size: 7pt"><i class="fa fa-check"></i>No existe. Puedes agregarla.</div>
+        </div>
       </div>
-      <div class="row"> 
+      <div class="row">
+        <div class="form-group col-lg-4 col-sm-6 col-xs-12">
+          <label>Tipo</label>
+          <ui-select ng-model="acudiente.tipo_doc" style="width: 100%;">
+            <ui-select-match placeholder="Tipo de documento" allow-clear="true">{{$select.selected.tipo}}{{ ' ('+$select.selected.abrev+')'}}</ui-select-match>
+            <ui-select-choices repeat="tipo_doc in tipos_doc">
+              <div ng-bind-html="tipo_doc.tipo | highlight: $select.search"></div><small>{{ tipo_doc.abrev}}</small>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+        <div class="form-group col-lg-4 col-sm-6 col-xs-12">
+          <label for="acudiente-new-documento">Número</label>
+          <input id="acudiente-new-documento" type="text" ng-model="acudiente.documento" placeholder="Número documento" class="form-control">
+        </div>
+      </div>
+      <hr class="wide">
+      <div class="row">
+        <div class="form-group col-lg-4 col-sm-6 col-xs-12">
+          <label>Pais documento</label>
+          <ui-select ng-model="acudiente.pais_doc" on-select="paisSelecionado($item, $model)" style="width: 100%;">
+            <ui-select-match placeholder="Pais documento" allow-clear="true">{{$select.selected.pais}} ({{$select.selected.abrev}})</ui-select-match>
+            <ui-select-choices repeat="pais in paises | filter: $select.search">
+              <div ng-bind-html="pais.pais | highlight: $select.search"></div><small>{{ pais.departamento | highlight: $select.search}}</small>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-lg-4 col-sm-6 col-xs-12">
+          <label>Departamento doc</label>
+          <ui-select ng-model="acudiente.departamento_doc" on-select="departSeleccionado($item, $model)" style="width: 100%;">
+            <ui-select-match placeholder="Departamento documento" allow-clear="true">{{$select.selected.departamento}}</ui-select-match>
+            <ui-select-choices repeat="departamento in departamentos | filter: $select.search">
+              <div ng-bind-html="departamento.departamento | highlight: $select.search"></div>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+        <div class="form-group col-lg-4 col-sm-6 col-xs-12">
+          <label>Ciudad documento</label>
+          <ui-select ng-model="acudiente.ciudad_doc" theme="select2" style="width: 100%;">
+            <ui-select-match placeholder="Ciudad documento" allow-clear="true">{{$select.selected.ciudad}}</ui-select-match>
+            <ui-select-choices repeat="ciudad in ciudades | filter: $select.search">
+              <div ng-bind-html="ciudad.ciudad | highlight: $select.search"></div>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+      </div>
+      <hr class="wide">
+      <div class="row">
         <div style="margin-bottom: 12px;" class="form-group col-lg-4 col-sm-6 col-xs-12">
           <label for="acudiente-new-fecha-nac">Fecha de nacimiento</label>
           <div class="controls">
@@ -91,50 +149,6 @@
           <ui-select ng-model="acudiente.ciudad_nac" style="width: 100%;">
             <ui-select-match placeholder="Ciudad nacimiento" allow-clear="true">{{$select.selected.ciudad}}</ui-select-match>
             <ui-select-choices repeat="ciudad in ciudadesNac | filter: $select.search">
-              <div ng-bind-html="ciudad.ciudad | highlight: $select.search"></div>
-            </ui-select-choices>
-          </ui-select>
-        </div>
-      </div>
-      <div class="row">
-        <div class="form-group col-lg-4 col-sm-6 col-xs-12">
-          <label>Tipo</label>
-          <ui-select ng-model="acudiente.tipo_doc" style="width: 100%;">
-            <ui-select-match placeholder="Tipo de documento" allow-clear="true">{{$select.selected.tipo}}{{ ' ('+$select.selected.abrev+')'}}</ui-select-match>
-            <ui-select-choices repeat="tipo_doc in tipos_doc">
-              <div ng-bind-html="tipo_doc.tipo | highlight: $select.search"></div><small>{{ tipo_doc.abrev}}</small>
-            </ui-select-choices>
-          </ui-select>
-        </div>
-        <div class="form-group col-lg-4 col-sm-6 col-xs-12">
-          <label for="acudiente-new-documento">Número</label>
-          <input id="acudiente-new-documento" type="text" ng-model="acudiente.documento" placeholder="Número documento" class="form-control">
-        </div>
-        <div class="form-group col-lg-4 col-sm-6 col-xs-12">
-          <label>Pais documento</label>
-          <ui-select ng-model="acudiente.pais_doc" on-select="paisSelecionado($item, $model)" style="width: 100%;">
-            <ui-select-match placeholder="Pais documento" allow-clear="true">{{$select.selected.pais}} ({{$select.selected.abrev}})</ui-select-match>
-            <ui-select-choices repeat="pais in paises | filter: $select.search">
-              <div ng-bind-html="pais.pais | highlight: $select.search"></div><small>{{ pais.departamento | highlight: $select.search}}</small>
-            </ui-select-choices>
-          </ui-select>
-        </div>
-      </div>
-      <div class="row">
-        <div class="form-group col-lg-4 col-sm-6 col-xs-12">
-          <label>Departamento doc</label>
-          <ui-select ng-model="acudiente.departamento_doc" on-select="departSeleccionado($item, $model)" style="width: 100%;">
-            <ui-select-match placeholder="Departamento documento" allow-clear="true">{{$select.selected.departamento}}</ui-select-match>
-            <ui-select-choices repeat="departamento in departamentos | filter: $select.search">
-              <div ng-bind-html="departamento.departamento | highlight: $select.search"></div>
-            </ui-select-choices>
-          </ui-select>
-        </div>
-        <div class="form-group col-lg-4 col-sm-6 col-xs-12">
-          <label>Ciudad documento</label>
-          <ui-select ng-model="acudiente.ciudad_doc" theme="select2" style="width: 100%;">
-            <ui-select-match placeholder="Ciudad documento" allow-clear="true">{{$select.selected.ciudad}}</ui-select-match>
-            <ui-select-choices repeat="ciudad in ciudades | filter: $select.search">
               <div ng-bind-html="ciudad.ciudad | highlight: $select.search"></div>
             </ui-select-choices>
           </ui-select>

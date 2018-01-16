@@ -7,7 +7,8 @@
       <div class="form-group">
         <selector-grupo-dir></selector-grupo-dir>
       </div>
-      <div id="grid1" ui-grid="gridOptions" ui-grid-exporter ui-grid-expandable ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-auto-resize ui-grid-pinning style="height: 600px" class="grid"></div>
+      <p>Mueva las columnas para mayor comodidad y oculte las que desee:</p>
+      <div id="grid1" ui-grid="gridOptions" ui-grid-exporter ui-grid-move-columns ui-grid-expandable ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-auto-resize ui-grid-pinning style="height: 600px" class="grid"></div>
       <hr class="wide">
       <h4 style="margin-top: 15px">Alumnos retirados {{ USER.year }}:<a href="" ng-click="mostrar_retirados=!mostrar_retirados" style="margin-left: 20px"><i class="fa fa-eye"></i></a></h4>
       <table ng-if="mostrar_retirados" class="table table-striped">

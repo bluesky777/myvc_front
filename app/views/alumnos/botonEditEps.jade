@@ -1,0 +1,11 @@
+input(type="text"
+	typeahead-append-to-body="true" typeahead-min-length="1"
+	uib-typeahead="eps_check for eps_check in grid.appScope.cambiaEpsCheck($viewValue)"
+	ng-class="'colt' + col.uid" ui-grid-editor
+	ng-model="MODEL_COL_FIELD"
+	typeahead-loading="grid.appScope.loadingEps" typeahead-no-results="grid.appScope.noResults")
+
+i.fa.fa-refresh(ng-show="grid.appScope.loadingEps" style="font-size: 7pt")
+div(ng-show="grid.appScope.noResults" style="font-size: 7pt")
+	i.fa.fa-check
+	| Sin coincidencias

@@ -25,7 +25,8 @@ angular.module('myvcFrontApp', [
 	'ui.grid.autoResize'
 	'ui.grid.pinning'
 	'ui.grid.expandable'
-	#'angular-ui-grid-translate' 
+	'ui.grid.moveColumns'
+	#'angular-ui-grid-translate'
 	#'angularFileUpload'
 	'ngFileUpload'
 	'FBAngular'
@@ -37,13 +38,13 @@ angular.module('myvcFrontApp', [
 #- Valores que usaremos para nuestro proyecto
 .constant('App', (()->
 
-	#dominio = 'http://lalvirtual.com/' 
+	#dominio = 'http://lalvirtual.com/'
 	#dominio = 'http://localhost/' # Pruebas en mi localhost
 	#console.log 'Entra al dominio: ', location.hostname
 
 	#if(location.hostname.match('lalvirtual'))
 	#	dominio = location.protocol + '//lalvirtual.com/'
-	
+
 	#server = dominio + 'myvc_server/public/'
 	#server 		= dominio + '5myvc/public/'
 	#frontapp 	= dominio + 'myvc_front/'

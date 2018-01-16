@@ -15831,12 +15831,12 @@ body {
     }
 }
 .nota-perdida-bold{
-    color: #f00;
+    color: #ad0101;
     font-weight: bold;
 }
 
 .nota-perdida{
-    color: #f00;
+    color: #ad0101;
 }
 
 
@@ -16432,4 +16432,10 @@ input[type="number"]:focus {
     padding-right: 0px;
 
   }
+}
+.img-fondo-boletin{
+  position:relative; max-width: 90%; max-height: 24cm; margin: auto; display: block; padding-top: 5cm;
+}
+.texto-gris{
+  color: #9E9E9E;
 }

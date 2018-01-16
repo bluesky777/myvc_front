@@ -1,0 +1,13 @@
+div(style="text-align:center; padding-top: 4px")
+
+  a.btn.btn-xs(ng-class="{'btn-info':row.entity.caritas, 'btn-primary':!row.entity.caritas }"
+    ng-click="grid.appScope.cambiarCaritas(row.entity);"
+    uib-tooltip="NO saldrán caritas" tooltip-placement="left" href=""
+    tooltip-enable="!row.entity.caritas")
+
+    i.fa.fa-times(ng-hide="row.entity.caritas")
+    i.fa.fa-check(ng-show="row.entity.caritas")
+
+    span(ng-hide="row.entity.caritas") No
+    span(ng-show="row.entity.caritas") Si
+

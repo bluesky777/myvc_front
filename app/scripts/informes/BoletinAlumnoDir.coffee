@@ -1,10 +1,10 @@
 angular.module('myvcFrontApp')
 
-.directive('boletinAlumnoDir',['App', 'Perfil', (App, Perfil)-> 
+.directive('boletinAlumnoDir',['App', 'Perfil', '$filter', (App, Perfil, $filter)->
 
 	restrict: 'EA'
 	templateUrl: "==informes/boletinAlumnoDir.tpl.html"
-	scope: 
+	scope:
 		grupo: "="
 		year: "="
 		alumno: "="
@@ -35,8 +35,8 @@ angular.module('myvcFrontApp')
 					left: 55
 				},
 				useInteractiveGuideline: true,
-				x: (d)-> return d.label; 
-				y: (d)-> return d.value; 
+				x: (d)-> return d.label;
+				y: (d)-> return d.value;
 				showValues: true,
 				valueFormat: (d)-> d3.format(',.0f')(d);
 				transitionDuration: 500
@@ -50,8 +50,17 @@ angular.module('myvcFrontApp')
 
 		valores = []
 		for asignatura in scope.alumno.asignaturas
-			valores.push { label: asignatura.alias_materia, value: asignatura.nota_asignatura },
-		
+			asignatura.nota_asignatura          = $filter('number')(asignatura.nota_asignatura, 0)
+			asignatura.nota_juicio_valorativo   = $filter('juicioValorativo')(asignatura.nota_asignatura, scope.escalas, true)
+			valores.push { label: asignatura.alias_materia, value: asignatura.nota_asignatura }
+
+			for unidad in asignatura.unidades
+				unidad.nota_unidad = $filter('number')(unidad.nota_unidad, 0)
+
+				for subunidad in unidad.subunidades
+					subunidad.nota.nota                     = $filter('number')(subunidad.nota.nota, 0)
+					subunidad.nota.nota_juicio_valorativo   = $filter('juicioValorativo')(subunidad.nota.nota, scope.escalas, true)
+
 		scope.data = [{
 			key: "Definitivas de asignaturas",
 			values: valores
@@ -68,19 +77,19 @@ angular.module('myvcFrontApp')
 
 .filter('cantPerdidasPer', [ ->
 	(input, periodo_id, alum_id) ->
-		
+
 		@suma = 0
 
 		angular.forEach input, (periodo, key) ->
-			
+
 			periodo_id = parseFloat(periodo_id)
 			per_id = parseFloat(periodo.id)
 
 			if per_id == periodo_id
 				@suma = @suma +  periodo.cantNotasPerdidas
-		
-	
-		
+
+
+
 		if @suma == 0
 			return ''
 

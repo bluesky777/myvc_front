@@ -4,10 +4,11 @@
 .row
 	.col-xs-12.col-md-12
 		.well.with-header.with-footer
-			.header.bordered-yellow Grupo 
+			.header.bordered-yellow Grupo
 				a.btn.btn-info.shiny(ui-sref="panel.grupos.nuevo" uib-tooltip="Ingresa datos de un nuevo grupo") Crear grupo
-			#grid1.grid(ui-grid="gridOptions" ui-grid-auto-resize ui-grid-edit external-scopes="$scope" ui-grid-resize-columns ui-grid-cellnav)
+
+			#grid1.grid(ui-grid="gridOptions" style="height: 600px" ui-grid-auto-resize ui-grid-edit external-scopes="$scope" ui-grid-resize-columns ui-grid-cellnav)
 
 
 			.footer
-				| Puedes editar con doble click sobre el dato deseado.
+				| Puedes editar presionando click sobre el dato deseado.

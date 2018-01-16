@@ -1,11 +1,58 @@
-//.col-lg-12.col-xs-12
-	.widget
-		.widget-header.bordered-bottom.bordered-blue
-			span.widget-caption Asignaturas
-		.widget-body
-			.row
+
 h6.row-title.before-blue(ng-if="profesor_id")
 	| Profesor: {{profesor.nombres_profesor + ' ' + profesor.apellidos_profesor}}
+
+
+.row(ng-if="USER.tipo == 'Profesor' && mes < 5 ")
+	.col-xs-12.col-md-12
+		.well.with-header
+			.header.bordered-blue Solicitar cambios en la carga académica
+			label Grupo
+				ui-select(ng-model="dato.grupo" theme="select2" style="width: 180px;")
+					ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}}
+					ui-select-choices(repeat="grupo in grupos | filter: $select.search")
+						div(ng-bind-html="grupo.nombre | highlight: $select.search")
+
+			label Materia
+				ui-select(ng-model="dato.materia" theme="select2" style="width: 250px;")
+					ui-select-match(placeholder="Materia deseada" allow-clear="true") {{$select.selected.materia}}
+					ui-select-choices(repeat="materia in materias | filter: $select.search")
+						div(ng-bind-html="materia.materia | highlight: $select.search")
+
+			input.form-control(type="number" min="1" max="20" ng-model="dato.creditos" placeholder="Créditos" style="width: 100px; display: inline-block;")
+
+			a.btn.btn-info.shiny(ng-click="solicitarMateria()") Solicitar materia
+
+			hr.wide
+
+			.assigment_solicitados
+				.pedido(ng-repeat="pedido in pedidos" style="font-size: 8pt;")
+					div(ng-if="pedido.materia_to_add_id")
+						a.btn.btn-info.btn-xs.shiny(ng-click="quitarSolicitud(pedido)" uib-tooltip="Quitar solicitud" style="margin-right: 4px;")
+							i.fa.fa-times
+						span(style="font-weight: 800; text-decoration: underline;") {{ ::pedido.estado }}
+						span(ng-class="{ 'texto-gris': pedido.materia_to_add_accepted == 0 || pedido.materia_to_add_accepted == 1 }")
+
+							span Pediste
+							b(style="padding: 0 4px") {{ pedido.nombre_materia_to_add }}
+							| en el grupo
+							b(style="padding: 0 4px") {{ pedido.nombre_grupo_add }},
+							| Cred: {{pedido.creditos_new}}
+
+
+
+					div(ng-if="pedido.asignatura_to_remove_id")
+						a.btn.btn-info.btn-xs.shiny(ng-click="quitarSolicitud(pedido)" uib-tooltip="Quitar solicitud" style="margin-right: 4px;")
+							i.fa.fa-times
+						span(style="font-weight: 800; text-decoration: underline;") {{ ::pedido.estado }}
+						span(ng-class="{ 'texto-gris': pedido.asignatura_to_remove_accepted == 0 || pedido.asignatura_to_remove_accepted == 1 }")
+							span Pediste quitar
+							b(style="padding: 0 4px") {{ pedido.nombre_materia_to_remove }}
+							| del grupo
+							b(style="padding: 0 4px") {{ pedido.nombre_grupo_remove }}
+
+
+
 
 .row
 	.col-lg-6.col-xs-12(ng-repeat="asignatura in asignaturas")
@@ -23,9 +70,10 @@ h6.row-title.before-blue(ng-if="profesor_id")
 				.databox-text.darkgray
 					.btn-group
 						a.btn.btn-default.btn-sm(ui-sref="panel.unidades({asignatura_id: asignatura.asignatura_id})") {{UNIDADES}}
-						a.btn.btn-default.btn-sm(ui-sref="panel.ausencias({asignatura_id: asignatura.asignatura_id})") Ausencias
-						span  {{UNIDADES}}: {{asignatura.unidades.items.length}} 
-						span(ng-show="asignatura.unidades.porc_subunidades_incorrecto") - {{SUBUNIDADES}} incorrectos. 
+						a.btn.btn-default.btn-sm(ng-click="noEsMia(asignatura)") No es mía
+						span  IH: {{asignatura.creditos}}  -
+						span  {{UNIDADES}}: {{asignatura.unidades.items.length}}
+						span(ng-show="asignatura.unidades.porc_subunidades_incorrecto") - {{SUBUNIDADES}} incorrectos.
 						span(ng-show="asignatura.unidades.porc_notas_incorrecto") - notas NO agregadas.
 				.databox-stat.radius-bordered.bg-primary
 					.stat-text {{asignatura.nombre_grupo}}
