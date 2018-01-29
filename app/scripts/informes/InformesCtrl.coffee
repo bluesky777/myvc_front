@@ -1,5 +1,5 @@
 angular.module('myvcFrontApp')
-.controller('InformesCtrl', ['$scope', '$http', '$state', '$stateParams', '$filter', 'App', 'AuthService', 'ProfesoresServ', 'alumnos', '$timeout', '$cookies', 'toastr', '$interval', ($scope, $http, $state, $stateParams, $filter, App, AuthService, ProfesoresServ, alumnos, $timeout, $cookies, toastr, $interval) ->
+.controller('InformesCtrl', ['$scope', '$http', '$state', '$stateParams', '$filter', 'App', 'AuthService', 'ProfesoresServ', 'alumnos', '$timeout', '$cookies', 'toastr', '$interval', 'DownloadServ', ($scope, $http, $state, $stateParams, $filter, App, AuthService, ProfesoresServ, alumnos, $timeout, $cookies, toastr, $interval, DownloadServ) ->
 
 	AuthService.verificar_acceso()
 	$scope.rowsAlum = []
@@ -108,12 +108,13 @@ angular.module('myvcFrontApp')
 		if !$scope.datos.grupo.id
 			toastr.warning 'Debes seleccionar el grupo'
 			return
-
+		$scope.config.orientacion = 'vertical'
 		$state.go 'panel.informes.boletines_periodo', {grupo_id: $scope.datos.grupo.id, periodo_a_calcular: $scope.config.periodo_a_calcular}, {reload: true}
 
 	$scope.verBoletinesAlumnos = ()->
 
 		if $scope.datos.selected_alumnos.length > 0
+			$scope.config.orientacion = 'vertical'
 			$cookies.putObject 'requested_alumnos', $scope.datos.selected_alumnos
 			$state.go 'panel.informes.boletines_periodo', {grupo_id: $scope.datos.grupo.id, periodo_a_calcular: $scope.config.periodo_a_calcular}, {reload: true}
 		else
@@ -125,6 +126,7 @@ angular.module('myvcFrontApp')
 		if $scope.datos.selected_alumno
 			$cookies.putObject 'requested_alumno', [$scope.datos.selected_alumno]
 			$state.go 'panel.informes'
+			$scope.config.orientacion = 'vertical'
 			$interval ()->
 				$state.go 'panel.informes.boletines_periodo', {periodo_a_calcular: $scope.config.periodo_a_calcular}
 			, 1, 1
@@ -141,6 +143,7 @@ angular.module('myvcFrontApp')
 		if !$scope.datos.grupo.id
 			toastr.warning 'Debes seleccionar el grupo'
 			return
+		$scope.config.orientacion = 'vertical'
 		$state.go 'panel.informes.puestos_grupo_periodo', {grupo_id: $scope.datos.grupo.id, periodos_a_calcular: $scope.config.periodos_a_calcular}
 
 
@@ -148,7 +151,7 @@ angular.module('myvcFrontApp')
 		if !$scope.datos.grupo.id
 			toastr.warning 'Debes seleccionar el grupo'
 			return
-
+		$scope.config.orientacion = 'vertical'
 		$state.go 'panel.informes.puestos_grupo_year', {grupo_id: $scope.datos.grupo.id, periodo_a_calcular: $scope.config.periodo_a_calcular}
 
 
@@ -157,6 +160,7 @@ angular.module('myvcFrontApp')
 
 	$scope.verPlanillasGrupo = ()->
 		if $scope.datos.grupo.id
+			$scope.config.orientacion = 'oficio_horizontal'
 			$state.go 'panel.informes.planillas_grupo', {grupo_id: $scope.datos.grupo.id, periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
 		else
 			toastr.warning 'Elige un grupo'
@@ -164,6 +168,7 @@ angular.module('myvcFrontApp')
 
 	$scope.verPlanillasProfe = ()->
 		if $scope.datos.profesor
+			$scope.config.orientacion = 'oficio_horizontal'
 			$state.go 'panel.informes.planillas_profesor', {profesor_id: $scope.datos.profesor.profesor_id, periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
 		else
 			toastr.warning 'Elige un profesor'
@@ -172,17 +177,26 @@ angular.module('myvcFrontApp')
 		$state.go 'panel.informes.ver_ausencias', {periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
 
 	$scope.verSimat = ()->
+		DownloadServ.download('::simat/alumnos', 'Grupos alumnos.xls')
 		$state.go 'panel.informes.ver_simat', {reload: true}
 
 
 	$scope.verPlanillasControlTardanzas = ()->
+		$scope.config.orientacion = 'oficio_horizontal'
 		$state.go 'panel.informes.control_tardanza_entrada', {reload: true}
 
 	$scope.verNotasPerdidasProfesor = ()->
 		if $scope.datos.profesor
+			$scope.config.orientacion = 'carta_horizontal'
 			$state.go 'panel.informes.notas_perdidas_profesor', {profesor_id: $scope.datos.profesor.profesor_id, periodo_a_calcular: $scope.config.periodo_a_calcular}, {reload: true}
 		else
 			toastr.warning 'Elige un profesor'
+
+
+	$scope.verNotasPerdidasTodos = ()->
+		$scope.config.orientacion = 'carta_horizontal'
+		$state.go 'panel.informes.notas_perdidas_todos', {periodo_a_calcular: $scope.config.periodo_a_calcular}, {reload: true}
+
 
 
 	$scope.selectGrupo = (item)->

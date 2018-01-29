@@ -2,7 +2,7 @@
 <div class="row">
   <div class="col-xs-12 col-md-8">
     <div class="well with-header with-footer">
-      <div class="header bordered-yellow">Ciudades - Paises</div>
+      <div class="header bordered-blue">Ciudades - Paises</div>
       <uib-tabset active="" class="widget-main">
         <uib-tab heading="Editar ciudades">
           <div class="row">
@@ -29,11 +29,11 @@
               <input type="text" ng-model="departamento_new" ng-change="escribeEnDepartamentoNew()" placeholder="Departamento nuevo" uib-tooltip="Escriba nuevo o elija de arriba " class="form-control">
             </div>
             <div ng-show="mostrarAgregarCiudad" class="form-group col-lg-6 col-sm-6 col-xs-12">
-              <form ng-submit="guardarCiudad(ciudad_new, departamento_new)"> 
+              <form ng-submit="guardarCiudad(ciudad_new, departamento_new)">
                 <div class="input-group">
                   <input type="text" ng-model="ciudad_new" placeholder="Nueva ciudad" class="form-control">
                   <div class="input-group-btn">
-                    <button type="submit" aria-label="Agregar ciudad" uib-tooltip="Guardar nueva ciudadd" class="btn btn-default"><i class="fa fa-plus"> </i></button>
+                    <button type="submit" aria-label="Agregar ciudad" uib-tooltip="Guardar nueva ciudadd" class="btn btn-default"><i class="fa fa-plus"></i></button>
                   </div>
                 </div>
               </form>
@@ -46,7 +46,7 @@
                   <h6 style="font-size: 14pt">Ciudad - Departamento</h6>
                 </div>
                 <ul class="orders-list">
-                  <li ng-repeat="ciudad in ciudades track by $index" ng-dblclick="ok(ciudad)" style="padding: 0px 10px;" class="order-item"> 
+                  <li ng-repeat="ciudad in ciudades track by $index" ng-dblclick="ok(ciudad)" style="padding: 0px 10px;" class="order-item">
                     <div class="row">
                       <div class="col-lg-7 col-md-7 col-sm-6 item-left">
                         <div style="margin-right: 10px; margin-top: -5px;" class="btn-group">
@@ -57,7 +57,7 @@
                             <div class="fa fa-pencil"></div>
                           </button>
                         </div><span ng-hide="ciudad.editandoCiudad" style="font-weight: bold; font-size: 12pt; display: inline-block;" ng-click="ciudad.editandoCiudad=!ciudad.editandoCiudad" class="item-booker">{{ciudad.ciudad}}</span><span ng-show="ciudad.editandoCiudad" class="item-booker">
-                          <form ng-submit="actualizarCiudad(ciudad)"> 
+                          <form ng-submit="actualizarCiudad(ciudad)">
                             <div style="margin-top: -12px; padding-bottom: 5px;" class="input-group">
                               <input ng-model="ciudad.ciudad" style="height: 30px;" class="form-control">
                               <div class="input-group-btn">
@@ -69,8 +69,8 @@
                           </form></span>
                       </div>
                       <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 item-right">
-                        <div style="margin: 0px auto; color: #999" class="item-price"><span ng-hide="ciudad.editandoDepart" ng-click="ciudad.editandoDepart=!ciudad.editandoDepart">({{ciudad.departamento}}) </span><span ng-show="ciudad.editandoDepart"> 
-                            <form ng-submit="actualizarDepartamento(ciudad)"> 
+                        <div style="margin: 0px auto; color: #999" class="item-price"><span ng-hide="ciudad.editandoDepart" ng-click="ciudad.editandoDepart=!ciudad.editandoDepart">({{ciudad.departamento}})</span><span ng-show="ciudad.editandoDepart">
+                            <form ng-submit="actualizarDepartamento(ciudad)">
                               <div style="margin-top: 6px; padding-bottom: 5px;" class="input-group">
                                 <input ng-model="ciudad.departamento" style="height: 30px;" class="form-control">
                                 <div class="input-group-btn">
@@ -92,60 +92,7 @@
             </div>
           </div>
         </uib-tab>
-        <!-- TAL VEZ DESPUÉS TENGA QUE HACER LA EDICIÓN DE PAISES. AHORITA NO LO HARÉ
-        uib-tab(heading="Paises" index="'paises'" select="selectTab('boletines')")
-        
-        	button.btn.btn-default(ng-click="crearPais()" ng-hide="creandopais") Agregar Pais
-        
-        
-        	form(ng-show="creandopais" ng-submit="guardarPais()")
-        
-        		.row
-        			.col-lg-4.col-sm-12.col-xs-12
-        				md-input-container.md-block(flex-gt-sm style=" padding-bottom: 0!important")
-        					label Pais
-        					input(ng-model="crearpais.paisnuevo")
-        			
-        			.col-lg-4.col-sm-12.col-xs-12
-        				md-input-container.md-block(flex-gt-sm style=" padding-bottom: 0!important")
-        					label Abreviatura
-        					input(ng-model="crearpais.abrev")
-        			.row
-        				.col-lg-12
-        					md-button.md-raised.md-default(type="button" ng-click="creandopais=false") Cancelar
-        
-        					md-button.md-raised.md-primary(type="submit") Guardar
-        
-        	.row
-        		.col-lg-6
-        			md-toolbar.md-hue-3(style="background-color: rgb(63, 81, 181); color: rgb(255, 255, 255);" layout="row")
-        				div.md-toolbar-tools
-        					span Paises
-        			md-list(style="height: 600px; border: 1px solid #ccc; overflow: auto")
-        				md-list-item(ng-repeat="pais in paises track by $index" ng-click="editarPais(pais)") 
-        					p.row
-        						.col-lg-6(ng-hide="pais.editandoPais" style="font-weight: bold; font-size: 13pt" ng-click="pais.editandoPais=!pais.editandoPais") {{pais.pais}}
-        						.col-lg-6(ng-show="pais.editandoPais") 
-        							input(ng-model="pais.pais")
-        						md-button.md-icon-button(ng-hide="pais.editandoPais" ng-click="pais.editandoPais=!pais.editandoPais" aria-label="Editar pais")
-        							.fa.fa-pencil
-        						md-button.md-icon-button(ng-show="pais.editandoPais" ng-click="actualizarPais(pais)" aria-label="Editar pais")
-        							.fa.fa-save
-        						.col-lg-6(ng-hide="pais.editandoAbrev" ng-click="pais.editandoAbrev=!pais.editandoAbrev") ({{pais.abrev}})
-        						.col-lg-6(ng-show="pais.editandoAbrev") 
-        							input(ng-model="pais.abrev")
-        						md-button.md-icon-button(ng-hide="pais.editandoAbrev" ng-click="pais.editandoAbrev=!pais.editandoAbrev" aria-label="Editar Abrev")
-        							.fa.fa-pencil
-        						md-button.md-icon-button(ng-show="pais.editandoAbrev" ng-click="actualizarPais(pais)" aria-label="Editar Abrev")
-        							.fa.fa-save
-        					md-button.md-icon-button(aria-label="Eliminar")
-        						.fa.fa-times
-        
-        
-        	
-        -->
       </uib-tabset>
-      <div class="footer"><code>&lt; td class="active/success/danger/warning" &gt;</code></div>
     </div>
   </div>
 </div>

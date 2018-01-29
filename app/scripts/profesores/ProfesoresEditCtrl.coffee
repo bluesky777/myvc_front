@@ -4,7 +4,7 @@ angular.module("myvcFrontApp")
 
 .controller('ProfesoresEditCtrl', ['$scope', 'toastr', '$http', '$state', ($scope, toastr, $http, $state)->
 	$scope.data = {} # Para el popup del Datapicker
-	
+
 	$scope.profesor = {}
 	$scope.paises = [{id:1, pais: 'COLOMBIA'}]
 	$scope.tipos_doc = [{id:1, tipo: 'CC'}]
@@ -18,7 +18,7 @@ angular.module("myvcFrontApp")
 	$http.get('::profesores/show/'+$state.params.profe_id).then (r)->
 		r = r.data
 		$scope.profesor = r[0]
-		$scope.profesor.estado_civil = {estado_civil: r[0].estado_civil}
+		#$scope.profesor.estado_civil = {estado_civil: r[0].estado_civil}
 
 
 		if $scope.profesor.ciudad_nac == null
@@ -55,7 +55,7 @@ angular.module("myvcFrontApp")
 				$scope.profesor.tipo_doc = $filter('filter')($scope.tipos_doc, {id: $scope.profesor.tipo_doc})
 
 
-	
+
 
 	$http.get('::paises').then((r)->
 		$scope.paises = r.data
@@ -63,9 +63,9 @@ angular.module("myvcFrontApp")
 		toastr.error 'No se pudo traer los paises'
 	)
 
-	
-	
-	
+
+
+
 	$scope.guardar = ()->
 		$http.put('::profesores/update/'+$scope.profesor.profesor_id, $scope.profesor).then((r)->
 			toastr.success 'Profesor actualizado con éxito'
@@ -93,7 +93,7 @@ angular.module("myvcFrontApp")
 		)
 
 	$scope.paisDocSelect = ($item, $model)->
-		
+
 		$http.get("::ciudades/departamentos/"+$item.id).then((r)->
 			$scope.departamentos = r.data
 		)
@@ -103,7 +103,7 @@ angular.module("myvcFrontApp")
 			$scope.ciudades = r.data
 		)
 
-	$scope.dateOptions = 
+	$scope.dateOptions =
 		formatYear: 'yyyy'
 
 

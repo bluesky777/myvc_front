@@ -33,6 +33,38 @@ angular.module('myvcFrontApp')
 
 
 
+		.state 'panel.definitivas_periodos',
+			url: '^/definitivas-periodos'
+			views:
+				'maincontent':
+					templateUrl: "==notas/definitivasPeriodos.tpl.html"
+					controller: 'DefinitivasPeriodosCtrl'
+				'headerContent':
+					templateUrl: "==panel/panelHeader.tpl.html"
+					controller: 'PanelHeaderCtrl'
+					resolve:
+						titulo: [->
+							'Definitivas periodos'
+						]
+			resolve:
+				escalas: ['EscalasValorativasServ', (EscalasValorativasServ)->
+					#debugger
+					EscalasValorativasServ.escalas()
+				]
+				asignaturas_definitivas: ['$http', 'AuthService', ($http, AuthService)->
+					if AuthService.hasRoleOrPerm(['alumno', 'acudiente'])
+						return 'Sin alumnos'
+					$http.get('::definitivas_periodos')
+				]
+			data:
+				displayName: 'Notas'
+				icon_fa: 'fa fa-graduation-cap'
+				needed_permissions: [PERMISSIONS.can_work_like_teacher, PERMISSIONS.can_work_like_admin, PERMISSIONS.can_edit_notas]
+				pageTitle: 'Definitivas - MyVc'
+
+
+
+
 
 		.state 'panel.comportamiento',
 			url: '^/comportamiento/:grupo_id'

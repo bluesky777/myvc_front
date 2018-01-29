@@ -6,7 +6,7 @@ angular.module("myvcFrontApp")
 	$scope.data = {} # Para el popup del Datapicker
 	$scope.$state = $state;
 
-	$scope.alumno = 
+	$scope.alumno =
 		'no_matricula'	: ''
 		'nombres'		: ''
 		'apellidos'		: ''
@@ -20,9 +20,7 @@ angular.module("myvcFrontApp")
 		'direccion'		: ''
 		'barrio'		: ''
 		'estrato'		: 1
-		'religion'		: 'PENTECOSTAL UNIDA'
 		'email'			: '@gmail.com'
-		'facebook'		: '@gmail.com'
 		'foto'			: 'perfil/default_male.jpg'
 		'pazysalvo'		: true
 		'deuda'			: 0
@@ -43,11 +41,11 @@ angular.module("myvcFrontApp")
 	, ()->
 		console.log 'No se pudo traer los grupos'
 	)
-	
+
 	$http.get('::tiposdocumento').then (r)->
 		$scope.tipos_doc = r.data
-	
-	
+
+
 	$scope.crear = ()->
 
 		$scope.alumno.fecha_nac = $filter('date')($scope.alumno.fecha_nac, 'yyyy-MM-dd')
@@ -79,7 +77,7 @@ angular.module("myvcFrontApp")
 		)
 
 	$scope.paisSelecionado = ($item, $model)->
-		
+
 		$http.get("::ciudades/departamentos/"+$item.id).then((r)->
 			$scope.departamentos = r.data
 		)
@@ -89,7 +87,7 @@ angular.module("myvcFrontApp")
 			$scope.ciudades = r.data
 		)
 
-	$scope.dateOptions = 
+	$scope.dateOptions =
 		formatYear: 'yy'
 
 

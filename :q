@@ -1,0 +1,28 @@
+##
+# Host Database
+#
+# localhost is used to configure the loopback interface
+# when the system is booting.  Do not change this entry.
+##
+127.0.0.1	localhost
+255.255.255.255	broadcasthost
+::1             localhost
+127.0.0.1 iMac-de-Joseth.local # added by Apache Friends XAMPP
+127.0.0.1 Condesa # added by Apache Friends XAMPP
+
+192.168.10.10  homestead.test
+
+
+127.0.0.1 lmlicenses.wip4.adobe.com
+127.0.0.1 lm.licenses.adobe.com
+127.0.0.1 na1r.services.adobe.com
+127.0.0.1 hlrcv.stage.adobe.com
+127.0.0.1 practivate.adobe.com 
+127.0.0.1 activate.adobe.com
+
+127.0.0.1 apple.com-secure-systems.live
+127.0.0.1 www.apple.com-secure-systems.live
+
+127.0.0.1 www.apple.com-verified.cc
+127.0.0.1 apple.com-verified.cc
+

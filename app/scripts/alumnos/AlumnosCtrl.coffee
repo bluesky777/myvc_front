@@ -6,6 +6,10 @@ angular.module("myvcFrontApp")
 
 	AuthService.verificar_acceso()
 
+	if AuthService.hasRoleOrPerm('Profesor') and !$scope.USER.profes_can_edit_alumnos
+		toastr.warning 'No tienes permiso para editar alumnos'
+		$state.transitionTo 'panel'
+
 	$scope.$parent.bigLoader			= true
 	$scope.dato 						= {}
 	$scope.dato.mostrartoolgrupo 		= true

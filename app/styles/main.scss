@@ -16406,7 +16406,7 @@ input.ocultar-input{
 
 
 // Probando para arreglar el input number de Mozila
-input[type="number"] {
+input.input-nota.input-ausencia[type="number"] {
     -moz-appearance: textfield;
     width: 41px;
 }

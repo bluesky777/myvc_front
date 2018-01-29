@@ -32,8 +32,8 @@ angular.module('myvcFrontApp')
 	)
 
 	###
-	ChartJsProvider.setOptions({ 
-		defaultFontSize : 9 
+	ChartJsProvider.setOptions({
+		defaultFontSize : 9
 	});
 	###
 
@@ -42,47 +42,59 @@ angular.module('myvcFrontApp')
 
 	uiSelectConfig.theme = 'select2'
 	uiSelectConfig.resetSearchInput = true
-	
+
 	# Los estados con parámetros opcionales siguen sin funcionar cuando se les quita el slash. stricMode arregla al menos los demás que no tienen parametros opcionales
 	$urlMatcherFactoryProvider.strictMode(false);
 
 	#- Definimos los estados
-	$urlRouter.otherwise('/')
+	$urlRouter.otherwise('/login')
 	$urlRouter.when('/user/:username', ['$match', '$state', ($match, $state)->
 		$state.transitionTo 'panel.user.resumen', $match
 	])
-	
+
 	$state
 	.state('main', { #- Estado raiz que no necesita autenticación.
 		url: '/'
-		views: 
+		views:
 			'principal':
 				templateUrl: App.views+'main/main.tpl.html'
 				controller: 'MainCtrl'
-		data: 
+		data:
 			displayName: 'principal'
 			icon_fa: ''
 			pageTitle: 'Construcción - MyVc'
 	})
-	.state('login', { 
+	.state('login', {
 		url: '/login'
 		views:
 			'principal':
 				templateUrl: "#{App.views}login/login.tpl.html"
 				controller: 'LoginCtrl'
-		data: 
+		data:
 			displayName: 'Login'
 			icon_fa: 'fa fa-user'
 			pageTitle: 'Ingresar a MyVc'
 
 	})
-	.state('logout', { 
+	.state('reset-password', {
+		url: '/reset-password/:numero/:username'
+		views:
+			'principal':
+				templateUrl: "#{App.views}login/reset-password.tpl.html"
+				controller: 'ResetPasswordCtrl'
+		data:
+			displayName: 'Resetear'
+			icon_fa: 'fa fa-user'
+			pageTitle: 'Ingreso a MyVc'
+
+	})
+	.state('logout', {
 		url: '/logout'
 		views:
 			'principal':
 				templateUrl: "#{App.views}login/logout.tpl.html"
 				controller: 'LogoutCtrl'
-		data: 
+		data:
 			displayName: 'Logout'
 			icon_fa: 'fa fa-user'
 
@@ -93,12 +105,12 @@ angular.module('myvcFrontApp')
 			'principal':
 				templateUrl: "#{App.views}panel/panel.tpl.html"
 				controller: 'PanelCtrl'
-		resolve: { 
+		resolve: {
 			resolved_user: ['AuthService', (AuthService)->
 				AuthService.verificar()
 			]
 		}
-		data: 
+		data:
 			displayName: 'Inicio'
 			icon_fa: 'fa fa-home'
 			pageTitle: 'Bienvenido - MyVc'
@@ -108,7 +120,7 @@ angular.module('myvcFrontApp')
 	#$locationProvider.html5Mode true
 
 	$rootScopeProvider.bigLoader = true
-	
+
 	angular.extend(toastrConfig, {
 		allowHtml: true,
 		closeButton: true,

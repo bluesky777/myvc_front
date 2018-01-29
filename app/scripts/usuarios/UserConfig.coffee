@@ -4,7 +4,7 @@ angular.module('myvcFrontApp')
 	$state
 		.state 'panel.usuarios',
 			url: '^/usuarios'
-			views: 
+			views:
 				'maincontent':
 					templateUrl: "==usuarios/usuarios.tpl.html"
 					controller: 'UsuariosCtrl'
@@ -15,7 +15,7 @@ angular.module('myvcFrontApp')
 						titulo: [->
 							'Usuarios'
 						]
-			data: 
+			data:
 				displayName: 'Usuarios'
 				icon_fa: 'fa fa-user'
 				needed_permissions: [PERMISSIONS.can_edit_usuarios]
@@ -24,7 +24,7 @@ angular.module('myvcFrontApp')
 
 		.state 'panel.user',
 			url: '^/user/:username'
-			views: 
+			views:
 				'maincontent':
 					templateUrl: "==usuarios/user.tpl.html"
 					controller: 'UserCtrl'
@@ -35,7 +35,7 @@ angular.module('myvcFrontApp')
 						titulo: [->
 							'Perfil'
 						]
-			resolve: 
+			resolve:
 				perfilactual: ['$http', '$stateParams', '$q', '$state', 'toastr', ($http, $stateParams, $q, $state, toastr)->
 					d = $q.defer()
 
@@ -45,7 +45,6 @@ angular.module('myvcFrontApp')
 						$http.get('::perfiles/username/'+username).then((r)->
 							#console.log 'Perfilactual en el resolve:', r[0]
 							if r.data[0].fecha_nac
-								console.log r.data[0].fecha_nac, '-', new Date(r.data[0].fecha_nac)
 								r.data[0].fecha_nac = new Date(r.data[0].fecha_nac)
 							d.resolve r.data[0]
 						, (r2)->
@@ -59,39 +58,39 @@ angular.module('myvcFrontApp')
 					return d.promise
 				]
 
-			data: 
+			data:
 				displayName: 'Perfil'
 				icon_fa: 'fa fa-user'
 
 
 		.state 'panel.user.resumen',
 			url: '/r'
-			views: 
+			views:
 				'user_detail':
 					templateUrl: "==usuarios/userResumen.tpl.html"
 					controller: 'UserResumenCtrl'
-			data: 
+			data:
 				displayName: 'Resumen'
 				icon_fa: 'fa fa-user'
 
 		.state 'panel.user.configuracion',
 			url: '/c'
-			views: 
+			views:
 				'user_detail':
 					templateUrl: "==usuarios/userConfiguracion.tpl.html"
 					controller: 'UserConfiguracionCtrl'
-			data: 
+			data:
 				displayName: 'Configuración de perfil'
 				icon_fa: 'fa fa-user'
 
 
 		.state 'panel.usuarios.roles',
 			url: '/roles'
-			views: 
+			views:
 				'user_roles':
 					templateUrl: "==usuarios/roles.tpl.html"
 					controller: 'RolesCtrl'
-			data: 
+			data:
 				displayName: 'Roles'
 				icon_fa: 'fa fa-user-secret'
 
@@ -101,18 +100,18 @@ angular.module('myvcFrontApp')
 
 		.state 'panel.usuarios.editar',
 			url: '/editar/:user_id'
-			views: 
+			views:
 				'edit_user':
 					templateUrl: "==usuarios/usuariosEdit.tpl.html"
 					controller: 'UsuariosEditCtrl'
 				'headerContent':
 					templateUrl: "==panel/panelHeader.tpl.html"
 					controller: 'PanelHeaderCtrl'
-					resolve: 
+					resolve:
 						titulo: [->
 							'Editar alumno'
 						]
-			data: 
+			data:
 				displayName: 'Editar'
 				icon_fa: 'fa fa-users'
 				pageTitle: 'Editar alumno - MyVc'

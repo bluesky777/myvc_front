@@ -6,7 +6,7 @@ angular.module('myvcFrontApp')
 		$state
 			.state 'panel.alumnos',
 				url: '^/alumnos'
-				views: 
+				views:
 					'maincontent':
 						templateUrl: "==alumnos/alumnos.tpl.html"
 						controller: 'AlumnosCtrl'
@@ -17,45 +17,45 @@ angular.module('myvcFrontApp')
 							titulo: [->
 								'Alumnos'
 							]
-				data: 
+				data:
 					displayName: 'Alumnos'
 					icon_fa: 'fa fa-male'
-					needed_permissions: [PERMISSIONS.can_edit_alumnos]
+					needed_permissions: [PERMISSIONS.can_work_like_teacher, PERMISSIONS.can_work_like_admin, PERMISSIONS.can_edit_alumnos]
 					pageTitle: 'Alumnos - MyVc'
 
 
 
 			.state 'panel.mensajes',
 				url: '^/mensajes'
-				views: 
+				views:
 					'maincontent':
 						templateUrl: "==mensajes/mensajes.tpl.html"
 						controller: 'MensajesCtrl'
 					'headerContent':
 						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
-						resolve: 
+						resolve:
 							titulo: [->
 								'Mensajes'
 							]
-				data: 
+				data:
 					displayName: 'Mensajes'
 					icon_fa: 'fa fa-envelope'
 
 			.state 'panel.years',
 				url: '^/years'
-				views: 
+				views:
 					'maincontent':
 						templateUrl: "==colegio/years.tpl.html"
 						controller: 'YearsCtrl'
 					'headerContent':
 						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
-						resolve: 
+						resolve:
 							titulo: [->
 								'Años'
 							]
-				data: 
+				data:
 					displayName: 'Años'
 					icon_fa: 'fa fa-graduation-cap'
 					needed_permissions: [PERMISSIONS.can_work_like_admin]
@@ -67,18 +67,18 @@ angular.module('myvcFrontApp')
 
 			.state 'panel.paises',
 				url: '^/paises'
-				views: 
+				views:
 					'maincontent':
 						templateUrl: "==paises/paises.tpl.html"
 						controller: 'PaisesCtrl'
 					'headerContent':
 						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
-						resolve: 
+						resolve:
 							titulo: [->
 								'Paises'
 							]
-				data: 
+				data:
 					displayName: 'Paises'
 					icon_fa: 'fa fa-flag-checkered'
 					needed_permissions: [PERMISSIONS.can_work_like_admin]
@@ -88,18 +88,18 @@ angular.module('myvcFrontApp')
 
 			.state 'panel.profesores',
 				url: '^/profesores'
-				views: 
+				views:
 					'maincontent':
 						templateUrl: "==profesores/profesores.tpl.html"
 						controller: 'ProfesoresCtrl'
 					'headerContent':
 						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
-						resolve: 
+						resolve:
 							titulo: [->
 								'Profesores'
 							]
-				data: 
+				data:
 					displayName: 'Profesores'
 					icon_fa: 'fa fa-graduation-cap'
 					needed_permissions: [PERMISSIONS.can_work_like_admin]
@@ -108,25 +108,25 @@ angular.module('myvcFrontApp')
 
 			.state 'panel.ciudades',
 				url: '/ciudades'
-				views: 
+				views:
 					'maincontent':
 						templateUrl: "==ciudades/ciudades.tpl.html"
 						controller: 'CiudadesCtrl'
-						resolve: 
+						resolve:
 							paises: ['$http', ($http)->
 								$http.get("::paises")
 							]
 					'headerContent':
 						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
-						resolve: 
+						resolve:
 							titulo: [->
 								'Ciudades'
 							]
 							paises: ['$http', ($http)->
 								$http.get("::paises")
 							]
-				data: 
+				data:
 					displayName: 'Ciudades'
 					icon_fa: 'fa fa-map-marker'
 					needed_permissions: [PERMISSIONS.can_work_like_admin]
@@ -135,36 +135,36 @@ angular.module('myvcFrontApp')
 
 			.state 'panel.disciplinas',
 				url: '/disciplinas'
-				views: 
+				views:
 					'maincontent':
 						templateUrl: "==disciplinas/disciplinas.tpl.html"
 						controller: 'DisciplinasCtrl'
 					'headerContent':
 						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
-						resolve: 
+						resolve:
 							titulo: [->
 								'Disciplinas'
 							]
-				data: 
+				data:
 					displayName: 'Disciplinas'
 					icon_fa: 'fa fa-align-justify'
 					pageTitle: 'Disciplinas - MyVc'
 
 			.state 'panel.eventos',
 				url: '/eventos'
-				views: 
+				views:
 					'maincontent':
 						templateUrl: "==eventos/eventos.tpl.html"
 						controller: 'EventosCtrl'
 					'headerContent':
 						templateUrl: "==panel/panelHeader.tpl.html"
 						controller: 'PanelHeaderCtrl'
-						resolve: 
+						resolve:
 							titulo: [->
 								'Eventos'
 							]
-				data: 
+				data:
 					displayName: 'Eventos'
 					icon_fa: 'fa fa-laptop'
 					needed_permissions: [PERMISSIONS.can_work_like_admin]

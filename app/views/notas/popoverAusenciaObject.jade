@@ -6,12 +6,12 @@
 	.col-lg-5.col-sm-5.col-xs-12(style="padding: 0px")
 		div(uib-timepicker ng-model="ausencia_edit.fecha_hora" ng-change="changed()" )
 
-		button.btn.btn-primary(ng-click="guardarCambioAusencia(ausencia_edit)")
+		button.btn.btn-primary(ng-click="guardarCambioAusencia(ausencia_edit, alumno_aus_tard_edit)")
 			| Guardar
-		button.btn.btn-default(ng-click="cancelarCambioAusencia(ausencia_edit)")
+		button.btn.btn-default(ng-click="cancelarCambioAusencia(ausencia_edit, alumno_aus_tard_edit)")
 			| Cancelar
 
-		button.btn.btn-danger.btn-xs(ng-click="eliminarAusencia(ausencia_edit)"
+		button.btn.btn-danger.btn-xs(ng-click="eliminarAusencia(ausencia_edit, alumno_aus_tard_edit)"
 			style="margin-top: 10px")
 
 			| Eliminar ausencia

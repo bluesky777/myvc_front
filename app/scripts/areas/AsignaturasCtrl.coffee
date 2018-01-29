@@ -1,6 +1,6 @@
 angular.module("myvcFrontApp")
 
-.controller('AsignaturasCtrl', ['$scope', '$http', 'materias', 'grupos', 'profesores', '$uibModal', '$filter', 'App', 'AuthService', 'toastr', ($scope, $http, materias, grupos, profesores, $modal, $filter, App, AuthService, toastr)->
+.controller('AsignaturasCtrl', ['$scope', '$http', 'datosAsignaturas', '$uibModal', '$filter', 'App', 'AuthService', 'toastr', ($scope, $http, datosAsignaturas, $modal, $filter, App, AuthService, toastr)->
 
 	AuthService.verificar_acceso()
 
@@ -8,31 +8,38 @@ angular.module("myvcFrontApp")
 	$scope.editando = false
 	$scope.currentasignatura = {grupo: undefined, profesor: undefined}
 	$scope.currenasignaturaEdit = {}
+	$scope.copiando = false
 
 	$scope.asignaturas = []
 
-	$scope.materias = materias
-	$scope.grupos = grupos
-	$scope.profesores = profesores
+	$scope.materias   = datosAsignaturas.materias
+	$scope.grupos     = datosAsignaturas.grupos
+	$scope.profesores = datosAsignaturas.profesores
 
 	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
 
 	$scope.seleccionaGrupo = (item, model)->
 		item =  if item is undefined then {id:'!'} else item
 		$scope.gridOptions.data = $filter('filter')($scope.asignaturas, {grupo_id: item.id}, true)
-		
+
 		if $scope.currentasignatura.profesor != undefined
 			profeSearch = $scope.currentasignatura.profesor.id
 			$scope.gridOptions.data = $filter('filter')($scope.gridOptions.data, {profesor_id: profeSearch}, true)
 
 
 	$scope.seleccionaProfe = (item, model)->
-		item =  if item is undefined then {profesor_id:'!'} else item
-		$scope.gridOptions.data = $filter('filter')($scope.asignaturas, {profesor_id: item.profesor_id}, true)
-		
-		if $scope.currentasignatura.grupo != undefined
-			grupoSearch = $scope.currentasignatura.grupo.id
-			$scope.gridOptions.data = $filter('filter')($scope.gridOptions.data, {grupo_id: grupoSearch}, true)
+		if item
+			item =  if item is undefined then {profesor_id:'!'} else item
+			$scope.gridOptions.data = $filter('filter')($scope.asignaturas, {profesor_id: item.profesor_id}, true)
+
+			if $scope.currentasignatura.grupo
+				grupoSearch = $scope.currentasignatura.grupo.id
+				$scope.gridOptions.data = $filter('filter')($scope.gridOptions.data, {grupo_id: grupoSearch}, true)
+		else
+			if $scope.currentasignatura.grupo
+				grupoSearch = $scope.currentasignatura.grupo.id
+				$scope.gridOptions.data = $filter('filter')($scope.gridOptions.data, {grupo_id: grupoSearch}, true)
+
 
 
 	$scope.filtrarAsignaturas = ()->
@@ -55,6 +62,18 @@ angular.module("myvcFrontApp")
 	$scope.cancelarEdit = ()->
 		$scope.editando = false
 
+
+	$scope.copiarAsignaturas = ()->
+		$scope.copiando = false
+		$http.post('::asignaturas/copiar', { grupo_id_origen: $scope.currentasignatura.grupo.id, grupo_id_destino: $scope.currentasignatura.grupo_destino.id }).then((r)->
+			$scope.copiando = true
+			toastr.success 'Asignaturas copiadas. Actualice'
+		, (r2)->
+			toastr.error 'Error creando', 'Problema'
+		)
+
+
+
 	$scope.crear = ()->
 		$http.post('::asignaturas', $scope.currentasignatura).then((r)->
 			$scope.asignaturas.push r.data
@@ -75,9 +94,9 @@ angular.module("myvcFrontApp")
 		)
 
 	$scope.editar = (row)->
-		row.materia =	$filter('filter')(materias,		id: row.materia_id, true)[0]
-		row.grupo =		$filter('filter')(grupos,		id: row.grupo_id, true)[0]
-		row.profesor =	$filter('filter')(profesores,	profesor_id: row.profesor_id, true)[0]
+		row.materia =	$filter('filter')(datosAsignaturas.materias,		id: row.materia_id, true)[0]
+		row.grupo =		$filter('filter')(datosAsignaturas.grupos,		id: row.grupo_id, true)[0]
+		row.profesor =	$filter('filter')(datosAsignaturas.profesores,	profesor_id: row.profesor_id, true)[0]
 
 		$scope.currentasignaturaEdit = row
 		$scope.editando = true
@@ -87,7 +106,7 @@ angular.module("myvcFrontApp")
 		modalInstance = $modal.open({
 			templateUrl: '==areas/removeAsignatura.tpl.html'
 			controller: 'RemoveAsignaturaCtrl'
-			resolve: 
+			resolve:
 				asignatura: ()->
 					row
 		})
@@ -99,7 +118,7 @@ angular.module("myvcFrontApp")
 
 	btGrid1 = '<a uib-tooltip="Editar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
 	btGrid2 = '<a uib-tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-trash "></i></a>'
-	$scope.gridOptions = 
+	$scope.gridOptions =
 		showGridFooter: true,
 		enableSorting: true,
 		enableFiltering: true,
@@ -108,30 +127,30 @@ angular.module("myvcFrontApp")
 		columnDefs: [
 			{ field: 'id', type: 'number', width: 60, enableFiltering: false, enableCellEdit: false, enableColumnMenu: false }
 			{ name: 'edicion', displayName:'Edición', width: 70, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2, enableCellEdit: false, enableColumnMenu: false}
-			{ field: 'orden', displayName:'Orden', type: 'number', maxWidth: 50, enableFiltering: false }
-			
-			{ field: 'materia_id',	displayName: 'Materia',		editDropdownOptionsArray: materias,		cellFilter: 'mapMaterias:grid.appScope.materias',
+			#{ field: 'orden', displayName:'Orden', type: 'number', maxWidth: 50, enableFiltering: false }
+
+			{ field: 'materia_id',	displayName: 'Materia',		editDropdownOptionsArray: datosAsignaturas.materias,		cellFilter: 'mapMaterias:grid.appScope.materias',
 			filter: {
 				condition: (searchTerm, cellValue)->
-					foundMaterias 	= $filter('filter')(materias, {materia: searchTerm})
+					foundMaterias 	= $filter('filter')(datosAsignaturas.materias, {materia: searchTerm})
 					actual 			= $filter('filter')(foundMaterias, {id: cellValue}, true)
 					return actual.length > 0;
 			}
 			editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'id', editDropdownValueLabel: 'materia', enableCellEditOnFocus: true }
-			
-			{ field: 'grupo_id',	displayName: 'Grupos',		editDropdownOptionsArray: grupos,		cellFilter: 'mapGrupos:grid.appScope.grupos',
+
+			{ field: 'grupo_id',	displayName: 'Grupos',		editDropdownOptionsArray: datosAsignaturas.grupos,		cellFilter: 'mapGrupos:grid.appScope.grupos',
 			filter: {
 				condition: (searchTerm, cellValue)->
-					foundG 	= $filter('filter')(grupos, {nombre: searchTerm})
+					foundG 	= $filter('filter')(datosAsignaturas.grupos, {nombre: searchTerm})
 					actual 			= $filter('filter')(foundG, {id: cellValue}, true)
 					return actual.length > 0;
 			}
 			editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'id', editDropdownValueLabel: 'nombre', enableCellEditOnFocus: true }
-			
-			{ field: 'profesor_id',	displayName: 'Profesor',	editDropdownOptionsArray: profesores,	cellFilter: 'mapProfesores:grid.appScope.profesores', #  cellTemplate: '<div>{{row.entity.nombres + " " + row.entity.apellidos}}</div>',
+
+			{ field: 'profesor_id',	displayName: 'Profesor',	editDropdownOptionsArray: datosAsignaturas.profesores,	cellFilter: 'mapProfesores:grid.appScope.profesores', #  cellTemplate: '<div>{{row.entity.nombres + " " + row.entity.apellidos}}</div>',
 			filter: {
 				condition: (searchTerm, cellValue)->
-					foundP 	= $filter('filter')(profesores, (prof)->
+					foundP 	= $filter('filter')(datosAsignaturas.profesores, (prof)->
 						pru1 = if prof.nombres then (prof.nombres.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) else false
 						pru2 = if prof.apellidos then (prof.apellidos.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) else false
 						pru3 = if prof.profesor_id == cellValue then true else false
@@ -140,7 +159,7 @@ angular.module("myvcFrontApp")
 					return foundP.length > 0;
 			}
 			editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'profesor_id', editDropdownValueLabel: 'nombres', enableCellEditOnFocus: true }
-			
+
 			{ field: 'creditos', displayName:'Créditos', type: 'number', maxWidth: 50 }
 			{ name: 'nn', displayName: '', width: 10, enableSorting: false, enableFiltering: false, enableColumnMenu: false }
 		],
@@ -149,14 +168,14 @@ angular.module("myvcFrontApp")
 		onRegisterApi: ( gridApi ) ->
 			$scope.gridApi = gridApi
 			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
-				
+
 				if newValue != oldValue
 					$scope.currentasignaturaEdit = rowEntity
 					$scope.guardar()
 				$scope.$apply()
 			)
 
-	
+
 
 	$http.get('::asignaturas').then((data)->
 		$scope.asignaturas = data.data

@@ -6,8 +6,8 @@ angular.module("myvcFrontApp")
 
 	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
 	$scope.current_year = $scope.USER.year_id
-	$scope.mostrandoTodos = false
-	
+
+
 	$scope.editar = (row)->
 		$state.go('panel.profesores.editar', {profe_id: row.id})
 
@@ -15,7 +15,7 @@ angular.module("myvcFrontApp")
 		modalInstance = $uibModal.open({
 			templateUrl: '==profesores/removeProfesor.tpl.html'
 			controller: 'RemoveProfesorCtrl'
-			resolve: 
+			resolve:
 				profesor: ()->
 					row
 		})
@@ -28,11 +28,14 @@ angular.module("myvcFrontApp")
 	btGrid2 = '<a uib-tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-times "></i></a>'
 	btGrid3 = "==profesores/botonContratar.tpl.html"
 
-	$scope.gridOptions = 
+	$scope.gridOptions =
 		enableSorting: true,
 		enableFiltering: true,
 		exporterSuppressColumns: [ 'edicion' ],
 		exporterCsvColumnSeparator: ';'
+		exporterMenuPdf: false,
+		exporterMenuExcel: false,
+		exporterCsvFilename: "Todos los docentes - MyVC.csv",
 		enableGridMenu: true,
 		enebleGridColumnMenu: false,
 		enableCellEditOnFocus: true,
@@ -45,14 +48,14 @@ angular.module("myvcFrontApp")
 			{ field: 'sexo', maxWidth: 40 }
 			{ field: 'fecha_nac', displayName: 'Nacimiento', minWidth: 100  }
 			{ field: 'username', displayName: 'Usuario', enableCellEdit: false, minWidth: 100 }
-			{ field: 'facebook', minWidth: 100  }
+			{ field: 'email_usu', displayName:'Email', minWidth: 100  }
 			{ field: 'celular', minWidth: 100 }
 		]
 		multiSelect: false,
 		onRegisterApi: ( gridApi ) ->
 			$scope.gridApi = gridApi
 			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
-				
+
 				if newValue != oldValue
 					$http.put('::profesores/update/'+rowEntity.id, rowEntity).then((r)->
 						toastr.success 'Profesor actualizado con éxito', 'Actualizado'
@@ -62,7 +65,7 @@ angular.module("myvcFrontApp")
 				$scope.$apply()
 			)
 
-	
+
 	$http.get('::profesores').then((data)->
 		$scope.gridOptions.data = data.data;
 	)
@@ -70,18 +73,12 @@ angular.module("myvcFrontApp")
 	$scope.$on 'profesorcreado', (data, prof)->
 		$scope.gridOptions.data.push prof
 
-	$scope.mostrarTodos = ()->
-		$scope.mostrandoTodos = true
-
-	$scope.ocultarTodos = ()->
-		$scope.mostrandoTodos = false
-
 	$scope.quitarContrato = (contrato_id)->
 		$http.delete('::contratos/destroy/' + contrato_id).then((r)->
 			toastr.success 'Quitado de este año ' + $scope.USER.year
 
 			$scope.gridCurrentOptions.data = $filter('filter')($scope.gridCurrentOptions.data, {contrato_id: '!'+contrato_id})
-			
+
 			actual = $filter('filter')($scope.gridOptions.data, {contrato_id: contrato_id})[0]
 			actual.year_id = null
 		, (r2)->
@@ -109,11 +106,14 @@ angular.module("myvcFrontApp")
 
 	btGridQuitar = '<a uib-tooltip="Quitar de año actual" tooltip-placement="left" class="btn btn-default btn-xs shiny danger" ng-click="grid.appScope.quitarContrato(row.entity.contrato_id)"><i class="fa fa-times "></i></a>'
 
-	$scope.gridCurrentOptions = 
+	$scope.gridCurrentOptions =
 		enableSorting: true,
 		enableFiltering: true,
 		exporterSuppressColumns: [ 'edicion' ],
 		exporterCsvColumnSeparator: ';'
+		exporterMenuPdf: false,
+		exporterMenuExcel: false,
+		exporterCsvFilename: "Docentes contratados - MyVC.csv",
 		enableGridMenu: true,
 		enebleGridColumnMenu: false,
 		enableCellEditOnFocus: true,
@@ -125,14 +125,14 @@ angular.module("myvcFrontApp")
 			{ field: 'sexo', width: 40 }
 			{ field: 'fecha_nac', displayName: 'Nacimiento', minWidth: 100  }
 			{ field: 'username', displayName: 'Usuario', minWidth: 100, enableCellEdit: false }
-			{ field: 'facebook', minWidth: 100  }
+			{ field: 'email_usu', displayName:'Email', minWidth: 100  }
 			{ field: 'celular', minWidth: 100 }
 		]
 		multiSelect: false,
 		onRegisterApi: ( gridApi ) ->
 			$scope.gridApi = gridApi
 			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
-				
+
 				if newValue != oldValue
 					$http.put('::profesores/update/'+rowEntity.profesor_id, rowEntity).then((r)->
 						toastr.success 'Profesor actualizado con éxito', 'Actualizado'
@@ -147,7 +147,7 @@ angular.module("myvcFrontApp")
 	, (r2)->
 		toastr.error 'No se trajeron los profesores contratados'
 	)
-	
+
 
 	return
 ])

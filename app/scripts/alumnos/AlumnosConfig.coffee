@@ -21,7 +21,7 @@ angular.module('myvcFrontApp')
 					displayName: 'Nuevo'
 					icon_fa: 'fa fa-male'
 					pageTitle: 'Nuevo alumno - MyVc'
-					needed_permissions: [PERMISSIONS.can_work_like_admin]
+					needed_permissions: [PERMISSIONS.can_work_like_teacher, PERMISSIONS.can_work_like_admin, PERMISSIONS.can_edit_alumnos]
 
 
 			.state 'panel.alumnos.editar',
@@ -41,7 +41,7 @@ angular.module('myvcFrontApp')
 					displayName: 'Editar'
 					icon_fa: 'fa fa-users'
 					pageTitle: 'Editar alumno - MyVc'
-					needed_permissions: [PERMISSIONS.can_work_like_admin]
+					needed_permissions: [PERMISSIONS.can_work_like_teacher, PERMISSIONS.can_work_like_admin, PERMISSIONS.can_edit_alumnos]
 
 
 			.state 'panel.listalumnos',
@@ -84,7 +84,7 @@ angular.module('myvcFrontApp')
 					displayName: 'matriculas'
 					icon_fa: 'fa fa-users'
 					pageTitle: 'Matrículas alumnos - MyVc'
-					needed_permissions: [PERMISSIONS.can_work_like_teacher]
+					needed_permissions: [PERMISSIONS.can_work_like_teacher, PERMISSIONS.can_work_like_admin, PERMISSIONS.can_edit_alumnos]
 
 
 		$state
@@ -105,7 +105,7 @@ angular.module('myvcFrontApp')
 					displayName: 'Nuevo'
 					icon_fa: 'fa fa-male'
 					pageTitle: 'Nuevo alumno - MyVc'
-					needed_permissions: [PERMISSIONS.can_work_like_admin]
+					needed_permissions: [PERMISSIONS.can_work_like_teacher, PERMISSIONS.can_work_like_admin, PERMISSIONS.can_edit_alumnos]
 
 
 			.state 'panel.matriculas.detalles',
@@ -127,7 +127,7 @@ angular.module('myvcFrontApp')
 					displayName: 'detalles'
 					icon_fa: 'fa fa-pencil'
 					pageTitle: 'Matrículas alumnos - MyVc'
-					needed_permissions: [PERMISSIONS.can_work_like_teacher]
+					needed_permissions: [PERMISSIONS.can_work_like_admin ]
 
 			.state 'panel.alumnos.matricula_detalles',
 				url: '^/alumnos/matricula_detalles/:alumno_id'
@@ -148,7 +148,7 @@ angular.module('myvcFrontApp')
 					displayName: 'detalles'
 					icon_fa: 'fa fa-pencil'
 					pageTitle: 'Matrículas alumnos - MyVc'
-					needed_permissions: [PERMISSIONS.can_work_like_teacher]
+					needed_permissions: [PERMISSIONS.can_work_like_admin ]
 
 			.state 'panel.matriculas.detalles.periodos',
 				url: '^/matriculas/detalles/:alumno_id/periodos'
@@ -169,7 +169,7 @@ angular.module('myvcFrontApp')
 					displayName: 'periodos'
 					icon_fa: 'fa fa-ioxhost'
 					pageTitle: 'Matrículas alumnos - MyVc'
-					needed_permissions: [PERMISSIONS.can_work_like_teacher]
+					needed_permissions: [PERMISSIONS.can_work_like_admin]
 
 
 

@@ -1,4 +1,19 @@
 
+<div class="row">
+  <div class="col-xs-12 col-md-12">
+    <div sv-root="root-areas" sv-on-sort="onSortAreas($item, $partFrom, $partTo, $indexFrom, $indexTo)" sv-part="areas" class="well with-header with-footer">
+      <div class="header bordered-blue">Ordenar</div>
+      <div ng-repeat="area in areas" sv-element style="border-bottom: 1px solid #ccc;" class="row">
+        <div sv-handle class="col-xs-6">{{$index+1}}. {{ ::area.nombre }}</div>
+        <div sv-root="root-materias-$index" sv-part="area.materias" sv-on-sort="onSortMaterias($item, $partFrom, $partTo, $indexFrom, $indexTo, $modeloPadre)" class="col-xs-6">
+          <div ng-repeat="materia in area.materias" sv-element>
+            <div sv-handle>{{$index+1}}. {{ ::materia.materia }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <div ng-show="creando" class="row">
   <div class="col-xs-12 col-md-12">
     <form role="form" ng-submit="crear()" class="well with-header with-footer form">
@@ -60,9 +75,9 @@
 <div class="row">
   <div class="col-xs-12 col-md-12">
     <div class="well with-header with-footer">
-      <div class="header bordered-yellow">Materias</div><a ng-click="creando=true" class="btn btn-primary">Crear nueva</a>
-      <div id="grid1" ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns ui-grid-cellnav class="grid"></div>
-      <div class="footer">Puedes editar con doble click sobre el dato deseado.</div>
+      <div class="header bordered-blue">Materias</div><a ng-click="creando=true" class="btn btn-primary">Crear nueva</a>
+      <div id="grid1" ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-auto-resize class="grid"></div>
+      <div class="footer">Puedes editar con solo un click.</div>
     </div>
   </div>
 </div>

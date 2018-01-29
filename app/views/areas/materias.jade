@@ -1,3 +1,17 @@
+
+.row
+	.col-xs-12.col-md-12
+		.well.with-header.with-footer(sv-root="root-areas" sv-on-sort="onSortAreas($item, $partFrom, $partTo, $indexFrom, $indexTo)" sv-part="areas")
+			.header.bordered-blue Ordenar
+
+			.row(ng-repeat="area in areas" sv-element style="border-bottom: 1px solid #ccc;")
+				.col-xs-6(sv-handle) {{$index+1}}. {{ ::area.nombre }}
+
+				.col-xs-6(sv-root="root-materias-$index" sv-part="area.materias" sv-on-sort="onSortMaterias($item, $partFrom, $partTo, $indexFrom, $indexTo, $modeloPadre)")
+					div(ng-repeat="materia in area.materias" sv-element)
+						div(sv-handle) {{$index+1}}. {{ ::materia.materia }}
+
+
 .row(ng-show="creando")
 	.col-xs-12.col-md-12
 		form.well.with-header.with-footer.form(role="form" ng-submit="crear()")
@@ -41,14 +55,18 @@
 			.footer
 				input.btn.btn-primary(type="submit" value="Guardar cambios")
 				a.btn.btn-warning(ng-click="cancelarEdit()") Ocultar
+
+
+
 .row
 	.col-xs-12.col-md-12
 		.well.with-header.with-footer
-			.header.bordered-yellow Materias
+			.header.bordered-blue Materias
 
 			a.btn.btn-primary(ng-click="creando=true") Crear nueva
 
-			#grid1.grid(ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns ui-grid-cellnav)
+			#grid1.grid(ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-auto-resize)
 
 			.footer
-				| Puedes editar con doble click sobre el dato deseado.
+				| Puedes editar con solo un click.
+

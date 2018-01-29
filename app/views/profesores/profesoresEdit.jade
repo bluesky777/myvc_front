@@ -1,4 +1,4 @@
-.col-lg-6.col-sm-6.col-xs-12
+.col-lg-6.col-sm-12.col-xs-12
 	.widget
 		.widget-header.bordered-bottom.bordered-blue
 			span.widget-caption Editar profesor
@@ -10,7 +10,7 @@
 							.widget
 								.widget-header.bordered-bottom.bordered-pink
 									span.widget-caption Básica
-								.widget-body 
+								.widget-body
 									.form-group
 										label(for="profesor-nombres") Nombres
 										input.form-control#profesor-nombres(type="text" ng-model="profesor.nombres_profesor" placeholder="Nombres")
@@ -71,7 +71,7 @@
 							.widget
 								.widget-header.bordered-bottom.bordered-pink
 									span.widget-caption Documento
-								.widget-body 
+								.widget-body
 									.form-group
 										label Tipo documento
 										ui-select(ng-model="profesor.tipo_doc" theme="select2" style="min-width: 300px;")
@@ -125,8 +125,8 @@
 							.form-group
 								label(for="profesor-direccion") Direccion
 								input#profesor-direccion.form-control(type="text" ng-model="profesor.direccion" placeholder="Direccion")
-						
-						
+
+
 						tab(heading="Usuario")
 							.form-group
 								label(for="profesor-username") Nombre de usuario
@@ -148,7 +148,7 @@
 
 
 					br
-					input.btn.btn-primary.btn-lg.shiny(type="submit" ng-submit="guardar()" value="Guardar cambios") 
+					input.btn.btn-primary.btn-lg.shiny(type="submit" ng-submit="guardar()" value="Guardar cambios")
 
 					a.btn.btn-warning.btn-lg.shiny(type="button" ui-sref="panel.profesores") Ocultar
 

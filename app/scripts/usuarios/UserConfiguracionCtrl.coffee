@@ -1,8 +1,8 @@
 angular.module('myvcFrontApp')
-.controller('UserConfiguracionCtrl', ['$scope', '$http', '$state', 'toastr', 'AuthService', 'Perfil', 'App', ($scope, $http, $state, toastr, AuthService, Perfil, App) ->
+.controller('UserConfiguracionCtrl', ['$scope', '$http', '$state', 'toastr', 'AuthService', 'Perfil', 'App', 'perfilactual', ($scope, $http, $state, toastr, AuthService, Perfil, App, perfilactual) ->
 
 	AuthService.verificar_acceso()
-	
+
 	$scope.data = {} # Para el popup del Datapicker
 	$scope.comprobando = false
 	$scope.mostrarErrorUsername = false
@@ -10,6 +10,8 @@ angular.module('myvcFrontApp')
 	$scope.canSaveUsername = false
 	$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
 	$scope.perfilPath = App.images+'perfil/'
+
+	$scope.perfilactual  = perfilactual
 
 	$scope.newusername = ''
 	$scope.passantiguo = ''
@@ -25,9 +27,17 @@ angular.module('myvcFrontApp')
 		toastr.error 'No se trajeron los nombres de usuario'
 	)
 
-	$scope.dateOptions = 
+	$scope.dateOptions =
 		formatYear: 'yyyy'
 		allowInvalid: true
+
+
+	$scope.guardarEmailRestore = (email_rest)->
+		$http.put('::perfiles/guardar-mi-email-restore', {email_restore: email_rest}).then((r)->
+			toastr.success 'Email guardado con éxito'
+		, (r2)->
+			toastr.error 'No se trajeron los nombres de usuario'
+		)
 
 
 	$scope.$watch 'newusername', (oldv, newv)->
@@ -66,7 +76,7 @@ angular.module('myvcFrontApp')
 	$scope.guardar = ()->
 		$scope.canSaveUsername = false
 
-		datos = 
+		datos =
 			nombres:	$scope.perfilactual.nombres
 			apellidos:	$scope.perfilactual.apellidos
 			sexo:		$scope.perfilactual.sexo
@@ -111,7 +121,7 @@ angular.module('myvcFrontApp')
 		if newpass.length < 4
 			toastr.warning 'La contraseña debe tener mínimo 4 caracteres. Sin espacios ni Ñ ni tildes.'
 			return
-		
+
 		$scope.cambiandoPass = true # Bloqueamos el botón temporalmente
 
 		datos = {'password':newpassverif, 'oldpassword': passantiguo }
@@ -124,7 +134,7 @@ angular.module('myvcFrontApp')
 		, (r2)->
 			r2 = r2.data
 			if r2.$error
-			
+
 				if r2.error.message == 'Contraseña antigua es incorrecta'
 					toastr.warning r2.error.message
 				else

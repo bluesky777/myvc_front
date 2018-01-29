@@ -58,8 +58,8 @@
         </div>
         <div class="widget">
           <div class="widget-header bordered-bottom bordered-pink"><span class="widget-caption">Nacimiento</span></div>
-          <div class="widget-body"> 
-            <div class="row"> 
+          <div class="widget-body">
+            <div class="row">
               <div class="form-group col-lg-4 col-sm-6 col-xs-12">
                 <label>Pais</label>
                 <ui-select ng-model="perfilactual.pais_nac" on-select="paisNacSelect($item, $model)" style="width: 100%;">
@@ -92,10 +92,10 @@
         </div>
         <div class="widget">
           <div class="widget-header bordered-bottom bordered-pink"><span class="widget-caption">Documento</span></div>
-          <div class="widget-body"> 
+          <div class="widget-body">
             <div class="row">
               <div class="form-group col-lg-4 col-sm-6 col-xs-12">
-                <label>Tipo </label>
+                <label>Tipo</label>
                 <ui-select ng-model="perfilactual.tipo_doc" style="width: 100%;">
                   <ui-select-match placeholder="Tipo de documento" allow-clear="true">{{$select.selected.tipo}}{{ ' ('+$select.selected.abrev+')'}}</ui-select-match>
                   <ui-select-choices repeat="tipo_doc in tipos_doc">
@@ -139,7 +139,7 @@
         </div>
         <div class="widget">
           <div class="widget-header bordered-bottom bordered-pink"><span class="widget-caption">Datos extra</span></div>
-          <div class="widget-body"> 
+          <div class="widget-body">
             <div class="row">
               <div class="form-group col-lg-2 col-sm-6 col-xs-12">
                 <label for="perfilactual-tipo-sangre">Tipo de sangre</label>
@@ -208,11 +208,11 @@
   <div uib-accordion-group heading="Datos de usuario" ng-if="canConfig" class="panel-default">
     <form role="form">
       <div class="row">
-        <div class="col-sm-7">
+        <div class="col-sm-8">
           <div class="form-group">
             <label>Nombre de usuario ({{perfilactual.username}})</label><span class="input-icon icon-right">
               <input ng-model="newusername" type="text" placeholder="Nombre de usuario" ng-init="newusername==perfilactual.username" typeahead="nombresusu as nombresusu.username for nombresusu in nombresdeusuario | filter:{username:$viewValue} | limitTo:8" class="form-control"><i class="fa fa-user azure"></i></span><br><br>
-            <button ng-click="comprobarusername(newusername)" class="btn btn-warning"><span ng-hide="comprobando">Comprobar </span><span ng-show="comprobando">Comprobando <i class="fa fa-spinner fa-spin"></i></span></button>
+            <button ng-click="comprobarusername(newusername)" class="btn btn-warning"><span ng-hide="comprobando">Comprobar</span><span ng-show="comprobando">Comprobando<i class="fa fa-spinner fa-spin"></i></span></button>
             <div ng-show="mostrarErrorUsername" class="alert alert-warning fade in">
               <div class="fa-fw fa fa-warning"></div><span ng-show="newusername!=perfilactual.username">Usuario no disponible.</span><span ng-show="newusername==perfilactual.username">Ya es tu nombre de usuario actual.</span>
             </div>
@@ -220,6 +220,18 @@
         </div>
       </div>
       <button type="button" ng-click="CambiarUsername(newusername)" ng-class="{disabled:mostrarErrorUsername || newusername=='' || newusername==perfilactual.username || canSaveUsername==false }" class="btn btn-primary">Guardar usuario</button>
+    </form>
+    <hr class="wide">
+    <form role="form" style="margin-top: 30px">
+      <div class="row">
+        <div class="col-sm-8">
+          <div class="form-group">
+            <label>Correo electrónico para cuando pierdas la contraseña</label><span class="input-icon icon-right">
+              <input ng-model="perfilactual.email_restore" type="email" placeholder="Escriba Email" class="form-control"><i class="fa fa-user azure"></i></span>
+          </div>
+        </div>
+      </div>
+      <button type="button" ng-click="guardarEmailRestore(perfilactual.email_restore)" ng-disabled="guardandoEmail" class="btn btn-primary">Guardar correo</button>
     </form>
   </div>
   <div uib-accordion-group heading="Cambiar contraseña" ng-if="canConfig" is-open="status.passCambiado" class="panel-default">

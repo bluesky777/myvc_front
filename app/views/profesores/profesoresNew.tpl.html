@@ -5,8 +5,8 @@
     <div class="widget-body">
       <div>
         <form role="form" ng-submit="crear()">
-          <tabset>
-            <tab heading="Información">
+          <uib-tabset>
+            <uib-tab heading="Información">
               <div class="form-group">
                 <label for="profesor-nombres">Nombres</label>
                 <input id="profesor-nombres" type="text" ng-model="profesor.nombres" placeholder="Nombres" class="form-control">
@@ -38,7 +38,7 @@
                 <label for="profesor-fecha-nac">Fecha de nacimiento</label>
                 <div class="controls">
                   <div class="input-group"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                    <input id="profesor-fecha-nac" type="text" datepicker-popup="dd-MMMM-yyyy" ng-model="profesor.fecha_nac" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2015-06-22'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha nacimiento" class="form-control active">
+                    <input id="profesor-fecha-nac" type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="profesor.fecha_nac" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2015-06-22'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha nacimiento" class="form-control active">
                   </div>
                 </div>
               </div>
@@ -119,8 +119,8 @@
                   </ui-select-choices>
                 </ui-select>
               </div>
-            </tab>
-            <tab heading="Datos extras">
+            </uib-tab>
+            <uib-tab heading="Datos extras">
               <div class="form-group">
                 <label for="profesor-estado-civil">Estado civil</label>
                 <ui-select ng-model="profesor.estado_civil" theme="select2" style="min-width: 100px;">
@@ -146,8 +146,8 @@
                 <label for="profesor-direccion">Dirección</label>
                 <input id="profesor-direccion" type="text" ng-model="profesor.direccion" placeholder="Direccion" class="form-control">
               </div>
-            </tab>
-            <tab heading="Usuario">
+            </uib-tab>
+            <uib-tab heading="Usuario">
               <div class="form-group">
                 <label for="profesor-username">Nombre de usuario</label>
                 <input id="profesor-username" type="text" ng-model="profesor.username" placeholder="Nombre usuario" class="form-control">
@@ -170,8 +170,8 @@
                   <input type="checkbox" ng-model="profesor.superuser" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
                 </label>
               </div>
-            </tab>
-          </tabset><br>
+            </uib-tab>
+          </uib-tabset><br>
           <input type="submit" ng-submit="crear()" value="Crear" class="btn btn-primary btn-lg shiny"><a type="button" ui-sref="panel.profesores" class="btn btn-danger btn-lg shiny">Ocultar</a>
         </form>
       </div>

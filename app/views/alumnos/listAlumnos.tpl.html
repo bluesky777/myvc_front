@@ -2,7 +2,7 @@
 <div class="row">
   <div class="col-xs-12 col-md-12">
     <div class="well with-header with-footer">
-      <div class="header bordered-blue">Grupo</div>
+      <div class="header bordered-blue">Grupo<b ng-if="!USER.profes_can_edit_alumnos &amp;&amp; hasRoleOrPerm('Profesor')">  - Actualmente, no tienes permiso de editar</b></div>
       <label>Grupo
         <ui-select ng-model="dato.grupo" on-select="traerListado($item)" theme="select2" style="min-width: 200px;">
           <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>

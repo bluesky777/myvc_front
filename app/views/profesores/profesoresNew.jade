@@ -5,8 +5,8 @@
 		.widget-body
 			div
 				form(role="form" ng-submit="crear()")
-					tabset
-						tab(heading="Información")
+					uib-tabset
+						uib-tab(heading="Información")
 							.form-group
 								label(for="profesor-nombres") Nombres
 								input.form-control#profesor-nombres(type="text" ng-model="profesor.nombres" placeholder="Nombres")
@@ -32,10 +32,10 @@
 									.input-group
 										span.input-group-addon
 											i.fa.fa-calendar
-										input.form-control.active#profesor-fecha-nac(type="text" datepicker-popup="dd-MMMM-yyyy" ng-model="profesor.fecha_nac" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2015-06-22'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha nacimiento")
+										input.form-control.active#profesor-fecha-nac(type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="profesor.fecha_nac" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2015-06-22'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha nacimiento")
 							.form-group
 								label(for="profesor-ciudad-nac") Ciudad nacimiento
-								
+
 
 
 							h5.row-title.before-blue Ciudad de nacimiento
@@ -65,8 +65,8 @@
 							.form-group
 								label(for="profesor-titulo") Título
 								input#profesor-titulo.form-control(type="text" ng-model="profesor.titulo" placeholder="Título o profesión")
-							
-					
+
+
 							.form-group
 								label Tipo documento
 								ui-select(ng-model="profesor.tipo_doc" theme="select2" style="min-width: 300px;")
@@ -102,7 +102,7 @@
 										div(ng-bind-html="ciudad.ciudad | highlight: $select.search")
 
 
-						tab(heading="Datos extras")
+						uib-tab(heading="Datos extras")
 							.form-group
 								label(for="profesor-estado-civil") Estado civil
 								ui-select(ng-model="profesor.estado_civil" theme="select2" style="min-width: 100px;")
@@ -123,7 +123,7 @@
 								label(for="profesor-direccion") Dirección
 								input#profesor-direccion.form-control(type="text" ng-model="profesor.direccion" placeholder="Direccion")
 
-						tab(heading="Usuario")
+						uib-tab(heading="Usuario")
 							.form-group
 								label(for="profesor-username") Nombre de usuario
 								input#profesor-username.form-control(type="text" ng-model="profesor.username" placeholder="Nombre usuario")

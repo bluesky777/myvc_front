@@ -4,13 +4,12 @@
 .row
 	.col-xs-12.col-md-12
 		.well.with-header.with-footer
-			.header.bordered-yellow Profesores
-
-			.form-title Todos los profesores: 
-				a(href="" ng-click="ocultarTodos()" ng-show="mostrandoTodos") Ocultar
-				a(href="" ng-click="mostrarTodos()" ng-show="!mostrandoTodos") Mostrar
-			div(ng-show="mostrandoTodos")
+			.header.bordered-blue Profesores
 				a.btn.btn-info.shiny(ui-sref="panel.profesores.nuevo" uib-tooltip="Ingresa datos de un nuevo alumno") Nuevo profesor
+
+			.form-title Todos los profesores:
+
+
 				#grid1.grid(ui-grid="gridOptions" ui-grid-exporter ui-grid-edit ui-grid-resize-columns ui-grid-auto-resize ui-grid-cellnav)
 
 			br
@@ -20,4 +19,3 @@
 
 			.footer
 				| Puedes ver todos los profesores de años anteriores y el presente.
-	

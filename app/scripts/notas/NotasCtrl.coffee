@@ -18,6 +18,7 @@ angular.module('myvcFrontApp')
 	$scope.ocultando_ausencias 	= true
 	$scope.ausencia_edit 	= {} # Para editar en el popover
 	$scope.tardanza_edit 	= {}
+	$scope.alumno_aus_tard_edit 	= {}
 	$scope.opts_picker 		= { minDate: new Date('1/1/2017'), showWeeks: false, startingDay: 0 }
 
 	$scope.asignatura 	= notas[0]
@@ -38,16 +39,16 @@ angular.module('myvcFrontApp')
 			$scope.subunidadesunidas.push subunidad
 
 
-	if localStorage.ocultando_ausencias 
+	if localStorage.ocultando_ausencias
 		$scope.ocultando_ausencias = (localStorage.ocultando_ausencias == 'true')
 
 
 
 	for alumno in $scope.alumnos
-		for ausencia in alumno.ausencias 
+		for ausencia in alumno.ausencias
 			if ausencia.fecha_hora
 				ausencia.fecha_hora = new Date(ausencia.fecha_hora)
-		for tardanza in alumno.tardanzas 
+		for tardanza in alumno.tardanzas
 			if tardanza.fecha_hora
 				tardanza.fecha_hora = new Date(tardanza.fecha_hora)
 
@@ -69,7 +70,7 @@ angular.module('myvcFrontApp')
 			if $scope.eleFocus.focus
 				$scope.eleFocus.focus()
 
-		
+
 
 	$scope.setTabHorizontally = ()->
 		filas = angular.element('.input-nota')
@@ -84,9 +85,9 @@ angular.module('myvcFrontApp')
 		$scope.eleFocus = $event.currentTarget
 
 
-		
 
-		
+
+
 
 
 	#####################################################################
@@ -99,12 +100,12 @@ angular.module('myvcFrontApp')
 
 	$scope.cambiaAusencia = (alumno)->
 
-		# Si incrementó el número 
+		# Si incrementó el número
 		if alumno.ausencias_count > alumno.ausencias.length
 			pedidas = alumno.ausencias_count - alumno.ausencias.length
 
 			for pedida in [0..pedidas-1]
-				datos = 
+				datos =
 					alumno_id: 			alumno.alumno_id
 					asignatura_id: 		$scope.asignatura_id
 					cantidad_ausencia: 	1
@@ -133,7 +134,7 @@ angular.module('myvcFrontApp')
 					toastr.warning 'No se pudo quitar ausencia.', 'Problema'
 				)
 
-			
+
 
 
 	$scope.cambiaTardanza = (alumno)->
@@ -142,7 +143,7 @@ angular.module('myvcFrontApp')
 			pedidas = alumno.tardanzas_count - alumno.tardanzas.length
 
 			for pedida in [0..pedidas-1]
-				datos = 
+				datos =
 					alumno_id: 			alumno.alumno_id
 					asignatura_id: 		$scope.asignatura_id
 					cantidad_tardanza: 	1
@@ -171,31 +172,33 @@ angular.module('myvcFrontApp')
 					toastr.warning 'No se pudo quitar tardanza.', 'Problema'
 				)
 
-			
 
-	$scope.clickAusenciaObject = (ausencia)->
+
+	$scope.clickAusenciaObject = (ausencia, alumno)->
 		ausencia.backup 		= ausencia.fecha_hora
 		if ausencia.fecha_hora
 			ausencia.fecha_hora 	= new Date(ausencia.fecha_hora)
 		else
 			ausencia.fecha_hora 	= new Date()
-		$scope.ausencia_edit 	= ausencia
+		$scope.ausencia_edit 	  = ausencia
+		$scope.alumno_aus_tard_edit 	= alumno
 		ausencia.isOpen = !ausencia.isOpen
 
 
-	$scope.clickTardanzaObject = (tardanza)->
+	$scope.clickTardanzaObject = (tardanza, alumno)->
 		tardanza.backup 		= tardanza.fecha_hora
 		if tardanza.fecha_hora
 			tardanza.fecha_hora 	= new Date(tardanza.fecha_hora)
 		else
 			tardanza.fecha_hora 	= new Date()
 		$scope.tardanza_edit 	= tardanza
+		$scope.alumno_aus_tard_edit 	= alumno
 		tardanza.isOpen = !tardanza.isOpen
 
 
 
 	$scope.guardarCambioAusencia = (ausencia)->
-		datos = 
+		datos =
 			ausencia_id: ausencia.id
 			fecha_hora: $filter('date')(ausencia.fecha_hora, 'yyyy-MM-dd HH:mm:ss')
 
@@ -208,27 +211,27 @@ angular.module('myvcFrontApp')
 		, (r2)->
 			toastr.warning 'No se pudo agregar tardanza.', 'Problema'
 		)
-		
+
 
 	$scope.cancelarCambioAusencia = (ausencia_edit)->
 		ausencia_edit.isOpen = false
 	$scope.cancelarCambioTardanza = (tardanza_edit)->
 		tardanza_edit.isOpen = false
 
-	$scope.eliminarAusencia = (ausencia)->
+	$scope.eliminarAusencia = (ausencia, alumno_aus_tard_edit)->
 		$http.delete('::ausencias/destroy/' + ausencia.id).then((r)->
 			r 		= r.data
-			alumno.ausencias = $filter('filter')(alumno.ausencias, { id: '!'+r.id })
-			tardanza_edit.isOpen = false
+			alumno_aus_tard_edit.ausencias = $filter('filter')(alumno_aus_tard_edit.ausencias, { id: '!'+r.id })
+			ausencia.isOpen = false
 		, (r2)->
 			toastr.warning 'No se pudo quitar ausencia.', 'Problema'
 		)
-		
-	$scope.eliminarTardanza = (tardanza)->
+
+	$scope.eliminarTardanza = (tardanza, alumno_aus_tard_edit)->
 		$http.delete('::ausencias/destroy/' + tardanza.id).then((r)->
 			r 		= r.data
-			alumno.tardanzas = $filter('filter')(alumno.tardanzas, { id: '!'+r.id })
-			tardanza_edit.isOpen = false
+			alumno_aus_tard_edit.tardanzas = $filter('filter')(alumno_aus_tard_edit.tardanzas, { id: '!'+r.id })
+			tardanza.isOpen = false
 		, (r2)->
 			toastr.warning 'No se pudo quitar tardanza.', 'Problema'
 		)
@@ -259,7 +262,7 @@ angular.module('myvcFrontApp')
 			templateUrl: '==notas/showFrases.tpl.html'
 			controller: 'ShowFrasesCtrl'
 			size: 'lg'
-			resolve: 
+			resolve:
 				alumno: ()->
 					alumno
 				frases: ()->
@@ -285,7 +288,7 @@ angular.module('myvcFrontApp')
 
 				porcSub = subunidad.porcentaje
 				#console.log subunidad.notas, alumno_id, $filter('filter')(subunidad.notas, {'alumno_id': alumno_id})[0]
-				
+
 				notaTemp = $filter('filter')(subunidad.notas, {'alumno_id': alumno_id}, true)[0]
 				valorNota = parseInt(notaTemp.nota) * parseInt(porcSub) / 100
 				acumSub = acumSub + valorNota
@@ -311,15 +314,15 @@ angular.module('myvcFrontApp')
 				else
 					notaObject.backup = notaObject.nota
 					notaObject.nota = $rootScope.notaRapida.valorNota
-		
+
 				$scope.cambiaNota(notaObject)
-			
+
 		)
 		return
 
 
 	$scope.columnaNotaRapida = (subunidad)->
-		
+
 		$timeout(()->
 			if $rootScope.notaRapida.enable
 				for notaObject, indice in subunidad.notas
@@ -335,25 +338,25 @@ angular.module('myvcFrontApp')
 					else
 						notaObject.backup = notaObject.nota
 						notaObject.nota = $rootScope.notaRapida.valorNota
-			
+
 					contadorGuardadas = 0
 					$http.put('::notas/update/'+notaObject.id, {nota: notaObject.nota}).then((r)->
 						# Toca hacerlo con promesa
 						contadorGuardadas = contadorGuardadas + 1
 						if contadorGuardadas == (subunidad.notas.length-1)
-							toastr.success (contadorGuardadas + 1) + ' notas guardadas.' 
+							toastr.success (contadorGuardadas + 1) + ' notas guardadas.'
 					, (r2)->
 						toastr.error 'No pudimos guardar la nota ' + notaObject.nota, '', {timeOut: 8000}
 					)
 			else
-				toastr.info 'Activa la Nota Rápida para cambiar todas las notas de esta columna.' 
-			
+				toastr.info 'Activa la Nota Rápida para cambiar todas las notas de esta columna.'
+
 		)
 		return
 
 
 	$scope.filaNotaRapida = (alumno, $index)->
-		
+
 		$timeout(()->
 			if $rootScope.notaRapida.enable
 
@@ -372,21 +375,21 @@ angular.module('myvcFrontApp')
 					else
 						notaObject.backup = notaObject.nota
 						notaObject.nota = $rootScope.notaRapida.valorNota
-			
+
 					contadorGuardadas = 0
 					$http.put('::notas/update/'+notaObject.id, {nota: notaObject.nota}).then((r)->
 						# Toca hacerlo con promesa
 						contadorGuardadas = contadorGuardadas + 1
 						if contadorGuardadas == ($scope.subunidadesunidas.length-1)
-							toastr.success (contadorGuardadas + 1) + 'Notas guardadas.' 
+							toastr.success (contadorGuardadas + 1) + 'Notas guardadas.'
 					, (r2)->
 						toastr.error 'No pudimos guardar la nota ' + notaObject.nota, '', {timeOut: 8000}
 					)
 			else
-				toastr.info 'Activa la Nota Rápida para cambiar todas las notas de este alumno.' 
-			
+				toastr.info 'Activa la Nota Rápida para cambiar todas las notas de este alumno.'
+
 		)
-		
+
 		return
 
 	return
@@ -406,13 +409,13 @@ angular.module('myvcFrontApp')
 	, (r2)->
 		toastr.warning 'No se pudo traer frases.', 'Problema'
 	)
-	
+
 
 
 	$scope.addFrase = ()->
-		
+
 		if $scope.alumno.newFrase != ''
-			dato = 
+			dato =
 				alumno_id:		alumno.alumno_id
 				frase:			$scope.alumno.newFrase
 				asignatura_id:	$scope.asignatura.asignatura_id
@@ -430,7 +433,7 @@ angular.module('myvcFrontApp')
 	$scope.addFrase_id = ()->
 
 		if $scope.alumno.newFrase_by_id
-			dato = 
+			dato =
 				alumno_id:		alumno.alumno_id
 				frase_id:		$scope.alumno.newFrase_by_id.id
 				asignatura_id:	$scope.asignatura.asignatura_id

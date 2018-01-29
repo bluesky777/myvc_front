@@ -23,10 +23,10 @@
 							div(ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
 					.horizontal-space
 				.col-md-3
-					input.form-control(type="number" min="0" ng-model="currentasignatura.creditos" placeholder="Créditos")
+					input.form-control(type="number" min="0" ng-model="currentasignatura.creditos" placeholder="Créditos" style="width: 100%")
 					.horizontal-space
 				.col-md-3
-					input.form-control(type="number" min="0" ng-model="currentasignatura.orden" placeholder="Orden") 
+					input.form-control(type="number" min="0" ng-model="currentasignatura.orden" placeholder="Orden" style="width: 100%")
 					.horizontal-space
 			.footer
 				.btn-group
@@ -58,10 +58,10 @@
 							div(ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
 					.horizontal-space
 				.col-md-3
-					input.form-control(type="number" min="0" ng-model="currentasignaturaEdit.creditos" placeholder="Créditos")
+					input.form-control(type="number" min="0" ng-model="currentasignaturaEdit.creditos" placeholder="Créditos" style="width: 100%;")
 					.horizontal-space
 				.col-md-3
-					input.form-control(type="number" min="0" ng-model="currentasignaturaEdit.orden" placeholder="Orden") 
+					input.form-control(type="number" min="0" ng-model="currentasignaturaEdit.orden" placeholder="Orden" style="width: 100%;")
 					.horizontal-space
 			.footer
 				input.btn.btn-primary(type="submit" value="Guardar cambios")
@@ -88,9 +88,24 @@
 							div(ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
 					.horizontal-space
 
-			#grid1.grid(ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns style="height: 600px")
+			#grid1.grid(ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns  ui-grid-cellnav ui-grid-auto-resize style="height: 600px")
 
-			.footer
-				| Puedes editar con doble click sobre el dato deseado.
+			hr.wide
+			.row
+				.col-md-5
+					ui-select(ng-model="currentasignatura.grupo" style="width: 100%;" on-select="seleccionaGrupo($item, $model)")
+						ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}} - {{$select.selected.abrev}}
+						ui-select-choices(repeat="grupo in grupos | filter: $select.search")
+							div(ng-bind-html="grupo.nombre + ' - ' + grupo.abrev | highlight: $select.search")
+					.horizontal-space
+				.col-md-5
+					ui-select(ng-model="currentasignatura.grupo_destino" style="width: 100%;")
+						ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}} - {{$select.selected.abrev}}
+						ui-select-choices(repeat="grupo in grupos | filter: $select.search")
+							div(ng-bind-html="grupo.nombre + ' - ' + grupo.abrev | highlight: $select.search")
+					.horizontal-space
+				.col-md-2
+					a.btn.btn-primary(ng-click="copiarAsignaturas()" ng-disabled="copiando" uib-tooltip="Copiar todas las asignaturas de un grupo a otro") Copiar asignaturas
+
 
 

@@ -4,7 +4,7 @@ angular.module('myvcFrontApp')
 		$state
 			.state 'panel.areas',
 				url: '^/areas'
-				views: 
+				views:
 					'maincontent':
 						templateUrl: "==areas/areas.tpl.html"
 						controller: 'AreasCtrl'
@@ -15,7 +15,7 @@ angular.module('myvcFrontApp')
 							titulo: [->
 								'Areas'
 							]
-				data: 
+				data:
 					displayName: 'Areas'
 					icon_fa: 'fa fa-graduation-cap'
 					pageTitle: 'Áreas - MyVc'
@@ -23,7 +23,7 @@ angular.module('myvcFrontApp')
 		$state
 			.state 'panel.materias',
 				url: '^/materias'
-				views: 
+				views:
 					'maincontent':
 						templateUrl: "==areas/materias.tpl.html"
 						controller: 'MateriasCtrl'
@@ -41,7 +41,7 @@ angular.module('myvcFrontApp')
 						)
 					]
 				}
-				data: 
+				data:
 					displayName: 'Materias'
 					icon_fa: 'fa fa-graduation-cap'
 					pageTitle: 'Materias - MyVc'
@@ -49,7 +49,7 @@ angular.module('myvcFrontApp')
 		$state
 			.state 'panel.asignaturas',
 				url: '^/asignaturas'
-				views: 
+				views:
 					'maincontent':
 						templateUrl: "==areas/asignaturas.tpl.html"
 						controller: 'AsignaturasCtrl'
@@ -61,23 +61,13 @@ angular.module('myvcFrontApp')
 								'Asignaturas'
 							]
 				resolve:{
-					materias: ['$http', ($http)->
-						$http.get('::materias').then((data)->
-							return data.data
-						)
-					]
-					profesores: ['$http', ($http)->
-						$http.get('::contratos').then((data)->
-							return data.data
-						)
-					]
-					grupos: ['$http', ($http)->
-						$http.get('::grupos').then((data)->
+					datosAsignaturas: ['$http', ($http)->
+						$http.put('::asignaturas/datos-asignaturas').then((data)->
 							return data.data
 						)
 					]
 				}
-				data: 
+				data:
 					displayName: 'Asignaturas'
 					icon_fa: 'fa fa-graduation-cap'
 					pageTitle: 'Asignatura - MyVc'
@@ -87,7 +77,7 @@ angular.module('myvcFrontApp')
 				url: '^/listasignaturas/:profesor_id'
 				params:
 					profesor_id: { value: null }
-				views: 
+				views:
 					'maincontent':
 						templateUrl: "==areas/listAsignaturas.tpl.html"
 						controller: 'ListAsignaturasCtrl'
@@ -99,7 +89,7 @@ angular.module('myvcFrontApp')
 								localStorage.profesor_id = $stateParams.profesor_id
 								return 'Listado de asignaturas'
 							]
-				data: 
+				data:
 					displayName: 'Listado de asignaturas'
 					icon_fa: 'fa fa-graduation-cap'
 					pageTitle: 'Mis asignaturas - MyVc'
@@ -107,7 +97,7 @@ angular.module('myvcFrontApp')
 		$state
 			.state 'panel.frases',
 				url: '^/frases'
-				views: 
+				views:
 					'maincontent':
 						templateUrl: "==areas/frases.tpl.html"
 						controller: 'FrasesCtrl'
@@ -118,7 +108,7 @@ angular.module('myvcFrontApp')
 							titulo: [->
 								'Frases'
 							]
-				data: 
+				data:
 					displayName: 'Frases'
 					icon_fa: 'fa fa-graduation-cap'
 					pageTitle: 'Frases - MyVc'

@@ -22,10 +22,10 @@ angular.module('myvcFrontApp')
 
 		imgUsuario = $scope.perfilactual.imagen_nombre
 		imgOficial = $scope.perfilactual.foto_nombre
-		
+
 		pathUsu = ini + imgUsuario
 		pathOfi = ini + imgOficial
-		
+
 		$scope.imagenPrincipal = pathUsu
 		$scope.imagenOficial = pathOfi
 
@@ -59,7 +59,7 @@ angular.module('myvcFrontApp')
 		)
 
 	$scope.paisDocSelecionado = ($item, $model)->
-		
+
 		$http.get("::ciudades/departamentos/"+$item.id).then((r)->
 			$scope.departamentos = r.data
 		)
@@ -81,7 +81,7 @@ angular.module('myvcFrontApp')
 			if tipo_temp.length > 0
 				$scope.perfilactual.tipo_doc = tipo_temp[0]
 
-	
+
 
 
 	# ARREGLO PAIS DE NACIMIENTO
@@ -89,6 +89,8 @@ angular.module('myvcFrontApp')
 		$scope.perfilactual.pais_nac = {id: 1, pais: 'COLOMBIA', abrev: 'CO'}
 		$scope.paisNacSelect($scope.perfilactual.pais_nac, $scope.perfilactual.pais_nac)
 	else
+		if $scope.perfilactual.ciudad_nac == 'N/A'
+			return
 		$http.get('::ciudades/datosciudad/'+$scope.perfilactual.ciudad_nac).then (r2)->
 			$scope.paises = r2.data.paises
 			$scope.departamentosNac = r2.departamentos
@@ -105,10 +107,10 @@ angular.module('myvcFrontApp')
 			$scope.perfilactual.departamento_doc = r2.departamento
 			$scope.perfilactual.ciudad_doc = r2.ciudad
 
-	
 
 
-	
+
+
 	$scope.nameToShow = ()->
 		if $scope.perfilactual.tipo == 'Usu'
 			return $scope.perfilactual.username.toUpperCase()

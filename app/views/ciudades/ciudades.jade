@@ -1,7 +1,7 @@
 .row
 	.col-xs-12.col-md-8
 		.well.with-header.with-footer
-			.header.bordered-yellow Ciudades - Paises
+			.header.bordered-blue Ciudades - Paises
 
 
 			uib-tabset.widget-main(active="")
@@ -22,7 +22,7 @@
 								ui-select-match(placeholder="Departamento" allow-clear="true") {{$select.selected.departamento}}
 								ui-select-choices(repeat="depart in departamentos | filter: $select.search")
 									div(ng-bind-html="depart.departamento | highlight: $select.search")
-						
+
 						.col-lg-6.col-sm-6.col-xs-12(ng-show="!mostrarAgregarCiudad")
 							a(href="" ng-click="mostrarAgregarCiudad = true") Crear ciudad/departamento
 
@@ -31,12 +31,12 @@
 
 
 						.form-group.col-lg-6.col-sm-6.col-xs-12(ng-show="mostrarAgregarCiudad")
-							form(ng-submit="guardarCiudad(ciudad_new, departamento_new)") 
+							form(ng-submit="guardarCiudad(ciudad_new, departamento_new)")
 								.input-group
 									input.form-control(type="text" ng-model="ciudad_new" placeholder="Nueva ciudad")
 									.input-group-btn
 										button.btn.btn-default(type="submit" aria-label="Agregar ciudad" uib-tooltip="Guardar nueva ciudadd")
-											i.fa.fa-plus 
+											i.fa.fa-plus
 
 					.row
 						.col-lg-6
@@ -44,7 +44,7 @@
 								.orders-header(style="text-align: center")
 									h6(style="font-size: 14pt") Ciudad - Departamento
 								ul.orders-list
-									li.order-item(ng-repeat="ciudad in ciudades track by $index" ng-dblclick="ok(ciudad)" style="padding: 0px 10px;") 
+									li.order-item(ng-repeat="ciudad in ciudades track by $index" ng-dblclick="ok(ciudad)" style="padding: 0px 10px;")
 										.row
 											.col-lg-7.col-md-7.col-sm-6.item-left
 												.btn-group(style="margin-right: 10px; margin-top: -5px;")
@@ -55,18 +55,18 @@
 
 												span.item-booker(ng-hide="ciudad.editandoCiudad" style="font-weight: bold; font-size: 12pt; display: inline-block;" ng-click="ciudad.editandoCiudad=!ciudad.editandoCiudad") {{ciudad.ciudad}}
 												span.item-booker(ng-show="ciudad.editandoCiudad")
-													form(ng-submit="actualizarCiudad(ciudad)") 
+													form(ng-submit="actualizarCiudad(ciudad)")
 														.input-group(style="margin-top: -12px; padding-bottom: 5px;")
 															input.form-control(ng-model="ciudad.ciudad" style="height: 30px;")
 															.input-group-btn
 																button.btn.btn-default.btn-sm(ng-show="ciudad.editandoCiudad" type="submit" aria-label="Editar ciudad"  uib-tooltip="Editar ciudad")
 																	.fa.fa-save
-												
+
 											.col-lg-5.col-md-5.col-sm-6.col-xs-6.item-right
 												.item-price(style="margin: 0px auto; color: #999")
-													span(ng-hide="ciudad.editandoDepart" ng-click="ciudad.editandoDepart=!ciudad.editandoDepart") ({{ciudad.departamento}}) 
-													span(ng-show="ciudad.editandoDepart") 
-														form(ng-submit="actualizarDepartamento(ciudad)") 
+													span(ng-hide="ciudad.editandoDepart" ng-click="ciudad.editandoDepart=!ciudad.editandoDepart") ({{ciudad.departamento}})
+													span(ng-show="ciudad.editandoDepart")
+														form(ng-submit="actualizarDepartamento(ciudad)")
 															.input-group(style="margin-top: 6px; padding-bottom: 5px;")
 																input.form-control(ng-model="ciudad.departamento" style="height: 30px;")
 																.input-group-btn
@@ -74,58 +74,4 @@
 																		.fa.fa-save
 													button.btn.btn-default.btn-sm(ng-hide="ciudad.editandoDepart" ng-click="ciudad.editandoDepart=!ciudad.editandoDepart" aria-label="Editar departamento")
 														.fa.fa-pencil
-										
-							
-				// TAL VEZ DESPUÉS TENGA QUE HACER LA EDICIÓN DE PAISES. AHORITA NO LO HARÉ
-					uib-tab(heading="Paises" index="'paises'" select="selectTab('boletines')")
 
-						button.btn.btn-default(ng-click="crearPais()" ng-hide="creandopais") Agregar Pais
-
-
-						form(ng-show="creandopais" ng-submit="guardarPais()")
-
-							.row
-								.col-lg-4.col-sm-12.col-xs-12
-									md-input-container.md-block(flex-gt-sm style=" padding-bottom: 0!important")
-										label Pais
-										input(ng-model="crearpais.paisnuevo")
-								
-								.col-lg-4.col-sm-12.col-xs-12
-									md-input-container.md-block(flex-gt-sm style=" padding-bottom: 0!important")
-										label Abreviatura
-										input(ng-model="crearpais.abrev")
-								.row
-									.col-lg-12
-										md-button.md-raised.md-default(type="button" ng-click="creandopais=false") Cancelar
-
-										md-button.md-raised.md-primary(type="submit") Guardar
-
-						.row
-							.col-lg-6
-								md-toolbar.md-hue-3(style="background-color: rgb(63, 81, 181); color: rgb(255, 255, 255);" layout="row")
-									div.md-toolbar-tools
-										span Paises
-								md-list(style="height: 600px; border: 1px solid #ccc; overflow: auto")
-									md-list-item(ng-repeat="pais in paises track by $index" ng-click="editarPais(pais)") 
-										p.row
-											.col-lg-6(ng-hide="pais.editandoPais" style="font-weight: bold; font-size: 13pt" ng-click="pais.editandoPais=!pais.editandoPais") {{pais.pais}}
-											.col-lg-6(ng-show="pais.editandoPais") 
-												input(ng-model="pais.pais")
-											md-button.md-icon-button(ng-hide="pais.editandoPais" ng-click="pais.editandoPais=!pais.editandoPais" aria-label="Editar pais")
-												.fa.fa-pencil
-											md-button.md-icon-button(ng-show="pais.editandoPais" ng-click="actualizarPais(pais)" aria-label="Editar pais")
-												.fa.fa-save
-											.col-lg-6(ng-hide="pais.editandoAbrev" ng-click="pais.editandoAbrev=!pais.editandoAbrev") ({{pais.abrev}})
-											.col-lg-6(ng-show="pais.editandoAbrev") 
-												input(ng-model="pais.abrev")
-											md-button.md-icon-button(ng-hide="pais.editandoAbrev" ng-click="pais.editandoAbrev=!pais.editandoAbrev" aria-label="Editar Abrev")
-												.fa.fa-pencil
-											md-button.md-icon-button(ng-show="pais.editandoAbrev" ng-click="actualizarPais(pais)" aria-label="Editar Abrev")
-												.fa.fa-save
-										md-button.md-icon-button(aria-label="Eliminar")
-											.fa.fa-times
-			
-
-						
-			.footer
-				code &lt; td class="active/success/danger/warning" &gt;

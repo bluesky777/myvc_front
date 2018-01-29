@@ -1,7 +1,7 @@
 uib-accordion(close-others="true")
 
 	.panel-default(uib-accordion-group heading="Información personal" is-open="true")
-		
+
 		form(ng-submit="solicitarCambios()")
 
 			div(ng-if="perfilactual.tipo=='Al'")
@@ -45,14 +45,14 @@ uib-accordion(close-others="true")
 												span.input-group-addon( ng-click="data.isOpen = true")
 													i.fa.fa-calendar
 												input.form-control.active#perfilactual-fecha-nac(type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="perfilactual.fecha_nac" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2020-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha nacimiento")
-							
+
 
 				.widget
 					.widget-header.bordered-bottom.bordered-pink
 						span.widget-caption Nacimiento
-					.widget-body 
-						.row 
-							
+					.widget-body
+						.row
+
 							.form-group.col-lg-4.col-sm-6.col-xs-12
 								label Pais
 								ui-select(ng-model="perfilactual.pais_nac" on-select="paisNacSelect($item, $model)" style="width: 100%;")
@@ -73,16 +73,16 @@ uib-accordion(close-others="true")
 									ui-select-match(placeholder="Ciudad nacimiento" allow-clear="true") {{$select.selected.ciudad}}
 									ui-select-choices(repeat="ciudad in ciudadesNac | filter: $select.search")
 										div(ng-bind-html="ciudad.ciudad | highlight: $select.search")
-						
+
 
 
 				.widget
 					.widget-header.bordered-bottom.bordered-pink
 						span.widget-caption Documento
-					.widget-body 
+					.widget-body
 						.row
 							.form-group.col-lg-4.col-sm-6.col-xs-12
-								label Tipo 
+								label Tipo
 								ui-select(ng-model="perfilactual.tipo_doc" style="width: 100%;")
 									ui-select-match(placeholder="Tipo de documento" allow-clear="true") {{$select.selected.tipo}}{{ ' ('+$select.selected.abrev+')'}}
 									ui-select-choices(repeat="tipo_doc in tipos_doc")
@@ -91,7 +91,7 @@ uib-accordion(close-others="true")
 							.form-group.col-lg-4.col-sm-6.col-xs-12
 								label(for="perfilactual-documento") Número documento
 								input#perfilactual-documento.form-control(type="text" ng-model="perfilactual.documento" placeholder="Documento")
-							
+
 							.form-group.col-lg-4.col-sm-6.col-xs-12
 								label Pais
 								ui-select(ng-model="perfilactual.pais_doc" on-select="paisDocSelecionado($item, $model)" style="width: 100%;")
@@ -115,7 +115,7 @@ uib-accordion(close-others="true")
 				.widget
 					.widget-header.bordered-bottom.bordered-pink
 						span.widget-caption Datos extra
-					.widget-body 
+					.widget-body
 
 						.row
 							.form-group.col-lg-2.col-sm-6.col-xs-12
@@ -140,7 +140,7 @@ uib-accordion(close-others="true")
 							.form-group.col-lg-3.col-sm-6.col-xs-12
 								label(for="perfilactual-barrio") Barrio
 								input#perfilactual-barrio.form-control(type="text" ng-model="perfilactual.barrio" placeholder="Barrio")
-						
+
 							.form-group.col-lg-3.col-sm-6.col-xs-12
 								label(for="perfilactual-estrato") Estrato
 								.spinner.spinner-horizontal
@@ -163,14 +163,14 @@ uib-accordion(close-others="true")
 								label Está a paz y salvo
 							.col-lg-3.col-sm-6.col-xs-12
 								span Deuda
-								
-
-
-				
 
 
 
-			
+
+
+
+
+
 			center
 				button.btn.btn-primary.btn-lg(type='submit' ng-if="canConfig") Solicitar cambios
 			br
@@ -179,7 +179,7 @@ uib-accordion(close-others="true")
 	.panel-default(uib-accordion-group heading="Datos de usuario" ng-if="canConfig")
 		form(role="form")
 			.row
-				.col-sm-7
+				.col-sm-8
 					.form-group
 						label Nombre de usuario ({{perfilactual.username}})
 						span.input-icon.icon-right
@@ -189,15 +189,26 @@ uib-accordion(close-others="true")
 						br
 						button.btn.btn-warning(ng-click="comprobarusername(newusername)")
 							span(ng-hide="comprobando")
-								| Comprobar 
+								| Comprobar
 							span(ng-show="comprobando")
-								| Comprobando 
+								| Comprobando
 								i.fa.fa-spinner.fa-spin
 						.alert.alert-warning.fade.in(ng-show="mostrarErrorUsername")
 							.fa-fw.fa.fa-warning
 							span(ng-show="newusername!=perfilactual.username") Usuario no disponible.
 							span(ng-show="newusername==perfilactual.username") Ya es tu nombre de usuario actual.
 			button.btn.btn-primary(type='button' ng-click="CambiarUsername(newusername)" ng-class="{disabled:mostrarErrorUsername || newusername=='' || newusername==perfilactual.username || canSaveUsername==false }") Guardar usuario
+
+		hr.wide
+		form(role="form" style="margin-top: 30px")
+			.row
+				.col-sm-8
+					.form-group
+						label Correo electrónico para cuando pierdas la contraseña
+						span.input-icon.icon-right
+							input.form-control(ng-model="perfilactual.email_restore" type="email" placeholder="Escriba Email" )
+							i.fa.fa-user.azure
+			button.btn.btn-primary(type='button' ng-click="guardarEmailRestore(perfilactual.email_restore)" ng-disabled="guardandoEmail") Guardar correo
 
 
 

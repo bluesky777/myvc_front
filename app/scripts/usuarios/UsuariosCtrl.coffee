@@ -12,7 +12,7 @@ angular.module('myvcFrontApp')
 		modalInstance = $modal.open({
 			templateUrl: '==usuarios/removeUsuario.tpl.html'
 			controller: 'RemoveUsuarioCtrl'
-			resolve: 
+			resolve:
 				usuario: ()->
 					row
 		})
@@ -22,11 +22,11 @@ angular.module('myvcFrontApp')
 
 
 	$scope.resetPass = (row)->
-		
+
 		modalInstance = $modal.open({
 			templateUrl: '==usuarios/resetPass.tpl.html'
 			controller: 'ResetPassCtrl'
-			resolve: 
+			resolve:
 				usuario: ()->
 					row
 		})
@@ -40,7 +40,7 @@ angular.module('myvcFrontApp')
 		modalInstance = $modal.open({
 			templateUrl: '==usuarios/verRoles.tpl.html'
 			controller: 'VerRolesCtrl'
-			resolve: 
+			resolve:
 				usuario: ()->
 					row
 				roles: ()->
@@ -50,13 +50,11 @@ angular.module('myvcFrontApp')
 			#console.log 'Resultado del modal: ', user
 		)
 
-	btGrid1 = '<a class="btn btn-default btn-xs shiny" ng-click="grid.appScope.verRoles(row.entity)">Roles</a>'
-	btGrid2 = '<a uib-tooltip="Editar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
-	btGrid3 = '<a uib-tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-trash "></i></a>'
-	btGrid4 = '<a uib-tooltip="Resetear contraseña" tooltip-placement="right" class="btn btn-default btn-xs shiny" ng-click="grid.appScope.resetPass(row.entity)">Reset pass</a>'
-	
+	btGrid1 = '<a uib-tooltip="No cambies roles, consulta antes" class="btn btn-default btn-xs shiny" ng-click="grid.appScope.verRoles(row.entity)">Roles</a>'
+	btGrid4 = '<a uib-tooltip="Resetear contraseña" tooltip-placement="right" class="btn btn-default btn-xs shiny" ng-click="grid.appScope.resetPass(row.entity)">Cambiar password</a>'
 
-	$scope.gridOptions = 
+
+	$scope.gridOptions =
 		showGridFooter: true,
 		enableSorting: true,
 		enableFiltering: true,
@@ -64,8 +62,8 @@ angular.module('myvcFrontApp')
 		enableCellEditOnFocus: true,
 		columnDefs: [
 			{ field: 'user_id', width: 70, enableFiltering: false, enableCellEdit: false }
-			{ name: 'edicion', displayName:'Edición', width: 200, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2 + btGrid3 + btGrid4, enableCellEdit: false}
-			{ field: 'username', displayName: 'Usuario', 
+			{ name: 'edicion', displayName:'Edición', width: 200, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid4, enableCellEdit: false}
+			{ field: 'username', displayName: 'Usuario',
 			filter: {
 				condition: (searchTerm, cellValue, row)->
 					entidad = row.entity
@@ -74,8 +72,8 @@ angular.module('myvcFrontApp')
 					return false
 			}
 			enableHiding: false}
-			
-			{ field: 'nombres', cellTemplate: '<div>{{row.entity.nombres + " " + row.entity.apellidos}}</div>', 
+
+			{ field: 'nombres', cellTemplate: '<div>{{row.entity.nombres + " " + row.entity.apellidos}}</div>',
 			filter: {
 				condition: (searchTerm, cellValue, row)->
 					entidad = row.entity
@@ -86,8 +84,8 @@ angular.module('myvcFrontApp')
 			}
 
 			{ field: 'sexo', width: 70 }
-			
-			{ field: 'roles', displayName: 'Roles', enableCellEdit: false, cellFilter: 'mapRoles', 
+
+			{ field: 'roles', displayName: 'Roles', enableCellEdit: false, cellFilter: 'mapRoles',
 			filter: {
 				condition: (searchTerm, cellValue)->
 					found = $filter('filter')(cellValue, {name: searchTerm})
@@ -100,7 +98,7 @@ angular.module('myvcFrontApp')
 		onRegisterApi: ( gridApi ) ->
 			$scope.gridApi = gridApi
 			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
-				
+
 				if newValue != oldValue
 
 					if colDef.field == "username"
@@ -118,7 +116,7 @@ angular.module('myvcFrontApp')
 				$scope.$apply()
 			)
 
-	
+
 	$http.get('::perfiles/usuariosall?year_id=' + $scope.USER.year_id).then((data)->
 		$scope.gridOptions.data = data.data;
 	)

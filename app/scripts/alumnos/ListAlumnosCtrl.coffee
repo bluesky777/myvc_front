@@ -1,10 +1,11 @@
 angular.module("myvcFrontApp")
 
-.controller('ListAlumnosCtrl', ['$scope', 'toastr', '$state', '$http', '$filter', 'App', ($scope, toastr, $state, $http, $filter, App)->
+.controller('ListAlumnosCtrl', ['$scope', 'toastr', '$state', '$http', '$filter', 'App', 'AuthService', ($scope, toastr, $state, $http, $filter, App, AuthService)->
 
 	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
 	$scope.dato = {}
 	$scope.perfilPath = App.images+'perfil/'
+	$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
 
 	$scope.traerListado = (grupo_id)->
 		if not grupo_id
@@ -31,7 +32,7 @@ angular.module("myvcFrontApp")
 		toastr.error 'No se pudo traer los grupos'
 	)
 
-	$scope.gridOptions = 
+	$scope.gridOptions =
 		showGridFooter: true,
 		enableSorting: true,
 		enableFiltering: true,
@@ -50,14 +51,17 @@ angular.module("myvcFrontApp")
 		onRegisterApi: ( gridApi ) ->
 			$scope.gridApi = gridApi
 			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
-				
-				if newValue != oldValue
-					$http.put('::alumnos/update/'+rowEntity.alumno_id, rowEntity).then((r)->
-						toastr.success 'Alumno actualizado con éxito', 'Actualizado'
-					, (r2)->
-						toastr.error 'Cambio no guardado', 'Error'
-					)
-				$scope.$apply()
+
+				if AuthService.hasRoleOrPerm('Profesor') and !$scope.USER.profes_can_edit_alumnos
+					toastr.warning 'Actualmente, no tienes permiso de editar alumnos', 'Sin permisos'
+				else if AuthService.hasRoleOrPerm(['Profesor', 'Admin'])
+					if newValue != oldValue
+						$http.put('::alumnos/update/'+rowEntity.alumno_id, rowEntity).then((r)->
+							toastr.success 'Alumno actualizado con éxito', 'Actualizado'
+						, (r2)->
+							toastr.error 'Cambio no guardado', 'Error'
+						)
+					$scope.$apply()
 			)
 
 ])

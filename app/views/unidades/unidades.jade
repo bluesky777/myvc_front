@@ -125,7 +125,7 @@
 
 
 						ul.tickets-list(ng-model="unidad.subunidades" ng-hide="unidad.ocultarSubs" style="padding-left: 30px; "
-							sv-root="root-subunidades-$index" sv-part="unidad.subunidades" sv-on-sort="onSortSubunidades($item, $partFrom, $partTo, $indexFrom, $indexTo, unidad)")
+							sv-root="root-subunidades-{{$index}}" sv-part="unidad.subunidades" sv-on-sort="onSortSubunidades($item, $partFrom, $partTo, $indexFrom, $indexTo, unidad)")
 
 							li.ticket-item(ng-repeat="subunidad in unidad.subunidades" style="border: none" sv-element)
 								.row(ng-show="!subunidad.editando")

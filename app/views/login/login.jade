@@ -1,4 +1,4 @@
-form.login-container.animated.fadeInDown(ng-submit="login(credentials)" name="loginForm")
+.login-container.animated.fadeInDown
 	.loginbox.bg-white
 		.loginbox-title Entrar
 		.loginbox-social
@@ -9,16 +9,22 @@ form.login-container.animated.fadeInDown(ng-submit="login(credentials)" name="lo
 		.loginbox-or
 			.or-line
 			.or Datos
-		.loginbox-textbox
-			input.form-control(type='text', placeholder='Usuario' ng-model="credentials.username" autofocus)
-		.loginbox-textbox
-			input.form-control(type='password', placeholder='Contraseña' ng-model="credentials.password")
-		.loginbox-forgot
-			a(href='') ¿Olvidaste tu contraseña?
-		.loginbox-submit
-			input.btn.btn-primary.btn-block(type='submit', value='Login')
-		.loginbox-signup
-			a(href='help.html') Aún estamos en construcción
+		form(ng-submit="login(credentials)" name="loginForm")
+			.loginbox-textbox
+				input.form-control(type='text', placeholder='Usuario' ng-model="credentials.username" autofocus)
+			.loginbox-textbox
+				input.form-control(type='password', placeholder='Contraseña' ng-model="credentials.password")
+			.loginbox-forgot
+				a(href='' ng-click="olvida_pass = !olvida_pass") ¿Olvidaste tu contraseña?
+			.loginbox-submit
+				input.btn.btn-primary.btn-block(type='submit', value='Login')
+			.loginbox-signup
+				a(href='www.micolevirtual.com') MyVC
 		.logobox
 			.loginbox-title
 				a(href='http://lalvirtual.com/lal/' ng-if="host=='lalvirtual.com' || host=='localhost'") Ir a años anteriores
+
+				.loginbox-textbox(style="background-color: #fff; padding: 10px" ng-show="olvida_pass")
+					form(ng-submit="enviarPass(correo_electronico)")
+						input.form-control(type='email' style="margin-bottom: 6px" placeholder='Correo electrónico' ng-model="correo_electronico")
+						button.btn.btn-primary(type="submit") Restaurar contraseña

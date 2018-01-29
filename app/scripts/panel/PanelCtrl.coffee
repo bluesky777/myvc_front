@@ -2,7 +2,7 @@
 
 angular.module('myvcFrontApp')
 
-.controller('PanelCtrl', ['$scope', '$http', '$state', '$cookies', '$rootScope', 'AuthService', 'Perfil', 'App', 'resolved_user', 'toastr', 'cfpLoadingBar', '$window',  
+.controller('PanelCtrl', ['$scope', '$http', '$state', '$cookies', '$rootScope', 'AuthService', 'Perfil', 'App', 'resolved_user', 'toastr', 'cfpLoadingBar', '$window',
 	($scope, $http, $state, $cookies, $rootScope, AuthService, Perfil, App, resolved_user, toastr, cfpLoadingBar, $window) ->
 
 		$scope.USER = resolved_user
@@ -23,13 +23,11 @@ angular.module('myvcFrontApp')
 			$scope.logoPath = $scope.logoPathDefault # set default image
 		)
 
-
-		if localStorage.menucompacto
-			$rootScope.menucompacto = localStorage.menucompacto
+		$rootScope.menucompacto = if localStorage.menucompacto == 'true' then true else false
 
 		# Para evitar una supuesta espera infinita
 		cfpLoadingBar.complete()
-		
+
 
 		AuthService.verificar_acceso()
 
@@ -59,16 +57,16 @@ angular.module('myvcFrontApp')
 
 			imgUsuario = $scope.USER.imagen_nombre
 			imgOficial = $scope.USER.foto_nombre
-			
+
 			pathUsu = ini + imgUsuario
 			pathOfi = ini + imgOficial
-			
+
 			$scope.imagenPrincipal = pathUsu
 			$scope.imagenOficial = pathOfi
 
 		$scope.setImagenPrincipal()
-		
-		
+
+
 		$scope.nameToShow = Perfil.nameToShow
 
 		$scope.usuario = ()->
@@ -83,13 +81,13 @@ angular.module('myvcFrontApp')
 		$scope.togglePeriodos = ()->
 			$scope.seeDropdownPeriodos = !$scope.seeDropdownPeriodos
 			console.log $scope.seeDropdownPeriodos
-		
+
 
 		$scope.cambiarPeriodo = (periodo)->
 			$scope.bigLoader = true
 
 			$http.put('::periodos/useractive/'+periodo.id).then((r)->
-				toastr.success 'Periodo cambiado con éxito al perido ' + periodo.numero, 'Cambiado' 
+				toastr.success 'Periodo cambiado con éxito al perido ' + periodo.numero, 'Cambiado'
 				$scope.USER.periodo_id = periodo.id
 				$scope.USER.numero_periodo = periodo.numero
 
@@ -111,8 +109,8 @@ angular.module('myvcFrontApp')
 				$scope.USER.numero_periodo = r.numero
 				$scope.USER.periodo_id = r.id
 
-				toastr.success 'Año cambiado con éxito: ' + year.year, 'Cambiado' 
-				
+				toastr.success 'Año cambiado con éxito: ' + year.year, 'Cambiado'
+
 				$window.location.reload() # Actualizamos toda la página al cambiar el año
 				# $rootScope.reload() # No funciona correctamente
 

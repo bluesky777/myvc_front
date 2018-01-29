@@ -29,6 +29,7 @@ angular.module('myvcFrontApp')
 				displayName: 'Informes'
 				icon_fa: 'fa fa-print'
 				pageTitle: 'Informes - MyVc'
+				needed_permissions: [PERMISSIONS.can_work_like_teacher, PERMISSIONS.can_work_like_admin]
 		})
 
 		.state 'panel.informes.boletines_periodo',
@@ -163,6 +164,22 @@ angular.module('myvcFrontApp')
 				displayName: 'Notas perdidas por profesor'
 				icon_fa: 'fa fa-print'
 				pageTitle: 'Notas perdidas por profesor - MyVc'
+
+
+		.state 'panel.informes.notas_perdidas_todos',
+			url: '/notas_perdidas_profesor/:periodo_a_calcular'
+			views:
+				'report_content':
+					templateUrl: "==informes/notasPerdidasTodos.tpl.html"
+					controller: 'NotasPerdidasTodosCtrl'
+					resolve:
+						profesores: ['$http', '$stateParams', ($http, $stateParams)->
+							$http.put('::notas-perdidas/todos', {periodo_a_calcular: $stateParams.periodo_a_calcular} )
+						]
+			data:
+				displayName: 'Todas las notas perdidas'
+				icon_fa: 'fa fa-print'
+				pageTitle: 'Notas perdidas todas - MyVc'
 
 
 		.state 'panel.informes.ver_ausencias',

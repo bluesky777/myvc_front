@@ -2,20 +2,11 @@
 
 angular.module("myvcFrontApp")
 
-.controller('ProfesoresNewCtrl', ['$scope', '$http', 'toastr', ($scope, $http, toastr)->
+.controller('ProfesoresNewCtrl', ['$scope', '$http', 'toastr', '$filter', ($scope, $http, toastr, $filter)->
 
-	$scope.profesor = 
-		'nombres'		: 'FRANCISCO'
-		'apellidos'		: 'BAEZ'
+	$scope.profesor =
 		'sexo'			: 'M'
-		'documento'		: '99817333'
-		'fecha_nac'		: '2000-06-26'
-		'telefono'		: '8886242'
-		'celular'		: '3216478754'
-		'direccion'		: 'CRR 45 NO 30-23'
-		'barrio'		: 'MORICHAL'
-		'email'			: 'miguelito@gmail.com'
-		'facebook'		: 'miguelito@gmail.com'
+		'fecha_nac'		: new Date('1990-01-01')
 
 
 	$scope.estados_civiles = [{estado_civil: 'Soltero'},{estado_civil: 'Casado'}, {estado_civil: 'Divorciado'}, {estado_civil: 'Viudo'}]
@@ -23,12 +14,14 @@ angular.module("myvcFrontApp")
 	$http.get('::paises').then((r)->
 		$scope.paises = r.data
 	)
-	
+
 	$http.get('::tiposdocumento').then (r)->
 		$scope.tipos_doc = r.data
-	
+
 
 	$scope.crear = ()->
+		$scope.profesor.fecha_nac = $filter('date')($scope.profesor.fecha_nac, 'yyyy-MM-dd')
+
 		$http.post('::profesores/store', $scope.profesor).then((r)->
 			toastr.success 'Profesor creado'
 			$scope.$emit 'profesorcreado', r.data
@@ -56,7 +49,7 @@ angular.module("myvcFrontApp")
 		)
 
 	$scope.paisSelecionado = ($item, $model)->
-		
+
 		$http.get("::ciudades/departamentos/"+$item.id).then((r)->
 			$scope.departamentos = r.data
 		)
@@ -66,7 +59,7 @@ angular.module("myvcFrontApp")
 			$scope.ciudades = r.data
 		)
 
-	$scope.dateOptions = 
+	$scope.dateOptions =
 		formatYear: 'yy'
 
 	return
