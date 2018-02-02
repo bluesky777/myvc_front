@@ -157,7 +157,7 @@ angular.module("myvcFrontApp")
 
 	$scope.ok = ()->
 
-		$http.delete('::profesor/destroy/'+profesor.alumno_id).then((r)->
+		$http.delete('::profesores/destroy/'+profesor.id).then((r)->
 			toastr.success 'Profesor enviado a la papelera.', 'Eliminado'
 		, (r2)->
 			toastr.warning 'No se pudo enviar a la papelera.', 'Problema'

@@ -3,7 +3,7 @@
 angular.module("myvcFrontApp")
 
 .controller('FileManagerCtrl', ['$scope', 'Upload', '$timeout', '$filter', 'App', '$http', 'Perfil', '$uibModal', 'resolved_user', 'toastr', 'AuthService', 'ProfesoresServ', ($scope, $upload, $timeout, $filter, App, $http, Perfil, $modal, resolved_user, toastr, AuthService, ProfesoresServ)->
-	
+
 	$scope.USER 			= resolved_user
 	$scope.subir_intacta 	= {}
 	$scope.hasRoleOrPerm 	= AuthService.hasRoleOrPerm
@@ -11,13 +11,13 @@ angular.module("myvcFrontApp")
 	$scope.tabFileManager 	= 'mis_img' # 'mis_img' 'imgs_usus'
 
 	fixDato = ()->
-		$scope.dato = 
+		$scope.dato =
 			imgUsuario:
 				id:		$scope.USER.imagen_id
-				nombre:	$scope.USER.imagen_nombre 
+				nombre:	$scope.USER.imagen_nombre
 			imgOficial:
 				id:		$scope.USER.foto_id
-				nombre:	$scope.USER.foto_nombre 
+				nombre:	$scope.USER.foto_nombre
 
 	fixDato()
 
@@ -40,7 +40,7 @@ angular.module("myvcFrontApp")
 		$scope.dato.imgParaUsuario 	= r.imagenes_privadas[0]
 		$scope.grupos 				= r.grupos
 		$scope.profesores 			= r.profesores
-		
+
 	, (r2)->
 		toastr.error 'No se trajeron las imágenes.'
 	)
@@ -49,7 +49,7 @@ angular.module("myvcFrontApp")
 	if $scope.hasRoleOrPerm(['profesor', 'admin'])
 		$scope.cantUp = 2
 
-	
+
 	if localStorage.tabFileManager
 		$scope.tabFileManager = localStorage.tabFileManager
 	else
@@ -58,7 +58,7 @@ angular.module("myvcFrontApp")
 			$scope.tabFileManager 	= 'mis_img'
 
 
-	
+
 	$scope.selectTab = (indice)->
 		localStorage.tabFileManager 	= indice
 		$scope.tabFileManager 			= localStorage.tabFileManager
@@ -71,7 +71,7 @@ angular.module("myvcFrontApp")
 	$scope.uploadFiles =  (files)->
 		if $scope.imagenes_privadas.length > 2 and $scope.hasRoleOrPerm(['alumno', 'acudiente'])
 			toastr.warning 'No tiene permiso para subir más imágenes'
-			
+
 		$scope.imgFiles = files
 		$scope.errorMsg = ''
 
@@ -97,7 +97,7 @@ angular.module("myvcFrontApp")
 						$timeout(()->
 							file.dataUrl = e.target.result
 						)
-	
+
 	uploadUsing$upload = (file)->
 
 		intactaUrl = if $scope.subir_intacta.intacta then '-intacta' else ''
@@ -140,7 +140,7 @@ angular.module("myvcFrontApp")
 				toastr.success 'Imagen principal cambiada'
 			else
 				toastr.info 'Ahora espera que un administrador acepte tu imagen', 'Solicitado'
-			
+
 		, (r2)->
 			toastr.error 'No se pudo cambiar imagen', 'Problema'
 		)
@@ -154,13 +154,13 @@ angular.module("myvcFrontApp")
 				toastr.success 'Foto oficial cambiada'
 			else
 				toastr.info 'Ahora espera que un administrador acepte tu imagen', 'Solicitado'
-			
+
 		, (r2)->
 			toastr.error 'No se pudo cambiar foto', 'Problema'
 		)
 
 	$scope.pedirCambioFirma = (profeElegido, imgFirmaProfe)->
-		
+
 		aEnviar = { imgFirmaProfe: imgFirmaProfe.id }
 		$http.put('::perfiles/cambiarfirmaunprofe/'+profeElegido.persona_id, aEnviar).then((r)->
 			toastr.success 'Firma asignada con éxito'
@@ -183,6 +183,7 @@ angular.module("myvcFrontApp")
 			r = r.data
 			$scope.alumnos = r
 			$scope.dato.alumnoElegido = r[0]
+			$scope.alumSelect($scope.dato.alumnoElegido)
 		, (r2)->
 			toastr.error 'No se pudo traer los usuarios'
 		)
@@ -212,7 +213,7 @@ angular.module("myvcFrontApp")
 	$scope.privatizarImagen = (imagen)->
 		$http.put('::myimages/privatizar-imagen/'+imagen.id).then((r)->
 			r = r.data
-			if r.imagen 
+			if r.imagen
 				toastr.warning 'No puede ser logo del año ' + r.imagen.is_logo_of_year
 				return
 
@@ -220,7 +221,7 @@ angular.module("myvcFrontApp")
 
 			if imagen.user_id == $scope.USER.id
 				$scope.imagenes_privadas.push imagen
-			
+
 			$scope.imagenes_publicas = $filter('filter')($scope.imagenes_publicas, {id: '!'+imagen.id})
 
 		, (r2)->
@@ -229,22 +230,22 @@ angular.module("myvcFrontApp")
 
 
 
-	$scope.borrarImagen = (imagen)->
+	$scope.borrarImagen = (imagen, usuario_id)->
 
 		modalInstance = $modal.open({
 			templateUrl: '==fileManager/removeImage.tpl.html'
 			controller: 'RemoveImageCtrl'
 			size: 'sm',
-			resolve: 
+			resolve:
 				imagen: ()->
 					imagen
 				user_id: ()->
-					$scope.USER.id
+					usuario_id
 				datos_imagen: ()->
 
-					codigos = 
+					codigos =
 						imagen_id: imagen.id
-						user_id: $scope.USER.id
+						user_id: usuario_id
 
 					$http.get('::myimages/datos-imagen', codigos).then((r)->
 
@@ -272,64 +273,87 @@ angular.module("myvcFrontApp")
 	############### 	CAMBIAR A USUARIOS 		###############
 	###########################################################
 	$scope.cambiarImgUnUsuario = (usuarioElegido, imgParaUsuario)->
-		
-		confirmando = confirm('Esto quitará la imágen de tu lista. ¿Seguro que deseas cambiar la imagen de este usuario?')
+
+		confirmando = false
+		if imgParaUsuario
+			confirmando = confirm('Esto quitará la imágen de tu lista. ¿Seguro que deseas cambiar la imagen de este usuario?')
+		else
+			confirmando = confirm('¿Ya no quieres que esta sea su imagen de perfil?')
 
 		if confirmando
 
-			aEnviar = { imagen_id: imgParaUsuario.id }
+			aEnviar = {}
+
+			if imgParaUsuario
+				aEnviar.imagen_id = imgParaUsuario.id
 
 			$http.put('::images-users/cambiar-imagen-un-usuario/'+usuarioElegido.user_id, aEnviar).then((r)->
 
-				usuarioElegido.imagen_id 		= imgParaUsuario.id
-				usuarioElegido.imagen_nombre 	= imgParaUsuario.nombre
+				if imgParaUsuario
+					usuarioElegido.imagen_id 		= imgParaUsuario.id
+					usuarioElegido.imagen_nombre 	= imgParaUsuario.nombre
 
-				$scope.imagenes_privadas = $filter('filter')($scope.imagenes_privadas, (item)->
-					return item.id != imgParaUsuario.id;
-				)
+					$scope.imagenes_privadas = $filter('filter')($scope.imagenes_privadas, (item)->
+						return item.id != imgParaUsuario.id;
+					)
 
-				$scope.dato.selectedImg = undefined
+					$scope.dato.selectedImg = undefined
 
-				toastr.success 'Imagen asignada con éxito'
+					toastr.success 'Imagen quitada con éxito'
+				else
+					usuarioElegido.imagen_id 		  = null
+					usuarioElegido.imagen_nombre 	= 'default_male.png'
+					toastr.success 'Imagen asignada con éxito'
 			, (r2)->
 				toastr.error 'Error al asignar imagen a usuario', 'Problema'
 			)
 
 
 	$scope.cambiarFotoUnUsuario = (usuarioElegido, imgParaUsuario)->
-		
-		confirmando = confirm('Esto quitará la imágen de tu lista. ¿Seguro que deseas cambiar la imagen de este usuario?')
+
+		confirmando = false
+		if imgParaUsuario
+			confirmando = confirm('Esto quitará la imágen de tu lista. ¿Seguro que deseas cambiar la imagen de este usuario?')
+		else
+			confirmando = confirm('¿Ya no quieres que esta sea su foto oficial?')
 
 		if confirmando
 
-			aEnviar = { imagen_id: imgParaUsuario.id }
+			aEnviar = {}
+
+			if imgParaUsuario
+				aEnviar.imagen_id = imgParaUsuario.id
 
 			$http.put('::images-users/cambiar-foto-un-usuario/'+usuarioElegido.user_id, aEnviar).then((r)->
 
-				usuarioElegido.imagen_id 		= imgParaUsuario.id
-				usuarioElegido.foto_nombre 		= imgParaUsuario.nombre
+				if imgParaUsuario
+					usuarioElegido.imagen_id 		= imgParaUsuario.id
+					usuarioElegido.foto_nombre 		= imgParaUsuario.nombre
 
-				$scope.imagenes_privadas = $filter('filter')($scope.imagenes_privadas, (item)->
-					return item.id != imgParaUsuario.id;
-				)
+					$scope.imagenes_privadas = $filter('filter')($scope.imagenes_privadas, (item)->
+						return item.id != imgParaUsuario.id;
+					)
 
-				$scope.dato.selectedImg = undefined
-
-				toastr.success 'Foto asignada con éxito'
+					$scope.dato.selectedImg = undefined
+					toastr.success 'Foto quitada con éxito'
+				else
+					usuarioElegido.foto_id 		  = null
+					usuarioElegido.foto_nombre 	= 'default_male.png'
+					toastr.success 'Foto asignada con éxito'
 			, (r2)->
 				toastr.error 'Error al asignar foto oficial', 'Problema'
 			)
 
-	
+
 
 
 
 	$scope.cambiarFirmaUnProfe = (profeElegido, imgParaUsuario)->
-		
+
 		aEnviar = { imagen_id: imgParaUsuario.id }
 
 		$http.put('::images-users/cambiar-firma-un-profe/'+profeElegido.profesor_id, aEnviar).then((r)->
-			
+
 				profeElegido.firma_id 			= imgParaUsuario.id
 				profeElegido.firma_nombre 		= imgParaUsuario.nombre
 
@@ -342,6 +366,48 @@ angular.module("myvcFrontApp")
 				toastr.success 'Firma asignada con éxito'
 		, (r2)->
 			toastr.error 'Error al asignar firma', 'Problema'
+		)
+
+
+
+
+
+	$scope.alumSelect = ($item, $model)->
+
+		aEnviar = { usuario_id: $item.user_id }
+
+		$http.put('::images-users/imagenes-de-usuario', aEnviar).then((r)->
+				$scope.imagenes_del_usuario       = r.data
+				$scope.mostrando_opt_img_de_alum  = true
+		, (r2)->
+			toastr.error 'Error trayendo imagenes del usuario', 'Problema'
+		)
+
+
+
+
+	$scope.profeSelect = ($item, $model)->
+
+		aEnviar = { usuario_id: $item.user_id }
+
+		$http.put('::images-users/imagenes-de-usuario', aEnviar).then((r)->
+				$scope.imagenes_del_usuario       = r.data
+				$scope.mostrando_opt_img_de_prof  = true
+		, (r2)->
+			toastr.error 'Error trayendo imagenes del usuario', 'Problema'
+		)
+
+
+
+
+	$scope.moveImgToMe = ($item, $model)->
+
+		aEnviar = { img_id: $item.id }
+
+		$http.put('::images-users/move-img-to-me', aEnviar).then((r)->
+			toastr.success 'Ahora la imagen te pertenece.'
+		, (r2)->
+			toastr.error 'Error mover imagen', 'Problema'
 		)
 
 

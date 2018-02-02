@@ -61,3 +61,35 @@ angular.module('myvcFrontApp')
 
 
 
+
+
+.controller('VerObservadorVerticalCtrl',['$scope', 'App', 'Perfil', 'grupos_observador', '$state', ($scope, App, Perfil, grupos_observador, $state)->
+	$scope.grupos_observador = grupos_observador.data
+
+	$scope.editor_options =
+		allowedContent: true,
+		entities: false
+
+
+	$scope.onEditorReady = ()->
+		console.log 'Editor listo'
+
+	$scope.USER = Perfil.User()
+
+	$scope.perfilPath = App.images+'perfil/'
+
+
+	$scope.$emit 'cambia_descripcion', 'Observador del alumno '
+
+])
+
+.directive('compile', ($compile, $timeout)->
+	return {
+		restrict: 'A',
+		link: (scope,elem,attrs)->
+			$timeout(()->
+				$compile(elem.contents())(scope);
+			);
+	}
+);
+

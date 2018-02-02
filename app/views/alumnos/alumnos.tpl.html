@@ -93,8 +93,8 @@
         <tbody class="filasestrechas">
           <tr ng-repeat="alumno in alumnos_encontrados track by $index" ng-class="{'filagris': alumno.grupo_id!=dato_f.grupo.id, 'filawarning': alumno.estado=='ASIS' }">
             <td>{{ $index+1 }}</td>
-            <td class="content-menu-matrics">{{ alumno.no_matricula }}
-              <div><a ui-sref="panel.alumnos.matricula_detalles({alumno_id: alumno.alumno_id})" uib-tooltip="Ver matrículas" tooltip-append-to-body="true" class="btn btn-default btn-xs menu-matrics"><i class="fa fa-pencil"></i></a></div>
+            <td>
+              <div class="btn-group"><a ui-sref="panel.alumnos.matricula_detalles({alumno_id: alumno.alumno_id})" uib-tooltip="Ver matrículas" tooltip-append-to-body="true" class="btn btn-default btn-xs"><i class="fa fa-pencil"></i></a><a ng-click="matricularUno(alumno)" uib-tooltip="Matricular en {{dato.grupo.abrev}}" tooltip-append-to-body="true" class="btn btn-default btn-xs">Matri en {{dato.grupo.abrev}}</a><a ng-click="matricularEn(alumno)" uib-tooltip="Matricular en..." tooltip-append-to-body="true" class="btn btn-default btn-xs">Matri en...</a></div>
             </td>
             <td>
               <div uib-popover-template="views+'alumnos/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="mouseenter" popover-popup-delay="500"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 20px; height: 20px; margin-top: -3px;">{{ alumno.apellidos }}</div>

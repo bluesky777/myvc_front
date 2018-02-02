@@ -180,6 +180,10 @@ angular.module('myvcFrontApp')
 		DownloadServ.download('::simat/alumnos', 'Grupos alumnos.xls')
 		$state.go 'panel.informes.ver_simat', {reload: true}
 
+	$scope.verObservadorVertical = ()->
+		#DownloadServ.download('::simat/alumnos', 'Grupos alumnos.xls')
+		$state.go 'panel.informes.ver_observador_vertical', {reload: true}
+
 
 	$scope.verPlanillasControlTardanzas = ()->
 		$scope.config.orientacion = 'oficio_horizontal'

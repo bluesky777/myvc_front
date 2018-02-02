@@ -16439,3 +16439,28 @@ input[type="number"]:focus {
 .texto-gris{
   color: #9E9E9E;
 }
+
+.texto-negrita{
+  font-weight: bold !important;
+}
+.texto-right{
+  text-align: right;
+}
+.tb-observador-alum{
+  width: 100%;
+
+  .tb-obsev-col-fecha{
+    width: 100px;
+  }
+  /*
+  .tb-obsev-col-observador{
+    width: 300px;
+  }*/
+  .tb-obsev-col-firma{
+    width: 150px;
+  }
+
+  td, th{
+    border: 1px solid #000;
+  }
+}

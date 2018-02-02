@@ -216,6 +216,23 @@ angular.module('myvcFrontApp')
 
 
 
+		.state 'panel.informes.ver_observador_vertical',
+			url: '/ver_observador_vertical'
+			views:
+				'report_content':
+					templateUrl: "==informes/verObservadorVertical.tpl.html"
+					controller: 'VerObservadorVerticalCtrl' # En NotasPerdidasProfesorCtrl.coffee
+					resolve:
+						grupos_observador: ['$http', '$stateParams', ($http, $stateParams)->
+							$http.get('::observador/vertical')
+						]
+			data:
+				displayName: 'SIMAT'
+				icon_fa: 'fa fa-print'
+				pageTitle: 'SIMAT - MyVc'
+
+
+
 		.state 'panel.informes.planillas_profesor',
 			url: '/planillas_profesor/:profesor_id/:periodos_a_calcular'
 			views:
