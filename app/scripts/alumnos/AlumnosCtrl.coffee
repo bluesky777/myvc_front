@@ -357,14 +357,14 @@ angular.module("myvcFrontApp")
 
 		columnDefs: [
 			{ field: 'no', pinnedLeft:true, cellTemplate: '<div class="ui-grid-cell-contents">{{grid.renderContainers.body.visibleRowCache.indexOf(row) + 1}}</div>', width: 40, enableCellEdit: false }
-			{ field: 'nombres', minWidth: 120, pinnedLeft:true,
+			{ field: 'nombres', minWidth: 130, pinnedLeft:true,
 			filter: {
 				condition: (searchTerm, cellValue, row)->
 					entidad = row.entity
 					return (entidad.nombres.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1)
 			}
 			enableHiding: false, cellTemplate: '<div class="ui-grid-cell-contents" style="padding: 0px;" ' + appendPopover + '><img ng-src="{{grid.appScope.perfilPath + row.entity.foto_nombre}}" style="width: 35px" />{{row.entity.nombres}}</div>' }
-			{ field: 'apellidos', minWidth: 80, filter: { condition: uiGridConstants.filter.CONTAINS }}
+			{ field: 'apellidos', minWidth: 110, filter: { condition: uiGridConstants.filter.CONTAINS }}
 			{ name: 'edicion', displayName:'Elimi', width: 54, enableSorting: false, enableFiltering: false, cellTemplate: bt2, enableCellEdit: false, enableColumnMenu: true}
 			{ field: 'sexo', displayName: 'Sex', width: 40 }
 			{ field: 'grupo_id', displayName: 'Matrícula', enableCellEdit: false, cellTemplate: btMatricular, minWidth: 180, enableFiltering: false }

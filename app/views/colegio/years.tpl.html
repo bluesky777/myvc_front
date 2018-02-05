@@ -49,6 +49,36 @@
                   </div>
                 </div>
                 <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label uib-tooltip="Permitir que los docentes te ayuden a modificar datos de alumnos y sus acudientes.">Docentes pueden editar alumnos</label>
+                      <label>
+                        <input type="checkbox" ng-change="toggleBloquearProfesEditAlumnos(year.id, year.profes_can_edit_alumnos)" ng-true-value="1" ng-false-value="0" ng-model="year.profes_can_edit_alumnos" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label uib-tooltip="Mostrar puesto comparativo en los boletines.">Mostrar puesto en boletín</label>
+                      <label>
+                        <input type="checkbox" ng-change="toggleMostrarPuestoEnBoletin(year.id, year.mostrar_puesto_boletin)" ng-true-value="1" ng-false-value="0" ng-model="year.mostrar_puesto_boletin" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label uib-tooltip="Si recupera materia no tendrá que nivelar notas.">Si recupera materia, ignorar notas perdidas</label>
+                      <label>
+                        <input type="checkbox" ng-change="toggleIgnorarNotasPerdidas(year.id, year.si_recupera_materia_recup_indicador)" ng-true-value="1" ng-false-value="0" ng-model="year.si_recupera_materia_recup_indicador" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
                   <div style="padding: 0px;" class="col-sm-12">
                     <div style="margin-bottom: 40px;" class="form-group">
                       <label class="col-sm-2 control-label no-padding-right">Rector(a)</label>

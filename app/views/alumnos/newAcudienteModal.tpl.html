@@ -50,8 +50,8 @@
         <div style="margin-bottom: 5px;" class="form-group col-lg-4 col-sm-12 col-xs-12">
           <label style="display: block">Sexo: {{ acudiente.sexo == 'M' ? 'Masculino' : 'Femenino' }}</label>
           <div class="btn-group">
-            <label style="padding: 1px" tooltip="Masculino" ng-model="acudiente.sexo" uib-btn-radio="'M'" class="btn btn-default"><img style="width: 60px" tooltip="Masculino" ng-src="images/perfil/default_male.png"></label>
-            <label style="padding: 1px" tooltip="Femenino" ng-model="acudiente.sexo" uib-btn-radio="'F'" class="btn btn-default"><img style="width: 60px" tooltip="Femenino" ng-src="images/perfil/default_female.png"></label>
+            <label style="padding: 1px" tooltip="Masculino" ng-model="acudiente.sexo" uib-btn-radio="'M'" class="btn btn-default"><img style="width: 60px" tooltip="Masculino" ng-src="{{perfilPath}}default_male.png"></label>
+            <label style="padding: 1px" tooltip="Femenino" ng-model="acudiente.sexo" uib-btn-radio="'F'" class="btn btn-default"><img style="width: 60px" tooltip="Femenino" ng-src="{{perfilPath}}default_female.png"></label>
           </div>
         </div>
         <div class="form-group col-lg-4 col-sm-6 col-xs-12">

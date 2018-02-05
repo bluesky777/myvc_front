@@ -16446,7 +16446,7 @@ input[type="number"]:focus {
 .texto-right{
   text-align: right;
 }
-.tb-observador-alum{
+.tb-observador-alum, .tb-observador-alum-notas{
   width: 100%;
 
   .tb-obsev-col-fecha{
@@ -16463,4 +16463,15 @@ input[type="number"]:focus {
   td, th{
     border: 1px solid #000;
   }
+
+}
+.tb-observador-alum-notas{
+  width:90%;
+  margin: 0 auto
+}
+.margin-top-5{
+  margin-top: 5px;
+}
+.margin-bottom-5{
+  margin-bottom: 5px;
 }

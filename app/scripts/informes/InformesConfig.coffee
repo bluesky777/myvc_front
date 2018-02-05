@@ -227,9 +227,9 @@ angular.module('myvcFrontApp')
 							$http.get('::observador/vertical')
 						]
 			data:
-				displayName: 'SIMAT'
+				displayName: 'Observador'
 				icon_fa: 'fa fa-print'
-				pageTitle: 'SIMAT - MyVc'
+				pageTitle: 'Observador - MyVc'
 
 
 

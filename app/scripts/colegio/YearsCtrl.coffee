@@ -105,11 +105,35 @@ angular.module('myvcFrontApp')
 
 
 		$scope.toggleBloquearNotas = (year_id, can)->
-
 			$http.put('::years/alumnos-can-see-notas', { can: can, year_id: year_id }).then((r)->
 				toastr.success r.data
 			, (r2)->
-				toastr.warning 'No se pudo bloquear o desblequear el sistema.', 'Problema'
+				toastr.warning 'No se pudo bloquear o desbloquear el sistema.', 'Problema'
+			)
+
+
+
+		$scope.toggleBloquearProfesEditAlumnos = (year_id, can)->
+			$http.put('::years/profes-can-edit-alumnos', { can: can, year_id: year_id }).then((r)->
+				toastr.success r.data
+			, (r2)->
+				toastr.warning 'No se pudo bloquear o desbloquear la edición.', 'Problema'
+			)
+
+
+		$scope.toggleMostrarPuestoEnBoletin = (year_id, can)->
+			$http.put('::years/toggle-mostrar-puestos-en-boletin', { can: can, year_id: year_id }).then((r)->
+				toastr.success r.data
+			, (r2)->
+				toastr.warning 'No se pudo bloquear o desbloquear la edición.', 'Problema'
+			)
+
+
+		$scope.toggleIgnorarNotasPerdidas = (year_id, can)->
+			$http.put('::years/toggle-ignorar-notas-perdidas', { can: can, year_id: year_id }).then((r)->
+				toastr.success r.data
+			, (r2)->
+				toastr.warning 'No se pudo bloquear o desbloquear la edición.', 'Problema'
 			)
 
 
