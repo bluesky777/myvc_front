@@ -22,7 +22,7 @@ angular.module("myvcFrontApp")
 	$scope.$on 'termineDeVotar', ()->
 		$scope.indexVotando++
 		$scope.$broadcast 'terminaVotacion', $scope.indexVotando
-	
+
 
 	return
 ])
@@ -38,12 +38,17 @@ angular.module("myvcFrontApp")
 
 	$scope.ok = ()->
 		datos = {}
-		datos.candidato_id = candidato.candidato_id
 		datos.votacion_id = votacion_id
+
+		if candidato.voto_blanco
+			datos.blanco_aspiracion_id 	= aspiracion.id
+			datos.voto_blanco 					= true
+		else
+			datos.candidato_id = candidato.candidato_id
 
 		$http.post('::votos/store', datos).then((r)->
 			r = r.data
-			if r.msg 
+			if r.msg
 				toastr.info r.msg
 			else
 				toastr.success 'Voto guardado con éxito'

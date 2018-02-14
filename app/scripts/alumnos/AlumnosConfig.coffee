@@ -21,7 +21,7 @@ angular.module('myvcFrontApp')
 					displayName: 'Nuevo'
 					icon_fa: 'fa fa-male'
 					pageTitle: 'Nuevo alumno - MyVc'
-					needed_permissions: [PERMISSIONS.can_work_like_teacher, PERMISSIONS.can_work_like_admin, PERMISSIONS.can_edit_alumnos]
+					needed_permissions: [PERMISSIONS.can_work_like_admin, PERMISSIONS.can_edit_alumnos]
 
 
 			.state 'panel.alumnos.editar',
@@ -41,7 +41,7 @@ angular.module('myvcFrontApp')
 					displayName: 'Editar'
 					icon_fa: 'fa fa-users'
 					pageTitle: 'Editar alumno - MyVc'
-					needed_permissions: [PERMISSIONS.can_work_like_teacher, PERMISSIONS.can_work_like_admin, PERMISSIONS.can_edit_alumnos]
+					needed_permissions: [PERMISSIONS.can_work_like_admin, PERMISSIONS.can_edit_alumnos]
 
 
 			.state 'panel.listalumnos',

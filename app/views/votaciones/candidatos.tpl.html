@@ -1,6 +1,6 @@
 
 <div style="padding: 5px; " class="row">
-  <div class="col-lg-6 col-sm-6 col-xs-12">
+  <div class="col-lg-6 col-md-8 col-sm-9 col-xs-12">
     <div class="widget">
       <div class="widget-header"><span class="widget-caption">Candidatos por aspiración</span><span ng-if="aspiraciones.length == 0">- No hay apiraciones creadas.</span></div>
       <div class="widget-body">
@@ -16,7 +16,7 @@
                   <div class="dd-handle">
                     <form ng-submit="crearCandidato(aspiracion)">
                       <label>Participante</label>
-                      <ui-select ng-model="aspiracion.newParticip" theme="select2" style="min-width: 300px;">
+                      <ui-select ng-model="aspiracion.newParticip" style="width: 100%;">
                         <ui-select-match placeholder="Seleccione aspirante" allow-clear="true">{{$select.selected.nombres}} - {{$select.selected.username}}</ui-select-match>
                         <ui-select-choices repeat="particip in allinscritos | filter: $select.search">
                           <div ng-bind-html="'&lt;small&gt;&lt;i&gt;'+particip.tipo +':&lt;/i&gt;&lt;/small&gt; '+particip.nombres +' '+ particip.apellidos | highlight: $select.search"></div>
@@ -34,7 +34,9 @@
                 </li>
                 <li data-id="2" ng-repeat="candidato in aspiracion.candidatos" class="dd-item dd2-item">
                   <div class="dd-handle dd2-handle"><i class="normal-icon fa fa-legal"></i><i class="drag-icon fa fa-arrows-alt"></i></div>
-                  <div class="dd2-content">{{candidato.nombres}} {{candidato.apellidos}} [{{candidato.plancha +' - '+candidato.numero}}] ({{candidato.tipo}}) <a href="" ng-click="eliminarCandidato(candidato.candidato_id, aspiracion)" data-toggle="dispose"><i class="fa fa-times"></i></a></div>
+                  <div style="padding-bottom: 0px; background-color: #aceefe;" class="dd2-content">
+                    <button ng-click="eliminarCandidato(candidato.candidato_id, aspiracion)" ng-hide="candidato.voto_blanco" uib-tooltip="Quitar candidato" style="margin-top: -8px;" class="btn btn-default"><i class="fa fa-times"></i></button><img ng-src="{{perfilPath + candidato.foto_nombre}}" style="width: 38px; margin-top: -8px;">{{candidato.nombres}} {{candidato.apellidos}} [{{candidato.plancha +' - '+candidato.numero}}]<span ng-show="candidato.tipo == 'Al'">(Alumno)</span><span ng-show="candidato.tipo == 'Pr'">(Docente)</span><span ng-show="candidato.tipo == 'Acu'">(Acudiente)</span><span ng-show="candidato.tipo == 'Usu'">(Usuario)</span>
+                  </div>
                 </li>
               </ol>
             </li>

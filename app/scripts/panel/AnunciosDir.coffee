@@ -79,10 +79,14 @@ angular.module('myvcFrontApp')
 			toastr.success 'Pedido aceptado.'
 			asked.finalizado = r.finalizado
 
-			if tipo == 'img_perfil' 	then asked.detalles.image_id_accepted = false
-			if tipo == 'img_delete' 	then asked.detalles.image_to_delete_accepted = false
+			if tipo == 'img_perfil' 	then asked.detalles.image_id_accepted = true
+			if tipo == 'img_delete' 	then asked.detalles.image_to_delete_accepted = true
+			if tipo == 'nombres' 	    then asked.detalles.nombres_accepted = true
+			if tipo == 'apellidos' 	  then asked.detalles.apellidos_accepted = true
+			if tipo == 'sexo' 	      then asked.detalles.sexo_accepted = true
+			if tipo == 'fecha_nac' 	  then asked.detalles.fecha_nac_accepted = true
 			if tipo == 'foto_oficial'
-				asked.detalles.foto_id_accepted = false
+				asked.detalles.foto_id_accepted = true
 				asked.foto_nombre 				= asked.detalles.foto_new_nombre
 
 			if tipo == 'asignatura' then asked.finalizado = true
@@ -112,17 +116,8 @@ angular.module('myvcFrontApp')
 	$scope.imagesPath = App.images + 'perfil/'
 	$scope.asked = asked
 
-	$scope.ok = ()->
-		if asked.detalles
-			datos = { asked_id: asked.asked_id, data_id: asked.detalles.data_id, tipo: tipo, valor_nuevo: valor_nuevo, asker_id: asked.asked_by_user_id }
 
-			$http.put('::ChangesAsked/aceptar-alumno', datos).then((r)->
-				$modalInstance.close(r.data)
-			, (r2)->
-				toastr.warning 'Problema', 'No se pudo aceptar petición.'
-			)
-
-		else
+	$scope.aceptarAsignatura = ()->
 			datos = { pedido: asked, tipo: tipo, asker_id: asked.asked_by_user_id }
 
 			$http.put('::ChangesAsked/aceptar-asignatura', datos).then((r)->
@@ -130,6 +125,23 @@ angular.module('myvcFrontApp')
 			, (r2)->
 				toastr.warning 'Problema', 'No se pudo aceptar petición.'
 			)
+
+
+	$scope.ok = ()->
+		if asked.assignment_id
+			$scope.aceptarAsignatura()
+		else
+			datos = { asked_id: asked.asked_id, data_id: asked.detalles.data_id, tipo: tipo, valor_nuevo: valor_nuevo, asker_id: asked.asked_by_user_id }
+
+			if asked.alumno_id
+				datos.alumno_id = asked.alumno_id
+
+			$http.put('::ChangesAsked/aceptar-alumno', datos).then((r)->
+				$modalInstance.close(r.data)
+			, (r2)->
+				toastr.warning 'Problema', 'No se pudo aceptar petición.'
+			)
+
 
 
 	$scope.cancel = ()->

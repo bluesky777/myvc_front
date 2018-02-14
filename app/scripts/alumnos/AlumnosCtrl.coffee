@@ -20,20 +20,12 @@ angular.module("myvcFrontApp")
 	$scope.gridOptions 			        = {}
 	$scope.gridOptionsSinMatricula 		= {}
 	$scope.paises 						= []
-	$scope.religiones					= ['Adventista', 'Católico', 'Pentecostal', 'Cuadrangular', 'Testigo de Jehová', 'Mormón', 'Otra', 'Ninguna']
-	$scope.tipos_sangre 				= ['AB+', 'AB-', 'A+', 'A-', 'B+', 'B-', 'O+', 'O-']
+	$scope.religiones					= App.religiones
+	$scope.tipos_sangre 				= App.tipos_sangre
 	$scope.mostrar_pasado     = false
 	$scope.mostrar_retirados  = false
 
-	$scope.parentescos 			= [
-		{ parentesco: 	'Padre' }
-		{ parentesco: 	'Madre' }
-		{ parentesco: 	'Hermano(a)' }
-		{ parentesco: 	'Abuelo(a)' }
-		{ parentesco: 	'Tío(a)' }
-		{ parentesco: 	'Primo(a)' }
-		{ parentesco: 	'Responsable' }
-	]
+	$scope.parentescos 			= App.parentescos
 
 
 
@@ -375,7 +367,7 @@ angular.module("myvcFrontApp")
 			{ field: 'pazysalvo', displayName: 'A paz?', cellTemplate: btPazysalvo, minWidth: 60, enableCellEdit: false }
 			{ field: 'religion', displayName: 'Religión', minWidth: 70, editableCellTemplate: btEditReligion }
 			{ field: 'tipo_doc', displayName: 'Tipo documento', minWidth: 120, cellTemplate: btTipoDoc, enableCellEdit: false }
-			{ field: 'documento', minWidth: 80 }
+			{ field: 'documento', minWidth: 100, cellFilter: 'formatNumberDocumento' }
 			{ field: 'ciudad_doc', displayName: 'Ciud Docu', minWidth: 120, cellTemplate: btCiudadDoc, enableCellEdit: false }
 			{ field: 'tipo_sangre', displayName: 'RH', minWidth: 70 }
 			{ field: 'estrato', minWidth: 70, type: 'number' }
@@ -457,6 +449,12 @@ angular.module("myvcFrontApp")
 							return
 
 
+					if colDef.field == "documento"
+						if newValue.length != 10 and newValue.length != 0
+							toastr.warning 'Debe ser de diez dígitos'
+							#rowEntity.documento = oldValue
+							return
+
 					$http.put('::alumnos/guardar-valor', {alumno_id: rowEntity.alumno_id, propiedad: colDef.field, valor: newValue } ).then((r)->
 						toastr.success 'Alumno(a) actualizado con éxito'
 					, (r2)->
@@ -530,7 +528,7 @@ angular.module("myvcFrontApp")
 		$http.put('::' + person + '/guardar-valor', datos ).then((r)->
 			toastr.success 'Alumno(a) actualizado con éxito', 'Actualizado'
 		, (r2)->
-			rowEntity[colDef.field] = oldValue
+			row.tipo_doc = oldValue
 			toastr.error 'Cambio no guardado', 'Error'
 		)
 

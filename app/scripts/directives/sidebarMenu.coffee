@@ -1,11 +1,11 @@
 angular.module('myvcFrontApp')
 
-.directive('sidebarMenu',['$rootScope', 'AuthService', '$http', '$uibModal', 'Perfil', 'ProfesoresServ', '$window', ($rootScope, AuthService, $http, $modal, Perfil, ProfesoresServ, $window)-> 
+.directive('sidebarMenu',['$rootScope', 'AuthService', '$http', '$uibModal', 'Perfil', 'ProfesoresServ', '$window', ($rootScope, AuthService, $http, $modal, Perfil, ProfesoresServ, $window)->
 
 	restrict: 'E'
 	replace: true
 	templateUrl: "==directives/sidebarMenu.tpl.html"
-	scope: 
+	scope:
 		cargando: "="
 
 	link: (scope, iElem, iAttrs)->
@@ -24,7 +24,8 @@ angular.module('myvcFrontApp')
 		)
 
 
-	controller: ($scope, $attrs, $state)->
+	controller: ($scope, $attrs, $state, App)->
+		$scope.perfilPath = App.images+'perfil/'
 		# This array keeps track of the accordion groups
 		this.groups = []
 		$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
@@ -67,7 +68,7 @@ angular.module('myvcFrontApp')
 
 		# Ensure that all the groups in this menu are closed
 		this.closeOthers = (openGroup) ->
-			angular.forEach this.groups, (group) -> 
+			angular.forEach this.groups, (group) ->
 				if ( group.menuIsOpen == true )
 					group.menuIsOpen = false
 
@@ -91,7 +92,7 @@ angular.module('myvcFrontApp')
 
 ])
 
-.directive('subMenu',[ ()-> 
+.directive('subMenu',[ ()->
 	require: '^sidebarMenu'
 	restrict: 'A'
 	replace: true
@@ -165,17 +166,17 @@ angular.module('myvcFrontApp')
 .directive 'toggle', ()->
 	toggleClass = 'selected'
 	groups = {}
-	
+
 	addElement = (groupName, elem)->
 		groups[groupName] = groups[groupName] || []
 		if (groups[groupName].indexOf(elem) == -1)
 			groups[groupName].push(elem)
-	
+
 	removeElement = (groupName, elem)->
 		idx = (groups[groupName] or []).indexOf(elem)
 		if (idx != -1)
 			groups[groupName].splice(idx, 1)
-	
+
 	setActive=(groupName, elem)->
 		angular.forEach groups[groupName] or [], (el)->
 			el.removeClass(toggleClass)
@@ -196,7 +197,7 @@ angular.module('myvcFrontApp')
 
 
 .controller('ListasignaturasPopCtrl', ['$scope', '$uibModalInstance', '$http', 'toastr', '$state', ($scope, $modalInstance, $http, toastr, $state)->
-	
+
 	$scope.selectAsignatura = (asig_id)->
 		$state.go 'panel.notas', {asignatura_id: asig_id}
 		$modalInstance.close(asig_id)

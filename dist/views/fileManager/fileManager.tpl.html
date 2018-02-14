@@ -5,7 +5,7 @@
       <div ngf-drop="uploadFiles($files)" ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-pattern="'image/*'" class="drop-box drop-box">
         <div class="form-title">Subir imagen</div>
         <div class="row">
-          <div class="col-lg-2 col-xs-12"><span uib-tooltip="NO subas imágenes intactas a menos que sean Logos o firmas." ng-if="hasRoleOrPerm(['profesor', 'admin'])">
+          <div class="col-lg-2 col-xs-12"><span uib-tooltip="NO subas imágenes intactas a menos que sean Logos o firmas. (Públicas por defecto)" ng-if="hasRoleOrPerm(['profesor', 'admin'])">
               <label>Intactas</label>
               <label>
                 <input type="checkbox" ng-model="subir_intacta.intacta" class="checkbox-slider slider-icon colored-blue ocultar-input"><span class="text si-no"></span>
@@ -50,7 +50,7 @@
                 <label>  Establecer cómo:</label>
                 <button ng-click="pedirCambioUsuario(dato.imgUsuario)" style="width:120px" class="btn btn-default shiny"><img ng-src="{{ imagenPrincipal }}" style="height: 40px">  Perfil</button><span ng-if="!hasRoleOrPerm('admin')">
                   <button ng-click="pedirCambioOficial(dato.imgUsuario)" class="btn btn-default shiny"><img ng-src="{{ imagenOficial }}" style="height: 40px">  Foto oficial</button></span>
-                <button ng-click="pedirCambioFirma(dato.imgUsuario)" ng-if="hasRoleOrPerm('profesor')" class="btn btn-default shiny"><img ng-src="{{ perfilPath + logo.logo }}" style="height: 40px">  Firma</button>
+                <button ng-click="pedirCambioFirma(dato.imgUsuario)" ng-if="hasRoleOrPerm('profesor')" class="btn btn-default shiny"><img ng-show="USER.firma_id" ng-src="{{ perfilPath + USER.firma_nombre }}" style="height: 40px">  Firma</button>
                 <button ng-click="cambiarLogoColegio(dato.imgUsuario)" ng-if="hasRoleOrPerm('admin')" class="btn btn-default shiny"><img ng-src="{{ perfilPath + logo.logo }}" style="height: 40px">  Logo institución</button>
               </div>
             </div>

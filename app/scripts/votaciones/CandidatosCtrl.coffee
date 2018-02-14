@@ -2,10 +2,10 @@
 
 angular.module("myvcFrontApp")
 
-.controller('CandidatosCtrl', ['$scope', '$filter', '$http', 'toastr', ($scope, $filter, $http, toastr)->
+.controller('CandidatosCtrl', ['$scope', '$filter', '$http', 'toastr', 'App', ($scope, $filter, $http, toastr, App)->
 
 
-
+	$scope.perfilPath 	= App.images+'perfil/'
 	$scope.aspiraciones = []
 	$scope.allinscritos = []
 
@@ -23,23 +23,15 @@ angular.module("myvcFrontApp")
 
 	$scope.crearCandidato = (aspiracion)->
 		datos = {}
-		datos.participante_id = aspiracion.newParticip.participante_id
+		datos.user_id = aspiracion.newParticip.user_id
 		datos.plancha = aspiracion.newParticip.plancha
 		datos.numero = aspiracion.newParticip.numero
 		datos.aspiracion_id = aspiracion.id
 
 
-		$http.post('::candidatos/store/candidato', datos).then((r)->
+		$http.post('::candidatos/store', datos).then((r)->
 			r = r.data
-
-			r.persona_id	= aspiracion.newParticip.persona_id
-			r.nombres		= aspiracion.newParticip.nombres
-			r.apellidos		= aspiracion.newParticip.apellidos
-			r.user_id		= aspiracion.newParticip.user_id
-			r.username		= aspiracion.newParticip.username
-			r.tipo			= aspiracion.newParticip.tipo
-
-			aspiracion.candidatos.push r
+			aspiracion.candidatos = r
 			aspiracion.newParticip = null
 
 			toastr.success 'Candidato creado con éxito'

@@ -182,7 +182,15 @@ angular.module('myvcFrontApp')
 
 	$scope.verObservadorVertical = ()->
 		#DownloadServ.download('::simat/alumnos', 'Grupos alumnos.xls')
-		$state.go 'panel.informes.ver_observador_vertical', {reload: true}
+		if !$scope.datos.grupo.id
+			toastr.warning 'Debes seleccionar el grupo'
+			return
+
+		$state.go 'panel.informes.ver_observador_vertical', {grupo_id: $scope.datos.grupo.id}, {reload: true}
+
+
+	$scope.verObservadorVerticalTodos = ()->
+		$state.go 'panel.informes.ver_observador_vertical_todos', {reload: true}
 
 
 	$scope.verPlanillasControlTardanzas = ()->

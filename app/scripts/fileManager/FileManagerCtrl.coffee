@@ -132,41 +132,52 @@ angular.module("myvcFrontApp")
 	############### 	PEDIDOS PERSONALES 		###############
 	###########################################################
 	$scope.pedirCambioUsuario = (imgUsu)->
-		$http.put('::images-users/cambiar-imagen-perfil/'+$scope.USER.user_id, {imagen_id: imgUsu.id}).then((r)->
-			r = r.data
-			if $scope.hasRoleOrPerm('admin')
-				Perfil.setImagen(r.imagen_id, imgUsu.nombre)
-				$scope.$emit 'cambianImgs', {image: r}
-				toastr.success 'Imagen principal cambiada'
-			else
-				toastr.info 'Ahora espera que un administrador acepte tu imagen', 'Solicitado'
+		if imgUsu.id
+			$http.put('::images-users/cambiar-imagen-perfil/'+$scope.USER.user_id, {imagen_id: imgUsu.id}).then((r)->
+				r = r.data
+				if $scope.hasRoleOrPerm('admin')
+					Perfil.setImagen(r.imagen_id, imgUsu.nombre)
+					$scope.$emit 'cambianImgs', {image: r}
+					toastr.success 'Imagen principal cambiada'
+				else
+					toastr.info 'Ahora espera que un administrador acepte tu imagen', 'Solicitado'
 
-		, (r2)->
-			toastr.error 'No se pudo cambiar imagen', 'Problema'
-		)
+			, (r2)->
+				toastr.error 'No se pudo cambiar imagen', 'Problema'
+			)
+		else
+			toastr.warning 'Selecciona una imagen'
 
 	$scope.pedirCambioOficial = (imgOfi)->
-		$http.put('::images-users/cambiar-imagen-oficial/'+$scope.USER.user_id, {foto_id: imgOfi.id}).then((r)->
-			r = r.data
-			if $scope.hasRoleOrPerm('admin')
-				Perfil.setOficial(r.foto_id, imgOfi.nombre)
-				$scope.$emit 'cambianImgs', {foto: r}
-				toastr.success 'Foto oficial cambiada'
-			else
-				toastr.info 'Ahora espera que un administrador acepte tu imagen', 'Solicitado'
+		if imgOfi.id
+			$http.put('::images-users/cambiar-imagen-oficial/'+$scope.USER.user_id, {foto_id: imgOfi.id}).then((r)->
+				r = r.data
+				if $scope.hasRoleOrPerm('admin')
+					Perfil.setOficial(r.foto_id, imgOfi.nombre)
+					$scope.$emit 'cambianImgs', {foto: r}
+					toastr.success 'Foto oficial cambiada'
+				else
+					toastr.info 'Ahora espera que un administrador acepte tu imagen', 'Solicitado'
 
-		, (r2)->
-			toastr.error 'No se pudo cambiar foto', 'Problema'
-		)
+			, (r2)->
+				toastr.error 'No se pudo cambiar foto', 'Problema'
+			)
+		else
+			toastr.warning 'Selecciona una imagen'
 
-	$scope.pedirCambioFirma = (profeElegido, imgFirmaProfe)->
+	$scope.pedirCambioFirma = (imgFirmaProfe)->
+		if imgFirmaProfe.id
+			aEnviar = { imgFirmaProfe: imgFirmaProfe.id }
+			$http.put('::perfiles/cambiarfirmaunprofe/'+$scope.USER.persona_id, aEnviar).then((r)->
+				toastr.success 'Firma cambiada con éxito'
+				$scope.USER.firma_id      = r.data.id
+				$scope.USER.firma_nombre  = r.data.nombre
 
-		aEnviar = { imgFirmaProfe: imgFirmaProfe.id }
-		$http.put('::perfiles/cambiarfirmaunprofe/'+profeElegido.persona_id, aEnviar).then((r)->
-			toastr.success 'Firma asignada con éxito'
-		, (r2)->
-			toastr.error 'Error al asignar foto al profesor', 'Problema'
-		)
+			, (r2)->
+				toastr.error 'Error al asignar foto al profesor', 'Problema'
+			)
+		else
+			toastr.warning 'Selecciona una imagen'
 
 	$scope.cambiarLogoColegio = (imgLogo)->
 		$http.put('::myimages/cambiarlogocolegio', {logo_id: imgLogo.id}).then((r)->
@@ -264,7 +275,14 @@ angular.module("myvcFrontApp")
 					$scope.imagenes_privadas = $filter('filter')($scope.imagenes_privadas, {id: '!'+imag.id})
 				toastr.success 'La imagen ha sido removida.'
 			else
-				toastr.info 'Un administrador borrará la imagen ya que no fuiste tú quien la subió', 'Solicitado'
+				if imag.user_id == $scope.USER.user_id
+					toastr.success 'La imagen ha sido removida.'
+					if imag.publica
+						$scope.imagenes_publicas = $filter('filter')($scope.imagenes_publicas, {id: '!'+imag.id})
+					else
+						$scope.imagenes_privadas = $filter('filter')($scope.imagenes_privadas, {id: '!'+imag.id})
+				else
+					toastr.info 'Un administrador borrará la imagen ya que no fuiste tú quien la subió', 'Solicitado'
 		)
 
 

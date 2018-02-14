@@ -5,8 +5,7 @@
     <div class="searchhelper">Aún no puedes buscar en el sitio.</div>
   </div><!-- /Page Sidebar Header -->
   <ul class="nav sidebar-menu hidden-print"><!--Dashboard-->
-    <li ui-sref-active-eq="active"><a ui-sref="panel"><i class="menu-icon fa fa-home"></i><span class="menu-text">Inicio</span></a></li><!-- Alumnos para quienes son profes-->
-    <li ui-sref-active="active" ng-if="hasRoleOrPerm(['profesor']) &amp;&amp; $parent.USER.profes_can_edit_alumnos"><a ui-sref="panel.alumnos"><i class="menu-icon fa fa-child"></i><span class="menu-text">Alumnos</span></a></li><!--Alumnos-->
+    <li ui-sref-active-eq="active"><a ui-sref="panel"><i class="menu-icon fa fa-home"></i><span class="menu-text">Inicio</span></a></li><!--Alumnos-->
     <li sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm('admin')" ng-class="{open:$state.includes('panel.alumnos')||$state.includes('panel.matriculas')||$state.includes('panel.cartera') || $state.includes('panel.acudientes')}"><a href="" class="menu-dropdown"><i class="menu-icon fa fa-child"></i><span class="menu-text">Alumnos</span><i class="menu-expand"></i></a>
       <ul class="submenu">
         <li ui-sref-active="active"><a ui-sref="panel.alumnos" stop-event="click"><span class="menu-text">Todos</span></a></li>
@@ -63,7 +62,7 @@
       </ul>
     </li><!-- Notas visto por el admin-->
     <li sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm(['admin'])" ng-class="{open:$state.includes('panel.listasignaturas')||$state.includes('panel.unidades')||$state.includes('panel.notas')||$state.includes('panel.notas_alumno') || $state.includes('panel.notas_perdidas_profesor_edit')}"><a href="" class="menu-dropdown"><i class="menu-icon fa fa-apple"></i><span class="menu-text">Notas</span><i class="menu-expand"></i></a>
-      <ul class="submenu">
+      <ul class="submenu sin_puntos">
         <li ui-sref-active="active"><a ui-sref="panel.notas_alumno" stop-event="click"><span class="menu-text blue">De un alumno</span></a></li>
         <li ui-sref-active="active"><a ui-sref="panel.notas_perdidas_profesor_edit" stop-event="click"><span class="menu-text">Perdidas</span></a></li>
         <!--li(ui-sref-active="active")
@@ -72,8 +71,7 @@
         	i.menu-icon.fa.fa-soccer-ball-o
         -->
         <li ui-sref-active="active"><a ui-sref="panel.copiar" stop-event="click"><span class="menu-text">Copiar</span><i class="menu-icon fa fa-copy"></i></a></li>
-        <li ui-sref-active="active" ng-repeat="profe in profesores"><a ui-sref="panel.listasignaturas({profesor_id: profe.profesor_id})" stop-event="click" uib-tooltip="{{profe.nombres}} {{profe.apellidos}}" tooltip-popup-delay="1500" tooltip-placement="right">
-            <div class="menu-text nombresellipsis">{{profe.nombres}} {{profe.apellidos}}</div></a></li>
+        <li ui-sref-active="active" ng-repeat="profe in profesores"><a ui-sref="panel.listasignaturas({profesor_id: profe.profesor_id})" stop-event="click" uib-tooltip="{{profe.nombres}} {{profe.apellidos}}" tooltip-popup-delay="200" tooltip-placement="right"><img ng-src="{{perfilPath + profe.foto_nombre}}"><span class="menu-text nombresellipsis">{{profe.nombres}} {{profe.apellidos}}</span></a></li>
         <li ng-if="profesores.length==0"><a ui-sref="panel.profesores" stop-event="click" uib-tooltip="Profesores no contratados" tooltip-popup-delay="1500" tooltip-placement="right">
             <div class="menu-text nombresellipsis">No hay Profes contratados</div></a></li>
       </ul>

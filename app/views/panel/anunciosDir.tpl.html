@@ -14,7 +14,7 @@
               </li>
               <li ng-repeat="change_asked in changes_asked.alumnos " ng-if="!change_asked.finalizado" class="ticket-item">
                 <div class="row">
-                  <div ng-click="verDetalles(change_asked)" class="ticket-user ticket-solicitud"><img ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}" class="user-avatar"><span class="user-name">{{change_asked.nombres + ' ' + change_asked.apellidos }}</span><span class="user-company"> de<b>{{change_asked.grupo_nombre}}</b> ha solicitado unos cambios</span></div>
+                  <div ng-click="verDetalles(change_asked)" class="ticket-user ticket-solicitud"><img ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}" class="user-avatar"><span class="user-name">{{change_asked.nombres + ' ' + change_asked.apellidos }}</span><span class="user-company"> de<b style="padding-left: 4px">{{change_asked.grupo_nombre}}</b> ha solicitado unos cambios</span></div>
                 </div>
                 <div ng-show="change_asked.mostrando" class="row">
                   <div style="padding: 10px; white-space: nowrap; text-overflow: ellipsis; overflow-x: auto;">
@@ -46,6 +46,38 @@
                           <button ng-click="aprobarCambio(change_asked, 'img_delete', change_asked.detalles.image_to_delete_id)" uib-tooltip="Aprobar cambio" class="button-aprobar bg-palegreen"><i style="color: #fff;" class="fa fa-check"></i></button>
                         </td>
                       </tr>
+                      <tr ng-if="change_asked.detalles.nombres_new &amp;&amp; change_asked.detalles.nombres_accepted==null">
+                        <td><span style="display: inline-block; width: 170px">Nombre actual:<b>{{change_asked.nombres}}</b></span></td>
+                        <td>Nuevo:<b>{{change_asked.detalles.nombres_new}}</b></td>
+                        <td>
+                          <button ng-click="rechazarCambio(change_asked, 'nombres')" uib-tooltip="Rechazar cambio" class="button-aprobar bg-red"><i style="color: #fff;" class="fa fa-times"></i></button>
+                          <button ng-click="aprobarCambio(change_asked, 'nombres', change_asked.detalles.nombres_new)" uib-tooltip="Aprobar cambio" class="button-aprobar bg-palegreen"><i style="color: #fff;" class="fa fa-check"></i></button>
+                        </td>
+                      </tr>
+                      <tr ng-if="change_asked.detalles.apellidos_new &amp;&amp; change_asked.detalles.apellidos_accepted==null">
+                        <td><span style="display: inline-block; width: 170px">Apellido actual:<b>{{change_asked.apellidos}}</b></span></td>
+                        <td>Nuevo:<b>{{change_asked.detalles.apellidos_new}}</b></td>
+                        <td>
+                          <button ng-click="rechazarCambio(change_asked, 'apellidos')" uib-tooltip="Rechazar cambio" class="button-aprobar bg-red"><i style="color: #fff;" class="fa fa-times"></i></button>
+                          <button ng-click="aprobarCambio(change_asked, 'apellidos', change_asked.detalles.apellidos_new)" uib-tooltip="Aprobar cambio" class="button-aprobar bg-palegreen"><i style="color: #fff;" class="fa fa-check"></i></button>
+                        </td>
+                      </tr>
+                      <tr ng-if="change_asked.detalles.sexo_new &amp;&amp; change_asked.detalles.sexo_accepted==null">
+                        <td><span style="display: inline-block; width: 170px">Sexo actual:<b>{{change_asked.sexo}}</b></span></td>
+                        <td>Nuevo:<b>{{change_asked.detalles.sexo_new}}</b></td>
+                        <td>
+                          <button ng-click="rechazarCambio(change_asked, 'sexo')" uib-tooltip="Rechazar cambio" class="button-aprobar bg-red"><i style="color: #fff;" class="fa fa-times"></i></button>
+                          <button ng-click="aprobarCambio(change_asked, 'sexo', change_asked.detalles.sexo_new)" uib-tooltip="Aprobar cambio" class="button-aprobar bg-palegreen"><i style="color: #fff;" class="fa fa-check"></i></button>
+                        </td>
+                      </tr>
+                      <tr ng-if="change_asked.detalles.fecha_nac_new &amp;&amp; change_asked.detalles.fecha_nac_accepted==null">
+                        <td><span style="display: inline-block; width: 170px">Fecha nacimiento actual:<b>{{change_asked.fecha_nac}}</b></span></td>
+                        <td>Nuevo:<b>{{change_asked.detalles.fecha_nac_new}}</b></td>
+                        <td>
+                          <button ng-click="rechazarCambio(change_asked, 'fecha_nac')" uib-tooltip="Rechazar cambio" class="button-aprobar bg-red"><i style="color: #fff;" class="fa fa-times"></i></button>
+                          <button ng-click="aprobarCambio(change_asked, 'fecha_nac', change_asked.detalles.fecha_nac_new)" uib-tooltip="Aprobar cambio" class="button-aprobar bg-palegreen"><i style="color: #fff;" class="fa fa-check"></i></button>
+                        </td>
+                      </tr>
                     </table>
                   </div>
                   <button uib-tooltip="Eliminar por completo estas peticiones" style="float:right; margin: 10px" ng-click="eliminarSolicitudes(change_asked)" class="btn btn-danger">Ignorar solicitudes</button>
@@ -59,9 +91,42 @@
               </li>
               <li ng-repeat="change_asked in changes_asked.profesores " ng-if="!change_asked.finalizado" class="ticket-item">
                 <div class="row">
-                  <div class="ticket-user"><span><img ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}" class="user-avatar"><span uib-tooltip="{{change_asked.profesor_nombres + ' ' + change_asked.profesor_apellidos }}" class="user-name">{{change_asked.profesor_nombres }}</span><span ng-show="change_asked.materia_to_add_id" class="user-company"> ha pedido<b style="padding: 0 4px">{{ change_asked.nombre_materia_to_add }}</b>para<b style="padding: 0 4px">{{ change_asked.nombre_grupo_add }},</b>Cred: {{change_asked.creditos_new}}</span><span ng-show="change_asked.asignatura_to_remove_id" class="user-company"> Solicitó quitar<b style="padding: 0 4px">{{ change_asked.nombre_materia_to_remove }}</b>del grupo<b style="padding: 0 4px">{{ change_asked.nombre_grupo_remove }}</b></span></span><span style="margin-top: -5px; float: right;">
+                  <div class="ticket-user"><span><img ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}" class="user-avatar"><span uib-tooltip="{{change_asked.profesor_nombres + ' ' + change_asked.profesor_apellidos }}" class="user-name">{{change_asked.profesor_nombres }}</span><span ng-show="change_asked.materia_to_add_id" class="user-company"> ha pedido<b style="padding: 0 4px">{{ change_asked.nombre_materia_to_add }}</b>para<b style="padding: 0 4px">{{ change_asked.nombre_grupo_add }},</b>Cred: {{change_asked.creditos_new}}</span><span ng-show="change_asked.asignatura_to_remove_id" class="user-company"> Solicitó quitar<b style="padding: 0 4px">{{ change_asked.nombre_materia_to_remove }}</b>del grupo<b style="padding: 0 4px">{{ change_asked.nombre_grupo_remove }}</b></span><span ng-show="change_asked.detalles.image_new_nombre || change_asked.detalles.foto_new_nombre" class="user-company"> ha pedido cambios de imagen:</span></span><span style="margin-top: -5px; position: absolute; right: 0;" ng-show="change_asked.materia_to_add_id || change_asked.asignatura_to_remove_id">
                       <button ng-click="rechazarCambio(change_asked, 'asignatura')" uib-tooltip="Rechazar cambio" class="button-aprobar bg-red"><i style="color: #fff;" class="fa fa-times"></i></button>
                       <button ng-click="aprobarCambio(change_asked, 'asignatura')" uib-tooltip="Aprobar cambio" class="button-aprobar bg-palegreen"><i style="color: #fff;" class="fa fa-check"></i></button></span></div>
+                </div>
+                <div ng-show="change_asked.detalles.image_new_nombre || change_asked.detalles.foto_new_nombre || change_asked.detalles.image_to_delete_id " class="row">
+                  <div style="padding: 10px; white-space: nowrap; text-overflow: ellipsis; overflow-x: auto;">
+                    <table class="table">
+                      <tr ng-if="change_asked.detalles.image_new_nombre &amp;&amp; change_asked.detalles.image_id_accepted==null">
+                        <td><span style="display: inline-block; width: 170px">Imagen perfil actual:</span><img ng-src="{{perfilPath + change_asked.imagen_nombre }}" alt="{{ change_asked.imagen_nombre }}" style="width: 50px" class="user-avatar"></td>
+                        <td>Nueva:<img ng-src="{{perfilPath + change_asked.detalles.image_new_nombre }}" alt="{{ change_asked.detalles.image_new_nombre }}" style="width: 50px" class="user-avatar"></td>
+                        <td>
+                          <button ng-click="rechazarCambio(change_asked, 'img_perfil')" uib-tooltip="Rechazar cambio" class="button-aprobar bg-red"><i style="color: #fff;" class="fa fa-times"></i></button>
+                          <button ng-click="aprobarCambio(change_asked, 'img_perfil', change_asked.detalles.image_id_new)" uib-tooltip="Aprobar cambio" class="button-aprobar bg-palegreen"><i style="color: #fff;" class="fa fa-check"></i></button>
+                        </td>
+                      </tr>
+                      <tr ng-if="change_asked.detalles.foto_new_nombre &amp;&amp; change_asked.detalles.foto_id_accepted==null">
+                        <td><span style="display: inline-block; width: 170px">Foto oficial actual:</span><img ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}" style="width: 50px" class="user-avatar"></td>
+                        <td>Nueva:<img ng-src="{{perfilPath + change_asked.detalles.foto_new_nombre }}" alt="{{ change_asked.detalles.foto_new_nombre }}" style="width: 50px" class="user-avatar"></td>
+                        <td>
+                          <button ng-click="rechazarCambio(change_asked, 'foto_oficial')" uib-tooltip="Rechazar cambio" class="button-aprobar bg-red"><i style="color: #fff;" class="fa fa-times"></i></button>
+                          <button ng-click="aprobarCambio(change_asked, 'foto_oficial', change_asked.detalles.foto_id_new)" uib-tooltip="Aprobar cambio" class="button-aprobar bg-palegreen"><i style="color: #fff;" class="fa fa-check"></i></button>
+                        </td>
+                      </tr>
+                      <tr ng-if="change_asked.detalles.image_to_delete_id &amp;&amp; change_asked.detalles.image_to_delete_accepted==null">
+                        <td>
+                          <div>Desea eliminar esta imagen,</div>
+                          <div> la cual fue subida por un administrador:</div>
+                        </td>
+                        <td><img ng-src="{{perfilPath + change_asked.detalles.image_to_delete_nombre }}" alt="{{ change_asked.detalles.image_to_delete_nombre }}" style="width: 50px" class="user-avatar"></td>
+                        <td>
+                          <button ng-click="rechazarCambio(change_asked, 'img_delete')" uib-tooltip="Rechazar cambio" class="button-aprobar bg-red"><i style="color: #fff;" class="fa fa-times"></i></button>
+                          <button ng-click="aprobarCambio(change_asked, 'img_delete', change_asked.detalles.image_to_delete_id)" uib-tooltip="Aprobar cambio" class="button-aprobar bg-palegreen"><i style="color: #fff;" class="fa fa-check"></i></button>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
                 </div>
               </li>
             </ul>

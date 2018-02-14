@@ -74,6 +74,12 @@
 			a.btn.btn-primary(ng-click="creando=true") Crear nueva
 			.horizontal-space
 
+			a.btn.btn-default(ng-click="mostrarTodas()")
+				i.fa.fa-refresh
+				| Mostrar todas
+
+			.horizontal-space
+
 			.row
 				.col-md-6
 					ui-select(ng-model="currentasignatura.grupo" style="width: 100%;" on-select="seleccionaGrupo($item, $model)")

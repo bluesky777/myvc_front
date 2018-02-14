@@ -1,0 +1,58 @@
+.page-body
+	.row.page-vertical(ng-repeat="votacion in votaciones" ng-class="{'salto-pagina': $last==false }")
+		.col-xs-12
+			.row
+				.col-xs-2
+					img.img-responsive.logo-colegio(ng-src="{{perfilPath}}{{::year.logo}}" style="width: 70px; position: absolute; z-index: 999;")
+				.col-xs-8(style="text-align: center;")
+					h5.row-title(style="font-size: 20pt;")
+						i.fa.fa-bar-chart.darkorange(style="font-size: 20pt;")
+						b   {{votacion.nombre}}
+
+
+			.row(ng-repeat="aspiracion in votacion.aspiraciones")
+				.col-md-12.col-sm-12.col-xs-12(style="padding-left: 0px; margin-top: -3px;")
+					.well.with-header(style="text-align: center; padding-bottom: 2px; margin-bottom: 0px; padding-top: 30px")
+						.header.bordered-purple(style="text-align: center; line-height: 1; font-weight: bold; padding-top: 0px; padding-bottom: 0px; font-style: italic; font-size: 14pt;") {{aspiracion.aspiracion}}
+
+						.row
+							.col-xs-2(ng-repeat="candidato in aspiracion.candidatos | orderBy:'plancha'" style="padding-right: 0px; padding-left: 0px; width: 14%")
+								.row
+									.col-xs-12
+										img(src='{{imagesPath + candidato.foto_nombre}}' style='width: 82px; height: 82px;')
+								.row
+									.col-xs-12(style="height: 32px; overflow: hidden; font-size: 8pt")
+										| {{ candidato.plancha}}-{{ candidato.numero}} {{ candidato.nombres + ' ' + candidato.apellidos }}
+
+
+.page-body
+	.row.page-vertical(ng-repeat="votacion in votaciones" ng-class="{'salto-pagina': $last==false }" style="border-top: 1px solid #aaa")
+		.col-xs-12
+			.row
+				.col-xs-2
+					img.img-responsive.logo-colegio(ng-src="{{perfilPath}}{{::year.logo}}" style="width: 70px; position: absolute; z-index: 999;")
+				.col-xs-8(style="text-align: center;")
+					h5.row-title(style="font-size: 20pt;")
+						i.fa.fa-bar-chart.darkorange(style="font-size: 20pt;")
+						b   {{votacion.nombre}}
+
+
+			.row(ng-repeat="aspiracion in votacion.aspiraciones")
+				.col-md-12.col-sm-12.col-xs-12(style="padding-left: 0px; margin-top: -3px;")
+					.well.with-header(style="text-align: center; padding-bottom: 2px; margin-bottom: 0px; padding-top: 30px")
+						.header.bordered-purple(style="text-align: center; line-height: 1; font-weight: bold; padding-top: 0px; padding-bottom: 0px; font-style: italic; font-size: 14pt;") {{aspiracion.aspiracion}}
+
+						.row
+							.col-xs-2(ng-repeat="candidato in aspiracion.candidatos | orderBy:'plancha'" style="padding-right: 0px; padding-left: 0px; width: 14%")
+								.row
+									.col-xs-12
+										img(src='{{imagesPath + candidato.foto_nombre}}' style='width: 82px; height: 82px;')
+								.row
+									.col-xs-12(style="height: 32px; overflow: hidden; font-size: 8pt")
+										| {{ candidato.plancha}}-{{ candidato.numero}} {{ candidato.nombres + ' ' + candidato.apellidos }}
+
+
+
+
+	.row(ng-if="votaciones.length==0")
+		.label.label-info No estás inscrito en ninguna votación.

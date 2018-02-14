@@ -3,8 +3,9 @@
 		.col-lg-12.col-sm-12.col-xs-12(style="width: 18cm")
 			h5.row-title
 				i.fa.fa-bar-chart.darkorange
-				| Resultados de:  
+				| Resultados de:
 				b {{votacion.nombre}}
+
 
 			span(ng-if="votacion.can_see_results")
 				.row
@@ -44,10 +45,9 @@
 														td.col-md-1
 															|{{$index+1}}
 														td.col-md-9
-															.nombresellipsis( popover="<img src='{{imagesPath + candidato.imagen_nombre}}' style='width: 100px; height: 100px;'><br>Facebook: {{candidato.facebook}}<br>Username: {{candidato.username}}" 
-																popover-popup-delay="1000" popover-title="{{candidato.nombres + ' ' + candidato.apellidos}}" popover-animation="true" 
-																popover-trigger="mouseenter" )
-																|{{ candidato.nombres + ' ' + candidato.apellidos }}
+															.nombresellipsis( )
+																img(src='{{imagesPath + candidato.foto_nombre}}' style='width: 50px; height: 50px;')
+																|{{ candidato.nombres + ' ' + candidato.apellidos }}. {{ candidato.plancha + '-' + candidato.numero }}
 														td.col-md-2
 															|{{candidato.cantidad}}
 				.row
@@ -58,16 +58,16 @@
 								.col-sm-12.col-xs-12.puntero(ng-repeat="aspiracion in votacion.aspiraciones")
 									.databox.databox-xlg.databox-graded.radius-bordered.databox-shadowed(ng-repeat="candidato in aspiracion.candidatos | orderBy:'cantidad':true" ng-if="$index==0")
 										.databox-left.no-padding
-											img.img-responsive(ng-src="{{imagesPath + candidato.imagen_nombre}}" style="width:170px; height:170px;")
+											img.img-responsive(ng-src="{{imagesPath + candidato.foto_nombre}}" style="width:170px; height:170px;")
 										.databox-right.padding-top-5.bordered-thick.bordered-sky
 											.databox-row.row-5.bordered-bottom.bordered-platinum.padding-10
-												.databox-title.lightcarbon(style="font-size: 18px; font-weight: 600;") {{candidato.nombres + ' ' +candidato.apellidos}}
+												.databox-title.lightcarbon(style="font-size: 23px; font-weight: 600;") {{candidato.nombres + ' ' +candidato.apellidos}}
 												.databox-stat.radius-bordered.bg-sky
 													.stat-text {{candidato.nombre_grupo}}
 											.databox-row.row-4.bordered-bottom.bordered-platinum
 												.databox-title {{aspiracion.aspiracion}} - {{candidato.cantidad}} votos
 											.databox-row.row-3
-												.databox-text.darkgray(style="font-size: 18px;" ng-show="candidato.plancha") Plancha {{candidato.plancha}} -  
+												.databox-text.darkgray(style="font-size: 18px;" ng-show="candidato.plancha") Plancha {{candidato.plancha}} -
 													span(ng-show="candidato.numero")  Número {{candidato.numero}}
 			span(ng-if="!votacion.can_see_results")
 				h4.label.label-danger Estos resultados están bloqueados en este momento.

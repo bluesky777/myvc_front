@@ -12,6 +12,7 @@ angular.module("myvcFrontApp")
 	$scope.grupos 				= datos.grupos
 	$scope.otras_asignaturas 	= datos.otras_asignaturas
 	$scope.mis_asignaturas 		= datos.mis_asignaturas
+	$scope.$state           = $state;
 
 	$scope.actv_alumnos 		= datos.actv_alumnos
 	$scope.actv_profes 			= datos.actv_profes
@@ -21,7 +22,7 @@ angular.module("myvcFrontApp")
 	$scope.perfilPath 		= App.images + 'perfil/'
 	$scope.views 			= App.views
 
-	
+
 	$rootScope.menucompacto = true
 
 
@@ -37,7 +38,7 @@ angular.module("myvcFrontApp")
 		, (r2)->
 			toastr.error 'No se pudo crear actividad.', 'Error'
 		)
-		
+
 
 
 	$scope.eliminarActividad = (row, asignatura)->
@@ -45,7 +46,7 @@ angular.module("myvcFrontApp")
 		modalInstance = $modal.open({
 			templateUrl: App.views + 'actividades/removeActividad.tpl.html'
 			controller: 'RemoveActividadCtrl'
-			resolve: 
+			resolve:
 				actividad: ()->
 					row
 		})

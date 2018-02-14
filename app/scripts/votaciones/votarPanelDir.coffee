@@ -1,10 +1,10 @@
 angular.module('myvcFrontApp')
 
-.directive('votarPanelDir',['App', 'Perfil', '$http', (App, Perfil, $http)-> 
+.directive('votarPanelDir',['App', 'Perfil', '$http', (App, Perfil, $http)->
 
 	restrict: 'EA'
 	templateUrl: "==votaciones/votarPanel.tpl.html"
-	scope: 
+	scope:
 		votacion: "="
 
 
@@ -48,7 +48,7 @@ angular.module('myvcFrontApp')
 
 		$scope.nextAspiracion = ()->
 			$scope.wzStep += 1 if $scope.wzStep < ($scope.votacion.aspiraciones.length)
-			
+
 		$scope.prevAspiracion = ()->
 			$scope.wzStep -= 1 if $scope.wzStep > 0
 
@@ -60,9 +60,9 @@ angular.module('myvcFrontApp')
 
 
 		$scope.open = (candidato, aspiracion)->
-			
+
 			if $scope.votacion.locked
-				toastr.warning 'Usted está bloqueado en esta votación.'
+				toastr.warning 'La votación está bloqueada.'
 				return
 			else if $scope.votacion.locked_votacion
 				toastr.warning 'Usted está bloqueado en esta votación.'
@@ -71,13 +71,13 @@ angular.module('myvcFrontApp')
 				modalInstance = $uibModal.open({
 					templateUrl: '==votaciones/chooseCandidato.tpl.html'
 					controller: 'chooseCandidatoCtrl'
-					resolve: 
+					resolve:
 						candidato: ()->
 							candidato
 						aspiracion: ()->
-							aspiracion.aspiracion
+							aspiracion
 						votacion_id: ()->
-							$scope.votacion.votacion_id
+							$scope.votacion.id
 
 				})
 				modalInstance.result.then( (selectedItem)->
@@ -88,7 +88,7 @@ angular.module('myvcFrontApp')
 					for aspi in $scope.votacion.aspiraciones
 						if aspi.votado
 							cantVot++
-					
+
 					if $scope.votacion.aspiraciones.length == cantVot
 						$scope.$emit 'termineDeVotar'
 						$scope.maxi = false
@@ -102,7 +102,7 @@ angular.module('myvcFrontApp')
 
 		return
 
-	
+
 
 ])
 

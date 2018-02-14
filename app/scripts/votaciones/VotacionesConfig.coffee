@@ -6,7 +6,7 @@ angular.module('myvcFrontApp')
 		$state
 			.state 'panel.actividades.votaciones',
 				url: '/votaciones'
-				views: 
+				views:
 					'actividades_content':
 						templateUrl: "#{App.views}votaciones/votacionesInicio.tpl.html"
 						controller: 'VotacionesInicioCtrl'
@@ -17,7 +17,7 @@ angular.module('myvcFrontApp')
 							titulo: [->
 								'Votaciones'
 							]
-				data: 
+				data:
 					displayName: 'Votaciones'
 					icon_fa: 'fa fa-legal'
 					pageTitle: 'Votaciones - MyVc'
@@ -25,7 +25,7 @@ angular.module('myvcFrontApp')
 		$state
 			.state 'panel.actividades.votaciones.config',
 				url: '/config'
-				views: 
+				views:
 					'votaciones_view':
 						templateUrl: "#{App.views}votaciones/votaciones.tpl.html"
 						controller: 'VotacionesCtrl'
@@ -36,7 +36,7 @@ angular.module('myvcFrontApp')
 							titulo: [->
 								'Configuración - MyVc'
 							]
-				data: 
+				data:
 					displayName: 'Configuración'
 					icon_fa: 'fa fa-legal'
 					pageTitle: 'Configuración - MyVc'
@@ -44,7 +44,7 @@ angular.module('myvcFrontApp')
 
 			.state 'panel.actividades.votaciones.participantes',
 				url: '/participantes'
-				views: 
+				views:
 					'votaciones_view':
 						templateUrl: "#{App.views}votaciones/participantes.tpl.html"
 						controller: 'ParticipantesCtrl'
@@ -63,7 +63,7 @@ angular.module('myvcFrontApp')
 
 			.state 'panel.actividades.votaciones.candidatos',
 				url: '/candidatos'
-				views: 
+				views:
 					'votaciones_view':
 						templateUrl: "#{App.views}votaciones/candidatos.tpl.html"
 						controller: 'CandidatosCtrl'
@@ -81,7 +81,7 @@ angular.module('myvcFrontApp')
 
 			.state 'panel.actividades.votaciones.votar',
 				url: '/votar'
-				views: 
+				views:
 					'votaciones_view':
 						templateUrl: "#{App.views}votaciones/votar.tpl.html"
 						controller: 'VotarCtrl'
@@ -97,7 +97,7 @@ angular.module('myvcFrontApp')
 
 			.state 'panel.actividades.votaciones.votarprueba',
 				url: '/prueba'
-				views: 
+				views:
 					'votaciones_view':
 						templateUrl: "#{App.views}votaciones/votarprueba.tpl.html"
 						controller: 'VotarPruebaCtrl'
@@ -113,7 +113,7 @@ angular.module('myvcFrontApp')
 
 			.state 'panel.actividades.votaciones.resultados',
 				url: '/resultados'
-				views: 
+				views:
 					'votaciones_view':
 						templateUrl: "#{App.views}votaciones/resultados.tpl.html"
 						controller: 'ResultadosCtrl'
@@ -126,6 +126,23 @@ angular.module('myvcFrontApp')
 							]
 				data:
 					pageTitle: 'Resultados - MyVc'
+
+
+			.state 'panel.actividades.votaciones.tarjetones',
+				url: '/tarjetones'
+				views:
+					'votaciones_view':
+						templateUrl: "#{App.views}votaciones/tarjetones.tpl.html"
+						controller: 'TarjetonesCtrl'
+					'headerContent':
+						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						controller: 'PanelHeaderCtrl'
+						resolve:
+							titulo: [->
+								'Tarjetones'
+							]
+				data:
+					pageTitle: 'Tarjetones - MyVc'
 
 
 		return

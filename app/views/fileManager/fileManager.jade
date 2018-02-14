@@ -10,7 +10,7 @@
 				.row
 					.col-lg-2.col-xs-12
 
-						span(uib-tooltip="NO subas imágenes intactas a menos que sean Logos o firmas." ng-if="hasRoleOrPerm(['profesor', 'admin'])")
+						span(uib-tooltip="NO subas imágenes intactas a menos que sean Logos o firmas. (Públicas por defecto)" ng-if="hasRoleOrPerm(['profesor', 'admin'])")
 							label
 								| Intactas
 							label
@@ -89,7 +89,7 @@
 										|   Foto oficial
 
 								button.btn.btn-default.shiny(ng-click="pedirCambioFirma(dato.imgUsuario)" ng-if="hasRoleOrPerm('profesor')")
-									img(ng-src="{{ perfilPath + logo.logo }}" style="height: 40px")
+									img(ng-show="USER.firma_id" ng-src="{{ perfilPath + USER.firma_nombre }}" style="height: 40px")
 									|   Firma
 
 								button.btn.btn-default.shiny(ng-click="cambiarLogoColegio(dato.imgUsuario)" ng-if="hasRoleOrPerm('admin')")

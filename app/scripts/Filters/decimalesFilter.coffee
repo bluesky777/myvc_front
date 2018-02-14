@@ -6,7 +6,7 @@ angular.module('myvcFrontApp')
 
 		if (input % 1) == 0
 			input = input.toFixed(0)
-		else 
+		else
 			input = input.toFixed(cant)
 
 		return input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
@@ -18,7 +18,7 @@ angular.module('myvcFrontApp')
 
 		if (input % 1) == 0
 			input = input.toFixed(0)
-		else 
+		else
 			input = input.toFixed(cant)
 
 		numero = input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
@@ -34,5 +34,14 @@ angular.module('myvcFrontApp')
 		# So use the following to create that factor
 		factor = "1" + Array(+(places > 0 and places + 1)).join("0")
 		return Math.round(input * factor) / factor
+
+])
+
+.filter('formatNumberDocumento', ['$filter', ($filter)->
+	(input)->
+		if (!isNaN(input) && angular.isNumber(+input))
+			return $filter('number')(input, 0)
+		else
+			return input
 
 ]);

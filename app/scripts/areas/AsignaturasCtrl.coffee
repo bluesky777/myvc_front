@@ -27,6 +27,9 @@ angular.module("myvcFrontApp")
 			$scope.gridOptions.data = $filter('filter')($scope.gridOptions.data, {profesor_id: profeSearch}, true)
 
 
+	$scope.mostrarTodas = (item, model)->
+		$scope.gridOptions.data = $scope.asignaturas
+
 	$scope.seleccionaProfe = (item, model)->
 		if item
 			item =  if item is undefined then {profesor_id:'!'} else item

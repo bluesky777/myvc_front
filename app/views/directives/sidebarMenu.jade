@@ -16,11 +16,6 @@
 				i.menu-icon.fa.fa-home
 				span.menu-text Inicio
 
-		<!-- Alumnos para quienes son profes-->
-		li(ui-sref-active="active" ng-if="hasRoleOrPerm(['profesor']) && $parent.USER.profes_can_edit_alumnos" )
-			a(ui-sref="panel.alumnos")
-				i.menu-icon.fa.fa-child
-				span.menu-text Alumnos
 
 		<!--Alumnos-->
 		li(sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm('admin')" ng-class="{open:$state.includes('panel.alumnos')||$state.includes('panel.matriculas')||$state.includes('panel.cartera') || $state.includes('panel.acudientes')}")
@@ -127,7 +122,7 @@
 				span.menu-text Notas
 				i.menu-expand
 
-			ul.submenu
+			ul.submenu.sin_puntos
 				li(ui-sref-active="active")
 					a(ui-sref="panel.notas_alumno" stop-event="click")
 						span.menu-text.blue De un alumno
@@ -143,8 +138,9 @@
 						span.menu-text Copiar
 						i.menu-icon.fa.fa-copy
 				li(ui-sref-active="active" ng-repeat="profe in profesores")
-					a(ui-sref="panel.listasignaturas({profesor_id: profe.profesor_id})" stop-event="click" uib-tooltip="{{profe.nombres}} {{profe.apellidos}}" tooltip-popup-delay="1500" tooltip-placement="right")
-						div.menu-text.nombresellipsis {{profe.nombres}} {{profe.apellidos}}
+					a(ui-sref="panel.listasignaturas({profesor_id: profe.profesor_id})" stop-event="click" uib-tooltip="{{profe.nombres}} {{profe.apellidos}}" tooltip-popup-delay="200" tooltip-placement="right")
+						img(ng-src="{{perfilPath + profe.foto_nombre}}")
+						span.menu-text.nombresellipsis {{profe.nombres}} {{profe.apellidos}}
 				li(ng-if="profesores.length==0")
 					a(ui-sref="panel.profesores" stop-event="click" uib-tooltip="Profesores no contratados" tooltip-popup-delay="1500" tooltip-placement="right")
 						div.menu-text.nombresellipsis No hay Profes contratados

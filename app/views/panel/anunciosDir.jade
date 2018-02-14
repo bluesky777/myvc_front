@@ -24,7 +24,7 @@
 										img.user-avatar(ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}")
 										span.user-name {{change_asked.nombres + ' ' + change_asked.apellidos }}
 										span.user-company  de
-											b {{change_asked.grupo_nombre}}
+											b(style="padding-left: 4px") {{change_asked.grupo_nombre}}
 											|  ha solicitado unos cambios
 								.row(ng-show="change_asked.mostrando")
 									div(style="padding: 10px; white-space: nowrap; text-overflow: ellipsis; overflow-x: auto;")
@@ -69,6 +69,63 @@
 													button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'img_delete', change_asked.detalles.image_to_delete_id)" uib-tooltip="Aprobar cambio")
 														i.fa.fa-check(style="color: #fff;")
 
+
+											tr(ng-if="change_asked.detalles.nombres_new && change_asked.detalles.nombres_accepted==null")
+												td
+													span(style="display: inline-block; width: 170px") Nombre actual:
+														b {{change_asked.nombres}}
+												td
+													| Nuevo:
+													b {{change_asked.detalles.nombres_new}}
+												td
+													button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'nombres')" uib-tooltip="Rechazar cambio")
+														i.fa.fa-times(style="color: #fff;")
+													button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'nombres', change_asked.detalles.nombres_new)" uib-tooltip="Aprobar cambio")
+														i.fa.fa-check(style="color: #fff;")
+
+
+											tr(ng-if="change_asked.detalles.apellidos_new && change_asked.detalles.apellidos_accepted==null")
+												td
+													span(style="display: inline-block; width: 170px") Apellido actual:
+														b {{change_asked.apellidos}}
+												td
+													| Nuevo:
+													b {{change_asked.detalles.apellidos_new}}
+												td
+													button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'apellidos')" uib-tooltip="Rechazar cambio")
+														i.fa.fa-times(style="color: #fff;")
+													button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'apellidos', change_asked.detalles.apellidos_new)" uib-tooltip="Aprobar cambio")
+														i.fa.fa-check(style="color: #fff;")
+
+
+											tr(ng-if="change_asked.detalles.sexo_new && change_asked.detalles.sexo_accepted==null")
+												td
+													span(style="display: inline-block; width: 170px") Sexo actual:
+														b {{change_asked.sexo}}
+												td
+													| Nuevo:
+													b {{change_asked.detalles.sexo_new}}
+												td
+													button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'sexo')" uib-tooltip="Rechazar cambio")
+														i.fa.fa-times(style="color: #fff;")
+													button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'sexo', change_asked.detalles.sexo_new)" uib-tooltip="Aprobar cambio")
+														i.fa.fa-check(style="color: #fff;")
+
+
+											tr(ng-if="change_asked.detalles.fecha_nac_new && change_asked.detalles.fecha_nac_accepted==null")
+												td
+													span(style="display: inline-block; width: 170px") Fecha nacimiento actual:
+														b {{change_asked.fecha_nac}}
+												td
+													| Nuevo:
+													b {{change_asked.detalles.fecha_nac_new}}
+												td
+													button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'fecha_nac')" uib-tooltip="Rechazar cambio")
+														i.fa.fa-times(style="color: #fff;")
+													button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'fecha_nac', change_asked.detalles.fecha_nac_new)" uib-tooltip="Aprobar cambio")
+														i.fa.fa-check(style="color: #fff;")
+
+
 									button.btn.btn-danger(uib-tooltip="Eliminar por completo estas peticiones" style="float:right; margin: 10px"
 										ng-click="eliminarSolicitudes(change_asked)") Ignorar solicitudes
 
@@ -101,11 +158,58 @@
 												| del grupo
 												b(style="padding: 0 4px") {{ change_asked.nombre_grupo_remove }}
 
-										span(style="margin-top: -5px; float: right;")
+											span.user-company(ng-show="change_asked.detalles.image_new_nombre || change_asked.detalles.foto_new_nombre")
+												|  ha pedido cambios de imagen:
+
+										span(style="margin-top: -5px; position: absolute; right: 0;" ng-show="change_asked.materia_to_add_id || change_asked.asignatura_to_remove_id")
 											button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'asignatura')" uib-tooltip="Rechazar cambio")
 												i.fa.fa-times(style="color: #fff;")
 											button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'asignatura')" uib-tooltip="Aprobar cambio")
 												i.fa.fa-check(style="color: #fff;")
+
+								.row(ng-show="change_asked.detalles.image_new_nombre || change_asked.detalles.foto_new_nombre || change_asked.detalles.image_to_delete_id ")
+									div(style="padding: 10px; white-space: nowrap; text-overflow: ellipsis; overflow-x: auto;")
+										table.table
+											tr(ng-if="change_asked.detalles.image_new_nombre && change_asked.detalles.image_id_accepted==null")
+												td
+													span(style="display: inline-block; width: 170px") Imagen perfil actual:
+													img.user-avatar(ng-src="{{perfilPath + change_asked.imagen_nombre }}" alt="{{ change_asked.imagen_nombre }}" style="width: 50px")
+												td
+													| Nueva:
+													img.user-avatar(ng-src="{{perfilPath + change_asked.detalles.image_new_nombre }}" alt="{{ change_asked.detalles.image_new_nombre }}" style="width: 50px")
+												td
+													button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'img_perfil')" uib-tooltip="Rechazar cambio")
+														i.fa.fa-times(style="color: #fff;")
+													button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'img_perfil', change_asked.detalles.image_id_new)" uib-tooltip="Aprobar cambio")
+														i.fa.fa-check(style="color: #fff;")
+
+
+											tr(ng-if="change_asked.detalles.foto_new_nombre && change_asked.detalles.foto_id_accepted==null")
+												td
+													span(style="display: inline-block; width: 170px") Foto oficial actual:
+													img.user-avatar(ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}" style="width: 50px")
+												td
+													| Nueva:
+													img.user-avatar(ng-src="{{perfilPath + change_asked.detalles.foto_new_nombre }}" alt="{{ change_asked.detalles.foto_new_nombre }}" style="width: 50px")
+												td
+													button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'foto_oficial')" uib-tooltip="Rechazar cambio")
+														i.fa.fa-times(style="color: #fff;")
+													button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'foto_oficial', change_asked.detalles.foto_id_new)" uib-tooltip="Aprobar cambio")
+														i.fa.fa-check(style="color: #fff;")
+
+
+											tr(ng-if="change_asked.detalles.image_to_delete_id && change_asked.detalles.image_to_delete_accepted==null")
+												td
+													div Desea eliminar esta imagen,
+													div  la cual fue subida por un administrador:
+												td
+													img.user-avatar(ng-src="{{perfilPath + change_asked.detalles.image_to_delete_nombre }}" alt="{{ change_asked.detalles.image_to_delete_nombre }}" style="width: 50px")
+												td
+													button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'img_delete')" uib-tooltip="Rechazar cambio")
+														i.fa.fa-times(style="color: #fff;")
+													button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'img_delete', change_asked.detalles.image_to_delete_id)" uib-tooltip="Aprobar cambio")
+														i.fa.fa-check(style="color: #fff;")
+
 
 
 

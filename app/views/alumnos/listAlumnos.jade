@@ -1,19 +1,19 @@
 .row
 	.col-xs-12.col-md-12
 		.well.with-header.with-footer
-			.header.bordered-blue Grupo
-				b(ng-if="!USER.profes_can_edit_alumnos && hasRoleOrPerm('Profesor')")
-					|   - Actualmente, no tienes permiso de editar
-			label Grupo
-				ui-select(ng-model="dato.grupo" on-select="traerListado($item)" theme="select2" style="min-width: 200px;")
-					ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}}
-					ui-select-choices(repeat="grupo in grupos | filter: $select.search")
-						div(ng-bind-html="grupo.nombre | highlight: $select.search")
+			.header.bordered-yellow
+				span(style="font-size: 12pt") Listado de Alumnos
 
-				a.btn.btn-info.shiny(ng-click="traerListado()") Ver listado
+			.form-group
+				selector-grupo-dir
 
+			.alert.alert-warning.fade.in.radius-bordered(ng-hide="es_titular" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px")
+				i.fa-fw.fa.fa-warning
+				strong No eres titular:
+				| No podrás editar estos alumnos
 
-			#grid1.grid(ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns style="height: 600px")
+			p Mueva las columnas para mayor comodidad y oculte las que desee:
+			#grid1.grid(ui-grid="gridOptions" ui-grid-exporter ui-grid-move-columns ui-grid-expandable ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-auto-resize ui-grid-pinning style="height: 600px")
 
 
 			.footer

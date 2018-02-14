@@ -1,5 +1,5 @@
 .row(style="padding: 5px; ")
-	.col-lg-6.col-sm-6.col-xs-12
+	.col-lg-6.col-md-8.col-sm-9.col-xs-12
 		.widget
 			.widget-header
 				span.widget-caption Candidatos por aspiración
@@ -24,7 +24,7 @@
 									.dd-handle
 										form(ng-submit="crearCandidato(aspiracion)")
 											label Participante
-											ui-select(ng-model="aspiracion.newParticip" theme="select2" style="min-width: 300px;")
+											ui-select(ng-model="aspiracion.newParticip" style="width: 100%;")
 												ui-select-match(placeholder="Seleccione aspirante" allow-clear="true") {{$select.selected.nombres}} - {{$select.selected.username}}
 												ui-select-choices(repeat="particip in allinscritos | filter: $select.search")
 													div(ng-bind-html="'<small><i>'+particip.tipo +':</i></small> '+particip.nombres +' '+ particip.apellidos | highlight: $select.search")
@@ -32,14 +32,22 @@
 												input.form-control(type="textbox" placeholder="Plancha" ng-model="aspiracion.newParticip.plancha")
 												input.form-control(type="textbox" placeholder="Número" ng-model="aspiracion.newParticip.numero")
 											.form-group
-												input.btn.btn-primary.btn-sm.shiny(type="submit" ng-submit="crearCandidato(aspiracion)" value="Crear candidato") 
+												input.btn.btn-primary.btn-sm.shiny(type="submit" ng-submit="crearCandidato(aspiracion)" value="Crear candidato")
 
 
 								li.dd-item.dd2-item(data-id="2" ng-repeat="candidato in aspiracion.candidatos")
 									.dd-handle.dd2-handle
 										i.normal-icon.fa.fa-legal
 										i.drag-icon.fa.fa-arrows-alt
-									.dd2-content {{candidato.nombres}} {{candidato.apellidos}} [{{candidato.plancha +' - '+candidato.numero}}] ({{candidato.tipo}}) 
-										a(href="" ng-click="eliminarCandidato(candidato.candidato_id, aspiracion)" data-toggle="dispose")
+									.dd2-content(style="padding-bottom: 0px; background-color: #aceefe;")
+										button.btn.btn-default(ng-click="eliminarCandidato(candidato.candidato_id, aspiracion)" ng-hide="candidato.voto_blanco" uib-tooltip="Quitar candidato" style="margin-top: -8px;")
 											i.fa.fa-times
-						
+										img(ng-src="{{perfilPath + candidato.foto_nombre}}" style="width: 38px; margin-top: -8px;")
+										| {{candidato.nombres}} {{candidato.apellidos}} [{{candidato.plancha +' - '+candidato.numero}}]
+										span(ng-show="candidato.tipo == 'Al'") (Alumno)
+										span(ng-show="candidato.tipo == 'Pr'") (Docente)
+										span(ng-show="candidato.tipo == 'Acu'") (Acudiente)
+										span(ng-show="candidato.tipo == 'Usu'") (Usuario)
+
+
+

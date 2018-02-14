@@ -4,27 +4,27 @@
 			i.fa.fa-list-alt.darkorange
 			| {{ votacion.nombre }}
 		.row
+			.col-lg-4.col-xs-12
+				.well.with-header
+					.header.bordered-yellow Elija quién puede votar
+
+
+					div.btn-group(style="padding-top:2px; padding-left: 4px; " ng-if="hasRoleOrPerm(['profesor', 'admin'])")
+						label.btn.btn-default(ng-model="grupo.inscrito" uib-btn-checkbox
+							ng-repeat="grupo in grupos" btn-checkbox-false="0" btn-checkbox-true="1"
+							uib-tooltip="{{grupo.nombre}}" tooltip-append-to-body="true") {{grupo.abrev}}
+
+					a.btn.btn-primary(href="" ng-click="guardarInscripciones()"
+						ng-if="hasRoleOrPerm(['profesor', 'admin'])"
+						ng-disabled="guardando_inscrip") Guardar cambios
+
+
+
 			.col-lg-12.col-xs-12
 				.well.with-header
 					.header.bordered-purple Paticipantes alumnos
 					#grid1.grid(ui-grid="gridOptions" ui-grid-auto-resize ui-grid-edit external-scopes="$scope" ui-grid-resize-columns ui-grid-cellnav)
 
 
-			.col-lg-4.col-xs-12
-				.well.with-header
-					.header.bordered-yellow Inscribir participantes
-					
 
-					div.btn-group(style="padding-top:2px; padding-left: 4px; ")
-						a.btn.btn-default(href="" ng-click="inscribirGrupo(grupo)" 
-							ng-repeat="grupo in grupos" ng-if="hasRoleOrPerm(['profesor', 'admin'])"
-							ng-class="{'disabled': grupo.presionado}") {{grupo.nombre}}
-					
-					a.btn.btn-primary(href="" ng-click="inscribirProfesores()" 
-						ng-if="hasRoleOrPerm(['profesor', 'admin'])"
-						ng-class="{'disabled': btnProfPresionado }") Inscribir profesores
-						
-
-
-					
 

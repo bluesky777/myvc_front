@@ -24,10 +24,10 @@ angular.module("myvcFrontApp")
 		if $scope.votacion.locked
 			$scope.toastr.warning 'La votación actual está bloqueada'
 			#$state.transitionTo 'panel'
-		
+
 	)
 
-	
+
 	$http.get('::candidatos/conaspiraciones').then((r)->
 		$scope.aspiraciones = r.data
 	, (r2)->
@@ -39,7 +39,7 @@ angular.module("myvcFrontApp")
 	, (r2)->
 		$scope.toastr.error 'No se pudo traer los inscritos', 'Problema'
 	)
-	
+
 
 	$scope.currentImg = 'default_male.jpg'
 	$scope.imagesPath = App.images + 'perfil/'
@@ -53,7 +53,7 @@ angular.module("myvcFrontApp")
 
 	$scope.nextAspiracion = ()->
 		$scope.wzStep += 1 if $scope.wzStep < ($scope.aspiraciones.length)
-		
+
 	$scope.prevAspiracion = ()->
 		$scope.wzStep -= 1 if $scope.wzStep > 0
 
@@ -65,7 +65,7 @@ angular.module("myvcFrontApp")
 
 
 	$scope.open = (candidato, aspiracion)->
-		
+
 		if $scope.votacion.locked
 			$scope.toastr.warning 'La votación actual está bloqueada'
 			return
@@ -73,11 +73,13 @@ angular.module("myvcFrontApp")
 			modalInstance = $modal.open({
 				templateUrl: '==votaciones/chooseCandidato.tpl.html'
 				controller: 'chooseCandidatoCtrl'
-				resolve: 
+				resolve:
 					candidato: ()->
 						candidato
 					aspiracion: ()->
-						aspiracion.aspiracion
+						aspiracion
+					votacion_id: ()->
+						$scope.votacion.id
 
 			})
 			modalInstance.result.then( (selectedItem)->
@@ -108,7 +110,7 @@ angular.module("myvcFrontApp")
 			fecha_fin: ''
 			completo: false
 		}
-	
+
 		toastr.success 'Voto guardado con éxito'
 		$modalInstance.close(r)
 

@@ -159,8 +159,16 @@
 							a.btn.btn-default(href="" ng-click="verNotasPerdidasTodos()") Notas perdidas todos
 						br
 
-						.btn-group
-							a.btn.btn-default(href="" ng-click="verObservadorVertical()") Observador vertical
+						.btn-group(uib-dropdown)
+							button#split-button.btn.btn-default(href="" ng-click="verObservadorVertical()" uib-tooltip="Observador del alumno para imprimir") Observador vertical
+							button.btn.btn-default(type="button" uib-dropdown-toggle)
+								.caret
+								.sr-only Observador vertical
+							ul.dropdown-menu(uib-dropdown-menu role="menu" aria-labelledby="split-button")
+								li(role="menuitem")
+									a(ng-click="verObservadorVerticalTodos()") Observador vertical - Todos
+
+
 						br
 
 						br

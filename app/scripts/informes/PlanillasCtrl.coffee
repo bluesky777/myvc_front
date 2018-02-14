@@ -13,10 +13,26 @@ angular.module('myvcFrontApp')
 
 	$scope.unidadesdefault = ["  ", "  ", "  "]
 	$scope.subunidadesdefault = [
-			"  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ",
-			"  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ",
-			"  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ",
+			"  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "
+			"  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "
+			"  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "
 	]
+
+
+	for asign in $scope.asignaturas
+		asign.alumnos_temp = asign.alumnos
+
+		if asign.alumnos_temp.length < 32
+			asign.alumnos1 = asign.alumnos_temp
+
+		else if asign.alumnos_temp.length < 37
+			asign.alumnos1 = asign.alumnos_temp.splice(0, 27)
+			asign.alumnos2 = asign.alumnos_temp.splice(0, 20)
+
+		else if asign.alumnos_temp.length < 62
+			asign.alumnos1 = asign.alumnos_temp.splice(0, 31)
+			asign.alumnos2 = asign.alumnos_temp.splice(0, 32)
+
 
 
 	if $state.params.profesor_id

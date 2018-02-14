@@ -1,6 +1,6 @@
 
 <div ng-repeat="asignatura in asignaturas">
-  <div ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }">
+  <div ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false || !asignatura.alumnos2 }">
     <div class="row">
       <div class="col-lg-12 col-xs-12">
         <div class="row encabezado-planilla">
@@ -11,7 +11,7 @@
                 <div class="row">
                   <div class="col-lg-12">
                     <div class="nombre-colegio">{{year.nombre_colegio + ' - ' + year.abrev_colegio}}</div>
-                    <div class="descripcion-title">Planilla de trabajo Per{{USER.numero_periodo}}-{{USER.year}} <b> {{asignatura.nombre_grupo}} - {{asignatura.materia | capitalize}}</b></div>
+                    <div class="descripcion-title">Planilla de trabajo Per{{USER.numero_periodo}}-{{USER.year}}<b> {{asignatura.nombre_grupo}} - {{asignatura.materia | capitalize}}</b></div>
                   </div>
                 </div>
                 <div class="row">
@@ -40,32 +40,87 @@
                   </tr>
                 </thead>
                 <tbody style="font-size: 9pt">
-                  <tr ng-repeat="alumno in asignatura.alumnos">
+                  <tr ng-repeat="alumno in asignatura.alumnos1" class="altura-22">
                     <td>{{$index + 1}}</td>
                     <td>
-                      <div ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative" class="ellipsis200 alumno-planilla">{{alumno.apellidos}} {{alumno.nombres}} <span ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white;">
-                           
-                          (Asis)</span></div>
+                      <div ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative" class="ellipsis200 alumno-planilla">{{alumno.apellidos}} {{alumno.nombres}}<span ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white;">(Asis)</span></div>
                     </td>
                     <td ng-repeat="periodo in alumno.periodos">
                       <div class="def-per-planilla">{{periodo.nota_asignatura | number:0}}</div>
                     </td>
                     <td ng-repeat="subuni in subunidadesdefault track by $index" style="width: 50px">{{subuni}}</td>
                   </tr>
-                  <tr style="height: 17px;">
-                    <td>
-                        
-                       
+                  <tr style="height: 17px;" class="altura-22">
+                    <td> </td>
+                    <td> </td>
+                    <td ng-repeat="periodo in asignatura.periodosProm">
+                      <div style="font-weight: bold;" class="def-per-planilla">{{periodo.sumatoria / asignatura.alumnos.length | number:0}}</div>
                     </td>
+                    <td ng-repeat="subuni in subunidadesdefault track by $index" style="width: 50px">{{subuni}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-if="asignatura.alumnos2" ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }">
+    <div class="row">
+      <div class="col-lg-12 col-xs-12">
+        <div class="row encabezado-planilla">
+          <div class="col-lg-12 col-xs-12">
+            <div class="row">
+              <div class="col-lg-2 col-xs-2"><img ng-src="{{perfilPath + year.logo}}" class="img-responsive logo-colegio"></div>
+              <div class="col-lg-8 col-xs-8 title-encabezado-planilla">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="nombre-colegio">{{year.nombre_colegio + ' - ' + year.abrev_colegio}}</div>
+                    <div class="descripcion-title">Planilla de trabajo Per{{USER.numero_periodo}}-{{USER.year}}<b> {{asignatura.nombre_grupo}} - {{asignatura.materia | capitalize}}</b></div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12">
+                    <h5 style="padding: 0px; margin: 0px" class="nombre-profesor">{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}</h5>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-2 col-xs-2"><img ng-src="{{perfilPath + asignatura.foto_nombre}}" ng-show="config.mostrar_foto &amp;&amp; asignatura.foto_id" class="img-responsive img-thumbnail foto-profe"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row body-boletin">
+          <div style="padding:0px" class="col-lg-12 col-xs-12 materias">
+            <div class="materia-item">
+              <table class="table-bordered table-bordered2 table-striped table-striped2">
+                <thead>
+                  <tr>
+                    <th rowspan="2">No</th>
+                    <th rowspan="2" style="text-align: center;">Alumnos</th>
+                    <th ng-repeat="periodo in year.periodos" rowspan="2" style="font-size: 8pt">P{{periodo.numero}}</th>
+                    <th ng-repeat="unidad in unidadesdefault track by $index" colspan="10" style="font-size: 8pt">{{$index + 1}} {{unidad}}</th>
+                  </tr>
+                  <tr style="height: 25px">
+                    <th ng-repeat="subuni in subunidadesdefault track by $index" style="width: 50px">{{subuni}}</th>
+                  </tr>
+                </thead>
+                <tbody style="font-size: 9pt">
+                  <tr ng-repeat="alumno in asignatura.alumnos2" class="altura-22">
+                    <td>{{$index + 1 + asignatura.alumnos1.length }}</td>
                     <td>
-                       
-                       
+                      <div ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative" class="ellipsis200 alumno-planilla">{{alumno.apellidos}} {{alumno.nombres}}<span ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white;">(Asis)</span></div>
                     </td>
-                    <td ng-repeat="periodo in asignatura.periodosProm"> 
-                      <div style="font-weight: bold;" class="def-per-planilla">
-                         
-                        {{periodo.sumatoria / asignatura.alumnos.length | number:0}} 
-                      </div>
+                    <td ng-repeat="periodo in alumno.periodos">
+                      <div class="def-per-planilla">{{periodo.nota_asignatura | number:0}}</div>
+                    </td>
+                    <td ng-repeat="subuni in subunidadesdefault track by $index" style="width: 50px">{{subuni}}</td>
+                  </tr>
+                  <tr style="height: 17px;" class="altura-22">
+                    <td> </td>
+                    <td> </td>
+                    <td ng-repeat="periodo in asignatura.periodosProm">
+                      <div style="font-weight: bold;" class="def-per-planilla">{{periodo.sumatoria / asignatura.alumnos.length | number:0}}</div>
                     </td>
                     <td ng-repeat="subuni in subunidadesdefault track by $index" style="width: 50px">{{subuni}}</td>
                   </tr>

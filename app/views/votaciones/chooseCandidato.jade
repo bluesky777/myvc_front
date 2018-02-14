@@ -6,12 +6,13 @@
 			img(ng-src="{{imagesPath+candidato.imagen_nombre}}" class="image-circular bordered-4 bordered-sky" style="width:200px; height:200px;")
 		.col-lg-5.col-xs-7
 			h3 {{candidato.nombres + ' ' +candidato.apellidos}}
-			h4 {{aspiracion}}
+			h4 {{aspiracion.aspiracion}}
 			h4 Plancha {{candidato.plancha}} - Número {{candidato.numero}}
 			h5 Grupo: {{candidato.nombre_grupo}}
 
 .modal-footer
-	button.btn.btn-labeled.btn-primary(ng-click="ok()") Elegir candidato
-		i.btn-label.glyphicon.glyphicon-ok
 	button.btn.btn-labeled.btn-yellow(ng-click="cancel()") Cancelar
 		i.btn-label.fa.fa-times
+	button.btn.btn-labeled.btn-primary(ng-click="ok()") Elegir candidato
+		i.btn-label.glyphicon.glyphicon-ok
+

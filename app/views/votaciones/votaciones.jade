@@ -42,7 +42,7 @@
 							span.input-group-addon
 								i.fa.fa-calendar
 							input.form-control.active#votacionedit-fecha-fin(type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="votacionEdit.fecha_fin" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2015-06-22'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha fin")
-					
+
 				.form-group
 					label Aspiraciones
 					.row(ng-repeat="aspiracion in votacionEdit.aspiraciones")
@@ -58,7 +58,7 @@
 						| Agregar aspiración
 
 				br
-				input.btn.btn-primary.btn-lg.shiny(type="submit" ng-submit="guardar()" value="Guardar evento") 
+				input.btn.btn-primary.btn-lg.shiny(type="submit" ng-submit="guardar()" value="Guardar evento")
 
 
 
@@ -74,6 +74,16 @@
 					label ¿Bloqueado?
 					label
 						input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="votacion.locked")
+						span.text.si-no
+				.form-group
+					label ¿Votan los docentes?
+					label
+						input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="votacion.votan_profes")
+						span.text.si-no
+				.form-group
+					label ¿Votan los acudientes?
+					label
+						input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="votacion.votan_acudientes")
 						span.text.si-no
 				.form-group
 					label ¿Actual?
@@ -99,7 +109,7 @@
 							span.input-group-addon
 								i.fa.fa-calendar
 							input.form-control.active#votacion-fecha-fin(type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="votacion.fecha_fin" is-open="votacion.isOpenFin" ng-click="votacion.isOpenFin = true" max-date="'2099-12-31'" datepicker-options="date.dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha fin")
-					
+
 
 
 				.form-group
@@ -118,5 +128,5 @@
 
 
 				br
-				input.btn.btn-primary.btn-lg.shiny(type="submit" ng-submit="crear()" value="Crear") 
+				input.btn.btn-primary.btn-lg.shiny(type="submit" ng-submit="crear()" value="Crear")
 

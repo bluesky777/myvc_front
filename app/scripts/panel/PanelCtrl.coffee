@@ -8,6 +8,7 @@ angular.module('myvcFrontApp')
 		$scope.USER = resolved_user
 		$scope.pageTitle = $rootScope.pageTitle
 		$scope.bigLoader = true
+		$scope.perfilPath = App.images+'perfil/'
 
 
 		# Si el colegio quiere que aparezca su imagen en el encabezado, puede hacerlo.

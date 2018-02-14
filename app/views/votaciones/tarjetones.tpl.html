@@ -1,0 +1,62 @@
+
+<div class="page-body">
+  <div ng-repeat="votacion in votaciones" ng-class="{'salto-pagina': $last==false }" class="row page-vertical">
+    <div class="col-xs-12">
+      <div class="row">
+        <div class="col-xs-2"><img ng-src="{{perfilPath}}{{::year.logo}}" style="width: 70px; position: absolute; z-index: 999;" class="img-responsive logo-colegio"></div>
+        <div style="text-align: center;" class="col-xs-8">
+          <h5 style="font-size: 20pt;" class="row-title"><i style="font-size: 20pt;" class="fa fa-bar-chart darkorange"></i><b>  {{votacion.nombre}}</b></h5>
+        </div>
+      </div>
+      <div ng-repeat="aspiracion in votacion.aspiraciones" class="row">
+        <div style="padding-left: 0px; margin-top: -3px;" class="col-md-12 col-sm-12 col-xs-12">
+          <div style="text-align: center; padding-bottom: 2px; margin-bottom: 0px; padding-top: 30px" class="well with-header">
+            <div style="text-align: center; line-height: 1; font-weight: bold; padding-top: 0px; padding-bottom: 0px; font-style: italic; font-size: 14pt;" class="header bordered-purple">{{aspiracion.aspiracion}}</div>
+            <div class="row">
+              <div ng-repeat="candidato in aspiracion.candidatos | orderBy:'plancha'" style="padding-right: 0px; padding-left: 0px; width: 14%" class="col-xs-2">
+                <div class="row">
+                  <div class="col-xs-12"><img src="{{imagesPath + candidato.foto_nombre}}" style="width: 82px; height: 82px;"></div>
+                </div>
+                <div class="row">
+                  <div style="height: 32px; overflow: hidden; font-size: 8pt" class="col-xs-12">{{ candidato.plancha}}-{{ candidato.numero}} {{ candidato.nombres + ' ' + candidato.apellidos }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="page-body">
+  <div ng-repeat="votacion in votaciones" ng-class="{'salto-pagina': $last==false }" style="border-top: 1px solid #aaa" class="row page-vertical">
+    <div class="col-xs-12">
+      <div class="row">
+        <div class="col-xs-2"><img ng-src="{{perfilPath}}{{::year.logo}}" style="width: 70px; position: absolute; z-index: 999;" class="img-responsive logo-colegio"></div>
+        <div style="text-align: center;" class="col-xs-8">
+          <h5 style="font-size: 20pt;" class="row-title"><i style="font-size: 20pt;" class="fa fa-bar-chart darkorange"></i><b>  {{votacion.nombre}}</b></h5>
+        </div>
+      </div>
+      <div ng-repeat="aspiracion in votacion.aspiraciones" class="row">
+        <div style="padding-left: 0px; margin-top: -3px;" class="col-md-12 col-sm-12 col-xs-12">
+          <div style="text-align: center; padding-bottom: 2px; margin-bottom: 0px; padding-top: 30px" class="well with-header">
+            <div style="text-align: center; line-height: 1; font-weight: bold; padding-top: 0px; padding-bottom: 0px; font-style: italic; font-size: 14pt;" class="header bordered-purple">{{aspiracion.aspiracion}}</div>
+            <div class="row">
+              <div ng-repeat="candidato in aspiracion.candidatos | orderBy:'plancha'" style="padding-right: 0px; padding-left: 0px; width: 14%" class="col-xs-2">
+                <div class="row">
+                  <div class="col-xs-12"><img src="{{imagesPath + candidato.foto_nombre}}" style="width: 82px; height: 82px;"></div>
+                </div>
+                <div class="row">
+                  <div style="height: 32px; overflow: hidden; font-size: 8pt" class="col-xs-12">{{ candidato.plancha}}-{{ candidato.numero}} {{ candidato.nombres + ' ' + candidato.apellidos }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-if="votaciones.length==0" class="row">
+    <div class="label label-info">No estás inscrito en ninguna votación.</div>
+  </div>
+</div>

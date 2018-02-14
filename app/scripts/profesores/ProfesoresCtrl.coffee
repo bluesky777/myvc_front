@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('ProfesoresCtrl', ['$scope', '$uibModal', 'toastr', '$http', '$state', 'App', '$filter', ($scope, $uibModal, toastr, $http, $state, App, $filter)->
+.controller('ProfesoresCtrl', ['$scope', '$uibModal', 'toastr', 'uiGridConstants', '$http', '$state', 'App', '$filter', ($scope, $uibModal, toastr, uiGridConstants, $http, $state, App, $filter)->
 
 	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
 	$scope.current_year = $scope.USER.year_id
@@ -27,6 +27,8 @@ angular.module("myvcFrontApp")
 	btGrid1 = '<a uib-tooltip="Editar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
 	btGrid2 = '<a uib-tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-times "></i></a>'
 	btGrid3 = "==profesores/botonContratar.tpl.html"
+	btUsuario = "==directives/botonesResetPassword.tpl.html"
+	btEditUsername = "==profesores/botonEditUsername.tpl.html"
 
 	$scope.gridOptions =
 		enableSorting: true,
@@ -47,7 +49,7 @@ angular.module("myvcFrontApp")
 			{ field: 'apellidos', minWidth: 100 }
 			{ field: 'sexo', maxWidth: 40 }
 			{ field: 'fecha_nac', displayName: 'Nacimiento', minWidth: 100  }
-			{ field: 'username', displayName: 'Usuario', enableCellEdit: false, minWidth: 100 }
+			{ field: 'username', filter: { condition: uiGridConstants.filter.CONTAINS }, displayName: 'Usuario', cellTemplate: btUsuario, editableCellTemplate: btEditUsername, minWidth: 135 }
 			{ field: 'email_usu', displayName:'Email', minWidth: 100  }
 			{ field: 'celular', minWidth: 100 }
 		]
@@ -106,6 +108,7 @@ angular.module("myvcFrontApp")
 
 	btGridQuitar = '<a uib-tooltip="Quitar de año actual" tooltip-placement="left" class="btn btn-default btn-xs shiny danger" ng-click="grid.appScope.quitarContrato(row.entity.contrato_id)"><i class="fa fa-times "></i></a>'
 
+
 	$scope.gridCurrentOptions =
 		enableSorting: true,
 		enableFiltering: true,
@@ -124,7 +127,7 @@ angular.module("myvcFrontApp")
 			{ field: 'apellidos', minWidth: 100 }
 			{ field: 'sexo', width: 40 }
 			{ field: 'fecha_nac', displayName: 'Nacimiento', minWidth: 100  }
-			{ field: 'username', displayName: 'Usuario', minWidth: 100, enableCellEdit: false }
+			{ field: 'username', filter: { condition: uiGridConstants.filter.CONTAINS }, displayName: 'Usuario', cellTemplate: btUsuario, editableCellTemplate: btEditUsername, minWidth: 135 }
 			{ field: 'email_usu', displayName:'Email', minWidth: 100  }
 			{ field: 'celular', minWidth: 100 }
 		]
@@ -147,6 +150,32 @@ angular.module("myvcFrontApp")
 	, (r2)->
 		toastr.error 'No se trajeron los profesores contratados'
 	)
+
+
+	$scope.cambiaUsernameCheck = (texto)->
+		$scope.verificandoUsername = true
+		return $http.put('::users/usernames-check', {texto: texto}).then((r)->
+			$scope.username_match 		= r.data.usernames
+			$scope.verificandoUsername 	= false
+			return $scope.username_match.map((item)->
+				return item.username
+			)
+		)
+
+	$scope.resetPass = (row)->
+
+		modalInstance = $uibModal.open({
+			templateUrl: App.views + 'usuarios/resetPass.tpl.html'
+			controller: 'ResetPassCtrl'
+			resolve:
+				usuario: ()->
+					row
+		})
+		modalInstance.result.then( (user)->
+			#console.log 'Resultado del modal: ', user
+		)
+
+
 
 
 	return

@@ -29,8 +29,8 @@ angular.module('myvcFrontApp')
 			{ field: 'desempenio', displayName:'Desempeño', enableSorting: false, enableColumnMenu: false }
 			{ name: 'eliminar', displayName:'Elimin', width: 50, enableSorting: false, enableFiltering: false, cellTemplate: btGrid2, enableCellEdit: false, enableColumnMenu: false}
 			{ field: 'descripcion', displayName:'Descripción' }
-			{ field: 'icono_adolescente', displayName:'Ícono adolescente' }
-			{ field: 'icono_infantil', displayName:'Ícono infantil' }
+			{ field: 'porc_inicial', displayName:'Valor inicial' }
+			{ field: 'porc_final', displayName:'Valor final' }
 			{ field: 'orden', type: 'number' }
 			{ field: 'perdido', type:'boolean', cellTemplate: '<input type="checkbox" ng-model="row.entity.perdido" ng-true-value="1" ng-false-value="0">' }
 			{ field: 'valoracion', displayName:'Valoración'}

@@ -217,14 +217,33 @@ angular.module('myvcFrontApp')
 
 
 		.state 'panel.informes.ver_observador_vertical',
-			url: '/ver_observador_vertical'
+			url: '/ver_observador_vertical/:grupo_id'
+			params:
+				grupo_id: {value: null}
 			views:
 				'report_content':
 					templateUrl: "==informes/verObservadorVertical.tpl.html"
 					controller: 'VerObservadorVerticalCtrl' # En NotasPerdidasProfesorCtrl.coffee
 					resolve:
 						grupos_observador: ['$http', '$stateParams', ($http, $stateParams)->
-							$http.get('::observador/vertical')
+							$http.get('::observador/vertical/'+$stateParams.grupo_id)
+						]
+			data:
+				displayName: 'Observador'
+				icon_fa: 'fa fa-print'
+				pageTitle: 'Observador - MyVc'
+
+
+
+		.state 'panel.informes.ver_observador_vertical_todos',
+			url: '/ver_observador_vertical_todos'
+			views:
+				'report_content':
+					templateUrl: "==informes/verObservadorVertical.tpl.html"
+					controller: 'VerObservadorVerticalCtrl' # En NotasPerdidasProfesorCtrl.coffee
+					resolve:
+						grupos_observador: ['$http', '$stateParams', ($http, $stateParams)->
+							$http.get('::observador/vertical-todos')
 						]
 			data:
 				displayName: 'Observador'

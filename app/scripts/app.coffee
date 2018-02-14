@@ -63,6 +63,20 @@ angular.module('myvcFrontApp', [
 		images: server + 'images/'
 		perfilPath: server + 'images/perfil/'
 		imgSharedPath: server + 'images/shared/'
+		parentescos: [
+			{ parentesco: 	'Padre' }
+			{ parentesco: 	'Madre' }
+			{ parentesco: 	'Hermano' }
+			{ parentesco: 	'Hermana' }
+			{ parentesco: 	'Abuelo' }
+			{ parentesco: 	'Abuela' }
+			{ parentesco: 	'Tío' }
+			{ parentesco: 	'Tía' }
+			{ parentesco: 	'Primo(a)' }
+			{ parentesco: 	'Otro' }
+		]
+		religiones:     ['Adventista', 'Católico', 'Pentecostal', 'Cuadrangular', 'Testigo de Jehová', 'Mormón', 'Otra', 'Ninguna']
+		tipos_sangre:   ['AB+', 'AB-', 'A+', 'A-', 'B+', 'B-', 'O+', 'O-']
 	}
 )())
 .constant('AUTH_EVENTS', {
@@ -103,5 +117,6 @@ angular.module('myvcFrontApp', [
 	can_edit_candidatos:		'can_edit_candidatos'
 	can_edit_unidades_subunidades:	'can_edit_unidades_subunidades'
 })
+
 
 
