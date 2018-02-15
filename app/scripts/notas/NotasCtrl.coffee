@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-.controller('NotasCtrl', ['$scope', 'toastr', '$http', '$uibModal', '$state', 'notas', '$rootScope', '$filter', 'App', 'AuthService', '$timeout', ($scope, toastr, $http, $modal, $state, notas, $rootScope, $filter, App, AuthService, $timeout) ->
+.controller('NotasCtrl', ['$scope', 'toastr', '$http', '$uibModal', '$state', 'notas', '$rootScope', '$filter', 'App', 'AuthService', '$timeout', 'EscalasValorativasServ', ($scope, toastr, $http, $modal, $state, notas, $rootScope, $filter, App, AuthService, $timeout, EscalasValorativasServ) ->
 
 	AuthService.verificar_acceso()
 
@@ -27,6 +27,13 @@ angular.module('myvcFrontApp')
 
 	$scope.subunidadesunidas = []
 
+	EscalasValorativasServ.escalas().then((r)->
+		$scope.escalas = r
+	, (r2)->
+		console.log 'No se trajeron las escalas valorativas', r2
+	)
+
+	$scope.escala_maxima = EscalasValorativasServ.escala_maxima()
 
 
 	# Las Subunidades están en cada Unidad. Necesito agregarlas juntas en un solo Array
@@ -249,6 +256,10 @@ angular.module('myvcFrontApp')
 
 
 	$scope.cambiaNota = (nota, otra)->
+		console.log nota.nota, $scope.escala_maxima.porc_final
+		if nota.nota > $scope.escala_maxima.porc_final or nota.nota == 'undefined' or nota.nota == undefined
+			toastr.error 'No puede ser mayor de ' + $scope.escala_maxima.porc_final, 'NO guardada', {timeOut: 8000}
+			return
 		$http.put('::notas/update/'+nota.id, {nota: nota.nota}).then((r)->
 			toastr.success 'Cambiada: ' + nota.nota
 		, (r2)->

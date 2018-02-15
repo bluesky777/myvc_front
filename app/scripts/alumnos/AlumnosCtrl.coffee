@@ -294,6 +294,8 @@ angular.module("myvcFrontApp")
 
 
 
+
+
 	$scope.eliminarMatricula = (row)->
 
 		$http.delete('::matriculas/destroy/'+row.matricula_id).then((r)->
@@ -323,7 +325,7 @@ angular.module("myvcFrontApp")
 	appendPopover2 = "'mouseenter'"
 	append3 = "' '"
 	appendPopover = 'uib-popover-template="views+' + appendPopover1 + '" popover-trigger="'+appendPopover2+'" popover-title="{{ row.entity.nombres + ' + append3 + ' + row.entity.apellidos }}" popover-popup-delay="500" popover-append-to-body="true"'
-
+	checkIsNuevo = '<input type="checkbox" ng-model="row.entity.nuevo" ng-true-value="1" ng-false-value="0" ng-change="grid.appScope.toggleNuevo(row.entity)">'
 
 	$scope.gridOptions =
 		showGridFooter: true,
@@ -364,6 +366,7 @@ angular.module("myvcFrontApp")
 			{ field: 'no_matricula', displayName: '# matrícula', minWidth: 80, enableColumnMenu: true }
 			{ field: 'username', filter: { condition: uiGridConstants.filter.CONTAINS }, displayName: 'Usuario', cellTemplate: btUsuario, editableCellTemplate: btEditUsername, minWidth: 135 }
 			{ field: 'deuda', displayName: 'Deuda', type: 'number', cellFilter: 'currency:"$":0', minWidth: 70 }
+			{ field: 'nuevo', displayName: 'Nuevo?', type: 'number', minWidth: 70 }
 			{ field: 'pazysalvo', displayName: 'A paz?', cellTemplate: btPazysalvo, minWidth: 60, enableCellEdit: false }
 			{ field: 'religion', displayName: 'Religión', minWidth: 70, editableCellTemplate: btEditReligion }
 			{ field: 'tipo_doc', displayName: 'Tipo documento', minWidth: 120, cellTemplate: btTipoDoc, enableCellEdit: false }
@@ -373,8 +376,8 @@ angular.module("myvcFrontApp")
 			{ field: 'estrato', minWidth: 70, type: 'number' }
 			{ field: 'fecha_nac', displayName:'Nacimiento', cellFilter: "date:mediumDate", type: 'date', minWidth: 100}
 			{ field: 'ciudad_nac', displayName: 'Ciud Nacimi', minWidth: 120, cellTemplate: btCiudadNac, enableCellEdit: false }
-			{ field: 'direccion', displayName: 'Dirección', minWidth: 70 }
-			{ field: 'barrio', minWidth: 70 }
+			{ field: 'direccion', displayName: 'Dirección', minWidth: 80 }
+			{ field: 'barrio', minWidth: 80 }
 			{ field: 'ciudad_resid', displayName: 'Ciud Resid', minWidth: 120, cellTemplate: btCiudadResid, enableCellEdit: false }
 			{ field: 'telefono', displayName: 'Teléfono', minWidth: 80 }
 			{ field: 'eps', displayName: 'EPS', minWidth: 100, editableCellTemplate: btEditEPS }
@@ -454,6 +457,19 @@ angular.module("myvcFrontApp")
 							toastr.warning 'Debe ser de diez dígitos'
 							#rowEntity.documento = oldValue
 							return
+
+					if colDef.field == "nuevo"
+						if parseInt(newValue) < 0 or parseInt(newValue) > 1
+							rowEntity[colDef.field] = oldValue
+							toastr.warning 'Coloque 1 si es nuevo, 0 si estuvo el año pasado.'
+							return
+						$http.put('::matriculas/toggle-nuevo', {matricula_id: rowEntity.matricula_id, is_nuevo: newValue }).then((r)->
+							toastr.success 'Cambiado'
+						, (r2)->
+							toastr.error 'No se cambió si era nuevo o no', 'Problema'
+							rowEntity[colDef.field] = oldValue
+						)
+						return
 
 					$http.put('::alumnos/guardar-valor', {alumno_id: rowEntity.alumno_id, propiedad: colDef.field, valor: newValue } ).then((r)->
 						toastr.success 'Alumno(a) actualizado con éxito'

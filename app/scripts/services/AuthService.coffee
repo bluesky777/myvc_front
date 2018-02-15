@@ -154,6 +154,7 @@ angular.module('myvcFrontApp')
 		$rootScope.lastStateParam = null
 		Perfil.deleteUser()
 		authService.borrarToken()
+		delete localStorage.logueando
 		$state.transitionTo 'login'
 
 	authService.borrarToken = ()->

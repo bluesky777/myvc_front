@@ -18,12 +18,12 @@ angular.module('myvcFrontApp')
 
 ])
 
-.factory('EscalasValorativasServ', ['$http', '$q', ($http, $q) ->
+.factory('EscalasValorativasServ', ['$http', '$q', '$filter', ($http, $q, $filter) ->
 	escalas = []
 
 	escalasr = {}
-	
-	escalasr.escalas = (asignatura_id)->
+
+	escalasr.escalas = ()->
 		d = $q.defer();
 
 		if escalas.length > 0
@@ -45,6 +45,10 @@ angular.module('myvcFrontApp')
 			)
 
 		return d.promise
+
+	escalasr.escala_maxima = ()->
+		escala_max = $filter('orderBy')(escalas, 'orden')[escalas.length-1]
+		return escala_max
 
 	return escalasr
 
