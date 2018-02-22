@@ -159,9 +159,10 @@ angular.module('myvcFrontApp')
 
 	$scope.ok = ()->
 
-		data_id = if asked.detalles then asked.detalles.data_id else asked.assignment_id
+		data_id       = if asked.detalles then asked.detalles.data_id else asked.assignment_id
+		assignment_id = asked.detalles.assignment_id
 
-		datos = { asked_id: asked.asked_id, data_id: data_id, tipo: tipo, asker_id: asked.asked_by_user_id }
+		datos = { asked_id: asked.asked_id, data_id: data_id, assignment_id: assignment_id, tipo: tipo, asker_id: asked.asked_by_user_id }
 
 		$http.put('::ChangesAsked/rechazar', datos).then((r)->
 			$modalInstance.close(r.data)

@@ -112,6 +112,11 @@ angular.module('myvcFrontApp')
 		)
 
 
+	$scope.irDefinitivas = (asignatura)->
+		localStorage.asignatura_id_def  = asignatura.asignatura_id
+		$state.go('panel.definitivas_periodos', {profesor_id: $state.params.profesor_id})
+
+
 
 
 	$scope.open = (asignatura)->

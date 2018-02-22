@@ -1,6 +1,6 @@
 angular.module('myvcFrontApp')
 
-.directive('sidebarMenu',['$rootScope', 'AuthService', '$http', '$uibModal', 'Perfil', 'ProfesoresServ', '$window', ($rootScope, AuthService, $http, $modal, Perfil, ProfesoresServ, $window)->
+.directive('sidebarMenu',['$rootScope', 'AuthService', '$http', '$uibModal', 'Perfil', 'ProfesoresServ', '$window', '$state', ($rootScope, AuthService, $http, $modal, Perfil, ProfesoresServ, $window, $state)->
 
 	restrict: 'E'
 	replace: true
@@ -57,6 +57,11 @@ angular.module('myvcFrontApp')
 			modalInstance.result.then( (r)->
 				#console.log 'Resultado del modal: ', r
 			)
+
+
+		$scope.irDefinitivas = (profesor_id)->
+			$state.go('panel.definitivas_periodos', {profesor_id: profesor_id})
+
 
 		$scope.ir_a_informes = ()->
 			$scope.$parent.bigLoader 	= true

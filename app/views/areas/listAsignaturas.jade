@@ -70,7 +70,8 @@ h6.row-title.before-blue(ng-if="profesor_id")
 				.databox-text.darkgray
 					.btn-group
 						a.btn.btn-default.btn-sm(ui-sref="panel.unidades({asignatura_id: asignatura.asignatura_id})") {{UNIDADES}}
-						a.btn.btn-default.btn-sm(ng-click="noEsMia(asignatura)") No es mía
+						a.btn.btn-default.btn-sm(ng-click="noEsMia(asignatura)" ng-show="hasRoleOrPerm(['profesor'])") No es mía
+						a.btn.btn-default.btn-sm(ng-click="irDefinitivas(asignatura)") Definitivas
 						span  IH: {{asignatura.creditos}}  -
 						span  {{UNIDADES}}: {{asignatura.unidades.items.length}}
 						span(ng-show="asignatura.unidades.porc_subunidades_incorrecto") - {{SUBUNIDADES}} incorrectos.

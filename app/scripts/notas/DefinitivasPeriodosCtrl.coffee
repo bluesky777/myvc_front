@@ -1,14 +1,14 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-.controller('DefinitivasPeriodosCtrl', ['$scope', 'toastr', '$http', '$uibModal', '$state', '$rootScope', '$filter', 'App', 'asignaturas_definitivas', 'AuthService', '$timeout', ($scope, toastr, $http, $modal, $state, $rootScope, $filter, App, asignaturas_definitivas, AuthService, $timeout) ->
+.controller('DefinitivasPeriodosCtrl', ['$scope', 'toastr', '$http', '$uibModal', '$state', '$rootScope', '$filter', 'App', 'asignaturas_definitivas', 'AuthService', '$timeout', 'EscalasValorativasServ', ($scope, toastr, $http, $modal, $state, $rootScope, $filter, App, asignaturas_definitivas, AuthService, $timeout, EscalasValorativasServ) ->
 
 	AuthService.verificar_acceso()
 
 
 	$scope.asignatura 	= {}
 	$scope.asignatura_id = $state.params.asignatura_id
-	$scope.datos 		= {}
+	$scope.datos 		  = {}
 	$scope.UNIDAD 		= $scope.USER.unidad_displayname
 	$scope.SUBUNIDAD 	= $scope.USER.subunidad_displayname
 	$scope.UNIDADES 	= $scope.USER.unidades_displayname
@@ -17,11 +17,13 @@ angular.module('myvcFrontApp')
 	$scope.views 		= App.views
 	$scope.nota_minima_aceptada = parseInt($scope.USER.nota_minima_aceptada)
 	$scope.opts_picker 		= { minDate: new Date('1/1/2017'), showWeeks: false, startingDay: 0 }
-	$scope.dato       = {}
+	$scope.dato       = { asignatura: {} }
 	$scope.ocultando_ausencias 	= true
 
+	$scope.escala_maxima = EscalasValorativasServ.escala_maxima()
 
 	$scope.$parent.bigLoader 	= false
+
 
 	$scope.selectAsignatura = (asignatura)->
 		localStorage.asignatura_id_def  = asignatura.asignatura_id
@@ -40,6 +42,17 @@ angular.module('myvcFrontApp')
 	$scope.asignaturas = asignaturas_definitivas.data
 	asignatura_id_def = 0
 
+
+
+	if $scope.USER.is_superuser
+		if $scope.asignaturas.length == 0
+			toastr.warning 'Profesor no tiene asignaturas'
+		else
+			$scope.dato.asignatura.nombres_profesor = $scope.asignaturas[0].nombres_profesor
+
+
+
+
 	if localStorage.asignatura_id_def
 			asignatura_id_def = parseInt(localStorage.asignatura_id_def)
 
@@ -49,47 +62,46 @@ angular.module('myvcFrontApp')
 			$scope.selectAsignatura($scope.dato.asignatura)
 
 
-
-
 	#####################################################################
 	######################      NOTAS       #############################
 	#####################################################################
 
 
-	$scope.cambiaNotaDef = (nota, otra)->
-		return
-		$http.put('::notas/update/'+nota.id, {nota: nota.nota}).then((r)->
-			toastr.success 'Cambiada: ' + nota.nota
+	$scope.cambiaNotaDef = (alumno, nota, nf_id)->
+
+		if nota > $scope.escala_maxima.porc_final or nota == 'undefined' or nota == undefined
+			toastr.error 'No puede ser mayor de ' + $scope.escala_maxima.porc_final, 'NO guardada', {timeOut: 8000}
+			return
+		$http.put('::definitivas_periodos/update', {nf_id: nf_id, nota: nota}).then((r)->
+			toastr.success 'Cambiada: ' + nota
 		, (r2)->
-			toastr.error 'No pudimos guardar la nota ' + nota.nota, '', {timeOut: 8000}
+			toastr.error 'No pudimos guardar la nota ' + nota, '', {timeOut: 8000}
 		)
 
 
 
-	$scope.promedioTotalDef = (alumno_id)->
-		return
-		$scope.subunidadesunidas
+	$scope.toggleNotaRecuperada = (alumno, recuperada, nf_id)->
 
-		acumUni = 0
-		for unidad in $scope.unidades
+		$http.put('::definitivas_periodos/toggle-recuperada', {nf_id: nf_id, recuperada: recuperada}).then((r)->
+			toastr.success 'Cambiada ' + (recuperada == 1)
+		, (r2)->
+			toastr.error 'No pudimos guardar la recuperación.', {timeOut: 8000}
+		)
 
-			porcUni = unidad.porcentaje
-			acumSub = 0
 
-			for subunidad in unidad.subunidades
 
-				porcSub = subunidad.porcentaje
-				#console.log subunidad.notas, alumno_id, $filter('filter')(subunidad.notas, {'alumno_id': alumno_id})[0]
+	$scope.promedioTotalDef = (alu)->
 
-				notaTemp = $filter('filter')(subunidad.notas, {'alumno_id': alumno_id}, true)[0]
-				valorNota = parseInt(notaTemp.nota) * parseInt(porcSub) / 100
-				acumSub = acumSub + valorNota
+		promedio 						= (alu.nota_final_per1 + alu.nota_final_per2 + alu.nota_final_per3 + alu.nota_final_per4) / 4
+		alu.nota_requerida 	= 0
+		alu.total_definit 	= 0
 
-			valorUni = acumSub * parseInt(porcUni) / 100
-			acumUni = acumUni + valorUni
+		if promedio < $scope.nota_minima_aceptada
+			alu.nota_requerida = $filter('number')($scope.nota_minima_aceptada - promedio, 0)
 
-		return $filter('number')(acumUni, 1);
+		alu.total_definit 	= parseFloat($filter('number')(promedio, 1))
 
+		return alu.total_definit;
 
 
 

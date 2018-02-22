@@ -10,10 +10,13 @@
           </div>
         </div>
       </div>
-      <div ng-show="dato.asignatura" class="table-responsive">
-        <div style="margin-top: 20px; margin-bottom: 10px; " class="row">
-          <div class="col-lg-12 col-sm-12">
-            <button ng-click="toggleAusencias()" uib-tooltip="Editar Ausencias y Tardanzas" tooltip-append-to-body="true" class="btn btn-default"><span style="padding-right: 3px">Ausencias</span><i class="fa fa-clock-o"></i></button>
+      <div ng-show="dato.asignatura.alumnos" class="table-responsive">
+        <div class="row">
+          <div class="col-md-12">
+            <div ng-show="dato.asignatura.alumnos.per_desact['per1']" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px" class="alert alert-info fade in radius-bordered"><i class="fa-fw fa fa-info"></i>Periodo 1 acaba de ser calculado</div>
+            <div ng-show="dato.asignatura.alumnos.per_desact['per2']" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px" class="alert alert-info fade in radius-bordered"><i class="fa-fw fa fa-info"></i>Periodo 2 acaba de ser calculado</div>
+            <div ng-show="dato.asignatura.alumnos.per_desact['per3']" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px" class="alert alert-info fade in radius-bordered"><i class="fa-fw fa fa-info"></i>Periodo 3 acaba de ser calculado</div>
+            <div ng-show="dato.asignatura.alumnos.per_desact['per4']" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px" class="alert alert-info fade in radius-bordered"><i class="fa-fw fa fa-info"></i>Periodo 4 acaba de ser calculado</div>
           </div>
         </div>
         <table ng-class="{'ocultando-ausencias': ocultando_ausencias }" class="table table-hover table-condensed table-striped tablenot100">
@@ -25,147 +28,127 @@
               <th rowspan="2" style="min-width: 50px; line-height: 3;" class="text-center">
                 <div>Nombres</div>
               </th>
-              <th rowspan="2" style="border-right: 1px solid #999; min-width: 180px; line-height: 3; background-color: #d0d0d0 !important" class="td-ausencia text-center">
-                <div>Ausencias P1</div>
-              </th>
-              <th rowspan="2" style="border-right: 1px solid #999; min-width: 180px; line-height: 3; background-color: #d0d0d0 !important" class="td-ausencia text-center">
-                <div>Tardanzas P1</div>
-              </th>
-              <th rowspan="2" style="border-right: 1px solid #999; min-width: 180px; line-height: 3; background-color: #d0d0d0 !important" class="td-ausencia text-center">
-                <div>Ausencias P2</div>
-              </th>
-              <th rowspan="2" style="border-right: 1px solid #999; min-width: 180px; line-height: 3; background-color: #d0d0d0 !important" class="td-ausencia text-center">
-                <div>Tardanzas P2</div>
-              </th>
-              <th rowspan="2" style="border-right: 1px solid #999; min-width: 180px; line-height: 3; background-color: #d0d0d0 !important" class="td-ausencia text-center">
-                <div>Ausencias P3</div>
-              </th>
-              <th rowspan="2" style="border-right: 1px solid #999; min-width: 180px; line-height: 3; background-color: #d0d0d0 !important" class="td-ausencia text-center">
-                <div>Tardanzas P3</div>
-              </th>
-              <th rowspan="2" style="border-right: 1px solid #999; min-width: 180px; line-height: 3; background-color: #d0d0d0 !important" class="td-ausencia text-center">
-                <div>Ausencias P4</div>
-              </th>
-              <th rowspan="2" style="border-right: 1px solid #999; min-width: 180px; line-height: 3; background-color: #d0d0d0 !important" class="td-ausencia text-center">
-                <div>Tardanzas P4</div>
-              </th>
-              <th colspan="2" style="border-right: 1px solid #ddd">
+              <th colspan="3" class="border-right-dddd">
                 <div uib-tooltip="Periodo 1" tooltip-popup-delay="500" ng-class="'maxwidth' + unidad.subunidades.length" class="text-center nombresellipsis">Per1</div>
               </th>
-              <th colspan="2" style="border-right: 1px solid #ddd">
+              <th colspan="3" class="border-right-dddd">
                 <div uib-tooltip="Periodo 2" tooltip-popup-delay="500" ng-class="'maxwidth' + unidad.subunidades.length" class="text-center nombresellipsis">Per2</div>
               </th>
-              <th colspan="2" style="border-right: 1px solid #ddd">
+              <th colspan="3" class="border-right-dddd">
                 <div uib-tooltip="Periodo 3" tooltip-popup-delay="500" ng-class="'maxwidth' + unidad.subunidades.length" class="text-center nombresellipsis">Per3</div>
               </th>
-              <th colspan="2" style="border-right: 1px solid #ddd">
+              <th colspan="3" class="border-right-dddd">
                 <div uib-tooltip="Periodo 4" tooltip-popup-delay="500" ng-class="'maxwidth' + unidad.subunidades.length" class="text-center nombresellipsis">Per4</div>
               </th>
               <th rowspan="2" style="line-height: 3;">
-                <div>Def</div>
+                <div uib-tooltip="Promedio de las notas automáticas">PromAuto</div>
+              </th>
+              <th rowspan="2" style="line-height: 3;">
+                <div uib-tooltip="Promedio real que aparecerá en los boletines">Definitiva</div>
+              </th>
+              <th rowspan="2" style="line-height: 3;">
+                <div uib-tooltip="Valor que le falta para pasar">Falta</div>
               </th>
             </tr>
             <tr>
               <th>
-                <div uib-tooltip="Automática: calculada por el sistema" tooltip-popup-delay="500" class="text-center nombresellipsis">Auto</div>
+                <div uib-tooltip="Automática: calculada por el sistema" tooltip-popup-delay="500" class="text-center nombresellipsis">Calcu</div>
               </th>
               <th style="border-right: 1px solid #ddd">
-                <div uib-tooltip="Manual: colocada por docente" tooltip-popup-delay="500" class="text-center nombresellipsis">Manual</div>
+                <div uib-tooltip="Así se verá en los informes" tooltip-popup-delay="500" class="text-center nombresellipsis">Final</div>
+              </th>
+              <th style="border-right: 1px solid #ddd">
+                <div uib-tooltip="Establecer si la nota es recuperada o normal" tooltip-popup-delay="500" class="text-center nombresellipsis">Rec</div>
               </th>
               <th>
-                <div uib-tooltip="Automática: calculada por el sistema" tooltip-popup-delay="500" class="text-center nombresellipsis">Auto</div>
+                <div uib-tooltip="Automática: calculada por el sistema" tooltip-popup-delay="500" class="text-center nombresellipsis">Calcu</div>
               </th>
               <th style="border-right: 1px solid #ddd">
-                <div uib-tooltip="Manual: colocada por docente" tooltip-popup-delay="500" class="text-center nombresellipsis">Manual</div>
+                <div uib-tooltip="Así se verá en los informes" tooltip-popup-delay="500" class="text-center nombresellipsis">Final</div>
+              </th>
+              <th style="border-right: 1px solid #ddd">
+                <div uib-tooltip="Establecer si la nota es recuperada o normal" tooltip-popup-delay="500" class="text-center nombresellipsis">Rec</div>
               </th>
               <th>
-                <div uib-tooltip="Automática: calculada por el sistema" tooltip-popup-delay="500" class="text-center nombresellipsis">Auto</div>
+                <div uib-tooltip="Automática: calculada por el sistema" tooltip-popup-delay="500" class="text-center nombresellipsis">Calcu</div>
               </th>
               <th style="border-right: 1px solid #ddd">
-                <div uib-tooltip="Manual: colocada por docente" tooltip-popup-delay="500" class="text-center nombresellipsis">Manual</div>
+                <div uib-tooltip="Así se verá en los informes" tooltip-popup-delay="500" class="text-center nombresellipsis">Final</div>
+              </th>
+              <th style="border-right: 1px solid #ddd">
+                <div uib-tooltip="Establecer si la nota es recuperada o normal" tooltip-popup-delay="500" class="text-center nombresellipsis">Rec</div>
               </th>
               <th>
-                <div uib-tooltip="Automática: calculada por el sistema" tooltip-popup-delay="500" class="text-center nombresellipsis">Auto</div>
+                <div uib-tooltip="Automática: calculada por el sistema" tooltip-popup-delay="500" class="text-center nombresellipsis">Calcu</div>
               </th>
               <th style="border-right: 1px solid #ddd">
-                <div uib-tooltip="Manual: colocada por docente" tooltip-popup-delay="500" class="text-center nombresellipsis">Manual</div>
+                <div uib-tooltip="Así se verá en los informes" tooltip-popup-delay="500" class="text-center nombresellipsis">Final</div>
+              </th>
+              <th style="border-right: 1px solid #ddd">
+                <div uib-tooltip="Establecer si la nota es recuperada o normal" tooltip-popup-delay="500" class="text-center nombresellipsis">Rec</div>
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="alumno in dato.asignatura.alumnos | filter:searchAlum" ng-class="{'danger': promedioTotal(alumno.alumno_id) &lt; nota_minima_aceptada}">
+            <tr ng-repeat="alumno in dato.asignatura.alumnos.alumnos | filter:searchAlum" ng-class="{'danger': promedioTotal(alumno.alumno_id) &lt; nota_minima_aceptada}">
               <td>
                 <div>{{$index+1}}</div>
               </td>
-              <td ng-click="filaNotaRapida(alumno, $index)" style="padding: 0 5px;">
+              <td style="padding: 0 5px;">
                 <div uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" class="nombresellipsis"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 30px; height: 30px;">{{alumno.apellidos + ' ' + alumno.nombres}}<span ng-show="alumno.estado=='ASIS'" style="font-size: 8pt">(Asis)</span></div>
               </td>
-              <!-- Ausencias 1-->
-              <td class="td-ausencia">
-                <input uib-tooltip="" tooltip-popup-delay="500" type="number" min="0" max="99" ng-model="alumno.ausencias_count" ng-change="cambiaAusencia(alumno)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-focus="onInputFocus($event)" class="input-ausencia">
-                <button ng-repeat="ausencia in alumno.ausencias" ng-click="clickAusenciaObject(ausencia)" uib-popover-template="views+'notas/popoverAusenciaObject.tpl.html'" popover-title="Editar ausencia" style="width: 55px" popover-trigger="'none'" popover-is-open="ausencia.isOpen" class="btn btn-xs"><span ng-hide="ausencia.fecha_hora"><i class="fa fa-clock-o"></i></span><span ng-show="ausencia.fecha_hora">{{ ausencia.fecha_hora | date:'d MMM' }}</span></button>
-              </td>
-              <!-- Tardanzas 1-->
-              <td class="td-ausencia">
-                <input uib-tooltip="" tooltip-popup-delay="500" type="number" min="0" max="99" ng-model="alumno.tardanzas_count" ng-change="cambiaTardanza(alumno)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-focus="onInputFocus($event)" class="input-ausencia">
-                <button ng-repeat="tardanza in alumno.tardanzas" ng-click="clickTardanzaObject(tardanza)" uib-popover-template="views+'notas/popoverTardanzaObject.tpl.html'" popover-title="Editar tardanza" style="width: 55px" popover-trigger="'none'" popover-is-open="tardanza.isOpen" class="btn btn-xs"><span ng-hide="tardanza.fecha_hora"><i class="fa fa-clock-o"></i></span><span ng-show="tardanza.fecha_hora">{{ tardanza.fecha_hora | date:'d MMM' }}</span></button>
-              </td>
-              <!-- Ausencias 2-->
-              <td class="td-ausencia">
-                <input uib-tooltip="" tooltip-popup-delay="500" type="number" min="0" max="99" ng-model="alumno.ausencias_count" ng-change="cambiaAusencia(alumno)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-focus="onInputFocus($event)" class="input-ausencia">
-                <button ng-repeat="ausencia in alumno.ausencias" ng-click="clickAusenciaObject(ausencia)" uib-popover-template="views+'notas/popoverAusenciaObject.tpl.html'" popover-title="Editar ausencia" style="width: 55px" popover-trigger="'none'" popover-is-open="ausencia.isOpen" class="btn btn-xs"><span ng-hide="ausencia.fecha_hora"><i class="fa fa-clock-o"></i></span><span ng-show="ausencia.fecha_hora">{{ ausencia.fecha_hora | date:'d MMM' }}</span></button>
-              </td>
-              <!-- Tardanzas 2-->
-              <td class="td-ausencia">
-                <input uib-tooltip="" tooltip-popup-delay="500" type="number" min="0" max="99" ng-model="alumno.tardanzas_count" ng-change="cambiaTardanza(alumno)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-focus="onInputFocus($event)" class="input-ausencia">
-                <button ng-repeat="tardanza in alumno.tardanzas" ng-click="clickTardanzaObject(tardanza)" uib-popover-template="views+'notas/popoverTardanzaObject.tpl.html'" popover-title="Editar tardanza" style="width: 55px" popover-trigger="'none'" popover-is-open="tardanza.isOpen" class="btn btn-xs"><span ng-hide="tardanza.fecha_hora"><i class="fa fa-clock-o"></i></span><span ng-show="tardanza.fecha_hora">{{ tardanza.fecha_hora | date:'d MMM' }}</span></button>
-              </td>
-              <!-- Ausencias 3-->
-              <td class="td-ausencia">
-                <input uib-tooltip="" tooltip-popup-delay="500" type="number" min="0" max="99" ng-model="alumno.ausencias_count" ng-change="cambiaAusencia(alumno)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-focus="onInputFocus($event)" class="input-ausencia">
-                <button ng-repeat="ausencia in alumno.ausencias" ng-click="clickAusenciaObject(ausencia)" uib-popover-template="views+'notas/popoverAusenciaObject.tpl.html'" popover-title="Editar ausencia" style="width: 55px" popover-trigger="'none'" popover-is-open="ausencia.isOpen" class="btn btn-xs"><span ng-hide="ausencia.fecha_hora"><i class="fa fa-clock-o"></i></span><span ng-show="ausencia.fecha_hora">{{ ausencia.fecha_hora | date:'d MMM' }}</span></button>
-              </td>
-              <!-- Tardanzas 3-->
-              <td class="td-ausencia">
-                <input uib-tooltip="" tooltip-popup-delay="500" type="number" min="0" max="99" ng-model="alumno.tardanzas_count" ng-change="cambiaTardanza(alumno)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-focus="onInputFocus($event)" class="input-ausencia">
-                <button ng-repeat="tardanza in alumno.tardanzas" ng-click="clickTardanzaObject(tardanza)" uib-popover-template="views+'notas/popoverTardanzaObject.tpl.html'" popover-title="Editar tardanza" style="width: 55px" popover-trigger="'none'" popover-is-open="tardanza.isOpen" class="btn btn-xs"><span ng-hide="tardanza.fecha_hora"><i class="fa fa-clock-o"></i></span><span ng-show="tardanza.fecha_hora">{{ tardanza.fecha_hora | date:'d MMM' }}</span></button>
-              </td>
-              <!-- Ausencias 4-->
-              <td class="td-ausencia">
-                <input uib-tooltip="" tooltip-popup-delay="500" type="number" min="0" max="99" ng-model="alumno.ausencias_count" ng-change="cambiaAusencia(alumno)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-focus="onInputFocus($event)" class="input-ausencia">
-                <button ng-repeat="ausencia in alumno.ausencias" ng-click="clickAusenciaObject(ausencia)" uib-popover-template="views+'notas/popoverAusenciaObject.tpl.html'" popover-title="Editar ausencia" style="width: 55px" popover-trigger="'none'" popover-is-open="ausencia.isOpen" class="btn btn-xs"><span ng-hide="ausencia.fecha_hora"><i class="fa fa-clock-o"></i></span><span ng-show="ausencia.fecha_hora">{{ ausencia.fecha_hora | date:'d MMM' }}</span></button>
-              </td>
-              <!-- Tardanzas 4-->
-              <td class="td-ausencia">
-                <input uib-tooltip="" tooltip-popup-delay="500" type="number" min="0" max="99" ng-model="alumno.tardanzas_count" ng-change="cambiaTardanza(alumno)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-focus="onInputFocus($event)" class="input-ausencia">
-                <button ng-repeat="tardanza in alumno.tardanzas" ng-click="clickTardanzaObject(tardanza)" uib-popover-template="views+'notas/popoverTardanzaObject.tpl.html'" popover-title="Editar tardanza" style="width: 55px" popover-trigger="'none'" popover-is-open="tardanza.isOpen" class="btn btn-xs"><span ng-hide="tardanza.fecha_hora"><i class="fa fa-clock-o"></i></span><span ng-show="tardanza.fecha_hora">{{ tardanza.fecha_hora | date:'d MMM' }}</span></button>
+              <td>
+                <div>{{alumno.def_materia_auto_1 }}</div>
               </td>
               <td>
-                <div>{{alumno.notas.def_per1_auto}}</div>
+                <div ng-class="{'inputnota-perdida': alumno.nota_final_per1 &lt; nota_minima_aceptada, 'inputnota-superior': alumno.nota_final_per1 &gt;= escala_maxima.porc_inicial }" class="text-center">
+                  <input type="number" min="0" max="{{::escala_maxima.porc_final}}" ng-model="alumno.nota_final_per1" ng-change="cambiaNotaDef(alumno, alumno.nota_final_per1, alumno.nf_id_1)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])" class="input-nota">
+                </div>
               </td>
               <td>
-                <input type="number" min="0" max="100" ng-model="alumno.notas.def_per1_manual" ng-change="cambiaNotaDefPer1Manual(alumno, alumno.notas.def_per1_manual" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])" class="input-nota">
+                <input type="checkbox" ng-model="alumno.recuperada_1" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_1, alumno.nf_id_1)" style="opacity: 1; position: unset;" class="no-margin-top">
               </td>
               <td>
-                <div>{{alumno.notas.def_per1_auto}}</div>
+                <div>{{alumno.def_materia_auto_2 }}</div>
               </td>
               <td>
-                <input type="number" min="0" max="100" ng-model="alumno.notas.def_per1_manual" ng-change="cambiaNotaDefPer1Manual(alumno, alumno.notas.def_per1_manual" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])" class="input-nota">
+                <div ng-class="{'inputnota-perdida': alumno.nota_final_per2 &lt; nota_minima_aceptada, 'inputnota-superior': alumno.nota_final_per2 &gt;= escala_maxima.porc_inicial }" class="text-center">
+                  <input type="number" min="0" max="{{::escala_maxima.porc_final}}" ng-model="alumno.nota_final_per2" ng-change="cambiaNotaDef(alumno, alumno.nota_final_per2, alumno.nf_id_2)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])" class="input-nota">
+                </div>
               </td>
               <td>
-                <div>{{alumno.notas.def_per1_auto}}</div>
+                <input type="checkbox" ng-model="alumno.recuperada_2" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_2, alumno.nf_id_2)" style="opacity: 1; position: unset;" class="no-margin-top">
               </td>
               <td>
-                <input type="number" min="0" max="100" ng-model="alumno.notas.def_per1_manual" ng-change="cambiaNotaDefPer1Manual(alumno, alumno.notas.def_per1_manual" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])" class="input-nota">
+                <div>{{alumno.def_materia_auto_3 }}</div>
               </td>
               <td>
-                <div>{{alumno.notas.def_per1_auto}}</div>
+                <div ng-class="{'inputnota-perdida': alumno.nota_final_per3 &lt; nota_minima_aceptada, 'inputnota-superior': alumno.nota_final_per3 &gt;= escala_maxima.porc_inicial }" class="text-center">
+                  <input type="number" min="0" max="{{::escala_maxima.porc_final}}" ng-model="alumno.nota_final_per3" ng-change="cambiaNotaDef(alumno, alumno.nota_final_per3, alumno.nf_id_3)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])" class="input-nota">
+                </div>
               </td>
               <td>
-                <input type="number" min="0" max="100" ng-model="alumno.notas.def_per1_manual" ng-change="cambiaNotaDefPer1Manual(alumno, alumno.notas.def_per1_manual" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])" class="input-nota">
-                <td>
-                  <div ng-bind-html="promedioTotalDef(alumno.alumno_id)"></div>
-                </td>
+                <input type="checkbox" ng-model="alumno.recuperada_3" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_3, alumno.nf_id_3)" style="opacity: 1; position: unset;" class="no-margin-top">
+              </td>
+              <td>
+                <div>{{alumno.def_materia_auto_4 }}</div>
+              </td>
+              <td>
+                <div ng-class="{'inputnota-perdida': alumno.nota_final_per4 &lt; nota_minima_aceptada, 'inputnota-superior': alumno.nota_final_per4 &gt;= escala_maxima.porc_inicial }" class="text-center">
+                  <input type="number" min="0" max="{{::escala_maxima.porc_final}}" ng-model="alumno.nota_final_per4" ng-change="cambiaNotaDef(alumno, alumno.nota_final_per4, alumno.nf_id_4)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])" class="input-nota">
+                </div>
+              </td>
+              <td>
+                <input type="checkbox" ng-model="alumno.recuperada_4" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_4, alumno.nf_id_4)" style="opacity: 1; position: unset;" class="no-margin-top">
+              </td>
+              <td>
+                <div class="text-center">{{ ::alumno.promedio_automatico}}</div>
+              </td>
+              <td>
+                <div ng-bind-html="promedioTotalDef(alumno)" ng-class="{'nota-perdida': alumno.total_definit &lt; nota_minima_aceptada, 'nota-superior': alumno.total_definit &gt;= escala_maxima.porc_inicial }" class="text-center"></div>
+              </td>
+              <td>
+                <div ng-bind-html="alumno.nota_requerida" class="text-center"></div>
               </td>
             </tr>
           </tbody>

@@ -117,7 +117,7 @@
 										| {{ alumno.frases.length }}
 							div
 								td(ng-repeat="subunidad in subunidadesunidas")
-									div.text-center(ng-class="{'inputnota-perdida': subunidad.notas[$parent.$index].nota < nota_minima_aceptada, 'inputnota-superior': subunidad.notas[$parent.$index].nota > escala_maxima.porc_inicial, 'cursorcell': notaRapida.enable == true}"
+									div.text-center(ng-class="{'inputnota-perdida': subunidad.notas[$parent.$index].nota < nota_minima_aceptada, 'inputnota-superior': subunidad.notas[$parent.$index].nota >= escala_maxima.porc_inicial, 'cursorcell': notaRapida.enable == true}"
 										ng-hide="subunidad.empty")
 										input.input-nota(uib-tooltip="{{subunidad.porcentaje}}% {{subunidad.definicion}}" tooltip-popup-delay="500"
 											type="number" min="0" max="{{::escala_maxima.porc_final}}"

@@ -46,7 +46,7 @@
         <!-- style="background-image: url(images/book-library-back-2.png); background-repeat: no-repeat; background-position: right;")-->
         <div class="databox-title lightcarbon">{{ asignatura.materia }}</div>
         <div class="databox-text darkgray">
-          <div class="btn-group"><a ui-sref="panel.unidades({asignatura_id: asignatura.asignatura_id})" class="btn btn-default btn-sm">{{UNIDADES}}</a><a ng-click="noEsMia(asignatura)" class="btn btn-default btn-sm">No es mía</a><span> IH: {{asignatura.creditos}}  -</span><span> {{UNIDADES}}: {{asignatura.unidades.items.length}}</span><span ng-show="asignatura.unidades.porc_subunidades_incorrecto">- {{SUBUNIDADES}} incorrectos.</span><span ng-show="asignatura.unidades.porc_notas_incorrecto">- notas NO agregadas.</span></div>
+          <div class="btn-group"><a ui-sref="panel.unidades({asignatura_id: asignatura.asignatura_id})" class="btn btn-default btn-sm">{{UNIDADES}}</a><a ng-click="noEsMia(asignatura)" ng-show="hasRoleOrPerm(['profesor'])" class="btn btn-default btn-sm">No es mía</a><a ng-click="irDefinitivas(asignatura)" class="btn btn-default btn-sm">Definitivas</a><span> IH: {{asignatura.creditos}}  -</span><span> {{UNIDADES}}: {{asignatura.unidades.items.length}}</span><span ng-show="asignatura.unidades.porc_subunidades_incorrecto">- {{SUBUNIDADES}} incorrectos.</span><span ng-show="asignatura.unidades.porc_notas_incorrecto">- notas NO agregadas.</span></div>
         </div>
         <div class="databox-stat radius-bordered bg-primary">
           <div class="stat-text">{{asignatura.nombre_grupo}}</div>

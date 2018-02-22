@@ -24,19 +24,33 @@
 									div(ng-bind-html="depart.departamento | highlight: $select.search")
 
 						.col-lg-6.col-sm-6.col-xs-12(ng-show="!mostrarAgregarCiudad")
+							a(href="" ng-click="mostrarAgregarPais = true") Crear pais
+							br
 							a(href="" ng-click="mostrarAgregarCiudad = true") Crear ciudad/departamento
 
-						.form-group.col-lg-6.col-sm-6.col-xs-12(ng-show="mostrarAgregarCiudad")
-							input.form-control(type="text" ng-model="departamento_new" ng-change="escribeEnDepartamentoNew()" placeholder="Departamento nuevo" uib-tooltip="Escriba nuevo o elija de arriba ")
+						div(ng-show="mostrarAgregarCiudad")
+							| Desea crear un nuevo departamento, debe agregar por lo menos una ciudad y listo.
+							.form-group.col-lg-6.col-sm-6.col-xs-12
+								input.form-control(type="text" ng-model="departamento_new" ng-change="escribeEnDepartamentoNew()" placeholder="Departamento nuevo" uib-tooltip="Escriba nuevo o elija de arriba ")
 
 
-						.form-group.col-lg-6.col-sm-6.col-xs-12(ng-show="mostrarAgregarCiudad")
-							form(ng-submit="guardarCiudad(ciudad_new, departamento_new)")
-								.input-group
-									input.form-control(type="text" ng-model="ciudad_new" placeholder="Nueva ciudad")
-									.input-group-btn
-										button.btn.btn-default(type="submit" aria-label="Agregar ciudad" uib-tooltip="Guardar nueva ciudadd")
-											i.fa.fa-plus
+							.form-group.col-lg-6.col-sm-6.col-xs-12
+								form(ng-submit="guardarCiudad(ciudad_new, departamento_new)")
+									.input-group
+										input.form-control(type="text" ng-model="ciudad_new" placeholder="Nueva ciudad")
+										.input-group-btn
+											button.btn.btn-default(type="submit" aria-label="Agregar ciudad" uib-tooltip="Guardar nueva ciudadd")
+												i.fa.fa-plus
+
+						div(ng-show="mostrarAgregarPais")
+
+							.form-group.col-lg-6.col-sm-6.col-xs-12
+								form(ng-submit="guardarPais(pais_new)")
+									.input-group
+										input.form-control(type="text" ng-model="pais_new" placeholder="Escriba nuevo pais")
+										.input-group-btn
+											button.btn.btn-default(type="submit" aria-label="Agregar pais" uib-tooltip="Guardar nuevo pais" ng-disabled="creandopais")
+												i.fa.fa-plus
 
 					.row
 						.col-lg-6

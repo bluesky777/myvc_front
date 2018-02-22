@@ -17,7 +17,7 @@ angular.module("myvcFrontApp")
 	$scope.pais_new 			= ''
 	$scope.modificando_depart 	= false
 
-	
+
 
 	$scope.crearCiudad = ()->
 		$scope.creando_ciudad = true
@@ -28,6 +28,23 @@ angular.module("myvcFrontApp")
 
 	$scope.crearPais = ()->
 		$scope.creandopais = true
+
+	$scope.guardarPais = (pais_new)->
+		if pais_new
+			pais_new = pais_new.toUpperCase()
+			$scope.creandopais 	= true
+
+			$http.post('::paises/store', {pais_new: pais_new } ).then( (r)->
+				toastr.success 'Creado correctamente: ' + pais_new
+				$scope.paises 			= r.data
+				$scope.creandopais 	= false
+				$scope.pais_new 		= '' # No sé por qué no funciona!
+				$scope.mostrarAgregarPais = false
+			, (r2)->
+				toastr.error 'No se pudo crear', 'Error'
+			)
+		else
+			toastr.warning 'Debes escribir el nombre del pais.'
 
 	$scope.guardarCiudad = (ciudad_new, departamento_new)->
 
@@ -61,17 +78,6 @@ angular.module("myvcFrontApp")
 			, (r2)->
 				toastr.error 'No se pudo traer las ciudades.'
 			)
-		, (r2)->
-			toastr.error 'No se pudo crear', 'Error'
-		)
-
-	$scope.guardarPais = ()->
-
-		$http.post('::paises/guardar', $scope.pais_new ).then( (r)->
-			toastr.success 'Creado correctamente: ' + r.data.paisnuevo
-			$scope.paises.push r.data
-			$scope.paisSelect($scope.ciudad_new.pais)
-				
 		, (r2)->
 			toastr.error 'No se pudo crear', 'Error'
 		)
@@ -137,7 +143,7 @@ angular.module("myvcFrontApp")
 					$scope.datos.departamento = $item
 				$scope.$broadcast('departamentoSeleccionadoEvent' + numero);
 			)
-		
+
 
 
 	$scope.eliminarCiudad = (ciudad)->

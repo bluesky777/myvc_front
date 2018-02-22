@@ -86,11 +86,16 @@ angular.module('myvcFrontApp')
 			a = angular.element(value);
 			a.attr('tabindex', key+1)
 		)
-		$scope.eleFocus.focus()
+		if $scope.eleFocus
+			$scope.eleFocus.focus()
 
 	$scope.onInputFocus = ($event)->
 		$scope.eleFocus = $event.currentTarget
 
+
+	$timeout(()->
+		$scope.setTabHorizontally()
+	, 1)
 
 
 

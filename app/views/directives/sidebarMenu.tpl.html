@@ -61,7 +61,7 @@
         <li ui-sref-active="active"><a ui-sref="panel.notas_alumno" stop-event="click"><span class="menu-text blue">De un alumno</span></a></li>
       </ul>
     </li><!-- Notas visto por el admin-->
-    <li sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm(['admin'])" ng-class="{open:$state.includes('panel.listasignaturas')||$state.includes('panel.unidades')||$state.includes('panel.notas')||$state.includes('panel.notas_alumno') || $state.includes('panel.notas_perdidas_profesor_edit')}"><a href="" class="menu-dropdown"><i class="menu-icon fa fa-apple"></i><span class="menu-text">Notas</span><i class="menu-expand"></i></a>
+    <li sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm(['admin'])" ng-class="{open:$state.includes('panel.listasignaturas')||$state.includes('panel.unidades')||$state.includes('panel.notas')||$state.includes('panel.notas_alumno') || $state.includes('panel.notas_perdidas_profesor_edit') || $state.includes('panel.definitivas_periodos')}"><a href="" class="menu-dropdown"><i class="menu-icon fa fa-apple"></i><span class="menu-text">Notas</span><i class="menu-expand"></i></a>
       <ul class="submenu sin_puntos">
         <li ui-sref-active="active"><a ui-sref="panel.notas_alumno" stop-event="click"><span class="menu-text blue">De un alumno</span></a></li>
         <li ui-sref-active="active"><a ui-sref="panel.notas_perdidas_profesor_edit" stop-event="click"><span class="menu-text">Perdidas</span></a></li>
@@ -71,8 +71,10 @@
         	i.menu-icon.fa.fa-soccer-ball-o
         -->
         <li ui-sref-active="active"><a ui-sref="panel.copiar" stop-event="click"><span class="menu-text">Copiar</span><i class="menu-icon fa fa-copy"></i></a></li>
-        <li ui-sref-active="active" ng-repeat="profe in profesores"><a ui-sref="panel.listasignaturas({profesor_id: profe.profesor_id})" stop-event="click" uib-tooltip="{{profe.nombres}} {{profe.apellidos}}" tooltip-popup-delay="200" tooltip-placement="right"><img ng-src="{{perfilPath + profe.foto_nombre}}"><span class="menu-text nombresellipsis">{{profe.nombres}} {{profe.apellidos}}</span></a></li>
-        <li ng-if="profesores.length==0"><a ui-sref="panel.profesores" stop-event="click" uib-tooltip="Profesores no contratados" tooltip-popup-delay="1500" tooltip-placement="right">
+        <li ui-sref-active="active" ng-repeat="profe in profesores" class="opcion-sidebar-flotante"><a ui-sref="panel.listasignaturas({profesor_id: profe.profesor_id})" stop-event="click" uib-tooltip="{{profe.nombres}} {{profe.apellidos}}" tooltip-popup-delay="200" tooltip-placement="right" tooltip-append-to-body="true"><img ng-src="{{perfilPath + profe.foto_nombre}}"><span class="menu-text nombresellipsis">{{::profe.nombres}} {{::profe.apellidos}}</span></a>
+          <button ng-click="irDefinitivas(profe.profesor_id)" stop-event="click" style="position: absolute" class="btn btn-default btn-sm">Defini</button>
+        </li>
+        <li ng-if="::profesores.length==0"><a ui-sref="panel.profesores" stop-event="click" uib-tooltip="Profesores no contratados" tooltip-popup-delay="1500" tooltip-placement="right">
             <div class="menu-text nombresellipsis">No hay Profes contratados</div></a></li>
       </ul>
     </li><!-- Profesores visto por un profesor-->

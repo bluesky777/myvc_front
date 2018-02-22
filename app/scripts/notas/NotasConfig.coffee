@@ -34,7 +34,10 @@ angular.module('myvcFrontApp')
 
 
 		.state 'panel.definitivas_periodos',
-			url: '^/definitivas-periodos'
+			url: '^/definitivas-periodos/:profesor_id'
+			params:
+				profesor_id:
+					value: null
 			views:
 				'maincontent':
 					templateUrl: "==notas/definitivasPeriodos.tpl.html"
@@ -51,10 +54,13 @@ angular.module('myvcFrontApp')
 					#debugger
 					EscalasValorativasServ.escalas()
 				]
-				asignaturas_definitivas: ['$http', 'AuthService', ($http, AuthService)->
+				asignaturas_definitivas: ['$http', 'AuthService', '$stateParams', ($http, AuthService, $stateParams)->
 					if AuthService.hasRoleOrPerm(['alumno', 'acudiente'])
 						return 'Sin alumnos'
-					$http.get('::definitivas_periodos')
+					if $stateParams.profesor_id
+						$http.get('::definitivas_periodos', {params: {profesor_id: $stateParams.profesor_id}})
+					else
+						$http.get('::definitivas_periodos')
 				]
 			data:
 				displayName: 'Notas'

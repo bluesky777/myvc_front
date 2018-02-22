@@ -24,19 +24,33 @@
                 </ui-select-choices>
               </ui-select>
             </div>
-            <div ng-show="!mostrarAgregarCiudad" class="col-lg-6 col-sm-6 col-xs-12"><a href="" ng-click="mostrarAgregarCiudad = true">Crear ciudad/departamento</a></div>
-            <div ng-show="mostrarAgregarCiudad" class="form-group col-lg-6 col-sm-6 col-xs-12">
-              <input type="text" ng-model="departamento_new" ng-change="escribeEnDepartamentoNew()" placeholder="Departamento nuevo" uib-tooltip="Escriba nuevo o elija de arriba " class="form-control">
-            </div>
-            <div ng-show="mostrarAgregarCiudad" class="form-group col-lg-6 col-sm-6 col-xs-12">
-              <form ng-submit="guardarCiudad(ciudad_new, departamento_new)">
-                <div class="input-group">
-                  <input type="text" ng-model="ciudad_new" placeholder="Nueva ciudad" class="form-control">
-                  <div class="input-group-btn">
-                    <button type="submit" aria-label="Agregar ciudad" uib-tooltip="Guardar nueva ciudadd" class="btn btn-default"><i class="fa fa-plus"></i></button>
+            <div ng-show="!mostrarAgregarCiudad" class="col-lg-6 col-sm-6 col-xs-12"><a href="" ng-click="mostrarAgregarPais = true">Crear pais</a><br><a href="" ng-click="mostrarAgregarCiudad = true">Crear ciudad/departamento</a></div>
+            <div ng-show="mostrarAgregarCiudad">Desea crear un nuevo departamento, debe agregar por lo menos una ciudad y listo.
+              <div class="form-group col-lg-6 col-sm-6 col-xs-12">
+                <input type="text" ng-model="departamento_new" ng-change="escribeEnDepartamentoNew()" placeholder="Departamento nuevo" uib-tooltip="Escriba nuevo o elija de arriba " class="form-control">
+              </div>
+              <div class="form-group col-lg-6 col-sm-6 col-xs-12">
+                <form ng-submit="guardarCiudad(ciudad_new, departamento_new)">
+                  <div class="input-group">
+                    <input type="text" ng-model="ciudad_new" placeholder="Nueva ciudad" class="form-control">
+                    <div class="input-group-btn">
+                      <button type="submit" aria-label="Agregar ciudad" uib-tooltip="Guardar nueva ciudadd" class="btn btn-default"><i class="fa fa-plus"></i></button>
+                    </div>
                   </div>
-                </div>
-              </form>
+                </form>
+              </div>
+            </div>
+            <div ng-show="mostrarAgregarPais">
+              <div class="form-group col-lg-6 col-sm-6 col-xs-12">
+                <form ng-submit="guardarPais(pais_new)">
+                  <div class="input-group">
+                    <input type="text" ng-model="pais_new" placeholder="Escriba nuevo pais" class="form-control">
+                    <div class="input-group-btn">
+                      <button type="submit" aria-label="Agregar pais" uib-tooltip="Guardar nuevo pais" ng-disabled="creandopais" class="btn btn-default"><i class="fa fa-plus"></i></button>
+                    </div>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
           <div class="row">
