@@ -4,7 +4,7 @@ angular.module('myvcFrontApp')
 	$state
 
 		.state 'panel.notas',
-			url: '^/notas/:asignatura_id'
+			url: '^/notas/:asignatura_id/:profesor_id'
 			views:
 				'maincontent':
 					templateUrl: "==notas/notas.tpl.html"
@@ -17,9 +17,6 @@ angular.module('myvcFrontApp')
 							'Notas'
 						]
 			resolve:
-				notas: ['NotasServ', '$stateParams', (NotasServ, $stateParams)->
-					NotasServ.detalladas($stateParams.asignatura_id)
-				]
 				escalas: ['EscalasValorativasServ', (EscalasValorativasServ)->
 					#debugger
 					EscalasValorativasServ.escalas()

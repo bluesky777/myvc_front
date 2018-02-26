@@ -55,7 +55,7 @@
                 .row
                   .col-sm-12
                     .form-group
-                      label(uib-tooltip="Permitir que los docentes te ayuden a modificar datos de alumnos y sus acudientes.") Docentes pueden editar alumnos
+                      label(uib-tooltip="Permitir que los docentes te ayuden a modificar datos de alumnos y sus acudientes.") Docentes pueden editar alumnos de su titularía
                       label
                         input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleBloquearProfesEditAlumnos(year.id, year.profes_can_edit_alumnos)" ng-true-value="1" ng-false-value="0" ng-model="year.profes_can_edit_alumnos")
                         span.text.si-no

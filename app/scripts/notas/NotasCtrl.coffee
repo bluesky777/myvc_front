@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-.controller('NotasCtrl', ['$scope', 'toastr', '$http', '$uibModal', '$state', 'notas', '$rootScope', '$filter', 'App', 'AuthService', '$timeout', 'EscalasValorativasServ', ($scope, toastr, $http, $modal, $state, notas, $rootScope, $filter, App, AuthService, $timeout, EscalasValorativasServ) ->
+.controller('NotasCtrl', ['$scope', 'toastr', '$http', '$uibModal', '$state', '$rootScope', '$filter', 'App', 'AuthService', '$timeout', 'EscalasValorativasServ', '$stateParams', 'NotasServ', ($scope, toastr, $http, $modal, $state, $rootScope, $filter, App, AuthService, $timeout, EscalasValorativasServ, $stateParams, NotasServ) ->
 
 	AuthService.verificar_acceso()
 
@@ -21,11 +21,22 @@ angular.module('myvcFrontApp')
 	$scope.alumno_aus_tard_edit 	= {}
 	$scope.opts_picker 		= { minDate: new Date('1/1/2017'), showWeeks: false, startingDay: 0 }
 
-	$scope.asignatura 	= notas[0]
-	$scope.alumnos 		= notas[1]
-	$scope.unidades 	= notas[2]
 
-	$scope.subunidadesunidas = []
+	NotasServ.detalladas($stateParams.asignatura_id, $stateParams.profesor_id, true).then((r)->
+		$scope.asignatura		= r.asignatura
+		$scope.alumnos			= r.alumnos
+		$scope.unidades 		= r.unidades
+		$scope.asignaturas		= r.asignaturas
+
+		$scope.arreglarDatos()
+
+		$scope.$parent.bigLoader 	= false
+
+	, (r2)->
+		toastr.error 'No se pudo traer las notas con asignaturas.'
+	)
+
+
 
 	EscalasValorativasServ.escalas().then((r)->
 		$scope.escalas = r
@@ -36,32 +47,51 @@ angular.module('myvcFrontApp')
 	$scope.escala_maxima = EscalasValorativasServ.escala_maxima()
 
 
-	# Las Subunidades están en cada Unidad. Necesito agregarlas juntas en un solo Array
-	for unidad in $scope.unidades
+	$scope.arreglarDatos = ()->
 
-		if unidad.subunidades.length == 0
-			$scope.subunidadesunidas.push {empty: true}
+		# Las Subunidades están en cada Unidad. Necesito agregarlas juntas en un solo Array
+		$scope.subunidadesunidas = []
 
-		for subunidad in unidad.subunidades
-			$scope.subunidadesunidas.push subunidad
+		for unidad in $scope.unidades
+			if unidad.subunidades.length == 0
+				$scope.subunidadesunidas.push {empty: true}
+			for subunidad in unidad.subunidades
+				$scope.subunidadesunidas.push subunidad
+
+		if localStorage.ocultando_ausencias
+			$scope.ocultando_ausencias = (localStorage.ocultando_ausencias == 'true')
 
 
-	if localStorage.ocultando_ausencias
-		$scope.ocultando_ausencias = (localStorage.ocultando_ausencias == 'true')
+
+		for alumno in $scope.alumnos
+			for ausencia in alumno.ausencias
+				if ausencia.fecha_hora
+					ausencia.fecha_hora = new Date(ausencia.fecha_hora)
+			for tardanza in alumno.tardanzas
+				if tardanza.fecha_hora
+					tardanza.fecha_hora = new Date(tardanza.fecha_hora)
+
+		for asignat in $scope.asignaturas
+			if parseInt(asignat.asignatura_id) == parseInt($scope.asignatura.asignatura_id)
+				asignat.active = true
+
+		$timeout(()->
+
+			if localStorage.tab_horiz_or_verti
+				if localStorage.tab_horiz_or_verti == 'vertical'
+					$scope.setTabVertically()
+				else
+					$scope.setTabHorizontally()
+			else
+				$scope.setTabHorizontally()
+
+		, 1)
 
 
-
-	for alumno in $scope.alumnos
-		for ausencia in alumno.ausencias
-			if ausencia.fecha_hora
-				ausencia.fecha_hora = new Date(ausencia.fecha_hora)
-		for tardanza in alumno.tardanzas
-			if tardanza.fecha_hora
-				tardanza.fecha_hora = new Date(tardanza.fecha_hora)
-
-	$scope.$parent.bigLoader 	= false
 
 	$scope.setTabVertically = ()->
+		localStorage.tab_horiz_or_verti = 'vertical'
+		$scope.tab_horiz_or_verti       = 'vertical'
 		filas = angular.element('table tr')
 
 		angular.forEach(filas, (value, key)->
@@ -80,7 +110,9 @@ angular.module('myvcFrontApp')
 
 
 	$scope.setTabHorizontally = ()->
-		filas = angular.element('.input-nota')
+		localStorage.tab_horiz_or_verti   = 'horizontal'
+		$scope.tab_horiz_or_verti         = 'horizontal'
+		filas                             = angular.element('.input-nota')
 
 		angular.forEach(filas, (value, key)->
 			a = angular.element(value);
@@ -93,9 +125,27 @@ angular.module('myvcFrontApp')
 		$scope.eleFocus = $event.currentTarget
 
 
-	$timeout(()->
-		$scope.setTabHorizontally()
-	, 1)
+	$scope.traerNotasDeAsignatura = (asignatura)->
+		$state.go('.', {asignatura_id: asignatura.asignatura_id}, {notify: false});
+
+		NotasServ.detalladas(asignatura.asignatura_id, asignatura.profesor_id, false).then((r)->
+			$scope.asignatura		= r.asignatura
+			$scope.alumnos			= r.alumnos
+			$scope.unidades 		= r.unidades
+
+			$scope.arreglarDatos()
+
+		)
+
+		for asignat in $scope.asignaturas
+			asignat.active = false
+
+		asignatura.active     = true
+		$scope.asignatura_id  = asignatura.asignatura_id
+
+
+
+
 
 
 
@@ -260,8 +310,51 @@ angular.module('myvcFrontApp')
 	#####################################################################
 
 
+	$scope.cambiaNotaDef = (alumno, nota, nf_id)->
+
+		if nota > $scope.escala_maxima.porc_final or nota == 'undefined' or nota == undefined
+			toastr.error 'No puede ser mayor de ' + $scope.escala_maxima.porc_final, 'NO guardada', {timeOut: 8000}
+			return
+		$http.put('::definitivas_periodos/update', {nf_id: nf_id, nota: nota}).then((r)->
+			if !alumno.nota_final.manual
+				alumno.nota_final.manual = 1
+			toastr.success 'Cambiada: ' + nota
+		, (r2)->
+			toastr.error 'No pudimos guardar la nota ' + nota, '', {timeOut: 8000}
+		)
+
+	$scope.toggleNotaFinalRecuperada = (alumno, recuperada, nf_id)->
+		$http.put('::definitivas_periodos/toggle-recuperada', {nf_id: nf_id, recuperada: recuperada}).then((r)->
+
+			if recuperada and !alumno.nota_final.manual
+				alumno.nota_final.manual = 1
+				toastr.success 'Indicará que es recuperada, así que también será manual.'
+			else if recuperada
+				toastr.success 'Recuperada'
+			else
+				toastr.success 'No recuperada'
+		, (r2)->
+			toastr.error 'No pudimos cambiar.', '', {timeOut: 8000}
+		)
+
+	$scope.toggleNotaFinalManual = (alumno, manual, nf_id)->
+		$http.put('::definitivas_periodos/toggle-manual', {nf_id: nf_id, manual: manual}).then((r)->
+
+			if !manual and alumno.nota_final.recuperada
+				alumno.nota_final.recuperada = false
+				toastr.success 'Será automática y no recuperada.'
+			else if manual
+				toastr.success 'Nota manual.'
+			else
+				toastr.success 'Ahora la calculará el sistema.'
+		, (r2)->
+			toastr.error 'No pudimos cambiar.', '', {timeOut: 8000}
+		)
+
+
+
+
 	$scope.cambiaNota = (nota, otra)->
-		console.log nota.nota, $scope.escala_maxima.porc_final
 		if nota.nota > $scope.escala_maxima.porc_final or nota.nota == 'undefined' or nota.nota == undefined
 			toastr.error 'No puede ser mayor de ' + $scope.escala_maxima.porc_final, 'NO guardada', {timeOut: 8000}
 			return
@@ -291,28 +384,17 @@ angular.module('myvcFrontApp')
 		)
 
 
-	$scope.promedioTotal = (alumno_id)->
-		$scope.subunidadesunidas
+	$scope.promedioTotal = (alumno)->
 
-		acumUni = 0
-		for unidad in $scope.unidades
+		acumSub = 0
 
-			porcUni = unidad.porcentaje
-			acumSub = 0
+		for nota in alumno.notas
+			valorNota   = nota.nota * nota.subunidad_porc * nota.unidad_porc
+			acumSub     = acumSub + valorNota
 
-			for subunidad in unidad.subunidades
+		alumno.total_definit = parseInt($filter('number')(acumSub, 0))
+		return $filter('number')(acumSub, 1)
 
-				porcSub = subunidad.porcentaje
-				#console.log subunidad.notas, alumno_id, $filter('filter')(subunidad.notas, {'alumno_id': alumno_id})[0]
-
-				notaTemp = $filter('filter')(subunidad.notas, {'alumno_id': alumno_id}, true)[0]
-				valorNota = parseInt(notaTemp.nota) * parseInt(porcSub) / 100
-				acumSub = acumSub + valorNota
-
-			valorUni = acumSub * parseInt(porcUni) / 100
-			acumUni = acumUni + valorUni
-
-		return $filter('number')(acumUni, 1);
 
 
 	$scope.verifClickNotaRapida = (notaObject)->
@@ -337,20 +419,57 @@ angular.module('myvcFrontApp')
 		return
 
 
-	$scope.columnaNotaRapida = (subunidad)->
+	$scope.columnaNotaRapida = (subunidad_id)->
+
+		$timeout(()->
+
+			if $rootScope.notaRapida.enable
+				for alumno in $scope.alumnos
+					for nota in alumno.notas
+						if nota.subunidad_id == subunidad_id
+							if nota.backup
+								if $rootScope.notaRapida.valorNota != nota.nota
+									nota.backup   = nota.nota
+									nota.nota     = $rootScope.notaRapida.valorNota
+								else
+									temp 				= nota.backup
+									nota.backup = nota.nota
+									nota.nota 	= temp
+							else
+								nota.backup 	= nota.nota
+								nota.nota 		= $rootScope.notaRapida.valorNota
+
+							contadorGuardadas = 0
+							$http.put('::notas/update/'+nota.id, {nota: nota.nota}).then((r)->
+								# Toca hacerlo con promesa
+								contadorGuardadas = contadorGuardadas + 1
+								if contadorGuardadas == ($scope.alumnos.length-1)
+									toastr.success (contadorGuardadas + 1) + ' notas guardadas.'
+							, (r2)->
+								toastr.error 'No pudimos guardar la nota ' + nota.nota, '', {timeOut: 8000}
+							)
+			else
+				toastr.info 'Activa la Nota Rápida para cambiar todas las notas de esta columna.'
+		)
+		return
+
+
+
+	$scope.filaNotaRapida = (alumno, $index)->
 
 		$timeout(()->
 			if $rootScope.notaRapida.enable
-				for notaObject, indice in subunidad.notas
+
+				for notaObject in alumno.notas
 
 					if notaObject.backup
 						if $rootScope.notaRapida.valorNota != notaObject.nota
-							notaObject.backup = notaObject.nota
-							notaObject.nota = $rootScope.notaRapida.valorNota
+							notaObject.backup 	= notaObject.nota
+							notaObject.nota 		= $rootScope.notaRapida.valorNota
 						else
-							temp = notaObject.backup
+							temp 							= notaObject.backup
 							notaObject.backup = notaObject.nota
-							notaObject.nota = temp
+							notaObject.nota 	= temp
 					else
 						notaObject.backup = notaObject.nota
 						notaObject.nota = $rootScope.notaRapida.valorNota
@@ -359,20 +478,16 @@ angular.module('myvcFrontApp')
 					$http.put('::notas/update/'+notaObject.id, {nota: notaObject.nota}).then((r)->
 						# Toca hacerlo con promesa
 						contadorGuardadas = contadorGuardadas + 1
-						if contadorGuardadas == (subunidad.notas.length-1)
+						if contadorGuardadas == (alumno.notas.length-1)
 							toastr.success (contadorGuardadas + 1) + ' notas guardadas.'
 					, (r2)->
 						toastr.error 'No pudimos guardar la nota ' + notaObject.nota, '', {timeOut: 8000}
 					)
 			else
-				toastr.info 'Activa la Nota Rápida para cambiar todas las notas de esta columna.'
+				toastr.info 'Activa la Nota Rápida para cambiar todas las notas de este alumno.'
 
 		)
 		return
-
-
-	$scope.filaNotaRapida = (alumno, $index)->
-
 		$timeout(()->
 			if $rootScope.notaRapida.enable
 
@@ -405,7 +520,6 @@ angular.module('myvcFrontApp')
 				toastr.info 'Activa la Nota Rápida para cambiar todas las notas de este alumno.'
 
 		)
-
 		return
 
 	return

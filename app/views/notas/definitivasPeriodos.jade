@@ -8,7 +8,7 @@
 			.form-group
 				div(style="width=100%; height: 80px; text-align: center; border: 1px solid #ccc; overflow-y: auto; background-color: #eee;")
 					.btn-group
-						button.btn.btn-default(ng-repeat="asignatura in asignaturas" ng-class="{active: asignatura.active}"
+						button.btn.btn-default.btn-asignaturas(ng-repeat="asignatura in asignaturas" ng-class="{active: asignatura.active}"
 							ng-click="selectAsignatura(asignatura)" uib-tooltip="{{asignatura.nombre_grupo}}. {{ asignatura.materia }}" tooltip-append-to-body="true")
 							| {{ asignatura.abrev_grupo }}. {{ asignatura.alias_materia }}
 
@@ -43,14 +43,14 @@
 							th.text-center(rowspan="2" style="min-width: 50px; line-height: 3;")
 								div Nombres
 
-							th.border-right-dddd(colspan="3")
-								div.text-center.nombresellipsis(uib-tooltip="Periodo 1" tooltip-popup-delay="500" ng-class="'maxwidth' + unidad.subunidades.length") Per1
-							th.border-right-dddd(colspan="3")
-								div.text-center.nombresellipsis(uib-tooltip="Periodo 2" tooltip-popup-delay="500" ng-class="'maxwidth' + unidad.subunidades.length") Per2
-							th.border-right-dddd(colspan="3")
-								div.text-center.nombresellipsis(uib-tooltip="Periodo 3" tooltip-popup-delay="500" ng-class="'maxwidth' + unidad.subunidades.length") Per3
-							th.border-right-dddd(colspan="3")
-								div.text-center.nombresellipsis(uib-tooltip="Periodo 4" tooltip-popup-delay="500" ng-class="'maxwidth' + unidad.subunidades.length") Per4
+							th.border-right-dddd(colspan="4")
+								div.text-center.nombresellipsis(uib-tooltip="Periodo 1" tooltip-popup-delay="500") Per1
+							th.border-right-dddd(colspan="4")
+								div.text-center.nombresellipsis(uib-tooltip="Periodo 2" tooltip-popup-delay="500") Per2
+							th.border-right-dddd(colspan="4")
+								div.text-center.nombresellipsis(uib-tooltip="Periodo 3" tooltip-popup-delay="500") Per3
+							th.border-right-dddd(colspan="4")
+								div.text-center.nombresellipsis(uib-tooltip="Periodo 4" tooltip-popup-delay="500") Per4
 
 							th(rowspan="2" style="line-height: 3;")
 								div(uib-tooltip="Promedio de las notas automáticas") PromAuto
@@ -62,27 +62,38 @@
 						tr
 							th
 								div.text-center.nombresellipsis(uib-tooltip="Automática: calculada por el sistema" tooltip-popup-delay="500") Calcu
-							th(style="border-right: 1px solid #ddd")
+							th
 								div.text-center.nombresellipsis(uib-tooltip="Así se verá en los informes" tooltip-popup-delay="500") Final
-							th(style="border-right: 1px solid #ddd")
+							th(style="padding-left: 0px; padding-right: 0px; font-size: 8pt;")
+								div.text-center.nombresellipsis(uib-tooltip="Indica si la definitiva será calculada automáticamente o manualmente") Manual
+							th.border-right-dddd
 								div.text-center.nombresellipsis(uib-tooltip="Establecer si la nota es recuperada o normal" tooltip-popup-delay="500") Rec
+
 							th
 								div.text-center.nombresellipsis(uib-tooltip="Automática: calculada por el sistema" tooltip-popup-delay="500") Calcu
-							th(style="border-right: 1px solid #ddd")
+							th
 								div.text-center.nombresellipsis(uib-tooltip="Así se verá en los informes" tooltip-popup-delay="500") Final
-							th(style="border-right: 1px solid #ddd")
+							th(style="padding-left: 0px; padding-right: 0px; font-size: 8pt;")
+								div.text-center.nombresellipsis(uib-tooltip="Indica si la definitiva será calculada automáticamente o manualmente") Manual
+							th.border-right-dddd
 								div.text-center.nombresellipsis(uib-tooltip="Establecer si la nota es recuperada o normal" tooltip-popup-delay="500") Rec
+
 							th
 								div.text-center.nombresellipsis(uib-tooltip="Automática: calculada por el sistema" tooltip-popup-delay="500") Calcu
-							th(style="border-right: 1px solid #ddd")
+							th
 								div.text-center.nombresellipsis(uib-tooltip="Así se verá en los informes" tooltip-popup-delay="500") Final
-							th(style="border-right: 1px solid #ddd")
+							th(style="padding-left: 0px; padding-right: 0px; font-size: 8pt;")
+								div.text-center.nombresellipsis(uib-tooltip="Indica si la definitiva será calculada automáticamente o manualmente") Manual
+							th.border-right-dddd
 								div.text-center.nombresellipsis(uib-tooltip="Establecer si la nota es recuperada o normal" tooltip-popup-delay="500") Rec
+
 							th
 								div.text-center.nombresellipsis(uib-tooltip="Automática: calculada por el sistema" tooltip-popup-delay="500") Calcu
-							th(style="border-right: 1px solid #ddd")
+							th
 								div.text-center.nombresellipsis(uib-tooltip="Así se verá en los informes" tooltip-popup-delay="500") Final
-							th(style="border-right: 1px solid #ddd")
+							th(style="padding-left: 0px; padding-right: 0px; font-size: 8pt;")
+								div.text-center.nombresellipsis(uib-tooltip="Indica si la definitiva será calculada automáticamente o manualmente") Manual
+							th.border-right-dddd
 								div.text-center.nombresellipsis(uib-tooltip="Establecer si la nota es recuperada o normal" tooltip-popup-delay="500") Rec
 
 
@@ -112,7 +123,10 @@
 												ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
 												ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])")
 							td
-								input.no-margin-top(type="checkbox" ng-model="alumno.recuperada_1" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_1, alumno.nf_id_1)" style="opacity: 1; position: unset;")
+								input.no-margin-top(type="checkbox" ng-model="alumno.manual_1" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaManual(alumno, alumno.manual_1, alumno.nf_id_1, 1)" style="opacity: 1; position: unset;")
+							td.border-right-dddd
+								input.no-margin-top(type="checkbox" ng-model="alumno.recuperada_1" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_1, alumno.nf_id_1, 1)" style="opacity: 1; position: unset;")
+
 
 							td
 								div {{alumno.def_materia_auto_2 }}
@@ -124,7 +138,9 @@
 												ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
 												ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])")
 							td
-								input.no-margin-top(type="checkbox" ng-model="alumno.recuperada_2" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_2, alumno.nf_id_2)" style="opacity: 1; position: unset;")
+								input.no-margin-top(type="checkbox" ng-model="alumno.manual_2" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaManual(alumno, alumno.manual_2, alumno.nf_id_2, 2)" style="opacity: 1; position: unset;")
+							td.border-right-dddd
+								input.no-margin-top(type="checkbox" ng-model="alumno.recuperada_2" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_2, alumno.nf_id_2, 2)" style="opacity: 1; position: unset;")
 
 
 							td
@@ -137,7 +153,9 @@
 												ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
 												ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])")
 							td
-								input.no-margin-top(type="checkbox" ng-model="alumno.recuperada_3" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_3, alumno.nf_id_3)" style="opacity: 1; position: unset;")
+								input.no-margin-top(type="checkbox" ng-model="alumno.manual_3" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaManual(alumno, alumno.manual_3, alumno.nf_id_3, 3)" style="opacity: 1; position: unset;")
+							td.border-right-dddd
+								input.no-margin-top(type="checkbox" ng-model="alumno.recuperada_3" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_3, alumno.nf_id_3, 3)" style="opacity: 1; position: unset;")
 
 
 							td
@@ -147,10 +165,11 @@
 									input.input-nota(type="number" min="0" max="{{::escala_maxima.porc_final}}"
 												ng-model="alumno.nota_final_per4"
 												ng-change="cambiaNotaDef(alumno, alumno.nota_final_per4, alumno.nf_id_4)"
-												ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
-												ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])")
+												ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
 							td
-								input.no-margin-top(type="checkbox" ng-model="alumno.recuperada_4" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_4, alumno.nf_id_4)" style="opacity: 1; position: unset;")
+								input.no-margin-top(type="checkbox" ng-model="alumno.manual_4" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaManual(alumno, alumno.manual_4, alumno.nf_id_4, 4)" style="opacity: 1; position: unset;")
+							td.border-right-dddd
+								input.no-margin-top(type="checkbox" ng-model="alumno.recuperada_4" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_4, alumno.nf_id_4, 4)" style="opacity: 1; position: unset;")
 
 
 							td

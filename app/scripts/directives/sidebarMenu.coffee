@@ -203,8 +203,8 @@ angular.module('myvcFrontApp')
 
 .controller('ListasignaturasPopCtrl', ['$scope', '$uibModalInstance', '$http', 'toastr', '$state', ($scope, $modalInstance, $http, toastr, $state)->
 
-	$scope.selectAsignatura = (asig_id)->
-		$state.go 'panel.notas', {asignatura_id: asig_id}
+	$scope.selectAsignatura = (asig_id, profesor_id)->
+		$state.go 'panel.notas', {asignatura_id: asig_id, profesor_id: profesor_id}
 		$modalInstance.close(asig_id)
 
 	$http.get('::asignaturas/listasignaturas-alone').then((r)->

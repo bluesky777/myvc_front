@@ -1,0 +1,10 @@
+
+<div style="min-width: 200px;">
+  <div>Creada:<span style="font-size: 8pt">  {{alumno.nota_final.created_at}}</span></div>
+  <div>Actualizada:<span style="font-size: 8pt">  {{alumno.nota_final.updated_at}}</span></div>
+  <div>Por: {{alumno.nota_final.updated_by_username}}</div>
+  <div style="margin-top: 10px;" ng-show="alumno.nota_final.manual" class="text-center">Manual</div>
+  <div style="margin-top: 10px;" ng-hide="alumno.nota_final.manual" class="text-center">Automática</div>
+  <div ng-show="alumno.nota_final.recuperada" class="text-center">Recuperada</div>
+  <div ng-hide="alumno.nota_final.recuperada" class="text-center">No recuperada</div>
+</div>

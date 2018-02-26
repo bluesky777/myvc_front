@@ -33,7 +33,7 @@
 </div>
 <div class="row">
   <div ng-repeat="asignatura in asignaturas" class="col-lg-6 col-xs-12">
-    <div uib-popover-template="views + 'popoverInfoUnidades.tpl.html'" popover-trigger="outsideClick" popover-title="{{UNIDADES}}" class="databox databox-graded radius-bordered databox-shadowed">
+    <div uib-popover-template="views + 'popoverInfoUnidades.tpl.html'" popover-trigger="'outsideClick'" popover-title="{{UNIDADES}}" class="databox databox-graded radius-bordered databox-shadowed">
       <div ng-class="{'bg-primary': asignatura.unidades.items.length&gt;0 &amp;&amp; asignatura.unidades.porc_unidades==100 &amp;&amp; asignatura.unidades.porc_subunidades_incorrecto==false &amp;&amp; asignatura.unidades.porc_notas_incorrecto==false, 'bg-danger': asignatura.unidades.items.length==0 || asignatura.unidades.porc_unidades!=100 || asignatura.unidades.porc_notas_incorrecto || asignatura.unidades.porc_subunidades_incorrecto}" uib-tooltip="{{asignatura.nombre_grupo}}" style="background-image: url(images/book-library-2.png)" class="databox-left">
         <!-- #2da7e8-->
         <div class="databox-piechart">
@@ -46,7 +46,7 @@
         <!-- style="background-image: url(images/book-library-back-2.png); background-repeat: no-repeat; background-position: right;")-->
         <div class="databox-title lightcarbon">{{ asignatura.materia }}</div>
         <div class="databox-text darkgray">
-          <div class="btn-group"><a ui-sref="panel.unidades({asignatura_id: asignatura.asignatura_id})" class="btn btn-default btn-sm">{{UNIDADES}}</a><a ng-click="noEsMia(asignatura)" ng-show="hasRoleOrPerm(['profesor'])" class="btn btn-default btn-sm">No es mía</a><a ng-click="irDefinitivas(asignatura)" class="btn btn-default btn-sm">Definitivas</a><span> IH: {{asignatura.creditos}}  -</span><span> {{UNIDADES}}: {{asignatura.unidades.items.length}}</span><span ng-show="asignatura.unidades.porc_subunidades_incorrecto">- {{SUBUNIDADES}} incorrectos.</span><span ng-show="asignatura.unidades.porc_notas_incorrecto">- notas NO agregadas.</span></div>
+          <div class="btn-group"><a ui-sref="panel.unidades({asignatura_id: asignatura.asignatura_id})" class="btn btn-default btn-sm">{{UNIDADES}}</a><a ng-click="noEsMia(asignatura)" ng-show="hasRoleOrPerm(['Profesor'])" class="btn btn-default btn-sm">No es mía</a><a ng-click="irDefinitivas(asignatura)" class="btn btn-default btn-sm">Definitivas</a><span> IH: {{asignatura.creditos}}  -</span><span> {{UNIDADES}}: {{asignatura.unidades.items.length}}</span><span ng-show="asignatura.unidades.porc_subunidades_incorrecto">- {{SUBUNIDADES}} incorrectos.</span><span ng-show="asignatura.unidades.porc_notas_incorrecto">- notas NO agregadas.</span></div>
         </div>
         <div class="databox-stat radius-bordered bg-primary">
           <div class="stat-text">{{asignatura.nombre_grupo}}</div>

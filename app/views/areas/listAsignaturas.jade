@@ -56,7 +56,7 @@ h6.row-title.before-blue(ng-if="profesor_id")
 
 .row
 	.col-lg-6.col-xs-12(ng-repeat="asignatura in asignaturas")
-		.databox.databox-graded.radius-bordered.databox-shadowed(uib-popover-template="views + 'popoverInfoUnidades.tpl.html'" popover-trigger="outsideClick" popover-title="{{UNIDADES}}")
+		.databox.databox-graded.radius-bordered.databox-shadowed(uib-popover-template="views + 'popoverInfoUnidades.tpl.html'" popover-trigger="'outsideClick'" popover-title="{{UNIDADES}}")
 			.databox-left(ng-class="{'bg-primary': asignatura.unidades.items.length>0 && asignatura.unidades.porc_unidades==100 && asignatura.unidades.porc_subunidades_incorrecto==false && asignatura.unidades.porc_notas_incorrecto==false, 'bg-danger': asignatura.unidades.items.length==0 || asignatura.unidades.porc_unidades!=100 || asignatura.unidades.porc_notas_incorrecto || asignatura.unidades.porc_subunidades_incorrecto}"
 				uib-tooltip="{{asignatura.nombre_grupo}}" style="background-image: url(images/book-library-2.png)")
 				// #2da7e8
@@ -70,7 +70,7 @@ h6.row-title.before-blue(ng-if="profesor_id")
 				.databox-text.darkgray
 					.btn-group
 						a.btn.btn-default.btn-sm(ui-sref="panel.unidades({asignatura_id: asignatura.asignatura_id})") {{UNIDADES}}
-						a.btn.btn-default.btn-sm(ng-click="noEsMia(asignatura)" ng-show="hasRoleOrPerm(['profesor'])") No es mía
+						a.btn.btn-default.btn-sm(ng-click="noEsMia(asignatura)" ng-show="hasRoleOrPerm(['Profesor'])") No es mía
 						a.btn.btn-default.btn-sm(ng-click="irDefinitivas(asignatura)") Definitivas
 						span  IH: {{asignatura.creditos}}  -
 						span  {{UNIDADES}}: {{asignatura.unidades.items.length}}

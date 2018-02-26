@@ -16135,6 +16135,14 @@ body {
 	opacity:1;
 }
 
+.animate1-enter{
+  transition: 1s linear all;
+	opacity: 0;
+}
+.animate1-enter.animate1-enter-active {
+	opacity: 1;
+}
+
 
 
 @-webkit-keyframes hinge {
@@ -16547,3 +16555,9 @@ input[type="number"]:focus {
   opacity: 1;
   top: 5px;
 }
+
+.btn-asignaturas{
+  padding-left: 3px;
+  padding-right: 3px;
+}
+

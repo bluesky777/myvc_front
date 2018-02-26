@@ -35,6 +35,7 @@ angular.module('myvcFrontApp')
 		r = r.data
 		$scope.asignatura = r
 		$scope.inicializado = true
+		$scope.profesor_id 	= r.profesor_id
 		if not r
 			$scope.no_asignatura = true
 	, (r2)->
@@ -255,6 +256,7 @@ angular.module('myvcFrontApp')
 		)
 
 	$scope.ir_a_notas = (datos)->
+		console.log datos
 		$state.go 'panel.notas', datos
 
 	$scope.actualizarSubunidad = (subunidad)->

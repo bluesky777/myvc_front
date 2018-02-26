@@ -3,10 +3,10 @@ angular.module('myvcFrontApp')
 .factory('NotasServ', ['$http', '$q', ($http, $q) ->
 	notas = {}
 
-	notas.detalladas = (asignatura_id)->
+	notas.detalladas = (asignatura_id, profe_id, con_asignaturas)->
 		d = $q.defer();
 
-		$http.get('::notas/detailed/' + asignatura_id).then((r)->
+		$http.put('::notas/detailed', {asignatura_id: asignatura_id, profesor_id: profe_id, con_asignaturas: con_asignaturas}).then((r)->
 			d.resolve r.data
 		, (r2)->
 			d.reject r2

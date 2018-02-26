@@ -3,18 +3,18 @@
 .modal-body
 	.row
 		.col-lg-12.col-xs-12(ng-if="asignaturas.length>0")
-			h2 Asignaturas: 
+			h2 Asignaturas:
 			table.table.table-hover
 				thead.bordered-darkorange
 					tr
-						th 
+						th
 						th Asignatura
 						th Créditos
 				tbody
-					tr(ng-click="selectAsignatura(asignatura.asignatura_id)" ng-repeat="asignatura in asignaturas" style="cursor: pointer;")
+					tr(ng-click="selectAsignatura(asignatura.asignatura_id, asignatura.profesor_id)" ng-repeat="asignatura in asignaturas" style="cursor: pointer;")
 						td {{$index+1}}
-						td 
-							b {{asignatura.nombre_grupo}}: 
+						td
+							b {{asignatura.nombre_grupo}}:
 							| {{asignatura.materia | lowercase}}
 						td {{asignatura.creditos}}
 

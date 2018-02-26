@@ -6,7 +6,7 @@
       <div class="label label-danger">Vuelva a Asignaturas o cambie de año. La materia seleccionada no existe en el presente año.</div>
     </div>
     <!-- Menú-->
-    <div class="btn-group"><a ng-show="inicializado" ui-sref="panel.listasignaturas({profesor_id: asignatura.profesor_id})" class="btn btn-success btn-lg"><i class="fa fa-arrow-left"></i>Volver a asignaturas</a><a uib-tooltip="¡Copia de una materia a otra!" ui-sref="panel.copiar" class="btn btn-primary btn-lg"><i class="fa fa-copy"></i>Copiar</a><a ng-show="unidades.length &gt; 0" href="" ng-click="ir_a_notas({asignatura_id: asignatura_id})" class="btn btn-primary btn-lg"><i class="fa fa-apple"></i>NOTAS</a></div>
+    <div class="btn-group"><a ng-show="inicializado" ui-sref="panel.listasignaturas({profesor_id: asignatura.profesor_id})" class="btn btn-success btn-lg"><i class="fa fa-arrow-left"></i>Volver a asignaturas</a><a uib-tooltip="¡Copia de una materia a otra!" ui-sref="panel.copiar" class="btn btn-primary btn-lg"><i class="fa fa-copy"></i>Copiar</a><a ng-show="unidades.length &gt; 0" href="" ng-click="ir_a_notas({asignatura_id: asignatura_id, profesor_id: profesor_id })" class="btn btn-primary btn-lg"><i class="fa fa-apple"></i>NOTAS</a></div>
     <hr class="wide">
     <!-- Formulario crear--><span ng-hide="no_asignatura">
       <form ng-submit="crearUnidad()" role="form" class="form-inline row">

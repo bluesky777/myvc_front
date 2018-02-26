@@ -80,10 +80,29 @@ angular.module('myvcFrontApp')
 
 
 
-	$scope.toggleNotaRecuperada = (alumno, recuperada, nf_id)->
-
+	$scope.toggleNotaRecuperada = (alumno, recuperada, nf_id, periodo)->
 		$http.put('::definitivas_periodos/toggle-recuperada', {nf_id: nf_id, recuperada: recuperada}).then((r)->
-			toastr.success 'Cambiada ' + (recuperada == 1)
+			if recuperada and !alumno['manual_'+periodo]
+				alumno['manual_'+periodo] = 1
+				toastr.success 'Indicará que es recuperada, así que también será manual.'
+			else if recuperada
+				toastr.success 'Recuperada'
+			else
+				toastr.success 'No recuperada'
+		, (r2)->
+			toastr.error 'No pudimos guardar la recuperación.', {timeOut: 8000}
+		)
+
+	$scope.toggleNotaManual = (alumno, manual, nf_id, periodo)->
+
+		$http.put('::definitivas_periodos/toggle-manual', {nf_id: nf_id, manual: manual}).then((r)->
+			if !manual and alumno['recuperada_'+periodo]
+				alumno['recuperada_'+periodo] = 0
+				toastr.success 'Será automática y no recuperada.'
+			else if manual
+				toastr.success 'Nota manual.'
+			else
+				toastr.success 'Ahora la calculará el sistema.'
 		, (r2)->
 			toastr.error 'No pudimos guardar la recuperación.', {timeOut: 8000}
 		)
