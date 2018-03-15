@@ -1,6 +1,6 @@
 .col-xs-12.col-md-12
 	.well.with-header.with-footer
-		.header.bordered-yellow(ng-hide="no_asignatura") {{asignatura.materia + ' - ' + asignatura.nombre_grupo + ' - ' + asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}
+		.header.bordered-yellow(ng-hide="no_asignatura") {{::asignatura.materia}}  - {{::asignatura.nombre_grupo}} -  {{::asignatura.nombres_profesor}}   {{::asignatura.apellidos_profesor}}
 		.header.bordered-red(ng-show="no_asignatura")
 			.label.label-danger Vuelva a Asignaturas o cambie de año. La materia seleccionada no existe en el presente año.
 
@@ -24,7 +24,7 @@
 
 		// Formulario crear
 		span(ng-hide="no_asignatura")
-			form.form-inline.row(ng-submit="crearUnidad()" role="form")
+			form.form-inline.row(ng-submit="crearUnidad()" role="form" ng-show="USER.profes_pueden_editar_notas")
 				.form-group.definicion-add-unidad.col-md-8.col-sm-6.col-xs-12
 					label.sr-only Edite la definición
 					textarea.form-control(required ng-model="newunidad.definicion" placeholder="{{UNIDAD}} {{ GENERO_UNI=='M' ? 'nuevo' : 'nueva' }}"
@@ -43,12 +43,12 @@
 			.alert.alert-danger.fade.in.radius-bordered(ng-show="unidades.porc_unidades && unidades.porc_unidades>100")
 				i.fa-fw.fa.fa-warning
 				strong Porcentaje incorrecto:
-				| Sobra {{unidades.porc_unidades-100}}%
+				|   Sobra {{unidades.porc_unidades-100}}%
 
 			.alert.alert-warning.fade.in.radius-bordered(ng-show="unidades.porc_unidades && unidades.porc_unidades<100")
 				i.fa-fw.fa.fa-warning
 				strong Porcentaje incorrecto:
-				| Falta {{100-unidades.porc_unidades}}%
+				|   Falta {{100-unidades.porc_unidades}}%
 
 
 			.ddlarga.bordered(style="clear: both;")
@@ -68,7 +68,7 @@
 								.ticket-user.col-lg-10.col-sm-10.col-xs-12(ng-show="!unidad.editando"
 									style="overflow: visible; line-height: 2.4;")
 
-									button(sv-handle class="btn btn-default btn-sm" tabindex="-1"
+									button(sv-handle class="btn btn-default btn-sm" tabindex="-1" ng-show="USER.profes_pueden_editar_notas==1"
 										style="margin-bottom: 65px; display: inline-block; cursor: move;")
 										span.fa.fa-sort
 
@@ -81,11 +81,11 @@
 									| {{unidad.porcentaje}}%
 
 								.ticket-state.bg-palegreen(ng-show="unidad.ocultarSubs" ng-click="unidad.ocultarSubs=false" style="right: 55px; ")
-									i.fa.fa-chevron-down(uib-tooltip="Mostrar {{ SUBUNIDADES}}")
+									i.fa.fa-chevron-down(uib-tooltip="Mostrar {{ ::SUBUNIDADES}}")
 								.ticket-state.bg-palegreen(ng-show="!unidad.ocultarSubs" ng-click="unidad.ocultarSubs=true" style="right: 55px; ")
-									i.fa.fa-chevron-up(uib-tooltip="Ocultar {{ SUBUNIDADES}}")
+									i.fa.fa-chevron-up(uib-tooltip="Ocultar {{ ::SUBUNIDADES}}")
 
-								span(ng-if="!unidad.obligatoria")
+								span(ng-if="::unidad.obligatoria==0 && USER.profes_pueden_editar_notas==1")
 									.ticket-state.bg-palegreen(ng-click="unidad.editando=true" style="right: 15px; ")
 										i.fa.fa-pencil(uib-tooltip="Editar")
 									.ticket-state.bg-darkorange(ng-click=" removeUnidad(unidad)" )
@@ -107,12 +107,12 @@
 										button.btn.btn-default.btn-xs(type="button" ng-click="unidad.editando=false") Cancelar
 										button.btn.btn-primary.btn-xs(type="button" ng-click="actualizarUnidad(unidad)") Guardar
 
-						.alert.alert-danger.fade.in.radius-bordered(ng-show="unidad.subunidades.porc_subunidades && unidad.subunidades.porc_subunidades>100" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px")
+						.alert.alert-danger.fade.in.radius-bordered(ng-show="unidad.subunidades.length>0 && unidad.subunidades.porc_subunidades && unidad.subunidades.porc_subunidades>100" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px")
 							i.fa-fw.fa.fa-warning
 							strong Porcentaje incorrecto:
 							| Sobra {{unidad.subunidades.porc_subunidades-100}}%
 
-						.alert.alert-warning.fade.in.radius-bordered(ng-show="unidad.subunidades.porc_subunidades && unidad.subunidades.porc_subunidades<100" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px")
+						.alert.alert-warning.fade.in.radius-bordered(ng-show="unidad.subunidades.length>0 && unidad.subunidades.porc_subunidades && unidad.subunidades.porc_subunidades<100" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px")
 							i.fa-fw.fa.fa-warning
 							strong Porcentaje incorrecto:
 							| Falta {{100-unidad.subunidades.porc_subunidades}}%
@@ -151,9 +151,9 @@
 										input.form-control.ordenador-subunidad(type="number" min="0" max="99" ng-model="subunidad.orden"
 											ng-change="actualizarSubunidad(subunidad)" ng-model-options="{ updateOn: 'blur'}")
 
-									.ticket-state.bg-palegreen(ng-click="subunidad.editando=true" style="right: 30px; ")
+									.ticket-state.bg-palegreen(ng-click="subunidad.editando=true" style="right: 30px; " ng-show="USER.profes_pueden_editar_notas")
 										i.fa.fa-pencil(uib-tooltip="Editar")
-									.ticket-state.bg-darkorange(ng-click="removeSubunidad(unidad, subunidad)"  style="right: 3px; ")
+									.ticket-state.bg-darkorange(ng-click="removeSubunidad(unidad, subunidad)"  style="right: 3px; " ng-show="USER.profes_pueden_editar_notas")
 										i.fa.fa-times(uib-tooltip="Eliminar")
 
 
@@ -183,22 +183,22 @@
 
 						// Formulario para CREAR NUEVA SUBUNIDAD
 						.row(ng-hide="unidad.ocultarSubs" style="margin: 10px 10px 10px 30px;  box-shadow: 0px 0px 5px rgb(123, 123, 241);")
-							.ticket-item(style="background-color: rgb(214, 225, 245);")
-								.row
+							.ticket-item(style="background-color: rgb(214, 225, 245);" ng-if="::USER.profes_pueden_editar_notas==1")
+								form.row.form-inline(ng-submit="addSubunidad(unidad)")
 									.ticket-user.col-md-10.col-sm-12( style="overflow: visible")
-										form.form-inline(ng-submit="addSubunidad(unidad)")
+
 											.form-group.unidaddefinicion.col-md-8.col-sm-8.col-xs-12(style="padding: 0;")
-												label.sr-only {{ GENERO_SUB=='M' ? 'Nuevo' : 'Nueva' }} {{ SUBUNIDAD}}:
+												label.sr-only {{ ::GENERO_SUB=='M' ? 'Nuevo' : 'Nueva' }} {{ ::SUBUNIDAD}}:
 												textarea.form-control(required ng-model="unidad.newsubunidad.definicion" placeholder="Crea {{ GENERO_SUB=='M' ? 'nuevo' : 'nueva' }} {{ SUBUNIDAD}}" uib-tooltip="Definición del {{ GENERO_SUB=='M' ? 'nuevo' : 'nueva' }} {{ SUBUNIDAD}}" tooltip-popup-delay="1000" style="height: 35px;")
 											.form-group.unidadporcentaje.col-md-2.col-sm-2.col-xs-12
-												input.form-control(required ng-model="unidad.newsubunidad.porcentaje" min="0" max="100" type="number" placeholder="%Porcentaje"
+												input.form-control(ng-model="unidad.newsubunidad.porcentaje" min="0" max="100" type="number" placeholder="%Porcentaje"
 													uib-tooltip="Porcentaje {{ GENERO_SUB=='M' ? 'del' : 'de la' }} {{ SUBUNIDAD}}" tooltip-popup-delay="1000"
 													style="padding: 5px;")
 											.form-group.col-md-2.col-sm-2.col-xs-12(style="padding: 0;")
-												input.form-control(required ng-model="unidad.newsubunidad.nota_default" min="0" max="100" type="number" placeholder="Nota por defecto" uib-tooltip="Nota por defecto {{  GENERO_SUB=='M' ? 'del' : 'de la' }} {{ SUBUNIDAD}}" tooltip-popup-delay="1000")
+												input.form-control(ng-model="unidad.newsubunidad.nota_default" min="0" max="100" type="number" placeholder="Nota por defecto" uib-tooltip="Nota por defecto {{  GENERO_SUB=='M' ? 'del' : 'de la' }} {{ SUBUNIDAD}}" tooltip-popup-delay="1000")
 
 									.ticket-type.col-md-2.col-xs-12
-										input.btn.btn-primary(type="button" ng-disabled="!activar_crear_subunidad" ng-click="addSubunidad(unidad)" value="Añadir {{ SUBUNIDAD}}")
+										input.btn.btn-primary(type="submit" ng-disabled="!activar_crear_subunidad || unidad.newsubunidad.definicion=='' || unidad.newsubunidad.definicion==' ' " value="Añadir {{ SUBUNIDAD}}")
 
 
 

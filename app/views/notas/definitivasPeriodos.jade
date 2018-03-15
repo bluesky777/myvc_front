@@ -61,7 +61,7 @@
 
 						tr
 							th
-								div.text-center.nombresellipsis(uib-tooltip="Automática: calculada por el sistema" tooltip-popup-delay="500") Calcu
+								div.text-center.nombresellipsis(uib-tooltip="Automática: calculada por el sistema" tooltip-popup-delay="500") Auto
 							th
 								div.text-center.nombresellipsis(uib-tooltip="Así se verá en los informes" tooltip-popup-delay="500") Final
 							th(style="padding-left: 0px; padding-right: 0px; font-size: 8pt;")
@@ -70,7 +70,7 @@
 								div.text-center.nombresellipsis(uib-tooltip="Establecer si la nota es recuperada o normal" tooltip-popup-delay="500") Rec
 
 							th
-								div.text-center.nombresellipsis(uib-tooltip="Automática: calculada por el sistema" tooltip-popup-delay="500") Calcu
+								div.text-center.nombresellipsis(uib-tooltip="Automática: calculada por el sistema" tooltip-popup-delay="500") Auto
 							th
 								div.text-center.nombresellipsis(uib-tooltip="Así se verá en los informes" tooltip-popup-delay="500") Final
 							th(style="padding-left: 0px; padding-right: 0px; font-size: 8pt;")
@@ -79,7 +79,7 @@
 								div.text-center.nombresellipsis(uib-tooltip="Establecer si la nota es recuperada o normal" tooltip-popup-delay="500") Rec
 
 							th
-								div.text-center.nombresellipsis(uib-tooltip="Automática: calculada por el sistema" tooltip-popup-delay="500") Calcu
+								div.text-center.nombresellipsis(uib-tooltip="Automática: calculada por el sistema" tooltip-popup-delay="500") Auto
 							th
 								div.text-center.nombresellipsis(uib-tooltip="Así se verá en los informes" tooltip-popup-delay="500") Final
 							th(style="padding-left: 0px; padding-right: 0px; font-size: 8pt;")
@@ -88,7 +88,7 @@
 								div.text-center.nombresellipsis(uib-tooltip="Establecer si la nota es recuperada o normal" tooltip-popup-delay="500") Rec
 
 							th
-								div.text-center.nombresellipsis(uib-tooltip="Automática: calculada por el sistema" tooltip-popup-delay="500") Calcu
+								div.text-center.nombresellipsis(uib-tooltip="Automática: calculada por el sistema" tooltip-popup-delay="500") Auto
 							th
 								div.text-center.nombresellipsis(uib-tooltip="Así se verá en los informes" tooltip-popup-delay="500") Final
 							th(style="padding-left: 0px; padding-right: 0px; font-size: 8pt;")
@@ -119,13 +119,13 @@
 								div.text-center(ng-class="{'inputnota-perdida': alumno.nota_final_per1 < nota_minima_aceptada, 'inputnota-superior': alumno.nota_final_per1 >= escala_maxima.porc_inicial }")
 									input.input-nota(type="number" min="0" max="{{::escala_maxima.porc_final}}"
 												ng-model="alumno.nota_final_per1"
-												ng-change="cambiaNotaDef(alumno, alumno.nota_final_per1, alumno.nf_id_1)"
+												ng-change="cambiaNotaDef(alumno, alumno.nota_final_per1, alumno.nf_id_1, 1)"
 												ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
-												ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])")
+												ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])" ng-disabled="::USER.profes_pueden_nivelar==0")
 							td
-								input.no-margin-top(type="checkbox" ng-model="alumno.manual_1" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaManual(alumno, alumno.manual_1, alumno.nf_id_1, 1)" style="opacity: 1; position: unset;")
+								input.no-margin-top(type="checkbox" ng-model="alumno.manual_1" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaManual(alumno, alumno.manual_1, alumno.nf_id_1, 1)" style="opacity: 1; position: unset;" ng-disabled="::USER.profes_pueden_nivelar==0")
 							td.border-right-dddd
-								input.no-margin-top(type="checkbox" ng-model="alumno.recuperada_1" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_1, alumno.nf_id_1, 1)" style="opacity: 1; position: unset;")
+								input.no-margin-top(type="checkbox" ng-model="alumno.recuperada_1" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_1, alumno.nf_id_1, 1)" style="opacity: 1; position: unset;" ng-disabled="::USER.profes_pueden_nivelar==0")
 
 
 							td
@@ -134,13 +134,13 @@
 								div.text-center(ng-class="{'inputnota-perdida': alumno.nota_final_per2 < nota_minima_aceptada, 'inputnota-superior': alumno.nota_final_per2 >= escala_maxima.porc_inicial }")
 									input.input-nota(type="number" min="0" max="{{::escala_maxima.porc_final}}"
 												ng-model="alumno.nota_final_per2"
-												ng-change="cambiaNotaDef(alumno, alumno.nota_final_per2, alumno.nf_id_2)"
+												ng-change="cambiaNotaDef(alumno, alumno.nota_final_per2, alumno.nf_id_2, 2)"
 												ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
-												ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])")
+												ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])" ng-disabled="::USER.profes_pueden_nivelar==0")
 							td
-								input.no-margin-top(type="checkbox" ng-model="alumno.manual_2" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaManual(alumno, alumno.manual_2, alumno.nf_id_2, 2)" style="opacity: 1; position: unset;")
+								input.no-margin-top(type="checkbox" ng-model="alumno.manual_2" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaManual(alumno, alumno.manual_2, alumno.nf_id_2, 2)" style="opacity: 1; position: unset;" ng-disabled="::USER.profes_pueden_nivelar==0")
 							td.border-right-dddd
-								input.no-margin-top(type="checkbox" ng-model="alumno.recuperada_2" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_2, alumno.nf_id_2, 2)" style="opacity: 1; position: unset;")
+								input.no-margin-top(type="checkbox" ng-model="alumno.recuperada_2" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_2, alumno.nf_id_2, 2)" style="opacity: 1; position: unset;" ng-disabled="::USER.profes_pueden_nivelar==0")
 
 
 							td
@@ -149,13 +149,13 @@
 								div.text-center(ng-class="{'inputnota-perdida': alumno.nota_final_per3 < nota_minima_aceptada, 'inputnota-superior': alumno.nota_final_per3 >= escala_maxima.porc_inicial }")
 									input.input-nota(type="number" min="0" max="{{::escala_maxima.porc_final}}"
 												ng-model="alumno.nota_final_per3"
-												ng-change="cambiaNotaDef(alumno, alumno.nota_final_per3, alumno.nf_id_3)"
+												ng-change="cambiaNotaDef(alumno, alumno.nota_final_per3, alumno.nf_id_3, 3)"
 												ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
-												ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])")
+												ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])" ng-disabled="::USER.profes_pueden_nivelar==0")
 							td
-								input.no-margin-top(type="checkbox" ng-model="alumno.manual_3" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaManual(alumno, alumno.manual_3, alumno.nf_id_3, 3)" style="opacity: 1; position: unset;")
+								input.no-margin-top(type="checkbox" ng-model="alumno.manual_3" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaManual(alumno, alumno.manual_3, alumno.nf_id_3, 3)" style="opacity: 1; position: unset;" ng-disabled="::USER.profes_pueden_nivelar==0")
 							td.border-right-dddd
-								input.no-margin-top(type="checkbox" ng-model="alumno.recuperada_3" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_3, alumno.nf_id_3, 3)" style="opacity: 1; position: unset;")
+								input.no-margin-top(type="checkbox" ng-model="alumno.recuperada_3" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_3, alumno.nf_id_3, 3)" style="opacity: 1; position: unset;" ng-disabled="::USER.profes_pueden_nivelar==0")
 
 
 							td
@@ -164,12 +164,12 @@
 								div.text-center(ng-class="{'inputnota-perdida': alumno.nota_final_per4 < nota_minima_aceptada, 'inputnota-superior': alumno.nota_final_per4 >= escala_maxima.porc_inicial }")
 									input.input-nota(type="number" min="0" max="{{::escala_maxima.porc_final}}"
 												ng-model="alumno.nota_final_per4"
-												ng-change="cambiaNotaDef(alumno, alumno.nota_final_per4, alumno.nf_id_4)"
-												ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+												ng-change="cambiaNotaDef(alumno, alumno.nota_final_per4, alumno.nf_id_4, 4)"
+												ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-disabled="::USER.profes_pueden_nivelar==0")
 							td
-								input.no-margin-top(type="checkbox" ng-model="alumno.manual_4" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaManual(alumno, alumno.manual_4, alumno.nf_id_4, 4)" style="opacity: 1; position: unset;")
+								input.no-margin-top(type="checkbox" ng-model="alumno.manual_4" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaManual(alumno, alumno.manual_4, alumno.nf_id_4, 4)" style="opacity: 1; position: unset;" ng-disabled="::USER.profes_pueden_nivelar==0")
 							td.border-right-dddd
-								input.no-margin-top(type="checkbox" ng-model="alumno.recuperada_4" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_4, alumno.nf_id_4, 4)" style="opacity: 1; position: unset;")
+								input.no-margin-top(type="checkbox" ng-model="alumno.recuperada_4" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_4, alumno.nf_id_4, 4)" style="opacity: 1; position: unset;" ng-disabled="::USER.profes_pueden_nivelar==0")
 
 
 							td

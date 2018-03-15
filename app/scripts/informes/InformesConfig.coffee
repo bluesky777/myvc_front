@@ -82,6 +82,57 @@ angular.module('myvcFrontApp')
 				displayName: 'Boletines periodo'
 				pageTitle: 'Boletines periodo - MyVc'
 
+
+		.state 'panel.informes.boletines_periodo2',
+			url: '/boletines_periodo2/:grupo_id/:periodo_a_calcular'
+			params:
+				grupo_id: {value: null}
+				periodo_a_calcular: {value: null}
+			views:
+				'report_content':
+					templateUrl: "==informes2/boletinesPeriodo2.tpl.html"
+					controller: 'BoletinesPeriodoCtrl'
+					resolve:
+						alumnosDat: ['$http', '$stateParams', '$q', '$cookies', ($http, $stateParams, $q, $cookies)->
+
+							d = $q.defer()
+
+
+							requested_alumnos = $cookies.getObject 'requested_alumnos'
+							requested_alumno = $cookies.getObject 'requested_alumno'
+
+							if requested_alumnos
+
+								$http.put('::boletines2/detailed-notas/'+$stateParams.grupo_id, {requested_alumnos: requested_alumnos, periodo_a_calcular: $stateParams.periodo_a_calcular}).then((r)->
+									d.resolve r.data
+								, (r2)->
+									d.reject r2.data
+								)
+							else if requested_alumno
+								$http.put('::boletines2/detailed-notas/'+requested_alumno[0].grupo_id, {requested_alumnos: requested_alumno, periodo_a_calcular: $stateParams.periodo_a_calcular}).then((r)->
+									d.resolve r.data
+								, (r2)->
+									d.reject r2.data
+								)
+							else
+								#console.log 'Pidiendo por grupo:', $stateParams.grupo_id
+								$http.put('::boletines2/detailed-notas-group/'+$stateParams.grupo_id, {periodo_a_calcular: $stateParams.periodo_a_calcular}).then((r)->
+									d.resolve r.data
+								, (r2)->
+									d.reject r2.data
+								)
+
+
+							return d.promise
+						],
+						escalas: ['EscalasValorativasServ', (EscalasValorativasServ)->
+							#debugger
+							EscalasValorativasServ.escalas()
+						]
+			data:
+				displayName: 'Boletines periodo'
+				pageTitle: 'Boletines periodo - MyVc'
+
 		.state 'panel.informes.puestos_grupo_periodo',
 			url: '/puestos_grupo_periodo/:grupo_id'
 			views:

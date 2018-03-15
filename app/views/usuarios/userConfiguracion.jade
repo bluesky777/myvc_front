@@ -37,7 +37,7 @@ uib-accordion(close-others="true")
 								.row
 									.form-group.col-lg-4.col-sm-6
 										label(for="perfilactual-no-matr") Número Matrícula
-										input.form-control#perfilactual-no-matr(type="text" ng-model="perfilactual.no_matricula" placeholder="Número de matrícula")
+										input.form-control#perfilactual-no-matr(type="text" ng-model="perfilactual.no_matricula" placeholder="Número de matrícula" disabled="disabled")
 									.form-group.col-lg-4.col-sm-6.col-xs-12(style="margin-bottom: 12px;")
 										label(for="perfilactual-fecha-nac") Fecha de nacimiento
 										.controls
@@ -55,21 +55,21 @@ uib-accordion(close-others="true")
 
 							.form-group.col-lg-4.col-sm-6.col-xs-12
 								label Pais
-								ui-select(ng-model="perfilactual.pais_nac" on-select="paisNacSelect($item, $model)" style="width: 100%;")
+								ui-select(ng-model="perfilactual.pais_nac" on-select="paisNacSelect($item, $model)" style="width: 100%;" disabled="disabled")
 									ui-select-match(placeholder="Pais nacimiento" allow-clear="true") {{$select.selected.pais}} ({{$select.selected.abrev}})
 									ui-select-choices(repeat="pais in paises | filter: $select.search")
 										div(ng-bind-html="pais.pais | highlight: $select.search")
 										small {{ pais.departamento | highlight: $select.search}}
 							.form-group.col-lg-4.col-sm-6.col-xs-12
 								label Departamento
-								ui-select(ng-model="perfilactual.departamento_nac" on-select="departNacSelect($item, $model)" style="width: 100%;")
+								ui-select(ng-model="perfilactual.departamento_nac" on-select="departNacSelect($item, $model)" style="width: 100%;" disabled="disabled")
 									ui-select-match(placeholder="Departamento nacimiento" allow-clear="true") {{$select.selected.departamento}}
 									ui-select-choices(repeat="departamento in departamentosNac | filter: $select.search")
 										div(ng-bind-html="departamento.departamento | highlight: $select.search")
 
 							.form-group.col-lg-4.col-sm-6.col-xs-12
 								label Ciudad
-								ui-select(ng-model="perfilactual.ciudad_nac" style="width: 100%;")
+								ui-select(ng-model="perfilactual.ciudad_nac" style="width: 100%;" disabled="disabled")
 									ui-select-match(placeholder="Ciudad nacimiento" allow-clear="true") {{$select.selected.ciudad}}
 									ui-select-choices(repeat="ciudad in ciudadesNac | filter: $select.search")
 										div(ng-bind-html="ciudad.ciudad | highlight: $select.search")
@@ -83,32 +83,32 @@ uib-accordion(close-others="true")
 						.row
 							.form-group.col-lg-4.col-sm-6.col-xs-12
 								label Tipo
-								ui-select(ng-model="perfilactual.tipo_doc" style="width: 100%;")
+								ui-select(ng-model="perfilactual.tipo_doc" style="width: 100%;" disabled="disabled")
 									ui-select-match(placeholder="Tipo de documento" allow-clear="true") {{$select.selected.tipo}}{{ ' ('+$select.selected.abrev+')'}}
 									ui-select-choices(repeat="tipo_doc in tipos_doc")
 										div(ng-bind-html="tipo_doc.tipo | highlight: $select.search")
 										small {{ tipo_doc.abrev}}
 							.form-group.col-lg-4.col-sm-6.col-xs-12
 								label(for="perfilactual-documento") Número documento
-								input#perfilactual-documento.form-control(type="text" ng-model="perfilactual.documento" placeholder="Documento")
+								input#perfilactual-documento.form-control(type="text" ng-model="perfilactual.documento" placeholder="Documento" disabled="disabled")
 
 							.form-group.col-lg-4.col-sm-6.col-xs-12
 								label Pais
-								ui-select(ng-model="perfilactual.pais_doc" on-select="paisDocSelecionado($item, $model)" style="width: 100%;")
+								ui-select(ng-model="perfilactual.pais_doc" on-select="paisDocSelecionado($item, $model)" style="width: 100%;" disabled="disabled")
 									ui-select-match(placeholder="Pais documento" allow-clear="true") {{$select.selected.pais}} ({{$select.selected.abrev}})
 									ui-select-choices(repeat="pais in paises | filter: $select.search")
 										div(ng-bind-html="pais.pais | highlight: $select.search")
 										small {{ pais.departamento | highlight: $select.search}}
 							.form-group.col-lg-4.col-sm-6.col-xs-12
 								label Departamento
-								ui-select(ng-model="perfilactual.departamento_doc" on-select="departDocSeleccionado($item, $model)" style="width: 100%;")
+								ui-select(ng-model="perfilactual.departamento_doc" on-select="departDocSeleccionado($item, $model)" style="width: 100%;" disabled="disabled")
 									ui-select-match(placeholder="Departamento documento" allow-clear="true") {{$select.selected.departamento}}
 									ui-select-choices(repeat="departamento in departamentos | filter: $select.search")
 										div(ng-bind-html="departamento.departamento | highlight: $select.search")
 
 							.form-group.col-lg-4.col-sm-6.col-xs-12
 								label Ciudad
-								ui-select(ng-model="perfilactual.ciudad_doc" style="width: 100%;")
+								ui-select(ng-model="perfilactual.ciudad_doc" style="width: 100%;" disabled="disabled")
 									ui-select-match(placeholder="Ciudad documento" allow-clear="true") {{$select.selected.ciudad}}
 									ui-select-choices(repeat="ciudad in ciudades | filter: $select.search")
 										div(ng-bind-html="ciudad.ciudad | highlight: $select.search")
@@ -120,31 +120,31 @@ uib-accordion(close-others="true")
 						.row
 							.form-group.col-lg-2.col-sm-6.col-xs-12
 								label(for="perfilactual-tipo-sangre") Tipo de sangre
-								ui-select(ng-model="perfilactual.tipo_sangre" style="width: 100%;")
+								ui-select(ng-model="perfilactual.tipo_sangre" style="width: 100%;" disabled="disabled")
 									ui-select-match(placeholder="Tipo de sangre" allow-clear="true") {{$select.selected.sangre}}
 									ui-select-choices(repeat="sangre in sangres | filter: $select.search")
 										div(ng-bind-html="sangre.sangre | highlight: $select.search")
 
 							.form-group.col-lg-3.col-sm-6.col-xs-12
 								label(for="perfilactual-eps") EPS
-								input#perfilactual-eps.form-control(type="text" ng-model="perfilactual.eps" placeholder="EPS")
+								input#perfilactual-eps.form-control(type="text" ng-model="perfilactual.eps" placeholder="EPS" disabled="disabled")
 							.form-group.col-lg-3.col-sm-6.col-xs-12
 								label(for="perfilactual-telefono") Teléfono
-								input#perfilactual-telefono.form-control(type="text" ng-model="perfilactual.telefono" placeholder="Teléfono")
+								input#perfilactual-telefono.form-control(type="text" ng-model="perfilactual.telefono" placeholder="Teléfono" disabled="disabled")
 							.form-group.col-lg-3.col-sm-6.col-xs-12
 								label(for="perfilactual-celular") Celular
-								input#perfilactual-celular.form-control(type="text" ng-model="perfilactual.celular" placeholder="Celular")
+								input#perfilactual-celular.form-control(type="text" ng-model="perfilactual.celular" placeholder="Celular" disabled="disabled")
 							.form-group.col-lg-3.col-sm-6.col-xs-12
 								label(for="perfilactual-direccion") Direccion
-								input#perfilactual-direccion.form-control(type="text" ng-model="perfilactual.direccion" placeholder="Direccion")
+								input#perfilactual-direccion.form-control(type="text" ng-model="perfilactual.direccion" placeholder="Direccion" disabled="disabled")
 							.form-group.col-lg-3.col-sm-6.col-xs-12
 								label(for="perfilactual-barrio") Barrio
-								input#perfilactual-barrio.form-control(type="text" ng-model="perfilactual.barrio" placeholder="Barrio")
+								input#perfilactual-barrio.form-control(type="text" ng-model="perfilactual.barrio" placeholder="Barrio" disabled="disabled")
 
 							.form-group.col-lg-3.col-sm-6.col-xs-12
 								label(for="perfilactual-estrato") Estrato
 								.spinner.spinner-horizontal
-									input.spinner-input.form-control#perfilactual-estrato(type="text" minlength="0" maxlength="10" ng-model="perfilactual.estrato")
+									input.spinner-input.form-control#perfilactual-estrato(type="text" minlength="0" maxlength="10" ng-model="perfilactual.estrato" disabled="disabled")
 									.spinner-buttons.btn-group
 										button.btn.spinner-down.blueberry(type="button" ng-click="restarEstrato()")
 											i.fa.fa-minus
@@ -152,13 +152,13 @@ uib-accordion(close-others="true")
 											i.fa.fa-plus
 							.form-group.col-lg-3.col-sm-6.col-xs-12
 								label(for="perfilactual-religion") Religión
-								input#perfilactual-religion.form-control(type="text" ng-model="perfilactual.religion" placeholder="Religión")
+								input#perfilactual-religion.form-control(type="text" ng-model="perfilactual.religion" placeholder="Religión" disabled="disabled")
 							.form-group.col-lg-3.col-sm-6.col-xs-12
 								label(for="perfilactual-email") E-mail
-								input#perfilactual-email.form-control(type="text" ng-model="perfilactual.email" placeholder="E-mail")
+								input#perfilactual-email.form-control(type="text" ng-model="perfilactual.email" placeholder="E-mail" disabled="disabled")
 							.col-lg-3.col-sm-6.col-xs-12
 								label(for="perfilactual-facebook") Facebook
-								input#perfilactual-facebook.form-control(type="text" ng-model="perfilactual.facebook" placeholder="Facebook")
+								input#perfilactual-facebook.form-control(type="text" ng-model="perfilactual.facebook" placeholder="Facebook" disabled="disabled")
 							.col-lg-3.col-sm-6.col-xs-12
 								label Está a paz y salvo
 							.col-lg-3.col-sm-6.col-xs-12

@@ -8,10 +8,20 @@
 					i.fa.fa-arrow-left
 					| Ir a {{UNIDADES}}
 
+			.alert.alert-info.fade.in.radius-bordered(ng-show="::USER.profes_pueden_editar_notas==0 && USER.profes_pueden_nivelar==0 && !hasRoleOrPerm('Admin')" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px")
+				i.fa-fw.fa.fa-info
+				| Este periodo está bloqueado. No puedes editar indicadores o Nivelar notas finales.
 
+			.alert.alert-info.fade.in.radius-bordered(ng-show="::USER.profes_pueden_editar_notas==0 && USER.profes_pueden_nivelar==1 && !hasRoleOrPerm('Admin')" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px")
+				i.fa-fw.fa.fa-info
+				| Este periodo está bloqueado. No puedes editar notas pero puedes Nivelar notas finales.
+
+			.alert.alert-info.fade.in.radius-bordered(ng-show="::USER.profes_pueden_editar_notas==0 && USER.profes_pueden_nivelar==1 && hasRoleOrPerm('Admin')" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px")
+				i.fa-fw.fa.fa-info
+				| Este periodo está bloqueado. Pero como administrador, tú puedes editarlo.
 
 			.form-group(style="margin-top: 10px;")
-				div(style="width=100%; height: 80px; text-align: center; border: 1px solid #ccc; overflow-y: auto; background-color: #eee;")
+				div.text-center(style="width=100%; height: 80px; border: 1px solid #ccc; overflow-y: auto; background-color: #eee;")
 					.btn-group
 						button.btn.btn-default.btn-asignaturas(ng-repeat="asignatura in asignaturas" ng-class="{active: asignatura.active}"
 							ng-click="traerNotasDeAsignatura(asignatura)" uib-tooltip="{{asignatura.nombre_grupo}}. {{ asignatura.materia }}" tooltip-append-to-body="true")
@@ -55,9 +65,9 @@
 								div
 							th.border-right-dddd(ng-repeat="unidad in unidades" colspan="{{unidad.subunidades.length}}")
 								div.text-center.nombresellipsis(uib-tooltip="{{unidad.porcentaje}}% {{unidad.definicion}}" tooltip-popup-delay="500" ng-class="'maxwidth' + unidad.subunidades.length" ) {{$index + 1}}. {{unidad.definicion}}
-							th(rowspan="2" style="line-height: 3;" uib-tooltip="Calculada automáticamente." tooltip-append-to-body="true")
-								div Auto
-							th(rowspan="2" style="line-height: 3;" uib-tooltip="Definitiva real. Es automática hasta que la modifiques." tooltip-append-to-body="true")
+							th(rowspan="2" style="line-height: 3; min-width: 80px" uib-tooltip="Promedio calculado Automáticamente." tooltip-append-to-body="true")
+								div Prom Auto
+							th.text-center(rowspan="2" style="line-height: 3;" uib-tooltip="Definitiva real. Es automática hasta que la modifiques." tooltip-append-to-body="true")
 								div Real
 							th(rowspan="2" style="line-height: 3.5; padding-left: 0px; padding-right: 0px; font-size: 8pt;")
 								div.text-center.nombresellipsis(uib-tooltip="Indica si la definitiva será calculada automáticamente o manualmente") Manual
@@ -91,13 +101,13 @@
 									ng-model="alumno.ausencias_count"
 									ng-change="cambiaAusencia(alumno)"
 									ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
-									ng-focus="onInputFocus($event)")
+									ng-focus="onInputFocus($event)" ng-disabled="::USER.profes_pueden_editar_notas==0")
 
 								button.btn.btn-xs(ng-repeat="ausencia in alumno.ausencias"
 									ng-click="clickAusenciaObject(ausencia, alumno)"
 									uib-popover-template="views+'notas/popoverAusenciaObject.tpl.html'"
 									popover-title="Editar ausencia" style="width: 55px"
-									popover-trigger="'none'" popover-is-open="ausencia.isOpen")
+									popover-trigger="'none'" popover-is-open="ausencia.isOpen" ng-disabled="::USER.profes_pueden_editar_notas==0")
 
 									span(ng-hide="ausencia.fecha_hora")
 										i.fa.fa-clock-o
@@ -111,13 +121,13 @@
 									ng-model="alumno.tardanzas_count"
 									ng-change="cambiaTardanza(alumno)"
 									ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
-									ng-focus="onInputFocus($event)")
+									ng-focus="onInputFocus($event)" ng-disabled="::USER.profes_pueden_editar_notas==0")
 
 								button.btn.btn-xs(ng-repeat="tardanza in alumno.tardanzas"
 									ng-click="clickTardanzaObject(tardanza, alumno)"
 									uib-popover-template="views+'notas/popoverTardanzaObject.tpl.html'"
 									popover-title="Editar tardanza" style="width: 55px"
-									popover-trigger="'none'" popover-is-open="tardanza.isOpen")
+									popover-trigger="'none'" popover-is-open="tardanza.isOpen" ng-disabled="::USER.profes_pueden_editar_notas==0")
 
 									span(ng-hide="tardanza.fecha_hora")
 										i.fa.fa-clock-o
@@ -144,28 +154,29 @@
 											ng-change="cambiaNota(nota, nota.nota)"
 											ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
 											ng-click="verifClickNotaRapida(nota)"
-											ng-focus="onInputFocus($event)")
+											ng-focus="onInputFocus($event)" ng-disabled="::USER.profes_pueden_editar_notas==0")
 
-								td
+								td.text-center
 									div(ng-bind-html="promedioTotal(alumno)" ng-class="{'nota-perdida': alumno.total_definit < nota_minima_aceptada, 'nota-superior': alumno.total_definit >= escala_maxima.porc_inicial }")
 								td
 									div.text-center(ng-class="{'inputnota-perdida': alumno.nota_final.nota_final < nota_minima_aceptada, 'inputnota-superior': alumno.nota_final.nota_final >= escala_maxima.porc_inicial }")
-										input.input-nota(type="number" min="0" max="{{::escala_maxima.porc_final}}"
+										input.input-nota.text-center(type="number" min="0" max="{{::escala_maxima.porc_final}}"
 												ng-model="alumno.nota_final.nota_final"
 												ng-change="cambiaNotaDef(alumno, alumno.nota_final.nota_final, alumno.nota_final.nf_id)"
 												ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
-												uib-popover-template="views + 'notas/popoverInfoNotaFinal.tpl.html'" popover-trigger="'mouseenter'" popover-popup-delay="500" popover-title="Nota final real" popover-placement="'bottom-right'")
-								td
-									input.no-margin-top(type="checkbox" ng-model="alumno.nota_final.manual" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaFinalManual(alumno, alumno.nota_final.manual, alumno.nota_final.nf_id)" style="opacity: 1; position: unset;")
+												uib-popover-template="views + 'notas/popoverInfoNotaFinal.tpl.html'" popover-trigger="'mouseenter'" popover-popup-delay="500" popover-title="Nota final real" popover-placement="'bottom-right'"
+												ng-disabled="::USER.profes_pueden_nivelar==0")
+								td.text-center
+									input.no-margin-top(type="checkbox" ng-disabled="::USER.profes_pueden_nivelar==0" ng-model="alumno.nota_final.manual" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaFinalManual(alumno, alumno.nota_final.manual, alumno.nota_final.nf_id)" style="opacity: 1; position: unset;")
 
-								td
-									input.no-margin-top(type="checkbox" ng-model="alumno.nota_final.recuperada" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaFinalRecuperada(alumno, alumno.nota_final.recuperada, alumno.nota_final.nf_id)" style="opacity: 1; position: unset;")
+								td.text-center
+									input.no-margin-top(type="checkbox" ng-disabled="::USER.profes_pueden_nivelar==0" ng-model="alumno.nota_final.recuperada" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaFinalRecuperada(alumno, alumno.nota_final.recuperada, alumno.nota_final.nf_id)" style="opacity: 1; position: unset;")
 
 								td
 
 
 				br
-				.col-lg-5.col-xs-12
+				.col-lg-5.col-xs-12(ng-show="::USER.profes_pueden_editar_notas==1")
 					div(nota-rapida)
 				br
 				br

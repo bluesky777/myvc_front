@@ -5,22 +5,22 @@ angular.module('myvcFrontApp')
 
 	AuthService.verificar_acceso()
 
-	$scope.asignatura 	= {}
-	$scope.asignatura_id = $state.params.asignatura_id
-	$scope.datos 		= {}
-	$scope.UNIDAD 		= $scope.USER.unidad_displayname
-	$scope.SUBUNIDAD 	= $scope.USER.subunidad_displayname
-	$scope.UNIDADES 	= $scope.USER.unidades_displayname
-	$scope.SUBUNIDADES 	= $scope.USER.subunidades_displayname
-	$scope.perfilPath 	= App.images+'perfil/'
-	$scope.views 		= App.views
+	$scope.asignatura 	  = {}
+	$scope.asignatura_id  = $state.params.asignatura_id
+	$scope.datos 		      = {}
+	$scope.UNIDAD 		    = $scope.USER.unidad_displayname
+	$scope.SUBUNIDAD 	    = $scope.USER.subunidad_displayname
+	$scope.UNIDADES 	    = $scope.USER.unidades_displayname
+	$scope.SUBUNIDADES 	  = $scope.USER.subunidades_displayname
+	$scope.perfilPath 	  = App.images+'perfil/'
+	$scope.views 		      = App.views
 	$scope.nota_minima_aceptada = parseInt($scope.USER.nota_minima_aceptada)
 	$scope.ocultando_ausencias 	= true
 	$scope.ausencia_edit 	= {} # Para editar en el popover
 	$scope.tardanza_edit 	= {}
 	$scope.alumno_aus_tard_edit 	= {}
 	$scope.opts_picker 		= { minDate: new Date('1/1/2017'), showWeeks: false, startingDay: 0 }
-
+	$scope.hasRoleOrPerm  = AuthService.hasRoleOrPerm
 
 	NotasServ.detalladas($stateParams.asignatura_id, $stateParams.profesor_id, true).then((r)->
 		$scope.asignatura		= r.asignatura
@@ -30,7 +30,9 @@ angular.module('myvcFrontApp')
 
 		$scope.arreglarDatos()
 
-		$scope.$parent.bigLoader 	= false
+		$timeout(()->
+			$scope.$parent.bigLoader 	= false
+		, 1000)
 
 	, (r2)->
 		toastr.error 'No se pudo traer las notas con asignaturas.'
@@ -126,6 +128,7 @@ angular.module('myvcFrontApp')
 
 
 	$scope.traerNotasDeAsignatura = (asignatura)->
+		$scope.$parent.bigLoader 	= true
 		$state.go('.', {asignatura_id: asignatura.asignatura_id}, {notify: false});
 
 		NotasServ.detalladas(asignatura.asignatura_id, asignatura.profesor_id, false).then((r)->
@@ -134,6 +137,10 @@ angular.module('myvcFrontApp')
 			$scope.unidades 		= r.unidades
 
 			$scope.arreglarDatos()
+
+			$timeout(()->
+				$scope.$parent.bigLoader 	= false
+			, 500)
 
 		)
 
@@ -378,6 +385,8 @@ angular.module('myvcFrontApp')
 					$http.get('::frases')
 				asignatura: ()->
 					$scope.asignatura
+				USER: ()->
+					$scope.USER
 		})
 		modalInstance.result.then( (alum)->
 			#console.log 'Resultado del modal: ', alum
@@ -526,10 +535,11 @@ angular.module('myvcFrontApp')
 ])
 
 
-.controller('ShowFrasesCtrl', ['$scope', '$uibModalInstance', 'alumno', 'frases', 'asignatura', '$http', 'toastr', '$filter', ($scope, $modalInstance, alumno, frases, asignatura, $http, toastr, $filter)->
-	$scope.alumno = alumno
-	$scope.frases = frases.data
+.controller('ShowFrasesCtrl', ['$scope', '$uibModalInstance', 'alumno', 'frases', 'asignatura', '$http', 'toastr', '$filter', 'USER', ($scope, $modalInstance, alumno, frases, asignatura, $http, toastr, $filter, USER)->
+	$scope.alumno     = alumno
+	$scope.frases     = frases.data
 	$scope.asignatura = asignatura
+	$scope.USER       = USER
 
 	$scope.alumno.newFrase = ''
 

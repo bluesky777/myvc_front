@@ -1,19 +1,20 @@
 angular.module('myvcFrontApp')
-.controller('NotasAlumnoCtrl', ['$scope', 'toastr', '$http', '$uibModal', '$state', 'alumnos', 'escalas', '$rootScope', '$filter', 'App', 'AuthService', 'Perfil', ($scope, toastr, $http, $modal, $state, alumnos, escalas, $rootScope, $filter, App, AuthService, Perfil) ->
+.controller('NotasAlumnoCtrl', ['$scope', 'toastr', '$http', '$uibModal', '$state', 'alumnos', 'escalas', '$rootScope', '$filter', 'App', 'AuthService', 'Perfil', 'EscalasValorativasServ', ($scope, toastr, $http, $modal, $state, alumnos, escalas, $rootScope, $filter, App, AuthService, Perfil, EscalasValorativasServ) ->
 
 	AuthService.verificar_acceso()
-	$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
-	alumnos = alumnos.data
+	$scope.hasRoleOrPerm 	= AuthService.hasRoleOrPerm
+	alumnos 				= alumnos.data
 
 	if !alumnos == 'Sin alumnos'
 		$scope.filtered_alumnos = alumnos
 
-	$scope.perfilPath = App.images + 'perfil/'
-	$scope.datos = {grupo: ''}
-	$scope.USER = Perfil.User()
+	$scope.perfilPath 		= App.images+'perfil/'
+	$scope.views			= App.views
+	$scope.datos			= {grupo: ''}
+	$scope.USER 			= Perfil.User()
 	$scope.USER.nota_minima_aceptada = parseInt($scope.USER.nota_minima_aceptada)
-	$scope.escalas = escalas
-	$scope.config = {solo_notas_perdidas: true}
+	$scope.escalas 			= escalas
+	$scope.config 			= {solo_notas_perdidas: true}
 
 
 	if !$scope.hasRoleOrPerm(['alumno', 'acudiente'])
@@ -23,12 +24,22 @@ angular.module('myvcFrontApp')
 		)
 
 
+	EscalasValorativasServ.escalas().then((r)->
+		$scope.escalas = r
+	, (r2)->
+		console.log 'No se trajeron las escalas valorativas', r2
+	)
+
+	$scope.escala_maxima = EscalasValorativasServ.escala_maxima()
+
+
+
 
 	$scope.verNotasAlumno = (alumno_id)->
-		
+
 		if !alumno_id
 			alumno_id = $scope.datos.selected_alumno.alumno_id
-		
+
 		$http.get('::notas/alumno/'+alumno_id).then((r)->
 			r = r.data
 			if r[0]
@@ -54,6 +65,48 @@ angular.module('myvcFrontApp')
 			$scope.verNotasAlumno($scope.USER.persona_id)
 
 
+
+
+	$scope.cambiaNotaDef = (alumno, nota, nf_id)->
+
+		if nota > $scope.escala_maxima.porc_final or nota == 'undefined' or nota == undefined
+			toastr.error 'No puede ser mayor de ' + $scope.escala_maxima.porc_final, 'NO guardada', {timeOut: 8000}
+			return
+		$http.put('::definitivas_periodos/update', {nf_id: nf_id, nota: nota}).then((r)->
+			if !alumno.manual
+				alumno.manual = 1
+			toastr.success 'Cambiada: ' + nota
+		, (r2)->
+			toastr.error 'No pudimos guardar la nota ' + nota, '', {timeOut: 8000}
+		)
+
+	$scope.toggleNotaFinalRecuperada = (alumno, recuperada, nf_id)->
+		$http.put('::definitivas_periodos/toggle-recuperada', {nf_id: nf_id, recuperada: recuperada}).then((r)->
+
+			if recuperada and !alumno.manual
+				alumno.manual = 1
+				toastr.success 'Indicará que es recuperada, así que también será manual.'
+			else if recuperada
+				toastr.success 'Recuperada'
+			else
+				toastr.success 'No recuperada'
+		, (r2)->
+			toastr.error 'No pudimos cambiar.', '', {timeOut: 8000}
+		)
+
+	$scope.toggleNotaFinalManual = (alumno, manual, nf_id)->
+		$http.put('::definitivas_periodos/toggle-manual', {nf_id: nf_id, manual: manual}).then((r)->
+
+			if !manual and alumno.nota_final.recuperada
+				alumno.nota_final.recuperada = false
+				toastr.success 'Será automática y no recuperada.'
+			else if manual
+				toastr.success 'Nota manual.'
+			else
+				toastr.success 'Ahora la calculará el sistema.'
+		, (r2)->
+			toastr.error 'No pudimos cambiar.', '', {timeOut: 8000}
+		)
 
 
 

@@ -42,8 +42,8 @@
 					.form-group
 						label Alumno
 						ui-select( ng-model="datos.selected_alumno" on-select="selectAlumno($item)" style="width: 300px;")
-							ui-select-match(placeholder="Elige un alumno" allow-clear="true") 
-								img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;") 
+							ui-select-match(placeholder="Elige un alumno" allow-clear="true")
+								img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;")
 								| {{$select.selected.nombres}} {{$select.selected.apellidos}}
 							ui-select-choices(repeat="alumno in filtered_alumnos | filter: $select.search")
 								img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
@@ -60,23 +60,38 @@
 
 
 	uib-accordion(close-others="true")
-		
+
 		.panel-default(uib-accordion-group heading="Periodo {{periodo.numero}} ({{periodo.asignaturas | notasPerdidasAsignaturas}})" ng-repeat="periodo in periodos")
 
-			
+
 			.materia-item.animated(ng-repeat="asignatura in periodo.asignaturas | soloAsignaturasConPerdidas:config.solo_notas_perdidas")
-				.row.materia-title(style="font-size: 10pt;" uib-popover-template="views+'informes/infoDocentePop.tpl.html'" 
-							popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" 
-							popover-trigger="mouseenter")
+				.row.materia-title(style="font-size: 10pt;" uib-popover-template="views+'informes/infoDocentePop.tpl.html'"
+							popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true"
+							popover-trigger="'mouseenter'")
 					.col-lg-9.col-xs-9
 						span.materia-name {{asignatura.materia}}
-						span.materia-profesor(ng-if="!hasRoleOrPerm('profesor')") - Pr. {{asignatura.nombres_profesor | capitalize}}
-					.col-lg-1.col-xs-2(ng-class="{'nota-perdida': asignatura.nota_asignatura<USER.nota_minima_aceptada}")
-						| {{ asignatura.nota_asignatura | juicioValorativo:escalas:true}} 
-					.col-lg-1.col-xs-1
-						div(ng-class="{'nota-perdida-bold': asignatura.nota_asignatura<USER.nota_minima_aceptada}")
-							| {{asignatura.nota_asignatura | number:0}}
-				
+						span.materia-profesor(ng-if="!hasRoleOrPerm('profesor')")   - Prof. {{asignatura.nombres_profesor | capitalize}} {{asignatura.apellidos_profesor | capitalize}}
+					.col-sm-1.col-xs-2(ng-class="{'nota-perdida': asignatura.nota_asignatura<USER.nota_minima_aceptada}")
+						| {{ asignatura.desempenio }}
+
+					.col-lg-1.col-xs-1.subunidad-nota.puntero(ng-if="!hasRoleOrPerm(['admin', 'profesor'])")
+						span(ng-class="{'nota-perdida-bold': asignatura.nota_asignatura<USER.nota_minima_aceptada}" ) {{::asignatura.nota_asignatura}}
+
+						span.nota-perdida(ng-show="!asignatura.nf_id && asignatura.nota_asignatura!=0" uib-tooltip="Aún sin nota")
+							i.fa.fa-warning
+
+					.col-sm-2.col-xs-12(ng-class="{'inputnota-perdida': asignatura.nota_asignatura < USER.nota_minima_aceptada}"
+						ng-if="hasRoleOrPerm(['admin', 'profesor'])")
+
+						input.input-nota(type="number" min="0" max="{{::escala_maxima.porc_final}}"
+												ng-model="asignatura.nota_asignatura" ng-disabled="::USER.profes_pueden_nivelar==0"
+												ng-change="cambiaNotaDef(asignatura, asignatura.nota_asignatura, asignatura.nf_id)"
+												ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+						label(for="manual-{{asignatura.asignatura_id}}")
+							span(style="font-size: 9pt") M
+							input.no-margin-top(id="manual-{{asignatura.asignatura_id}}" type="checkbox" ng-disabled="::USER.profes_pueden_nivelar==0" ng-model="asignatura.manual" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaFinalManual(asignatura, asignatura.manual, asignatura.nf_id)" style="opacity: 1; position: unset;" uib-tooltip="¿Es manual?")
+						input.no-margin-top(type="checkbox" ng-disabled="::USER.profes_pueden_nivelar==0" ng-model="asignatura.recuperada" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaFinalRecuperada(asignatura, asignatura.recuperada, asignatura.nf_id)" style="opacity: 1; position: unset;" uib-tooltip="¿Asignatura recuperada?")
+
 				.row.unidades-list
 					.col-lg-12.col-xs-12
 						.row.unidades-item.animated(ng-repeat="unidad in asignatura.unidades | soloUnidadesConPerdidas:config.solo_notas_perdidas")
@@ -96,15 +111,15 @@
 
 											.col-lg-1.col-xs-1.subunidad-nota.puntero(ng-if="!hasRoleOrPerm(['admin', 'profesor'])")
 												span(ng-class="{'nota-perdida-bold': subunidad.nota.nota<USER.nota_minima_aceptada}" uib-tooltip="Valor nota: {{subunidad.nota.valor}}") {{subunidad.nota.nota}}
-												
+
 												span.nota-perdida(ng-show="!subunidad.nota.nota && subunidad.nota.nota!=0" uib-tooltip="Aún sin nota")
 													i.fa.fa-warning
 
-											.col-lg-1.col-xs-1(ng-class="{'inputnota-perdida': subunidad.nota.nota < USER.nota_minima_aceptada}" 
+											.col-lg-1.col-xs-1(ng-class="{'inputnota-perdida': subunidad.nota.nota < USER.nota_minima_aceptada}"
 												ng-if="hasRoleOrPerm(['admin', 'profesor'])")
 
-												input(type="number" min="0" max="100" 
-													ng-model="subunidad.nota.nota" 
+												input(type="number" min="0" max="100"
+													ng-model="subunidad.nota.nota" ng-disabled="::USER.profes_pueden_editar_notas==0"
 													ng-change="cambiaNota(subunidad.nota, subunidad.nota.nota)"
 													ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
 

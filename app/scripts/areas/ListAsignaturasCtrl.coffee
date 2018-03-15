@@ -9,6 +9,7 @@ angular.module('myvcFrontApp')
 	$scope.GENERO_SUB = $scope.USER.genero_subunidad
 	$scope.UNIDADES = $scope.USER.unidades_displayname
 	$scope.SUBUNIDADES = $scope.USER.subunidades_displayname
+	$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
 	$scope.dato = { }
 
 	$scope.views = App.views + 'areas/' # La uso en jade

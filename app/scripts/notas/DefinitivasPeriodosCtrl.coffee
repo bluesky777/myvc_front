@@ -67,16 +67,30 @@ angular.module('myvcFrontApp')
 	#####################################################################
 
 
-	$scope.cambiaNotaDef = (alumno, nota, nf_id)->
-
+	$scope.cambiaNotaDef = (alumno, nota, nf_id, num_periodo)->
 		if nota > $scope.escala_maxima.porc_final or nota == 'undefined' or nota == undefined
 			toastr.error 'No puede ser mayor de ' + $scope.escala_maxima.porc_final, 'NO guardada', {timeOut: 8000}
 			return
-		$http.put('::definitivas_periodos/update', {nf_id: nf_id, nota: nota}).then((r)->
-			toastr.success 'Cambiada: ' + nota
-		, (r2)->
-			toastr.error 'No pudimos guardar la nota ' + nota, '', {timeOut: 8000}
-		)
+
+		if nf_id
+			$http.put('::definitivas_periodos/update', {nf_id: nf_id, nota: nota}).then((r)->
+				toastr.success 'Cambiada: ' + nota
+			, (r2)->
+				toastr.error 'No pudimos guardar la nota ' + nota, '', {timeOut: 8000}
+			)
+		else
+			$http.put('::definitivas_periodos/update', {alumno_id: alumno.alumno_id, nota: nota, asignatura_id: $scope.dato.asignatura.asignatura_id, periodo: num_periodo }).then((r)->
+				toastr.success 'Creada: ' + nota
+				r = r.data[0]
+				alumno['nf_id_'+num_periodo]          = r.id
+				alumno['nfinal'+ num_periodo +'_desactualizada'] = 0
+				alumno['periodo_id'+ num_periodo]     = r.periodo_id
+				alumno['recuperada_'+ num_periodo]    = 0
+				alumno['manual_'+ num_periodo]        = 1
+			, (r2)->
+				toastr.error 'No pudimos guardar la nota ' + nota, '', {timeOut: 8000}
+			)
+
 
 
 

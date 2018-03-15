@@ -101,12 +101,12 @@
                 <!--i.menu-icon.fa.fa-rocket--><span class="menu-text">{{grupo.nombre}}</span></a></li>
           </ul>
         </li>
-        <li ui-sref-active="active" ng-if="hasRoleOrPerm(['admin'])"><a ui-sref="panel.areas" class="menu-dropdown"><span class="menu-text">Areas</span></a></li>
+        <li ui-sref-active="active" ng-if="hasRoleOrPerm(['admin'])"><a ui-sref="panel.areas" class="menu-dropdown"><span class="menu-text">Áreas</span></a></li>
         <li ui-sref-active="active" ng-if="hasRoleOrPerm(['admin'])"><a ui-sref="panel.materias" class="menu-dropdown"><span class="menu-text">Materias</span></a></li>
         <li ui-sref-active="active" ng-if="hasRoleOrPerm(['admin'])"><a ui-sref="panel.asignaturas" class="menu-dropdown"><span class="menu-text">Asignaturas</span></a></li>
       </ul>
     </li>
-    <li ui-sref-active="active" ng-if="!hasRoleOrPerm(['admin']) &amp;&amp; hasRoleOrPerm(['profesor'])"><a ui-sref="panel.bitacora" stop-event="click"><i class="menu-icon fa fa-align-justify"></i><span class="menu-text"> Bitacora</span></a></li><!-- Informes-->
+    <li ui-sref-active="active" ng-if="!hasRoleOrPerm(['admin']) &amp;&amp; hasRoleOrPerm(['profesor'])"><a ui-sref="panel.bitacora" stop-event="click"><i class="menu-icon fa fa-align-justify"></i><span class="menu-text"> Bitácora</span></a></li><!-- Informes-->
     <li ui-sref-active="active" ng-if="hasRoleOrPerm(['admin']) || hasRoleOrPerm(['profesor'])"><a ng-click="ir_a_informes()" href=""><i class="menu-icon fa fa-print"></i><span class="menu-text">Informes</span></a></li>
     <!--li(sub-menu ng-show="hasRoleOrPerm('admin')" ng-click="toggleOpen()" menu-is-open="false" ng-class="{active:$state.includes('panel.informes')}")
     a.menu-dropdown(href="")

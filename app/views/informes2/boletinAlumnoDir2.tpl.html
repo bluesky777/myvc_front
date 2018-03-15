@@ -28,14 +28,14 @@
         </div>
       </div>
       <div class="row body-boletin">
-        <div class="col-lg-12 col-xs-12 no-padding">
+        <div class="col-lg-12 col-xs-12 materias">
           <div ng-repeat="asignatura in ::alumno.asignaturas track by $index" class="materia-item">
             <div class="row materia-title">
               <div uib-popover-template="::views+'informes/infoDocentePop.tpl.html'" popover-popup-delay="500" popover-title="{{::asignatura.nombres_profesor}} {{::asignatura.apellidos_profesor}}" popover-animation="true" popover-trigger="'mouseenter'" popover-append-to-body="true" class="col-lg-9 col-xs-9"><span class="materia-name">{{::asignatura.materia}}</span><span class="materia-profesor">  - Prof. {{::asignatura.nombres_profesor | capitalize}} {{ ::asignatura.apellidos_profesor | capitalize}}</span></div>
               <div style="padding: 0px" class="col-lg-1 col-xs-1"><i class="fa fa-clock-o icon-tardanza"></i><span class="text-tardanza">A:{{::asignatura.total_ausencias}} / T:{{::asignatura.total_tardanzas}}</span></div>
-              <div ng-class="{'nota-perdida': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}" style="padding: 0px; text-align: center;" class="col-lg-1 col-xs-1">{{ ::asignatura.nota_juicio_valorativo }}</div>
+              <div ng-class="{'nota-perdida': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}" style="padding: 0px; text-align: center;" class="col-lg-1 col-xs-1">{{ ::asignatura.desempenio }}</div>
               <div class="col-lg-1 col-xs-1">
-                <div ng-class="{'nota-perdida-bold': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}">{{ ::asignatura.nota_asignatura }}</div>
+                <div ng-class="{'nota-perdida-bold': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}">{{ ::asignatura.nota_asignatura }}<span ng-show="::asignatura.recuperada" class="nota-perdida-bold"> R</span></div>
               </div>
             </div>
             <div class="row unidades-list">
@@ -49,12 +49,18 @@
                     </div>
                     <div ng-repeat="subunidad in ::unidad.subunidades" class="row subunidades-list">
                       <div class="col-lg-12 col-xs-12">
-                        <div class="row">
-                          <div class="col-lg-9 col-xs-9 subunidad-definicion">{{::$index+1}}. {{::subunidad.definicion_subunidad}}</div>
-                          <div class="col-lg-1 col-xs-1 subunidad-porc">{{::subunidad.porcentaje_subunidad}}%</div>
-                          <div style="font-size: 5pt; line-height: 2;" class="col-lg-1 col-xs-1 subunidad-nota">{{ ::subunidad.nota.nota_juicio_valorativo }}</div>
-                          <div class="col-lg-1 col-xs-1 subunidad-nota puntero"><span ng-class="{'nota-perdida-bold': subunidad.nota.nota&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}" uib-tooltip="Valor nota: {{::subunidad.nota.valor}}">{{::subunidad.nota.nota}}</span><span ng-hide="::subunidad.nota.nota &gt; -1" uib-tooltip="Aún sin nota" class="nota-perdida"><i class="fa fa-warning"></i></span></div>
-                        </div>
+                        <!--.row
+                        .col-lg-9.col-xs-9.subunidad-definicion.no-padding-right
+                        	| {{::subunidad.definicion_subunidad}}
+                        .col-lg-1.col-xs-1.subunidad-porc()
+                        	| {{::subunidad.porcentaje_subunidad}}%
+                        .col-lg-1.col-xs-1.subunidad-nota(style="font-size: 5pt; line-height: 2;")
+                        	| {{ ::subunidad.desempenio }}
+                        .col-lg-1.col-xs-1.subunidad-nota.puntero
+                        	span(ng-class="{'nota-perdida-bold': subunidad.nota<USER.nota_minima_aceptada && config.show_rojos}" uib-tooltip="Valor nota: {{::subunidad.valor_nota}}") {{::subunidad.nota}}
+                        	span.nota-perdida-bold(ng-hide="::subunidad.nota && subunidad.nota!=0" uib-tooltip="Aún sin nota")
+                        		i.fa.fa-warning
+                        --><span dynamic="::subunidad.fila_subunidad"></span>
                       </div>
                     </div>
                   </div>

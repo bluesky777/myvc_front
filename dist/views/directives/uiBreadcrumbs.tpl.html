@@ -1,1 +1,7 @@
-<div class="page-breadcrumbs"> <ul class="breadcrumb"> <li ng-repeat="crumb in breadcrumbs" ng-if="!$last"><i class="{{crumb.icon_fa}}"></i><a ui-sref="{{ crumb.route }}" data-toggle="tooltip" data-placement="top" data-original-title="{{crumb.displayName}}">{{ crumb.displayName }}</a></li> <li ng-repeat="crumb in breadcrumbs" ng-show="$last" class="active">{{ crumb.displayName }}</li> </ul> </div>
+
+<div class="page-breadcrumbs">
+  <ul class="breadcrumb">
+    <li ng-repeat="crumb in breadcrumbs" ng-if="!$last"><i class="{{crumb.icon_fa}}"></i><a ui-sref="{{ crumb.route }}" data-toggle="tooltip" data-placement="top" data-original-title="{{crumb.displayName}}">{{ crumb.displayName }}</a></li>
+    <li ng-repeat="crumb in breadcrumbs" ng-show="$last" class="active">{{ crumb.displayName }}</li>
+  </ul>
+</div>

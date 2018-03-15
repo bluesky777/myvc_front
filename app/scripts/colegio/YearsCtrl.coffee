@@ -7,8 +7,8 @@ angular.module('myvcFrontApp')
 		#$scope.config = {alumnos_can_see_notas: $scope.USER.alumnos_can_see_notas}
 		$scope.perfilPath = App.images + 'perfil/'
 		$scope.status     = {
-      open_year: true
-    }
+			open_year: true
+		}
 
 		$http.get('::years/colegio').then((r)->
 			r = r.data
@@ -126,6 +126,13 @@ angular.module('myvcFrontApp')
 				toastr.success r.data
 			, (r2)->
 				toastr.warning 'No se pudo bloquear o desbloquear la edición.', 'Problema'
+			)
+
+		$scope.toggleMostrarNotaComportamientoEnBoletin = (year_id, can)->
+			$http.put('::years/toggle-mostrar-nota-comport-en-boletin', { can: can, year_id: year_id }).then((r)->
+				toastr.success r.data
+			, (r2)->
+				toastr.warning 'No se pudo cambiar.', 'Problema'
 			)
 
 

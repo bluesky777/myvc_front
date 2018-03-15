@@ -77,6 +77,7 @@ angular.module('myvcFrontApp')
 		$http.post('::unidades', $scope.newunidad).then((r)->
 			r = r.data
 			r.subunidades = []
+			r.obligatoria = 0
 			$scope.unidades.push r
 
 			creado = 'creado'
@@ -236,8 +237,26 @@ angular.module('myvcFrontApp')
 
 	$scope.addSubunidad = (unidad)->
 
-		$scope.activar_crear_subunidad = false
-		unidad.newsubunidad.unidad_id = unidad.id
+		$scope.activar_crear_subunidad  = false
+
+		if !unidad.newsubunidad
+			toastr.warning 'Aún debes escribir.'
+			$scope.activar_crear_subunidad  = true
+			return
+
+		if !unidad.newsubunidad.definicion
+			toastr.warning 'Debes escribir la difinición.'
+			$scope.activar_crear_subunidad  = true
+			return
+
+		if !unidad.newsubunidad.porcentaje
+			unidad.newsubunidad.porcentaje  = 0
+
+		if !unidad.newsubunidad.nota_default
+			unidad.newsubunidad.nota_default  = 0
+
+		unidad.newsubunidad.unidad_id   = unidad.id
+		unidad.newsubunidad.definicion  = unidad.newsubunidad.definicion.trim()
 
 		$http.post('::subunidades', unidad.newsubunidad).then((r)->
 			unidad.subunidades.push r.data
@@ -256,7 +275,7 @@ angular.module('myvcFrontApp')
 		)
 
 	$scope.ir_a_notas = (datos)->
-		console.log datos
+		$scope.$parent.bigLoader 	= true
 		$state.go 'panel.notas', datos
 
 	$scope.actualizarSubunidad = (subunidad)->

@@ -73,10 +73,10 @@
 											tr(ng-if="change_asked.detalles.nombres_new && change_asked.detalles.nombres_accepted==null")
 												td
 													span(style="display: inline-block; width: 170px") Nombre actual:
-														b {{change_asked.nombres}}
+														b   {{change_asked.nombres}}
 												td
 													| Nuevo:
-													b {{change_asked.detalles.nombres_new}}
+													b   {{change_asked.detalles.nombres_new}}
 												td
 													button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'nombres')" uib-tooltip="Rechazar cambio")
 														i.fa.fa-times(style="color: #fff;")
@@ -87,10 +87,10 @@
 											tr(ng-if="change_asked.detalles.apellidos_new && change_asked.detalles.apellidos_accepted==null")
 												td
 													span(style="display: inline-block; width: 170px") Apellido actual:
-														b {{change_asked.apellidos}}
+														b   {{change_asked.apellidos}}
 												td
 													| Nuevo:
-													b {{change_asked.detalles.apellidos_new}}
+													b   {{change_asked.detalles.apellidos_new}}
 												td
 													button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'apellidos')" uib-tooltip="Rechazar cambio")
 														i.fa.fa-times(style="color: #fff;")
@@ -101,10 +101,10 @@
 											tr(ng-if="change_asked.detalles.sexo_new && change_asked.detalles.sexo_accepted==null")
 												td
 													span(style="display: inline-block; width: 170px") Sexo actual:
-														b {{change_asked.sexo}}
+														b   {{change_asked.sexo}}
 												td
 													| Nuevo:
-													b {{change_asked.detalles.sexo_new}}
+													b   {{change_asked.detalles.sexo_new}}
 												td
 													button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'sexo')" uib-tooltip="Rechazar cambio")
 														i.fa.fa-times(style="color: #fff;")
@@ -115,10 +115,10 @@
 											tr(ng-if="change_asked.detalles.fecha_nac_new && change_asked.detalles.fecha_nac_accepted==null")
 												td
 													span(style="display: inline-block; width: 170px") Fecha nacimiento actual:
-														b {{change_asked.fecha_nac}}
+														b   {{change_asked.fecha_nac}}
 												td
 													| Nuevo:
-													b {{change_asked.detalles.fecha_nac_new}}
+													b   {{change_asked.detalles.fecha_nac_new}}
 												td
 													button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'fecha_nac')" uib-tooltip="Rechazar cambio")
 														i.fa.fa-times(style="color: #fff;")
@@ -146,12 +146,12 @@
 									.ticket-user
 										span
 											img.user-avatar(ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}")
-											span.user-name(uib-tooltip="{{change_asked.profesor_nombres + ' ' + change_asked.profesor_apellidos }}") {{change_asked.profesor_nombres }}
-											span.user-company(ng-show="change_asked.materia_to_add_id")  ha pedido
-												b(style="padding: 0 4px") {{ change_asked.nombre_materia_to_add }}
-												| para
-												b(style="padding: 0 4px") {{ change_asked.nombre_grupo_add }},
-												| Cred: {{change_asked.creditos_new}}
+											span.user-name(uib-tooltip="{{change_asked.profesor_nombres + ' ' + change_asked.profesor_apellidos }}")   {{change_asked.profesor_nombres }}
+											span.user-company(ng-show="change_asked.materia_to_add_id")   ha pedido
+												b(style="padding: 0 4px")   {{ change_asked.nombre_materia_to_add }}
+												|   para
+												b(style="padding: 0 4px")   {{ change_asked.nombre_grupo_add }},
+												|   Cred: {{change_asked.creditos_new}}
 
 											span.user-company(ng-show="change_asked.asignatura_to_remove_id")  Solicitó quitar
 												b(style="padding: 0 4px") {{ change_asked.nombre_materia_to_remove }}
@@ -201,7 +201,7 @@
 											tr(ng-if="change_asked.detalles.image_to_delete_id && change_asked.detalles.image_to_delete_accepted==null")
 												td
 													div Desea eliminar esta imagen,
-													div  la cual fue subida por un administrador:
+													div   la cual fue subida por un administrador:
 												td
 													img.user-avatar(ng-src="{{perfilPath + change_asked.detalles.image_to_delete_nombre }}" alt="{{ change_asked.detalles.image_to_delete_nombre }}" style="width: 50px")
 												td

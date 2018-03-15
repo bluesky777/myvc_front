@@ -12,6 +12,28 @@
 						i.fa.fa-times
 			.widget-body(ng-class="{'ng-hide':minimized}")
 
+
+				.row(ng-show="::periodos_desactualizados" style="padding-bottom: 20px;")
+
+					.col-lg-12(ng-repeat="periodo in ::periodos_desactualizados")
+
+						.alert.alert-warning.fade.in.radius-bordered
+							i.fa-fw.fa.fa-warning
+							| Notas finales desactualizadas
+							strong    Per {{periodo.numero}}
+
+						button.btn.btn-default(ng-repeat="grupo in ::periodo.grupos" ng-click="calcularGrupoPeriodo(grupo, periodo)" ng-disabled="grupo.desabilitado" uib-tooltip="{{grupo.nombre}}")
+							| {{grupo.abrev}}
+
+						button.btn.btn-primary(ng-click="calcularPeriodo(periodo)") Calcular periodo {{::periodo.numero}}
+
+				.row(style="padding-bottom: 20px;")
+					.col-lg-12(ng-repeat="periodo in periodos_grupos")
+						button.btn.btn-sm.btn-default.shiny(ng-click="calcularPeriodo(periodo)" uib-tooltip="No es necesario a menos que veas alguna definitiva desactualizada.") Calcular periodo {{periodo.numero}} completo
+						uib-progressbar.progress-xlg.progress-striped.active(value="periodo.porcentaje" ng-show="periodo.porcentaje > -1")
+							b {{periodo.porcentaje}}% Completado
+
+
 				uib-tabset.widget-main(active="config.informe_tab_actual")
 					uib-tab(heading="Boletines" index="'boletines'" select="selectTab('boletines')")
 						.row
@@ -29,7 +51,8 @@
 										ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}}
 										ui-select-choices(repeat="grupo in grupos | filter: $select.search")
 											div(ng-bind-html="grupo.nombre | highlight: $select.search")
-									a.btn.btn-default(href="" ng-click="verBoletinesGrupo()") Grupo completo
+									a.btn.btn-default(href="" ng-click="verBoletinesGrupo()") Grupo completo t1
+									a.btn.btn-default(href="" ng-click="verBoletinesGrupo(2)" uib-tooltip="Aún en desarrollo!!!") Tipo 2
 						.row(ng-show="datos.grupo")
 							.col-lg-12.col-xs-12
 								.form-group
@@ -42,7 +65,8 @@
 											img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
 											small(ng-show="alumno.estado=='RETI'" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)</i>'")
 											small(ng-hide="alumno.estado=='RETI'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
-									a.btn.btn-default(href="" ng-click="verBoletinesAlumnos()") Cargar boletines
+									a.btn.btn-default(href="" ng-click="verBoletinesAlumnos()") Cargar boletines t1
+									a.btn.btn-default(href="" ng-click="verBoletinesAlumnos(2)" uib-tooltip="Aún en desarrollo!!!") Tipo 2
 
 						.row(ng-show="!datos.grupo")
 							.col-lg-12.col-xs-12

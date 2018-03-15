@@ -60,6 +60,10 @@ angular.module('myvcFrontApp')
 			if tipo == 'img_perfil' 	then asked.detalles.image_id_accepted = false
 			if tipo == 'foto_oficial' 	then asked.detalles.foto_id_accepted = false
 			if tipo == 'img_delete' 	then asked.detalles.image_to_delete_accepted = false
+			if tipo == 'nombres' 	then asked.detalles.nombres_accepted = false
+			if tipo == 'apellidos' 	then asked.detalles.apellidos_accepted = false
+			if tipo == 'sexo' 	then asked.detalles.sexo_accepted = false
+			if tipo == 'fecha_nac' 	then asked.detalles.fecha_nac_accepted = false
 		)
 
 	$scope.aprobarCambio = (asked, tipo, valor_nuevo)->

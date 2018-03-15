@@ -3,6 +3,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 		img.img-fondo-boletin(ng-src="{{ perfilPath + $parent.config.imagen_fondo.nombre }}"
 			ng-repeat="cant in $parent.range(config.cant_imagenes) track by $index")
 
+
 	.row
 		.col-lg-12.col-xs-12
 			.row.encabezado-boletin
@@ -35,7 +36,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 							.promedio-alumno Puntaje: {{::alumno.promedio | number:0 }}%
 								span(ng-show="::alumno.estado!='RETI'")  {{ ::alumno.texto_puesto }}
 			.row.body-boletin
-				.col-lg-12.col-xs-12.no-padding
+				.col-lg-12.col-xs-12.materias
 					.materia-item(ng-repeat="asignatura in ::alumno.asignaturas track by $index")
 						.row.materia-title
 							.col-lg-9.col-xs-9(uib-popover-template="::views+'informes/infoDocentePop.tpl.html'"
@@ -48,10 +49,11 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 								span.text-tardanza A:{{::asignatura.total_ausencias}} / T:{{::asignatura.total_tardanzas}}
 							.col-lg-1.col-xs-1(ng-class="{'nota-perdida': asignatura.nota_asignatura<USER.nota_minima_aceptada && config.show_rojos}"
 								style="padding: 0px; text-align: center;")
-								| {{ ::asignatura.nota_juicio_valorativo }}
+								| {{ ::asignatura.desempenio }}
 							.col-lg-1.col-xs-1
 								div(ng-class="{'nota-perdida-bold': asignatura.nota_asignatura<USER.nota_minima_aceptada && config.show_rojos}")
 									| {{ ::asignatura.nota_asignatura }}
+									span.nota-perdida-bold(ng-show="::asignatura.recuperada")  R
 						.row.unidades-list
 							.col-lg-12.col-xs-12
 								.row.unidades-item(ng-repeat="unidad in ::asignatura.unidades track by $index")
@@ -66,17 +68,18 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 
 										.row.subunidades-list(ng-repeat="subunidad in ::unidad.subunidades")
 											.col-lg-12.col-xs-12
-												.row
-													.col-lg-9.col-xs-9.subunidad-definicion
-														| {{::$index+1}}. {{::subunidad.definicion_subunidad}}
+												//.row
+													.col-lg-9.col-xs-9.subunidad-definicion.no-padding-right
+														| {{::subunidad.definicion_subunidad}}
 													.col-lg-1.col-xs-1.subunidad-porc()
 														| {{::subunidad.porcentaje_subunidad}}%
 													.col-lg-1.col-xs-1.subunidad-nota(style="font-size: 5pt; line-height: 2;")
-														| {{ ::subunidad.nota.nota_juicio_valorativo }}
+														| {{ ::subunidad.desempenio }}
 													.col-lg-1.col-xs-1.subunidad-nota.puntero
-														span(ng-class="{'nota-perdida-bold': subunidad.nota.nota<USER.nota_minima_aceptada && config.show_rojos}" uib-tooltip="Valor nota: {{::subunidad.nota.valor}}") {{::subunidad.nota.nota}}
-														span.nota-perdida(ng-hide="::subunidad.nota.nota > -1" uib-tooltip="Aún sin nota")
+														span(ng-class="{'nota-perdida-bold': subunidad.nota<USER.nota_minima_aceptada && config.show_rojos}" uib-tooltip="Valor nota: {{::subunidad.valor_nota}}") {{::subunidad.nota}}
+														span.nota-perdida-bold(ng-hide="::subunidad.nota && subunidad.nota!=0" uib-tooltip="Aún sin nota")
 															i.fa.fa-warning
+												span(dynamic="::subunidad.fila_subunidad")
 
 								.row.comentarios-asignatura(ng-show="::asignatura.frases.length>0")
 									.col-lg-12.col-xs-12

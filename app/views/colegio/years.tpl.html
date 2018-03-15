@@ -71,6 +71,16 @@
                 <div class="row">
                   <div class="col-sm-12">
                     <div class="form-group">
+                      <label uib-tooltip="Mostrar nota de comportamiento en boletín.">Mostrar nota comportamiento</label>
+                      <label>
+                        <input type="checkbox" ng-change="toggleMostrarNotaComportamientoEnBoletin(year.id, year.mostrar_nota_comport_boletin)" ng-true-value="1" ng-false-value="0" ng-model="year.mostrar_nota_comport_boletin" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
                       <label uib-tooltip="Si recupera materia no tendrá que nivelar notas.">Si recupera materia, ignorar notas perdidas</label>
                       <label>
                         <input type="checkbox" ng-change="toggleIgnorarNotasPerdidas(year.id, year.si_recupera_materia_recup_indicador)" ng-true-value="1" ng-false-value="0" ng-model="year.si_recupera_materia_recup_indicador" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
@@ -225,14 +235,14 @@
                     <h4 ng-repeat="periodo in year.periodos |  orderBy: 'numero' " style="margin: 5px 0" ng-class="{ 'before-success': periodo.actual }" class="row-title">
                       <div class="col-lg-3 col-sm-6 col-xs-12"><i ng-class="{ 'green': periodo.actual }" class="fa fa-ioxhost blue"></i>Periodo<span style="font-weight: bold !important">{{periodo.numero}}</span></div>
                       <div style="margin-bottom: 0px" class="form-group col-lg-3 col-sm-6 col-xs-12">
-                        <label uib-tooltip="¿Los profesores pueden editar notas, indicadores y comportamiento?">¿Editan notas?</label>
-                        <label>
+                        <label uib-tooltip="¿Los profesores pueden editar notas, indicadores, tardanzas y comportamientos?">¿Editan notas?</label>
+                        <label uib-tooltip="¿Los profesores pueden editar notas, indicadores, tardanzas y comportamientos?">
                           <input type="checkbox" ng-change="toggleProfesPuedenEditarNotas(periodo, periodo.profes_pueden_editar_notas)" ng-true-value="1" ng-false-value="0" ng-model="periodo.profes_pueden_editar_notas" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
                         </label>
                       </div>
                       <div style="margin-bottom: 0px" class="form-group col-lg-3 col-sm-6 col-xs-12">
-                        <label uib-tooltip="¿Los profesores pueden nivelar?">¿Nivelan?</label>
-                        <label>
+                        <label uib-tooltip="¿Los profesores pueden nivelar o modificar notas finales?">¿Nivelan?</label>
+                        <label uib-tooltip="¿Los profesores pueden nivelar o modificar notas finales?">
                           <input type="checkbox" ng-change="toggleProfesPuedenNivelar(periodo, periodo.profes_pueden_nivelar)" ng-true-value="1" ng-false-value="0" ng-model="periodo.profes_pueden_nivelar" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
                         </label>
                       </div>

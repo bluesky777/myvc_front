@@ -207,7 +207,7 @@
 
 				li(ui-sref-active="active" ng-if="hasRoleOrPerm(['admin'])")
 					a.menu-dropdown(ui-sref="panel.areas")
-						span.menu-text Areas
+						span.menu-text Áreas
 				li(ui-sref-active="active" ng-if="hasRoleOrPerm(['admin'])")
 					a.menu-dropdown(ui-sref="panel.materias")
 						span.menu-text Materias
@@ -218,7 +218,7 @@
 		li(ui-sref-active="active" ng-if="!hasRoleOrPerm(['admin']) && hasRoleOrPerm(['profesor'])")
 			a(ui-sref="panel.bitacora" stop-event="click")
 				i.menu-icon.fa.fa-align-justify
-				span.menu-text  Bitacora
+				span.menu-text  Bitácora
 
 		<!-- Informes-->
 		li(ui-sref-active="active" ng-if="hasRoleOrPerm(['admin']) || hasRoleOrPerm(['profesor'])" )

@@ -16,16 +16,18 @@ angular.module('myvcFrontApp')
 
 	$scope.datos = { grupo: '' }
 
-	#console.log 'Parametros', $state.params
-
 
 
 	$http.put('::informes/datos').then((r)->
-		r 					= r.data
-		$scope.year_actual 	= r.year
-		$scope.grupos 		= r.grupos
-		$scope.profesores 	= r.profesores
-		$scope.imgs_public 	= r.imagenes
+		r 											= r.data
+		$scope.year_actual 			= r.year
+		$scope.grupos 					= r.grupos
+		$scope.profesores 			= r.profesores
+		$scope.imgs_public 			= r.imagenes
+		$scope.periodos_grupos 	= r.periodos_grupos
+
+		if r.periodos_desactualizados
+			$scope.periodos_desactualizados 	= r.periodos_desactualizados
 
 		# Grupo seleccionado
 		if $state.params.grupo_id
@@ -43,6 +45,7 @@ angular.module('myvcFrontApp')
 		toastr.error 'No se pudo traer los profesores'
 		$scope.$parent.bigLoader 	= false
 	)
+
 
 
 
@@ -100,8 +103,55 @@ angular.module('myvcFrontApp')
 
 
 
+	$scope.calcularGrupoPeriodo = (grupo, periodo)->
 
-	$scope.verBoletinesGrupo = ()->
+		grupo.desabilitado = true
+		$http.put('::definitivas_periodos/calcular-grupo-periodo', {grupo_id: grupo.grupo_id, periodo_id: periodo.id, num_periodo: periodo.numero}).then((r)->
+			toastr.success grupo.nombre + ' calculado con éxito'
+			grupo.desabilitado = false
+		, (r2)->
+			grupo.desabilitado = false
+			toastr.error 'No se pudo calcular las definitivas del grupo ' + grupo.nombre + ', Per ' + periodo.numero
+		)
+
+
+
+
+	$scope.calcularPeriodo = (periodo)->
+
+		periodo.porcentaje  = 0
+		periodo.bloqueado   = true
+
+		$scope.grupo_temp_calculado = true
+		$scope.grupo_temp_indce     = 0
+
+		$scope.intervalo = $interval(()->
+
+			if $scope.grupo_temp_calculado
+
+				$scope.grupo_temp_calculado = false
+				grupo 							= periodo.grupos[$scope.grupo_temp_indce]
+				periodo.porcentaje 	= parseInt(($scope.grupo_temp_indce+1) * 100 / periodo.grupos.length)
+
+				$http.put('::definitivas_periodos/calcular-grupo-periodo', {grupo_id: grupo.grupo_id, periodo_id: periodo.id, num_periodo: periodo.numero}).then((r)->
+					toastr.success grupo.nombre + ' calculado con éxito'
+					$scope.grupo_temp_calculado = true
+					$scope.grupo_temp_indce     = $scope.grupo_temp_indce + 1
+					if $scope.grupo_temp_indce == periodo.grupos.length
+						$interval.cancel($scope.intervalo)
+
+				, (r2)->
+					$scope.grupo_temp_calculado = true
+					toastr.warning 'No se pudo calcular ' + grupo.nombre + ', Per ' + periodo.numero + '. Intentaremos de nuevo.'
+				)
+
+		, 20)
+
+
+
+	$scope.verBoletinesGrupo = (tipo)->
+		if !tipo
+			tipo = ''
 		$cookies.remove 'requested_alumnos'
 		$cookies.remove 'requested_alumno'
 
@@ -109,14 +159,15 @@ angular.module('myvcFrontApp')
 			toastr.warning 'Debes seleccionar el grupo'
 			return
 		$scope.config.orientacion = 'vertical'
-		$state.go 'panel.informes.boletines_periodo', {grupo_id: $scope.datos.grupo.id, periodo_a_calcular: $scope.config.periodo_a_calcular}, {reload: true}
+		$state.go 'panel.informes.boletines_periodo'+tipo, {grupo_id: $scope.datos.grupo.id, periodo_a_calcular: $scope.config.periodo_a_calcular}, {reload: true}
 
-	$scope.verBoletinesAlumnos = ()->
-
+	$scope.verBoletinesAlumnos = (tipo)->
+		if !tipo
+			tipo = ''
 		if $scope.datos.selected_alumnos.length > 0
 			$scope.config.orientacion = 'vertical'
 			$cookies.putObject 'requested_alumnos', $scope.datos.selected_alumnos
-			$state.go 'panel.informes.boletines_periodo', {grupo_id: $scope.datos.grupo.id, periodo_a_calcular: $scope.config.periodo_a_calcular}, {reload: true}
+			$state.go 'panel.informes.boletines_periodo'+tipo, {grupo_id: $scope.datos.grupo.id, periodo_a_calcular: $scope.config.periodo_a_calcular}, {reload: true}
 		else
 			toastr.warning 'Debes seleccionar al menos un alumno o cargar boletines del grupo completo'
 
@@ -177,7 +228,7 @@ angular.module('myvcFrontApp')
 		$state.go 'panel.informes.ver_ausencias', {periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
 
 	$scope.verSimat = ()->
-		DownloadServ.download('::simat/alumnos', 'Grupos alumnos.xls')
+		DownloadServ.download('::simat/alumnos', 'Alumnos con acudientes '+$scope.USER.year+'.xls')
 		$state.go 'panel.informes.ver_simat', {reload: true}
 
 	$scope.verObservadorVertical = ()->

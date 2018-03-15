@@ -1,1 +1,461 @@
-<div class="col-lg-12 col-sm-12 col-xs-12"> <div ng-repeat="year in years" class="row"> <div class="col-lg-12 col-sm-12 col-xs-12"> <div ng-class="{'maximized':maxi, 'collapsed':year.ocultando}" style="/*min-height: 600px*/" class="widget"> <div ng-class="{'bg-blue':year.actual, 'bg-gold':!year.actual}" class="widget-header"><i class="widget-icon fa fa-institution"></i><span class="widget-caption">Año {{year.year}}</span> <div class="widget-buttons"><a href="" data-toggle="config" ng-if="false"><i class="fa fa-cog"></i></a><a href="" ng-click="maxi=!maxi" data-toggle="maximize"><i class="fa fa-expand"></i></a><a href="" data-toggle="collapse" ng-click="year.ocultando = !year.ocultando"><i class="fa fa-minus"></i></a><a href="" data-toggle="dispose" ng-if="false"><i class="fa fa-times"></i></a></div> </div> <div ng-if="!year.ocultando" class="widget-body"> <uib-accordion close-others="true"> <div uib-accordion-group is-open="status.open_year" class="panel-default"> <uib-accordion-heading>Básico<i ng-class="{'fa-chevron-down': status.open_year, 'fa-chevron-right': !status.open_year}" class="pull-right fa"></i></uib-accordion-heading> <form role="form" ng-submit="guardar_cambios(year)"> <div class="row"> <div class="col-sm-6"> <div class="form-group"> <label for="year{{year.id}}-nombre">Nombre del colegio</label><span class="input-icon icon-right"> <input type="text" placeholder="Nombre del colegio" ng-model="year.nombre_colegio" id="year{{year.id}}-nombre" class="form-control"><i class="fa fa-user-circle blue"></i></span> </div> </div> <div class="col-sm-4"> <div class="form-group"> <label for="year{{year.id}}-abrev">Alias</label><span class="input-icon icon-right"> <input type="text" placeholder="Name" ng-model="year.abrev_colegio" id="year{{year.id}}-abrev" class="form-control"><i class="fa fa-user-circle-o palegreen"></i></span> </div> </div> <div class="col-sm-2"> <div class="form-group"> <label for="year{{year.id}}-year">Año <div class="spinner spinner-horizontal"> <input type="text" minlength="4" maxlength="4" ng-model="year.year" id="year{{year.id}}-year" style="padding-right: 2px; padding-left: 50px; min-width: 90px" class="spinner-input form-control"> <div class="spinner-buttons btn-group"> <button type="button" ng-click="restarNewYear()" class="btn spinner-down blueberry"><i class="fa fa-minus"></i></button> <button type="button" ng-click="sumarNewYear()" class="btn spinner-up purple"><i class="fa fa-plus"></i></button> </div> </div> </label> </div> </div> </div> <div class="row"> <div class="col-sm-12"> <div class="form-group"> <label uib-tooltip="Puedes bloquear el sistema momentaneamente para que los alumnos y acudientes no puedan ver las notas.">Alumnos pueden ver sus notas</label> <label> <input type="checkbox" ng-change="toggleBloquearNotas(year.id, year.alumnos_can_see_notas)" ng-true-value="1" ng-false-value="0" ng-model="year.alumnos_can_see_notas" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span> </label> </div> </div> </div> <div class="row"> <div class="col-sm-12"> <div class="form-group"> <label uib-tooltip="Permitir que los docentes te ayuden a modificar datos de alumnos y sus acudientes.">Docentes pueden editar alumnos</label> <label> <input type="checkbox" ng-change="toggleBloquearProfesEditAlumnos(year.id, year.profes_can_edit_alumnos)" ng-true-value="1" ng-false-value="0" ng-model="year.profes_can_edit_alumnos" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span> </label> </div> </div> </div> <div class="row"> <div class="col-sm-12"> <div class="form-group"> <label uib-tooltip="Mostrar puesto comparativo en los boletines.">Mostrar puesto en boletín</label> <label> <input type="checkbox" ng-change="toggleMostrarPuestoEnBoletin(year.id, year.mostrar_puesto_boletin)" ng-true-value="1" ng-false-value="0" ng-model="year.mostrar_puesto_boletin" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span> </label> </div> </div> </div> <div class="row"> <div class="col-sm-12"> <div class="form-group"> <label uib-tooltip="Si recupera materia no tendrá que nivelar notas.">Si recupera materia, ignorar notas perdidas</label> <label> <input type="checkbox" ng-change="toggleIgnorarNotasPerdidas(year.id, year.si_recupera_materia_recup_indicador)" ng-true-value="1" ng-false-value="0" ng-model="year.si_recupera_materia_recup_indicador" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span> </label> </div> </div> </div> <div class="row"> <div style="padding: 0px" class="col-sm-12"> <div style="margin-bottom: 40px" class="form-group"> <label class="col-sm-2 control-label no-padding-right">Rector(a)</label> <div class="col-sm-10"> <ui-select ng-model="year.rector" theme="select2" style="width: 300px"> <ui-select-match placeholder="Rector(a)" allow-clear="true"><img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px"><small ng-bind-html="' ' + $select.selected.nombres + ' ' + $select.selected.apellidos"></small></ui-select-match> <ui-select-choices repeat="profe in profesores | filter: $select.search"><img ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px"><small ng-bind-html="' ' + profe.nombres + ' ' + profe.apellidos | highlight: $select.search"></small></ui-select-choices> </ui-select> </div> </div> <div class="form-group"> <label class="col-sm-2 control-label no-padding-right">Secretario(a)</label> <div class="col-sm-10"> <ui-select ng-model="year.secretario" theme="select2" style="width: 300px"> <ui-select-match placeholder="Secretario(a)" allow-clear="true"><img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px"><small ng-bind-html="' ' + $select.selected.nombres + ' ' + $select.selected.apellidos"></small></ui-select-match> <ui-select-choices repeat="profe in profesores | filter: $select.search"><img ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px"><small ng-bind-html="' ' + profe.nombres + ' ' + profe.apellidos | highlight: $select.search"></small></ui-select-choices> </ui-select> </div> </div> </div> </div> <div class="row"> <div class="col-sm-12"> <div class="form-group"> <label for="year{{year.id}}-resolucion">Resolución</label><span class="input-icon icon-right"> <input type="text" placeholder="Resolución" ng-model="year.resolucion" id="newYear{{year.id}}-resolucion" class="form-control"><i class="fa fa-id-card blue"></i></span> </div> </div> </div> <div class="row"> <div class="col-sm-5"> <div class="form-group"> <label for="year{{year.id}}-dane">Código dane</label><span class="input-icon icon-right"> <input type="text" placeholder="Código dane" ng-model="year.codigo_dane" id="newYear{{year.id}}-dane" class="form-control"><i class="fa fa-id-card palegreen"></i></span> </div> </div> <div class="col-sm-4"> <div class="form-group"> <label for="year{{year.id}}-telefono">Teléfono</label><span class="input-icon icon-right"> <input type="text" placeholder="Teléfono" ng-model="year.telefono" id="newYear{{year.id}}-telefono" class="form-control"><i class="fa fa-phone palegreen"></i></span> </div> </div> <div class="col-sm-3"> <div class="form-group"> <label for="year{{year.id}}-celular">Celular</label><span class="input-icon icon-right"> <input type="text" placeholder="Celular" ng-model="year.celular" id="newYear{{year.id}}-celular" class="form-control"><i class="fa fa-mobile-phone palegreen"></i></span> </div> </div> </div> <div class="row"> <div class="col-sm-5"> <div class="form-group"> <label for="year{{year.id}}-website">Sitio web</label><span class="input-icon icon-right"> <input type="text" placeholder="Sitio web" ng-model="year.website" id="year{{year.id}}-website" class="form-control"><i class="fa fa-internet-explorer palegreen"></i></span> </div> </div> <div class="col-sm-4"> <div class="form-group"> <label for="year{{year.id}}-websitem" uib-tooltip="Página donde está alojada esta plataforma">Sitio MyVC</label><span class="input-icon icon-right"> <input type="text" placeholder="Sitio MyVC" ng-model="year.website_myvc" id="year{{year.id}}-websitem" class="form-control"><i class="fa fa-internet-explorer palegreen"></i></span> </div> </div> </div> <div class="row"> <div class="col-sm-3"> <div class="form-group"> <label for="year{{year.id}}-unidad_displayname">Unidad</label><span class="input-icon icon-right"> <input type="text" placeholder="Unidad" ng-model="year.unidad_displayname" id="newYear{{year.id}}-unidad_displayname" class="form-control"><i class="fa fa-graduation-cap blue"></i></span> </div> </div> <div class="col-sm-4"> <div class="form-group"> <label for="year{{year.id}}-unidades_displayname">Unidades</label><span class="input-icon icon-right"> <input type="text" placeholder="Código dane" ng-model="year.unidades_displayname" id="newYear{{year.id}}-unidades_displayname" class="form-control"><i class="fa fa-graduation-cap blue"></i></span> </div> </div> <div class="col-sm-5"> <div class="form-group"> <label>Género unidad</label> <div class="row"> <div class="col-lg-3 col-sm-4 col-xs-6"> <div class="radio"> <label> <input type="radio" name="genero_unidad" value="M" ng-model="year.genero_unidad" class="inverted"><span class="text">Masculino</span> </label> </div> </div> <div class="col-lg-4 col-sm-4 col-xs-6"> <div class="radio"> <label> <input type="radio" name="genero_unidad" value="F" ng-model="year.genero_unidad" class="inverted"><span class="text">Femenino</span> </label> </div> </div> </div> </div> </div> </div> <div class="row"> <div class="col-sm-3"> <div class="form-group"> <label for="year{{year.id}}-subunidad_displayname">Subunidad</label><span class="input-icon icon-right"> <input type="text" placeholder="Subunidad" ng-model="year.subunidad_displayname" id="year{{year.id}}-subunidad_displayname" class="form-control"><i class="fa fa-graduation-cap palegreen"></i></span> </div> </div> <div class="col-sm-4"> <div class="form-group"> <label for="year{{year.id}}-subunidades_displayname">Subunidades</label><span class="input-icon icon-right"> <input type="text" placeholder="Subunidades" ng-model="year.subunidades_displayname" id="year{{year.id}}-subunidades_displayname" class="form-control"><i class="fa fa-graduation-cap palegreen"></i></span> </div> </div> <div class="col-sm-5"> <div class="form-group"> <label>Genero subunidad</label> <div class="row"> <div class="col-lg-3 col-sm-4 col-xs-6"> <div class="radio"> <label> <input type="radio" name="genero_subunidad" value="M" ng-model="year.genero_subunidad" class="inverted"><span class="text">Masculino</span> </label> </div> </div> <div class="col-lg-4 col-sm-4 col-xs-6"> <div class="radio"> <label> <input type="radio" name="genero_subunidad" value="F" ng-model="year.genero_subunidad" class="inverted"><span class="text">Femenino</span> </label> </div> </div> </div> </div> </div> </div> <div style="text-align: center"> <button type="submit" style="" class="btn btn-primary">Guardar cambios</button> </div> </form> </div> <div uib-accordion-group is-open="status.open_pers" class="panel-default"> <uib-accordion-heading>Periodos<i ng-class="{'fa-chevron-down': status.open_pers, 'fa-chevron-right': !status.open_pers}" class="pull-right fa"></i></uib-accordion-heading> <div class="row"> <div class="col-sm-12"> <div class="list-periodos"> <h4 ng-repeat="periodo in year.periodos |  orderBy: 'numero' " style="margin: 5px 0" ng-class="{ 'before-success': periodo.actual }" class="row-title"> <div class="col-lg-3 col-sm-6 col-xs-12"><i ng-class="{ 'green': periodo.actual }" class="fa fa-ioxhost blue"></i>Periodo<span style="font-weight: bold !important">{{periodo.numero}}</span></div> <div style="margin-bottom: 0px" class="form-group col-lg-3 col-sm-6 col-xs-12"> <label uib-tooltip="¿Los profesores pueden editar notas, indicadores y comportamiento?">¿Editan notas?</label> <label> <input type="checkbox" ng-change="toggleProfesPuedenEditarNotas(periodo, periodo.profes_pueden_editar_notas)" ng-true-value="1" ng-false-value="0" ng-model="periodo.profes_pueden_editar_notas" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span> </label> </div> <div style="margin-bottom: 0px" class="form-group col-lg-3 col-sm-6 col-xs-12"> <label uib-tooltip="¿Los profesores pueden nivelar?">¿Nivelan?</label> <label> <input type="checkbox" ng-change="toggleProfesPuedenNivelar(periodo, periodo.profes_pueden_nivelar)" ng-true-value="1" ng-false-value="0" ng-model="periodo.profes_pueden_nivelar" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span> </label> </div> <div style="margin-bottom: 0px; font-size: 9pt" class="form-group col-lg-3 col-sm-6 col-xs-12"> <label uib-tooltip="Fecha de inicio">Fecha ini</label> <input type="date" ng-model="periodo.fecha_inicio" ng-change="cambiarFechaInicio(periodo, periodo.fecha_inicio)"> </div> <div style="margin-bottom: 0px; font-size: 9pt" class="form-group col-lg-3 col-sm-6 col-xs-12"> <label uib-tooltip="Fecha en que termina el periodo">Fecha fin</label> <input type="date" ng-model="periodo.fecha_fin" ng-change="cambiarFechaFin(periodo, periodo.fecha_fin)"> </div> <div class="btn-group btn-group-sm col-lg-3 col-sm-6 col-xs-12"> <button ng-click="removePeriodo(year, periodo)" style="height: 30px" uib-tooltip="Eliminar periodo" class="btn btn-danger btn-sm shiny"><i class="fa fa-times"></i></button> <button ng-show="!periodo.actual" ng-click="actualPeriodo(year, periodo)" uib-tooltip="Establecer periodo como actual" class="btn btn-default btn-sm shiny">Actual</button> <button ng-show="periodo.actual" disabled class="btn btn-success btn-sm shiny">En curso</button> </div> </h4> </div> <button ng-click="addPeriodo(year)" class="btn btn-success"><i class="fa fa-plus"></i>Crear periodo</button> </div> </div> </div> <div uib-accordion-group is-open="status.open_certi" class="panel-default"> <uib-accordion-heading>Certificados<i ng-class="{'fa-chevron-down': status.open_certi, 'fa-chevron-right': !status.open_certi}" class="pull-right fa"></i></uib-accordion-heading> <configuracion-certificados></configuracion-certificados> </div> <div uib-accordion-group is-open="status.open_escalas" class="panel-default"> <uib-accordion-heading>Escalas de valoración<i ng-class="{'fa-chevron-down': status.open_escalas, 'fa-chevron-right': !status.open_escalas}" class="pull-right fa"></i></uib-accordion-heading> <configuracion-escalas></configuracion-escalas> </div> <div uib-accordion-group is-open="status.open_borrar" class="panel-danger"> <uib-accordion-heading>Borrar año<i ng-class="{'fa-chevron-down': status.open_borrar, 'fa-chevron-right': !status.open_borrar}" class="pull-right fa"></i></uib-accordion-heading> <div style="text-align: center"> <h4>¡Operación peligrosa!</h4> <p>Para enviar este año a la papelera de reciclaje, presione el siguiente botón:</p> <button ng-click="deleteYear(year)" class="btn btn-danger"><i class="fa fa-times"></i>Eliminar año {{year.year}}</button> </div> </div> </uib-accordion> </div> </div> </div> </div> <div class="row"> <div class="col-lg-12 col-sm-12 col-xs-12"> <div ng-class="{'collapsed':!nonuevo}" class="widget"> <div ng-click="nonuevo = !nonuevo" class="widget-header bg-success"><i class="widget-icon fa fa-plus"></i><span class="widget-caption">Crear nuevo año</span> <div class="widget-buttons"><a href="" data-toggle="dispose" ng-if="false"><i class="fa fa-times"></i></a></div> </div> <div class="widget-body"> <accordion close-others="true"> <accordion-group heading="Básico" is-open="true"> <form role="form" ng-submit="crearNewYear()"> <div class="row"> <div class="col-sm-6"> <div class="form-group"> <label for="newYear-nombre">Nombre del colegio</label><span class="input-icon icon-right"> <input id="newYear-nombre" type="text" placeholder="Nombre del colegio" ng-model="newYear.nombre_colegio" class="form-control"><i class="fa fa-envelope blue"></i></span> </div> </div> <div class="col-sm-4"> <div class="form-group"> <label for="newYear-abrev">Alias</label><span class="input-icon icon-right"> <input id="newYear-abrev" type="text" placeholder="Name" ng-model="newYear.abrev_colegio" class="form-control"><i class="fa fa-user palegreen"></i></span> </div> </div> <div class="col-sm-2"> <div class="form-group"> <label for="newYear-year">Año <div class="spinner spinner-horizontal"> <input id="newYear-year" type="text" minlength="4" maxlength="4" ng-model="newYear.year" style="padding-right: 2px; padding-left: 50px; min-width: 90px" class="spinner-input form-control"> <div class="spinner-buttons btn-group"> <button type="button" ng-click="restarNewYear()" class="btn spinner-down blueberry"><i class="fa fa-minus"></i></button> <button type="button" ng-click="sumarNewYear()" class="btn spinner-up purple"><i class="fa fa-plus"></i></button> </div> </div> </label> </div> </div> <div class="col-sm-2"> <div class="form-group"> <label for="newYear-nota-min">Nota mínima aceptada <div class="spinner spinner-horizontal"> <input id="newYear-nota-min" type="text" step="0.1" min="0" ng-model="newYear.nota_minima_aceptada" class="spinner-input form-control"> <div class="spinner-buttons btn-group"> <button type="button" ng-click="restarNewNota()" class="btn spinner-down blueberry"><i class="fa fa-minus"></i></button> <button type="button" ng-click="sumarNewNota()" class="btn spinner-up purple"><i class="fa fa-plus"></i></button> </div> </div> </label> </div> </div> </div> <div class="row"> <div class="col-sm-12"> <div class="form-group"> <label>¿Año actual?</label> <label> <input type="checkbox" ng-model="newYear.actual" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span> </label> </div> <div class="form-group"> <label uib-tooltip="Puedes bloquear el sistema momentaneamente para que los alumnos y acudientes no puedan ver las notas.">¿Alumnos pueden ver sus notas?</label> <label> <input type="checkbox" ng-change="toggleBloquearNotas()" ng-model="newYear.alumnos_can_see_notas" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span> </label> </div> </div> </div> <div class="row"> <div class="col-sm-12"> <div class="form-group"> <label for="newYear-resolucion">Resolución</label><span class="input-icon icon-right"> <input id="newYear-resolucion" type="text" placeholder="Resolución" ng-model="newYear.resolucion" class="form-control"><i class="fa fa-envelope blue"></i></span> </div> </div> </div> <div class="row"> <div class="col-sm-5"> <div class="form-group"> <label for="newYear-dane">Código dane</label><span class="input-icon icon-right"> <input id="newYear-dane" type="text" placeholder="Código dane" ng-model="newYear.codigo_dane" class="form-control"><i class="fa fa-user palegreen"></i></span> </div> </div> <div class="col-sm-4"> <div class="form-group"> <label for="newYear-telefono">Teléfono</label><span class="input-icon icon-right"> <input id="newYear-telefono" type="text" placeholder="Teléfono" ng-model="newYear.telefono" class="form-control"><i class="fa fa-user palegreen"></i></span> </div> </div> <div class="col-sm-3"> <div class="form-group"> <label for="newYear-celular">Celular</label><span class="input-icon icon-right"> <input id="newYear-celular" type="text" placeholder="Celular" ng-model="newYear.celular" class="form-control"><i class="fa fa-user palegreen"></i></span> </div> </div> </div> <div class="row"> <div class="col-sm-3"> <div class="form-group"> <label for="newYear-unidad_displayname">Unidad</label><span class="input-icon icon-right"> <input id="newYear-unidad_displayname" type="text" placeholder="Unidad" ng-model="newYear.unidad_displayname" class="form-control"><i class="fa fa-envelope blue"></i></span> </div> </div> <div class="col-sm-4"> <div class="form-group"> <label for="newYear-unidades_displayname">Unidades</label><span class="input-icon icon-right"> <input id="newYear-unidades_displayname" type="text" placeholder="Código dane" ng-model="newYear.unidades_displayname" class="form-control"><i class="fa fa-user palegreen"></i></span> </div> </div> <div class="col-sm-5"> <div class="form-group"> <label>Género unidad</label> <div class="row"> <div class="col-lg-3 col-sm-4 col-xs-6"> <div class="radio"> <label> <input type="radio" name="genero_unidad" value="M" ng-model="newYear.genero_unidad" class="inverted"><span class="text">Masculino</span> </label> </div> </div> <div class="col-lg-4 col-sm-4 col-xs-6"> <div class="radio"> <label> <input type="radio" name="genero_unidad" value="F" ng-model="newYear.genero_unidad" class="inverted"><span class="text">Femenino</span> </label> </div> </div> </div> </div> </div> </div> <div class="row"> <div class="col-sm-3"> <div class="form-group"> <label for="newYear-subunidad_displayname">Subunidad</label><span class="input-icon icon-right"> <input id="newYear-subunidad_displayname" type="text" placeholder="Subunidad" ng-model="newYear.subunidad_displayname" class="form-control"><i class="fa fa-user palegreen"></i></span> </div> </div> <div class="col-sm-4"> <div class="form-group"> <label for="newYear-subunidades_displayname">Subunidades</label><span class="input-icon icon-right"> <input id="newYear-subunidades_displayname" type="text" placeholder="Subunidades" ng-model="newYear.subunidades_displayname" class="form-control"><i class="fa fa-envelope blue"></i></span> </div> </div> <div class="col-sm-5"> <div class="form-group"> <label>Genero subunidad</label> <div class="row"> <div class="col-lg-3 col-sm-4 col-xs-6"> <div class="radio"> <label> <input type="radio" name="genero_subunidad" value="M" ng-model="newYear.genero_subunidad" class="inverted"><span class="text">Masculino</span> </label> </div> </div> <div class="col-lg-4 col-sm-4 col-xs-6"> <div class="radio"> <label> <input type="radio" name="genero_subunidad" value="F" ng-model="newYear.genero_subunidad" class="inverted"><span class="text">Femenino</span> </label> </div> </div> </div> </div> </div> </div><br> <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i>Crear nuevo año</button> </form> </accordion-group> </accordion> </div> </div> </div> </div> </div>
+
+<div class="col-lg-12 col-sm-12 col-xs-12">
+  <div ng-repeat="year in years" class="row">
+    <div class="col-lg-12 col-sm-12 col-xs-12">
+      <div ng-class="{'maximized':maxi, 'collapsed':year.ocultando}" style="/*min-height: 600px*/" class="widget">
+        <div ng-class="{'bg-blue':year.actual, 'bg-gold':!year.actual}" class="widget-header"><i class="widget-icon fa fa-institution"></i><span class="widget-caption">Año {{year.year}}</span>
+          <div class="widget-buttons"><a href="" data-toggle="config" ng-if="false"><i class="fa fa-cog"></i></a><a href="" ng-click="maxi=!maxi" data-toggle="maximize"><i class="fa fa-expand"></i></a><a href="" data-toggle="collapse" ng-click="year.ocultando = !year.ocultando"><i class="fa fa-minus"></i></a><a href="" data-toggle="dispose" ng-if="false"><i class="fa fa-times"></i></a></div>
+        </div>
+        <div ng-if="!year.ocultando" class="widget-body">
+          <uib-accordion close-others="true">
+            <div uib-accordion-group is-open="status.open_year" class="panel-default">
+              <uib-accordion-heading>Básico<i ng-class="{'fa-chevron-down': status.open_year, 'fa-chevron-right': !status.open_year}" class="pull-right fa"></i></uib-accordion-heading>
+              <form role="form" ng-submit="guardar_cambios(year)">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="year{{year.id}}-nombre">Nombre del colegio</label><span class="input-icon icon-right">
+                        <input type="text" placeholder="Nombre del colegio" ng-model="year.nombre_colegio" id="year{{year.id}}-nombre" class="form-control"><i class="fa fa-user-circle blue"></i></span>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="year{{year.id}}-abrev">Alias</label><span class="input-icon icon-right">
+                        <input type="text" placeholder="Name" ng-model="year.abrev_colegio" id="year{{year.id}}-abrev" class="form-control"><i class="fa fa-user-circle-o palegreen"></i></span>
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="year{{year.id}}-year">Año
+                        <div class="spinner spinner-horizontal">
+                          <input type="text" minlength="4" maxlength="4" ng-model="year.year" id="year{{year.id}}-year" style="padding-right: 2px; padding-left: 50px; min-width: 90px;" class="spinner-input form-control">
+                          <div class="spinner-buttons btn-group">
+                            <button type="button" ng-click="restarNewYear()" class="btn spinner-down blueberry"><i class="fa fa-minus"></i></button>
+                            <button type="button" ng-click="sumarNewYear()" class="btn spinner-up purple"><i class="fa fa-plus"></i></button>
+                          </div>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label uib-tooltip="Puedes bloquear el sistema momentaneamente para que los alumnos y acudientes no puedan ver las notas.">Alumnos pueden ver sus notas</label>
+                      <label>
+                        <input type="checkbox" ng-change="toggleBloquearNotas(year.id, year.alumnos_can_see_notas)" ng-true-value="1" ng-false-value="0" ng-model="year.alumnos_can_see_notas" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label uib-tooltip="Permitir que los docentes te ayuden a modificar datos de alumnos y sus acudientes.">Docentes pueden editar alumnos de su titularía</label>
+                      <label>
+                        <input type="checkbox" ng-change="toggleBloquearProfesEditAlumnos(year.id, year.profes_can_edit_alumnos)" ng-true-value="1" ng-false-value="0" ng-model="year.profes_can_edit_alumnos" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label uib-tooltip="Mostrar puesto comparativo en los boletines.">Mostrar puesto en boletín</label>
+                      <label>
+                        <input type="checkbox" ng-change="toggleMostrarPuestoEnBoletin(year.id, year.mostrar_puesto_boletin)" ng-true-value="1" ng-false-value="0" ng-model="year.mostrar_puesto_boletin" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label uib-tooltip="Mostrar nota de comportamiento en boletín.">Mostrar nota comportamiento</label>
+                      <label>
+                        <input type="checkbox" ng-change="toggleMostrarNotaComportamientoEnBoletin(year.id, year.mostrar_nota_comport_boletin)" ng-true-value="1" ng-false-value="0" ng-model="year.mostrar_nota_comport_boletin" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label uib-tooltip="Si recupera materia no tendrá que nivelar notas.">Si recupera materia, ignorar notas perdidas</label>
+                      <label>
+                        <input type="checkbox" ng-change="toggleIgnorarNotasPerdidas(year.id, year.si_recupera_materia_recup_indicador)" ng-true-value="1" ng-false-value="0" ng-model="year.si_recupera_materia_recup_indicador" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div style="padding: 0px;" class="col-sm-12">
+                    <div style="margin-bottom: 40px;" class="form-group">
+                      <label class="col-sm-2 control-label no-padding-right">Rector(a)</label>
+                      <div class="col-sm-10">
+                        <ui-select ng-model="year.rector" theme="select2" style="width: 300px;">
+                          <ui-select-match placeholder="Rector(a)" allow-clear="true"><img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombres + ' ' + $select.selected.apellidos"></small></ui-select-match>
+                          <ui-select-choices repeat="profe in profesores | filter: $select.search"><img ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + profe.nombres + ' ' + profe.apellidos | highlight: $select.search"></small></ui-select-choices>
+                        </ui-select>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label no-padding-right">Secretario(a)</label>
+                      <div class="col-sm-10">
+                        <ui-select ng-model="year.secretario" theme="select2" style="width: 300px;">
+                          <ui-select-match placeholder="Secretario(a)" allow-clear="true"><img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombres + ' ' + $select.selected.apellidos"></small></ui-select-match>
+                          <ui-select-choices repeat="profe in profesores | filter: $select.search"><img ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + profe.nombres + ' ' + profe.apellidos | highlight: $select.search"></small></ui-select-choices>
+                        </ui-select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label for="year{{year.id}}-resolucion">Resolución</label><span class="input-icon icon-right">
+                        <input type="text" placeholder="Resolución" ng-model="year.resolucion" id="newYear{{year.id}}-resolucion" class="form-control"><i class="fa fa-id-card blue"></i></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-5">
+                    <div class="form-group">
+                      <label for="year{{year.id}}-dane">Código dane</label><span class="input-icon icon-right">
+                        <input type="text" placeholder="Código dane" ng-model="year.codigo_dane" id="newYear{{year.id}}-dane" class="form-control"><i class="fa fa-id-card palegreen"></i></span>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="year{{year.id}}-telefono">Teléfono</label><span class="input-icon icon-right">
+                        <input type="text" placeholder="Teléfono" ng-model="year.telefono" id="newYear{{year.id}}-telefono" class="form-control"><i class="fa fa-phone palegreen"></i></span>
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <label for="year{{year.id}}-celular">Celular</label><span class="input-icon icon-right">
+                        <input type="text" placeholder="Celular" ng-model="year.celular" id="newYear{{year.id}}-celular" class="form-control"><i class="fa fa-mobile-phone palegreen"></i></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-5">
+                    <div class="form-group">
+                      <label for="year{{year.id}}-website">Sitio web</label><span class="input-icon icon-right">
+                        <input type="text" placeholder="Sitio web" ng-model="year.website" id="year{{year.id}}-website" class="form-control"><i class="fa fa-internet-explorer palegreen"></i></span>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="year{{year.id}}-websitem" uib-tooltip="Página donde está alojada esta plataforma">Sitio MyVC</label><span class="input-icon icon-right">
+                        <input type="text" placeholder="Sitio MyVC" ng-model="year.website_myvc" id="year{{year.id}}-websitem" class="form-control"><i class="fa fa-internet-explorer palegreen"></i></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <label for="year{{year.id}}-unidad_displayname">Unidad</label><span class="input-icon icon-right">
+                        <input type="text" placeholder="Unidad" ng-model="year.unidad_displayname" id="newYear{{year.id}}-unidad_displayname" class="form-control"><i class="fa fa-graduation-cap blue"></i></span>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="year{{year.id}}-unidades_displayname">Unidades</label><span class="input-icon icon-right">
+                        <input type="text" placeholder="Código dane" ng-model="year.unidades_displayname" id="newYear{{year.id}}-unidades_displayname" class="form-control"><i class="fa fa-graduation-cap blue"></i></span>
+                    </div>
+                  </div>
+                  <div class="col-sm-5">
+                    <div class="form-group">
+                      <label>Género unidad</label>
+                      <div class="row">
+                        <div class="col-lg-3 col-sm-4 col-xs-6">
+                          <div class="radio">
+                            <label>
+                              <input type="radio" name="genero_unidad" value="M" ng-model="year.genero_unidad" class="inverted"><span class="text">Masculino</span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-4 col-xs-6">
+                          <div class="radio">
+                            <label>
+                              <input type="radio" name="genero_unidad" value="F" ng-model="year.genero_unidad" class="inverted"><span class="text">Femenino</span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <label for="year{{year.id}}-subunidad_displayname">Subunidad</label><span class="input-icon icon-right">
+                        <input type="text" placeholder="Subunidad" ng-model="year.subunidad_displayname" id="year{{year.id}}-subunidad_displayname" class="form-control"><i class="fa fa-graduation-cap palegreen"></i></span>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="year{{year.id}}-subunidades_displayname">Subunidades</label><span class="input-icon icon-right">
+                        <input type="text" placeholder="Subunidades" ng-model="year.subunidades_displayname" id="year{{year.id}}-subunidades_displayname" class="form-control"><i class="fa fa-graduation-cap palegreen"></i></span>
+                    </div>
+                  </div>
+                  <div class="col-sm-5">
+                    <div class="form-group">
+                      <label>Genero subunidad</label>
+                      <div class="row">
+                        <div class="col-lg-3 col-sm-4 col-xs-6">
+                          <div class="radio">
+                            <label>
+                              <input type="radio" name="genero_subunidad" value="M" ng-model="year.genero_subunidad" class="inverted"><span class="text">Masculino</span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-4 col-xs-6">
+                          <div class="radio">
+                            <label>
+                              <input type="radio" name="genero_subunidad" value="F" ng-model="year.genero_subunidad" class="inverted"><span class="text">Femenino</span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div style="text-align: center">
+                  <button type="submit" style="" class="btn btn-primary">Guardar cambios</button>
+                </div>
+              </form>
+            </div>
+            <div uib-accordion-group is-open="status.open_pers" class="panel-default">
+              <uib-accordion-heading>Periodos<i ng-class="{'fa-chevron-down': status.open_pers, 'fa-chevron-right': !status.open_pers}" class="pull-right fa"></i></uib-accordion-heading>
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="list-periodos">
+                    <h4 ng-repeat="periodo in year.periodos |  orderBy: 'numero' " style="margin: 5px 0" ng-class="{ 'before-success': periodo.actual }" class="row-title">
+                      <div class="col-lg-3 col-sm-6 col-xs-12"><i ng-class="{ 'green': periodo.actual }" class="fa fa-ioxhost blue"></i>Periodo<span style="font-weight: bold !important">{{periodo.numero}}</span></div>
+                      <div style="margin-bottom: 0px" class="form-group col-lg-3 col-sm-6 col-xs-12">
+                        <label uib-tooltip="¿Los profesores pueden editar notas, indicadores, tardanzas y comportamientos?">¿Editan notas?</label>
+                        <label uib-tooltip="¿Los profesores pueden editar notas, indicadores, tardanzas y comportamientos?">
+                          <input type="checkbox" ng-change="toggleProfesPuedenEditarNotas(periodo, periodo.profes_pueden_editar_notas)" ng-true-value="1" ng-false-value="0" ng-model="periodo.profes_pueden_editar_notas" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                        </label>
+                      </div>
+                      <div style="margin-bottom: 0px" class="form-group col-lg-3 col-sm-6 col-xs-12">
+                        <label uib-tooltip="¿Los profesores pueden nivelar o modificar notas finales?">¿Nivelan?</label>
+                        <label uib-tooltip="¿Los profesores pueden nivelar o modificar notas finales?">
+                          <input type="checkbox" ng-change="toggleProfesPuedenNivelar(periodo, periodo.profes_pueden_nivelar)" ng-true-value="1" ng-false-value="0" ng-model="periodo.profes_pueden_nivelar" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                        </label>
+                      </div>
+                      <div style="margin-bottom: 0px; font-size: 9pt;" class="form-group col-lg-3 col-sm-6 col-xs-12">
+                        <label uib-tooltip="Fecha de inicio">Fecha ini</label>
+                        <input type="date" ng-model="periodo.fecha_inicio" ng-change="cambiarFechaInicio(periodo, periodo.fecha_inicio)">
+                      </div>
+                      <div style="margin-bottom: 0px; font-size: 9pt;" class="form-group col-lg-3 col-sm-6 col-xs-12">
+                        <label uib-tooltip="Fecha en que termina el periodo">Fecha fin</label>
+                        <input type="date" ng-model="periodo.fecha_fin" ng-change="cambiarFechaFin(periodo, periodo.fecha_fin)">
+                      </div>
+                      <div class="btn-group btn-group-sm col-lg-3 col-sm-6 col-xs-12">
+                        <button ng-click="removePeriodo(year, periodo)" style="height: 30px;" uib-tooltip="Eliminar periodo" class="btn btn-danger btn-sm shiny"><i class="fa fa-times"></i></button>
+                        <button ng-show="!periodo.actual" ng-click="actualPeriodo(year, periodo)" uib-tooltip="Establecer periodo como actual" class="btn btn-default btn-sm shiny">Actual</button>
+                        <button ng-show="periodo.actual" disabled="disabled" class="btn btn-success btn-sm shiny">En curso</button>
+                      </div>
+                    </h4>
+                  </div>
+                  <button ng-click="addPeriodo(year)" class="btn btn-success"><i class="fa fa-plus"></i>Crear periodo</button>
+                </div>
+              </div>
+            </div>
+            <div uib-accordion-group is-open="status.open_certi" class="panel-default">
+              <uib-accordion-heading>Certificados<i ng-class="{'fa-chevron-down': status.open_certi, 'fa-chevron-right': !status.open_certi}" class="pull-right fa"></i></uib-accordion-heading>
+              <configuracion-certificados></configuracion-certificados>
+            </div>
+            <div uib-accordion-group is-open="status.open_escalas" class="panel-default">
+              <uib-accordion-heading>Escalas de valoración<i ng-class="{'fa-chevron-down': status.open_escalas, 'fa-chevron-right': !status.open_escalas}" class="pull-right fa"></i></uib-accordion-heading>
+              <configuracion-escalas></configuracion-escalas>
+            </div>
+            <div uib-accordion-group is-open="status.open_borrar" class="panel-danger">
+              <uib-accordion-heading>Borrar año<i ng-class="{'fa-chevron-down': status.open_borrar, 'fa-chevron-right': !status.open_borrar}" class="pull-right fa"></i></uib-accordion-heading>
+              <div style="text-align: center">
+                <h4>¡Operación peligrosa!</h4>
+                <p>Para enviar este año a la papelera de reciclaje, presione el siguiente botón:</p>
+                <button ng-click="deleteYear(year)" class="btn btn-danger"><i class="fa fa-times"></i>Eliminar año {{year.year}}</button>
+              </div>
+            </div>
+          </uib-accordion>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 col-sm-12 col-xs-12">
+      <div ng-class="{'collapsed':!nonuevo}" class="widget">
+        <div ng-click="nonuevo = !nonuevo" class="widget-header bg-success"><i class="widget-icon fa fa-plus"></i><span class="widget-caption">Crear nuevo año</span>
+          <div class="widget-buttons"><a href="" data-toggle="dispose" ng-if="false"><i class="fa fa-times"></i></a></div>
+        </div>
+        <div class="widget-body">
+          <accordion close-others="true">
+            <accordion-group heading="Básico" is-open="true">
+              <form role="form" ng-submit="crearNewYear()">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="newYear-nombre">Nombre del colegio</label><span class="input-icon icon-right">
+                        <input id="newYear-nombre" type="text" placeholder="Nombre del colegio" ng-model="newYear.nombre_colegio" class="form-control"><i class="fa fa-envelope blue"></i></span>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="newYear-abrev">Alias</label><span class="input-icon icon-right">
+                        <input id="newYear-abrev" type="text" placeholder="Name" ng-model="newYear.abrev_colegio" class="form-control"><i class="fa fa-user palegreen"></i></span>
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="newYear-year">Año
+                        <div class="spinner spinner-horizontal">
+                          <input id="newYear-year" type="text" minlength="4" maxlength="4" ng-model="newYear.year" style="padding-right: 2px; padding-left: 50px; min-width: 90px;" class="spinner-input form-control">
+                          <div class="spinner-buttons btn-group">
+                            <button type="button" ng-click="restarNewYear()" class="btn spinner-down blueberry"><i class="fa fa-minus"></i></button>
+                            <button type="button" ng-click="sumarNewYear()" class="btn spinner-up purple"><i class="fa fa-plus"></i></button>
+                          </div>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="form-group">
+                      <label for="newYear-nota-min">Nota mínima aceptada
+                        <div class="spinner spinner-horizontal">
+                          <input id="newYear-nota-min" type="text" step="0.1" min="0" ng-model="newYear.nota_minima_aceptada" class="spinner-input form-control">
+                          <div class="spinner-buttons btn-group">
+                            <button type="button" ng-click="restarNewNota()" class="btn spinner-down blueberry"><i class="fa fa-minus"></i></button>
+                            <button type="button" ng-click="sumarNewNota()" class="btn spinner-up purple"><i class="fa fa-plus"></i></button>
+                          </div>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label>¿Año actual?</label>
+                      <label>
+                        <input type="checkbox" ng-model="newYear.actual" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label uib-tooltip="Puedes bloquear el sistema momentaneamente para que los alumnos y acudientes no puedan ver las notas.">¿Alumnos pueden ver sus notas?</label>
+                      <label>
+                        <input type="checkbox" ng-change="toggleBloquearNotas()" ng-model="newYear.alumnos_can_see_notas" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label for="newYear-resolucion">Resolución</label><span class="input-icon icon-right">
+                        <input id="newYear-resolucion" type="text" placeholder="Resolución" ng-model="newYear.resolucion" class="form-control"><i class="fa fa-envelope blue"></i></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-5">
+                    <div class="form-group">
+                      <label for="newYear-dane">Código dane</label><span class="input-icon icon-right">
+                        <input id="newYear-dane" type="text" placeholder="Código dane" ng-model="newYear.codigo_dane" class="form-control"><i class="fa fa-user palegreen"></i></span>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="newYear-telefono">Teléfono</label><span class="input-icon icon-right">
+                        <input id="newYear-telefono" type="text" placeholder="Teléfono" ng-model="newYear.telefono" class="form-control"><i class="fa fa-user palegreen"></i></span>
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <label for="newYear-celular">Celular</label><span class="input-icon icon-right">
+                        <input id="newYear-celular" type="text" placeholder="Celular" ng-model="newYear.celular" class="form-control"><i class="fa fa-user palegreen"></i></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <label for="newYear-unidad_displayname">Unidad</label><span class="input-icon icon-right">
+                        <input id="newYear-unidad_displayname" type="text" placeholder="Unidad" ng-model="newYear.unidad_displayname" class="form-control"><i class="fa fa-envelope blue"></i></span>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="newYear-unidades_displayname">Unidades</label><span class="input-icon icon-right">
+                        <input id="newYear-unidades_displayname" type="text" placeholder="Código dane" ng-model="newYear.unidades_displayname" class="form-control"><i class="fa fa-user palegreen"></i></span>
+                    </div>
+                  </div>
+                  <div class="col-sm-5">
+                    <div class="form-group">
+                      <label>Género unidad</label>
+                      <div class="row">
+                        <div class="col-lg-3 col-sm-4 col-xs-6">
+                          <div class="radio">
+                            <label>
+                              <input type="radio" name="genero_unidad" value="M" ng-model="newYear.genero_unidad" class="inverted"><span class="text">Masculino</span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-4 col-xs-6">
+                          <div class="radio">
+                            <label>
+                              <input type="radio" name="genero_unidad" value="F" ng-model="newYear.genero_unidad" class="inverted"><span class="text">Femenino</span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <div class="form-group">
+                      <label for="newYear-subunidad_displayname">Subunidad</label><span class="input-icon icon-right">
+                        <input id="newYear-subunidad_displayname" type="text" placeholder="Subunidad" ng-model="newYear.subunidad_displayname" class="form-control"><i class="fa fa-user palegreen"></i></span>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="newYear-subunidades_displayname">Subunidades</label><span class="input-icon icon-right">
+                        <input id="newYear-subunidades_displayname" type="text" placeholder="Subunidades" ng-model="newYear.subunidades_displayname" class="form-control"><i class="fa fa-envelope blue"></i></span>
+                    </div>
+                  </div>
+                  <div class="col-sm-5">
+                    <div class="form-group">
+                      <label>Genero subunidad</label>
+                      <div class="row">
+                        <div class="col-lg-3 col-sm-4 col-xs-6">
+                          <div class="radio">
+                            <label>
+                              <input type="radio" name="genero_subunidad" value="M" ng-model="newYear.genero_subunidad" class="inverted"><span class="text">Masculino</span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-4 col-xs-6">
+                          <div class="radio">
+                            <label>
+                              <input type="radio" name="genero_subunidad" value="F" ng-model="newYear.genero_subunidad" class="inverted"><span class="text">Femenino</span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div><br>
+                <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i>Crear nuevo año</button>
+              </form>
+            </accordion-group>
+          </accordion>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

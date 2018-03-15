@@ -45,7 +45,7 @@ angular.module('myvcFrontApp')
 						$http.get('::perfiles/username/'+username).then((r)->
 							#console.log 'Perfilactual en el resolve:', r[0]
 							if r.data[0].fecha_nac
-								r.data[0].fecha_nac = new Date(r.data[0].fecha_nac)
+								r.data[0].fecha_nac = if r.data[0].fecha_nac then new Date(r.data[0].fecha_nac.replace(/-/g, '\/')) else r.data[0].fecha_nac
 							d.resolve r.data[0]
 						, (r2)->
 							#$state.transitionTo 'panel'

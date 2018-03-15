@@ -2840,7 +2840,7 @@ a:focus, a:active {
 				left: 0!important;
 		}
 }
-@media(max-width:880px) {
+@media only screen and (max-width:880px) {
 		.page-sidebar.hide {
 				display: block!important;
 		}
@@ -15569,6 +15569,10 @@ body {
 
 
 @media print {
+
+    #sidebar{
+
+    }
 
 		.fa-search, .sidebar-header-wrapper{
 				display: none;
