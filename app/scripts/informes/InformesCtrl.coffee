@@ -108,7 +108,7 @@ angular.module('myvcFrontApp')
 		grupo.desabilitado = true
 		$http.put('::definitivas_periodos/calcular-grupo-periodo', {grupo_id: grupo.grupo_id, periodo_id: periodo.id, num_periodo: periodo.numero}).then((r)->
 			toastr.success grupo.nombre + ' calculado con éxito'
-			grupo.desabilitado = false
+			#grupo.desabilitado = false
 		, (r2)->
 			grupo.desabilitado = false
 			toastr.error 'No se pudo calcular las definitivas del grupo ' + grupo.nombre + ', Per ' + periodo.numero
@@ -119,7 +119,7 @@ angular.module('myvcFrontApp')
 
 	$scope.calcularPeriodo = (periodo)->
 
-		periodo.porcentaje  = 0
+		$scope.porcentaje   = 0
 		periodo.bloqueado   = true
 
 		$scope.grupo_temp_calculado = true
@@ -131,7 +131,7 @@ angular.module('myvcFrontApp')
 
 				$scope.grupo_temp_calculado = false
 				grupo 							= periodo.grupos[$scope.grupo_temp_indce]
-				periodo.porcentaje 	= parseInt(($scope.grupo_temp_indce+1) * 100 / periodo.grupos.length)
+				$scope.porcentaje 	= parseInt(($scope.grupo_temp_indce+1) * 100 / periodo.grupos.length)
 
 				$http.put('::definitivas_periodos/calcular-grupo-periodo', {grupo_id: grupo.grupo_id, periodo_id: periodo.id, num_periodo: periodo.numero}).then((r)->
 					toastr.success grupo.nombre + ' calculado con éxito'

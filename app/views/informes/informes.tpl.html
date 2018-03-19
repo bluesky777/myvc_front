@@ -15,9 +15,11 @@
           </div>
         </div>
         <div style="padding-bottom: 20px;" class="row">
-          <div ng-repeat="periodo in periodos_grupos" class="col-lg-12">
-            <button ng-click="calcularPeriodo(periodo)" uib-tooltip="No es necesario a menos que veas alguna definitiva desactualizada." class="btn btn-sm btn-default shiny">Calcular periodo {{periodo.numero}} completo</button>
-            <uib-progressbar value="periodo.porcentaje" ng-show="periodo.porcentaje &gt; -1" class="progress-xlg progress-striped active"><b>{{periodo.porcentaje}}% Completado</b></uib-progressbar>
+          <div class="col-lg-12">
+            <div class="btn-group">
+              <button ng-click="calcularPeriodo(periodo)" ng-repeat="periodo in periodos_grupos" uib-tooltip="No es necesario a menos que veas alguna definitiva desactualizada." class="btn btn-sm btn-default shiny">Calcular periodo {{periodo.numero}} completo</button>
+            </div>
+            <uib-progressbar value="porcentaje" ng-show="porcentaje &gt; -1" class="progress-xlg progress-striped active"><b>{{porcentaje}}% Completado</b></uib-progressbar>
           </div>
         </div>
         <uib-tabset active="config.informe_tab_actual" class="widget-main">
@@ -26,14 +28,14 @@
               <div class="col-lg-7 col-sm-12 col-xs-12">
                 <div class="form-group">
                   <label>Calcular hasta el periodo:</label>
-                  <input type="number" ng-model="config.periodo_a_calcular" min="1" max="10">
+                  <input type="number" ng-model="config.periodo_a_calcular" min="1" max="4">
                 </div>
               </div>
             </div><br>
             <div class="row">
               <div class="col-lg-12 col-xs-12">
                 <div class="form-group">
-                  <label>Grupo</label>
+                  <label style="margin-right: 9px;">Grupo</label>
                   <ui-select ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;">
                     <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
                     <ui-select-choices repeat="grupo in grupos | filter: $select.search">
@@ -119,7 +121,7 @@
               <div class="col-lg-7 col-sm-12 col-xs-12">
                 <div class="form-group">
                   <label>Calcular hasta el periodo:</label>
-                  <input type="number" ng-model="config.periodo_a_calcular" min="1" max="10">
+                  <input type="number" ng-model="config.periodo_a_calcular" min="1" max="4">
                 </div>
               </div>
             </div>
@@ -139,7 +141,7 @@
               <div class="col-lg-7 col-sm-12 col-xs-12">
                 <div class="form-group">
                   <label>Calcular hasta el periodo:</label>
-                  <input type="number" ng-model="config.periodo_a_calcular" min="1" max="10">
+                  <input type="number" ng-model="config.periodo_a_calcular" min="1" max="4">
                 </div>
               </div>
             </div><br>
@@ -153,7 +155,7 @@
               </ui-select><a href="" ng-click="verPlanillasProfe()" class="btn btn-default">Ver planillas</a><a href="" ng-click="verNotasPerdidasProfesor()" class="btn btn-default">Notas perdidas</a>
             </div>
             <div class="form-group">
-              <label>Grupo</label>
+              <label style="margin-right: 13px;">Grupo</label>
               <ui-select ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;">
                 <ui-select-match placeholder="Elige un grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
                 <ui-select-choices repeat="grupo in grupos | filter: $select.search">

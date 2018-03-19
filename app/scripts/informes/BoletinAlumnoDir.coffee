@@ -54,8 +54,6 @@ angular.module('myvcFrontApp')
 			asignatura.nota_juicio_valorativo   = $filter('juicioValorativo')(asignatura.nota_asignatura, scope.escalas, true)
 			valores.push { label: asignatura.alias_materia, value: asignatura.nota_asignatura }
 
-			console.log asignatura
-
 			for unidad in asignatura.unidades
 				unidad.nota_unidad = $filter('number')(unidad.nota_unidad, 0)
 

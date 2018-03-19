@@ -52,8 +52,8 @@
                         <div class="row">
                           <div class="col-lg-9 col-xs-9 subunidad-definicion">{{::$index+1}}. {{::subunidad.definicion_subunidad}}</div>
                           <div class="col-lg-1 col-xs-1 subunidad-porc">{{::subunidad.porcentaje_subunidad}}%</div>
-                          <div style="font-size: 5pt; line-height: 2;" class="col-lg-1 col-xs-1 subunidad-nota">{{ ::subunidad.nota.nota_juicio_valorativo }}</div>
-                          <div class="col-lg-1 col-xs-1 subunidad-nota puntero"><span ng-class="{'nota-perdida-bold': subunidad.nota.nota&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}" uib-tooltip="Valor nota: {{::subunidad.nota.valor}}">{{::subunidad.nota.nota}}</span><span ng-hide="::subunidad.nota.nota &gt; -1" uib-tooltip="Aún sin nota" class="nota-perdida"><i class="fa fa-warning"></i></span></div>
+                          <div style="font-size: 5pt; line-height: 2;" class="col-lg-1 col-xs-1 subunidad-nota">{{ ::subunidad.desempenio }}</div>
+                          <div class="col-lg-1 col-xs-1 subunidad-nota puntero"><span uib-tooltip="Valor nota: {{::subunidad.valor_nota}}" class="{{::subunidad.clase_perdida}}">{{::subunidad.nota}}</span><span ng-hide="::subunidad.nota &gt; -1" uib-tooltip="Aún sin nota" class="nota-perdida"><i class="fa fa-warning"></i></span></div>
                         </div>
                       </div>
                     </div>
@@ -103,10 +103,11 @@
           </div>
         </div>
       </div>
-      <div ng-show="::alumno.notas_perdidas_year &gt; 0" class="row resumen-perdidas">
-        <div class="col-lg-12 col-xs-12">
+      <div class="row resumen-perdidas">
+        <!-- Tabla de perdidas de este año-->
+        <div ng-if="::alumno.notas_perdidas_year &gt; 0" class="col-lg-6 col-xs-6 no-padding">
           <div class="row resumen-head">
-            <div class="col-lg-12 col-xs-12 resumen-title">Notas pendientes del año {{::year.year}}</div>
+            <div class="col-lg-12 col-xs-12 resumen-title"><span>Notas pendientes del año {{::year.year}}</span></div>
           </div>
           <div class="row resumen-body">
             <div class="col-lg-10 col-xs-10 resumen-tabla">
@@ -115,25 +116,89 @@
                   <tr>
                     <td>No</td>
                     <td>Asignaturas</td>
+                    <td uib-tooltip="Nota definitiva del año" tooltip-append-to-body="true">Def</td>
                     <td ng-repeat="periodo in ::year.periodos track by $index">Per{{::periodo.numero}}</td>
                     <td>Total</td>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr ng-repeat="asignatura_perdida in alumno.asignaturas_perdidas">
+                  <tr ng-repeat="asignatura_perdida in ::alumno.asignaturas_perdidas">
                     <td>{{$index + 1}}</td>
-                    <td>{{::asignatura_perdida.materia | capitalize}}</td>
-                    <td ng-repeat="periodo in year.periodos track by $index">
-                      <div>{{ ::asignatura_perdida.periodos | cantPerdidasPer:periodo.id:alumno.alumno_id }}</div>
+                    <td>
+                      <div style="width: 140px;" class="nombresellipsis">{{::asignatura_perdida.materia | capitalize}}</div>
                     </td>
-                    <td><b>{{::asignatura_perdida.cantTotal}}</b></td>
+                    <td>{{ ::asignatura_perdida.detalle_periodos.definitiva_year | number:0 }}</td>
+                    <td ng-repeat="periodo in ::year.periodos track by $index">
+                      <div>{{ ::asignatura_perdida.detalle_periodos['cant_perdidas_' + ($index+1) ] }}</div>
+                    </td>
+                    <td><b>{{::asignatura_perdida.detalle_periodos.cant_perdidas_year}}</b></td>
                   </tr>
                 </tbody>
                 <tfoot>
                   <tr>
                     <td colspan="2">Total</td>
-                    <td ng-repeat="periodo in ::alumno.periodos_con_perdidas track by $index">{{::periodo.cant_perdidas}}</td>
+                    <td></td>
+                    <td ng-repeat="periodo in ::year.periodos track by $index">{{::alumno['notas_perdidas_per' + ($index+1) ]}}</td>
                     <td><b>{{::alumno.notas_perdidas_year}}</b></td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- Tabla de perdidas del año pasado-->
+        <div ng-if="::alumno.yp_notas_perdidas_year &gt; 0" class="col-lg-6 col-xs-6 no-padding">
+          <div class="row resumen-head">
+            <div class="col-lg-12 col-xs-12 resumen-title"><span>Notas pendientes del año {{::year.year - 1}}</span></div>
+          </div>
+          <div class="row resumen-body">
+            <div class="col-lg-10 col-xs-10 resumen-tabla">
+              <table class="table-bordered">
+                <thead>
+                  <tr>
+                    <td>No</td>
+                    <td>Asignaturas</td>
+                    <td uib-tooltip="Definitiva del año pasado" tooltip-append-to-body="true">Def</td>
+                    <td>Per1</td>
+                    <td>Per2</td>
+                    <td>Per3</td>
+                    <td>Per4</td>
+                    <td>Total</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="asignatura_perdida in ::alumno.asignaturas_year_pasado">
+                    <td>{{$index + 1}}</td>
+                    <td>
+                      <div style="width: 140px;" class="nombresellipsis">{{::asignatura_perdida.materia | capitalize}}</div>
+                    </td>
+                    <td>
+                      <div>{{ ::asignatura_perdida.detalle_periodos.definitiva_year | number:0 }}</div>
+                    </td>
+                    <td>
+                      <div>{{ ::asignatura_perdida.detalle_periodos.cant_perdidas_1 }}</div>
+                    </td>
+                    <td>
+                      <div>{{ ::asignatura_perdida.detalle_periodos.cant_perdidas_2 }}</div>
+                    </td>
+                    <td>
+                      <div>{{ ::asignatura_perdida.detalle_periodos.cant_perdidas_3 }}</div>
+                    </td>
+                    <td>
+                      <div>{{ ::asignatura_perdida.detalle_periodos.cant_perdidas_4 }}</div>
+                    </td>
+                    <td><b>{{::asignatura_perdida.detalle_periodos.cant_perdidas_year}}</b></td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="2">Total</td>
+                    <td></td>
+                    <td>{{::alumno.yp_notas_perdidas_per1 }}</td>
+                    <td>{{::alumno.yp_notas_perdidas_per2 }}</td>
+                    <td>{{::alumno.yp_notas_perdidas_per3 }}</td>
+                    <td>{{::alumno.yp_notas_perdidas_per4 }}</td>
+                    <td><b>{{::alumno.yp_notas_perdidas_year}}</b></td>
                   </tr>
                 </tfoot>
               </table>

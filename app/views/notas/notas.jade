@@ -127,7 +127,7 @@
 									ng-click="clickTardanzaObject(tardanza, alumno)"
 									uib-popover-template="views+'notas/popoverTardanzaObject.tpl.html'"
 									popover-title="Editar tardanza" style="width: 55px"
-									popover-trigger="'none'" popover-is-open="tardanza.isOpen" ng-disabled="::USER.profes_pueden_editar_notas==0")
+									popover-trigger="'outsideClick'" popover-is-open="tardanza.isOpen" ng-disabled="::USER.profes_pueden_editar_notas==0")
 
 									span(ng-hide="tardanza.fecha_hora")
 										i.fa.fa-clock-o

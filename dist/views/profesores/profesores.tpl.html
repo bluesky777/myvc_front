@@ -1,15 +1,1 @@
-
-<div ui-view="edit_profesor" class="row"></div>
-<div class="row">
-  <div class="col-xs-12 col-md-12">
-    <div class="well with-header with-footer">
-      <div class="header bordered-blue">Profesores<a ui-sref="panel.profesores.nuevo" uib-tooltip="Ingresa datos de un nuevo alumno" class="btn btn-info shiny">Nuevo profesor</a></div>
-      <div class="form-title">Todos los profesores:
-        <div id="grid1" ui-grid="gridOptions" ui-grid-exporter ui-grid-edit ui-grid-resize-columns ui-grid-auto-resize ui-grid-cellnav class="grid"></div>
-      </div><br><br>
-      <div class="form-title">Profesores contratados este año {{USER.year}}:</div>
-      <div id="grid2" ui-grid="gridCurrentOptions" ui-grid-exporter ui-grid-edit ui-grid-resize-columns ui-grid-cellnav class="grid"></div>
-      <div class="footer">Puedes ver todos los profesores de años anteriores y el presente.</div>
-    </div>
-  </div>
-</div>
+<div ui-view="edit_profesor" class="row"></div> <div class="row"> <div class="col-xs-12 col-md-12"> <div class="well with-header with-footer"> <div class="header bordered-blue">Profesores<a ui-sref="panel.profesores.nuevo" uib-tooltip="Ingresa datos de un nuevo alumno" class="btn btn-info shiny">Nuevo profesor</a></div> <div class="form-title">Todos los profesores: <div id="grid1" ui-grid="gridOptions" ui-grid-exporter ui-grid-edit ui-grid-resize-columns ui-grid-auto-resize ui-grid-cellnav class="grid"></div> </div><br><br> <div class="form-title">Profesores contratados este año {{USER.year}}:</div> <div id="grid2" ui-grid="gridCurrentOptions" ui-grid-exporter ui-grid-edit ui-grid-resize-columns ui-grid-cellnav class="grid"></div> <div class="footer">Puedes ver todos los profesores de años anteriores y el presente.</div> </div> </div> </div>

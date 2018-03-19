@@ -28,10 +28,12 @@
 						button.btn.btn-primary(ng-click="calcularPeriodo(periodo)") Calcular periodo {{::periodo.numero}}
 
 				.row(style="padding-bottom: 20px;")
-					.col-lg-12(ng-repeat="periodo in periodos_grupos")
-						button.btn.btn-sm.btn-default.shiny(ng-click="calcularPeriodo(periodo)" uib-tooltip="No es necesario a menos que veas alguna definitiva desactualizada.") Calcular periodo {{periodo.numero}} completo
-						uib-progressbar.progress-xlg.progress-striped.active(value="periodo.porcentaje" ng-show="periodo.porcentaje > -1")
-							b {{periodo.porcentaje}}% Completado
+					.col-lg-12()
+						.btn-group
+							button.btn.btn-sm.btn-default.shiny(ng-click="calcularPeriodo(periodo)" ng-repeat="periodo in periodos_grupos" uib-tooltip="No es necesario a menos que veas alguna definitiva desactualizada.")
+								| Calcular periodo {{periodo.numero}} completo
+						uib-progressbar.progress-xlg.progress-striped.active(value="porcentaje" ng-show="porcentaje > -1")
+							b {{porcentaje}}% Completado
 
 
 				uib-tabset.widget-main(active="config.informe_tab_actual")
@@ -40,13 +42,13 @@
 							.col-lg-7.col-sm-12.col-xs-12
 								.form-group
 									label Calcular hasta el periodo:
-									input(type="number" ng-model="config.periodo_a_calcular" min="1" max="10")
+									input(type="number" ng-model="config.periodo_a_calcular" min="1" max="4")
 
 						br
 						.row
 							.col-lg-12.col-xs-12
 								.form-group
-									label Grupo
+									label(style="margin-right: 9px;") Grupo
 									ui-select(ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;")
 										ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}}
 										ui-select-choices(repeat="grupo in grupos | filter: $select.search")
@@ -135,7 +137,7 @@
 							.col-lg-7.col-sm-12.col-xs-12
 								.form-group
 									label Calcular hasta el periodo:
-									input(type="number" ng-model="config.periodo_a_calcular" min="1" max="10")
+									input(type="number" ng-model="config.periodo_a_calcular" min="1" max="4")
 
 						.form-group
 							label Grupo
@@ -153,7 +155,7 @@
 							.col-lg-7.col-sm-12.col-xs-12
 								.form-group
 									label Calcular hasta el periodo:
-									input(type="number" ng-model="config.periodo_a_calcular" min="1" max="10")
+									input(type="number" ng-model="config.periodo_a_calcular" min="1" max="4")
 
 						br
 						.form-group
@@ -167,7 +169,7 @@
 							a.btn.btn-default(href="" ng-click="verNotasPerdidasProfesor()") Notas perdidas
 
 						.form-group
-							label Grupo
+							label(style="margin-right: 13px;") Grupo
 							ui-select(ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;")
 								ui-select-match(placeholder="Elige un grupo" allow-clear="true") {{$select.selected.nombre}}
 								ui-select-choices(repeat="grupo in grupos | filter: $select.search")
