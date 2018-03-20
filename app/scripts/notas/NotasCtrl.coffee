@@ -406,6 +406,27 @@ angular.module('myvcFrontApp')
 
 
 
+	$scope.verDetalleNota = (notaObject, alumno)->
+
+		modalInstance = $modal.open({
+			templateUrl: '==notas/notaDetalleModal.tpl.html'
+			controller: 'NotaDetalleModalCtrl'
+			resolve:
+				alumno: ()->
+					alumno
+				nota: ()->
+					notaObject
+		})
+		modalInstance.result.then( (r)->
+			console.log r
+			if r=='Eliminada'
+				notaObject.eliminada = true
+		, ()->
+			# nada
+		)
+		return
+
+
 	$scope.verifClickNotaRapida = (notaObject)->
 
 		$timeout(()->
@@ -595,6 +616,38 @@ angular.module('myvcFrontApp')
 		, (r2)->
 			toastr.warning 'No se pudo quitar la frase.', 'Problema'
 		)
+
+
+	$scope.ok = ()->
+		$modalInstance.close(alumno)
+
+
+])
+
+
+
+.controller('NotaDetalleModalCtrl', ['$scope', '$uibModalInstance', 'alumno', 'nota', '$http', 'toastr', '$filter', ($scope, $modalInstance, alumno, nota, $http, toastr, $filter)->
+	$scope.alumno     = alumno
+	$scope.nota     	= nota
+
+
+	$http.put('::historiales/nota-detalle', {nota_id: nota.id}).then((r)->
+		$scope.cambios        = r.data.cambios
+		$scope.nota_detalle   = r.data.nota
+	, (r2)->
+		toastr.warning 'No se pudo traer el historial.', 'Problema'
+	)
+
+
+
+	$scope.eliminarNota = ()->
+
+			$http.delete('::notas/destroy/' + nota.id).then((r)->
+				toastr.success 'Nota eliminada', 'Puede recargar y será creada de nuevo'
+				$modalInstance.close('Eliminada')
+			, (r2)->
+				toastr.error 'No se pudo eliminar nota.', 'Problema'
+			)
 
 
 	$scope.ok = ()->

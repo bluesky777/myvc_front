@@ -1,0 +1,71 @@
+
+<div class="modal-header">
+  <h3 class="modal-title">Detalles e historial de nota</h3>
+</div>
+<div class="modal-body">
+  <div style="padding-bottom: 10px;">
+    <h3 style="display: inline;">{{ alumno.nombres }} {{ alumno.apellidos }}</h3>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 col-xs-12">
+      <div class="row">
+        <div class="col-xs-4">Codigo:</div>
+        <div style="font-style: italic;" class="col-xs-8">{{ nota.id }}
+          <button ng-click="eliminarNota()" uib-tooltip="Eliminar nota." class="btn btn-danger btn-xs">Eliminar</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-4">Nota:</div>
+        <div class="col-xs-8">{{ nota.nota }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-4">Fecha creación:</div>
+        <div class="col-xs-8">{{ nota.created_at }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-4">Creada por:</div>
+        <div ng-hide="nota_detalle" class="col-xs-8">{{ nota.created_by }}</div>
+        <div ng-show="nota_detalle" class="col-xs-8">{{ nota_detalle.creado_por }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-4">Última modificación:</div>
+        <div class="col-xs-8">{{ nota.updated_at }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-4">Modificada por:</div>
+        <div ng-hide="nota_detalle" class="col-xs-8">{{ nota.updated_by }}</div>
+        <div ng-show="nota_detalle" class="col-xs-8">{{ nota_detalle.modificado_por }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div style="overflow: auto;" class="col-lg-12 col-xs-12">
+      <h4>Historial de cambios:</h4>
+      <table class="table table-hover table-condensed table-striped">
+        <thead>
+          <tr>
+            <th class="text-center">No</th>
+            <th class="text-center">Id</th>
+            <th class="text-center">Nota nueva</th>
+            <th class="text-center">Anterior</th>
+            <th class="text-center">Fecha cambio</th>
+            <th class="text-center">Cambiada por</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="cambio in cambios">
+            <td class="text-center">{{ $index+1 }}</td>
+            <td style="font-size: 8pt; font-style: italic;">{{ cambio.bit_id }}</td>
+            <td class="text-center">{{ cambio.new_value }}</td>
+            <td class="text-center">{{ cambio.old_value }}</td>
+            <td>{{ cambio.created_at }}</td>
+            <td>{{ cambio.creado_por }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button ng-click="ok()" class="btn btn-labeled btn-default">Cerrar<i class="btn-label fa fa-check"></i></button>
+</div>

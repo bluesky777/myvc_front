@@ -1,0 +1,62 @@
+.modal-header
+	h3.modal-title Detalles e historial de nota
+.modal-body
+	div(style="padding-bottom: 10px;")
+		h3(style="display: inline;") {{ alumno.nombres }} {{ alumno.apellidos }}
+
+	.row
+		.col-lg-12.col-xs-12
+			.row
+				.col-xs-4 Codigo:
+				.col-xs-8(style="font-style: italic;") {{ nota.id }}
+					button.btn.btn-danger.btn-xs(ng-click="eliminarNota()" uib-tooltip="Eliminar nota.") Eliminar
+			.row
+				.col-xs-4 Nota:
+				.col-xs-8 {{ nota.nota }}
+			.row
+				.col-xs-4 Fecha creación:
+				.col-xs-8 {{ nota.created_at }}
+			.row
+				.col-xs-4 Creada por:
+				.col-xs-8(ng-hide="nota_detalle") {{ nota.created_by }}
+				.col-xs-8(ng-show="nota_detalle") {{ nota_detalle.creado_por }}
+			.row
+				.col-xs-4 Última modificación:
+				.col-xs-8 {{ nota.updated_at }}
+			.row
+				.col-xs-4 Modificada por:
+				.col-xs-8(ng-hide="nota_detalle") {{ nota.updated_by }}
+				.col-xs-8(ng-show="nota_detalle") {{ nota_detalle.modificado_por }}
+
+	.row
+		.col-lg-12.col-xs-12(style="overflow: auto;")
+			h4 Historial de cambios:
+			table.table.table-hover.table-condensed.table-striped
+				thead
+					tr
+						th.text-center No
+						th.text-center Id
+						th.text-center Nota nueva
+						th.text-center Anterior
+						th.text-center Fecha cambio
+						th.text-center Cambiada por
+				tbody
+					tr(ng-repeat="cambio in cambios")
+						td.text-center {{ $index+1 }}
+						td(style="font-size: 8pt; font-style: italic;") {{ cambio.bit_id }}
+						td.text-center {{ cambio.new_value }}
+						td.text-center {{ cambio.old_value }}
+						td {{ cambio.created_at }}
+						td {{ cambio.creado_por }}
+
+
+
+
+
+
+
+
+.modal-footer
+	button.btn.btn-labeled.btn-default(ng-click="ok()") Cerrar
+		i.btn-label.fa.fa-check
+
