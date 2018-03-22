@@ -3,22 +3,22 @@
   <div class="widget">
     <div class="widget-header bordered-bottom bordered-blue"><span class="widget-caption">{{asignatura.materia + ' - ' + asignatura.nombre_grupo + ' - ' + asignatura.nombres_profesor}}</span></div>
     <div class="widget-body">
-      <div><a ui-sref="panel.unidades({asignatura_id: asignatura_id})" class="btn btn-primary btn-lg"><i class="fa fa-arrow-left"></i>Ir a {{UNIDADES}}</a></div>
+      <div><a ui-sref="panel.unidades({asignatura_id: asignatura_id})" class="btn btn-primary btn-lg flipInY animated"><i class="fa fa-arrow-left"></i>Ir a {{UNIDADES}}</a></div>
       <div ng-show="::USER.profes_pueden_editar_notas==0 &amp;&amp; USER.profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px" class="alert alert-info fade in radius-bordered"><i class="fa-fw fa fa-info"></i>Este periodo está bloqueado. No puedes editar indicadores o Nivelar notas finales.</div>
       <div ng-show="::USER.profes_pueden_editar_notas==0 &amp;&amp; USER.profes_pueden_nivelar==1 &amp;&amp; !hasRoleOrPerm('Admin')" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px" class="alert alert-info fade in radius-bordered"><i class="fa-fw fa fa-info"></i>Este periodo está bloqueado. No puedes editar notas pero puedes Nivelar notas finales.</div>
       <div ng-show="::USER.profes_pueden_editar_notas==0 &amp;&amp; USER.profes_pueden_nivelar==1 &amp;&amp; hasRoleOrPerm('Admin')" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px" class="alert alert-info fade in radius-bordered"><i class="fa-fw fa fa-info"></i>Este periodo está bloqueado. Pero como administrador, tú puedes editarlo.</div>
-      <div style="margin-top: 10px;" class="form-group">
+      <div style="margin-top: 10px;" class="form-group flipInY animated">
         <div style="width=100%; height: 80px; border: 1px solid #ccc; overflow-y: auto; background-color: #eee;" class="text-center">
           <div class="btn-group">
-            <button ng-repeat="asignatura in asignaturas" ng-class="{active: asignatura.active}" ng-click="traerNotasDeAsignatura(asignatura)" uib-tooltip="{{asignatura.nombre_grupo}}. {{ asignatura.materia }}" tooltip-append-to-body="true" class="btn btn-default btn-asignaturas">{{ asignatura.abrev_grupo }}. {{ asignatura.alias_materia }}</button>
+            <button ng-repeat="asignatura in asignaturas" ng-class="{active: asignatura.active}" ng-click="traerNotasDeAsignatura(asignatura)" uib-tooltip="{{asignatura.nombre_grupo}}. {{ asignatura.materia }}" tooltip-append-to-body="true" class="btn btn-default btn-asignaturas zoomInDown animated">{{ asignatura.abrev_grupo }}. {{ asignatura.alias_materia }}</button>
           </div>
         </div>
       </div>
       <div style="margin-top: 20px; margin-bottom: 10px; " class="row">
         <div class="col-lg-12 col-sm-12">
           <div class="btn-group">
-            <button ng-click="setTabVertically()" uib-tooltip="Pasar Verticalmente al usar la tecla Tab y Shift+Tab" ng-class="{'active': tab_horiz_or_verti=='vertical'}" class="btn btn-default"><span style="padding-right: 3px">Verticalmente</span><i class="fa fa-arrows-v"></i></button>
-            <button ng-click="setTabHorizontally()" uib-tooltip="Pasar Horizontalmente al usar la tecla Tab y Shift+Tab" ng-class="{'active': tab_horiz_or_verti=='horizontal'}" class="btn btn-default"><span style="padding-right: 3px">Horizontalmente</span><i class="fa fa-arrows-h"></i></button>
+            <button ng-click="setTabVertically()" uib-tooltip="Pasar Verticalmente al usar la tecla Tab y Shift+Tab" ng-class="{'active': tab_horiz_or_verti=='vertical'}" style="z-index: 0;" class="btn btn-default"><span style="padding-right: 3px">Verticalmente</span><i class="fa fa-arrows-v"></i></button>
+            <button ng-click="setTabHorizontally()" uib-tooltip="Pasar Horizontalmente al usar la tecla Tab y Shift+Tab" ng-class="{'active': tab_horiz_or_verti=='horizontal'}" style="z-index: 0;" class="btn btn-default"><span style="padding-right: 3px">Horizontalmente</span><i class="fa fa-arrows-h"></i></button>
           </div>
           <button ng-click="toggleAusencias()" uib-tooltip="Editar Ausencias y Tardanzas" class="btn btn-default"><span style="padding-right: 3px">Ausencias</span><i class="fa fa-clock-o"></i></button>
         </div>
@@ -72,7 +72,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="alumno in alumnos | filter:searchAlum" class="animated">
+            <tr ng-repeat="alumno in alumnos | filter:searchAlum" style="animation-delay: {{ $index/10 }}s; animation-duration: 0.5s;" class="animated fadeInUp">
               <td>
                 <div>{{$index+1}}</div>
               </td>

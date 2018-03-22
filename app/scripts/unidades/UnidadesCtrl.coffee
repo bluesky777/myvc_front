@@ -1,5 +1,5 @@
 angular.module('myvcFrontApp')
-.controller('UnidadesCtrl', ['$scope', '$uibModal', '$http', '$state', '$filter', 'AuthService', 'toastr', 'resolved_user', ($scope, $uibModal, $http, $state, $filter, AuthService, toastr, resolved_user) ->
+.controller('UnidadesCtrl', ['$scope', '$uibModal', '$http', '$state', '$filter', 'AuthService', 'toastr', 'resolved_user', '$timeout', ($scope, $uibModal, $http, $state, $filter, AuthService, toastr, resolved_user, $timeout) ->
 
 	AuthService.verificar_acceso()
 
@@ -18,14 +18,20 @@ angular.module('myvcFrontApp')
 	$scope.unidades = []
 
 
-
 	$http.get('::unidades/de-asignatura-periodo/' + $scope.asignatura_id + '/' + $scope.USER.periodo_id).then((r)->
 		if r.data.length > 0
+			for unidad in r.data
+				unidad.anim_bloqueada = false
+				unidad.subunidades = $filter('orderBy')(unidad.subunidades, 'orden')
+				$scope.bloquear_animacion(unidad)
+
+				for subuni in unidad.subunidades
+					subuni.anim_bloqueada = false
+					$scope.bloquear_animacion(subuni)
+
 			$scope.unidades = r.data
 			$scope.unidades = $filter('orderBy')($scope.unidades, 'orden')
 
-			for unidad in $scope.unidades
-				unidad.subunidades = $filter('orderBy')(unidad.subunidades, 'orden')
 			$scope.calcularPorcUnidades()
 	, (r2)->
 		toastr.error 'No se pudo traer las ' + $scope.UNIDADES, 'Problemas'
@@ -70,7 +76,7 @@ angular.module('myvcFrontApp')
 
 	$scope.crearUnidad = ()->
 
-		$scope.activar_crear_unidad = false
+		$scope.activar_crear_unidad     = false
 
 		$scope.newunidad.asignatura_id = $scope.asignatura.asignatura_id
 
@@ -78,16 +84,18 @@ angular.module('myvcFrontApp')
 			r = r.data
 			r.subunidades = []
 			r.obligatoria = 0
+			r.anim_bloqueada = false
 			$scope.unidades.push r
 
 			creado = 'creado'
 			if $scope.GENERO_UNI == 'F'
 				creado = 'creada'
 
-			toastr.success $scope.UNIDAD + ' ' + creado + ' . Ahora agrégale ' + $scope.SUBUNIDADES
+			toastr.success $scope.UNIDAD + ' ' + creado + '. Ahora agrégale ' + $scope.SUBUNIDADES
 			$scope.newunidad.definicion = ''
 			$scope.calcularPorcUnidades()
 			$scope.activar_crear_unidad = true
+			$scope.bloquear_animacion()
 		, (r2)->
 			toastr.error 'No se pudo crear la unidad', 'Problemas'
 			$scope.activar_crear_unidad = true
@@ -128,6 +136,9 @@ angular.module('myvcFrontApp')
 		modalInstance.result.then( (unidad)->
 			$scope.unidades = $filter('filter')($scope.unidades, {id: '!'+unidad.id})
 			$scope.calcularPorcUnidades()
+			$timeout(()->
+				$scope.onSortUnidades(undefined, $scope.unidades)
+			, 100)
 		)
 
 
@@ -153,8 +164,19 @@ angular.module('myvcFrontApp')
 			return false;
 		)
 
-
 		$scope.calcularPorcUnidades()
+
+
+
+
+
+	$scope.onStartSortUnidades= ($item, $part, $index, $helper)->
+		# console.log $item
+
+	$scope.bloquear_animacion = (elemento)->
+		$timeout(()->
+			elemento.anim_bloqueada   = true
+		, 2000)
 
 
 
@@ -259,6 +281,7 @@ angular.module('myvcFrontApp')
 		unidad.newsubunidad.definicion  = unidad.newsubunidad.definicion.trim()
 
 		$http.post('::subunidades', unidad.newsubunidad).then((r)->
+			r.data.anim_bloqueada = false
 			unidad.subunidades.push r.data
 
 			creado = 'creado'
@@ -269,6 +292,7 @@ angular.module('myvcFrontApp')
 			unidad.newsubunidad.definicion = ''
 			$scope.calcularPorcUnidades()
 			$scope.activar_crear_subunidad = true
+			$scope.bloquear_animacion(r.data)
 		, (r2)->
 			toastr.error 'No se pudo crear  ' + (if $scope.GENERO_UNI=="M" then 'el' else 'la') + scope.SUBUNIDAD, 'Problemas'
 			$scope.activar_crear_subunidad = true
@@ -312,6 +336,9 @@ angular.module('myvcFrontApp')
 		modalInstance.result.then( (unid)->
 			unidad.subunidades = $filter('filter')(unidad.subunidades, {id: '!'+subunidad.id})
 			$scope.calcularPorcUnidades()
+			$timeout(()->
+				$scope.onSortSubunidades(undefined, undefined, unidad.subunidades)
+			, 100)
 		)
 
 

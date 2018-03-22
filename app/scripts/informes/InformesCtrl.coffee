@@ -172,14 +172,15 @@ angular.module('myvcFrontApp')
 			toastr.warning 'Debes seleccionar al menos un alumno o cargar boletines del grupo completo'
 
 
-	$scope.verBoletinAlumno = ()->
-
+	$scope.verBoletinAlumno = (tipo)->
+		if !tipo
+			tipo = ''
 		if $scope.datos.selected_alumno
 			$cookies.putObject 'requested_alumno', [$scope.datos.selected_alumno]
 			$state.go 'panel.informes'
 			$scope.config.orientacion = 'vertical'
 			$interval ()->
-				$state.go 'panel.informes.boletines_periodo', {periodo_a_calcular: $scope.config.periodo_a_calcular}
+				$state.go 'panel.informes.boletines_periodo'+tipo, {periodo_a_calcular: $scope.config.periodo_a_calcular}
 			, 1, 1
 		else
 			toastr.warning 'Elige un alumno o carga el grupo completo'

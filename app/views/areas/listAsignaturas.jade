@@ -1,9 +1,9 @@
 
-h6.row-title.before-blue(ng-if="profesor_id")
+h6.row-title.before-blue.animated.flipInY(ng-if="profesor_id")
 	| Profesor: {{profesor.nombres_profesor + ' ' + profesor.apellidos_profesor}}
 
 
-.row(ng-if="USER.tipo == 'Profesor' && mes < 5 ")
+.row.flipInY.animated(ng-if="USER.tipo == 'Profesor' && mes < 5 " style="animation-delay: 0.5s;")
 	.col-xs-12.col-md-12
 		.well.with-header
 			.header.bordered-blue Solicitar cambios en la carga académica
@@ -56,7 +56,7 @@ h6.row-title.before-blue(ng-if="profesor_id")
 
 .row
 	.col-lg-6.col-xs-12(ng-repeat="asignatura in asignaturas")
-		.databox.databox-graded.radius-bordered.databox-shadowed(uib-popover-template="views + 'popoverInfoUnidades.tpl.html'" popover-trigger="'outsideClick'" popover-title="{{UNIDADES}}")
+		.databox.databox-graded.radius-bordered.databox-shadowed.bounceInLeft.animated(uib-popover-template="views + 'popoverInfoUnidades.tpl.html'" style="animation-delay: {{ $index/10 }}s;" popover-trigger="'outsideClick'" popover-title="{{UNIDADES}}")
 			.databox-left(ng-class="{'bg-primary': asignatura.unidades.items.length>0 && asignatura.unidades.porc_unidades==100 && asignatura.unidades.porc_subunidades_incorrecto==false && asignatura.unidades.porc_notas_incorrecto==false, 'bg-danger': asignatura.unidades.items.length==0 || asignatura.unidades.porc_unidades!=100 || asignatura.unidades.porc_notas_incorrecto || asignatura.unidades.porc_subunidades_incorrecto}"
 				uib-tooltip="{{asignatura.nombre_grupo}}" style="background-image: url(images/book-library-2.png)")
 				// #2da7e8

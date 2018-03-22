@@ -1,17 +1,17 @@
 angular.module('myvcFrontApp')
 
-.controller('PlanillasCtrl',['$scope', 'App', 'Perfil', 'asignaturas', '$state', ($scope, App, Perfil, asignaturas, $state)-> 
+.controller('PlanillasCtrl',['$scope', 'App', 'Perfil', 'asignaturas', '$state', ($scope, App, Perfil, asignaturas, $state)->
 	asignaturas = asignaturas.data
 
 	$scope.USER = Perfil.User()
 	$scope.USER.nota_minima_aceptada = parseInt($scope.USER.nota_minima_aceptada)
-	
+
 	$scope.year = asignaturas[0]
 	$scope.asignaturas = asignaturas[1]
 
 	$scope.perfilPath = App.images+'perfil/'
 
-	$scope.unidadesdefault = ["  ", "  ", "  "]
+	$scope.unidadesdefault = ["  ", "  ", "  ", "  ", "  "]
 	$scope.subunidadesdefault = [
 			"  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "
 			"  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "
@@ -47,7 +47,7 @@ angular.module('myvcFrontApp')
 
 
 
-.controller('ControlTardanzaEntradaCtrl',['$scope', 'App', 'Perfil', '$state', 'grupos', ($scope, App, Perfil, $state, grupos)-> 
+.controller('ControlTardanzaEntradaCtrl',['$scope', 'App', 'Perfil', '$state', 'grupos', ($scope, App, Perfil, $state, grupos)->
 
 	$scope.USER = Perfil.User()
 
@@ -63,7 +63,7 @@ angular.module('myvcFrontApp')
 	$scope.getNumber = (num)->
 		return new Array(num)
 
-	for grupo in $scope.grupos 
+	for grupo in $scope.grupos
 		cont = 0
 		for alumno in grupo.alumnos
 			cont++
@@ -78,8 +78,8 @@ angular.module('myvcFrontApp')
 
 
 	$scope.dato = {}
-	
-	
+
+
 
 	$scope.mesSeleccionado = ()->
 		if $scope.mesMostrar == '-1'

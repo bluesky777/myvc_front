@@ -4,7 +4,7 @@
 			span.widget-caption {{asignatura.materia + ' - ' + asignatura.nombre_grupo + ' - ' + asignatura.nombres_profesor}}
 		.widget-body
 			div
-				a.btn.btn-primary.btn-lg(ui-sref="panel.unidades({asignatura_id: asignatura_id})")
+				a.btn.btn-primary.btn-lg.flipInY.animated(ui-sref="panel.unidades({asignatura_id: asignatura_id})")
 					i.fa.fa-arrow-left
 					| Ir a {{UNIDADES}}
 
@@ -20,10 +20,10 @@
 				i.fa-fw.fa.fa-info
 				| Este periodo está bloqueado. Pero como administrador, tú puedes editarlo.
 
-			.form-group(style="margin-top: 10px;")
+			.form-group.flipInY.animated(style="margin-top: 10px;")
 				div.text-center(style="width=100%; height: 80px; border: 1px solid #ccc; overflow-y: auto; background-color: #eee;")
 					.btn-group
-						button.btn.btn-default.btn-asignaturas(ng-repeat="asignatura in asignaturas" ng-class="{active: asignatura.active}"
+						button.btn.btn-default.btn-asignaturas.zoomInDown.animated(ng-repeat="asignatura in asignaturas" ng-class="{active: asignatura.active}"
 							ng-click="traerNotasDeAsignatura(asignatura)" uib-tooltip="{{asignatura.nombre_grupo}}. {{ asignatura.materia }}" tooltip-append-to-body="true")
 							| {{ asignatura.abrev_grupo }}. {{ asignatura.alias_materia }}
 
@@ -31,10 +31,10 @@
 			.row(style="margin-top: 20px; margin-bottom: 10px; ")
 				.col-lg-12.col-sm-12
 					.btn-group
-						button.btn.btn-default(ng-click="setTabVertically()" uib-tooltip="Pasar Verticalmente al usar la tecla Tab y Shift+Tab" ng-class="{'active': tab_horiz_or_verti=='vertical'}")
+						button.btn.btn-default(ng-click="setTabVertically()" uib-tooltip="Pasar Verticalmente al usar la tecla Tab y Shift+Tab" ng-class="{'active': tab_horiz_or_verti=='vertical'}" style="z-index: 0;")
 							span(style="padding-right: 3px") Verticalmente
 							i.fa.fa-arrows-v
-						button.btn.btn-default(ng-click="setTabHorizontally()" uib-tooltip="Pasar Horizontalmente al usar la tecla Tab y Shift+Tab" ng-class="{'active': tab_horiz_or_verti=='horizontal'}")
+						button.btn.btn-default(ng-click="setTabHorizontally()" uib-tooltip="Pasar Horizontalmente al usar la tecla Tab y Shift+Tab" ng-class="{'active': tab_horiz_or_verti=='horizontal'}" style="z-index: 0;")
 							span(style="padding-right: 3px") Horizontalmente
 							i.fa.fa-arrows-h
 
@@ -82,7 +82,7 @@
 									i.fa.fa-frown-o
 
 					tbody
-						tr.animated(ng-repeat="alumno in alumnos | filter:searchAlum")
+						tr.animated.fadeInUp(ng-repeat="alumno in alumnos | filter:searchAlum" style="animation-delay: {{ $index/10 }}s; animation-duration: 0.5s;")
 							td
 								div {{$index+1}}
 							td(ng-click="filaNotaRapida(alumno, $index)" style="padding: 0 5px;")

@@ -5,129 +5,144 @@
 		.widget-body
 			div
 				form(role="form" ng-submit="guardar()")
-					tabset
-						tab(heading="Información")
-							.widget
+					uib-tabset
+						uib-tab(heading="Información")
+							.widget.animated.bounceIn(style="animation-delay: 0.5s;")
 								.widget-header.bordered-bottom.bordered-pink
 									span.widget-caption Básica
 								.widget-body
-									.form-group
-										label(for="profesor-nombres") Nombres
-										input.form-control#profesor-nombres(type="text" ng-model="profesor.nombres_profesor" placeholder="Nombres")
-									.form-group
-										label(for="profesor-apellidos") Apellidos
-										input#profesor-apellidos.form-control(type="text" ng-model="profesor.apellidos_profesor" placeholder="Apellidos")
-									.form-group
-										label Sexo
-										.row
-											.col-lg-3.col-sm-4.col-xs-6
-												.radio
-													label
-														input.inverted(type="radio" name="sexo" value="M" ng-model="profesor.sexo")
-														span.text Masculino
-											.col-lg-3.col-sm-4.col-xs-6
-												.radio
-													label
-														input.inverted(type="radio" name="sexo" value="F" ng-model="profesor.sexo")
-														span.text Femenino
+									.row
+										.col-lg-2.col-sm-12
+											img(style="width: 200px" ng-src="{{perfilPath + profesor.foto_nombre}}")
 
-									.form-group
-										label(for="profesor-titulo") Título
-										input#profesor-titulo.form-control(type="text" ng-model="profesor.titulo" placeholder="Título o profesión")
+										.col-lg-10.col-sm-12
+											.row
+												.form-group.col-lg-4.col-sm-6
+													label(for="profesor-nombres") Nombres
+													input.form-control#profesor-nombres(type="text" ng-model="profesor.nombres_profesor" placeholder="Nombres")
+												.form-group.col-lg-4.col-sm-6
+													label(for="profesor-apellidos") Apellidos
+													input#profesor-apellidos.form-control(type="text" ng-model="profesor.apellidos_profesor" placeholder="Apellidos")
+												.form-group.col-lg-4.col-sm-6.col-xs-12(style="margin-bottom: 5px;")
+													label Sexo
+													.row
+														.col-lg-3.col-sm-4.col-xs-6
+															.radio
+																label
+																	input.inverted(type="radio" name="sexo" value="M" ng-model="profesor.sexo")
+																	span.text Masculino
+														.col-lg-3.col-sm-4.col-xs-6
+															.radio
+																label
+																	input.inverted(type="radio" name="sexo" value="F" ng-model="profesor.sexo")
+																	span.text Femenino
 
-							.widget
+											.row
+												.form-group.col-lg-4.col-sm-6
+													label(for="profesor-titulo") Título
+													input#profesor-titulo.form-control(type="text" ng-model="profesor.titulo" placeholder="Título o profesión")
+
+							.widget.animated.bounceIn(style="animation-delay: 0.8s;")
 								.widget-header.bordered-bottom.bordered-pink
 									span.widget-caption Nacimiento
 								.widget-body
-									.form-group
-										label(for="profesor-fecha-nac") Fecha de nacimiento
-										.controls
-											.input-group
-												span.input-group-addon
-													i.fa.fa-calendar
-												input.form-control.active#profesor-fecha-nac(type="text" datepicker-popup="dd-MMMM-yyyy" ng-model="profesor.fecha_nac" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2015-06-22'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha nacimiento")
+									.row
+										.form-group.col-lg-4.col-sm-6.col-xs-12(style="margin-bottom: 12px;")
+											label(for="profesor-fecha-nac") Fecha de nacimiento
+											.controls
+												.input-group
+													span.input-group-addon
+														i.fa.fa-calendar
+													input.form-control.active#profesor-fecha-nac(type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="profesor.fecha_nac" is-open="data.isOpen"
+														ng-click="data.isOpen = true" max-date="'2020-12-12'" datepicker-options="dateOptions" close-text="Aceptar"
+														current-text="Hoy" clear-text="Borrar" placeholder="Fecha nacimiento" datepicker-append-to-body="true"
+)
 
-									.form-group
-										label Pais
-										ui-select(ng-model="profesor.pais_nac" on-select="paisNacSelect($item, $model)" theme="select2" style="min-width: 200px;")
-											ui-select-match(placeholder="Pais nacimiento") {{$select.selected.pais}} ({{$select.selected.abrev}})
-											ui-select-choices(repeat="pais in paises | filter: $select.search")
-												div(ng-bind-html="pais.pais | highlight: $select.search")
-												small {{pais.departamento | highlight: $select.search}}
-									.form-group
-										label Departamento
-										ui-select(ng-model="profesor.departamento_nac" on-select="departNacSelect($item, $model)" theme="select2" style="min-width: 200px;")
-											ui-select-match(placeholder="Departamento nacimiento") {{$select.selected.departamento}}
-											ui-select-choices(repeat="departamento in departamentosNac | filter: $select.search")
-												div(ng-bind-html="departamento.departamento | highlight: $select.search")
 
-									.form-group
-										label Ciudad
-										ui-select(ng-model="profesor.ciudad_nac" theme="select2" style="min-width: 200px;")
-											ui-select-match(placeholder="Ciudad nacimiento" allow-clear="true") {{$select.selected.ciudad}}
-											ui-select-choices(repeat="ciudad in ciudadesNac | filter: $select.search")
-												div(ng-bind-html="ciudad.ciudad | highlight: $select.search")
+										.form-group.col-lg-4.col-sm-6.col-xs-12
+											label Pais
+											ui-select(ng-model="profesor.pais_nac" on-select="paisNacSelect($item, $model)" style="width: 100%;" append-to-body="true")
+												ui-select-match(placeholder="Pais nacimiento" allow-clear="true") {{$select.selected.pais}} ({{$select.selected.abrev}})
+												ui-select-choices(repeat="pais in paises | filter: $select.search")
+													div(ng-bind-html="pais.pais | highlight: $select.search")
+													small {{ pais.departamento | highlight: $select.search}}
+										.form-group.col-lg-4.col-sm-6.col-xs-12
+											label Departamento
+											ui-select(ng-model="profesor.departamento_nac" on-select="departNacSelect($item, $model)" style="width: 100%;" append-to-body="true")
+												ui-select-match(placeholder="Departamento nacimiento" allow-clear="true") {{$select.selected.departamento}}
+												ui-select-choices(repeat="departamento in departamentosNac | filter: $select.search")
+													div(ng-bind-html="departamento.departamento | highlight: $select.search")
 
-							.widget
+										.form-group.col-lg-4.col-sm-6.col-xs-12
+											label Ciudad
+											ui-select(ng-model="profesor.ciudad_nac" style="width: 100%;" append-to-body="true")
+												ui-select-match(placeholder="Ciudad nacimiento" allow-clear="true") {{$select.selected.ciudad}}
+												ui-select-choices(repeat="ciudad in ciudadesNac | filter: $select.search")
+													div(ng-bind-html="ciudad.ciudad | highlight: $select.search")
+
+
+
+							.widget.animated.bounceIn(style="animation-delay: 1s;")
 								.widget-header.bordered-bottom.bordered-pink
 									span.widget-caption Documento
 								.widget-body
-									.form-group
-										label Tipo documento
-										ui-select(ng-model="profesor.tipo_doc" theme="select2" style="min-width: 300px;")
-											ui-select-match(placeholder="Tipo de documento" allow-clear="true") {{$select.selected.tipo}}{{ ' ('+$select.selected.abrev+')'}}
-											ui-select-choices(repeat="tipo_doc in tipos_doc")
-												div(ng-bind-html="tipo_doc.tipo | highlight: $select.search")
-												small {{ tipo_doc.abrev}}
-									.form-group
-										label(for="alumno-documento") Número documento
-										input#alumno-documento.form-control(type="text" ng-model="alumno.documento" placeholder="Documento")
+									.row
+										.form-group.col-lg-4.col-sm-6.col-xs-12
+											label Tipo
+											ui-select(ng-model="profesor.tipo_doc" style="width: 100%;" append-to-body="true")
+												ui-select-match(placeholder="Tipo de documento" allow-clear="true") {{$select.selected.tipo}}{{ ' ('+$select.selected.abrev+')'}}
+												ui-select-choices(repeat="tipo_doc in tipos_doc")
+													div(ng-bind-html="tipo_doc.tipo | highlight: $select.search")
+													small {{ tipo_doc.abrev}}
+										.form-group.col-lg-4.col-sm-6.col-xs-12
+											label(for="profesor-documento") Número documento
+											input#profesor-documento.form-control(type="text" ng-model="profesor.documento" placeholder="Documento")
 
-									.form-group
-										label Pais
-										ui-select(ng-model="profesor.pais_doc" on-select="paisDocSelect($item, $model)" theme="select2" style="min-width: 200px;")
-											ui-select-match(placeholder="Pais documento") {{$select.selected.pais}} ({{$select.selected.abrev}})
-											ui-select-choices(repeat="pais in paises | filter: $select.search")
-												div(ng-bind-html="pais.pais | highlight: $select.search")
-												small {{pais.departamento | highlight: $select.search}}
-									.form-group
-										label Departamento
-										ui-select(ng-model="profesor.departamento_doc" on-select="departDocSelect($item, $model)" theme="select2" style="min-width: 200px;")
-											ui-select-match(placeholder="Departamento documento") {{$select.selected.departamento}}
-											ui-select-choices(repeat="departamento in departamentos | filter: $select.search")
-												div(ng-bind-html="departamento.departamento | highlight: $select.search")
+										.form-group.col-lg-4.col-sm-6.col-xs-12
+											label Pais
+											ui-select(ng-model="profesor.pais_doc" on-select="paisSelecionado($item, $model)" style="width: 100%;" append-to-body="true")
+												ui-select-match(placeholder="Pais documento" allow-clear="true") {{$select.selected.pais}} ({{$select.selected.abrev}})
+												ui-select-choices(repeat="pais in paises | filter: $select.search")
+													div(ng-bind-html="pais.pais | highlight: $select.search")
+													small {{ pais.departamento | highlight: $select.search}}
+										.form-group.col-lg-4.col-sm-6.col-xs-12
+											label Departamento
+											ui-select(ng-model="profesor.departamento_doc" on-select="departSeleccionado($item, $model)" style="width: 100%;" append-to-body="true")
+												ui-select-match(placeholder="Departamento documento" allow-clear="true") {{$select.selected.departamento}}
+												ui-select-choices(repeat="departamento in departamentos | filter: $select.search")
+													div(ng-bind-html="departamento.departamento | highlight: $select.search")
 
-									.form-group
-										label Ciudad
-										ui-select(ng-model="profesor.ciudad_doc" theme="select2" style="min-width: 200px;")
-											ui-select-match(placeholder="Ciudad documento" allow-clear="true") {{$select.selected.ciudad}}
-											ui-select-choices(repeat="ciudad in ciudades | filter: $select.search")
-												div(ng-bind-html="ciudad.ciudad | highlight: $select.search")
+										.form-group.col-lg-4.col-sm-6.col-xs-12
+											label Ciudad
+											ui-select(ng-model="profesor.ciudad_doc" style="width: 100%;")
+												ui-select-match(placeholder="Ciudad documento" allow-clear="true" append-to-body="true") {{$select.selected.ciudad}}
+												ui-select-choices(repeat="ciudad in ciudades | filter: $select.search")
+													div(ng-bind-html="ciudad.ciudad | highlight: $select.search")
 
+						uib-tab(heading="Datos extras")
+							.row
+								.form-group.col-lg-2.col-sm-6.col-xs-12
+									label(for="profesor-estado-civil") Estado civil
+									ui-select(ng-model="estado_civil" theme="select2" style="min-width: 100px;" append-to-body="true")
+										ui-select-match(placeholder="Estado civil" allow-clear="true") {{$select.selected.estado_civil}}
+										ui-select-choices(repeat="estado in estados_civiles | filter: $select.search")
+											div(ng-bind-html="estado.estado_civil | highlight: $select.search")
 
-						tab(heading="Datos extras")
-							.form-group
-								label(for="profesor-estado-civil") Estado civil
-								ui-select(ng-model="estado_civil" theme="select2" style="min-width: 100px;")
-									ui-select-match(placeholder="Estado civil" allow-clear="true") {{$select.selected.estado_civil}}
-									ui-select-choices(repeat="estado in estados_civiles | filter: $select.search")
-										div(ng-bind-html="estado.estado_civil | highlight: $select.search")
-
-							.form-group
+							.form-group.col-lg-3.col-sm-6.col-xs-12
 								label(for="profesor-telefono") Teléfono
 								input#profesor-telefono.form-control(type="text" ng-model="profesor.telefono" placeholder="Teléfono")
-							.form-group
+							.form-group.col-lg-3.col-sm-6.col-xs-12
 								label(for="profesor-celular") Celular
 								input#profesor-celular.form-control(type="text" ng-model="profesor.celular" placeholder="Celular")
-							.form-group
+							.form-group.col-lg-3.col-sm-6.col-xs-12
 								label(for="profesor-barrio") Barrio
 								input#profesor-barrio.form-control(type="text" ng-model="profesor.barrio" placeholder="Barrio")
-							.form-group
+							.form-group.col-lg-3.col-sm-6.col-xs-12
 								label(for="profesor-direccion") Direccion
 								input#profesor-direccion.form-control(type="text" ng-model="profesor.direccion" placeholder="Direccion")
 
 
-						tab(heading="Usuario")
+						uib-tab(heading="Usuario")
 							.form-group
 								label(for="profesor-username") Nombre de usuario
 								input#profesor-username.form-control(type="text" ng-model="profesor.username" placeholder="Nombre usuario")

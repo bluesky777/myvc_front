@@ -53,8 +53,9 @@
 										ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}}
 										ui-select-choices(repeat="grupo in grupos | filter: $select.search")
 											div(ng-bind-html="grupo.nombre | highlight: $select.search")
-									a.btn.btn-default(href="" ng-click="verBoletinesGrupo()") Grupo completo t1
-									a.btn.btn-default(href="" ng-click="verBoletinesGrupo(2)" uib-tooltip="Aún en desarrollo!!!") Tipo 2
+									a.btn.btn-default(href="" ng-click="verBoletinesGrupo()" uib-tooltip="Boletín muy detallado") Grupo completo Tipo 1
+									a.btn.btn-default(href="" ng-click="verBoletinesGrupo(2)" uib-tooltip="Boletín no tan largo - Aún en desarrollo!!!") Tipo 2
+									a.btn.btn-default(href="" ng-click="verBoletinesGrupo(3)" uib-tooltip="Para Preescolar - Aún en desarrollo!!!") Tipo 3
 						.row(ng-show="datos.grupo")
 							.col-lg-12.col-xs-12
 								.form-group
@@ -67,8 +68,9 @@
 											img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
 											small(ng-show="alumno.estado=='RETI'" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)</i>'")
 											small(ng-hide="alumno.estado=='RETI'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
-									a.btn.btn-default(href="" ng-click="verBoletinesAlumnos()") Cargar boletines t1
-									a.btn.btn-default(href="" ng-click="verBoletinesAlumnos(2)" uib-tooltip="Aún en desarrollo!!!") Tipo 2
+									a.btn.btn-default(href="" ng-click="verBoletinesAlumnos()" uib-tooltip="Boletín muy detallado") Cargar boletines Tipo 1
+									a.btn.btn-default(href="" ng-click="verBoletinesAlumnos(2)" uib-tooltip="Boletín no tan largo - Aún en desarrollo") Tipo 2
+									a.btn.btn-default(href="" ng-click="verBoletinesAlumnos(3)" uib-tooltip="Para Preescolar - Aún en desarrollo") Tipo 3
 
 						.row(ng-show="!datos.grupo")
 							.col-lg-12.col-xs-12
@@ -82,7 +84,9 @@
 											img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
 											small(ng-show="alumno.estado=='RETI'" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)</i>'")
 											small(ng-hide="alumno.estado=='RETI'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
-									a.btn.btn-default(href="" ng-click="verBoletinAlumno()") Cargar boletin
+									a.btn.btn-default(href="" ng-click="verBoletinAlumno()" uib-tooltip="Boletín muy detallado") Cargar boletin Tipo 1
+									a.btn.btn-default(href="" ng-click="verBoletinAlumno(2)" uib-tooltip="Boletín no tan largo - Aún en desarrollo") Tipo 2
+									a.btn.btn-default(href="" ng-click="verBoletinAlumno(3)" uib-tooltip="Para Preescolar - Aún en desarrollo") Tipo 3
 						br
 
 						.row

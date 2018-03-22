@@ -41,7 +41,7 @@
                     <ui-select-choices repeat="grupo in grupos | filter: $select.search">
                       <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
                     </ui-select-choices>
-                  </ui-select><a href="" ng-click="verBoletinesGrupo()" class="btn btn-default">Grupo completo t1</a><a href="" ng-click="verBoletinesGrupo(2)" uib-tooltip="Aún en desarrollo!!!" class="btn btn-default">Tipo 2</a>
+                  </ui-select><a href="" ng-click="verBoletinesGrupo()" uib-tooltip="Boletín muy detallado" class="btn btn-default">Grupo completo Tipo 1</a><a href="" ng-click="verBoletinesGrupo(2)" uib-tooltip="Boletín no tan largo - Aún en desarrollo!!!" class="btn btn-default">Tipo 2</a><a href="" ng-click="verBoletinesGrupo(3)" uib-tooltip="Para Preescolar - Aún en desarrollo!!!" class="btn btn-default">Tipo 3</a>
                 </div>
               </div>
             </div>
@@ -52,7 +52,7 @@
                   <ui-select ng-model="datos.selected_alumnos" multiple on-select="selectAlumnos($item)" style="width: 100%;">
                     <ui-select-match placeholder="Alumnos del grupo {{datos.grupo.abrev}}" allow-clear="true"><img ng-src="{{perfilPath + $item.foto_nombre}}" style="width:25px; height:25px;">{{$item.nombres}}</ui-select-match>
                     <ui-select-choices repeat="alumno in filtered_alumnos | filter: $select.search"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;"><small ng-show="alumno.estado=='RETI'" ng-bind-html="'&lt;i&gt; -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)&lt;/i&gt;'"></small><small ng-hide="alumno.estado=='RETI'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search"></small></ui-select-choices>
-                  </ui-select><a href="" ng-click="verBoletinesAlumnos()" class="btn btn-default">Cargar boletines t1</a><a href="" ng-click="verBoletinesAlumnos(2)" uib-tooltip="Aún en desarrollo!!!" class="btn btn-default">Tipo 2</a>
+                  </ui-select><a href="" ng-click="verBoletinesAlumnos()" uib-tooltip="Boletín muy detallado" class="btn btn-default">Cargar boletines Tipo 1</a><a href="" ng-click="verBoletinesAlumnos(2)" uib-tooltip="Boletín no tan largo - Aún en desarrollo" class="btn btn-default">Tipo 2</a><a href="" ng-click="verBoletinesAlumnos(3)" uib-tooltip="Para Preescolar - Aún en desarrollo" class="btn btn-default">Tipo 3</a>
                 </div>
               </div>
             </div>
@@ -63,7 +63,7 @@
                   <ui-select ng-model="datos.selected_alumno" on-select="selectAlumno($item)" style="width: 300px;">
                     <ui-select-match placeholder="Elige un alumno" allow-clear="true"><img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;">{{$select.selected.nombres}} {{$select.selected.apellidos}}</ui-select-match>
                     <ui-select-choices repeat="alumno in filtered_alumnos | filter: $select.search"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;"><small ng-show="alumno.estado=='RETI'" ng-bind-html="'&lt;i&gt; -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)&lt;/i&gt;'"></small><small ng-hide="alumno.estado=='RETI'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search"></small></ui-select-choices>
-                  </ui-select><a href="" ng-click="verBoletinAlumno()" class="btn btn-default">Cargar boletin</a>
+                  </ui-select><a href="" ng-click="verBoletinAlumno()" uib-tooltip="Boletín muy detallado" class="btn btn-default">Cargar boletin Tipo 1</a><a href="" ng-click="verBoletinAlumno(2)" uib-tooltip="Boletín no tan largo - Aún en desarrollo" class="btn btn-default">Tipo 2</a><a href="" ng-click="verBoletinAlumno(3)" uib-tooltip="Para Preescolar - Aún en desarrollo" class="btn btn-default">Tipo 3</a>
                 </div>
               </div>
             </div><br>

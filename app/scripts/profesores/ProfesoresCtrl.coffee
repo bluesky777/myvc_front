@@ -6,7 +6,8 @@ angular.module("myvcFrontApp")
 
 	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
 	$scope.current_year = $scope.USER.year_id
-
+	$scope.views 						= App.views
+	$scope.perfilPath 		  	      	= App.images+'perfil/'
 
 	$scope.editar = (row)->
 		$state.go('panel.profesores.editar', {profe_id: row.id})

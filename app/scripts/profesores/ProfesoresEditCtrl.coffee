@@ -56,12 +56,12 @@ angular.module("myvcFrontApp")
 
 
 
-
 	$http.get('::paises').then((r)->
 		$scope.paises = r.data
 	, (r2)->
 		toastr.error 'No se pudo traer los paises'
 	)
+
 
 
 

@@ -17,7 +17,7 @@ datalist#religiones-list
 			.navbar-header.pull-left
 				a.navbar-brand(ui-sref="panel")
 					small
-						img(ng-src="{{logoPath}}" alt="")
+						img.animated.bounceIn(ng-src="{{logoPath}}" alt="Logo" style="animation-delay: 0.8s;")
 
 			<!-- /Navbar Barnd -->
 			<!-- Sidebar Collapse -->
@@ -188,7 +188,7 @@ datalist#religiones-list
 
 						<!--  Área de usuario -->
 						li(my-drop-down ng-click="toggleOpen()" is-open="false" evitar-cierre="login-area-noclose")
-							a.login-area.dropdown-toggle(data-toggle="dropdown")
+							a.login-area.dropdown-toggle.animated.bounceIn(data-toggle="dropdown" style="animation-delay: 1s;")
 								.avatar(title="Ver tu perfil público")
 									img(ng-src="{{ imagenPrincipal }}")
 								section

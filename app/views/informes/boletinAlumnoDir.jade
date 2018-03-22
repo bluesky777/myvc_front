@@ -48,7 +48,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 								span.text-tardanza A:{{::asignatura.total_ausencias}} / T:{{::asignatura.total_tardanzas}}
 							.col-lg-1.col-xs-1(ng-class="{'nota-perdida': asignatura.nota_asignatura<USER.nota_minima_aceptada && config.show_rojos}"
 								style="padding: 0px; text-align: center;")
-								| {{ ::asignatura.nota_juicio_valorativo }}
+								| {{ ::asignatura.desempenio }}
 							.col-lg-1.col-xs-1
 								div(ng-class="{'nota-perdida-bold': asignatura.nota_asignatura<USER.nota_minima_aceptada && config.show_rojos}")
 									| {{ ::asignatura.nota_asignatura }}

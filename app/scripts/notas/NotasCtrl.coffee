@@ -418,7 +418,6 @@ angular.module('myvcFrontApp')
 					notaObject
 		})
 		modalInstance.result.then( (r)->
-			console.log r
 			if r=='Eliminada'
 				notaObject.eliminada = true
 		, ()->
