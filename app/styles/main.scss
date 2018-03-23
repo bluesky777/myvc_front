@@ -16405,6 +16405,9 @@ input.ocultar-input{
 .fondo-gris-td{
 		background-color: #ccc !important;
 }
+.fondo-azul-td{
+		background-color: #d4e9f8 !important;
+}
 .fondo-blanco-td{
 		background-color: #fff !important;
 }
@@ -16862,4 +16865,16 @@ tr { page-break-inside: avoid }
   .si-margin-top25-xs{
     margin-top: 25px;
   }
+}
+
+
+
+#loading-bar-spinner .spinner-icon {
+  width: 20px;
+  height: 20px;
+  z-index: 999999 !important;
+}
+#loading-bar .bar, #loading-bar .peg {
+  height: 8px !important;
+  z-index: 999999 !important;
 }

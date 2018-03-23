@@ -7,9 +7,10 @@
 	.row
 		.col-lg-12.col-xs-12
 			.row
-				.col-xs-4 Codigo:
-				.col-xs-8(style="font-style: italic;") {{ nota.id }}
-					button.btn.btn-danger.btn-xs(ng-click="eliminarNota()" uib-tooltip="Eliminar nota.") Eliminar
+				.col-xs-4(uib-tooltip="Código de la nota") Codigo:
+				.col-xs-8
+					span(uib-tooltip="Código de la nota" style="font-style: italic;") {{ nota.id }}
+					button.btn.btn-danger.btn-xs(ng-if="hasRoleOrPerm('Admin')" ng-click="eliminarNota()" uib-tooltip="Eliminar nota.") Eliminar
 			.row
 				.col-xs-4 Nota:
 				.col-xs-8 {{ nota.nota }}
@@ -18,15 +19,19 @@
 				.col-xs-8 {{ nota.created_at }}
 			.row
 				.col-xs-4 Creada por:
-				.col-xs-8(ng-hide="nota_detalle") {{ nota.created_by }}
-				.col-xs-8(ng-show="nota_detalle") {{ nota_detalle.creado_por }}
+				.col-xs-8(ng-hide="nota_detalle")
+					span(uib-tooltip="Código del usuario") {{ nota.created_by }}
+				.col-xs-8(ng-show="nota_detalle")
+					span(uib-tooltip="Nombre de usuario") {{ nota_detalle.creado_por }}
 			.row
 				.col-xs-4 Última modificación:
-				.col-xs-8 {{ nota.updated_at }}
+				.col-xs-8 {{ nota_detalle.updated_at }}
 			.row
 				.col-xs-4 Modificada por:
-				.col-xs-8(ng-hide="nota_detalle") {{ nota.updated_by }}
-				.col-xs-8(ng-show="nota_detalle") {{ nota_detalle.modificado_por }}
+				.col-xs-8(ng-hide="nota_detalle")
+					span(uib-tooltip="Código del usuario") {{ nota.updated_by }}
+				.col-xs-8(ng-show="nota_detalle")
+					span(uib-tooltip="Nombre de usuario") {{ nota_detalle.modificado_por }}
 
 	.row
 		.col-lg-12.col-xs-12(style="overflow: auto;")
@@ -35,15 +40,17 @@
 				thead
 					tr
 						th.text-center No
-						th.text-center Id
+						th.text-center
+							span(uib-tooltip="Código de la bitácora") Id
 						th.text-center Nota nueva
 						th.text-center Anterior
 						th.text-center Fecha cambio
 						th.text-center Cambiada por
 				tbody
-					tr(ng-repeat="cambio in cambios")
+					tr(ng-repeat="cambio in cambios | orderBy:'bit_id' track by $index")
 						td.text-center {{ $index+1 }}
-						td(style="font-size: 8pt; font-style: italic;") {{ cambio.bit_id }}
+						td(style="font-size: 8pt; font-style: italic;")
+							span(uib-tooltip="Código de la bitácora") {{ cambio.bit_id }}
 						td.text-center {{ cambio.new_value }}
 						td.text-center {{ cambio.old_value }}
 						td {{ cambio.created_at }}

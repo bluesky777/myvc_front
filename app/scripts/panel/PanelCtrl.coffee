@@ -7,7 +7,7 @@ angular.module('myvcFrontApp')
 
 		$scope.USER = resolved_user
 		$scope.pageTitle = $rootScope.pageTitle
-		$scope.bigLoader = true
+		#$scope.bigLoader = true
 		$scope.perfilPath = App.images+'perfil/'
 
 
@@ -47,7 +47,6 @@ angular.module('myvcFrontApp')
 
 		$http.get('::periodos').then((r)->
 			$scope.periodos = r.data
-			$scope.bigLoader = false
 		, (r)->
 			toastr.error 'No se trajeron los periodos'
 		)
@@ -85,7 +84,6 @@ angular.module('myvcFrontApp')
 
 
 		$scope.cambiarPeriodo = (periodo)->
-			$scope.bigLoader = true
 
 			$http.put('::periodos/useractive/'+periodo.id).then((r)->
 				toastr.success 'Periodo cambiado con éxito al perido ' + periodo.numero, 'Cambiado'
@@ -101,7 +99,6 @@ angular.module('myvcFrontApp')
 
 
 		$scope.cambiarYear = (year)->
-			$scope.bigLoader = true
 
 			$http.put('::years/useractive/'+year.id).then((r)->
 				r = r.data

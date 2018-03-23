@@ -22,7 +22,7 @@ angular.module('myvcFrontApp')
 
 	$scope.escala_maxima = EscalasValorativasServ.escala_maxima()
 
-	$scope.$parent.bigLoader 	= false
+	#$scope.$parent.bigLoader 	= false
 
 
 	$scope.selectAsignatura = (asignatura)->

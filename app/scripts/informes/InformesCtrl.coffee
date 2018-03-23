@@ -40,10 +40,10 @@ angular.module('myvcFrontApp')
 			$tempParam 				= parseInt($state.params.profesor_id)
 			$scope.datos.profesor 	= $filter('filter')($scope.profesores, {profesor_id: $tempParam}, true)[0]
 
-		$scope.$parent.bigLoader 	= false
+		#$scope.$parent.bigLoader 	= false
 	, (r2)->
 		toastr.error 'No se pudo traer los profesores'
-		$scope.$parent.bigLoader 	= false
+		#$scope.$parent.bigLoader 	= false
 	)
 
 

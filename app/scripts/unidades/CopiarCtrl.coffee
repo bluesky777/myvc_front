@@ -39,13 +39,39 @@ angular.module('myvcFrontApp')
 		if $scope.hasRoleOrPerm('admin') == true
 			$scope.conprofes = true # Para indicar que el select de años se llene con la selección de un profe y no años traidos por get
 
+
 		$http.get('::profesores/conyears').then((r)->
 			$scope.profesores       = r.data
-			for profe in $scope.profesores
-				if profe.id == profe_id
-					$scope.years_copy_to          = profe.years
-					$scope.configuracion.year_to  = profe.years[profe.years.length-1]
-					$scope.yearToSelect(profe.years[profe.years.length-1])
+			if localStorage.asignatura_a_copiar
+				$scope.asignatura_a_copiar = JSON.parse(localStorage.asignatura_a_copiar)
+
+				if $scope.asignatura_a_copiar.profesor_id
+
+					for profe in $scope.profesores
+						if profe.id == $scope.asignatura_a_copiar.profesor_id
+							$scope.configuracion.profesor_from	= profe
+							$scope.years_copy             			= profe.years
+
+							for year_search in $scope.years
+								if year_search.id == $scope.asignatura_a_copiar.year_id
+									$scope.configuracion.year_from  		= year_search
+									$scope.yearSelect(year_search)
+
+						# Para el año destino
+						if profe.id == profe_id
+							$scope.years_copy_to          = profe.years
+							$scope.configuracion.year_to  = profe.years[profe.years.length-1]
+							$scope.yearToSelect(profe.years[profe.years.length-1])
+
+				else
+					# Para el año destino
+					for profe in $scope.profesores
+						if profe.id == profe_id
+							$scope.years_copy_to          = profe.years
+							$scope.configuracion.year_to  = profe.years[profe.years.length-1]
+							$scope.yearToSelect(profe.years[profe.years.length-1])
+
+
 		,(r)->
 			toastr.error 'No se pudo traer los profes con años', r
 		)
@@ -64,14 +90,33 @@ angular.module('myvcFrontApp')
 
 		$scope.yearSelect = ($item, $model)->
 			$scope.periodos = $item.periodos
+			if $scope.asignatura_a_copiar
+				if $scope.asignatura_a_copiar.periodo_id
+
+					for periodo in $scope.periodos
+						if periodo.id == $scope.asignatura_a_copiar.periodo_id
+							$scope.configuracion.periodo_from = periodo
+							$scope.periodoSelect(periodo)
 
 
 		$scope.periodoSelect = ($item, $model)->
 
-			profesor_id = $scope.configuracion.profesor_from.id
+			if $scope.asignatura_a_copiar
+				profesor_id = $scope.asignatura_a_copiar.profesor_id
+			else
+				profesor_id = $scope.configuracion.profesor_from.id
 
 			$http.get('::asignaturas/list-asignaturas-year/'+profesor_id+'/'+$scope.configuracion.periodo_from.id).then((r)->
 				$scope.asignaturas = r.data
+
+				if $scope.asignatura_a_copiar
+					if $scope.asignatura_a_copiar.asignatura_id
+
+						for asignatu in $scope.asignaturas
+							if asignatu.asignatura_id == $scope.asignatura_a_copiar.asignatura_id
+								$scope.configuracion.asignatura_from = asignatu
+								$scope.asignaturaSelect asignatu
+
 
 				if $scope.configuracion.asignatura_from
 					asig_id = $scope.configuracion.asignatura_from.asignatura_id
@@ -89,7 +134,6 @@ angular.module('myvcFrontApp')
 				for unidad in $item.unidades.items
 					unidad.seleccionada = true
 				$scope.unidades = $item.unidades
-				console.log $scope.unidades
 			else
 				$scope.unidades = []
 
@@ -106,6 +150,7 @@ angular.module('myvcFrontApp')
 
 		$scope.yearToSelect = ($item, $model)->
 			$scope.periodos_to = $item.periodos
+
 
 
 		$scope.periodoToSelect = ($item, $model)->
@@ -141,6 +186,8 @@ angular.module('myvcFrontApp')
 
 		# COPIAR
 		$scope.copiar = ()->
+			if !$scope.activar_btn_copiar
+				return
 
 			$scope.activar_btn_copiar = false
 

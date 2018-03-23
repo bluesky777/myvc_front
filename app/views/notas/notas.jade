@@ -39,9 +39,12 @@
 							i.fa.fa-arrows-h
 
 
-					button.btn.btn-default(ng-click="toggleAusencias()" uib-tooltip="Editar Ausencias y Tardanzas")
+					button.btn.btn-default(ng-class="{'active': ocultando_ausencias==false}" ng-click="toggleAusencias()" uib-tooltip="Editar Ausencias y Tardanzas")
 						span(style="padding-right: 3px") Ausencias
 						i.fa.fa-clock-o
+					button.btn.btn-default(ng-class="{'active': historial_activado==true}" ng-click="toggleHistorial()" uib-tooltip="Ver historial de la nota al darle doble click.")
+						span(style="padding-right: 3px") Ver historial
+						i.fa.fa-history
 
 			.row
 				.col-lg-3.col-sm-4.col-xs-12

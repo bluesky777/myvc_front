@@ -6,12 +6,12 @@ angular.module('myvcFrontApp')
 
 	$scope.asignatura 		= {}
 	$scope.asignatura_id 	= $state.params.asignatura_id
-	$scope.datos 			= {}
-	$scope.UNIDAD 			= $scope.USER.unidad_displayname
+	$scope.datos 			    = {}
+	$scope.UNIDAD 			  = $scope.USER.unidad_displayname
 	$scope.GENERO_UNI 		= $scope.USER.genero_unidad
-	$scope.SUBUNIDAD 		= $scope.USER.subunidad_displayname
+	$scope.SUBUNIDAD 		  = $scope.USER.subunidad_displayname
 	$scope.GENERO_SUB 		= $scope.USER.genero_subunidad
-	$scope.UNIDADES 		= $scope.USER.unidades_displayname
+	$scope.UNIDADES 		  = $scope.USER.unidades_displayname
 	$scope.SUBUNIDADES 		= $scope.USER.subunidades_displayname
 
 	$scope.activar_crear_unidad = true
@@ -50,6 +50,12 @@ angular.module('myvcFrontApp')
 	)
 
 
+
+	$scope.copiarUnidades = ()->
+		$scope.asignatura.periodo_id      = $scope.USER.periodo_id
+		$scope.asignatura.year_id         = $scope.USER.year_id
+		localStorage.asignatura_a_copiar  = JSON.stringify($scope.asignatura)
+		$state.go('panel.copiar')
 
 
 
@@ -299,7 +305,6 @@ angular.module('myvcFrontApp')
 		)
 
 	$scope.ir_a_notas = (datos)->
-		$scope.$parent.bigLoader 	= true
 		$state.go 'panel.notas', datos
 
 	$scope.actualizarSubunidad = (subunidad)->

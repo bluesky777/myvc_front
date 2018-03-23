@@ -9,9 +9,9 @@
   <div class="row">
     <div class="col-lg-12 col-xs-12">
       <div class="row">
-        <div class="col-xs-4">Codigo:</div>
-        <div style="font-style: italic;" class="col-xs-8">{{ nota.id }}
-          <button ng-click="eliminarNota()" uib-tooltip="Eliminar nota." class="btn btn-danger btn-xs">Eliminar</button>
+        <div uib-tooltip="Código de la nota" class="col-xs-4">Codigo:</div>
+        <div class="col-xs-8"><span uib-tooltip="Código de la nota" style="font-style: italic;">{{ nota.id }}</span>
+          <button ng-if="hasRoleOrPerm('Admin')" ng-click="eliminarNota()" uib-tooltip="Eliminar nota." class="btn btn-danger btn-xs">Eliminar</button>
         </div>
       </div>
       <div class="row">
@@ -24,17 +24,17 @@
       </div>
       <div class="row">
         <div class="col-xs-4">Creada por:</div>
-        <div ng-hide="nota_detalle" class="col-xs-8">{{ nota.created_by }}</div>
-        <div ng-show="nota_detalle" class="col-xs-8">{{ nota_detalle.creado_por }}</div>
+        <div ng-hide="nota_detalle" class="col-xs-8"><span uib-tooltip="Código del usuario">{{ nota.created_by }}</span></div>
+        <div ng-show="nota_detalle" class="col-xs-8"><span uib-tooltip="Nombre de usuario">{{ nota_detalle.creado_por }}</span></div>
       </div>
       <div class="row">
         <div class="col-xs-4">Última modificación:</div>
-        <div class="col-xs-8">{{ nota.updated_at }}</div>
+        <div class="col-xs-8">{{ nota_detalle.updated_at }}</div>
       </div>
       <div class="row">
         <div class="col-xs-4">Modificada por:</div>
-        <div ng-hide="nota_detalle" class="col-xs-8">{{ nota.updated_by }}</div>
-        <div ng-show="nota_detalle" class="col-xs-8">{{ nota_detalle.modificado_por }}</div>
+        <div ng-hide="nota_detalle" class="col-xs-8"><span uib-tooltip="Código del usuario">{{ nota.updated_by }}</span></div>
+        <div ng-show="nota_detalle" class="col-xs-8"><span uib-tooltip="Nombre de usuario">{{ nota_detalle.modificado_por }}</span></div>
       </div>
     </div>
   </div>
@@ -45,7 +45,7 @@
         <thead>
           <tr>
             <th class="text-center">No</th>
-            <th class="text-center">Id</th>
+            <th class="text-center"><span uib-tooltip="Código de la bitácora">Id</span></th>
             <th class="text-center">Nota nueva</th>
             <th class="text-center">Anterior</th>
             <th class="text-center">Fecha cambio</th>
@@ -53,9 +53,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="cambio in cambios">
+          <tr ng-repeat="cambio in cambios | orderBy:'bit_id' track by $index">
             <td class="text-center">{{ $index+1 }}</td>
-            <td style="font-size: 8pt; font-style: italic;">{{ cambio.bit_id }}</td>
+            <td style="font-size: 8pt; font-style: italic;"><span uib-tooltip="Código de la bitácora">{{ cambio.bit_id }}</span></td>
             <td class="text-center">{{ cambio.new_value }}</td>
             <td class="text-center">{{ cambio.old_value }}</td>
             <td>{{ cambio.created_at }}</td>

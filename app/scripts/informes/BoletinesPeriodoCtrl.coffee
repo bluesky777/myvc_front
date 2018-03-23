@@ -21,10 +21,13 @@ angular.module("myvcFrontApp")
 
 
 	# Cuadro el ancho que van a tener los gráficos de los boletines
-	if $scope.alumnos[0].asignaturas.length < 10
+
+	if $scope.alumnos[0].asignaturas.length < 14
 		$scope.ancho_chart = 50 * $scope.alumnos[0].asignaturas.length
 	else
-		$scope.ancho_chart = 35 * $scope.alumnos[0].asignaturas.length
+		$scope.ancho_chart = 40 * $scope.alumnos[0].asignaturas.length
+
+	#$scope.ancho_chart = 50 * $scope.alumnos[0].asignaturas.length
 
 	if $scope.ancho_chart > 800
 		$scope.ancho_chart = 800

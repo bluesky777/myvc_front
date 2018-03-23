@@ -10,7 +10,7 @@ angular.module("myvcFrontApp")
 		toastr.warning 'No tienes permiso para editar alumnos'
 		$state.transitionTo 'panel'
 
-	$scope.$parent.bigLoader			= true
+	#$scope.$parent.bigLoader			= true
 	$scope.dato 						= {}
 	$scope.dato.mostrartoolgrupo 		= true
 	$scope.gridScope 					= $scope # Para getExternalScopes de ui-Grid
@@ -45,7 +45,7 @@ angular.module("myvcFrontApp")
 				$scope.dato.grupo = grupo
 				$scope.selectGrupo($scope.dato.grupo)
 
-		$scope.$parent.bigLoader 	= false
+		#$scope.$parent.bigLoader 	= false
 	)
 
 

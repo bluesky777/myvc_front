@@ -20,7 +20,8 @@
             <button ng-click="setTabVertically()" uib-tooltip="Pasar Verticalmente al usar la tecla Tab y Shift+Tab" ng-class="{'active': tab_horiz_or_verti=='vertical'}" style="z-index: 0;" class="btn btn-default"><span style="padding-right: 3px">Verticalmente</span><i class="fa fa-arrows-v"></i></button>
             <button ng-click="setTabHorizontally()" uib-tooltip="Pasar Horizontalmente al usar la tecla Tab y Shift+Tab" ng-class="{'active': tab_horiz_or_verti=='horizontal'}" style="z-index: 0;" class="btn btn-default"><span style="padding-right: 3px">Horizontalmente</span><i class="fa fa-arrows-h"></i></button>
           </div>
-          <button ng-click="toggleAusencias()" uib-tooltip="Editar Ausencias y Tardanzas" class="btn btn-default"><span style="padding-right: 3px">Ausencias</span><i class="fa fa-clock-o"></i></button>
+          <button ng-class="{'active': ocultando_ausencias==false}" ng-click="toggleAusencias()" uib-tooltip="Editar Ausencias y Tardanzas" class="btn btn-default"><span style="padding-right: 3px">Ausencias</span><i class="fa fa-clock-o"></i></button>
+          <button ng-class="{'active': historial_activado==true}" ng-click="toggleHistorial()" uib-tooltip="Ver historial de la nota al darle doble click." class="btn btn-default"><span style="padding-right: 3px">Ver historial</span><i class="fa fa-history"></i></button>
         </div>
       </div>
       <div class="row">

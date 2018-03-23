@@ -12,7 +12,7 @@
 					i.fa.fa-arrow-left
 					| Volver a asignaturas
 
-				a.btn.btn-primary.btn-lg.flipInY.animated(uib-tooltip="¡Copia de una materia a otra!" ui-sref="panel.copiar")
+				a.btn.btn-primary.btn-lg.flipInY.animated(ng-show="inicializado" uib-tooltip="¡Copia todo a otras materias!" ng-click="copiarUnidades()" href="")
 					i.fa.fa-copy
 					| Copiar
 

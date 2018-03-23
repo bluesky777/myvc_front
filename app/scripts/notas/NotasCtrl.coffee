@@ -30,10 +30,11 @@ angular.module('myvcFrontApp')
 
 		$scope.arreglarDatos()
 
+		###
 		$timeout(()->
 			$scope.$parent.bigLoader 	= false
 		, 1000)
-
+		###
 	, (r2)->
 		toastr.error 'No se pudo traer las notas con asignaturas.'
 	)
@@ -62,6 +63,9 @@ angular.module('myvcFrontApp')
 
 		if localStorage.ocultando_ausencias
 			$scope.ocultando_ausencias = (localStorage.ocultando_ausencias == 'true')
+
+		if localStorage.historial_activado
+			$scope.historial_activado = (localStorage.historial_activado == 'true')
 
 
 
@@ -128,7 +132,7 @@ angular.module('myvcFrontApp')
 
 
 	$scope.traerNotasDeAsignatura = (asignatura)->
-		$scope.$parent.bigLoader 	= true
+		#$scope.$parent.bigLoader 	= true
 		$state.go('.', {asignatura_id: asignatura.asignatura_id}, {notify: false});
 
 		NotasServ.detalladas(asignatura.asignatura_id, asignatura.profesor_id, false).then((r)->
@@ -137,11 +141,11 @@ angular.module('myvcFrontApp')
 			$scope.unidades 		= r.unidades
 
 			$scope.arreglarDatos()
-
+			###
 			$timeout(()->
 				$scope.$parent.bigLoader 	= false
 			, 500)
-
+			###
 		)
 
 		for asignat in $scope.asignaturas
@@ -151,6 +155,12 @@ angular.module('myvcFrontApp')
 		$scope.asignatura_id  = asignatura.asignatura_id
 
 
+
+	$scope.toggleHistorial = ()->
+		$scope.historial_activado 			  = !$scope.historial_activado
+		localStorage.historial_activado 	= $scope.historial_activado
+		if $scope.historial_activado
+			toastr.info 'Ahora dale doble click a la nota que quieres ver'
 
 
 
@@ -367,6 +377,7 @@ angular.module('myvcFrontApp')
 			return
 		$http.put('::notas/update/'+nota.id, {nota: nota.nota}).then((r)->
 			toastr.success 'Cambiada: ' + nota.nota
+			nota.updated_at = nota.updated_at
 		, (r2)->
 			toastr.error 'No pudimos guardar la nota ' + nota.nota, '', {timeOut: 8000}
 		)
@@ -407,6 +418,8 @@ angular.module('myvcFrontApp')
 
 
 	$scope.verDetalleNota = (notaObject, alumno)->
+		if !$scope.historial_activado
+			return
 
 		modalInstance = $modal.open({
 			templateUrl: '==notas/notaDetalleModal.tpl.html'
@@ -625,10 +638,10 @@ angular.module('myvcFrontApp')
 
 
 
-.controller('NotaDetalleModalCtrl', ['$scope', '$uibModalInstance', 'alumno', 'nota', '$http', 'toastr', '$filter', ($scope, $modalInstance, alumno, nota, $http, toastr, $filter)->
-	$scope.alumno     = alumno
-	$scope.nota     	= nota
-
+.controller('NotaDetalleModalCtrl', ['$scope', '$uibModalInstance', 'alumno', 'nota', 'AuthService', '$http', 'toastr', '$filter', ($scope, $modalInstance, alumno, nota, AuthService, $http, toastr, $filter)->
+	$scope.alumno         = alumno
+	$scope.nota     	    = nota
+	$scope.hasRoleOrPerm  = AuthService.hasRoleOrPerm
 
 	$http.put('::historiales/nota-detalle', {nota_id: nota.id}).then((r)->
 		$scope.cambios        = r.data.cambios

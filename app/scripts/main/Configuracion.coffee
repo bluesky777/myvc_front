@@ -119,7 +119,7 @@ angular.module('myvcFrontApp')
 
 	#$locationProvider.html5Mode true
 
-	$rootScopeProvider.bigLoader = true
+	#$rootScopeProvider.bigLoader = true
 
 	angular.extend(toastrConfig, {
 		allowHtml: true,

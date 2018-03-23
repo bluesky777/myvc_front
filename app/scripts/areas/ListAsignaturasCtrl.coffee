@@ -1,7 +1,7 @@
 angular.module('myvcFrontApp')
 .controller 'ListAsignaturasCtrl', ['$scope', '$http', 'toastr', '$state', '$cookies', '$rootScope', 'AuthService', 'App', 'resolved_user', '$filter', '$uibModal', ($scope, $http, toastr, $state, $cookies, $rootScope, AuthService, App, resolved_user, $filter, $modal) ->
 
-	$scope.$parent.bigLoader 	= true
+	#$scope.$parent.bigLoader 	= true
 
 	$scope.UNIDAD = $scope.USER.unidad_displayname
 	$scope.GENERO_UNI = $scope.USER.genero_unidad
@@ -29,11 +29,11 @@ angular.module('myvcFrontApp')
 			$scope.grupos                 = r.data.grupos
 			$scope.pedidos                = r.data.pedidos
 			$scope.materias               = r.data.materias
-			$scope.$parent.bigLoader 	= false
+			#$scope.$parent.bigLoader 	= false
 
 		, (r2)->
 			toastr.error 'No se pudo traer las asignaturas'
-			$scope.$parent.bigLoader 	= false
+			#$scope.$parent.bigLoader 	= false
 		)
 
 
@@ -53,10 +53,10 @@ angular.module('myvcFrontApp')
 					pedido.estado = ':: RECHAZADO ::  '
 
 
-			$scope.$parent.bigLoader 		= false
+			#$scope.$parent.bigLoader 		= false
 		, (r2)->
 			toastr.error 'No se pudo traer tus asignaturas'
-			$scope.$parent.bigLoader 	= false
+			#$scope.$parent.bigLoader 	= false
 		)
 
 
@@ -78,7 +78,7 @@ angular.module('myvcFrontApp')
 			toastr.success 'Materia solicitada. Un administrador lo revisará.'
 		, (r2)->
 			toastr.error 'No se pudo solicitar materia'
-			$scope.$parent.bigLoader 	= false
+			#$scope.$parent.bigLoader 	= false
 		)
 
 
@@ -89,7 +89,7 @@ angular.module('myvcFrontApp')
 			toastr.success 'Solicitada eliminada'
 		, (r2)->
 			toastr.error 'No se pudo solicitar materia'
-			$scope.$parent.bigLoader 	= false
+			#$scope.$parent.bigLoader 	= false
 		)
 
 

@@ -166,7 +166,7 @@
 							label Profesor
 							ui-select(ng-model="datos.profesor" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;")
 								ui-select-match(placeholder="Elige un profesor" allow-clear="true")
-									img(ng-src="{{perfilPath + select.selected.foto_nombre}}" style="width:25px; height:25px;")
+									img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;")
 									{{$select.selected.nombres + ' ' + $select.selected.apellidos}}
 								ui-select-choices(repeat="profe in profesores | filter: $select.search")
 									img(ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;")

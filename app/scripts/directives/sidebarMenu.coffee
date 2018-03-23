@@ -64,7 +64,7 @@ angular.module('myvcFrontApp')
 
 
 		$scope.ir_a_informes = ()->
-			$scope.$parent.bigLoader 	= true
+			#$scope.$parent.bigLoader 	= true
 			$state.go 'panel.informes'
 
 
