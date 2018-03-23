@@ -6,18 +6,17 @@
         <div class="row">
           <div class="col-xs-12 col-md-6 col-lg-6">
             <div class="well with-header with-footer">
-              <div class="header bordered-yellow">Origen</div>
+              <div class="header bordered-yellow">Elige de lo que deseas copiar</div>
               <form class="form-horizontal">
                 <div class="row">
                   <div class="col-lg-12">
-                    <div ng-if="hasRoleOrPerm('admin')" class="form-group">
+                    <!--.form-group(ng-if="hasRoleOrPerm('admin')")-->
+                    <div class="form-group">
                       <label class="col-md-3 col-lg-3 control-label to-left">Profesor</label>
                       <div class="col-md-9 col-lg-9">
                         <ui-select ng-model="configuracion.profesor_from" on-select="profesorSelect($item, $model)" theme="select2" style="width: 100%;">
-                          <ui-select-match placeholder="Elija profesor" allow-clear="true">{{$select.selected.nombres + ' ' + $select.selected.apellidos}}</ui-select-match>
-                          <ui-select-choices repeat="profe in (profesores | filter: $select.search) track by profe.id ">
-                            <div ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search"></div>
-                          </ui-select-choices>
+                          <ui-select-match placeholder="Elija profesor" allow-clear="true"><img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;">{{$select.selected.nombres + ' ' + $select.selected.apellidos}}</ui-select-match>
+                          <ui-select-choices repeat="profe in (profesores | filter: $select.search) track by profe.id "><img ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search"></small></ui-select-choices>
                         </ui-select>
                       </div>
                     </div>
@@ -29,7 +28,7 @@
                       <label class="col-md-3 col-lg-3 control-label to-left">Año</label>
                       <div class="col-md-9 col-lg-9">
                         <ui-select ng-model="configuracion.year_from" on-select="yearSelect($item, $model)" theme="select2" style="width: 100%;">
-                          <ui-select-match>{{$select.selected.year}}</ui-select-match>
+                          <ui-select-match placeholder="Elija año">{{$select.selected.year}}</ui-select-match>
                           <ui-select-choices repeat="year in (years_copy| filter: $select.search) track by year.id ">
                             <div ng-bind-html="year.year | highlight: $select.search"></div>
                           </ui-select-choices>
@@ -42,7 +41,7 @@
                       <label class="col-md-3 col-lg-3 control-label">Periodo</label>
                       <div class="col-md-9 col-lg-9">
                         <ui-select ng-model="configuracion.periodo_from" on-select="periodoSelect($item, $model)" theme="select2" style="width: 100%;">
-                          <ui-select-match>Per {{$select.selected.numero}}</ui-select-match>
+                          <ui-select-match placeholder="Elija periodo">Per {{$select.selected.numero}}</ui-select-match>
                           <ui-select-choices repeat="periodo in periodos | filter: $select.search">
                             <div ng-bind-html="'Per ' + periodo.numero | highlight: $select.search"></div>
                           </ui-select-choices>
@@ -76,7 +75,7 @@
                           <li ng-repeat="unidad in unidades.items track by $index" class="list-item">
                             <div class="item-check">
                               <label>
-                                <input type="checkbox" ng-model="unidad.seleccionada" ng-init="unidad.seleccionada=true"><span class="text"></span>
+                                <input type="checkbox" ng-model="unidad.seleccionada"><span class="text"></span>
                               </label>
                             </div>
                             <div style="width: 90%!important; left: 40px;" class="item-sender"><a href="" popover-template="urlTplSubunidades" popover-trigger="mouseenter" popover-title="{{USER.subunidades_displayname}}" class="col-name">{{unidad.definicion}}</a></div>
@@ -112,7 +111,7 @@
           </div>
           <div class="col-xs-12 col-md-6 col-lg-6">
             <div class="well with-header with-footer">
-              <div class="header bordered-yellow">Destino</div>
+              <div class="header bordered-yellow">Elige a donde deseas copiar</div>
               <form class="form-horizontal">
                 <div class="row">
                   <div class="col-lg-12">
@@ -120,10 +119,8 @@
                       <label class="col-md-3 col-lg-3 control-label to-left">Profesor</label>
                       <div class="col-md-9 col-lg-9">
                         <ui-select ng-model="configuracion.profesor_to" on-select="profesorToSelect($item, $model)" theme="select2" style="width: 100%;">
-                          <ui-select-match placeholder="Elija profesor" allow-clear="true">{{$select.selected.nombres + ' ' + $select.selected.apellidos}}</ui-select-match>
-                          <ui-select-choices repeat="profe in (profesores| filter: $select.search) track by profe.id ">
-                            <div ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search"></div>
-                          </ui-select-choices>
+                          <ui-select-match placeholder="Elija profesor" allow-clear="true"><img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="$select.selected.nombres + ' ' + $select.selected.apellidos | highlight: $select.search) "></small></ui-select-match>
+                          <ui-select-choices repeat="profe in (profesores| filter: $select.search) track by profe.id "><img ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search"></small></ui-select-choices>
                         </ui-select>
                       </div>
                     </div>
@@ -148,7 +145,7 @@
                       <label class="col-md-3 col-lg-3 control-label">Periodo</label>
                       <div class="col-md-9 col-lg-9">
                         <ui-select ng-model="configuracion.periodo_to" on-select="periodoToSelect($item, $model)" theme="select2" style="width: 100%;">
-                          <ui-select-match>Per {{$select.selected.numero}}</ui-select-match>
+                          <ui-select-match placeholder="Elija periodo">Per {{$select.selected.numero}}</ui-select-match>
                           <ui-select-choices repeat="periodo in periodos_to | filter: $select.search">
                             <div ng-bind-html="'Per ' + periodo.numero | highlight: $select.search"></div>
                           </ui-select-choices>
@@ -192,7 +189,7 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-12 col-lg-12"><br><br><a ng-click="copiar()" ng-disabled="!activar_btn_copiar" class="btn btn-primary btn-lg shiny"> <i class="fa fa-copy"></i>Copiar <i class="fa fa-arrow-right"></i></a></div>
+                  <div class="col-md-12 col-lg-12"><br><br><a ng-click="copiar()" ng-disabled="!activar_btn_copiar" class="btn btn-primary btn-lg shiny"><i class="fa fa-copy"></i>Copiar<i class="fa fa-arrow-right"></i></a></div>
                 </div>
                 <div class="row">
                   <div class="col-md-12 col-lg-12"><br>

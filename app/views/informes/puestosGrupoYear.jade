@@ -18,7 +18,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 								| {{year.resolucion}}
 							.title-descripcion
 								| Puestos Año {{USER.year}} Grupo {{grupo.nombre_grupo}}
-						.col-lg-2.col-xs-2(style="text-align: right; padding: 15px 0px; margin-left: -10px;")
+						.col-lg-2.col-xs-2(style="text-align: right; padding: 15px 0px; margin-left: -10px; font-size: 9pt")
 							span
 								| {{ fechahora | date : 'dd/MM/yyyy h:mma' }}
 	.row
@@ -27,22 +27,22 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 				thead
 					tr(style="border-bottom: 2px solid;")
 						th No
-						th Nombres 
+						th Nombres
 						th(ng-repeat="asignatura in alumnos[0].notas_asig") {{ asignatura.alias }}
 						th(style="border-left: 2px solid !important;") Total
 				tbody
 					tr(ng-repeat="alumno in alumnos | orderBy:'-promedio_year' | materiasPerdidasYear:filtrar.materias_perdidas:USER.nota_minima_aceptada" )
 						td {{$index + 1}}
 						td(ng-class="{'nota-sobre':alumno.sobre }")
-							.nombresellipsis( uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" 
-								popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" 
-								popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true" 
-								ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}") 
-												
+							.nombresellipsis( uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'"
+								popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}"
+								popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true"
+								ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}")
+
 
 								| {{alumno.nombres + ' ' + alumno.apellidos}}
 
-						td.puntero(ng-repeat="asignatura in alumno.notas_asig" 
+						td.puntero(ng-repeat="asignatura in alumno.notas_asig"
 							ng-class="{'nota-perdida-puestos': ((asignatura.nota_asignatura_year | number:0 )*1) < (USER.nota_minima_aceptada*1), 'nota-sobre':(asignatura.sobre) && (alumno.sobre) }"
 							ng-click="add_alum_materia(asignatura, alumno)" ng-mouseenter="asignatura.sobre=true; alumno.sobre=true" ng-mouseleave="asignatura.sobre=false; alumno.sobre=false")
 
@@ -54,7 +54,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 							span.cant-unidades-perdidas(ng-show="alumno.perdidos_year > 0") ({{ alumno.perdidos_year }})
 				tfoot
 					tr(style="border-top: 2px solid;")
-						td   
+						td
 						td() Total
 						td(ng-repeat="asignatura in alumnos[0].notas_asig") {{ alumnos | promAsigYear:asignatura.asignatura_id | decimales:1 }}
 						td(style="font-weight: bold; border-left: 2px solid !important;") {{ alumnos | promGrupoYear | decimales:1 }}

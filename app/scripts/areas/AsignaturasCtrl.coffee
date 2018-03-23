@@ -161,7 +161,7 @@ angular.module("myvcFrontApp")
 					)
 					return foundP.length > 0;
 			}
-			editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'profesor_id', editDropdownValueLabel: 'nombres', enableCellEditOnFocus: true }
+			editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'profesor_id', editDropdownValueLabel: 'nombre_completo', enableCellEditOnFocus: true }
 
 			{ field: 'creditos', displayName:'Créditos', type: 'number', maxWidth: 50 }
 			{ name: 'nn', displayName: '', width: 10, enableSorting: false, enableFiltering: false, enableColumnMenu: false }
@@ -218,7 +218,7 @@ angular.module("myvcFrontApp")
 			profes = $filter('filter')(profesores, {profesor_id: input}, true)
 
 			if profes.length > 0
-				return profes[0].nombres
+				return profes[0].nombres + ' ' + profes[0].apellidos
 			else
 				return 'Elija...'
 ])

@@ -13,7 +13,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 								| {{year.resolucion}}
 							.title-descripcion
 								|Puestos periodo {{USER.numero_periodo}}-{{USER.year}} Grupo {{grupo.nombre_grupo}}
-						.col-lg-2.col-xs-2(style="text-align: right")
+						.col-lg-2.col-xs-2(style="text-align: right; font-size: 9pt")
 							span
 								| {{ fechahora | date : 'dd/MM/yyyy h:mma' }}
 	.row
@@ -29,21 +29,21 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 					tr(ng-repeat="alumno in alumnos | orderBy:'-promedio' | materiasPerdidas:filtrar.materias_perdidas:USER.nota_minima_aceptada")
 						td {{$index + 1}}
 						td
-							.nombresellipsis( uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" 
-								popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" 
-								popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true" 
-								ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}") 
-												
+							.nombresellipsis( uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'"
+								popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}"
+								popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true"
+								ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}")
+
 								|  {{alumno.nombres + ' ' + alumno.apellidos}}
 
 						td(ng-repeat="asignatura in alumno.asignaturas" ng-class="{'nota-perdida-puestos': ((asignatura.nota_asignatura | number:0 )*1) < (USER.nota_minima_aceptada*1) }")
 
-							span(popover="{{ asignatura.unidades | notasAsignatura:USER.numero_periodo }}" 
+							span(popover="{{ asignatura.unidades | notasAsignatura:USER.numero_periodo }}"
 								popover-trigger="mouseenter" popover-popup-delay="1000" popover-append-to-body="true")
 								| {{asignatura.nota_asignatura | number:0}}
-							
-							span.cant-unidades-perdidas.puntero(popover="{{ asignatura.unidades | notasPerdidasAsignatura:false:USER.numero_periodo }}" 
-								popover-trigger="mouseenter" popover-popup-delay="1000" 
+
+							span.cant-unidades-perdidas.puntero(popover="{{ asignatura.unidades | notasPerdidasAsignatura:false:USER.numero_periodo }}"
+								popover-trigger="mouseenter" popover-popup-delay="1000"
 								ng-show="{{asignatura.unidades | notasPerdidasAsignatura:true}} > 0" popover-append-to-body="true")
 								| ({{asignatura.unidades | notasPerdidasAsignatura:true}})
 
@@ -52,7 +52,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 							span.cant-unidades-perdidas|({{ alumno.asignaturas | notasPerdidasAsignaturaPeriodo:true:USER.numero_periodo}})
 				tfoot
 					tr(style="border-top: 2px solid;")
-						td   
+						td
 						td() Total
 						td(ng-repeat="asignatura in alumnos[0].asignaturas") {{ alumnos | promAsig:asignatura.asignatura_id | decimales:1 }}
 						td(style="font-weight: bold; border-left: 2px solid !important;") {{ alumnos | promGrupoPer | decimales:1 }}

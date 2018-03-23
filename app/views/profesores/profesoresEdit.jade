@@ -1,4 +1,4 @@
-.col-lg-6.col-sm-12.col-xs-12
+.col-lg-12.col-sm-12.col-xs-12
 	.widget
 		.widget-header.bordered-bottom.bordered-blue
 			span.widget-caption Editar profesor
@@ -96,7 +96,7 @@
 													small {{ tipo_doc.abrev}}
 										.form-group.col-lg-4.col-sm-6.col-xs-12
 											label(for="profesor-documento") Número documento
-											input#profesor-documento.form-control(type="text" ng-model="profesor.documento" placeholder="Documento")
+											input#profesor-documento.form-control(type="text" ng-model="profesor.num_doc" placeholder="Documento")
 
 										.form-group.col-lg-4.col-sm-6.col-xs-12
 											label Pais
@@ -121,45 +121,42 @@
 
 						uib-tab(heading="Datos extras")
 							.row
-								.form-group.col-lg-2.col-sm-6.col-xs-12
+								.form-group.col-lg-4.col-sm-6.col-xs-12
 									label(for="profesor-estado-civil") Estado civil
-									ui-select(ng-model="estado_civil" theme="select2" style="min-width: 100px;" append-to-body="true")
+									ui-select(ng-model="estado_civil" theme="select2" style="width: 100%;" append-to-body="true")
 										ui-select-match(placeholder="Estado civil" allow-clear="true") {{$select.selected.estado_civil}}
 										ui-select-choices(repeat="estado in estados_civiles | filter: $select.search")
 											div(ng-bind-html="estado.estado_civil | highlight: $select.search")
 
-							.form-group.col-lg-3.col-sm-6.col-xs-12
-								label(for="profesor-telefono") Teléfono
-								input#profesor-telefono.form-control(type="text" ng-model="profesor.telefono" placeholder="Teléfono")
-							.form-group.col-lg-3.col-sm-6.col-xs-12
-								label(for="profesor-celular") Celular
-								input#profesor-celular.form-control(type="text" ng-model="profesor.celular" placeholder="Celular")
-							.form-group.col-lg-3.col-sm-6.col-xs-12
-								label(for="profesor-barrio") Barrio
-								input#profesor-barrio.form-control(type="text" ng-model="profesor.barrio" placeholder="Barrio")
-							.form-group.col-lg-3.col-sm-6.col-xs-12
-								label(for="profesor-direccion") Direccion
-								input#profesor-direccion.form-control(type="text" ng-model="profesor.direccion" placeholder="Direccion")
+								.form-group.col-lg-4.col-sm-6.col-xs-12
+									label(for="profesor-telefono") Teléfono
+									input#profesor-telefono.form-control(type="text" ng-model="profesor.telefono" placeholder="Teléfono")
+								.form-group.col-lg-4.col-sm-6.col-xs-12
+									label(for="profesor-celular") Celular
+									input#profesor-celular.form-control(type="text" ng-model="profesor.celular" placeholder="Celular")
+								.form-group.col-lg-4.col-sm-6.col-xs-12
+									label(for="profesor-barrio") Barrio
+									input#profesor-barrio.form-control(type="text" ng-model="profesor.barrio" placeholder="Barrio")
+								.form-group.col-lg-4.col-sm-6.col-xs-12
+									label(for="profesor-direccion") Direccion
+									input#profesor-direccion.form-control(type="text" ng-model="profesor.direccion" placeholder="Direccion")
 
 
 						uib-tab(heading="Usuario")
-							.form-group
-								label(for="profesor-username") Nombre de usuario
-								input#profesor-username.form-control(type="text" ng-model="profesor.username" placeholder="Nombre usuario")
-							.form-group
-								label(for="profesor-password") Contraseña
-								input#profesor-password.form-control(type="password" ng-model="profesor.password" placeholder="Contraseña")
-							.form-group
-								label(for="profesor-password2") Verificar contraseña
-								input#profesor-password2.form-control(type="password" ng-model="profesor.password2" placeholder="Verificar contraseña")
-							.form-group
-								label(for="profesor-email") Correo electrónico
-								input#profesor-email.form-control(type="email" ng-model="profesor.email" placeholder="Correo electrónico")
-							.form-group
-								label ¿Es Super usuario?
-								label
-									input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="profesor.superuser")
-									span.text.si-no
+							.row
+								.form-group.col-lg-4.col-sm-6.col-xs-12
+									label(for="profesor-username") Nombre de usuario
+									input#profesor-username.form-control(type="text" ng-model="profesor.username" placeholder="Nombre usuario")
+								.form-group.col-lg-4.col-sm-6.col-xs-12
+									label(for="profesor-password") Contraseña
+									input#profesor-password.form-control(type="password" ng-model="profesor.password" placeholder="Contraseña")
+								.form-group.col-lg-4.col-sm-6.col-xs-12
+									label(for="profesor-password2") Verificar contraseña
+									input#profesor-password2.form-control(type="password" ng-model="profesor.password2" placeholder="Verificar contraseña")
+								.form-group.col-lg-4.col-sm-6.col-xs-12
+									label(for="profesor-email") Correo electrónico
+									input#profesor-email.form-control(type="email" ng-model="profesor.email" placeholder="Correo electrónico")
+
 
 
 					br

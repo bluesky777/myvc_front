@@ -165,9 +165,12 @@
 						.form-group
 							label Profesor
 							ui-select(ng-model="datos.profesor" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;")
-								ui-select-match(placeholder="Elige un profesor" allow-clear="true") {{$select.selected.nombres + ' ' + $select.selected.apellidos}}
+								ui-select-match(placeholder="Elige un profesor" allow-clear="true")
+									img(ng-src="{{perfilPath + select.selected.foto_nombre}}" style="width:25px; height:25px;")
+									{{$select.selected.nombres + ' ' + $select.selected.apellidos}}
 								ui-select-choices(repeat="profe in profesores | filter: $select.search")
-									div(ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
+									img(ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;")
+									small(ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
 
 							a.btn.btn-default(href="" ng-click="verPlanillasProfe()") Ver planillas
 							a.btn.btn-default(href="" ng-click="verNotasPerdidasProfesor()") Notas perdidas

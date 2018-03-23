@@ -1,7 +1,7 @@
 angular.module('myvcFrontApp')
-.controller('CopiarCtrl', ['$scope', '$uibModal', '$http', '$filter', '$rootScope', 'AuthService', 'toastr', 'App', 'YearsServ', 
+.controller('CopiarCtrl', ['$scope', '$uibModal', '$http', '$filter', '$rootScope', 'AuthService', 'toastr', 'App', 'YearsServ',
 	($scope, $modal, $http, $filter, $rootScope, AuthService, toastr, App, YearsServ) ->
-		
+
 		AuthService.verificar_acceso()
 		$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
 
@@ -13,7 +13,7 @@ angular.module('myvcFrontApp')
 
 		$scope.urlTplSubunidades = "==unidades/subunidadespop.tpl.html"
 
-
+		###
 		if $scope.hasRoleOrPerm('admin') == true
 			$scope.profesores = []
 			$scope.conprofes = true # Para indicar que el select de años se llene con la selección de un profe y no años traidos por get
@@ -33,17 +33,34 @@ angular.module('myvcFrontApp')
 			, (r)->
 				toastr.error 'No se pudo traer los años a copiar', r
 			)
+		###
 
+		$scope.profesores = []
+		if $scope.hasRoleOrPerm('admin') == true
+			$scope.conprofes = true # Para indicar que el select de años se llene con la selección de un profe y no años traidos por get
 
+		$http.get('::profesores/conyears').then((r)->
+			$scope.profesores       = r.data
+			for profe in $scope.profesores
+				if profe.id == profe_id
+					$scope.years_copy_to          = profe.years
+					$scope.configuracion.year_to  = profe.years[profe.years.length-1]
+					$scope.yearToSelect(profe.years[profe.years.length-1])
+		,(r)->
+			toastr.error 'No se pudo traer los profes con años', r
+		)
 
 
 		# ORIGEN
 		$scope.profesorSelect = ($item, $model)->
-			$scope.years_copy = $item.years
+			$scope.years_copy               = $item.years
+			$scope.configuracion.year_from  = $scope.years_copy[$scope.years_copy.length-1]
+
 			if $scope.configuracion.periodo_from
 				$scope.configuracion.periodo_from = $scope.configuracion.year_from.periodos[0]
 				$scope.periodoSelect($scope.configuracion.periodo_from)
-
+			else
+				$scope.periodos = $scope.configuracion.year_from.periodos
 
 		$scope.yearSelect = ($item, $model)->
 			$scope.periodos = $item.periodos
@@ -51,10 +68,9 @@ angular.module('myvcFrontApp')
 
 		$scope.periodoSelect = ($item, $model)->
 
-			if $scope.conprofes == true
-				profe_id = $scope.configuracion.profesor_from.id
+			profesor_id = $scope.configuracion.profesor_from.id
 
-			$http.get('::asignaturas/listasignaturasyear/'+profe_id+'/'+$scope.configuracion.periodo_from.id).then((r)->
+			$http.get('::asignaturas/list-asignaturas-year/'+profesor_id+'/'+$scope.configuracion.periodo_from.id).then((r)->
 				$scope.asignaturas = r.data
 
 				if $scope.configuracion.asignatura_from
@@ -70,7 +86,10 @@ angular.module('myvcFrontApp')
 
 		$scope.asignaturaSelect = ($item, $model)->
 			if $item and $item.unidades
+				for unidad in $item.unidades.items
+					unidad.seleccionada = true
 				$scope.unidades = $item.unidades
+				console.log $scope.unidades
 			else
 				$scope.unidades = []
 
@@ -79,6 +98,7 @@ angular.module('myvcFrontApp')
 		# DESTINO
 		$scope.profesorToSelect = ($item, $model)->
 			$scope.years_copy_to = $item.years
+
 			if $scope.configuracion.periodo_to
 				$scope.configuracion.periodo_to = $scope.configuracion.year_to.periodos[0]
 				$scope.periodoToSelect($scope.configuracion.periodo_to)
@@ -93,7 +113,7 @@ angular.module('myvcFrontApp')
 			if $scope.conprofes == true
 				profe_id = $scope.configuracion.profesor_to.id
 
-			$http.get('::asignaturas/listasignaturasyear/'+profe_id+'/'+$scope.configuracion.periodo_to.id).then((r)->
+			$http.get('::asignaturas/list-asignaturas-year/'+profe_id+'/'+$scope.configuracion.periodo_to.id).then((r)->
 				r = r.data
 				$scope.asignaturas_to = r
 
@@ -129,9 +149,9 @@ angular.module('myvcFrontApp')
 
 			angular.forEach unidades_a_copiar, (value, key) ->
 				unidades_ids.push value.id
-			
 
-			datos = 
+
+			datos =
 				copiar_subunidades: 	$scope.configuracion.copiar_subunidades
 				copiar_notas:			$scope.configuracion.copiar_notas
 				asignatura_to_id:		$scope.configuracion.asignatura_to.asignatura_id
@@ -147,7 +167,7 @@ angular.module('myvcFrontApp')
 				r = r.data
 				toastr.success 'Copiado con éxito'
 				$scope.activar_btn_copiar = true
-				$scope.resultado = 'Unidades copiadas: ' + r.unidades_copiadas + 
+				$scope.resultado = 'Unidades copiadas: ' + r.unidades_copiadas +
 									' - Subunidades copiadas: ' + r.subunidades_copiadas +
 									' - Notas copidas: ' + r.notas_copiadas
 

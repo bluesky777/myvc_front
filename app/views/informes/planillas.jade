@@ -27,7 +27,7 @@ div(ng-repeat="asignatura in ::asignaturas")
 					.col-lg-12.col-xs-12.materias(style="padding:0px")
 						.materia-item
 							table.table-bordered.table-bordered2.table-striped.table-striped2
-								tr(style="background-color: #fff !important;")
+								tr(style="background-color: #99caed !important;")
 									th(rowspan="2")
 										| No
 									th.text-center(rowspan="2")
@@ -46,7 +46,7 @@ div(ng-repeat="asignatura in ::asignaturas")
 										div.def-per-planilla(style="font-weight:normal" ng-bind-html="::asignatura.definitiva_per4")
 									th(ng-repeat="unidad in ::unidadesdefault track by $index" colspan="5" style="font-size: 8pt")
 										| {{$index + 1}} {{unidad}}
-								tr(style="height: 25px; background-color: #fff !important;")
+								tr(style="height: 25px; background-color: #99caed !important;")
 									th(ng-repeat="subuni in ::subunidadesdefault track by $index" style="width: 50px")
 										| {{::subuni}}
 
@@ -55,7 +55,7 @@ div(ng-repeat="asignatura in ::asignaturas")
 										td
 											| {{$index + 1}}
 										td
-											.ellipsis200.alumno-planilla(ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative")
+											.ellipsis250.alumno-planilla(ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative")
 												| {{::alumno.apellidos}} {{::alumno.nombres}}
 												span(ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white;")
 													| (Asis)
@@ -113,7 +113,7 @@ div(ng-repeat="asignatura in ::asignaturas")
 					.col-lg-12.col-xs-12.materias(style="padding:0px")
 						.materia-item
 							table.table-bordered.table-bordered2.table-striped.table-striped2
-								tr
+								tr(style="background-color: #99caed !important;")
 									th(rowspan="2")
 										| No
 									th.text-center(rowspan="2")
@@ -132,7 +132,7 @@ div(ng-repeat="asignatura in ::asignaturas")
 										div.def-per-planilla(style="font-weight:normal" ng-bind-html="::asignatura.definitiva_per4")
 									th(ng-repeat="unidad in ::unidadesdefault track by $index" colspan="5" style="font-size: 8pt")
 										| {{$index + 1}} {{unidad}}
-								tr(style="height: 25px; background-color: #fff !important;")
+								tr(style="height: 25px; background-color: #99caed !important;")
 									th(ng-repeat="subuni in ::subunidadesdefault track by $index" style="width: 50px")
 										| {{::subuni}}
 								tbody(style="font-size: 9pt")
@@ -140,9 +140,9 @@ div(ng-repeat="asignatura in ::asignaturas")
 										td
 											| {{$index + 1 + asignatura.alumnos1.length }}
 										td
-											.ellipsis200.alumno-planilla(ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative")
+											.ellipsis250.alumno-planilla(ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative")
 												| {{::alumno.apellidos}} {{::alumno.nombres}}
-												span(ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white;")
+												span(ng-show="alumno.estado=='ASIS'" style="font-size: 7pt; right: 0px; position: absolute; background-color: white;")
 													| (Asis)
 										td
 											.def-per-planilla

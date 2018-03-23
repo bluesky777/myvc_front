@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('ProfesoresEditCtrl', ['$scope', 'toastr', '$http', '$state', ($scope, toastr, $http, $state)->
+.controller('ProfesoresEditCtrl', ['$scope', 'toastr', '$http', '$state', '$filter', ($scope, toastr, $http, $state, $filter)->
 	$scope.data = {} # Para el popup del Datapicker
 
 	$scope.profesor = {}
@@ -25,7 +25,7 @@ angular.module("myvcFrontApp")
 			$scope.profesor.pais_nac = {id: 1, pais: 'COLOMBIA', abrev: 'CO'}
 			$scope.paisNacSelect($scope.profesor.pais_nac, $scope.profesor.pais_nac)
 		else
-			$http.get('::ciudades/datosciudad', $scope.profesor.ciudad_nac).then (r2)->
+			$http.get('::ciudades/datosciudad/' + $scope.profesor.ciudad_nac).then (r2)->
 				$scope.paises = r2.paises
 				$scope.departamentosNac = r2.departamentos
 				$scope.ciudadesNac = r2.ciudades
@@ -37,7 +37,7 @@ angular.module("myvcFrontApp")
 			$scope.profesor.pais_doc = {id: 1, pais: 'COLOMBIA', abrev: 'CO'}
 			$scope.paisDocSelect($scope.profesor.pais_doc, $scope.profesor.pais_doc)
 		else
-			$http.get('::ciudades/datosciudad', $scope.profesor.ciudad_doc).then (r2)->
+			$http.get('::ciudades/datosciudad/' + $scope.profesor.ciudad_doc).then (r2)->
 				r2 = r2.data
 				$scope.paises = r2.paises
 				$scope.departamentos = r2.departamentos
@@ -50,9 +50,11 @@ angular.module("myvcFrontApp")
 			$scope.tipos_doc = r.data
 
 			if $scope.profesor.tipo_doc == null
-				$scope.profesor.tipo_doc = {id: 1, tipo: 'CÉDULA', abrev: 'CC'}
+				$scope.profesor.tipo_doc = $scope.tipos_doc[0]
 			else
-				$scope.profesor.tipo_doc = $filter('filter')($scope.tipos_doc, {id: $scope.profesor.tipo_doc})
+				for tipo_d in $scope.tipos_doc
+					if $scope.profesor.tipo_doc == tipo_d.id
+						$scope.profesor.tipo_doc = tipo_d
 
 
 

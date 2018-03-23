@@ -28,7 +28,7 @@
           <div style="padding:0px" class="col-lg-12 col-xs-12 materias">
             <div class="materia-item">
               <table class="table-bordered table-bordered2 table-striped table-striped2">
-                <tr style="background-color: #fff !important;">
+                <tr style="background-color: #99caed !important;">
                   <th rowspan="2">No</th>
                   <th rowspan="2" class="text-center">Alumnos</th>
                   <th rowspan="2" style="font-size: 8pt" class="text-center">
@@ -49,14 +49,14 @@
                   </th>
                   <th ng-repeat="unidad in ::unidadesdefault track by $index" colspan="5" style="font-size: 8pt">{{$index + 1}} {{unidad}}</th>
                 </tr>
-                <tr style="height: 25px; background-color: #fff !important;">
+                <tr style="height: 25px; background-color: #99caed !important;">
                   <th ng-repeat="subuni in ::subunidadesdefault track by $index" style="width: 50px">{{::subuni}}</th>
                 </tr>
                 <tbody style="font-size: 9pt">
                   <tr ng-repeat="alumno in ::asignatura.alumnos1" class="altura-22">
                     <td>{{$index + 1}}</td>
                     <td>
-                      <div ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative" class="ellipsis200 alumno-planilla">{{::alumno.apellidos}} {{::alumno.nombres}}<span ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white;">(Asis)</span></div>
+                      <div ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative" class="ellipsis250 alumno-planilla">{{::alumno.apellidos}} {{::alumno.nombres}}<span ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white;">(Asis)</span></div>
                     </td>
                     <td>
                       <div class="def-per-planilla">{{ ::alumno.definitivas.nota_final_per1 }}</div>
@@ -117,7 +117,7 @@
           <div style="padding:0px" class="col-lg-12 col-xs-12 materias">
             <div class="materia-item">
               <table class="table-bordered table-bordered2 table-striped table-striped2">
-                <tr>
+                <tr style="background-color: #99caed !important;">
                   <th rowspan="2">No</th>
                   <th rowspan="2" class="text-center">Alumnos</th>
                   <th rowspan="2" style="font-size: 8pt" class="text-center">
@@ -138,14 +138,14 @@
                   </th>
                   <th ng-repeat="unidad in ::unidadesdefault track by $index" colspan="5" style="font-size: 8pt">{{$index + 1}} {{unidad}}</th>
                 </tr>
-                <tr style="height: 25px; background-color: #fff !important;">
+                <tr style="height: 25px; background-color: #99caed !important;">
                   <th ng-repeat="subuni in ::subunidadesdefault track by $index" style="width: 50px">{{::subuni}}</th>
                 </tr>
                 <tbody style="font-size: 9pt">
                   <tr ng-repeat="alumno in ::asignatura.alumnos2" class="altura-22">
                     <td>{{$index + 1 + asignatura.alumnos1.length }}</td>
                     <td>
-                      <div ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative" class="ellipsis200 alumno-planilla">{{::alumno.apellidos}} {{::alumno.nombres}}<span ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white;">(Asis)</span></div>
+                      <div ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative" class="ellipsis250 alumno-planilla">{{::alumno.apellidos}} {{::alumno.nombres}}<span ng-show="alumno.estado=='ASIS'" style="font-size: 7pt; right: 0px; position: absolute; background-color: white;">(Asis)</span></div>
                     </td>
                     <td>
                       <div class="def-per-planilla">{{ ::alumno.definitivas.nota_final_per1 }}</div>

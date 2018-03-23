@@ -1,120 +1,124 @@
 div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }")
 
-  .row
-    .col-lg-12.col-xs-12
-      .row.encabezado-planilla
-        .col-lg-12.col-xs-12
-          .row
-            .col-lg-12
-              .nombre-colegio
-                | SIMAT por grupos - {{USER.year}}
+	.row
+		.col-lg-12.col-xs-12
+			.row.encabezado-planilla
+				.col-lg-12.col-xs-12
+					.row
+						.col-lg-12
+							.nombre-colegio
+								| SIMAT por grupos - {{USER.year}}
 
 
-  .row
-    .col-lg-12.col-xs-12(style="padding: 4px;")
+	.row
+		.col-lg-12.col-xs-12(style="padding: 4px;")
 
-      div(ng-repeat="grupo in grupos_simat track by $index")
-
-
-        div.text-center(style="padding-top: 10px; font-size: 12pt;")
-          span(style="font-weight: 600;") {{ grupo.nombre }}
-
-        table.table-bordered.table-bordered2.table-striped.table-striped2(align="center")
-          thead
-            tr
-              th(style="width: 20px")
-                | No
-              th.text-center
-                | Apellido
-              th.text-center
-                | Nombre
-              th(style="text-align: center; width: 40px;")
-                | td
-              th.text-center
-                | Documento
-              th.text-center
-                | Lugar expedición
-              th.text-center
-                | Estado
-              th.text-center
-                | Fecha Naci
-              th.text-center
-                | Lugar Naci
-              th.text-center
-                | Sexo
-              th.text-center
-                | Dirección
-              th.text-center
-                | Barrio
-              th.text-center
-                | Ciud reside
-              th.text-center
-                | Teléfono
-              th.text-center
-                | EPS
-              th.text-center
-                | RH
-              th.text-center
-                | Estrato
-              th.text-center
-                | Religión
-              th.text-center
-                | Email
+			div(ng-repeat="grupo in grupos_simat track by $index")
 
 
+				div.text-center(style="padding-top: 10px; font-size: 12pt;")
+					span(style="font-weight: 600;") {{ grupo.nombre }}
 
-          tbody(style="font-size: 10pt")
-            tr(ng-repeat="alumno in grupo.alumnos track by $index")
-              td
-                | {{ $index + 1 }}
-              td
-                .nombresellipsis( uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'"
-                  popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}"
-                  popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true"
-                  ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}")
+				table.table-bordered.table-bordered2.table-striped.table-striped2(align="center")
+					thead
+						tr
+							th(style="width: 20px")
+								| No
+							th.text-center
+								| Apellido
+							th.text-center
+								| Nombre
+							th(style="text-align: center; width: 40px;")
+								| td
+							th.text-center
+								| Documento
+							th.text-center
+								| Lugar expedición
+							th.text-center
+								| Estado
+							th.text-center
+								| Fecha Naci
+							th.text-center
+								| Lugar Naci
+							th.text-center
+								| Sexo
+							th.text-center
+								| Dirección
+							th.text-center
+								| Barrio
+							th.text-center
+								| Ciud reside
+							th.text-center
+								| Teléfono
+							th.text-center
+								| Celular
+							th.text-center
+								| EPS
+							th.text-center
+								| RH
+							th.text-center
+								| Estrato
+							th.text-center
+								| Religión
+							th.text-center
+								| Email
 
-                  | {{ alumno.apellidos }}
 
-              td
-                .nombresellipsis( uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'"
-                  popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}"
-                  popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true"
-                  ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}")
 
-                  | {{ alumno.nombres }}
+					tbody(style="font-size: 10pt")
+						tr(ng-repeat="alumno in grupo.alumnos track by $index")
+							td
+								| {{ $index + 1 }}
+							td
+								.nombresellipsis( uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'"
+									popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}"
+									popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true"
+									ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}")
 
-              td
-                | {{ alumno.tipo_doc }}
-              td
-                | {{ alumno.documento }}
-              td
-                | {{ alumno.ciudad_doc_nombre }}
-              td
-                | {{ alumno.estado }}
-              td
-                | {{ alumno.fecha_nac }}
-              td
-                | {{ alumno.ciudad_nac_nombre }}
-              td
-                | {{ alumno.sexo }}
-              td
-                | {{ alumno.direccion }}
-              td
-                | {{ alumno.barrio }}
-              td
-                | {{ alumno.ciudad_resid_nombre }}
-              td
-                | {{ alumno.telefono }}
-              td
-                | {{ alumno.eps }}
-              td
-                | {{ alumno.rh }}
-              td
-                | {{ alumno.estrato }}
-              td
-                | {{ alumno.religion }}
-              td
-                | {{ alumno.email }}
+									| {{ alumno.apellidos }}
+
+							td
+								.nombresellipsis( uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'"
+									popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}"
+									popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true"
+									ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}")
+
+									| {{ alumno.nombres }}
+
+							td
+								| {{ alumno.tipo_doc }}
+							td
+								| {{ alumno.documento }}
+							td
+								| {{ alumno.ciudad_doc_nombre }}
+							td
+								| {{ alumno.estado }}
+							td
+								| {{ alumno.fecha_nac }}
+							td
+								| {{ alumno.ciudad_nac_nombre }}
+							td
+								| {{ alumno.sexo }}
+							td
+								| {{ alumno.direccion }}
+							td
+								| {{ alumno.barrio }}
+							td
+								| {{ alumno.ciudad_resid_nombre }}
+							td
+								| {{ alumno.telefono }}
+							td
+								| {{ alumno.celular }}
+							td
+								| {{ alumno.eps }}
+							td
+								| {{ alumno.rh }}
+							td
+								| {{ alumno.estrato }}
+							td
+								| {{ alumno.religion }}
+							td
+								| {{ alumno.email }}
 
 
 

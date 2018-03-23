@@ -80,8 +80,8 @@
 						span.nota-perdida(ng-show="!asignatura.nf_id && asignatura.nota_asignatura!=0" uib-tooltip="Aún sin nota")
 							i.fa.fa-warning
 
-					.col-lg-1.col-sm-3.col-md-2.col-xs-12(ng-class="{'inputnota-perdida': asignatura.nota_asignatura < USER.nota_minima_aceptada}"
-						ng-if="hasRoleOrPerm(['admin', 'profesor'])")
+					.col-lg-1.col-sm-3.col-md-3.col-xs-12(ng-class="{'inputnota-perdida': asignatura.nota_asignatura < USER.nota_minima_aceptada}"
+						ng-if="hasRoleOrPerm(['admin', 'profesor'])" style="padding-left: 0px;")
 
 						input.input-nota(type="number" min="0" max="{{::escala_maxima.porc_final}}"
 												ng-model="asignatura.nota_asignatura" ng-disabled="::USER.profes_pueden_nivelar==0"
@@ -135,6 +135,6 @@
 		.widget-body
 			.row
 				.col-lg-12.col-xs-12
-					p Lo sentimos, pero el sistema ha sido blequeado por un administrador y no puedes ver tus notas.
+					p Lo sentimos, pero el sistema ha sido bloqueado por un administrador y no puedes ver tus notas.
 
 

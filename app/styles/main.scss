@@ -13227,8 +13227,8 @@ div[data-role="editor-toolbar"] {
 		background-color: #fbfbfb;
 }
 .profile-container .profile-header .header-avatar {
-		width: 125px;
-		height: 125px;
+		width: 225px;
+		height: 225px;
 		-webkit-border-radius: 50%;
 		-webkit-background-clip: padding-box;
 		-moz-border-radius: 50%;
@@ -15716,7 +15716,7 @@ body {
 				-webkit-print-color-adjust: exact;
 		}
 		.table-striped2 > tbody > tr:nth-of-type(odd) {
-				background-color: #b5deff!important;
+				background-color: #d4e9f8!important;
 		}
 		.table td, .table th {
 				background-color: inherit !important;
@@ -16035,7 +16035,7 @@ body {
 }
 
 .table-striped2 > tbody > tr:nth-of-type(odd) {
-		background-color: #b5deff!important;
+		background-color: #d4e9f8!important;
 }
 .table td, .table th {
 		background-color: inherit !important;
@@ -16858,5 +16858,8 @@ tr { page-break-inside: avoid }
   }
   .si-margin-left15-xs{
     margin-left: 15px !important;
+  }
+  .si-margin-top25-xs{
+    margin-top: 25px;
   }
 }

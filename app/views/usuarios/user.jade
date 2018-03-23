@@ -4,6 +4,7 @@
 			.profile-header.row
 				.col-lg-2.col-md-4.col-sm-12.text-center
 					img.header-avatar(ng-src='{{ imagenPrincipal }}', alt='Imagen de usuario')
+					img.header-avatar(ng-src='{{ perfilPath + perfilactual.foto_nombre }}', alt='Foto oficial')
 				.col-lg-5.col-md-8.col-sm-12.profile-info
 					.header-fullname {{nameToShow()}}
 					a.btn.btn-palegreen.btn-sm.btn-follow(href='' ng-if="false")
@@ -29,7 +30,7 @@
 							| {{perfilactual.ciudad_nac_nombre}}
 						.col-lg-8.col-md-8.col-sm-8.col-xs-8.inlinestats-col
 							| Email:
-							strong {{perfilactual.email}}
+							strong   {{perfilactual.email_restore}}
 			.profile-body
 				.col-lg-12
 					.tabbable

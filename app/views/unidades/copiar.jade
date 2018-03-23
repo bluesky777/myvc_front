@@ -5,24 +5,28 @@
 				.row
 					.col-xs-12.col-md-6.col-lg-6
 						.well.with-header.with-footer
-							.header.bordered-yellow Origen
+							.header.bordered-yellow Elige de lo que deseas copiar
 							form.form-horizontal
 								.row
 									.col-lg-12
-										.form-group(ng-if="hasRoleOrPerm('admin')")
+										//.form-group(ng-if="hasRoleOrPerm('admin')")
+										.form-group
 											label.col-md-3.col-lg-3.control-label.to-left Profesor
 											.col-md-9.col-lg-9
 												ui-select(ng-model="configuracion.profesor_from" on-select="profesorSelect($item, $model)" theme="select2" style="width: 100%;")
-													ui-select-match(placeholder="Elija profesor" allow-clear="true") {{$select.selected.nombres + ' ' + $select.selected.apellidos}}
+													ui-select-match(placeholder="Elija profesor" allow-clear="true")
+														img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;")
+														| {{$select.selected.nombres + ' ' + $select.selected.apellidos}}
 													ui-select-choices(repeat="profe in (profesores | filter: $select.search) track by profe.id ")
-														div(ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
+														img(ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;")
+														small(ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
 								.row
 									.col-md-6.col-lg-6
 										.form-group
 											label.col-md-3.col-lg-3.control-label.to-left Año
 											.col-md-9.col-lg-9
 												ui-select(ng-model="configuracion.year_from" on-select="yearSelect($item, $model)" theme="select2" style="width: 100%;")
-													ui-select-match() {{$select.selected.year}}
+													ui-select-match(placeholder="Elija año") {{$select.selected.year}}
 													ui-select-choices(repeat="year in (years_copy| filter: $select.search) track by year.id ")
 														div(ng-bind-html="year.year | highlight: $select.search")
 									.col-md-6.col-lg-6
@@ -30,7 +34,7 @@
 											label.col-md-3.col-lg-3.control-label Periodo
 											.col-md-9.col-lg-9
 												ui-select(ng-model="configuracion.periodo_from" on-select="periodoSelect($item, $model)" theme="select2" style="width: 100%;")
-													ui-select-match() Per {{$select.selected.numero}}
+													ui-select-match(placeholder="Elija periodo") Per {{$select.selected.numero}}
 													ui-select-choices(repeat="periodo in periodos | filter: $select.search")
 														div(ng-bind-html="'Per ' + periodo.numero | highlight: $select.search")
 
@@ -54,16 +58,16 @@
 													li.list-item(ng-repeat="unidad in unidades.items track by $index")
 														.item-check
 															label
-																input(type="checkbox" ng-model="unidad.seleccionada" ng-init="unidad.seleccionada=true")
+																input(type="checkbox" ng-model="unidad.seleccionada" )
 																span.text
 														.item-sender(style="width: 90%!important; left: 40px;")
 															a.col-name(href="" popover-template="urlTplSubunidades" popover-trigger="mouseenter" popover-title="{{USER.subunidades_displayname}}") {{unidad.definicion}}
 
-								
+
 								.row(ng-show="!unidades.items.length")
 									.col-md-12.col-lg-12
 										h5 No hay {{USER.unidades_displayname}} para copiar.
-								
+
 
 
 								.row(ng-show="unidades.items.length")
@@ -83,7 +87,7 @@
 
 					.col-xs-12.col-md-6.col-lg-6
 						.well.with-header.with-footer
-							.header.bordered-yellow Destino
+							.header.bordered-yellow Elige a donde deseas copiar
 							form.form-horizontal
 								.row
 									.col-lg-12
@@ -91,9 +95,12 @@
 											label.col-md-3.col-lg-3.control-label.to-left Profesor
 											.col-md-9.col-lg-9
 												ui-select(ng-model="configuracion.profesor_to" on-select="profesorToSelect($item, $model)" theme="select2" style="width: 100%;")
-													ui-select-match(placeholder="Elija profesor" allow-clear="true") {{$select.selected.nombres + ' ' + $select.selected.apellidos}}
+													ui-select-match(placeholder="Elija profesor" allow-clear="true")
+														img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;")
+														small(ng-bind-html="$select.selected.nombres + ' ' + $select.selected.apellidos | highlight: $select.search) ")
 													ui-select-choices(repeat="profe in (profesores| filter: $select.search) track by profe.id ")
-														div(ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
+														img(ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;")
+														small(ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
 								.row
 									.col-md-6.col-lg-6
 										.form-group
@@ -108,7 +115,7 @@
 											label.col-md-3.col-lg-3.control-label Periodo
 											.col-md-9.col-lg-9
 												ui-select(ng-model="configuracion.periodo_to" on-select="periodoToSelect($item, $model)" theme="select2" style="width: 100%;")
-													ui-select-match() Per {{$select.selected.numero}}
+													ui-select-match(placeholder="Elija periodo") Per {{$select.selected.numero}}
 													ui-select-choices(repeat="periodo in periodos_to | filter: $select.search")
 														div(ng-bind-html="'Per ' + periodo.numero | highlight: $select.search")
 
@@ -132,19 +139,19 @@
 														.item-sender(style="width: 100%!important; left: 10px;")
 															a.col-name(href="" popover-template="urlTplSubunidades" popover-trigger="mouseenter" popover-title="Subunidades") {{unidad.definicion}}
 
-								
+
 								.row(ng-show="!unidades_to.items.length")
 									.col-md-12.col-lg-12
 										h5 Aún no existen {{USER.unidades_displayname}}.
-								
-								
+
+
 								.row
 									.col-md-12.col-lg-12
 										br
 										br
-										a.btn.btn-primary.btn-lg.shiny(ng-click="copiar()" ng-disabled="!activar_btn_copiar") 
+										a.btn.btn-primary.btn-lg.shiny(ng-click="copiar()" ng-disabled="!activar_btn_copiar")
 											i.fa.fa-copy
-											| Copiar 
+											| Copiar
 											i.fa.fa-arrow-right
 
 								.row

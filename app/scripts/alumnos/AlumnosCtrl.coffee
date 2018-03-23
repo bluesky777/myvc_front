@@ -380,6 +380,7 @@ angular.module("myvcFrontApp")
 			{ field: 'barrio', minWidth: 80 }
 			{ field: 'ciudad_resid', displayName: 'Ciud Resid', minWidth: 120, cellTemplate: btCiudadResid, enableCellEdit: false }
 			{ field: 'telefono', displayName: 'Teléfono', minWidth: 80 }
+			{ field: 'celular', displayName: 'Celular', minWidth: 80 }
 			{ field: 'eps', displayName: 'EPS', minWidth: 100, editableCellTemplate: btEditEPS }
 		],
 		multiSelect: false,
