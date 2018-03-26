@@ -27,25 +27,56 @@
           </div>
         </div>
       </div>
+      <!--.row.body-boletin
+      .col-lg-12.col-xs-12.no-padding
+      	.materia-item
+      		table.table-bordered.table-bordered2.table-striped.table-striped2(style="margin: 0 auto; width: 100%")
+      			tr(style="background-color: #99caed !important;")
+      				td.text-center No
+      				td.text-center Asignatura / Área
+      				td.text-center P1
+      				td.text-center P2
+      				td.text-center P3
+      				td.text-center P4
+      				td.text-center Desempeño
+      
+      			tr(ng-repeat="asignatura in ::alumno.asignaturas | orderBy:'orden_area' track by $index")
+      				td {{ $index + 1 }}
+      				td {{ ::asignatura.materia }}
+      				td.text-center {{ ::asignatura.nota_final_per1 }}
+      				td.text-center {{ ::asignatura.nota_final_per2 }}
+      				td.text-center {{ ::asignatura.nota_final_per3 }}
+      				td.text-center {{ ::asignatura.nota_final_per4 }}
+      				td.text-center {{ ::asignatura.desempenio }}
+      
+      -->
       <div class="row body-boletin">
         <div class="col-lg-12 col-xs-12 no-padding">
           <div class="materia-item">
-            <table style="margin: 0 auto;" class="table-bordered table-bordered2 table-striped table-striped2">
+            <table style="margin: 0 auto; width: 100%" class="table-bordered table-bordered2 table-striped table-striped2">
               <tr style="background-color: #99caed !important;">
-                <td>No</td>
-                <td>Asignatura / Área</td>
-                <td>P1</td>
-                <td>P2</td>
-                <td>P3</td>
-                <td>P4</td>
+                <td class="text-center"><b>No</b></td>
+                <td class="text-center"><b>Asignatura / Área</b></td>
+                <td class="text-center"><b>IH</b></td>
+                <td class="text-center"><b>P1</b></td>
+                <td class="text-center"><b>P2</b></td>
+                <td class="text-center"><b>P3</b></td>
+                <td class="text-center"><b>P4</b></td>
+                <td class="text-center"><b>Desempeño</b></td>
               </tr>
-              <tr ng-repeat="asignatura in ::alumno.asignaturas">
-                <td>{{ $index + 1 }}</td>
-                <td>{{ asignatura.materia }}</td>
-                <td>{{ asignatura.nota_final_per1 }}</td>
-                <td>{{ asignatura.nota_final_per2 }}</td>
-                <td>{{ asignatura.nota_final_per3 }}</td>
-                <td>{{ asignatura.nota_final_per4 }}</td>
+              <tr ng-if="::area.asignaturas.length&gt;1" ng-repeat-start="area in ::alumno.areas | orderBy:'orden' track by $index">
+                <td></td>
+                <td colspan="7"><b>{{ ::area.area_nombre }}</b></td>
+              </tr>
+              <tr ng-repeat-end ng-repeat="asignatura in ::area.asignaturas">
+                <td>{{ asignatura.indice }}</td>
+                <td><span style="padding-left: 20px; " ng-if="::area.asignaturas.length&gt;1"></span>{{ ::asignatura.materia }}</td>
+                <td class="text-center">{{ ::asignatura.creditos }}</td>
+                <td class="text-center">{{ ::asignatura.nota_final_per1 }}</td>
+                <td class="text-center">{{ ::asignatura.nota_final_per2 }}</td>
+                <td class="text-center">{{ ::asignatura.nota_final_per3 }}</td>
+                <td class="text-center">{{ ::asignatura.nota_final_per4 }}</td>
+                <td class="text-center">{{ ::asignatura.desempenio }}</td>
               </tr>
             </table>
           </div>
@@ -189,8 +220,8 @@
       <div class="row footer-boletin">
         <div class="col-lg-12 col-xs-12">
           <div class="row">
-            <div class="col-lg-6 col-xs-6 rector-firma"><img ng-show="config.show_firma_rector" ng-src="{{::perfilPath}}{{::year.rector_firma}}"></div>
-            <div class="col-lg-6 col-xs-6 titular-firma"><img ng-show="config.show_firma_titular" ng-src="{{::perfilPath}}{{::grupo.firma_titular_nombre}}"></div>
+            <div class="col-lg-6 col-xs-6 rector-firma"><img ng-show="config.show_firma_rector &amp;&amp; year.rector_firma_id" ng-src="{{::perfilPath}}{{::year.rector_firma}}"></div>
+            <div class="col-lg-6 col-xs-6 titular-firma"><img ng-show="config.show_firma_titular &amp;&amp; grupo.firma_id" ng-src="{{::perfilPath}}{{::grupo.firma_titular_nombre}}"></div>
           </div>
           <div class="row">
             <div class="col-lg-6 col-xs-6 nombre-rector-firma">{{::year.nombres_rector}} {{::year.apellidos_rector}}</div>

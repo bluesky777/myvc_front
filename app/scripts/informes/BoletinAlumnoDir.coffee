@@ -184,7 +184,7 @@ angular.module('myvcFrontApp')
 		valores = []
 		for asignatura in scope.alumno.asignaturas
 			#asignatura.nota_asignatura          = $filter('number')(asignatura.nota_asignatura, 0)
-			valores.push { label: asignatura.alias_materia, value: asignatura.nota_asignatura }
+			valores.push { label: asignatura.alias_materia, value: asignatura['nota_final_per'+scope.config.periodo_a_calcular] }
 
 
 		scope.data = [{

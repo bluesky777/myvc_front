@@ -24,7 +24,7 @@
           <tr style="border-bottom: 2px solid;">
             <th>No</th>
             <th>Nombres</th>
-            <th ng-repeat="asignatura in alumnos[0].asignaturas">{{asignatura.alias_materia}}</th>
+            <th ng-repeat="asignatura in alumnos[0].asignaturas | orderBy:'orden' ">{{asignatura.alias_materia}}</th>
             <th style="border-left: 2px solid !important;">Total</th>
           </tr>
         </thead>

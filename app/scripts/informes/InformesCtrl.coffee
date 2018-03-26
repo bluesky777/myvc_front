@@ -8,6 +8,7 @@ angular.module('myvcFrontApp')
 	$scope.config 	= {
 		periodos_a_calcular: 1  # de_usuario, de_colegio, todos
 		mostrar_foto: true
+		show_firma_rector: true
 		periodo_a_calcular: $scope.USER.numero_periodo
 	}
 	$scope.filtered_alumnos = alumnos

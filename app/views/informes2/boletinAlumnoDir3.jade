@@ -34,25 +34,67 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 							h5.nombre-alumno {{::alumno.nombres}} {{::alumno.apellidos}}
 							.promedio-alumno Puntaje: {{::alumno.promedio | number:0 }}%
 								span(ng-show="::alumno.estado!='RETI'")  {{ ::alumno.texto_puesto }}
+			//.row.body-boletin
+				.col-lg-12.col-xs-12.no-padding
+					.materia-item
+						table.table-bordered.table-bordered2.table-striped.table-striped2(style="margin: 0 auto; width: 100%")
+							tr(style="background-color: #99caed !important;")
+								td.text-center No
+								td.text-center Asignatura / Área
+								td.text-center P1
+								td.text-center P2
+								td.text-center P3
+								td.text-center P4
+								td.text-center Desempeño
+
+							tr(ng-repeat="asignatura in ::alumno.asignaturas | orderBy:'orden_area' track by $index")
+								td {{ $index + 1 }}
+								td {{ ::asignatura.materia }}
+								td.text-center {{ ::asignatura.nota_final_per1 }}
+								td.text-center {{ ::asignatura.nota_final_per2 }}
+								td.text-center {{ ::asignatura.nota_final_per3 }}
+								td.text-center {{ ::asignatura.nota_final_per4 }}
+								td.text-center {{ ::asignatura.desempenio }}
+
 			.row.body-boletin
 				.col-lg-12.col-xs-12.no-padding
 					.materia-item
-						table.table-bordered.table-bordered2.table-striped.table-striped2(style="margin: 0 auto;")
+						table.table-bordered.table-bordered2.table-striped.table-striped2(style="margin: 0 auto; width: 100%")
 							tr(style="background-color: #99caed !important;")
-								td No
-								td Asignatura / Área
-								td P1
-								td P2
-								td P3
-								td P4
+								td.text-center
+									b No
+								td.text-center
+									b Asignatura / Área
+								td.text-center
+									b IH
+								td.text-center
+									b P1
+								td.text-center
+									b P2
+								td.text-center
+									b P3
+								td.text-center
+									b P4
+								td.text-center
+									b Desempeño
 
-							tr(ng-repeat="asignatura in ::alumno.asignaturas")
-								td {{ $index + 1 }}
-								td {{ asignatura.materia }}
-								td {{ asignatura.nota_final_per1 }}
-								td {{ asignatura.nota_final_per2 }}
-								td {{ asignatura.nota_final_per3 }}
-								td {{ asignatura.nota_final_per4 }}
+							tr(ng-if="::area.asignaturas.length>1" ng-repeat-start="area in ::alumno.areas | orderBy:'orden' track by $index")
+								td
+								td(colspan="7")
+									b {{ ::area.area_nombre }}
+
+
+							tr(ng-repeat-end ng-repeat="asignatura in ::area.asignaturas")
+								td {{ asignatura.indice }}
+								td
+									span(style="padding-left: 20px; " ng-if="::area.asignaturas.length>1")
+									| {{ ::asignatura.materia }}
+								td.text-center {{ ::asignatura.creditos }}
+								td.text-center {{ ::asignatura.nota_final_per1 }}
+								td.text-center {{ ::asignatura.nota_final_per2 }}
+								td.text-center {{ ::asignatura.nota_final_per3 }}
+								td.text-center {{ ::asignatura.nota_final_per4 }}
+								td.text-center {{ ::asignatura.desempenio }}
 
 
 
@@ -198,9 +240,9 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 				.col-lg-12.col-xs-12
 					.row
 						.col-lg-6.col-xs-6.rector-firma
-							img(ng-show="config.show_firma_rector" ng-src="{{::perfilPath}}{{::year.rector_firma}}")
+							img(ng-show="config.show_firma_rector && year.rector_firma_id" ng-src="{{::perfilPath}}{{::year.rector_firma}}")
 						.col-lg-6.col-xs-6.titular-firma
-							img(ng-show="config.show_firma_titular" ng-src="{{::perfilPath}}{{::grupo.firma_titular_nombre}}")
+							img(ng-show="config.show_firma_titular && grupo.firma_id" ng-src="{{::perfilPath}}{{::grupo.firma_titular_nombre}}")
 					.row
 						.col-lg-6.col-xs-6.nombre-rector-firma
 							| {{::year.nombres_rector}} {{::year.apellidos_rector}}

@@ -6,7 +6,7 @@ angular.module('myvcFrontApp')
 		$state
 			.state 'panel.filemanager',
 				url: '/filemanager'
-				views: 
+				views:
 					'maincontent':
 						templateUrl: "==fileManager/fileManager.tpl.html"
 						controller: 'FileManagerCtrl'
@@ -17,9 +17,10 @@ angular.module('myvcFrontApp')
 							titulo: [->
 								'Administrador de archivos'
 							]
-				data: 
+				data:
 					displayName: 'Administrador de archivos'
 					icon_fa: 'fa fa-cube'
+					pageTitle: 'Imágenes - MyVc'
 
 
 

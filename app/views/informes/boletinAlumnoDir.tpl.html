@@ -209,8 +209,8 @@
       <div class="row footer-boletin">
         <div class="col-lg-12 col-xs-12">
           <div class="row">
-            <div class="col-lg-6 col-xs-6 rector-firma"><img ng-show="config.show_firma_rector" ng-src="{{::perfilPath}}{{::year.rector_firma}}"></div>
-            <div class="col-lg-6 col-xs-6 titular-firma"><img ng-show="config.show_firma_titular" ng-src="{{::perfilPath}}{{::grupo.firma_titular_nombre}}"></div>
+            <div class="col-lg-6 col-xs-6 rector-firma"><img ng-show="config.show_firma_rector &amp;&amp; year.rector_firma_id" ng-src="{{::perfilPath}}{{::year.rector_firma}}"></div>
+            <div class="col-lg-6 col-xs-6 titular-firma"><img ng-show="config.show_firma_titular &amp;&amp; grupo.firma_id" ng-src="{{::perfilPath}}{{::grupo.firma_titular_nombre}}"></div>
           </div>
           <div class="row">
             <div class="col-lg-6 col-xs-6 nombre-rector-firma">{{::year.nombres_rector}} {{::year.apellidos_rector}}</div>

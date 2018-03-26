@@ -23,7 +23,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 					tr(style="border-bottom: 2px solid;")
 						th No
 						th Nombres
-						th(ng-repeat="asignatura in alumnos[0].asignaturas") {{asignatura.alias_materia}}
+						th(ng-repeat="asignatura in alumnos[0].asignaturas | orderBy:'orden' ") {{asignatura.alias_materia}}
 						th(style="border-left: 2px solid !important;") Total
 				tbody
 					tr(ng-repeat="alumno in alumnos | orderBy:'-promedio' | materiasPerdidas:filtrar.materias_perdidas:USER.nota_minima_aceptada")

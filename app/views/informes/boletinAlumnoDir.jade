@@ -233,9 +233,9 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 				.col-lg-12.col-xs-12
 					.row
 						.col-lg-6.col-xs-6.rector-firma
-							img(ng-show="config.show_firma_rector" ng-src="{{::perfilPath}}{{::year.rector_firma}}")
+							img(ng-show="config.show_firma_rector && year.rector_firma_id" ng-src="{{::perfilPath}}{{::year.rector_firma}}")
 						.col-lg-6.col-xs-6.titular-firma
-							img(ng-show="config.show_firma_titular" ng-src="{{::perfilPath}}{{::grupo.firma_titular_nombre}}")
+							img(ng-show="config.show_firma_titular && grupo.firma_id" ng-src="{{::perfilPath}}{{::grupo.firma_titular_nombre}}")
 					.row
 						.col-lg-6.col-xs-6.nombre-rector-firma
 							| {{::year.nombres_rector}} {{::year.apellidos_rector}}

@@ -157,7 +157,7 @@
 											ng-change="cambiaNota(nota, nota.nota)"
 											ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
 											ng-click="verifClickNotaRapida(nota)" ng-dblclick="verDetalleNota(nota, alumno)"
-											ng-focus="onInputFocus($event)" ng-disabled="::USER.profes_pueden_editar_notas==0 && nota.eliminada")
+											ng-focus="onInputFocus($event)" ng-disabled="::USER.profes_pueden_editar_notas==0 || nota.eliminada")
 
 								td.text-center
 									div(ng-bind-html="promedioTotal(alumno)" ng-class="{'nota-perdida': alumno.total_definit < nota_minima_aceptada, 'nota-superior': alumno.total_definit >= escala_maxima.porc_inicial }")

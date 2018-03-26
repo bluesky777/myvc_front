@@ -230,7 +230,7 @@ angular.module("myvcFrontApp")
 
 			toastr.info 'Ahora la imagen es privada'
 
-			if imagen.user_id == $scope.USER.id
+			if imagen.user_id == $scope.USER.user_id
 				$scope.imagenes_privadas.push imagen
 
 			$scope.imagenes_publicas = $filter('filter')($scope.imagenes_publicas, {id: '!'+imagen.id})
