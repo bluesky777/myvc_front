@@ -1,7 +1,7 @@
 
-<div class="col-lg-12 col-sm-12 col-xs-12">
+<div class="col-lg-12 col-sm-12 col-xs-12 margin-padding-lados-xs">
   <div ng-repeat="year in years" class="row">
-    <div class="col-lg-12 col-sm-12 col-xs-12">
+    <div class="col-lg-12 col-sm-12 col-xs-12 margin-padding-lados-xs">
       <div ng-class="{'maximized':maxi, 'collapsed':year.ocultando}" style="/*min-height: 600px*/" class="widget">
         <div ng-class="{'bg-blue':year.actual, 'bg-gold':!year.actual}" class="widget-header"><i class="widget-icon fa fa-institution"></i><span class="widget-caption">Año {{year.year}}</span>
           <div class="widget-buttons"><a href="" data-toggle="config" ng-if="false"><i class="fa fa-cog"></i></a><a href="" ng-click="maxi=!maxi" data-toggle="maximize"><i class="fa fa-expand"></i></a><a href="" data-toggle="collapse" ng-click="year.ocultando = !year.ocultando"><i class="fa fa-minus"></i></a><a href="" data-toggle="dispose" ng-if="false"><i class="fa fa-times"></i></a></div>
@@ -287,7 +287,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-lg-12 col-sm-12 col-xs-12">
+    <div class="col-lg-12 col-sm-12 col-xs-12 margin-padding-lados-xs">
       <div ng-class="{'collapsed':!nonuevo}" class="widget">
         <div ng-click="nonuevo = !nonuevo" class="widget-header bg-success"><i class="widget-icon fa fa-plus"></i><span class="widget-caption">Crear nuevo año</span>
           <div class="widget-buttons"><a href="" data-toggle="dispose" ng-if="false"><i class="fa fa-times"></i></a></div>

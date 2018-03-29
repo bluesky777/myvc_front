@@ -1,6 +1,16 @@
 
+<div ng-if="hasRoleOrPerm(['alumno'])" class="row">
+  <div class="col-xs-12 col-md-12 margin-padding-lados-xs">
+    <div class="widget">
+      <div class="widget-header bordered-bottom bordered-themesecondary"><i class="widget-icon fa fa-tags themesecondary"></i><span uib-tooltip="Hay alumnos que piden algunos cambios. Tú podrías aceptar o rechazar esas peticiones." class="widget-caption themesecondary">Pedidos que esperan tu aprobación</span></div>
+      <div class="widget-body">
+        <div class="widget-main no-padding">Veremos tu disciplina</div>
+      </div>
+    </div>
+  </div>
+</div>
 <div ng-if="hasRoleOrPerm(['admin', 'profesor'])" class="row">
-  <div class="col-xs-12 col-md-12">
+  <div class="col-xs-12 col-md-12 margin-padding-lados-xs">
     <div class="widget">
       <div class="widget-header bordered-bottom bordered-themesecondary"><i class="widget-icon fa fa-tags themesecondary"></i><span uib-tooltip="Hay alumnos que piden algunos cambios. Tú podrías aceptar o rechazar esas peticiones." class="widget-caption themesecondary">Pedidos que esperan tu aprobación</span></div>
       <div class="widget-body">

@@ -129,14 +129,14 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 
 					.row.resumen-head
 						.col-lg-12.col-xs-12.resumen-title
-							span Notas pendientes del año {{::year.year}}
+							span Notas pendientes del año {{::USER.year}}
 					.row.resumen-body
 						.col-lg-10.col-xs-10.resumen-tabla
 							table.table-bordered
 								thead
 									tr
 										td No
-										td Asignaturas
+										td.text-center Asignaturas
 										td(uib-tooltip="Nota definitiva del año" tooltip-append-to-body="true") Def
 										td(ng-repeat="periodo in ::year.periodos track by $index")
 											| Per{{::periodo.numero}}
@@ -146,8 +146,8 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 										td {{$index + 1}}
 										td
 											div.nombresellipsis(style="width: 140px;") {{::asignatura_perdida.materia | capitalize}}
-										td {{ ::asignatura_perdida.detalle_periodos.definitiva_year | number:0 }}
-										td(ng-repeat="periodo in ::year.periodos track by $index")
+										td.text-center {{ ::asignatura_perdida.detalle_periodos.definitiva_year | number:0 }}
+										td.text-center(ng-repeat="periodo in ::year.periodos track by $index")
 											div {{ ::asignatura_perdida.detalle_periodos['cant_perdidas_' + ($index+1) ] }}
 
 										td
@@ -157,9 +157,9 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 										td(colspan="2")
 											| Total
 										td
-										td(ng-repeat="periodo in ::year.periodos track by $index")
+										td.text-center(ng-repeat="periodo in ::year.periodos track by $index")
 											| {{::alumno['notas_perdidas_per' + ($index+1) ]}}
-										td
+										td.text-center
 											b {{::alumno.notas_perdidas_year}}
 
 
@@ -168,14 +168,14 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 
 					.row.resumen-head
 						.col-lg-12.col-xs-12.resumen-title
-							span Notas pendientes del año {{::year.year - 1}}
+							span Notas pendientes del año {{::USER.year - 1}}
 					.row.resumen-body
 						.col-lg-10.col-xs-10.resumen-tabla
 							table.table-bordered
 								thead
 									tr
 										td No
-										td Asignaturas
+										td.text-center Asignaturas
 										td(uib-tooltip="Definitiva del año pasado" tooltip-append-to-body="true") Def
 										td Per1
 										td Per2
@@ -187,33 +187,33 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 										td {{$index + 1}}
 										td
 											div.nombresellipsis(style="width: 140px;") {{::asignatura_perdida.materia | capitalize}}
-										td
+										td.text-center
 											div {{ ::asignatura_perdida.detalle_periodos.definitiva_year | number:0 }}
-										td
+										td.text-center
 											div {{ ::asignatura_perdida.detalle_periodos.cant_perdidas_1 }}
-										td
+										td.text-center
 											div {{ ::asignatura_perdida.detalle_periodos.cant_perdidas_2 }}
-										td
+										td.text-center
 											div {{ ::asignatura_perdida.detalle_periodos.cant_perdidas_3 }}
-										td
+										td.text-center
 											div {{ ::asignatura_perdida.detalle_periodos.cant_perdidas_4 }}
 
-										td
+										td.text-center
 											b {{::asignatura_perdida.detalle_periodos.cant_perdidas_year}}
 								tfoot
 									tr
 										td(colspan="2")
 											| Total
 										td
-										td
+										td.text-center
 											| {{::alumno.yp_notas_perdidas_per1 }}
-										td
+										td.text-center
 											| {{::alumno.yp_notas_perdidas_per2 }}
-										td
+										td.text-center
 											| {{::alumno.yp_notas_perdidas_per3 }}
-										td
+										td.text-center
 											| {{::alumno.yp_notas_perdidas_per4 }}
-										td
+										td.text-center
 											b {{::alumno.yp_notas_perdidas_year}}
 
 

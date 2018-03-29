@@ -23,9 +23,22 @@
 
 			hr.wide
 
+			.alert.alert-info.fade.in.radius-bordered(ng-show="::USER.profes_pueden_editar_notas==0 && USER.profes_pueden_nivelar==0 && !hasRoleOrPerm('Admin')" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px")
+				i.fa-fw.fa.fa-info
+				| Este periodo está bloqueado. No puedes editar indicadores o Nivelar notas finales.
+
+			.alert.alert-info.fade.in.radius-bordered(ng-show="::USER.profes_pueden_editar_notas==0 && USER.profes_pueden_nivelar==1 && !hasRoleOrPerm('Admin')" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px")
+				i.fa-fw.fa.fa-info
+				| Este periodo está bloqueado. No puedes editar notas pero puedes Nivelar notas finales.
+
+			.alert.alert-info.fade.in.radius-bordered(ng-show="::USER.profes_pueden_editar_notas==0 && USER.profes_pueden_nivelar==1 && hasRoleOrPerm('Admin')" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px")
+				i.fa-fw.fa.fa-info
+				| Este periodo está bloqueado. Pero como administrador, tú puedes editarlo.
+
+
 			// Formulario crear
 			span(ng-hide="no_asignatura")
-				form.form-inline.row(ng-submit="crearUnidad()" role="form" ng-show="USER.profes_pueden_editar_notas")
+				form.form-inline.row(ng-submit="crearUnidad()" role="form" ng-show="::USER.profes_pueden_editar_notas || hasRoleOrPerm('Admin')")
 					.form-group.definicion-add-unidad.col-md-8.col-sm-8.col-xs-12.si-padding-left-xs
 						label.sr-only Escriba la definición
 						textarea.form-control(required ng-model="newunidad.definicion" placeholder="Escriba aquí su {{ GENERO_UNI=='M' ? 'nuevo' : 'nueva' }} {{UNIDAD}}"
@@ -64,7 +77,7 @@
 									.ticket-user.col-lg-10.col-sm-10.col-xs-12.overflow-auto-xs(ng-show="!unidad.editando"
 										style="overflow: visible; line-height: 2.4;")
 
-										button.hidden-xs(sv-handle class="btn btn-default btn-sm" tabindex="-1" ng-show="USER.profes_pueden_editar_notas==1"
+										button.hidden-xs(sv-handle class="btn btn-default btn-sm" tabindex="-1" ng-show="::USER.profes_pueden_editar_notas==1 || hasRoleOrPerm('Admin')"
 											style="margin-bottom: 65px; display: inline-block; cursor: move;")
 											span.fa.fa-sort
 
@@ -80,7 +93,7 @@
 									.ticket-state.bg-palegreen.top-abajo-xs(ng-show="!unidad.ocultarSubs" ng-click="unidad.ocultarSubs=true" style="right: 55px; ")
 										i.fa.fa-chevron-up(uib-tooltip="Ocultar {{ ::SUBUNIDADES}}")
 
-									span(ng-if="::unidad.obligatoria==0 && USER.profes_pueden_editar_notas==1")
+									span(ng-if="::unidad.obligatoria==0 && USER.profes_pueden_editar_notas==1 || hasRoleOrPerm('Admin')")
 										.ticket-state.bg-palegreen.top-abajo-xs(ng-click="unidad.editando=true" style="right: 15px; ")
 											i.fa.fa-pencil(uib-tooltip="Editar")
 										.ticket-state.bg-darkorange.top-abajo-xs(ng-click=" removeUnidad(unidad)" )
@@ -141,9 +154,9 @@
 											.divider.hidden-xs
 											| {{subunidad.porcentaje}}%
 
-										.ticket-state.bg-palegreen.top-abajo-xs(ng-click="subunidad.editando=true" style="right: 30px; " ng-show="USER.profes_pueden_editar_notas")
+										.ticket-state.bg-palegreen.top-abajo-xs(ng-click="subunidad.editando=true" style="right: 30px; " ng-show="::USER.profes_pueden_editar_notas || hasRoleOrPerm('Admin')")
 											i.fa.fa-pencil(uib-tooltip="Editar")
-										.ticket-state.bg-darkorange.top-abajo-xs(ng-click="removeSubunidad(unidad, subunidad)"  style="right: 3px; " ng-show="USER.profes_pueden_editar_notas")
+										.ticket-state.bg-darkorange.top-abajo-xs(ng-click="removeSubunidad(unidad, subunidad)"  style="right: 3px; " ng-show="::USER.profes_pueden_editar_notas || hasRoleOrPerm('Admin')")
 											i.fa.fa-times(uib-tooltip="Eliminar")
 
 
@@ -173,7 +186,7 @@
 
 							// Formulario para CREAR NUEVA SUBUNIDAD
 							.row.si-margin-left15-xs(ng-hide="unidad.ocultarSubs" style="margin: 10px 10px 10px 30px;  box-shadow: 0px 0px 5px rgb(123, 123, 241);")
-								.ticket-item(style="background-color: rgb(214, 225, 245);" ng-if="::USER.profes_pueden_editar_notas==1")
+								.ticket-item(style="background-color: rgb(214, 225, 245);" ng-if="::USER.profes_pueden_editar_notas==1 || hasRoleOrPerm('Admin')")
 									form.row.form-inline(ng-submit="addSubunidad(unidad)")
 										.ticket-user.col-md-10.col-sm-12.no-padding-xs( style="overflow: visible")
 

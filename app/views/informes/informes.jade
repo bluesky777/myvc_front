@@ -38,98 +38,105 @@
 
 				uib-tabset.widget-main(active="config.informe_tab_actual")
 					uib-tab(heading="Boletines" index="'boletines'" select="selectTab('boletines')")
-						.row
+						.row(ng-if="false")
 							.col-lg-7.col-sm-12.col-xs-12
 								.form-group
 									label Calcular hasta el periodo:
 									input(type="number" ng-model="config.periodo_a_calcular" min="1" max="4")
 
 						br
-						.row
+
+						.row(style="margin-bottom: 30px;")
 							.col-lg-12.col-xs-12
-								.form-group
-									label(style="margin-right: 9px;") Grupo
-									ui-select(ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;")
-										ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}}
-										ui-select-choices(repeat="grupo in grupos | filter: $select.search")
-											div(ng-bind-html="grupo.nombre | highlight: $select.search")
-									a.btn.btn-default(href="" ng-click="verBoletinesGrupo()" uib-tooltip="Boletín muy detallado") Grupo completo Tipo 1
-									a.btn.btn-default(href="" ng-click="verBoletinesGrupo(2)" uib-tooltip="Boletín no tan largo - Aún en desarrollo!!!") Tipo 2
-									a.btn.btn-default(href="" ng-click="verBoletinesGrupo(3)" uib-tooltip="Para Preescolar - Aún en desarrollo!!!") Tipo 3
-						.row(ng-show="datos.grupo")
-							.col-lg-12.col-xs-12
-								.form-group
-									label Alumnos
-									ui-select( ng-model="datos.selected_alumnos" multiple on-select="selectAlumnos($item)" style="width: 100%;")
-										ui-select-match(placeholder="Alumnos del grupo {{datos.grupo.abrev}}" allow-clear="true")
-											img(ng-src="{{perfilPath + $item.foto_nombre}}" style="width:25px; height:25px;")
-											| {{$item.nombres}}
-										ui-select-choices(repeat="alumno in filtered_alumnos | filter: $select.search")
-											img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
-											small(ng-show="alumno.estado=='RETI'" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)</i>'")
-											small(ng-hide="alumno.estado=='RETI'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
-									a.btn.btn-default(href="" ng-click="verBoletinesAlumnos()" uib-tooltip="Boletín muy detallado") Cargar boletines Tipo 1
-									a.btn.btn-default(href="" ng-click="verBoletinesAlumnos(2)" uib-tooltip="Boletín no tan largo - Aún en desarrollo") Tipo 2
-									a.btn.btn-default(href="" ng-click="verBoletinesAlumnos(3)" uib-tooltip="Para Preescolar - Aún en desarrollo") Tipo 3
+								| Tipo de boletín
+								.btn-group
+									button.btn.btn-default(ng-click="eligirTipo(1)" ng-class="{'active': tipo_boletin==1 }" uib-tooltip="Boletín muy detallado del periodo") Tipo 1
+									button.btn.btn-default(ng-click="eligirTipo(2)" ng-class="{'active': tipo_boletin==2 }" uib-tooltip="Boletín no tan largo") Tipo 2
+									button.btn.btn-default(ng-click="eligirTipo(3)" ng-class="{'active': tipo_boletin==3 }" uib-tooltip="Boletín corto con definitivas por periodos") Tipo 3
+									button.btn.btn-default(ng-click="eligirTipo(4)" ng-class="{'active': tipo_boletin==4 }" uib-tooltip="Para Preescolar") Tipo 4
 
-						.row(ng-show="!datos.grupo")
-							.col-lg-12.col-xs-12
-								.form-group
-									label Alumno
-									ui-select( ng-model="datos.selected_alumno" on-select="selectAlumno($item)" style="width: 300px;")
-										ui-select-match(placeholder="Elige un alumno" allow-clear="true")
-											img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;")
-											| {{$select.selected.nombres}} {{$select.selected.apellidos}}
-										ui-select-choices(repeat="alumno in filtered_alumnos | filter: $select.search")
-											img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
-											small(ng-show="alumno.estado=='RETI'" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)</i>'")
-											small(ng-hide="alumno.estado=='RETI'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
-									a.btn.btn-default(href="" ng-click="verBoletinAlumno()" uib-tooltip="Boletín muy detallado") Cargar boletin Tipo 1
-									a.btn.btn-default(href="" ng-click="verBoletinAlumno(2)" uib-tooltip="Boletín no tan largo - Aún en desarrollo") Tipo 2
-									a.btn.btn-default(href="" ng-click="verBoletinAlumno(3)" uib-tooltip="Para Preescolar - Aún en desarrollo") Tipo 3
-						br
+						hr.wide
 
-						.row
-							.col-lg-2.col-sm-4.col-xs-12
-								.form-group
-									label Mostrar foto
-									label
-										input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.mostrar_foto")
-										span.text.si-no
-							.col-lg-2.col-sm-4.col-xs-12
-								.form-group
-									label Firma rector
-									label
-										input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.show_firma_rector")
-										span.text.si-no
-							.col-lg-2.col-sm-4.col-xs-12
-								.form-group
-									label Firma titular
-									label
-										input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.show_firma_titular")
-										span.text.si-no
-							.col-lg-2.col-sm-4.col-xs-12
-								.form-group
-									label Mostrar rojos
-									label
-										input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.show_rojos")
-										span.text.si-no
+						span(ng-show="tipo_boletin")
+							.row
+								.col-lg-12.col-xs-12
+									.form-group
+										label(style="margin-right: 9px;") Grupo
+										ui-select(ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;")
+											ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}}
+											ui-select-choices(repeat="grupo in grupos | filter: $select.search")
+												div(ng-bind-html="grupo.nombre | highlight: $select.search")
+										a.btn.btn-default(href="" ng-click="verBoletinesGrupo(tipo_boletin)") Grupo completo
+							.row(ng-show="datos.grupo")
+								.col-lg-12.col-xs-12
+									.form-group
+										label Alumnos
+										ui-select( ng-model="datos.selected_alumnos" multiple on-select="selectAlumnos($item)" style="width: 100%;")
+											ui-select-match(placeholder="Alumnos del grupo {{datos.grupo.abrev}}" allow-clear="true")
+												img(ng-src="{{perfilPath + $item.foto_nombre}}" style="width:25px; height:25px;")
+												| {{$item.nombres}}
+											ui-select-choices(repeat="alumno in filtered_alumnos | filter: $select.search")
+												img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
+												small(ng-show="alumno.estado=='RETI'" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)</i>'")
+												small(ng-hide="alumno.estado=='RETI'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
+										a.btn.btn-default(href="" ng-click="verBoletinesAlumnos(tipo_boletin)") Cargar boletines
+
+							.row(ng-show="!datos.grupo")
+								.col-lg-12.col-xs-12
+									.form-group
+										label Alumno
+										ui-select( ng-model="datos.selected_alumno" on-select="selectAlumno($item)" style="width: 300px;")
+											ui-select-match(placeholder="Elige un alumno" allow-clear="true")
+												img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;")
+												| {{$select.selected.nombres}} {{$select.selected.apellidos}}
+											ui-select-choices(repeat="alumno in filtered_alumnos | filter: $select.search")
+												img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
+												small(ng-show="alumno.estado=='RETI'" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)</i>'")
+												small(ng-hide="alumno.estado=='RETI'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
+										a.btn.btn-default(href="" ng-click="verBoletinAlumno(tipo_boletin)") Cargar boletin
+							br
+
+							.row
+								.col-lg-2.col-sm-4.col-xs-12
+									.form-group
+										label Mostrar foto
+										label
+											input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.mostrar_foto")
+											span.text.si-no
+								.col-lg-2.col-sm-4.col-xs-12
+									.form-group
+										label Firma rector
+										label
+											input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.show_firma_rector")
+											span.text.si-no
+								.col-lg-2.col-sm-4.col-xs-12
+									.form-group
+										label Firma titular
+										label
+											input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.show_firma_titular")
+											span.text.si-no
+								.col-lg-2.col-sm-4.col-xs-12
+									.form-group
+										label Mostrar rojos
+										label
+											input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.show_rojos")
+											span.text.si-no
 
 
-						.row
-							.col-lg-12.col-xs-12
-								.form-group
-									label Imagen de fondo
-									ui-select(ng-model="config.imagen_fondo" on-select="putConfigCookie($item)" style="width: 300px; display: inline-block;")
-										ui-select-match(placeholder="Imagen de Fondo" allow-clear="true")
-											img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
-											| {{$select.selected.nombre}}
-										ui-select-choices(repeat="imagen in imgs_public | filter: $select.search")
-											img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
-											small(ng-bind-html="imagen.nombre | highlight: $select.search")
+							.row
+								.col-lg-12.col-xs-12
+									.form-group
+										label Imagen de fondo
+										ui-select(ng-model="config.imagen_fondo" on-select="putConfigCookie($item)" style="width: 300px; display: inline-block;")
+											ui-select-match(placeholder="Imagen de Fondo" allow-clear="true")
+												img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
+												| {{$select.selected.nombre}}
+											ui-select-choices(repeat="imagen in imgs_public | filter: $select.search")
+												img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
+												small(ng-bind-html="imagen.nombre | highlight: $select.search")
 
-									label Cantidad:
-									input(type="number" ng-model="config.cant_imagenes" min="0" max="99")
+										label Cantidad:
+										input(type="number" ng-model="config.cant_imagenes" min="0" max="99")
 
 						br
 						br

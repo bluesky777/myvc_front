@@ -148,6 +148,22 @@
         </div>
         <div class="col-md-2"><a ng-click="copiarAsignaturas()" ng-disabled="copiando" uib-tooltip="Copiar todas las asignaturas de un grupo a otro" class="btn btn-primary">Copiar asignaturas</a></div>
       </div>
+      <div style="margin-top: 30px; " class="row">
+        <div class="col-xs-12 col-md-12"><a href="" ng-click="mostrandoPapelera=!mostrandoPapelera" ng-disabled="copiando" uib-tooltip="Muestra las asignaturas eliminadas de este año">Mostrar papelera</a></div>
+      </div>
+      <div ng-show="mostrandoPapelera" class="row">
+        <div class="col-xs-12 col-md-12">
+          <div ng-repeat="asignatura in asignaturas_eliminadas" style="border-bottom: 1px solid #ccc;" class="row">
+            <div class="col-xs-1">
+              <button ng-click="restaurarAsignatura(asignatura)" uib-tooltip="Restaurar asignatura" ng-disabled="asignatura.restaurando" class="btn btn-default btn-sm"><i class="fa fa-undo"></i></button>
+            </div>
+            <div class="col-xs-1">{{asignatura.asignatura_id}}</div>
+            <div class="col-xs-4">{{asignatura.materia}}</div>
+            <div class="col-xs-3">{{asignatura.nombres + ' ' + asignatura.apellidos}}</div>
+            <div class="col-xs-3">{{asignatura.nombre_grupo}}</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

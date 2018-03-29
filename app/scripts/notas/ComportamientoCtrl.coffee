@@ -9,6 +9,7 @@ angular.module('myvcFrontApp')
 	$scope.frases 	= comportamiento[0]
 	$scope.alumnos 	= comportamiento[1]
 	$scope.grupo 	= comportamiento[2]
+	$scope.hasRoleOrPerm  = AuthService.hasRoleOrPerm
 	$scope.tipos 	= [
 		{tipo_frase:	'Todas'}
 		{tipo_frase:	'Debilidad'}
@@ -22,7 +23,7 @@ angular.module('myvcFrontApp')
 		alumno.agregando_frase = true
 
 		if alumno.newfrase
-			dato = 
+			dato =
 				comportamiento_id:	alumno.nota.id
 				frase_id:			alumno.newfrase.id
 
@@ -46,7 +47,7 @@ angular.module('myvcFrontApp')
 		alumno.agregando_frase = true
 
 		if alumno.newfrase_escrita != ''
-			dato = 
+			dato =
 				comportamiento_id:	alumno.nota.id
 				frase:				alumno.newfrase_escrita
 
@@ -65,7 +66,7 @@ angular.module('myvcFrontApp')
 
 
 	$scope.cambiaNota = (nota)->
-		
+
 		temp = nota.nota
 
 		$http.put('::nota_comportamiento/update/'+nota.id, {nota: nota.nota}).then((r)->
@@ -76,9 +77,13 @@ angular.module('myvcFrontApp')
 		)
 
 	$scope.quitarFrase = (definicion, alumno)->
-		$http.delete('::definiciones_comportamiento/destroy/' + definicion.definicion_id).then((r)->
+		defin_id = if definicion.definicion_id then definicion.definicion_id else definicion.id
+		$http.delete('::definiciones_comportamiento/destroy/' + defin_id).then((r)->
 			toastr.success 'Definicion quitada'
-			alumno.definiciones = $filter('filter')(alumno.definiciones, {definicion_id: '!'+definicion.definicion_id})
+			if definicion.definicion_id
+				alumno.definiciones = $filter('filter')(alumno.definiciones, {definicion_id: '!'+defin_id})
+			else
+				alumno.definiciones = $filter('filter')(alumno.definiciones, {id: '!'+defin_id})
 		, (r2)->
 			toastr.error 'No pudimos quitar frase', 'Problema'
 		)

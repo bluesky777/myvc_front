@@ -31,6 +31,9 @@
     </div>
   </div>
 </div>
+<div ng-show="::USER.profes_pueden_editar_notas==0 &amp;&amp; USER.profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px" class="alert alert-info fade in radius-bordered"><i class="fa-fw fa fa-info"></i>Este periodo está bloqueado. No puedes editar indicadores o Nivelar notas finales.</div>
+<div ng-show="::USER.profes_pueden_editar_notas==0 &amp;&amp; USER.profes_pueden_nivelar==1 &amp;&amp; !hasRoleOrPerm('Admin')" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px" class="alert alert-info fade in radius-bordered"><i class="fa-fw fa fa-info"></i>Este periodo está bloqueado. No puedes editar notas pero puedes Nivelar notas finales.</div>
+<div ng-show="::USER.profes_pueden_editar_notas==0 &amp;&amp; USER.profes_pueden_nivelar==1 &amp;&amp; hasRoleOrPerm('Admin')" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px" class="alert alert-info fade in radius-bordered"><i class="fa-fw fa fa-info"></i>Este periodo está bloqueado. Pero como administrador, tú puedes editarlo.</div>
 <div class="row">
   <div ng-repeat="asignatura in asignaturas" class="col-lg-6 col-xs-12">
     <div uib-popover-template="views + 'popoverInfoUnidades.tpl.html'" style="animation-delay: {{ $index/10 }}s;" popover-trigger="'outsideClick'" popover-title="{{UNIDADES}}" class="databox databox-graded radius-bordered databox-shadowed bounceInLeft animated">
@@ -71,7 +74,7 @@
       <div class="databox-right padding-top-5 radius-bordered bg-white">
         <div class="databox-title lightcarbon">{{ grupo.nombre }}</div>
         <div class="databox-text darkgray">
-          <div class="btn-group"><a ui-sref="panel.comportamiento({grupo_id: grupo.id})" class="btn btn-default btn-sm">Comportamiento</a></div>
+          <div class="btn-group"><a ng-click="irAComportamiento(grupo)" class="btn btn-default btn-sm">Comportamiento</a></div>
           <!--i.stat-icon.fa.fa-apple-->
           
           

@@ -16,6 +16,28 @@ angular.module("myvcFrontApp")
 	$scope.grupos     = datosAsignaturas.grupos
 	$scope.profesores = datosAsignaturas.profesores
 
+
+	# Traemos la papelera
+	$http.get('::asignaturas/papelera').then((r)->
+		$scope.asignaturas_eliminadas = r.data
+	, (r2)->
+		toastr.error 'Error trayendo las asignaturas papelera', 'Problema'
+	)
+
+
+
+	$scope.restaurarAsignatura = (asignatura)->
+		if !asignatura.restaurando
+			asignatura.restaurando = true
+			$http.put('::asignaturas/restaurar', {asignatura_id: asignatura.asignatura_id}).then((r)->
+				toastr.success 'Listo. Debes actualizar la página para ver los cambios.'
+			, (r2)->
+				asignatura.restaurando = false
+				toastr.error 'Error trayendo las asignaturas papelera', 'Problema'
+			)
+
+
+
 	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
 
 	$scope.seleccionaGrupo = (item, model)->

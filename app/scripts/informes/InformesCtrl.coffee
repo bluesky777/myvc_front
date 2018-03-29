@@ -48,6 +48,12 @@ angular.module('myvcFrontApp')
 	)
 
 
+	if localStorage.tipo_boletin
+		$scope.tipo_boletin 				= localStorage.tipo_boletin
+
+	$scope.eligirTipo = (n)->
+		localStorage.tipo_boletin 	= n
+		$scope.tipo_boletin 				= n
 
 
 	$scope.range = (n)->
@@ -151,7 +157,7 @@ angular.module('myvcFrontApp')
 
 
 	$scope.verBoletinesGrupo = (tipo)->
-		if !tipo
+		if tipo == '1' or tipo == 1
 			tipo = ''
 		$cookies.remove 'requested_alumnos'
 		$cookies.remove 'requested_alumno'
@@ -160,28 +166,28 @@ angular.module('myvcFrontApp')
 			toastr.warning 'Debes seleccionar el grupo'
 			return
 		$scope.config.orientacion = 'vertical'
-		$state.go 'panel.informes.boletines_periodo'+tipo, {grupo_id: $scope.datos.grupo.id, periodo_a_calcular: $scope.config.periodo_a_calcular}, {reload: true}
+		$state.go 'panel.informes.boletines_periodo'+tipo, {grupo_id: $scope.datos.grupo.id, periodo_a_calcular: $scope.USER.numero_periodo}, {reload: true}
 
 	$scope.verBoletinesAlumnos = (tipo)->
-		if !tipo
+		if tipo == '1' or tipo == 1
 			tipo = ''
 		if $scope.datos.selected_alumnos.length > 0
 			$scope.config.orientacion = 'vertical'
 			$cookies.putObject 'requested_alumnos', $scope.datos.selected_alumnos
-			$state.go 'panel.informes.boletines_periodo'+tipo, {grupo_id: $scope.datos.grupo.id, periodo_a_calcular: $scope.config.periodo_a_calcular}, {reload: true}
+			$state.go 'panel.informes.boletines_periodo'+tipo, {grupo_id: $scope.datos.grupo.id, periodo_a_calcular: $scope.USER.numero_periodo}, {reload: true}
 		else
 			toastr.warning 'Debes seleccionar al menos un alumno o cargar boletines del grupo completo'
 
 
 	$scope.verBoletinAlumno = (tipo)->
-		if !tipo
+		if tipo == '1' or tipo == 1
 			tipo = ''
 		if $scope.datos.selected_alumno
 			$cookies.putObject 'requested_alumno', [$scope.datos.selected_alumno]
 			$state.go 'panel.informes'
 			$scope.config.orientacion = 'vertical'
 			$interval ()->
-				$state.go 'panel.informes.boletines_periodo'+tipo, {periodo_a_calcular: $scope.config.periodo_a_calcular}
+				$state.go 'panel.informes.boletines_periodo'+tipo, {periodo_a_calcular: $scope.USER.numero_periodo}
 			, 1, 1
 		else
 			toastr.warning 'Elige un alumno o carga el grupo completo'

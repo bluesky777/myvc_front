@@ -20,7 +20,7 @@ angular.module('myvcFrontApp')
 
 	if $state.params.profesor_id
 
-		$scope.profesor_id = true
+		$scope.profesor_id = $state.params.profesor_id
 
 		$http.get('::asignaturas/listasignaturas/'+$state.params.profesor_id).then((r)->
 			$scope.asignaturas            = r.data.asignaturas
@@ -38,6 +38,7 @@ angular.module('myvcFrontApp')
 
 
 	else
+
 		$http.get('::asignaturas/listasignaturas').then((r)->
 			$scope.asignaturas 				    = r.data.asignaturas
 			$scope.gruposcomportamientos 	= r.data.grados_comp
@@ -58,6 +59,18 @@ angular.module('myvcFrontApp')
 			toastr.error 'No se pudo traer tus asignaturas'
 			#$scope.$parent.bigLoader 	= false
 		)
+
+
+
+
+	$scope.irAComportamiento = (grupo)->
+		if $state.params.profesor_id
+			localStorage.profesor_id = $state.params.profesor_id
+		else
+			localStorage.profesor_id = $scope.USER.persona_id
+		$state.go('panel.comportamiento', {grupo_id: grupo.id})
+
+
 
 
 	$scope.solicitarMateria = ()->

@@ -1,11 +1,12 @@
 
-<div class="col-lg-12">
+<div class="col-lg-12 margin-padding-lados-xs">
   <div class="widget">
     <div class="widget-header bordered-bottom bordered-blue"><span class="widget-caption">{{grupo.nombre + ' - ' + grupo.abrev}}</span></div>
     <div class="widget-body">
       <div>
         <div class="btn-group btn-lg"><a ui-sref="panel.listasignaturas({profesor_id: profesor_id})" class="btn btn-success">Volver a las asignaturas</a><a ui-sref="panel.frases" class="btn btn-info">Frases {{asignatura}}</a></div>
       </div>
+      <div ng-show="::USER.profes_pueden_editar_notas==0 &amp;&amp; !hasRoleOrPerm('Admin')" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px" class="alert alert-info fade in radius-bordered"><i class="fa-fw fa fa-info"></i>Este periodo está bloqueado. No puedes editar notas ni comportamiento.</div>
       <div class="table-responsive"><br><br>
         <hr class="wide">
         <div class="row">
@@ -13,14 +14,14 @@
             <label>Filtrar alumnos</label>
             <input type="text" ng-model="searchAlum" placeholder="Escribe algún texto" class="form-control">
           </div>
-        </div><br><br>
+        </div><br>{{hasRoleOrPerm('Admin')}}<br>
         <table class="table table-hover table-condensed table-striped">
           <thead>
             <tr>
               <th style="width: 20px;">
                 <div>No</div>
               </th>
-              <th style="min-width: 600px;" class="text-center"> 
+              <th style="width: 85%;" class="text-center">
                 <div>Nombres</div>
               </th>
               <th>
@@ -34,12 +35,12 @@
                 <div>{{$index+1}}</div>
               </td>
               <td>
-                <h5 popover="&lt;img src='{{perfilPath + alumno.userData.foto_nombre}}' style='width: 100px; height: 100px;'&gt;&lt;img src='{{perfilPath + alumno.userData.imagen_nombre}}' style='width: 100px; height: 100px;'&gt;&lt;br&gt;Facebook: {{alumno.facebook}}&lt;br&gt;Username: {{alumno.userData.username}}" popover-popup-delay="1000" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-animation="true" popover-trigger="mouseenter" class="nombresellipsis"> <img ng-src="{{perfilPath + alumno.userData.foto_nombre}}" style="width: 20px; height: 20px;">{{alumno.nombres + ' ' + alumno.apellidos}}</h5>
+                <h5 popover="&lt;img src='{{perfilPath + alumno.userData.foto_nombre}}' style='width: 100px; height: 100px;'&gt;&lt;img src='{{perfilPath + alumno.userData.imagen_nombre}}' style='width: 100px; height: 100px;'&gt;&lt;br&gt;Facebook: {{alumno.facebook}}&lt;br&gt;Username: {{alumno.userData.username}}" popover-popup-delay="1000" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-animation="true" popover-trigger="mouseenter" class="nombresellipsis"><img ng-src="{{perfilPath + alumno.userData.foto_nombre}}" style="width: 30px; height: 30px;">{{alumno.nombres + ' ' + alumno.apellidos}}</h5>
                 <ul>
-                  <li ng-repeat="definicion in alumno.definiciones"><a uib-tooltip="X Eliminar" tooltip-placement="right" ng-click="quitarFrase(definicion, alumno)" class="btn btn-default btn-xs shiny icon-only danger"><i class="fa fa-trash"> </i></a><span ng-show="definicion.tipo_frase"> {{definicion.tipo_frase + ' - ' + definicion.frase}}</span><span ng-hide="definicion.tipo_frase"> {{ definicion.frase }}</span></li>
+                  <li ng-repeat="definicion in alumno.definiciones" style="list-style: none;"><a uib-tooltip="X Eliminar" tooltip-placement="right" ng-click="quitarFrase(definicion, alumno)" ng-if="::USER.profes_pueden_editar_notas==1 || hasRoleOrPerm('Admin')" class="btn btn-default btn-xs shiny icon-only danger"><i class="fa fa-trash"></i></a><span ng-show="definicion.tipo_frase"> {{definicion.tipo_frase + ' - ' + definicion.frase}}</span><span ng-hide="definicion.tipo_frase"> {{ definicion.frase }}</span></li>
                 </ul>
                 <div style="display: inline-block; margin-right: 30px" class="form-group">
-                  <label>Escrita </label>
+                  <label>Escrita</label>
                   <label>
                     <input type="checkbox" ng-model="alumno.escrita" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
                   </label>
@@ -47,7 +48,7 @@
                 <form ng-show="alumno.escrita" ng-submit="addFraseEscrita(alumno)" style="display: inline-block; " class="form-inline">
                   <div class="form-group">
                     <label>Frase:</label>
-                    <input type="text" ng-model="alumno.newfrase_escrita" placeholder="Escriba una frase" style="min-width: 300px" class="form-control"><a ng-click="addFraseEscrita(alumno)" type="submit" ng-disabled="alumno.agregando_frase" class="btn btn-primary">Agregar</a>
+                    <input type="text" ng-model="alumno.newfrase_escrita" placeholder="Escriba una frase" style="min-width: 300px" class="form-control"><a ng-click="addFraseEscrita(alumno)" type="submit" ng-disabled="alumno.agregando_frase" ng-if="::USER.profes_pueden_editar_notas==1 || hasRoleOrPerm('Admin')" class="btn btn-primary">Agregar</a>
                   </div>
                 </form><span ng-show="!alumno.escrita" style="display: inline-block; ">
                   <ui-select ng-model="alumno.tipo_frase" ng-init="alumno.tipo_frase={tipo_frase: 'Fortaleza'}" theme="select2" style="min-width: 100px;">
@@ -62,25 +63,17 @@
                       <ui-select-choices repeat="frase in frases | porTipoFrase: alumno.tipo_frase.tipo_frase | filter: $select.search">
                         <div ng-bind-html="frase.tipo_frase + ' - ' + frase.frase | highlight: $select.search"></div>
                       </ui-select-choices>
-                    </ui-select><a ng-click="addFrase(alumno)" ng-disabled="alumno.agregando_frase" class="btn btn-primary">Agregar</a>
+                    </ui-select><a ng-click="addFrase(alumno)" ng-disabled="alumno.agregando_frase" ng-if="::USER.profes_pueden_editar_notas==1 || hasRoleOrPerm('Admin')" class="btn btn-primary">Agregar</a>
                   </label></span>
               </td>
               <td>
-                <input ng-model="alumno.nota.nota" type="number" min="0" max="100" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }" ng-change="cambiaNota(alumno.nota)">
+                <input ng-model="alumno.nota.nota" type="number" min="0" max="100" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }" ng-change="cambiaNota(alumno.nota)" ng-if="::USER.profes_pueden_editar_notas==1 || hasRoleOrPerm('Admin')"><span ng-if="::USER.profes_pueden_editar_notas==0 &amp;&amp; !hasRoleOrPerm('Admin')">{{alumno.nota.nota}}</span>
               </td>
             </tr>
           </tbody>
         </table><br><br><br>
         <hr class="wide">
       </div>
-    </div>
-  </div>
-</div><br><br><br>
-<div class="col-lg-12">
-  <div class="widget">
-    <div class="widget-header bordered-bottom bordered-blue"><span class="widget-caption">Algunas opciones</span></div>
-    <div class="widget-body">
-      <div><a class="btn btn-default btn lg">Hacer algo</a></div>
     </div>
   </div>
 </div>

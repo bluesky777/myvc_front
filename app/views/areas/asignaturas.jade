@@ -113,5 +113,24 @@
 				.col-md-2
 					a.btn.btn-primary(ng-click="copiarAsignaturas()" ng-disabled="copiando" uib-tooltip="Copiar todas las asignaturas de un grupo a otro") Copiar asignaturas
 
+			.row(style="margin-top: 30px; ")
+				.col-xs-12.col-md-12
+					a(href="" ng-click="mostrandoPapelera=!mostrandoPapelera" ng-disabled="copiando" uib-tooltip="Muestra las asignaturas eliminadas de este año") Mostrar papelera
+
+			.row(ng-show="mostrandoPapelera")
+				.col-xs-12.col-md-12
+
+					.row(ng-repeat="asignatura in asignaturas_eliminadas" style="border-bottom: 1px solid #ccc;")
+						.col-xs-1
+							button.btn.btn-default.btn-sm(ng-click="restaurarAsignatura(asignatura)" uib-tooltip="Restaurar asignatura" ng-disabled="asignatura.restaurando")
+								i.fa.fa-undo
+						.col-xs-1
+							| {{asignatura.asignatura_id}}
+						.col-xs-4
+							| {{asignatura.materia}}
+						.col-xs-3
+							| {{asignatura.nombres + ' ' + asignatura.apellidos}}
+						.col-xs-3
+							| {{asignatura.nombre_grupo}}
 
 

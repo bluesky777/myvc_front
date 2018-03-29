@@ -104,13 +104,13 @@
 									ng-model="alumno.ausencias_count"
 									ng-change="cambiaAusencia(alumno)"
 									ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
-									ng-focus="onInputFocus($event)" ng-disabled="::USER.profes_pueden_editar_notas==0")
+									ng-focus="onInputFocus($event)" ng-disabled="::USER.profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')")
 
 								button.btn.btn-xs(ng-repeat="ausencia in alumno.ausencias"
 									ng-click="clickAusenciaObject(ausencia, alumno)"
 									uib-popover-template="views+'notas/popoverAusenciaObject.tpl.html'"
 									popover-title="Editar ausencia" style="width: 55px"
-									popover-trigger="'none'" popover-is-open="ausencia.isOpen" ng-disabled="::USER.profes_pueden_editar_notas==0")
+									popover-trigger="'none'" popover-is-open="ausencia.isOpen" ng-disabled="::USER.profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')")
 
 									span(ng-hide="ausencia.fecha_hora")
 										i.fa.fa-clock-o
@@ -124,13 +124,13 @@
 									ng-model="alumno.tardanzas_count"
 									ng-change="cambiaTardanza(alumno)"
 									ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
-									ng-focus="onInputFocus($event)" ng-disabled="::USER.profes_pueden_editar_notas==0")
+									ng-focus="onInputFocus($event)" ng-disabled="::USER.profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')")
 
 								button.btn.btn-xs(ng-repeat="tardanza in alumno.tardanzas"
 									ng-click="clickTardanzaObject(tardanza, alumno)"
 									uib-popover-template="views+'notas/popoverTardanzaObject.tpl.html'"
 									popover-title="Editar tardanza" style="width: 55px"
-									popover-trigger="'outsideClick'" popover-is-open="tardanza.isOpen" ng-disabled="::USER.profes_pueden_editar_notas==0")
+									popover-trigger="'outsideClick'" popover-is-open="tardanza.isOpen" ng-disabled="::USER.profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')")
 
 									span(ng-hide="tardanza.fecha_hora")
 										i.fa.fa-clock-o
@@ -157,7 +157,7 @@
 											ng-change="cambiaNota(nota, nota.nota)"
 											ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
 											ng-click="verifClickNotaRapida(nota)" ng-dblclick="verDetalleNota(nota, alumno)"
-											ng-focus="onInputFocus($event)" ng-disabled="::USER.profes_pueden_editar_notas==0 || nota.eliminada")
+											ng-focus="onInputFocus($event)" ng-disabled="(USER.profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')) || nota.eliminada")
 
 								td.text-center
 									div(ng-bind-html="promedioTotal(alumno)" ng-class="{'nota-perdida': alumno.total_definit < nota_minima_aceptada, 'nota-superior': alumno.total_definit >= escala_maxima.porc_inicial }")
@@ -168,18 +168,18 @@
 												ng-change="cambiaNotaDef(alumno, alumno.nota_final.nota_final, alumno.nota_final.nf_id)"
 												ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
 												uib-popover-template="views + 'notas/popoverInfoNotaFinal.tpl.html'" popover-trigger="'mouseenter'" popover-popup-delay="500" popover-title="Nota final real" popover-placement="'bottom-right'"
-												ng-disabled="::USER.profes_pueden_nivelar==0")
+												ng-disabled="::USER.profes_pueden_nivelar==0 && !hasRoleOrPerm('Admin')")
 								td.text-center
-									input.no-margin-top(type="checkbox" ng-disabled="::USER.profes_pueden_nivelar==0" ng-model="alumno.nota_final.manual" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaFinalManual(alumno, alumno.nota_final.manual, alumno.nota_final.nf_id)" style="opacity: 1; position: unset;")
+									input.no-margin-top(type="checkbox" ng-disabled="::USER.profes_pueden_nivelar==0 && !hasRoleOrPerm('Admin')" ng-model="alumno.nota_final.manual" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaFinalManual(alumno, alumno.nota_final.manual, alumno.nota_final.nf_id)" style="opacity: 1; position: unset;")
 
 								td.text-center
-									input.no-margin-top(type="checkbox" ng-disabled="::USER.profes_pueden_nivelar==0" ng-model="alumno.nota_final.recuperada" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaFinalRecuperada(alumno, alumno.nota_final.recuperada, alumno.nota_final.nf_id)" style="opacity: 1; position: unset;")
+									input.no-margin-top(type="checkbox" ng-disabled="::USER.profes_pueden_nivelar==0 && !hasRoleOrPerm('Admin')" ng-model="alumno.nota_final.recuperada" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaFinalRecuperada(alumno, alumno.nota_final.recuperada, alumno.nota_final.nf_id)" style="opacity: 1; position: unset;")
 
 								td
 
 
 				br
-				.col-lg-5.col-xs-12(ng-show="::USER.profes_pueden_editar_notas==1")
+				.col-lg-5.col-xs-12(ng-show="::USER.profes_pueden_editar_notas==1 || hasRoleOrPerm('Admin')")
 					div(nota-rapida)
 				br
 				br

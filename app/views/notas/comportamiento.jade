@@ -1,4 +1,4 @@
-.col-lg-12
+.col-lg-12.margin-padding-lados-xs
 	.widget
 		.widget-header.bordered-bottom.bordered-blue
 			span.widget-caption {{grupo.nombre + ' - ' + grupo.abrev}}
@@ -7,6 +7,10 @@
 				.btn-group.btn-lg
 					a.btn.btn-success(ui-sref="panel.listasignaturas({profesor_id: profesor_id})") Volver a las asignaturas
 					a.btn.btn-info(ui-sref="panel.frases") Frases {{asignatura}}
+
+			.alert.alert-info.fade.in.radius-bordered(ng-show="::USER.profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px")
+				i.fa-fw.fa.fa-info
+				| Este periodo está bloqueado. No puedes editar notas ni comportamiento.
 
 
 			div.table-responsive
@@ -18,13 +22,14 @@
 						label Filtrar alumnos
 						input.form-control(type="text" ng-model="searchAlum" placeholder="Escribe algún texto")
 				br
+				| {{hasRoleOrPerm('Admin')}}
 				br
 				table.table.table-hover.table-condensed.table-striped
 					thead
 						tr
 							th(style="width: 20px;")
 								div No
-							th.text-center(style="min-width: 600px;") 
+							th.text-center(style="width: 85%;")
 								div Nombres
 							th
 								div Nota
@@ -34,17 +39,17 @@
 							td
 								div {{$index+1}}
 							td
-								h5.nombresellipsis( popover="<img src='{{perfilPath + alumno.userData.foto_nombre}}' style='width: 100px; height: 100px;'><img src='{{perfilPath + alumno.userData.imagen_nombre}}' style='width: 100px; height: 100px;'><br>Facebook: {{alumno.facebook}}<br>Username: {{alumno.userData.username}}" 
-									popover-popup-delay="1000" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-animation="true" 
-									popover-trigger="mouseenter" ) 
-									img(ng-src="{{perfilPath + alumno.userData.foto_nombre}}" style="width: 20px; height: 20px;")
+								h5.nombresellipsis( popover="<img src='{{perfilPath + alumno.userData.foto_nombre}}' style='width: 100px; height: 100px;'><img src='{{perfilPath + alumno.userData.imagen_nombre}}' style='width: 100px; height: 100px;'><br>Facebook: {{alumno.facebook}}<br>Username: {{alumno.userData.username}}"
+									popover-popup-delay="1000" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-animation="true"
+									popover-trigger="mouseenter" )
+									img(ng-src="{{perfilPath + alumno.userData.foto_nombre}}" style="width: 30px; height: 30px;")
 									| {{alumno.nombres + ' ' + alumno.apellidos}}
 
 								ul
-									li(ng-repeat="definicion in alumno.definiciones")
-										a.btn.btn-default.btn-xs.shiny.icon-only.danger(uib-tooltip="X Eliminar" tooltip-placement="right" 
-											ng-click="quitarFrase(definicion, alumno)")
-											i.fa.fa-trash 
+									li(ng-repeat="definicion in alumno.definiciones" style="list-style: none;")
+										a.btn.btn-default.btn-xs.shiny.icon-only.danger(uib-tooltip="X Eliminar" tooltip-placement="right"
+											ng-click="quitarFrase(definicion, alumno)" ng-if="::USER.profes_pueden_editar_notas==1 || hasRoleOrPerm('Admin')")
+											i.fa.fa-trash
 										span(ng-show="definicion.tipo_frase")
 											|  {{definicion.tipo_frase + ' - ' + definicion.frase}}
 										span(ng-hide="definicion.tipo_frase")
@@ -52,7 +57,7 @@
 
 
 								.form-group(style="display: inline-block; margin-right: 30px")
-									label Escrita 
+									label Escrita
 									label
 										input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="alumno.escrita")
 										span.text.si-no
@@ -61,7 +66,7 @@
 									.form-group
 										label Frase:
 										input.form-control(type="text" ng-model="alumno.newfrase_escrita" placeholder="Escriba una frase" style="min-width: 300px")
-										a.btn.btn-primary(ng-click="addFraseEscrita(alumno)" type="submit" ng-disabled="alumno.agregando_frase") Agregar
+										a.btn.btn-primary(ng-click="addFraseEscrita(alumno)" type="submit" ng-disabled="alumno.agregando_frase" ng-if="::USER.profes_pueden_editar_notas==1 || hasRoleOrPerm('Admin')") Agregar
 
 
 								span(ng-show="!alumno.escrita" style="display: inline-block; ")
@@ -69,31 +74,24 @@
 										ui-select-match(placeholder="Frase" allow-clear="true") {{$select.selected.tipo_frase}}
 										ui-select-choices(repeat="tipo_frase in tipos | filter: $select.search")
 											div(ng-bind-html="tipo_frase.tipo_frase | highlight: $select.search")
-									
+
 									label Frase
 										ui-select(ng-model="alumno.newfrase" theme="select2" style="min-width: 400px;")
 											ui-select-match(placeholder="Frase" allow-clear="true") {{$select.selected.frase}}
 											ui-select-choices(repeat="frase in frases | porTipoFrase: alumno.tipo_frase.tipo_frase | filter: $select.search")
 												div(ng-bind-html="frase.tipo_frase + ' - ' + frase.frase | highlight: $select.search")
-										a.btn.btn-primary(ng-click="addFrase(alumno)" ng-disabled="alumno.agregando_frase") Agregar
+										a.btn.btn-primary(ng-click="addFrase(alumno)" ng-disabled="alumno.agregando_frase" ng-if="::USER.profes_pueden_editar_notas==1 || hasRoleOrPerm('Admin')") Agregar
+
 
 							td
-								input(ng-model="alumno.nota.nota" type="number" min="0" max="100" 
+								input(ng-model="alumno.nota.nota" type="number" min="0" max="100"
 									ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }"
-									 ng-change="cambiaNota(alumno.nota)")
+									 ng-change="cambiaNota(alumno.nota)" ng-if="::USER.profes_pueden_editar_notas==1 || hasRoleOrPerm('Admin')")
+								span(ng-if="::USER.profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')") {{alumno.nota.nota}}
 
 
 				br
 				br
 				br
 				hr.wide
-br
-br
-br
-.col-lg-12
-	.widget
-		.widget-header.bordered-bottom.bordered-blue
-			span.widget-caption Algunas opciones
-		.widget-body
-			div
-				a.btn.btn-default.btn.lg Hacer algo
+

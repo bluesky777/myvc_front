@@ -63,20 +63,26 @@
                 <td class="text-center"><b>P3</b></td>
                 <td class="text-center"><b>P4</b></td>
                 <td class="text-center"><b>Desempeño</b></td>
+                <td class="text-center"><i class="fa fa-clock-o icon-tardanza"></i><span>A/T</span></td>
               </tr>
               <tr ng-if="::area.asignaturas.length&gt;1" ng-repeat-start="area in ::alumno.areas | orderBy:'orden' track by $index">
                 <td></td>
-                <td colspan="7"><b>{{ ::area.area_nombre }}</b></td>
+                <td colspan="8"><b>{{ ::area.area_nombre }}</b></td>
               </tr>
               <tr ng-repeat-end ng-repeat="asignatura in ::area.asignaturas">
                 <td>{{ asignatura.indice }}</td>
-                <td><span style="padding-left: 20px; " ng-if="::area.asignaturas.length&gt;1"></span>{{ ::asignatura.materia }}</td>
-                <td class="text-center">{{ ::asignatura.creditos }}</td>
-                <td class="text-center">{{ ::asignatura.nota_final_per1 }}</td>
-                <td class="text-center">{{ ::asignatura.nota_final_per2 }}</td>
-                <td class="text-center">{{ ::asignatura.nota_final_per3 }}</td>
-                <td class="text-center">{{ ::asignatura.nota_final_per4 }}</td>
-                <td class="text-center">{{ ::asignatura.desempenio }}</td>
+                <td><span style="padding-left: 20px; " ng-if="::area.asignaturas.length&gt;1"></span>{{ ::asignatura.materia }}
+                  <ul style="font-size: 9pt; margin: 0px;">
+                    <li ng-repeat="frase in ::asignatura.frases">{{::frase.frase}}<span ng-show="::frase.frase_id" class="tipo-frase">  - {{::frase.tipo_frase}}</span></li>
+                  </ul>
+                </td>
+                <td style="font-style: italic; font-size: 8pt;" class="text-center"> {{ ::asignatura.creditos }}</td>
+                <td ng-class="{'nota-perdida-bold': asignatura.nota_final_per1&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.nota_final_per1 }}</td>
+                <td ng-class="{'nota-perdida-bold': asignatura.nota_final_per2&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.nota_final_per2 }}</td>
+                <td ng-class="{'nota-perdida-bold': asignatura.nota_final_per3&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.nota_final_per3 }}</td>
+                <td ng-class="{'nota-perdida-bold': asignatura.nota_final_per4&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.nota_final_per4 }}</td>
+                <td ng-class="{'nota-perdida-bold': asignatura['nota_final_per'+USER.numero_periodo]&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.desempenio }}</td>
+                <td class="text-center"><span class="text-tardanza">{{::asignatura.total_ausencias}} / {{::asignatura.total_tardanzas}}</span></td>
               </tr>
             </table>
           </div>
@@ -118,7 +124,7 @@
         <!-- Tabla de perdidas de este año-->
         <div ng-if="::alumno.notas_perdidas_year &gt; 0" class="col-lg-6 col-xs-6 no-padding">
           <div class="row resumen-head">
-            <div class="col-lg-12 col-xs-12 resumen-title"><span>Notas pendientes del año {{::year.year}}</span></div>
+            <div class="col-lg-12 col-xs-12 resumen-title"><span>Notas pendientes del año {{::USER.year}}</span></div>
           </div>
           <div class="row resumen-body">
             <div class="col-lg-10 col-xs-10 resumen-tabla">
@@ -126,7 +132,7 @@
                 <thead>
                   <tr>
                     <td>No</td>
-                    <td>Asignaturas</td>
+                    <td class="text-center">Asignaturas</td>
                     <td uib-tooltip="Nota definitiva del año" tooltip-append-to-body="true">Def</td>
                     <td ng-repeat="periodo in ::year.periodos track by $index">Per{{::periodo.numero}}</td>
                     <td>Total</td>
@@ -138,19 +144,19 @@
                     <td>
                       <div style="width: 140px;" class="nombresellipsis">{{::asignatura_perdida.materia | capitalize}}</div>
                     </td>
-                    <td>{{ ::asignatura_perdida.detalle_periodos.definitiva_year | number:0 }}</td>
-                    <td ng-repeat="periodo in ::year.periodos track by $index">
+                    <td class="text-center">{{ ::asignatura_perdida.detalle_periodos.definitiva_year | number:0 }}</td>
+                    <td ng-repeat="periodo in ::year.periodos track by $index" class="text-center">
                       <div>{{ ::asignatura_perdida.detalle_periodos['cant_perdidas_' + ($index+1) ] }}</div>
                     </td>
-                    <td><b>{{::asignatura_perdida.detalle_periodos.cant_perdidas_year}}</b></td>
+                    <td class="text-center"><b>{{::asignatura_perdida.detalle_periodos.cant_perdidas_year}}</b></td>
                   </tr>
                 </tbody>
                 <tfoot>
                   <tr>
                     <td colspan="2">Total</td>
                     <td></td>
-                    <td ng-repeat="periodo in ::year.periodos track by $index">{{::alumno['notas_perdidas_per' + ($index+1) ]}}</td>
-                    <td><b>{{::alumno.notas_perdidas_year}}</b></td>
+                    <td ng-repeat="periodo in ::year.periodos track by $index" class="text-center">{{::alumno['notas_perdidas_per' + ($index+1) ]}}</td>
+                    <td class="text-center"><b>{{::alumno.notas_perdidas_year}}</b></td>
                   </tr>
                 </tfoot>
               </table>
@@ -160,7 +166,7 @@
         <!-- Tabla de perdidas del año pasado-->
         <div ng-if="::alumno.yp_notas_perdidas_year &gt; 0" class="col-lg-6 col-xs-6 no-padding">
           <div class="row resumen-head">
-            <div class="col-lg-12 col-xs-12 resumen-title"><span>Notas pendientes del año {{::year.year - 1}}</span></div>
+            <div class="col-lg-12 col-xs-12 resumen-title"><span>Notas pendientes del año {{::USER.year - 1}}</span></div>
           </div>
           <div class="row resumen-body">
             <div class="col-lg-10 col-xs-10 resumen-tabla">
@@ -168,7 +174,7 @@
                 <thead>
                   <tr>
                     <td>No</td>
-                    <td>Asignaturas</td>
+                    <td class="text-center">Asignaturas</td>
                     <td uib-tooltip="Definitiva del año pasado" tooltip-append-to-body="true">Def</td>
                     <td>Per1</td>
                     <td>Per2</td>
@@ -183,33 +189,33 @@
                     <td>
                       <div style="width: 140px;" class="nombresellipsis">{{::asignatura_perdida.materia | capitalize}}</div>
                     </td>
-                    <td>
+                    <td class="text-center">
                       <div>{{ ::asignatura_perdida.detalle_periodos.definitiva_year | number:0 }}</div>
                     </td>
-                    <td>
+                    <td class="text-center">
                       <div>{{ ::asignatura_perdida.detalle_periodos.cant_perdidas_1 }}</div>
                     </td>
-                    <td>
+                    <td class="text-center">
                       <div>{{ ::asignatura_perdida.detalle_periodos.cant_perdidas_2 }}</div>
                     </td>
-                    <td>
+                    <td class="text-center">
                       <div>{{ ::asignatura_perdida.detalle_periodos.cant_perdidas_3 }}</div>
                     </td>
-                    <td>
+                    <td class="text-center">
                       <div>{{ ::asignatura_perdida.detalle_periodos.cant_perdidas_4 }}</div>
                     </td>
-                    <td><b>{{::asignatura_perdida.detalle_periodos.cant_perdidas_year}}</b></td>
+                    <td class="text-center"><b>{{::asignatura_perdida.detalle_periodos.cant_perdidas_year}}</b></td>
                   </tr>
                 </tbody>
                 <tfoot>
                   <tr>
                     <td colspan="2">Total</td>
                     <td></td>
-                    <td>{{::alumno.yp_notas_perdidas_per1 }}</td>
-                    <td>{{::alumno.yp_notas_perdidas_per2 }}</td>
-                    <td>{{::alumno.yp_notas_perdidas_per3 }}</td>
-                    <td>{{::alumno.yp_notas_perdidas_per4 }}</td>
-                    <td><b>{{::alumno.yp_notas_perdidas_year}}</b></td>
+                    <td class="text-center">{{::alumno.yp_notas_perdidas_per1 }}</td>
+                    <td class="text-center">{{::alumno.yp_notas_perdidas_per2 }}</td>
+                    <td class="text-center">{{::alumno.yp_notas_perdidas_per3 }}</td>
+                    <td class="text-center">{{::alumno.yp_notas_perdidas_per4 }}</td>
+                    <td class="text-center"><b>{{::alumno.yp_notas_perdidas_year}}</b></td>
                   </tr>
                 </tfoot>
               </table>

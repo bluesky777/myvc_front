@@ -51,6 +51,18 @@ h6.row-title.before-blue.animated.flipInY(ng-if="profesor_id")
 							| del grupo
 							b(style="padding: 0 4px") {{ pedido.nombre_grupo_remove }}
 
+.alert.alert-info.fade.in.radius-bordered(ng-show="::USER.profes_pueden_editar_notas==0 && USER.profes_pueden_nivelar==0 && !hasRoleOrPerm('Admin')" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px")
+	i.fa-fw.fa.fa-info
+	| Este periodo está bloqueado. No puedes editar indicadores o Nivelar notas finales.
+
+.alert.alert-info.fade.in.radius-bordered(ng-show="::USER.profes_pueden_editar_notas==0 && USER.profes_pueden_nivelar==1 && !hasRoleOrPerm('Admin')" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px")
+	i.fa-fw.fa.fa-info
+	| Este periodo está bloqueado. No puedes editar notas pero puedes Nivelar notas finales.
+
+.alert.alert-info.fade.in.radius-bordered(ng-show="::USER.profes_pueden_editar_notas==0 && USER.profes_pueden_nivelar==1 && hasRoleOrPerm('Admin')" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px")
+	i.fa-fw.fa.fa-info
+	| Este periodo está bloqueado. Pero como administrador, tú puedes editarlo.
+
 
 
 
@@ -98,7 +110,7 @@ h6.row-title.before-blue(ng-show="gruposcomportamientos.length == 0")
 				.databox-title.lightcarbon {{ grupo.nombre }}
 				.databox-text.darkgray
 					.btn-group
-						a.btn.btn-default.btn-sm(ui-sref="panel.comportamiento({grupo_id: grupo.id})") Comportamiento
+						a.btn.btn-default.btn-sm(ng-click="irAComportamiento(grupo)") Comportamiento
 					//i.stat-icon.fa.fa-apple
 
 

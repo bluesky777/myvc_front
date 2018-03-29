@@ -32,64 +32,54 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 						.col-lg-6.col-xs-6
 							h6.nombre-alumno(ng-show="::alumno.estado=='ASIS'" style="font-size: 14pt") === ASISTENTE ===
 							h5.nombre-alumno {{::alumno.nombres}} {{::alumno.apellidos}}
-							.promedio-alumno Puntaje: {{::alumno.promedio | number:0 }}%
-								span(ng-show="::alumno.estado!='RETI'")  {{ ::alumno.texto_puesto }}
+
 			.row.body-boletin
 				.col-lg-12.col-xs-12.no-padding
-					.materia-item(ng-repeat="asignatura in ::alumno.asignaturas track by $index")
-						.row.materia-title
-							.col-lg-9.col-xs-9(uib-popover-template="::views+'informes/infoDocentePop.tpl.html'"
-									popover-popup-delay="500" popover-title="{{::asignatura.nombres_profesor}} {{::asignatura.apellidos_profesor}}" popover-animation="true"
-									popover-trigger="'mouseenter'"  popover-append-to-body="true")
-								span.materia-name {{::asignatura.materia}}
-								span.materia-profesor   - Prof. {{::asignatura.nombres_profesor | capitalize}} {{ ::asignatura.apellidos_profesor | capitalize}}
-							.col-lg-1.col-xs-1(style="padding: 0px")
-								i.fa.fa-clock-o.icon-tardanza
-								span.text-tardanza A:{{::asignatura.total_ausencias}} / T:{{::asignatura.total_tardanzas}}
-							.col-lg-1.col-xs-1(ng-class="{'nota-perdida': asignatura.nota_asignatura<USER.nota_minima_aceptada && config.show_rojos}"
-								style="padding: 0px; text-align: center;")
-								| {{ ::asignatura.desempenio }}
-							.col-lg-1.col-xs-1
-								div(ng-class="{'nota-perdida-bold': asignatura.nota_asignatura<USER.nota_minima_aceptada && config.show_rojos}")
-									| {{ ::asignatura.nota_asignatura }}
-						.row.unidades-list
-							.col-lg-12.col-xs-12
-								.row.unidades-item(ng-repeat="unidad in ::asignatura.unidades track by $index")
-									.col-lg-12.col-xs-12
-										.row
-											.col-lg-10.col-xs-10.unidad-definicion
-												| {{::unidad.definicion_unidad}}
-											.col-lg-1.col-xs-1.unidad-porc
-												| {{::unidad.porcentaje_unidad}}%
-											.col-lg-1.col-xs-1.unidad-nota
-												| {{::unidad.nota_unidad }}
+					.materia-item
+						table.table-bordered.table-bordered2.table-striped.table-striped2(style="margin: 0 auto; width: 100%")
+							tr(style="background-color: #99caed !important;")
+								td.text-center
+									b No
+								td.text-center
+									b Asignatura / Área
+								td.text-center
+									b IH
+								td.text-center(style="width: 74px;")
+									b P1
+								td.text-center(style="width: 74px;")
+									b P2
+								td.text-center(style="width: 74px;")
+									b P3
+								td.text-center(style="width: 74px;")
+									b P4
+								td.text-center(style="width: 40px;")
+									i.fa.fa-clock-o.icon-tardanza
+									span A/T
 
-										.row.subunidades-list(ng-repeat="subunidad in ::unidad.subunidades")
-											.col-lg-12.col-xs-12
-												.row
-													.col-lg-9.col-xs-9.subunidad-definicion
-														| {{::$index+1}}. {{::subunidad.definicion_subunidad}}
-													.col-lg-1.col-xs-1.subunidad-porc()
-														| {{::subunidad.porcentaje_subunidad}}%
-													.col-lg-1.col-xs-1.subunidad-nota(style="font-size: 5pt; line-height: 2;")
-														| {{ ::subunidad.desempenio }}
-													.col-lg-1.col-xs-1.subunidad-nota.puntero
-														span(class="{{::subunidad.clase_perdida}}" uib-tooltip="Valor nota: {{::subunidad.valor_nota}}") {{::subunidad.nota}}
-														span.nota-perdida(ng-hide="::subunidad.nota > -1" uib-tooltip="Aún sin nota")
-															i.fa.fa-warning
+							tr(ng-if="::area.asignaturas.length>1" ng-repeat-start="area in ::alumno.areas | orderBy:'orden' track by $index")
+								td
+								td(colspan="8")
+									b {{ ::area.area_nombre }}
 
-								.row.comentarios-asignatura(ng-show="::asignatura.frases.length>0")
-									.col-lg-12.col-xs-12
-										.comentario-title
-											i.fa.fa-comments-o(style="padding-right: 5px;")
-											| Observaciones
-										.row.comentario-item(ng-repeat="frase in ::asignatura.frases")
+
+							tr(ng-repeat-end ng-repeat="asignatura in ::area.asignaturas")
+								td {{ asignatura.indice }}
+								td
+									span(style="padding-left: 20px; " ng-if="::area.asignaturas.length>1")
+									| {{ ::asignatura.materia }}
+									ul(style="font-size: 9pt; margin: 0px;")
+										li(ng-repeat="frase in ::asignatura.frases")
 											| {{::frase.frase}}
-											span.tipo-frase(ng-show="::frase.frase_id") - {{::frase.tipo_frase}}
+											span.tipo-frase(ng-show="::frase.frase_id")   - {{::frase.tipo_frase}}
+								td.text-center(style="font-style: italic; font-size: 8pt;")  {{ ::asignatura.creditos }}
+								td.text-center(ng-class="{'nota-perdida-bold': asignatura.nota_final_per1<USER.nota_minima_aceptada}") {{ ::asignatura.desempenio_per1 }}
+								td.text-center(ng-class="{'nota-perdida-bold': asignatura.nota_final_per2<USER.nota_minima_aceptada}") {{ ::asignatura.desempenio_per2 }}
+								td.text-center(ng-class="{'nota-perdida-bold': asignatura.nota_final_per3<USER.nota_minima_aceptada}") {{ ::asignatura.desempenio_per3 }}
+								td.text-center(ng-class="{'nota-perdida-bold': asignatura.nota_final_per4<USER.nota_minima_aceptada}") {{ ::asignatura.desempenio_per4 }}
+								td.text-center
+									span.text-tardanza {{::asignatura.total_ausencias}} / {{::asignatura.total_tardanzas}}
 
-							.col-lg-2.col-xs-2
-								span
-									| {{::unidad.nota_unidad}}
+
 
 			.row.comportamiento-boletin
 				.col-lg-12.col-xs-12
@@ -146,7 +136,6 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 									tr
 										td No
 										td.text-center Asignaturas
-										td(uib-tooltip="Nota definitiva del año" tooltip-append-to-body="true") Def
 										td(ng-repeat="periodo in ::year.periodos track by $index")
 											| Per{{::periodo.numero}}
 										td Total
@@ -155,7 +144,6 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 										td {{$index + 1}}
 										td
 											div.nombresellipsis(style="width: 140px;") {{::asignatura_perdida.materia | capitalize}}
-										td.text-center {{ ::asignatura_perdida.detalle_periodos.definitiva_year | number:0 }}
 										td.text-center(ng-repeat="periodo in ::year.periodos track by $index")
 											div {{ ::asignatura_perdida.detalle_periodos['cant_perdidas_' + ($index+1) ] }}
 
@@ -165,65 +153,10 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 									tr
 										td(colspan="2")
 											| Total
-										td
 										td.text-center(ng-repeat="periodo in ::year.periodos track by $index")
 											| {{::alumno['notas_perdidas_per' + ($index+1) ]}}
 										td.text-center
 											b {{::alumno.notas_perdidas_year}}
-
-
-				// Tabla de perdidas del año pasado
-				.col-lg-6.col-xs-6.no-padding(ng-if="::alumno.yp_notas_perdidas_year > 0")
-
-					.row.resumen-head
-						.col-lg-12.col-xs-12.resumen-title
-							span Notas pendientes del año {{::USER.year - 1}}
-					.row.resumen-body
-						.col-lg-10.col-xs-10.resumen-tabla
-							table.table-bordered
-								thead
-									tr
-										td No
-										td.text-center Asignaturas
-										td(uib-tooltip="Definitiva del año pasado" tooltip-append-to-body="true") Def
-										td Per1
-										td Per2
-										td Per3
-										td Per4
-										td Total
-								tbody
-									tr(ng-repeat="asignatura_perdida in ::alumno.asignaturas_year_pasado")
-										td {{$index + 1}}
-										td
-											div.nombresellipsis(style="width: 140px;") {{::asignatura_perdida.materia | capitalize}}
-										td.text-center
-											div {{ ::asignatura_perdida.detalle_periodos.definitiva_year | number:0 }}
-										td.text-center
-											div {{ ::asignatura_perdida.detalle_periodos.cant_perdidas_1 }}
-										td.text-center
-											div {{ ::asignatura_perdida.detalle_periodos.cant_perdidas_2 }}
-										td.text-center
-											div {{ ::asignatura_perdida.detalle_periodos.cant_perdidas_3 }}
-										td.text-center
-											div {{ ::asignatura_perdida.detalle_periodos.cant_perdidas_4 }}
-
-										td.text-center
-											b {{::asignatura_perdida.detalle_periodos.cant_perdidas_year}}
-								tfoot
-									tr
-										td(colspan="2")
-											| Total
-										td
-										td.text-center
-											| {{::alumno.yp_notas_perdidas_per1 }}
-										td.text-center
-											| {{::alumno.yp_notas_perdidas_per2 }}
-										td.text-center
-											| {{::alumno.yp_notas_perdidas_per3 }}
-										td.text-center
-											| {{::alumno.yp_notas_perdidas_per4 }}
-										td.text-center
-											b {{::alumno.yp_notas_perdidas_year}}
 
 
 

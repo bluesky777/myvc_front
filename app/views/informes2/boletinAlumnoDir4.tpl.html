@@ -22,52 +22,43 @@
             <div class="col-lg-6 col-xs-6">
               <h6 ng-show="::alumno.estado=='ASIS'" style="font-size: 14pt" class="nombre-alumno">=== ASISTENTE ===</h6>
               <h5 class="nombre-alumno">{{::alumno.nombres}} {{::alumno.apellidos}}</h5>
-              <div class="promedio-alumno">Puntaje: {{::alumno.promedio | number:0 }}%<span ng-show="::alumno.estado!='RETI'"> {{ ::alumno.texto_puesto }}</span></div>
             </div>
           </div>
         </div>
       </div>
       <div class="row body-boletin">
         <div class="col-lg-12 col-xs-12 no-padding">
-          <div ng-repeat="asignatura in ::alumno.asignaturas track by $index" class="materia-item">
-            <div class="row materia-title">
-              <div uib-popover-template="::views+'informes/infoDocentePop.tpl.html'" popover-popup-delay="500" popover-title="{{::asignatura.nombres_profesor}} {{::asignatura.apellidos_profesor}}" popover-animation="true" popover-trigger="'mouseenter'" popover-append-to-body="true" class="col-lg-9 col-xs-9"><span class="materia-name">{{::asignatura.materia}}</span><span class="materia-profesor">  - Prof. {{::asignatura.nombres_profesor | capitalize}} {{ ::asignatura.apellidos_profesor | capitalize}}</span></div>
-              <div style="padding: 0px" class="col-lg-1 col-xs-1"><i class="fa fa-clock-o icon-tardanza"></i><span class="text-tardanza">A:{{::asignatura.total_ausencias}} / T:{{::asignatura.total_tardanzas}}</span></div>
-              <div ng-class="{'nota-perdida': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}" style="padding: 0px; text-align: center;" class="col-lg-1 col-xs-1">{{ ::asignatura.desempenio }}</div>
-              <div class="col-lg-1 col-xs-1">
-                <div ng-class="{'nota-perdida-bold': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}">{{ ::asignatura.nota_asignatura }}</div>
-              </div>
-            </div>
-            <div class="row unidades-list">
-              <div class="col-lg-12 col-xs-12">
-                <div ng-repeat="unidad in ::asignatura.unidades track by $index" class="row unidades-item">
-                  <div class="col-lg-12 col-xs-12">
-                    <div class="row">
-                      <div class="col-lg-10 col-xs-10 unidad-definicion">{{::unidad.definicion_unidad}}</div>
-                      <div class="col-lg-1 col-xs-1 unidad-porc">{{::unidad.porcentaje_unidad}}%</div>
-                      <div class="col-lg-1 col-xs-1 unidad-nota">{{::unidad.nota_unidad }}</div>
-                    </div>
-                    <div ng-repeat="subunidad in ::unidad.subunidades" class="row subunidades-list">
-                      <div class="col-lg-12 col-xs-12">
-                        <div class="row">
-                          <div class="col-lg-9 col-xs-9 subunidad-definicion">{{::$index+1}}. {{::subunidad.definicion_subunidad}}</div>
-                          <div class="col-lg-1 col-xs-1 subunidad-porc">{{::subunidad.porcentaje_subunidad}}%</div>
-                          <div style="font-size: 5pt; line-height: 2;" class="col-lg-1 col-xs-1 subunidad-nota">{{ ::subunidad.desempenio }}</div>
-                          <div class="col-lg-1 col-xs-1 subunidad-nota puntero"><span uib-tooltip="Valor nota: {{::subunidad.valor_nota}}" class="{{::subunidad.clase_perdida}}">{{::subunidad.nota}}</span><span ng-hide="::subunidad.nota &gt; -1" uib-tooltip="Aún sin nota" class="nota-perdida"><i class="fa fa-warning"></i></span></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div ng-show="::asignatura.frases.length&gt;0" class="row comentarios-asignatura">
-                  <div class="col-lg-12 col-xs-12">
-                    <div class="comentario-title"><i style="padding-right: 5px;" class="fa fa-comments-o"></i>Observaciones</div>
-                    <div ng-repeat="frase in ::asignatura.frases" class="row comentario-item">{{::frase.frase}}<span ng-show="::frase.frase_id" class="tipo-frase">- {{::frase.tipo_frase}}</span></div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-2 col-xs-2"><span>{{::unidad.nota_unidad}}</span></div>
-            </div>
+          <div class="materia-item">
+            <table style="margin: 0 auto; width: 100%" class="table-bordered table-bordered2 table-striped table-striped2">
+              <tr style="background-color: #99caed !important;">
+                <td class="text-center"><b>No</b></td>
+                <td class="text-center"><b>Asignatura / Área</b></td>
+                <td class="text-center"><b>IH</b></td>
+                <td style="width: 74px;" class="text-center"><b>P1</b></td>
+                <td style="width: 74px;" class="text-center"><b>P2</b></td>
+                <td style="width: 74px;" class="text-center"><b>P3</b></td>
+                <td style="width: 74px;" class="text-center"><b>P4</b></td>
+                <td style="width: 40px;" class="text-center"><i class="fa fa-clock-o icon-tardanza"></i><span>A/T</span></td>
+              </tr>
+              <tr ng-if="::area.asignaturas.length&gt;1" ng-repeat-start="area in ::alumno.areas | orderBy:'orden' track by $index">
+                <td></td>
+                <td colspan="8"><b>{{ ::area.area_nombre }}</b></td>
+              </tr>
+              <tr ng-repeat-end ng-repeat="asignatura in ::area.asignaturas">
+                <td>{{ asignatura.indice }}</td>
+                <td><span style="padding-left: 20px; " ng-if="::area.asignaturas.length&gt;1"></span>{{ ::asignatura.materia }}
+                  <ul style="font-size: 9pt; margin: 0px;">
+                    <li ng-repeat="frase in ::asignatura.frases">{{::frase.frase}}<span ng-show="::frase.frase_id" class="tipo-frase">  - {{::frase.tipo_frase}}</span></li>
+                  </ul>
+                </td>
+                <td style="font-style: italic; font-size: 8pt;" class="text-center"> {{ ::asignatura.creditos }}</td>
+                <td ng-class="{'nota-perdida-bold': asignatura.nota_final_per1&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.desempenio_per1 }}</td>
+                <td ng-class="{'nota-perdida-bold': asignatura.nota_final_per2&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.desempenio_per2 }}</td>
+                <td ng-class="{'nota-perdida-bold': asignatura.nota_final_per3&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.desempenio_per3 }}</td>
+                <td ng-class="{'nota-perdida-bold': asignatura.nota_final_per4&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.desempenio_per4 }}</td>
+                <td class="text-center"><span class="text-tardanza">{{::asignatura.total_ausencias}} / {{::asignatura.total_tardanzas}}</span></td>
+              </tr>
+            </table>
           </div>
         </div>
       </div>
@@ -116,7 +107,6 @@
                   <tr>
                     <td>No</td>
                     <td class="text-center">Asignaturas</td>
-                    <td uib-tooltip="Nota definitiva del año" tooltip-append-to-body="true">Def</td>
                     <td ng-repeat="periodo in ::year.periodos track by $index">Per{{::periodo.numero}}</td>
                     <td>Total</td>
                   </tr>
@@ -127,7 +117,6 @@
                     <td>
                       <div style="width: 140px;" class="nombresellipsis">{{::asignatura_perdida.materia | capitalize}}</div>
                     </td>
-                    <td class="text-center">{{ ::asignatura_perdida.detalle_periodos.definitiva_year | number:0 }}</td>
                     <td ng-repeat="periodo in ::year.periodos track by $index" class="text-center">
                       <div>{{ ::asignatura_perdida.detalle_periodos['cant_perdidas_' + ($index+1) ] }}</div>
                     </td>
@@ -137,68 +126,8 @@
                 <tfoot>
                   <tr>
                     <td colspan="2">Total</td>
-                    <td></td>
                     <td ng-repeat="periodo in ::year.periodos track by $index" class="text-center">{{::alumno['notas_perdidas_per' + ($index+1) ]}}</td>
                     <td class="text-center"><b>{{::alumno.notas_perdidas_year}}</b></td>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
-          </div>
-        </div>
-        <!-- Tabla de perdidas del año pasado-->
-        <div ng-if="::alumno.yp_notas_perdidas_year &gt; 0" class="col-lg-6 col-xs-6 no-padding">
-          <div class="row resumen-head">
-            <div class="col-lg-12 col-xs-12 resumen-title"><span>Notas pendientes del año {{::USER.year - 1}}</span></div>
-          </div>
-          <div class="row resumen-body">
-            <div class="col-lg-10 col-xs-10 resumen-tabla">
-              <table class="table-bordered">
-                <thead>
-                  <tr>
-                    <td>No</td>
-                    <td class="text-center">Asignaturas</td>
-                    <td uib-tooltip="Definitiva del año pasado" tooltip-append-to-body="true">Def</td>
-                    <td>Per1</td>
-                    <td>Per2</td>
-                    <td>Per3</td>
-                    <td>Per4</td>
-                    <td>Total</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr ng-repeat="asignatura_perdida in ::alumno.asignaturas_year_pasado">
-                    <td>{{$index + 1}}</td>
-                    <td>
-                      <div style="width: 140px;" class="nombresellipsis">{{::asignatura_perdida.materia | capitalize}}</div>
-                    </td>
-                    <td class="text-center">
-                      <div>{{ ::asignatura_perdida.detalle_periodos.definitiva_year | number:0 }}</div>
-                    </td>
-                    <td class="text-center">
-                      <div>{{ ::asignatura_perdida.detalle_periodos.cant_perdidas_1 }}</div>
-                    </td>
-                    <td class="text-center">
-                      <div>{{ ::asignatura_perdida.detalle_periodos.cant_perdidas_2 }}</div>
-                    </td>
-                    <td class="text-center">
-                      <div>{{ ::asignatura_perdida.detalle_periodos.cant_perdidas_3 }}</div>
-                    </td>
-                    <td class="text-center">
-                      <div>{{ ::asignatura_perdida.detalle_periodos.cant_perdidas_4 }}</div>
-                    </td>
-                    <td class="text-center"><b>{{::asignatura_perdida.detalle_periodos.cant_perdidas_year}}</b></td>
-                  </tr>
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td colspan="2">Total</td>
-                    <td></td>
-                    <td class="text-center">{{::alumno.yp_notas_perdidas_per1 }}</td>
-                    <td class="text-center">{{::alumno.yp_notas_perdidas_per2 }}</td>
-                    <td class="text-center">{{::alumno.yp_notas_perdidas_per3 }}</td>
-                    <td class="text-center">{{::alumno.yp_notas_perdidas_per4 }}</td>
-                    <td class="text-center"><b>{{::alumno.yp_notas_perdidas_year}}</b></td>
                   </tr>
                 </tfoot>
               </table>

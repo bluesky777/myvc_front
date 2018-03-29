@@ -1,5 +1,20 @@
+.row(ng-if="hasRoleOrPerm(['alumno'])")
+	.col-xs-12.col-md-12.margin-padding-lados-xs
+		.widget
+			.widget-header.bordered-bottom.bordered-themesecondary
+				i.widget-icon.fa.fa-tags.themesecondary
+				span.widget-caption.themesecondary(uib-tooltip="Hay alumnos que piden algunos cambios. Tú podrías aceptar o rechazar esas peticiones.")
+					| Pedidos que esperan tu aprobación
+
+			.widget-body
+				.widget-main.no-padding
+					| Veremos tu disciplina
+
+
+
+
 .row(ng-if="hasRoleOrPerm(['admin', 'profesor'])")
-	.col-xs-12.col-md-12
+	.col-xs-12.col-md-12.margin-padding-lados-xs
 		.widget
 			.widget-header.bordered-bottom.bordered-themesecondary
 				i.widget-icon.fa.fa-tags.themesecondary

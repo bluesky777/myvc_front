@@ -1,6 +1,6 @@
-.col-lg-12.col-sm-12.col-xs-12
+.col-lg-12.col-sm-12.col-xs-12.margin-padding-lados-xs
 	.row(ng-repeat="year in years")
-		.col-lg-12.col-sm-12.col-xs-12
+		.col-lg-12.col-sm-12.col-xs-12.margin-padding-lados-xs
 			.widget(ng-class="{'maximized':maxi, 'collapsed':year.ocultando}" style="/*min-height: 600px*/")
 				.widget-header(ng-class="{'bg-blue':year.actual, 'bg-gold':!year.actual}")
 					i.widget-icon.fa.fa-institution
@@ -284,7 +284,7 @@
 
 
 	.row
-		.col-lg-12.col-sm-12.col-xs-12
+		.col-lg-12.col-sm-12.col-xs-12.margin-padding-lados-xs
 			.widget(ng-class="{'collapsed':!nonuevo}")
 				.widget-header.bg-success(ng-click="nonuevo = !nonuevo")
 					i.widget-icon.fa.fa-plus
