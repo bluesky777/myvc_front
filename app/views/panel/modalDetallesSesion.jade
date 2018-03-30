@@ -11,7 +11,8 @@
 					span(uib-tooltip="Código de la sesión") Codigo: {{ historial.id }} -
 
 					b(ng-show="::historial.device_family!='Unknown'")   {{historial.device_family}} -
-					|   {{ historial.entorno }}, {{ historial.platform_family }}, {{ historial.browser_name }}
+					|   {{ historial.entorno }}, {{ historial.platform_family }}, {{ historial.browser_name }}.
+					b   IP: {{ historial.ip }}
 			.row
 				.col-xs-12 Duración:
 					b(style="font-size: 14pt")   {{duracion}}

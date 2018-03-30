@@ -1,0 +1,18 @@
+div
+
+	img(ng-show="historial.foto_nombre" ng-src="{{perfilPath + historial.foto_nombre}}" alt="foto oficial" style="width: 100px; height: 100px;")
+	img(ng-show="historial.imagen_nombre" ng-src="{{perfilPath + historial.imagen_nombre}}" alt="foto de usuario" style="width: 100px; height: 100px;")
+
+	br
+	div(ng-if="historial.email") Email: {{historial.email}}
+
+	div(ng-if="historial.username")
+		| Usuario:
+		b   {{historial.username}}
+	div
+		| Telefono:  {{historial.celular}} - {{historial.telefono}}
+	div
+		| Nacimiento:  {{historial.fecha_nac}}
+	div(style="text-align: center; font-style: italic; ")
+		| {{historial.cant_asignaturas}} asignaturas
+

@@ -28,21 +28,45 @@
     </div>
   </div>
 </div>
+<!-- Gráfico de docentes-->
+<div style="padding-top: 5px; padding-bottom: 40px; height: 310px" class="row comportamiento-boletin">
+  <div style="height: 140px;" class="col-lg-12 col-xs-12">
+    <div class="row">
+      <div style="text-align: center; " class="col-lg-12 col-xs-12">
+        <div style="height: 280px;" class="databox databox-xxlg databox-vertical databox-shadowed bg-white radius-bordered padding-5">
+          <div class="databox-top">
+            <div class="databox-row row-12">
+              <div class="databox-cell cell-12 text-center">
+                <div class="databox-number number-xxlg sonic-silver">Asignaturas correctas</div>
+              </div>
+            </div>
+          </div>
+          <div class="databox-bottom">
+            <div class="databox-row row-12">
+              <nvd3 options="options" data="data" api="api"></nvd3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Cuadros de Sesiones-->
 <div ng-if="hasRoleOrPerm(['admin', 'profesor'])" class="row">
+  <!-- Cuadros de Sesiones personales-->
   <div ng-class="{'col-sm-6': hasRoleOrPerm(['admin'])}" class="col-xs-12">
     <div class="widget">
       <div class="widget-header bordered-bottom bordered-themeprimary"><i class="widget-icon fa fa-history themeprimary"></i><span uib-tooltip="Aquí verás las últimas veces que entraste al sistema" class="widget-caption themeprimary">Historial de sesiones</span></div>
       <div class="widget-body">
         <div class="widget-main no-padding">
-          <h4>Mis sesiones</h4>
-          <div style="height: 200px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px;">
+          <h4 style="margin-top: 0;">Mis sesiones</h4>
+          <div style="height: 213px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px; margin-bottom: 10px; border-radius: 4px;">
             <div ng-repeat="historial in changes_asked.historial" ng-click="verDetalleDeMiSesion(historial)" style="border-bottom: 1px solid #ccc" class="row">
               <div class="col-xs-12 col-sm-5"><b>{{$index+1}}.</b>  {{ historial.created_at }}</div>
               <div class="col-xs-12 col-sm-7"><b ng-show="::historial.device_family!='Unknown'">  {{historial.device_family}} -</b><b ng-show="::historial.cant_cambios&gt;0" uib-tooltip="Cambios realizados durante la sesión" tooltip-append-to-body="true">{{historial.cant_cambios}} cambios -</b>  {{ historial.entorno }}, {{ historial.platform_family }}, {{ historial.browser_family }}</div>
             </div>
-          </div>
-          <h4>Intentos fallidos</h4>
-          <div style="height: 200px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px;">
+          </div><a ng-click="mostrando_intentos_fallidos = !mostrando_intentos_fallidos" href="">Ver intentos fallidos</a>
+          <div ng-show="mostrando_intentos_fallidos" style="height: 200px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px; border-radius: 4px;">
             <div ng-repeat="intento in changes_asked.intentos_fallidos" style="border-bottom: 1px solid #ccc" ng-show="!intento.eliminada" class="row">
               <div class="col-xs-12 col-sm-4"><b>{{$index+1}}.</b>  {{ intento.created_at }}
                 <button ng-click="eliminarIntentoFallido(intento)" class="btn btn-warning btn-sm"><i class="fa fa-times"></i></button>
@@ -54,12 +78,26 @@
       </div>
     </div>
   </div>
+  <!-- Sesiones de los docentes-->
   <div ng-if="hasRoleOrPerm(['admin'])" class="col-xs-12 col-sm-6">
     <div class="widget">
       <div class="widget-header bordered-bottom bordered-themeprimary"><i class="widget-icon fa fa-history themeprimary"></i><span uib-tooltip="Historial de los docentes" class="widget-caption themeprimary">Sesiones de docentes</span></div>
       <div class="widget-body">
         <div class="widget-main no-padding">
-          <h4>En desarrollo</h4>
+          <div style="height: 270px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px; border-radius: 4px;">
+            <div ng-repeat="historial in changes_asked.profes_actuales" ng-click="verDetalleDeMiSesion(historial)" uib-popover-template="views+'panel/popoverDocenteInfo.tpl.html'" popover-title="{{historial.nombres + ' ' + historial.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" style="border-bottom: 1px solid #ccc; padding-bottom: 4px; padding-top: 4px;" class="row">
+              <div class="col-xs-12 col-sm-6">
+                <div class="row">
+                  <div style="padding-right: 0" class="col-xs-4"><b style="width: 16px; display: inline-block;">{{$index+1}}</b><img ng-src="{{perfilPath + historial.foto_nombre}}" style="width: 30px; height: 30px;"></div>
+                  <div style="padding-left: 0; padding-right: 0" class="col-xs-8">
+                    <div style="margin-top: -2px;" class="nombresellipsis">  {{ historial.nombres + ' ' + historial.apellidos }}</div>
+                    <div style="font-size: 8pt; margin-top: -1px;" uib-tooltip="Último ingreso" tooltip-append-to-body="true">  {{historial.fecha_ingreso}}</div>
+                  </div>
+                </div>
+              </div>
+              <div style="font-size: 9pt;" class="col-xs-12 col-sm-6"><b ng-show="::historial.device_family!='Unknown' &amp;&amp; historial.device_family!=null">  {{historial.device_family}} -</b><b ng-hide="::historial.fecha_ingreso" style="font-style: italic; color: red;">(Nunca ha ingresado)</b><span ng-show="::historial.fecha_ingreso">  {{ historial.entorno }}, {{ historial.platform_family }}, {{ historial.browser_family }}</span></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

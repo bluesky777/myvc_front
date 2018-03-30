@@ -9,7 +9,7 @@
   <div class="row">
     <div class="col-lg-12 col-xs-12">
       <div class="row">
-        <div class="col-xs-12"><span uib-tooltip="Código de la sesión">Codigo: {{ historial.id }} -</span><b ng-show="::historial.device_family!='Unknown'">  {{historial.device_family}} -</b>  {{ historial.entorno }}, {{ historial.platform_family }}, {{ historial.browser_name }}</div>
+        <div class="col-xs-12"><span uib-tooltip="Código de la sesión">Codigo: {{ historial.id }} -</span><b ng-show="::historial.device_family!='Unknown'">  {{historial.device_family}} -</b>  {{ historial.entorno }}, {{ historial.platform_family }}, {{ historial.browser_name }}.<b>  IP: {{ historial.ip }}</b></div>
       </div>
       <div class="row">
         <div class="col-xs-12">Duración:<b style="font-size: 14pt">  {{duracion}}</b><span style="font-size: 9pt">   ({{ historial.created_at }} - {{ historial.logout_at }})</span></div>

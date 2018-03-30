@@ -27,19 +27,7 @@ angular.module('myvcFrontApp')
 
 
 	$scope.ok = ()->
-		if asked.assignment_id
-			$scope.aceptarAsignatura()
-		else
-			datos = { asked_id: asked.asked_id, data_id: asked.detalles.data_id, tipo: tipo, valor_nuevo: valor_nuevo, asker_id: asked.asked_by_user_id }
-
-			if asked.alumno_id
-				datos.alumno_id = asked.alumno_id
-
-			$http.put('::ChangesAsked/aceptar-alumno', datos).then((r)->
-				$modalInstance.close(r.data)
-			, (r2)->
-				toastr.warning 'Problema', 'No se pudo aceptar petición.'
-			)
+		$modalInstance.close()
 
 
 

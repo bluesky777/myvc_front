@@ -30,11 +30,28 @@
 									| {{definicion.frase}}
 
 
+// Gráfico de docentes
+.row.comportamiento-boletin(style="padding-top: 5px; padding-bottom: 40px; height: 310px")
+	.col-lg-12.col-xs-12(style="height: 140px;")
+		.row
+			.col-lg-12.col-xs-12(style="text-align: center; ")
+				div.databox.databox-xxlg.databox-vertical.databox-shadowed.bg-white.radius-bordered.padding-5(style="height: 280px;")
+					div.databox-top
+						.databox-row.row-12
+							.databox-cell.cell-12.text-center
+								.databox-number.number-xxlg.sonic-silver
+									| Asignaturas correctas
+
+					.databox-bottom
+						.databox-row.row-12
+							nvd3(options='options' data='data' api="api")
 
 
 
+// Cuadros de Sesiones
 .row(ng-if="hasRoleOrPerm(['admin', 'profesor'])")
 
+	// Cuadros de Sesiones personales
 	.col-xs-12(ng-class="{'col-sm-6': hasRoleOrPerm(['admin'])}")
 		.widget
 			.widget-header.bordered-bottom.bordered-themeprimary
@@ -44,8 +61,8 @@
 
 			.widget-body
 				.widget-main.no-padding
-					h4 Mis sesiones
-					div(style="height: 200px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px;")
+					h4(style="margin-top: 0;") Mis sesiones
+					div(style="height: 213px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px; margin-bottom: 10px; border-radius: 4px;")
 						.row(ng-repeat="historial in changes_asked.historial" ng-click="verDetalleDeMiSesion(historial)" style="border-bottom: 1px solid #ccc")
 							.col-xs-12.col-sm-5
 								b {{$index+1}}.
@@ -55,8 +72,9 @@
 								b(ng-show="::historial.cant_cambios>0" uib-tooltip="Cambios realizados durante la sesión" tooltip-append-to-body="true") {{historial.cant_cambios}} cambios -
 								|   {{ historial.entorno }}, {{ historial.platform_family }}, {{ historial.browser_family }}
 
-					h4 Intentos fallidos
-					div(style="height: 200px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px;")
+					a(ng-click="mostrando_intentos_fallidos = !mostrando_intentos_fallidos" href="") Ver intentos fallidos
+
+					div(ng-show="mostrando_intentos_fallidos" style="height: 200px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px; border-radius: 4px;")
 						.row(ng-repeat="intento in changes_asked.intentos_fallidos" style="border-bottom: 1px solid #ccc" ng-show="!intento.eliminada")
 							.col-xs-12.col-sm-4
 								b {{$index+1}}.
@@ -68,7 +86,7 @@
 
 
 
-
+	// Sesiones de los docentes
 	.col-xs-12.col-sm-6(ng-if="hasRoleOrPerm(['admin'])")
 		.widget
 			.widget-header.bordered-bottom.bordered-themeprimary
@@ -78,7 +96,28 @@
 
 			.widget-body
 				.widget-main.no-padding
-					h4 En desarrollo
+					div(style="height: 270px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px; border-radius: 4px;")
+						.row(ng-repeat="historial in changes_asked.profes_actuales" ng-click="verDetalleDeMiSesion(historial)"
+							uib-popover-template="views+'panel/popoverDocenteInfo.tpl.html'"
+							popover-title="{{historial.nombres + ' ' + historial.apellidos}}"
+							popover-trigger="'mouseenter'" popover-popup-delay="500"
+							style="border-bottom: 1px solid #ccc; padding-bottom: 4px; padding-top: 4px;")
+
+							.col-xs-12.col-sm-6
+								.row
+									.col-xs-4(style="padding-right: 0")
+										b(style="width: 16px; display: inline-block;") {{$index+1}}
+										img(ng-src="{{perfilPath + historial.foto_nombre}}" style="width: 30px; height: 30px;")
+
+									.col-xs-8(style="padding-left: 0; padding-right: 0")
+										.nombresellipsis(style="margin-top: -2px;")   {{ historial.nombres + ' ' + historial.apellidos }}
+										div(style="font-size: 8pt; margin-top: -1px;" uib-tooltip="Último ingreso" tooltip-append-to-body="true")   {{historial.fecha_ingreso}}
+
+							.col-xs-12.col-sm-6(style="font-size: 9pt;")
+								b(ng-show="::historial.device_family!='Unknown' && historial.device_family!=null")   {{historial.device_family}} -
+								b(ng-hide="::historial.fecha_ingreso" style="font-style: italic; color: red;") (Nunca ha ingresado)
+								span(ng-show="::historial.fecha_ingreso")   {{ historial.entorno }}, {{ historial.platform_family }}, {{ historial.browser_family }}
+
 
 
 
