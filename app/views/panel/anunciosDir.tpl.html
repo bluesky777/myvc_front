@@ -1,16 +1,70 @@
 
 <div ng-if="hasRoleOrPerm(['alumno'])" class="row">
-  <div class="col-xs-12 col-md-12 margin-padding-lados-xs">
+  <div class="col-xs-12 col-md-12">
     <div class="widget">
-      <div class="widget-header bordered-bottom bordered-themesecondary"><i class="widget-icon fa fa-tags themesecondary"></i><span uib-tooltip="Hay alumnos que piden algunos cambios. Tú podrías aceptar o rechazar esas peticiones." class="widget-caption themesecondary">Pedidos que esperan tu aprobación</span></div>
+      <div class="widget-header bordered-bottom bordered-themesecondary"><i class="widget-icon fa fa-tags themesecondary"></i><span uib-tooltip="Hay alumnos que piden algunos cambios. Tú podrías aceptar o rechazar esas peticiones." class="widget-caption themesecondary">Disciplina</span></div>
       <div class="widget-body">
-        <div class="widget-main no-padding">Veremos tu disciplina</div>
+        <div class="widget-main no-padding">
+          <div style="text-align: center" class="row">
+            <div class="col-xs-12 col-sm-3">Tardanzas a la institución: {{ ::changes_asked.ausencias_periodo.cant_tardanzas_entrada }}</div>
+            <div class="col-xs-12 col-sm-3">Ausencias a la institución: {{ ::changes_asked.ausencias_periodo.cant_ausencias_entrada }}</div>
+            <div class="col-xs-12 col-sm-3">Ausencias a la institución: {{ ::changes_asked.ausencias_periodo.cant_tardanzas_clases }}</div>
+            <div class="col-xs-12 col-sm-3">Ausencias a la institución: {{ ::changes_asked.ausencias_periodo.cant_ausencias_clases }}</div>
+          </div>
+          <hr>
+          <div style="text-align: center" class="row">
+            <div class="col-xs-12"><b>Nota de comportamiento: {{ ::changes_asked.comportamiento.nota }}</b></div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-xs-12">
+              <ul>
+                <li ng-repeat="definicion in ::changes_asked.comportamiento.definiciones">{{definicion.frase}}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 <div ng-if="hasRoleOrPerm(['admin', 'profesor'])" class="row">
-  <div class="col-xs-12 col-md-12 margin-padding-lados-xs">
+  <div ng-class="{'col-sm-6': hasRoleOrPerm(['admin'])}" class="col-xs-12">
+    <div class="widget">
+      <div class="widget-header bordered-bottom bordered-themeprimary"><i class="widget-icon fa fa-history themeprimary"></i><span uib-tooltip="Aquí verás las últimas veces que entraste al sistema" class="widget-caption themeprimary">Historial de sesiones</span></div>
+      <div class="widget-body">
+        <div class="widget-main no-padding">
+          <h4>Mis sesiones</h4>
+          <div style="height: 200px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px;">
+            <div ng-repeat="historial in changes_asked.historial" ng-click="verDetalleDeMiSesion(historial)" style="border-bottom: 1px solid #ccc" class="row">
+              <div class="col-xs-12 col-sm-5"><b>{{$index+1}}.</b>  {{ historial.created_at }}</div>
+              <div class="col-xs-12 col-sm-7"><b ng-show="::historial.device_family!='Unknown'">  {{historial.device_family}} -</b><b ng-show="::historial.cant_cambios&gt;0" uib-tooltip="Cambios realizados durante la sesión" tooltip-append-to-body="true">{{historial.cant_cambios}} cambios -</b>  {{ historial.entorno }}, {{ historial.platform_family }}, {{ historial.browser_family }}</div>
+            </div>
+          </div>
+          <h4>Intentos fallidos</h4>
+          <div style="height: 200px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px;">
+            <div ng-repeat="intento in changes_asked.intentos_fallidos" style="border-bottom: 1px solid #ccc" ng-show="!intento.eliminada" class="row">
+              <div class="col-xs-12 col-sm-4"><b>{{$index+1}}.</b>  {{ intento.created_at }}
+                <button ng-click="eliminarIntentoFallido(intento)" class="btn btn-warning btn-sm"><i class="fa fa-times"></i></button>
+              </div>
+              <div class="col-xs-12 col-sm-8">{{ intento.descripcion }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-if="hasRoleOrPerm(['admin'])" class="col-xs-12 col-sm-6">
+    <div class="widget">
+      <div class="widget-header bordered-bottom bordered-themeprimary"><i class="widget-icon fa fa-history themeprimary"></i><span uib-tooltip="Historial de los docentes" class="widget-caption themeprimary">Sesiones de docentes</span></div>
+      <div class="widget-body">
+        <div class="widget-main no-padding">
+          <h4>En desarrollo</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-md-12">
     <div class="widget">
       <div class="widget-header bordered-bottom bordered-themesecondary"><i class="widget-icon fa fa-tags themesecondary"></i><span uib-tooltip="Hay alumnos que piden algunos cambios. Tú podrías aceptar o rechazar esas peticiones." class="widget-caption themesecondary">Pedidos que esperan tu aprobación</span></div>
       <div class="widget-body">

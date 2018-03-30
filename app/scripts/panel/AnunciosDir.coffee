@@ -22,7 +22,7 @@ angular.module('myvcFrontApp')
 ])
 
 
-.controller('AnunciosDirCtrl', ['$scope', '$uibModal', 'AuthService', '$http', 'toastr', ($scope, $modal, AuthService, $http, toastr)->
+.controller('AnunciosDirCtrl', ['$scope', '$uibModal', 'AuthService', '$http', 'toastr', '$filter', ($scope, $modal, AuthService, $http, toastr, $filter)->
 
 	$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
 
@@ -110,6 +110,46 @@ angular.module('myvcFrontApp')
 			toastr.success 'Pedido eliminado.'
 			asked.finalizado = true
 		)
+
+
+	$scope.verDetalleDeMiSesion = (historial)->
+
+
+		$http.put('::historiales/sesion', { historial_id: historial.id, tipo: historial.tipo }).then((r)->
+
+			modalInstance = $modal.open({
+				templateUrl: '==panel/modalDetallesSesion.tpl.html'
+				controller: 'ModalDetallesSesionCtrl'
+				resolve:
+					historial: ()->
+						r.data.historial
+			})
+			modalInstance.result.then( (r)->
+				console.log historial
+			)
+
+		, (r2)->
+			toastr.error 'No se pudo traer el detalle'
+		)
+
+
+
+
+	$scope.eliminarIntentoFallido = (intento)->
+		res = false
+		res = confirm('¿Está seguro de eliminar este registro?')
+
+		if res
+
+			$http.delete('::bitacoras/destroy/'+intento.id).then((r)->
+					toastr.success 'Eliminado. Recargue para ver los cambios.'
+					intento.eliminada = true
+					$scope.changes_asked.intentos_fallidos = $filter('filter')($scope.changes_asked.intentos_fallidos, {id: '!'+intento.id}, true)
+			, (r2)->
+				toastr.error 'No se pudo eliminar'
+			)
+
+
 
 ])
 

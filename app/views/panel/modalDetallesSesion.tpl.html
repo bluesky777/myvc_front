@@ -1,0 +1,50 @@
+
+<div class="modal-header">
+  <h3 class="modal-title flipInY">Detalles de la sesion</h3>
+</div>
+<div class="modal-body">
+  <div style="padding-bottom: 10px;">
+    <h3 style="display: inline;">{{ alumno.nombres }} {{ alumno.apellidos }}</h3>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 col-xs-12">
+      <div class="row">
+        <div class="col-xs-12"><span uib-tooltip="Código de la sesión">Codigo: {{ historial.id }} -</span><b ng-show="::historial.device_family!='Unknown'">  {{historial.device_family}} -</b>  {{ historial.entorno }}, {{ historial.platform_family }}, {{ historial.browser_name }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">Duración:<b style="font-size: 14pt">  {{duracion}}</b><span style="font-size: 9pt">   ({{ historial.created_at }} - {{ historial.logout_at }})</span></div>
+      </div>
+    </div>
+  </div>
+  <div ng-if="historial.bitacoras.length == 0" class="row">
+    <div style="overflow: auto; max-height: 380px;" class="col-lg-12 col-xs-12">
+      <h4 style="text-align: center;">No realizó cambios en esta sesión.</h4>
+    </div>
+  </div>
+  <div ng-if="historial.bitacoras.length &gt; 0" class="row">
+    <div style="overflow: auto; max-height: 380px;" class="col-lg-12 col-xs-12">
+      <h4 style="text-align: center;">Historial de cambios (por ahora sólo cambios de notas):</h4>
+      <table class="table table-hover table-condensed table-striped">
+        <thead>
+          <tr>
+            <th class="text-center">No</th>
+            <th class="text-center"><span uib-tooltip="Código de la bitácora">Id</span></th>
+            <th class="text-center">Descripción</th>
+            <th style="padding: 5px 0 5px 0; min-width: 90px;" class="text-center">Fecha cambio</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="cambio in historial.bitacoras | orderBy:'id' track by $index" ng-show="::cambio.affected_element_type='Nota'">
+            <td class="text-center">{{ $index+1 }}</td>
+            <td style="font-size: 8pt; font-style: italic;"><span uib-tooltip="Código de la bitácora">{{ cambio.id }}</span></td>
+            <td style="font-size: 9pt;">Cambia nota a {{ ::cambio.nombres + ' ' + cambio.apellidos }} de {{ ::cambio.affected_element_old_value_int }} por<b>  {{ ::cambio.affected_element_new_value_int }}</b>  en "{{ ::cambio.definicion }}"</td>
+            <td style="font-size: 8pt; text-align: right;">{{ ::cambio.created_at }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button ng-click="ok()" class="btn btn-labeled btn-default">Cerrar<i class="btn-label fa fa-check"></i></button>
+</div>

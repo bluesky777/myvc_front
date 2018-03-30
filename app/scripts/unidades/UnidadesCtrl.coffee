@@ -52,6 +52,68 @@ angular.module('myvcFrontApp')
 
 
 
+	$scope.mostrarUnidadesEliminadas = ()->
+		if $scope.mostrando_unidades_eliminadas
+			$scope.mostrando_unidades_eliminadas = false
+		else
+			$http.put('::unidades/eliminadas/' + $scope.asignatura_id).then((r)->
+				r = r.data
+				$scope.unidades_eliminadas    = r.unidades_eliminadas
+				$scope.subunidades_eliminadas = r.subunidades_eliminadas
+				$scope.mostrando_unidades_eliminadas = true
+			, (r2)->
+				$scope.mostrando_unidades_eliminadas = true
+				toastr.error 'No se pudo traer las unidades eliminadas'
+			)
+
+
+	$scope.restaurarUnidad = (unidad)->
+		if !unidad.restaurando
+			unidad.restaurando = true
+			$http.put('::unidades/restore/'+unidad.id).then((r)->
+
+				$scope.unidades.push unidad
+				$scope.calcularPorcUnidades()
+				$timeout(()->
+					$scope.onSortUnidades(undefined, $scope.unidades)
+				, 100)
+				toastr.success 'Listo.'
+			, (r2)->
+				unidad.restaurando = false
+				toastr.error 'Error restaurando', 'Problema'
+			)
+
+
+
+
+	$scope.mostrarSubunidadesEliminadas = ()->
+		if $scope.mostrando_subunidades_eliminadas
+			$scope.mostrando_subunidades_eliminadas = false
+		else
+			$http.put('::subunidades/eliminadas/' + $scope.asignatura_id).then((r)->
+				r = r.data
+				$scope.subunidades_eliminadas = r.subunidades
+				$scope.mostrando_subunidades_eliminadas = true
+			, (r2)->
+				$scope.mostrando_subunidades_eliminadas = true
+				toastr.error 'No se pudo traer las subunidades eliminadas'
+			)
+
+
+	$scope.restaurarSubunidad = (subunidad)->
+		if !subunidad.restaurando
+			subunidad.restaurando = true
+			$http.put('::subunidades/restore/'+subunidad.id).then((r)->
+				toastr.success 'Listo. Recargue para ver los cambios'
+			, (r2)->
+				subunidad.restaurando = false
+				toastr.error 'Error restaurando', 'Problema'
+			)
+
+
+
+
+
 	$scope.copiarUnidades = ()->
 		$scope.asignatura.periodo_id      = $scope.USER.periodo_id
 		$scope.asignatura.year_id         = $scope.USER.year_id

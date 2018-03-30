@@ -1,0 +1,56 @@
+.modal-header
+	h3.modal-title.flipInY Detalles de la sesion
+.modal-body
+	div(style="padding-bottom: 10px;")
+		h3(style="display: inline;") {{ alumno.nombres }} {{ alumno.apellidos }}
+
+	.row
+		.col-lg-12.col-xs-12
+			.row
+				.col-xs-12
+					span(uib-tooltip="Código de la sesión") Codigo: {{ historial.id }} -
+
+					b(ng-show="::historial.device_family!='Unknown'")   {{historial.device_family}} -
+					|   {{ historial.entorno }}, {{ historial.platform_family }}, {{ historial.browser_name }}
+			.row
+				.col-xs-12 Duración:
+					b(style="font-size: 14pt")   {{duracion}}
+					span(style="font-size: 9pt")    ({{ historial.created_at }} - {{ historial.logout_at }})
+
+
+	.row(ng-if="historial.bitacoras.length == 0")
+		.col-lg-12.col-xs-12(style="overflow: auto; max-height: 380px;")
+			h4(style="text-align: center;") No realizó cambios en esta sesión.
+
+	.row(ng-if="historial.bitacoras.length > 0")
+		.col-lg-12.col-xs-12(style="overflow: auto; max-height: 380px;")
+			h4(style="text-align: center;") Historial de cambios (por ahora sólo cambios de notas):
+			table.table.table-hover.table-condensed.table-striped
+				thead
+					tr
+						th.text-center No
+						th.text-center
+							span(uib-tooltip="Código de la bitácora") Id
+						th.text-center Descripción
+						th.text-center(style="padding: 5px 0 5px 0; min-width: 90px;") Fecha cambio
+				tbody
+					tr(ng-repeat="cambio in historial.bitacoras | orderBy:'id' track by $index" ng-show="::cambio.affected_element_type='Nota'")
+						td.text-center {{ $index+1 }}
+						td(style="font-size: 8pt; font-style: italic;")
+							span(uib-tooltip="Código de la bitácora") {{ cambio.id }}
+						td(style="font-size: 9pt;") Cambia nota a {{ ::cambio.nombres + ' ' + cambio.apellidos }} de {{ ::cambio.affected_element_old_value_int }} por
+							b   {{ ::cambio.affected_element_new_value_int }}
+							|   en "{{ ::cambio.definicion }}"
+						td(style="font-size: 8pt; text-align: right;") {{ ::cambio.created_at }}
+
+
+
+
+
+
+
+
+.modal-footer
+	button.btn.btn-labeled.btn-default(ng-click="ok()") Cerrar
+		i.btn-label.fa.fa-check
+

@@ -115,10 +115,14 @@
 
 			.row(style="margin-top: 30px; ")
 				.col-xs-12.col-md-12
-					a(href="" ng-click="mostrandoPapelera=!mostrandoPapelera" ng-disabled="copiando" uib-tooltip="Muestra las asignaturas eliminadas de este año") Mostrar papelera
+					a(href="" ng-click="mostrandoPapelera=!mostrandoPapelera" uib-tooltip="Muestra las asignaturas eliminadas de este año") Mostrar papelera
 
 			.row(ng-show="mostrandoPapelera")
 				.col-xs-12.col-md-12
+
+					.row(ng-show="asignaturas_eliminadas.length == 0" style="border-bottom: 1px solid #ccc;")
+						.col-xs-12
+							| No hay asignaturas en la papelera
 
 					.row(ng-repeat="asignatura in asignaturas_eliminadas" style="border-bottom: 1px solid #ccc;")
 						.col-xs-1

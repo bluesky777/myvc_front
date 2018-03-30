@@ -1,20 +1,90 @@
 .row(ng-if="hasRoleOrPerm(['alumno'])")
-	.col-xs-12.col-md-12.margin-padding-lados-xs
+	.col-xs-12.col-md-12
 		.widget
 			.widget-header.bordered-bottom.bordered-themesecondary
 				i.widget-icon.fa.fa-tags.themesecondary
 				span.widget-caption.themesecondary(uib-tooltip="Hay alumnos que piden algunos cambios. Tú podrías aceptar o rechazar esas peticiones.")
-					| Pedidos que esperan tu aprobación
+					| Disciplina
 
 			.widget-body
 				.widget-main.no-padding
-					| Veremos tu disciplina
+					.row(style="text-align: center")
+						.col-xs-12.col-sm-3
+							| Tardanzas a la institución: {{ ::changes_asked.ausencias_periodo.cant_tardanzas_entrada }}
+						.col-xs-12.col-sm-3
+							| Ausencias a la institución: {{ ::changes_asked.ausencias_periodo.cant_ausencias_entrada }}
+						.col-xs-12.col-sm-3
+							| Ausencias a la institución: {{ ::changes_asked.ausencias_periodo.cant_tardanzas_clases }}
+						.col-xs-12.col-sm-3
+							| Ausencias a la institución: {{ ::changes_asked.ausencias_periodo.cant_ausencias_clases }}
+					hr
+					.row(style="text-align: center")
+						.col-xs-12
+							b Nota de comportamiento: {{ ::changes_asked.comportamiento.nota }}
+
+					hr
+					.row
+						.col-xs-12
+							ul
+								li(ng-repeat="definicion in ::changes_asked.comportamiento.definiciones")
+									| {{definicion.frase}}
+
 
 
 
 
 .row(ng-if="hasRoleOrPerm(['admin', 'profesor'])")
-	.col-xs-12.col-md-12.margin-padding-lados-xs
+
+	.col-xs-12(ng-class="{'col-sm-6': hasRoleOrPerm(['admin'])}")
+		.widget
+			.widget-header.bordered-bottom.bordered-themeprimary
+				i.widget-icon.fa.fa-history.themeprimary
+				span.widget-caption.themeprimary(uib-tooltip="Aquí verás las últimas veces que entraste al sistema")
+					| Historial de sesiones
+
+			.widget-body
+				.widget-main.no-padding
+					h4 Mis sesiones
+					div(style="height: 200px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px;")
+						.row(ng-repeat="historial in changes_asked.historial" ng-click="verDetalleDeMiSesion(historial)" style="border-bottom: 1px solid #ccc")
+							.col-xs-12.col-sm-5
+								b {{$index+1}}.
+								|   {{ historial.created_at }}
+							.col-xs-12.col-sm-7
+								b(ng-show="::historial.device_family!='Unknown'")   {{historial.device_family}} -
+								b(ng-show="::historial.cant_cambios>0" uib-tooltip="Cambios realizados durante la sesión" tooltip-append-to-body="true") {{historial.cant_cambios}} cambios -
+								|   {{ historial.entorno }}, {{ historial.platform_family }}, {{ historial.browser_family }}
+
+					h4 Intentos fallidos
+					div(style="height: 200px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px;")
+						.row(ng-repeat="intento in changes_asked.intentos_fallidos" style="border-bottom: 1px solid #ccc" ng-show="!intento.eliminada")
+							.col-xs-12.col-sm-4
+								b {{$index+1}}.
+								|   {{ intento.created_at }}
+								button.btn.btn-warning.btn-sm(ng-click="eliminarIntentoFallido(intento)")
+									i.fa.fa-times
+							.col-xs-12.col-sm-8
+								| {{ intento.descripcion }}
+
+
+
+
+	.col-xs-12.col-sm-6(ng-if="hasRoleOrPerm(['admin'])")
+		.widget
+			.widget-header.bordered-bottom.bordered-themeprimary
+				i.widget-icon.fa.fa-history.themeprimary
+				span.widget-caption.themeprimary(uib-tooltip="Historial de los docentes")
+					| Sesiones de docentes
+
+			.widget-body
+				.widget-main.no-padding
+					h4 En desarrollo
+
+
+
+
+
+	.col-xs-12.col-md-12
 		.widget
 			.widget-header.bordered-bottom.bordered-themesecondary
 				i.widget-icon.fa.fa-tags.themesecondary

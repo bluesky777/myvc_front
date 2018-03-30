@@ -21,7 +21,7 @@ angular.module("myvcFrontApp")
 	$http.get('::asignaturas/papelera').then((r)->
 		$scope.asignaturas_eliminadas = r.data
 	, (r2)->
-		toastr.error 'Error trayendo las asignaturas papelera', 'Problema'
+		toastr.error 'Error trayendo las asignaturas de papelera', 'Problema'
 	)
 
 
@@ -33,7 +33,7 @@ angular.module("myvcFrontApp")
 				toastr.success 'Listo. Debes actualizar la página para ver los cambios.'
 			, (r2)->
 				asignatura.restaurando = false
-				toastr.error 'Error trayendo las asignaturas papelera', 'Problema'
+				toastr.error 'Error restaurando', 'Problema'
 			)
 
 

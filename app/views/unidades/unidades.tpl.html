@@ -136,6 +136,44 @@
             </li>
           </ol>
         </div><a ui-sref="panel.listasignaturas({profesor_id: asignatura.profesor_id})">Volver</a></span>
+      <div style="margin-top: 30px; margin-bottom: 20px" class="row">
+        <div class="col-xs-12 col-md-12"><a href="" ng-click="mostrarUnidadesEliminadas()" uib-tooltip="Muestra las {{ ::UNIDADES }} eliminadas de este periodo">Mostrar {{ ::UNIDADES}} en papelera</a></div>
+      </div>
+      <div ng-show="mostrando_unidades_eliminadas" class="row">
+        <div class="col-xs-12 col-md-12">
+          <div ng-show="unidades_eliminadas.length == 0" style="border-bottom: 1px solid #ccc;" class="row">
+            <div class="col-xs-12">No hay unidades en la papelera</div>
+          </div>
+          <div ng-repeat="unidad in unidades_eliminadas" style="border-bottom: 1px solid #ccc;" class="row">
+            <div class="col-xs-1">
+              <button ng-click="restaurarUnidad(unidad)" uib-tooltip="Restaurar unidad" ng-disabled="unidad.restaurando" class="btn btn-default btn-sm"><i class="fa fa-undo"></i></button>
+            </div>
+            <div class="col-xs-1">{{unidad.id}}</div>
+            <div class="col-xs-5">{{unidad.definicion}}</div>
+            <div class="col-xs-5">
+              <div ng-repeat="subunidad in unidad.subunidades">* {{subunidad.definicion}} - {{subunidad.porcentaje}}%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top: 30px; margin-bottom: 20px" class="row">
+        <div class="col-xs-12 col-md-12"><a href="" ng-click="mostrarSubunidadesEliminadas()" uib-tooltip="Muestra las {{ ::SUBUNIDADES }} eliminadas de este periodo">Mostrar {{ ::SUBUNIDADES}} en papelera</a></div>
+      </div>
+      <div ng-show="mostrando_subunidades_eliminadas" class="row">
+        <div class="col-xs-12 col-md-12">
+          <div ng-show="subunidades_eliminadas.length == 0" style="border-bottom: 1px solid #ccc;" class="row">
+            <div class="col-xs-12">No hay subunidades en la papelera</div>
+          </div>
+          <div ng-repeat="subunidad in subunidades_eliminadas" style="border-bottom: 1px solid #ccc;" class="row">
+            <div class="col-xs-1">
+              <button ng-click="restaurarSubunidad(subunidad)" uib-tooltip="Restaurar subunidad" ng-disabled="subunidad.restaurando" class="btn btn-default btn-sm"><i class="fa fa-undo"></i></button>
+            </div>
+            <div class="col-xs-1">{{subunidad.id}}</div>
+            <div class="col-xs-5">{{subunidad.definicion_subunidad}} - {{subunidad.porcentaje}}%</div>
+            <div class="col-xs-5">UNIDAD: {{subunidad.definicion_unidad}}</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
