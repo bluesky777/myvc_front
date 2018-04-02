@@ -1152,8 +1152,14 @@ body {
 		padding-bottom: 0;
 		min-height: 100%;
 		font-family: 'Open Sans', 'Segoe UI';
-		font-size: 13px;
-		color: #444;
+    font-size: 13px;
+    color: #000;
+}
+@media only screen {
+  color: #444;
+}
+@media print {
+  color: #000;
 }
 body:before {
 		content: "";
@@ -16579,10 +16585,62 @@ tr { page-break-inside: avoid }
 	padding-left: 3px;
 	padding-right: 3px;
 }
+.camel{
+  text-transform:capitalize;
+}
 
 
 
 
+
+
+
+
+// ANIMACIONES
+
+
+@keyframes bounceInRight {
+  from,
+  60%,
+  75%,
+  90%,
+  to {
+    -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(3000px, 0, 0);
+    transform: translate3d(3000px, 0, 0);
+  }
+
+  60% {
+    opacity: 1;
+    -webkit-transform: translate3d(-25px, 0, 0);
+    transform: translate3d(-25px, 0, 0);
+  }
+
+  75% {
+    -webkit-transform: translate3d(10px, 0, 0);
+    transform: translate3d(10px, 0, 0);
+  }
+
+  90% {
+    -webkit-transform: translate3d(-5px, 0, 0);
+    transform: translate3d(-5px, 0, 0);
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.bounceInRight {
+  -webkit-animation-name: bounceInRight;
+  animation-name: bounceInRight;
+}
 
 
 @keyframes bounceIn {

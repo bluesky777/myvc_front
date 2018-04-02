@@ -63,7 +63,7 @@
 				.widget-main.no-padding
 					h4(style="margin-top: 0;") Mis sesiones
 					div(style="height: 213px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px; margin-bottom: 10px; border-radius: 4px;")
-						.row(ng-repeat="historial in changes_asked.historial" ng-click="verDetalleDeMiSesion(historial)" style="border-bottom: 1px solid #ccc")
+						.row.animated.flipInY(ng-repeat="historial in changes_asked.historial" ng-click="verDetalleDeMiSesion(historial)" style="border-bottom: 1px solid #ccc")
 							.col-xs-12.col-sm-5
 								b {{$index+1}}.
 								|   {{ historial.created_at }}
@@ -75,7 +75,7 @@
 					a(ng-click="mostrando_intentos_fallidos = !mostrando_intentos_fallidos" href="") Ver intentos fallidos
 
 					div(ng-show="mostrando_intentos_fallidos" style="height: 200px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px; border-radius: 4px;")
-						.row(ng-repeat="intento in changes_asked.intentos_fallidos" style="border-bottom: 1px solid #ccc" ng-show="!intento.eliminada")
+						.row.animated.bounceInLeft(ng-repeat="intento in changes_asked.intentos_fallidos" style="border-bottom: 1px solid #ccc" ng-show="!intento.eliminada")
 							.col-xs-12.col-sm-4
 								b {{$index+1}}.
 								|   {{ intento.created_at }}
@@ -84,6 +84,9 @@
 							.col-xs-12.col-sm-8
 								| {{ intento.descripcion }}
 
+						.row.animated.bounceInLeft(style="font-style: italic" ng-show="profe_seleccionado.intentos_fallidos.length==0")
+							.col-xs-12
+								| No hay intentos fallidos
 
 
 	// Sesiones de los docentes
@@ -92,32 +95,64 @@
 			.widget-header.bordered-bottom.bordered-themeprimary
 				i.widget-icon.fa.fa-history.themeprimary
 				span.widget-caption.themeprimary(uib-tooltip="Historial de los docentes")
-					| Sesiones de docentes
+					| Sesiones de
+					span(ng-hide="profe_seleccionado")   docentes
+					span(ng-show="profe_seleccionado")   {{ profe_seleccionado.profesor.nombres + ' ' + profe_seleccionado.profesor.apellidos }}
 
 			.widget-body
 				.widget-main.no-padding
-					div(style="height: 270px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px; border-radius: 4px;")
-						.row(ng-repeat="historial in changes_asked.profes_actuales" ng-click="verDetalleDeMiSesion(historial)"
-							uib-popover-template="views+'panel/popoverDocenteInfo.tpl.html'"
-							popover-title="{{historial.nombres + ' ' + historial.apellidos}}"
-							popover-trigger="'mouseenter'" popover-popup-delay="500"
-							style="border-bottom: 1px solid #ccc; padding-bottom: 4px; padding-top: 4px;")
+					span(ng-if="!profe_seleccionado")
+						div(style="height: 270px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px; border-radius: 4px;")
+							.row.animated.bounceInLeft(ng-repeat="historial in changes_asked.profes_actuales" ng-click="seleccionar_profe(historial)"
+								uib-popover-template="views+'panel/popoverDocenteInfo.tpl.html'"
+								popover-title="{{historial.nombres + ' ' + historial.apellidos}}"
+								popover-trigger="'mouseenter'" popover-popup-delay="500"
+								style="border-bottom: 1px solid #ccc; padding-bottom: 4px; padding-top: 4px;")
 
-							.col-xs-12.col-sm-6
-								.row
-									.col-xs-4(style="padding-right: 0")
-										b(style="width: 16px; display: inline-block;") {{$index+1}}
-										img(ng-src="{{perfilPath + historial.foto_nombre}}" style="width: 30px; height: 30px;")
+								.col-xs-12.col-sm-6
+									.row
+										.col-xs-4(style="padding-right: 0")
+											b(style="width: 16px; display: inline-block;") {{$index+1}}
+											img(ng-src="{{perfilPath + historial.foto_nombre}}" style="width: 30px; height: 30px;")
 
-									.col-xs-8(style="padding-left: 0; padding-right: 0")
-										.nombresellipsis(style="margin-top: -2px;")   {{ historial.nombres + ' ' + historial.apellidos }}
-										div(style="font-size: 8pt; margin-top: -1px;" uib-tooltip="Último ingreso" tooltip-append-to-body="true")   {{historial.fecha_ingreso}}
+										.col-xs-8(style="padding-left: 0; padding-right: 0")
+											.nombresellipsis(style="margin-top: -2px;")   {{ historial.nombres + ' ' + historial.apellidos }}
+											div(style="font-size: 8pt; margin-top: -1px;" uib-tooltip="Último ingreso" tooltip-append-to-body="true")   {{historial.fecha_ingreso}}
 
-							.col-xs-12.col-sm-6(style="font-size: 9pt;")
-								b(ng-show="::historial.device_family!='Unknown' && historial.device_family!=null")   {{historial.device_family}} -
-								b(ng-hide="::historial.fecha_ingreso" style="font-style: italic; color: red;") (Nunca ha ingresado)
-								span(ng-show="::historial.fecha_ingreso")   {{ historial.entorno }}, {{ historial.platform_family }}, {{ historial.browser_family }}
+								.col-xs-12.col-sm-6(style="font-size: 9pt;")
+									b(ng-show="::historial.device_family!='Unknown' && historial.device_family!=null")   {{historial.device_family}} -
+									b(ng-hide="::historial.fecha_ingreso" style="font-style: italic; color: red;") (Nunca ha ingresado)
+									span(ng-show="::historial.fecha_ingreso")   {{ historial.entorno }}, {{ historial.platform_family }}, {{ historial.browser_family }}
 
+
+					// Detalle del docente seleccionado
+					span(ng-if="profe_seleccionado")
+						a(href="" ng-click="desseleccionar_profe()") Atrás
+						div(style="height: 224px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px; margin-bottom: 10px; border-radius: 4px;")
+							.row.animated.bounceInRight(ng-repeat="historial in profe_seleccionado.historial" ng-click="verDetalleDeMiSesion(historial)" style="border-bottom: 1px solid #ccc")
+								.col-xs-12.col-sm-5
+									b {{$index+1}}.
+									|   {{ historial.created_at }}
+								.col-xs-12.col-sm-7
+									b(ng-show="::historial.device_family!='Unknown'")   {{historial.device_family}} -
+									b(ng-show="::historial.cant_cambios>0" uib-tooltip="Cambios realizados durante la sesión" tooltip-append-to-body="true") {{historial.cant_cambios}} cambios -
+									|   {{ historial.entorno }}, {{ historial.platform_family }}, {{ historial.browser_family }}
+
+						a(ng-click="mostrando_intentos_fallidos_docente = !mostrando_intentos_fallidos_docente" href="") Ver intentos fallidos
+
+						div(ng-show="mostrando_intentos_fallidos_docente" style="height: 200px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px; border-radius: 4px;")
+							.row.animated.bounceInLeft(ng-repeat="intento in profe_seleccionado.intentos_fallidos" style="border-bottom: 1px solid #ccc" ng-show="!intento.eliminada")
+								.col-xs-12.col-sm-4
+									b {{$index+1}}.
+									|   {{ intento.created_at }}
+									button.btn.btn-warning.btn-sm(ng-click="eliminarIntentoFallido(intento)")
+										i.fa.fa-times
+								.col-xs-12.col-sm-8
+									| {{ intento.descripcion }}
+
+							.row.animated.bounceInLeft(style="font-style: italic" ng-show="profe_seleccionado.intentos_fallidos.length==0")
+								.col-xs-12
+									| No hay intentos fallidos
 
 
 

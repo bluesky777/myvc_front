@@ -64,7 +64,7 @@
 <div class="row">
   <div ng-repeat="grupo in gruposcomportamientos" class="col-lg-6 col-xs-12">
     <div ng-click="openComportamiento(grupo.id)" class="databox databox-graded radius-bordered databox-shadowed">
-      <div class="databox-left bg-primary">
+      <div ng-class="{'bg-primary': grupo.con_notas, 'bg-danger': grupo.con_notas==0 || grupo.con_notas==null }" class="databox-left">
         <div class="databox-piechart">
           <div style="width: 47px; height: 47px; line-height: 47px;" class="easyPieChart">
             <div class="white font-150">{{grupo.abrev}}°</div>

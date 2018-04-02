@@ -23,38 +23,16 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 					.row.descripcion-encabezado
 						.col-lg-6.col-xs-6
 							.grupo-alumno
-								span(style="margin-right: 2px") Grupo:
-								b {{ ::grupo.nombre_grupo | capitalize }}
+								span Grupo:
+								b.camel   {{ ::grupo.nombre_grupo.toLowerCase() }}
 							.titular-grupo(uib-popover-template="::views+'informes/infoTitularPop.tpl.html'"
 									popover-popup-delay="500" popover-title="{{::grupo.nombres_profesor}} {{grupo.apellidos_profesor}}" popover-animation="true"
 									popover-trigger="mouseenter" popover-append-to-body="true")
 								| Titular: Prof. {{ ::grupo.nombres_profesor }}  {{ ::grupo.apellidos_profesor }}
 						.col-lg-6.col-xs-6
-							h6.nombre-alumno(ng-show="::alumno.estado=='ASIS'" style="font-size: 14pt") === ASISTENTE ===
 							h5.nombre-alumno {{::alumno.nombres}} {{::alumno.apellidos}}
 							.promedio-alumno Puntaje: {{::alumno.promedio | number:0 }}%
 								span(ng-show="::alumno.estado!='RETI'")  {{ ::alumno.texto_puesto }}
-			//.row.body-boletin
-				.col-lg-12.col-xs-12.no-padding
-					.materia-item
-						table.table-bordered.table-bordered2.table-striped.table-striped2(style="margin: 0 auto; width: 100%")
-							tr(style="background-color: #99caed !important;")
-								td.text-center No
-								td.text-center Asignatura / Área
-								td.text-center P1
-								td.text-center P2
-								td.text-center P3
-								td.text-center P4
-								td.text-center Desempeño
-
-							tr(ng-repeat="asignatura in ::alumno.asignaturas | orderBy:'orden_area' track by $index")
-								td {{ $index + 1 }}
-								td {{ ::asignatura.materia }}
-								td.text-center {{ ::asignatura.nota_final_per1 }}
-								td.text-center {{ ::asignatura.nota_final_per2 }}
-								td.text-center {{ ::asignatura.nota_final_per3 }}
-								td.text-center {{ ::asignatura.nota_final_per4 }}
-								td.text-center {{ ::asignatura.desempenio }}
 
 			.row.body-boletin
 				.col-lg-12.col-xs-12.no-padding
@@ -77,7 +55,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 									b P4
 								td.text-center
 									b Desempeño
-								td.text-center
+								td.text-center(style="width: 40px")
 									i.fa.fa-clock-o.icon-tardanza
 									span A/T
 
@@ -170,7 +148,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 									tr(ng-repeat="asignatura_perdida in ::alumno.asignaturas_perdidas")
 										td {{$index + 1}}
 										td
-											div.nombresellipsis(style="width: 140px;") {{::asignatura_perdida.materia | capitalize}}
+											div.nombresellipsis.camel(style="width: 140px;") {{::asignatura_perdida.materia.toLowerCase()}}
 										td.text-center {{ ::asignatura_perdida.detalle_periodos.definitiva_year | number:0 }}
 										td.text-center(ng-repeat="periodo in ::year.periodos track by $index")
 											div {{ ::asignatura_perdida.detalle_periodos['cant_perdidas_' + ($index+1) ] }}
@@ -211,7 +189,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 									tr(ng-repeat="asignatura_perdida in ::alumno.asignaturas_year_pasado")
 										td {{$index + 1}}
 										td
-											div.nombresellipsis(style="width: 140px;") {{::asignatura_perdida.materia | capitalize}}
+											div.nombresellipsis.camel(style="width: 140px;") {{::asignatura_perdida.materia.toLowerCase()}}
 										td.text-center
 											div {{ ::asignatura_perdida.detalle_periodos.definitiva_year | number:0 }}
 										td.text-center

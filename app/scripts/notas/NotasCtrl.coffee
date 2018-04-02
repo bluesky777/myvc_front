@@ -399,8 +399,10 @@ angular.module('myvcFrontApp')
 				USER: ()->
 					$scope.USER
 		})
-		modalInstance.result.then( (alum)->
-			#console.log 'Resultado del modal: ', alum
+		modalInstance.result.then( (datos)->
+			alumno.frases = datos.frases_asignatura
+		(res)->
+			console.log res
 		)
 
 
@@ -568,11 +570,12 @@ angular.module('myvcFrontApp')
 ])
 
 
-.controller('ShowFrasesCtrl', ['$scope', '$uibModalInstance', 'alumno', 'frases', 'asignatura', '$http', 'toastr', '$filter', 'USER', ($scope, $modalInstance, alumno, frases, asignatura, $http, toastr, $filter, USER)->
-	$scope.alumno     = alumno
-	$scope.frases     = frases.data
-	$scope.asignatura = asignatura
-	$scope.USER       = USER
+.controller('ShowFrasesCtrl', ['$scope', '$uibModalInstance', 'alumno', 'frases', 'asignatura', '$http', 'toastr', '$filter', 'USER', 'AuthService', ($scope, $modalInstance, alumno, frases, asignatura, $http, toastr, $filter, USER, AuthService)->
+	$scope.alumno     		= alumno
+	$scope.frases     		= frases.data
+	$scope.asignatura 		= asignatura
+	$scope.USER       		= USER
+	$scope.hasRoleOrPerm  = AuthService.hasRoleOrPerm
 
 	$scope.alumno.newFrase = ''
 
@@ -631,8 +634,28 @@ angular.module('myvcFrontApp')
 
 
 	$scope.ok = ()->
-		$modalInstance.close(alumno)
+		$modalInstance.close({alumno: alumno, frases_asignatura: $scope.frases_asignatura})
 
+
+	$scope.$on('modal.closing', (event, reason, closed)->
+		switch (reason)
+			# clicked outside
+			when "backdrop click"
+				$modalInstance.close({alumno: alumno, frases_asignatura: $scope.frases_asignatura})
+				event.preventDefault();
+
+			# cancel button
+			when "cancel"
+				$modalInstance.close({alumno: alumno, frases_asignatura: $scope.frases_asignatura})
+				event.preventDefault();
+
+			# escape key
+			when "escape key press"
+				$modalInstance.close({alumno: alumno, frases_asignatura: $scope.frases_asignatura})
+				event.preventDefault();
+
+
+	)
 
 ])
 

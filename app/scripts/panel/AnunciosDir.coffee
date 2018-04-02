@@ -82,6 +82,25 @@ angular.module('myvcFrontApp')
 	$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
 
 
+	$scope.profe_seleccionado = false
+
+
+	$scope.seleccionar_profe = (profesor)->
+
+		$http.put('::historiales/de-usuario', {user_id: profesor.user_id}).then((r)->
+			$scope.profe_seleccionado = r.data
+			$scope.profe_seleccionado.profesor = profesor
+		, (r2)->
+			console.log 'Error trayendo detalles', r2
+		)
+
+
+
+	$scope.desseleccionar_profe = ()->
+		$scope.profe_seleccionado = false
+
+
+
 	$scope.verDetalles = (change_asked)->
 		if change_asked.mostrando
 			change_asked.mostrando = false

@@ -13,7 +13,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 								| {{year.resolucion}}
 							.title-descripcion
 								|Puestos periodo {{USER.numero_periodo}}-{{USER.year}} Grupo {{grupo.nombre_grupo}}
-						.col-lg-2.col-xs-2(style="text-align: right; font-size: 9pt")
+						.col-lg-2.col-xs-2.no-padding(style="text-align: right; font-size: 9pt")
 							span
 								| {{ fechahora | date : 'dd/MM/yyyy h:mma' }}
 	.row

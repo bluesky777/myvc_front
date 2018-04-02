@@ -101,7 +101,7 @@ h6.row-title.before-blue(ng-show="gruposcomportamientos.length == 0")
 .row
 	.col-lg-6.col-xs-12(ng-repeat="grupo in gruposcomportamientos")
 		.databox.databox-graded.radius-bordered.databox-shadowed(ng-click="openComportamiento(grupo.id)")
-			.databox-left.bg-primary
+			.databox-left(ng-class="{'bg-primary': grupo.con_notas, 'bg-danger': grupo.con_notas==0 || grupo.con_notas==null }")
 				.databox-piechart
 					.easyPieChart(style="width: 47px; height: 47px; line-height: 47px;")
 						.white.font-150
