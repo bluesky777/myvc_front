@@ -2,19 +2,19 @@
 	.widget-header
 		.widget-caption
 
-			| Editar 
+			| Editar
 
-			a(href="" style="font-size: 10pt;" popover="<img src='{{perfilPath + asignatura.foto_nombre}}' style='width: 150px; height: 150px;'>" 
-				popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" 
-				popover-trigger="mouseenter" popover-append-to-body="true") 
-				| {{ asignatura.materia }} 
+			a(href="" style="font-size: 10pt;" popover="<img src='{{perfilPath + asignatura.foto_nombre}}' style='width: 150px; height: 150px;'>"
+				popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true"
+				popover-trigger="mouseenter" popover-append-to-body="true")
+				| {{ asignatura.materia }}
 
-			|  de 
+			|  de
 
-			a(href="" popover="<img src='{{perfilPath + alumno.foto_nombre}}' style='width: 100px; height: 100px;'><img src='{{perfilPath + alumno.imagen_nombre}}' style='width: 100px; height: 100px;'><br>Facebook: {{alumno.facebook}}<br>Username: {{alumno.username}}" 
-				popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-animation="true" 
-				popover-trigger="mouseenter" popover-append-to-body="true") 
-				| {{ alumno.nombres }} 
+			a(href="" popover="<img src='{{perfilPath + alumno.foto_nombre}}' style='width: 100px; height: 100px;'><img src='{{perfilPath + alumno.imagen_nombre}}' style='width: 100px; height: 100px;'><br>Facebook: {{alumno.facebook}}<br>Username: {{alumno.username}}"
+				popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-animation="true"
+				popover-trigger="mouseenter" popover-append-to-body="true")
+				| {{ alumno.nombres }}
 
 
 		.widget-buttons
@@ -32,18 +32,18 @@
 				span.text.si-no
 
 
-		.materia-item.animated(ng-repeat="periodo_materia in periodos_materia" ng-show="(periodo_materia.unidades|notasPerdidasAsignatura:true > 0) || (solo_notas_perdidas==false)")
+		.materia-item.animated.fadeInUp(ng-repeat="periodo_materia in periodos_materia" ng-show="(periodo_materia.unidades|notasPerdidasAsignatura:true > 0) || (solo_notas_perdidas==false)")
 			.row.materia-title(style="font-size: 10pt;" )
 				.col-lg-9.col-xs-9
-					span.materia-name 
-						| Periodo {{ periodo_materia.numero }} 
+					span.materia-name
+						| Periodo {{ periodo_materia.numero }}
 						| ({{ periodo_materia.unidades | notasPerdidasAsignatura:true }})
 				.col-lg-1.col-xs-2(ng-class="{'nota-perdida': periodo_materia.nota_asignatura<USER.nota_minima_aceptada}")
-					| {{ periodo_materia.nota_asignatura | juicioValorativo:escalas:true}} 
+					| {{ periodo_materia.nota_asignatura | juicioValorativo:escalas:true}}
 				.col-lg-1.col-xs-1
 					div(ng-class="{'nota-perdida-bold': periodo_materia.nota_asignatura<USER.nota_minima_aceptada}")
 						| {{periodo_materia.nota_asignatura | number:0}}
-			
+
 			.row.unidades-list
 				.col-lg-12.col-xs-12
 
@@ -58,27 +58,27 @@
 							.row.subunidades-list(ng-repeat="subunidad in unidad.subunidades | soloSubunidadesPerdidas:solo_notas_perdidas" style="font-size: 9pt;")
 								.col-lg-12.col-xs-12
 									.row
-										.subunidad-definicion.col-lg-10.col-xs-10 
+										.subunidad-definicion.col-lg-10.col-xs-10
 											| {{ subunidad.definicion_subunidad }}
 										.subunidad-porc.col-lg-1.col-xs-1
 											| {{ subunidad.porcentaje_subunidad }}%
 
 										.col-lg-1.col-xs-1.subunidad-nota.puntero(ng-if="(!hasRoleOrPerm(['admin', 'profesor'])) || ((asignatura.profesor_id!=USER.persona_id) && (USER.tipo=='Profesor'))")
 											span(ng-class="{'nota-perdida-bold': subunidad.nota.nota<USER.nota_minima_aceptada}" uib-tooltip="Valor nota: {{subunidad.nota.valor}}") {{subunidad.nota.nota}}
-											
+
 											span.nota-perdida(ng-show="!subunidad.nota.nota && subunidad.nota.nota!=0" uib-tooltip="Aún sin nota")
 												i.fa.fa-warning
 
 
-										.col-lg-1.col-xs-1(ng-class="{'inputnota-perdida': subunidad.nota.nota < USER.nota_minima_aceptada}" 
+										.col-lg-1.col-xs-1(ng-class="{'inputnota-perdida': subunidad.nota.nota < USER.nota_minima_aceptada}"
 											ng-if="(hasRoleOrPerm(['admin'])) || ((asignatura.profesor_id==USER.persona_id) && (USER.tipo=='Profesor'))")
 
 
-											input(type="number"  min="0" max="100" 
-												ng-change="cambiaNota(subunidad.nota, subunidad.nota.nota)" 
-												ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" 
+											input(type="number"  min="0" max="100"
+												ng-change="cambiaNota(subunidad.nota, subunidad.nota.nota)"
+												ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
 												ng-model="subunidad.nota.nota")
 
 
 
-				
+

@@ -247,7 +247,7 @@ angular.module('myvcFrontApp')
 					controller: 'PuestosGrupoPeriodoCtrl'
 					resolve:
 						alumnosDat: ['$http', '$stateParams', ($http, $stateParams)->
-							$http.put('::boletines/detailed-notas/'+$stateParams.grupo_id);
+							$http.put('::puestos/detailed-notas-periodo/'+$stateParams.grupo_id);
 						],
 						escalas: ['EscalasValorativasServ', (EscalasValorativasServ)->
 							#debugger
@@ -570,6 +570,117 @@ angular.module('myvcFrontApp')
 			data:
 				displayName: 'Certificados de estudio'
 				pageTitle: 'Certificados de estudio - MyVc'
+
+
+
+
+
+
+		###################################################################################
+		##################           VARIOS
+		###################################################################################
+		.state 'panel.informes.notas_actuales_alumnos',
+			url: '/notas_actuales_alumnos/:grupo_id/:periodo_a_calcular'
+			params:
+				grupo_id: {value: null}
+				periodo_a_calcular: {value: null}
+			views:
+				'report_content':
+					templateUrl: "==informes2/notasActualesAlumnos.tpl.html"
+					controller: 'NotasActualesAlumnosCtrl'
+					resolve:
+						alumnosDat: ['$http', '$stateParams', '$q', '$cookies', ($http, $stateParams, $q, $cookies)->
+
+							d = $q.defer()
+
+
+							requested_alumnos = $cookies.getObject 'requested_alumnos'
+							requested_alumno = $cookies.getObject 'requested_alumno'
+
+							if requested_alumnos
+
+								$http.put('::notas-actuales-alumnos/'+$stateParams.grupo_id, {requested_alumnos: requested_alumnos, periodo_a_calcular: $stateParams.periodo_a_calcular}).then((r)->
+									d.resolve r.data
+								, (r2)->
+									d.reject r2.data
+								)
+							else if requested_alumno
+								$http.put('::notas-actuales-alumnos/'+requested_alumno[0].grupo_id, {requested_alumnos: requested_alumno, periodo_a_calcular: $stateParams.periodo_a_calcular}).then((r)->
+									d.resolve r.data
+								, (r2)->
+									d.reject r2.data
+								)
+							else
+								#console.log 'Pidiendo por grupo:', $stateParams.grupo_id
+								$http.put('::notas-actuales-alumnos/group/'+$stateParams.grupo_id, {periodo_a_calcular: $stateParams.periodo_a_calcular}).then((r)->
+									d.resolve r.data
+								, (r2)->
+									d.reject r2.data
+								)
+
+
+							return d.promise
+						],
+						escalas: ['EscalasValorativasServ', (EscalasValorativasServ)->
+							#debugger
+							EscalasValorativasServ.escalas()
+						]
+			data:
+				displayName: 'Notas actuales'
+				pageTitle: 'Notas actuales - MyVc'
+
+
+
+		.state 'panel.informes.notas_perdidas_actuales_alumnos',
+			url: '/notas_perdidas_actuales_alumnos/:grupo_id/:periodo_a_calcular'
+			params:
+				grupo_id: {value: null}
+				periodo_a_calcular: {value: null}
+			views:
+				'report_content':
+					templateUrl: "==informes2/notasPerdidasActualesAlumnos.tpl.html"
+					controller: 'NotasActualesAlumnosCtrl'
+					resolve:
+						alumnosDat: ['$http', '$stateParams', '$q', '$cookies', ($http, $stateParams, $q, $cookies)->
+
+							d = $q.defer()
+
+
+							requested_alumnos = $cookies.getObject 'requested_alumnos'
+							requested_alumno = $cookies.getObject 'requested_alumno'
+
+							if requested_alumnos
+
+								$http.put('::notas-actuales-alumnos/'+$stateParams.grupo_id, {requested_alumnos: requested_alumnos, periodo_a_calcular: $stateParams.periodo_a_calcular}).then((r)->
+									d.resolve r.data
+								, (r2)->
+									d.reject r2.data
+								)
+							else if requested_alumno
+								$http.put('::notas-actuales-alumnos/'+requested_alumno[0].grupo_id, {requested_alumnos: requested_alumno, periodo_a_calcular: $stateParams.periodo_a_calcular}).then((r)->
+									d.resolve r.data
+								, (r2)->
+									d.reject r2.data
+								)
+							else
+								#console.log 'Pidiendo por grupo:', $stateParams.grupo_id
+								$http.put('::notas-actuales-alumnos/group/'+$stateParams.grupo_id, {periodo_a_calcular: $stateParams.periodo_a_calcular}).then((r)->
+									d.resolve r.data
+								, (r2)->
+									d.reject r2.data
+								)
+
+
+							return d.promise
+						],
+						escalas: ['EscalasValorativasServ', (EscalasValorativasServ)->
+							#debugger
+							EscalasValorativasServ.escalas()
+						]
+			data:
+				displayName: 'Notas perdidas actuales'
+				pageTitle: 'Notas perdidas actuales - MyVc'
+
 
 
 

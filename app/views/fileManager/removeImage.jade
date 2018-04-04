@@ -5,29 +5,30 @@
 		.col-lg-8.col-xs-12.text-center
 			img(ng-src="{{imagesPath+imagen.nombre}}" class="img-thumbnail" style="width:200px; height:200px;")
 		.col-lg-4.col-xs-12
-			
+
 			span(ng-show="datos_imagen.oficiales.length > 0")
-				h5 Oficiales:
-				ul
-					li(ng-repeat="oficial in datos_imagen.oficiales") 
-						span {{ oficial.nombres + ' ' + oficial.apellidos }}
+				h5 Imagen oficial de:
+				ul(style="padding-left: 30px;")
+					li(ng-repeat="oficial in datos_imagen.oficiales")
+						b {{ oficial.nombres + ' ' + oficial.apellidos }}
 
 			span(ng-show="datos_imagen.de_usuario.length > 0")
-				h5 Usuario:
-				ul
-					li(ng-repeat="de_usuario in datos_imagen.de_usuario") 
-						span {{ de_usuario.username }}
+				h5 Imagen del Usuario:
+				ul(style="padding-left: 30px;")
+					li(ng-repeat="de_usuario in datos_imagen.de_usuario")
+						b {{ de_usuario.username }}
 
-				
-	.row
+
+	.row(style="margin-top: 20px")
 		.col-lg-6.col-xs-12
-			div(style="text-overflow: ellipsis") {{imagen.nombre}}
-			h5 
-				span Imagen subida por 
+			div(style="text-overflow: ellipsis" uib-tooltip="Nombre de la imagen") Nombre de la imagen: {{imagen.nombre}}
+			h5
+				span Imagen subida por
 				span(ng-show="imagen.user_id == User.id")
-					| mí.
+					|   mí.
 				span(ng-hide="imagen.user_id == User.id")
-					| {{ imagen.user_id }}.
+					|   {{ imagen.user_id }}:
+					b   {{datos_imagen.imagen_creator.nombres + ' ' + datos_imagen.imagen_creator.apellidos}}
 
 
 .modal-footer
@@ -35,5 +36,5 @@
 		button.btn.btn-labeled.btn-danger(ng-click="ok()") Eliminar
 			i.btn-label.fa.fa-times
 	span(ng-hide="(datos_imagen.de_usuario.length == 0 && datos_imagen.oficiales == 0) || hasRoleOrPerm(['admin']) ")
-		| Imagen asignada. no se puede borrar.
+		| Alguien te asignó esta imagen, sí que no se puede borrar.
 	button.btn.btn-yellow(ng-click="cancel()") Cancelar

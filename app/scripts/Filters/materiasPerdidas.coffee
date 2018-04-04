@@ -5,15 +5,15 @@ angular.module('myvcFrontApp')
 	(alumnos, cant, nota_minima_aceptada) ->
 
 		if cant
-		
+
 			@alumnos_response = []
 
 			angular.forEach alumnos, (alumno, key) ->
-				
+
 				@cant_asig_perdidas = 0
 
 				angular.forEach alumno.notas_asig, (asignatura, key) ->
-					if Math.round(asignatura.nota_asignatura_year) < nota_minima_aceptada
+					if Math.round(asignatura.nota_final_year) < nota_minima_aceptada
 						@cant_asig_perdidas++
 
 				if @cant_asig_perdidas >= cant
@@ -24,7 +24,7 @@ angular.module('myvcFrontApp')
 		else
 			return alumnos
 
-		
+
 ])
 
 
@@ -32,11 +32,11 @@ angular.module('myvcFrontApp')
 	(alumnos, cant, nota_minima_aceptada) ->
 
 		if cant
-		
+
 			@alumnos_response = []
 
 			angular.forEach alumnos, (alumno, key) ->
-				
+
 				@cant_asig_perdidas = 0
 
 				angular.forEach alumno.asignaturas, (asignatura, key) ->
@@ -51,5 +51,5 @@ angular.module('myvcFrontApp')
 		else
 			return alumnos
 
-		
+
 ])

@@ -5,9 +5,9 @@ angular.module("myvcFrontApp")
 
 	$scope.fechahora = new Date();
 
-	$scope.grupo = alumnosDat[0]
-	$scope.year = alumnosDat[1]
-	$scope.alumnos = alumnosDat[2]
+	$scope.grupo = alumnosDat.grupo
+	$scope.year = alumnosDat.year
+	$scope.alumnos = alumnosDat.alumnos
 
 	$scope.escalas = escalas
 
@@ -17,5 +17,18 @@ angular.module("myvcFrontApp")
 
 	$scope.$on 'change_config', ()->
 		$scope.config = $cookieStore.get 'config'
+
+
+
+	####################################################################
+	#########    Edición de notas de materia      ######################
+	####################################################################
+
+
+	$scope.alumnos_materias = []
+
+	$scope.add_alum_materia = (asig, alum)->
+		$scope.alumnos_materias.push {asignatura: asig, alumno: alum}
+
 
 ])

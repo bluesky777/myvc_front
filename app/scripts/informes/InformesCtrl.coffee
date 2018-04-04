@@ -196,6 +196,73 @@ angular.module('myvcFrontApp')
 
 
 
+	###
+	$scope.verNotasActualesAlumnosGrupo = ()->
+
+		$cookies.remove 'requested_alumnos'
+		$cookies.remove 'requested_alumno'
+
+		if !$scope.datos.grupo.id
+			toastr.warning 'Debes seleccionar el grupo'
+			return
+
+		$scope.config.orientacion = 'vertical'
+		$state.go 'panel.informes.notas_actuales_alumnos', {grupo_id: $scope.datos.grupo.id, periodo_a_calcular: $scope.USER.numero_periodo}, {reload: true}
+	###
+
+
+
+	$scope.verNotasActualesAlumno = ()->
+		if $scope.datos.selected_alumno
+			$cookies.putObject 'requested_alumno', [$scope.datos.selected_alumno]
+			$state.go 'panel.informes'
+			$scope.config.orientacion = 'vertical'
+			$interval ()->
+				$state.go 'panel.informes.notas_actuales_alumnos', {periodo_a_calcular: $scope.USER.numero_periodo}
+			, 1, 1
+
+
+		else
+			toastr.warning 'Debes seleccionar al menos un alumno'
+
+
+	$scope.verNotasActualesAlumnos = ()->
+		if $scope.datos.selected_alumnos.length > 0
+			$scope.config.orientacion = 'vertical'
+			$cookies.putObject 'requested_alumnos', $scope.datos.selected_alumnos
+			$state.go 'panel.informes.notas_actuales_alumnos', {grupo_id: $scope.datos.grupo.id, periodo_a_calcular: $scope.USER.numero_periodo}, {reload: true}
+		else
+			toastr.warning 'Debes seleccionar al menos un alumno'
+
+
+
+
+	$scope.verNotasPerdidasActualesAlumno = ()->
+		if $scope.datos.selected_alumno
+			$cookies.putObject 'requested_alumno', [$scope.datos.selected_alumno]
+			$state.go 'panel.informes'
+			$scope.config.orientacion = 'vertical'
+			$interval ()->
+				$state.go 'panel.informes.notas_perdidas_actuales_alumnos', {periodo_a_calcular: $scope.USER.numero_periodo}
+			, 1, 1
+
+
+		else
+			toastr.warning 'Debes seleccionar al menos un alumno'
+
+
+	$scope.verNotasPerdidasActualesAlumnos = ()->
+		if $scope.datos.selected_alumnos.length > 0
+			$scope.config.orientacion = 'vertical'
+			$cookies.putObject 'requested_alumnos', $scope.datos.selected_alumnos
+			$state.go 'panel.informes.notas_perdidas_actuales_alumnos', {grupo_id: $scope.datos.grupo.id, periodo_a_calcular: $scope.USER.numero_periodo}, {reload: true}
+		else
+			toastr.warning 'Debes seleccionar al menos un alumno'
+
+
+
+
+
 
 
 	$scope.verPuestosPeriodo = ()->

@@ -136,6 +136,14 @@ angular.module('myvcFrontApp')
 			)
 
 
+		$scope.toggleMostrarAnioPasado = (year_id, can)->
+			$http.put('::years/toggle-mostrar-anio-pasado-en-boletin', { can: can, year_id: year_id }).then((r)->
+				toastr.success r.data
+			, (r2)->
+				toastr.warning 'No se pudo cambiar.', 'Problema'
+			)
+
+
 		$scope.toggleIgnorarNotasPerdidas = (year_id, can)->
 			$http.put('::years/toggle-ignorar-notas-perdidas', { can: can, year_id: year_id }).then((r)->
 				toastr.success r.data

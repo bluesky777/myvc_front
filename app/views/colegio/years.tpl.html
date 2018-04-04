@@ -89,6 +89,16 @@
                   </div>
                 </div>
                 <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label uib-tooltip="Si tiene materias pendientes del año pasado, el boletín va a mostrarlas al final.">Mostrar año pasado en boletines</label>
+                      <label>
+                        <input type="checkbox" ng-change="toggleMostrarAnioPasado(year.id, year.year_pasado_en_bol)" ng-true-value="1" ng-false-value="0" ng-model="year.year_pasado_en_bol" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
                   <div style="padding: 0px;" class="col-sm-12">
                     <div style="margin-bottom: 40px;" class="form-group">
                       <label class="col-sm-2 control-label no-padding-right">Rector(a)</label>

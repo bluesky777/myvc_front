@@ -18,6 +18,7 @@ angular.module("myvcFrontApp")
 	$http.get('::profesores/show/'+$state.params.profe_id).then (r)->
 		r = r.data
 		$scope.profesor = r[0]
+		$scope.profesor.fecha_nac = new Date($scope.profesor.fecha_nac)
 		#$scope.profesor.estado_civil = {estado_civil: r[0].estado_civil}
 
 

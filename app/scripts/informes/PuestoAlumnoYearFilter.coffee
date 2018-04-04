@@ -9,8 +9,9 @@ angular.module("myvcFrontApp")
 		for alumno in alumnos
 			promedio = promedio + alumno.promedio_year
 
+		prom = Math.round(promedio/alumnos.length)
 
-		return (promedio/alumnos.length)
+		return prom
 
 ])
 
@@ -27,11 +28,11 @@ angular.module("myvcFrontApp")
 
 				if notas_asig.asignatura_id == asignatura_id
 					cant++
-					promedioAsig = promedioAsig + parseFloat(notas_asig.nota_asignatura_year)
-		
+					promedioAsig = promedioAsig + parseFloat(notas_asig.nota_final_year)
 
+		promedio = Math.round(promedioAsig/cant)
 
-		return (promedioAsig/cant)
+		return promedio
 
 ])
 
@@ -44,8 +45,8 @@ angular.module("myvcFrontApp")
 
 		for periodo in periodos
 			echo = echo + $filter('notasAsignatura')(periodo.unidades, periodo.numero)
-			
-		
+
+
 		return echo
 ])
 
@@ -61,15 +62,15 @@ angular.module("myvcFrontApp")
 				cantPerd = cantPerd + $filter('notasPerdidasAsignatura')(periodo.unidades, cantidad, periodo.numero)
 			else
 				echo = echo + $filter('notasPerdidasAsignatura')(periodo.unidades, false, periodo.numero)
-			
-		
+
+
 		if cantidad
 			return cantPerd
 		else
 			return echo
 
-		
-		
+
+
 ])
 
 .filter('notasPerdidasAsignaturasYear', ['$filter', ($filter)->

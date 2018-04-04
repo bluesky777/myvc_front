@@ -1,11 +1,7 @@
 
 <div ng-init="opened = true" ng-show="opened" class="widget">
   <div class="widget-header">
-    <div class="widget-caption">Editar <a href="" style="font-size: 10pt;" popover="&lt;img src='{{perfilPath + asignatura.foto_nombre}}' style='width: 150px; height: 150px;'&gt;" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" popover-trigger="mouseenter" popover-append-to-body="true">
-         
-        {{ asignatura.materia }} </a> de <a href="" popover="&lt;img src='{{perfilPath + alumno.foto_nombre}}' style='width: 100px; height: 100px;'&gt;&lt;img src='{{perfilPath + alumno.imagen_nombre}}' style='width: 100px; height: 100px;'&gt;&lt;br&gt;Facebook: {{alumno.facebook}}&lt;br&gt;Username: {{alumno.username}}" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-animation="true" popover-trigger="mouseenter" popover-append-to-body="true">
-         
-        {{ alumno.nombres }} </a></div>
+    <div class="widget-caption">Editar<a href="" style="font-size: 10pt;" popover="&lt;img src='{{perfilPath + asignatura.foto_nombre}}' style='width: 150px; height: 150px;'&gt;" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" popover-trigger="mouseenter" popover-append-to-body="true">{{ asignatura.materia }}</a> de<a href="" popover="&lt;img src='{{perfilPath + alumno.foto_nombre}}' style='width: 100px; height: 100px;'&gt;&lt;img src='{{perfilPath + alumno.imagen_nombre}}' style='width: 100px; height: 100px;'&gt;&lt;br&gt;Facebook: {{alumno.facebook}}&lt;br&gt;Username: {{alumno.username}}" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-animation="true" popover-trigger="mouseenter" popover-append-to-body="true">{{ alumno.nombres }}</a></div>
     <div class="widget-buttons"><a href=""><i class="fa fa-expand pink"></i></a><a href="" ng-init="minimized = false" ng-click="minimized = !minimized"><i class="fa fa-minus blue"></i></a><a href="" ng-click="opened=false"><i class="fa fa-times darkorange"></i></a></div>
   </div>
   <div ng-class="{'ng-hide':minimized}" class="widget-body">
@@ -15,13 +11,12 @@
         <input type="checkbox" ng-model="solo_notas_perdidas" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
       </label>
     </div>
-    <div ng-repeat="periodo_materia in periodos_materia" ng-show="(periodo_materia.unidades|notasPerdidasAsignatura:true &gt; 0) || (solo_notas_perdidas==false)" class="materia-item animated">
+    <div ng-repeat="periodo_materia in periodos_materia" ng-show="(periodo_materia.unidades|notasPerdidasAsignatura:true &gt; 0) || (solo_notas_perdidas==false)" class="materia-item animated fadeInUp">
       <div style="font-size: 10pt;" class="row materia-title">
         <div class="col-lg-9 col-xs-9"><span class="materia-name">
-             
-            Periodo {{ periodo_materia.numero }} 
+            Periodo {{ periodo_materia.numero }}
             ({{ periodo_materia.unidades | notasPerdidasAsignatura:true }})</span></div>
-        <div ng-class="{'nota-perdida': periodo_materia.nota_asignatura&lt;USER.nota_minima_aceptada}" class="col-lg-1 col-xs-2">{{ periodo_materia.nota_asignatura | juicioValorativo:escalas:true}} </div>
+        <div ng-class="{'nota-perdida': periodo_materia.nota_asignatura&lt;USER.nota_minima_aceptada}" class="col-lg-1 col-xs-2">{{ periodo_materia.nota_asignatura | juicioValorativo:escalas:true}}</div>
         <div class="col-lg-1 col-xs-1">
           <div ng-class="{'nota-perdida-bold': periodo_materia.nota_asignatura&lt;USER.nota_minima_aceptada}">{{periodo_materia.nota_asignatura | number:0}}</div>
         </div>
@@ -37,10 +32,7 @@
               <div ng-repeat="subunidad in unidad.subunidades | soloSubunidadesPerdidas:solo_notas_perdidas" style="font-size: 9pt;" class="row subunidades-list">
                 <div class="col-lg-12 col-xs-12">
                   <div class="row">
-                    <div class="subunidad-definicion col-lg-10 col-xs-10">
-                       
-                      {{ subunidad.definicion_subunidad }}
-                    </div>
+                    <div class="subunidad-definicion col-lg-10 col-xs-10">{{ subunidad.definicion_subunidad }}</div>
                     <div class="subunidad-porc col-lg-1 col-xs-1">{{ subunidad.porcentaje_subunidad }}%</div>
                     <div ng-if="(!hasRoleOrPerm(['admin', 'profesor'])) || ((asignatura.profesor_id!=USER.persona_id) &amp;&amp; (USER.tipo=='Profesor'))" class="col-lg-1 col-xs-1 subunidad-nota puntero"><span ng-class="{'nota-perdida-bold': subunidad.nota.nota&lt;USER.nota_minima_aceptada}" uib-tooltip="Valor nota: {{subunidad.nota.valor}}">{{subunidad.nota.nota}}</span><span ng-show="!subunidad.nota.nota &amp;&amp; subunidad.nota.nota!=0" uib-tooltip="Aún sin nota" class="nota-perdida"><i class="fa fa-warning"></i></span></div>
                     <div ng-class="{'inputnota-perdida': subunidad.nota.nota &lt; USER.nota_minima_aceptada}" ng-if="(hasRoleOrPerm(['admin'])) || ((asignatura.profesor_id==USER.persona_id) &amp;&amp; (USER.tipo=='Profesor'))" class="col-lg-1 col-xs-1">

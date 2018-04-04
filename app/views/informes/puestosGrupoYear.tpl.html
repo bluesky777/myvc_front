@@ -28,8 +28,8 @@
         <thead>
           <tr style="border-bottom: 2px solid;">
             <th>No</th>
-            <th>Nombres</th>
-            <th ng-repeat="asignatura in alumnos[0].notas_asig | orderBy:'orden' ">{{ asignatura.alias }}</th>
+            <th class="text-center">Nombres</th>
+            <th ng-repeat="asignatura in alumnos[0].notas_asig | orderBy:['orden_area', 'orden_materia', 'orden_asignatura'] ">{{ asignatura.alias }}</th>
             <th style="border-left: 2px solid !important;">Total</th>
           </tr>
         </thead>
@@ -37,9 +37,9 @@
           <tr ng-repeat="alumno in alumnos | orderBy:'-promedio_year' | materiasPerdidasYear:filtrar.materias_perdidas:USER.nota_minima_aceptada">
             <td>{{$index + 1}}</td>
             <td ng-class="{'nota-sobre':alumno.sobre }">
-              <div uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true" ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" class="nombresellipsis">{{alumno.nombres + ' ' + alumno.apellidos}}</div>
+              <div uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true" ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" class="nombresellipsis ellipsis250">{{alumno.nombres + ' ' + alumno.apellidos}}</div>
             </td>
-            <td ng-repeat="asignatura in alumno.notas_asig" ng-class="{'nota-perdida-puestos': ((asignatura.nota_asignatura_year | number:0 )*1) &lt; (USER.nota_minima_aceptada*1), 'nota-sobre':(asignatura.sobre) &amp;&amp; (alumno.sobre) }" ng-click="add_alum_materia(asignatura, alumno)" ng-mouseenter="asignatura.sobre=true; alumno.sobre=true" ng-mouseleave="asignatura.sobre=false; alumno.sobre=false" class="puntero"><span>{{asignatura.nota_asignatura_year | number:0}}</span><span ng-show="asignatura.perdidos &gt; 0" class="cant-unidades-perdidas">({{asignatura.perdidos}})</span></td>
+            <td ng-repeat="asignatura in alumno.notas_asig | orderBy:['orden_area', 'orden_materia', 'orden_asignatura'] " ng-class="{'nota-perdida-puestos': asignatura.nota_final_year &lt; USER.nota_minima_aceptada, 'nota-sobre':(asignatura.sobre) &amp;&amp; (alumno.sobre) }" ng-click="add_alum_materia(asignatura, alumno)" ng-mouseenter="asignatura.sobre=true; alumno.sobre=true" ng-mouseleave="asignatura.sobre=false; alumno.sobre=false" class="puntero"><span>{{asignatura.nota_final_year}}</span><span ng-show="asignatura.cant_perdidas &gt; 0" class="cant-unidades-perdidas">({{asignatura.cant_perdidas}})</span></td>
             <td style="border-left: 2px solid !important;"><span>{{alumno.promedio_year | decimales:2}}</span><span ng-show="alumno.perdidos_year &gt; 0" class="cant-unidades-perdidas">({{ alumno.perdidos_year }})</span></td>
           </tr>
         </tbody>
@@ -47,8 +47,8 @@
           <tr style="border-top: 2px solid;">
             <td></td>
             <td>Total</td>
-            <td ng-repeat="asignatura in alumnos[0].notas_asig">{{ alumnos | promAsigYear:asignatura.asignatura_id | decimales:1 }}</td>
-            <td style="font-weight: bold; border-left: 2px solid !important;">{{ alumnos | promGrupoYear | decimales:1 }}<span ng-show="(alumnos | notasPerdidasGrupoYear) &gt; 0" class="cant-unidades-perdidas">({{alumnos | notasPerdidasGrupoYear}})</span></td>
+            <td ng-repeat="asignatura in alumnos[0].notas_asig">{{ alumnos | promAsigYear:asignatura.asignatura_id }}</td>
+            <td style="font-weight: bold; border-left: 2px solid !important;">{{ alumnos | promGrupoYear }}<span ng-show="(alumnos | notasPerdidasGrupoYear) &gt; 0" class="cant-unidades-perdidas">({{alumnos | notasPerdidasGrupoYear}})</span></td>
           </tr>
         </tfoot>
       </table>

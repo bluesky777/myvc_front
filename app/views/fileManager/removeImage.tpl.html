@@ -6,23 +6,23 @@
   <div class="row">
     <div class="col-lg-8 col-xs-12 text-center"><img ng-src="{{imagesPath+imagen.nombre}}" style="width:200px; height:200px;" class="img-thumbnail"></div>
     <div class="col-lg-4 col-xs-12"><span ng-show="datos_imagen.oficiales.length &gt; 0">
-        <h5>Oficiales:</h5>
-        <ul>
-          <li ng-repeat="oficial in datos_imagen.oficiales"> <span>{{ oficial.nombres + ' ' + oficial.apellidos }}</span></li>
+        <h5>Imagen oficial de:</h5>
+        <ul style="padding-left: 30px;">
+          <li ng-repeat="oficial in datos_imagen.oficiales"><b>{{ oficial.nombres + ' ' + oficial.apellidos }}</b></li>
         </ul></span><span ng-show="datos_imagen.de_usuario.length &gt; 0">
-        <h5>Usuario:</h5>
-        <ul>
-          <li ng-repeat="de_usuario in datos_imagen.de_usuario"> <span>{{ de_usuario.username }}</span></li>
+        <h5>Imagen del Usuario:</h5>
+        <ul style="padding-left: 30px;">
+          <li ng-repeat="de_usuario in datos_imagen.de_usuario"><b>{{ de_usuario.username }}</b></li>
         </ul></span></div>
   </div>
-  <div class="row">
+  <div style="margin-top: 20px" class="row">
     <div class="col-lg-6 col-xs-12">
-      <div style="text-overflow: ellipsis">{{imagen.nombre}}</div>
-      <h5> <span>Imagen subida por </span><span ng-show="imagen.user_id == User.id">mí.</span><span ng-hide="imagen.user_id == User.id">{{ imagen.user_id }}.</span></h5>
+      <div style="text-overflow: ellipsis" uib-tooltip="Nombre de la imagen">Nombre de la imagen: {{imagen.nombre}}</div>
+      <h5><span>Imagen subida por</span><span ng-show="imagen.user_id == User.id">  mí.</span><span ng-hide="imagen.user_id == User.id">  {{ imagen.user_id }}:<b>  {{datos_imagen.imagen_creator.nombres + ' ' + datos_imagen.imagen_creator.apellidos}}</b></span></h5>
     </div>
   </div>
 </div>
 <div class="modal-footer"><span ng-show="(datos_imagen.de_usuario.length == 0 &amp;&amp; datos_imagen.oficiales == 0) || hasRoleOrPerm(['admin']) ">
-    <button ng-click="ok()" class="btn btn-labeled btn-danger">Eliminar<i class="btn-label fa fa-times"></i></button></span><span ng-hide="(datos_imagen.de_usuario.length == 0 &amp;&amp; datos_imagen.oficiales == 0) || hasRoleOrPerm(['admin']) ">Imagen asignada. no se puede borrar.</span>
+    <button ng-click="ok()" class="btn btn-labeled btn-danger">Eliminar<i class="btn-label fa fa-times"></i></button></span><span ng-hide="(datos_imagen.de_usuario.length == 0 &amp;&amp; datos_imagen.oficiales == 0) || hasRoleOrPerm(['admin']) ">Alguien te asignó esta imagen, sí que no se puede borrar.</span>
   <button ng-click="cancel()" class="btn btn-yellow">Cancelar</button>
 </div>

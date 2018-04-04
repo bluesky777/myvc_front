@@ -27,14 +27,14 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 				thead
 					tr(style="border-bottom: 2px solid;")
 						th No
-						th Nombres
-						th(ng-repeat="asignatura in alumnos[0].notas_asig | orderBy:'orden' ") {{ asignatura.alias }}
+						th.text-center Nombres
+						th(ng-repeat="asignatura in alumnos[0].notas_asig | orderBy:['orden_area', 'orden_materia', 'orden_asignatura'] ") {{ asignatura.alias }}
 						th(style="border-left: 2px solid !important;") Total
 				tbody
 					tr(ng-repeat="alumno in alumnos | orderBy:'-promedio_year' | materiasPerdidasYear:filtrar.materias_perdidas:USER.nota_minima_aceptada" )
 						td {{$index + 1}}
 						td(ng-class="{'nota-sobre':alumno.sobre }")
-							.nombresellipsis( uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'"
+							.nombresellipsis.ellipsis250( uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'"
 								popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}"
 								popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true"
 								ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}")
@@ -42,13 +42,13 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 
 								| {{alumno.nombres + ' ' + alumno.apellidos}}
 
-						td.puntero(ng-repeat="asignatura in alumno.notas_asig"
-							ng-class="{'nota-perdida-puestos': ((asignatura.nota_asignatura_year | number:0 )*1) < (USER.nota_minima_aceptada*1), 'nota-sobre':(asignatura.sobre) && (alumno.sobre) }"
+						td.puntero(ng-repeat="asignatura in alumno.notas_asig | orderBy:['orden_area', 'orden_materia', 'orden_asignatura'] "
+							ng-class="{'nota-perdida-puestos': asignatura.nota_final_year < USER.nota_minima_aceptada, 'nota-sobre':(asignatura.sobre) && (alumno.sobre) }"
 							ng-click="add_alum_materia(asignatura, alumno)" ng-mouseenter="asignatura.sobre=true; alumno.sobre=true" ng-mouseleave="asignatura.sobre=false; alumno.sobre=false")
 
-							span() {{asignatura.nota_asignatura_year | number:0}}
-							span.cant-unidades-perdidas(ng-show="asignatura.perdidos > 0")
-								| ({{asignatura.perdidos}})
+							span() {{asignatura.nota_final_year}}
+							span.cant-unidades-perdidas(ng-show="asignatura.cant_perdidas > 0")
+								| ({{asignatura.cant_perdidas}})
 						td(style="border-left: 2px solid !important;")
 							span {{alumno.promedio_year | decimales:2}}
 							span.cant-unidades-perdidas(ng-show="alumno.perdidos_year > 0") ({{ alumno.perdidos_year }})
@@ -56,8 +56,8 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 					tr(style="border-top: 2px solid;")
 						td
 						td() Total
-						td(ng-repeat="asignatura in alumnos[0].notas_asig") {{ alumnos | promAsigYear:asignatura.asignatura_id | decimales:1 }}
-						td(style="font-weight: bold; border-left: 2px solid !important;") {{ alumnos | promGrupoYear | decimales:1 }}
+						td(ng-repeat="asignatura in alumnos[0].notas_asig") {{ alumnos | promAsigYear:asignatura.asignatura_id }}
+						td(style="font-weight: bold; border-left: 2px solid !important;") {{ alumnos | promGrupoYear }}
 							span.cant-unidades-perdidas(ng-show="(alumnos | notasPerdidasGrupoYear) > 0") ({{alumnos | notasPerdidasGrupoYear}})
 
 

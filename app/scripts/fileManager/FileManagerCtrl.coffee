@@ -246,7 +246,7 @@ angular.module("myvcFrontApp")
 		modalInstance = $modal.open({
 			templateUrl: '==fileManager/removeImage.tpl.html'
 			controller: 'RemoveImageCtrl'
-			size: 'sm',
+			size: 'md',
 			resolve:
 				imagen: ()->
 					imagen
@@ -258,7 +258,7 @@ angular.module("myvcFrontApp")
 						imagen_id: imagen.id
 						user_id: usuario_id
 
-					$http.get('::myimages/datos-imagen', codigos).then((r)->
+					$http.put('::myimages/datos-imagen', codigos).then((r)->
 
 						return $scope.datos_imagen = r.data
 					, (r2)->
