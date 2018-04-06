@@ -1,15 +1,15 @@
 
 <div ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $parent.$last==false }">
-  <div style="position: absolute; margin-bottom: 0; margin-left: -10px; " ng-show="config.cant_imagenes &gt; 0" ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical' } "><img ng-src="{{ perfilPath + $parent.config.imagen_fondo.nombre }}" ng-repeat="cant in $parent.range(config.cant_imagenes) track by $index" class="img-fondo-boletin"></div>
+  <div style="position: absolute; margin-bottom: 0; margin-left: -10px; border-bottom: none;" ng-show="config.cant_imagenes &gt; 0" ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical' } "><img ng-src="{{ perfilPath + $parent.config.imagen_fondo.nombre }}" ng-repeat="cant in $parent.range(config.cant_imagenes) track by $index" class="img-fondo-boletin"></div>
   <div class="row">
     <div class="col-lg-12 col-xs-12">
       <div class="row encabezado-boletin">
-        <div class="col-lg-12 col-xs-12">
+        <div class="col-lg-12 col-xs-12 no-padding">
           <div class="row">
             <div class="col-lg-2 col-xs-2"><img ng-src="{{ ::perfilPath }}{{ ::year.logo }}" class="img-responsive logo-colegio"></div>
             <div class="col-lg-8 col-xs-8 title-encabezado-boletin">
               <div class="nombre-colegio">{{ ::year.nombre_colegio }} - {{ ::year.abrev_colegio }}</div>
-              <div class="resolucion-colegio">{{::year.resolucion}}</div>
+              <div class="resolucion-colegio"><span ng-bind-html="::year.encabezado_certificado" ng-if="::year.encabezado_certificado!=null &amp;&amp; year.encabezado_certificado!='' "></span><span ng-hide="::year.encabezado_certificado!=null &amp;&amp; year.encabezado_certificado!=''">{{::year.resolucion}}</span></div>
               <div class="title-descripcion">Boletin periodo {{ ::USER.numero_periodo }} - {{ ::USER.year }}</div>
             </div>
             <div class="col-lg-2 col-xs-2"><img ng-src="{{::perfilPath}}{{::alumno.foto_nombre}}" ng-show="config.mostrar_foto &amp;&amp; alumno.foto_id" class="img-responsive img-thumbnail foto-alumno"></div>
@@ -27,41 +27,45 @@
         </div>
       </div>
       <div class="row body-boletin">
-        <div class="col-lg-12 col-xs-12 no-padding">
-          <div class="materia-item">
-            <table style="margin: 0 auto; width: 100%" class="table-bordered table-bordered2 table-striped table-striped2">
-              <tr style="background-color: #99caed !important;">
-                <td class="text-center"><b>No</b></td>
-                <td class="text-center"><b>Asignatura / Área</b></td>
-                <td class="text-center"><b>IH</b></td>
-                <td class="text-center"><b>P1</b></td>
-                <td class="text-center"><b>P2</b></td>
-                <td class="text-center"><b>P3</b></td>
-                <td class="text-center"><b>P4</b></td>
-                <td class="text-center"><b>Desempeño</b></td>
-                <td style="width: 40px" class="text-center"><i class="fa fa-clock-o icon-tardanza"></i><span>A/T</span></td>
-              </tr>
-              <tr ng-if="::area.asignaturas.length&gt;1" ng-repeat-start="area in ::alumno.areas | orderBy:'orden' track by $index">
-                <td></td>
-                <td colspan="8"><b>{{ ::area.area_nombre }}</b></td>
-              </tr>
-              <tr ng-repeat-end ng-repeat="asignatura in ::area.asignaturas">
-                <td>{{ asignatura.indice }}</td>
-                <td><span style="padding-left: 20px; " ng-if="::area.asignaturas.length&gt;1"></span>{{ ::asignatura.materia }}
-                  <ul style="font-size: 9pt; margin: 0px;">
-                    <li ng-repeat="frase in ::asignatura.frases">{{::frase.frase}}<span ng-show="::frase.frase_id" class="tipo-frase">  - {{::frase.tipo_frase}}</span></li>
-                  </ul>
-                </td>
-                <td style="font-style: italic; font-size: 8pt;" class="text-center"> {{ ::asignatura.creditos }}</td>
-                <td ng-class="{'nota-perdida-bold': asignatura.nota_final_per1&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.nota_final_per1 }}</td>
-                <td ng-class="{'nota-perdida-bold': asignatura.nota_final_per2&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.nota_final_per2 }}</td>
-                <td ng-class="{'nota-perdida-bold': asignatura.nota_final_per3&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.nota_final_per3 }}</td>
-                <td ng-class="{'nota-perdida-bold': asignatura.nota_final_per4&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.nota_final_per4 }}</td>
-                <td ng-class="{'nota-perdida-bold': asignatura['nota_final_per'+USER.numero_periodo]&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.desempenio }}</td>
-                <td class="text-center"><span class="text-tardanza">{{::asignatura.total_ausencias}} / {{::asignatura.total_tardanzas}}</span></td>
-              </tr>
-            </table>
-          </div>
+        <div class="col-lg-12 col-xs-12">
+          <table style="margin: 0 auto; width: 100%" class="table-bordered table-bordered2 table-striped table-striped2">
+            <tr style="background-color: #99caed !important;">
+              <td class="text-center"><b>No</b></td>
+              <td class="text-center"><b>Asignatura / Área</b></td>
+              <td class="text-center"><b>IH</b></td>
+              <td class="text-center"><b>P1</b></td>
+              <td class="text-center"><b>P2</b></td>
+              <td class="text-center"><b>P3</b></td>
+              <td class="text-center"><b>P4</b></td>
+              <td class="text-center"><b>Desempeño</b></td>
+              <td style="width: 40px" class="text-center"><i class="fa fa-clock-o icon-tardanza"></i><span>A/T</span></td>
+            </tr>
+            <tr ng-if="::area.asignaturas.length&gt;1" ng-repeat-start="area in ::alumno.areas | orderBy:'orden' track by $index">
+              <td></td>
+              <td colspan="8"><b>{{ ::area.area_nombre }}</b></td>
+            </tr>
+            <tr ng-repeat-end ng-repeat="asignatura in ::area.asignaturas">
+              <td class="text-center">{{ asignatura.indice }}</td>
+              <td><span style="font-weight: bold;" ng-class="{'padding-left-20': area.asignaturas.length&gt;1 }" uib-popover-template="::views+'informes/infoDocentePop.tpl.html'" popover-popup-delay="500" popover-title="{{::asignatura.nombres_profesor}} {{::asignatura.apellidos_profesor}}" popover-animation="true" popover-trigger="'mouseenter'" popover-append-to-body="true">{{ ::asignatura.materia }}</span>
+                <ol style="font-size: 9pt; margin: 0px; padding-left: 23px;" ng-class="{'padding-left-40': area.asignaturas.length&gt;1 }">
+                  <li ng-repeat="unidad in ::asignatura.unidades">{{::unidad.definicion_unidad}} - {{::unidad.desempenio}}</li>
+                </ol>
+                <div ng-show="::asignatura.frases.length&gt;0" style="margin-left: 0px; margin-right: 0px;" class="row comentarios-asignatura">
+                  <div class="col-lg-12 col-xs-12">
+                    <div class="comentario-title"><i style="padding-right: 5px;" class="fa fa-comments-o"></i>Observaciones</div>
+                    <div ng-repeat="frase in ::asignatura.frases" class="row comentario-item">- {{::frase.frase}}<span ng-show="::frase.frase_id" class="tipo-frase">- {{::frase.tipo_frase}}</span></div>
+                  </div>
+                </div>
+              </td>
+              <td style="font-style: italic; font-size: 8pt;" class="text-center"> {{ ::asignatura.creditos }}</td>
+              <td ng-class="{'nota-perdida-bold': asignatura.nota_final_per1&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.nota_final_per1 }}</td>
+              <td ng-class="{'nota-perdida-bold': asignatura.nota_final_per2&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.nota_final_per2 }}</td>
+              <td ng-class="{'nota-perdida-bold': asignatura.nota_final_per3&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.nota_final_per3 }}</td>
+              <td ng-class="{'nota-perdida-bold': asignatura.nota_final_per4&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.nota_final_per4 }}</td>
+              <td ng-class="{'nota-perdida-bold': asignatura['nota_final_per'+USER.numero_periodo]&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.desempenio }}</td>
+              <td class="text-center"><span class="text-tardanza">{{::asignatura.total_ausencias}} / {{::asignatura.total_tardanzas}}</span></td>
+            </tr>
+          </table>
         </div>
       </div>
       <div class="row comportamiento-boletin">

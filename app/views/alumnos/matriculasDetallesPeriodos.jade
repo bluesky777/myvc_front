@@ -44,7 +44,8 @@
 													popover-trigger="mouseenter")
 									.col-lg-9.col-xs-9
 										span.materia-name {{asignatura.materia}}
-										span.materia-profesor(ng-if="!hasRoleOrPerm('profesor')") - Pr. {{asignatura.nombres_profesor | capitalize}}
+										span.materia-profesor(ng-if="!hasRoleOrPerm('profesor')") - Pr.
+											span.camel   {{asignatura.nombres_profesor.toLowerCase() }}
 									.col-lg-1.col-xs-2(ng-class="{'nota-perdida': asignatura.nota_asignatura<USER.nota_minima_aceptada}")
 										| {{ asignatura.nota_asignatura | juicioValorativo:escalas:true}}
 									.col-lg-1.col-xs-1

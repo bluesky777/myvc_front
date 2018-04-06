@@ -14,7 +14,7 @@
               <h4>Periodo {{ periodo.numero }} - {{ grupo.year }}</h4><a ng-click="eliminarNotasPeriodo(periodo, grupo)" href="" style="color: red">Eliminar todas las notas de este periodo (¡peligroso!)</a>
               <div ng-repeat="asignatura in periodo.asignaturas" class="materia-item animated">
                 <div style="font-size: 10pt;" popover="&lt;img src='{{perfilPath + asignatura.foto_nombre}}' style='width: 150px; height: 150px;'&gt;" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" popover-trigger="mouseenter" class="row materia-title">
-                  <div class="col-lg-9 col-xs-9"><span class="materia-name">{{asignatura.materia}}</span><span ng-if="!hasRoleOrPerm('profesor')" class="materia-profesor">- Pr. {{asignatura.nombres_profesor | capitalize}}</span></div>
+                  <div class="col-lg-9 col-xs-9"><span class="materia-name">{{asignatura.materia}}</span><span ng-if="!hasRoleOrPerm('profesor')" class="materia-profesor">- Pr.<span class="camel">  {{asignatura.nombres_profesor.toLowerCase() }}</span></span></div>
                   <div ng-class="{'nota-perdida': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada}" class="col-lg-1 col-xs-2">{{ asignatura.nota_asignatura | juicioValorativo:escalas:true}}</div>
                   <div class="col-lg-1 col-xs-1">
                     <div ng-class="{'nota-perdida-bold': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada}">{{asignatura.nota_asignatura | number:0}}</div>

@@ -1,12 +1,12 @@
 div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $parent.$last==false }")
-	div(style="position: absolute; margin-bottom: 0; margin-left: -10px; " ng-show="config.cant_imagenes > 0" ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical' } ")
+	div(style="position: absolute; margin-bottom: 0; margin-left: -10px; border-bottom: none;" ng-show="config.cant_imagenes > 0" ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical' } ")
 		img.img-fondo-boletin(ng-src="{{ perfilPath + $parent.config.imagen_fondo.nombre }}"
 			ng-repeat="cant in $parent.range(config.cant_imagenes) track by $index")
 
 	.row
 		.col-lg-12.col-xs-12
 			.row.encabezado-boletin
-				.col-lg-12.col-xs-12
+				.col-lg-12.col-xs-12.no-padding
 					.row
 						.col-lg-2.col-xs-2
 							img.img-responsive.logo-colegio(ng-src="{{ ::perfilPath }}{{ ::year.logo }}")
@@ -14,7 +14,8 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 							.nombre-colegio
 								| {{ ::year.nombre_colegio }} - {{ ::year.abrev_colegio }}
 							.resolucion-colegio
-								| {{::year.resolucion}}
+								span(ng-bind-html="::year.encabezado_certificado" ng-if="::year.encabezado_certificado!=null && year.encabezado_certificado!='' ")
+								span(ng-hide="::year.encabezado_certificado!=null && year.encabezado_certificado!=''") {{::year.resolucion}}
 							.title-descripcion
 								| Boletin periodo {{ ::USER.numero_periodo }} - {{ ::USER.year }}
 						.col-lg-2.col-xs-2
@@ -35,53 +36,66 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 								span(ng-show="::alumno.estado!='RETI'")  {{ ::alumno.texto_puesto }}
 
 			.row.body-boletin
-				.col-lg-12.col-xs-12.no-padding
-					.materia-item
-						table.table-bordered.table-bordered2.table-striped.table-striped2(style="margin: 0 auto; width: 100%")
-							tr(style="background-color: #99caed !important;")
-								td.text-center
-									b No
-								td.text-center
-									b Asignatura / Área
-								td.text-center
-									b IH
-								td.text-center
-									b P1
-								td.text-center
-									b P2
-								td.text-center
-									b P3
-								td.text-center
-									b P4
-								td.text-center
-									b Desempeño
-								td.text-center(style="width: 40px")
-									i.fa.fa-clock-o.icon-tardanza
-									span A/T
+				.col-lg-12.col-xs-12
+					table.table-bordered.table-bordered2.table-striped.table-striped2(style="margin: 0 auto; width: 100%")
+						tr(style="background-color: #99caed !important;")
+							td.text-center
+								b No
+							td.text-center
+								b Asignatura / Área
+							td.text-center
+								b IH
+							td.text-center
+								b P1
+							td.text-center
+								b P2
+							td.text-center
+								b P3
+							td.text-center
+								b P4
+							td.text-center
+								b Desempeño
+							td.text-center(style="width: 40px")
+								i.fa.fa-clock-o.icon-tardanza
+								span A/T
 
-							tr(ng-if="::area.asignaturas.length>1" ng-repeat-start="area in ::alumno.areas | orderBy:'orden' track by $index")
-								td
-								td(colspan="8")
-									b {{ ::area.area_nombre }}
+						tr(ng-if="::area.asignaturas.length>1" ng-repeat-start="area in ::alumno.areas | orderBy:'orden' track by $index")
+							td
+							td(colspan="8")
+								b {{ ::area.area_nombre }}
 
 
-							tr(ng-repeat-end ng-repeat="asignatura in ::area.asignaturas")
-								td {{ asignatura.indice }}
-								td
-									span(style="padding-left: 20px; " ng-if="::area.asignaturas.length>1")
+						tr(ng-repeat-end ng-repeat="asignatura in ::area.asignaturas")
+							td.text-center {{ asignatura.indice }}
+							td
+
+								span(style="font-weight: bold;" ng-class="{'padding-left-20': area.asignaturas.length>1 }"
+									uib-popover-template="::views+'informes/infoDocentePop.tpl.html'"
+									popover-popup-delay="500" popover-title="{{::asignatura.nombres_profesor}} {{::asignatura.apellidos_profesor}}" popover-animation="true"
+									popover-trigger="'mouseenter'"  popover-append-to-body="true")
 									| {{ ::asignatura.materia }}
-									ul(style="font-size: 9pt; margin: 0px;")
-										li(ng-repeat="frase in ::asignatura.frases")
-											| {{::frase.frase}}
-											span.tipo-frase(ng-show="::frase.frase_id")   - {{::frase.tipo_frase}}
-								td.text-center(style="font-style: italic; font-size: 8pt;")  {{ ::asignatura.creditos }}
-								td.text-center(ng-class="{'nota-perdida-bold': asignatura.nota_final_per1<USER.nota_minima_aceptada}") {{ ::asignatura.nota_final_per1 }}
-								td.text-center(ng-class="{'nota-perdida-bold': asignatura.nota_final_per2<USER.nota_minima_aceptada}") {{ ::asignatura.nota_final_per2 }}
-								td.text-center(ng-class="{'nota-perdida-bold': asignatura.nota_final_per3<USER.nota_minima_aceptada}") {{ ::asignatura.nota_final_per3 }}
-								td.text-center(ng-class="{'nota-perdida-bold': asignatura.nota_final_per4<USER.nota_minima_aceptada}") {{ ::asignatura.nota_final_per4 }}
-								td.text-center(ng-class="{'nota-perdida-bold': asignatura['nota_final_per'+USER.numero_periodo]<USER.nota_minima_aceptada}") {{ ::asignatura.desempenio }}
-								td.text-center
-									span.text-tardanza {{::asignatura.total_ausencias}} / {{::asignatura.total_tardanzas}}
+
+								ol(style="font-size: 9pt; margin: 0px; padding-left: 23px;" ng-class="{'padding-left-40': area.asignaturas.length>1 }")
+									li(ng-repeat="unidad in ::asignatura.unidades")
+										| {{::unidad.definicion_unidad}} - {{::unidad.desempenio}}
+
+								.row.comentarios-asignatura(ng-show="::asignatura.frases.length>0" style="margin-left: 0px; margin-right: 0px;")
+									.col-lg-12.col-xs-12
+										.comentario-title
+											i.fa.fa-comments-o(style="padding-right: 5px;")
+											| Observaciones
+										.row.comentario-item(ng-repeat="frase in ::asignatura.frases")
+											| - {{::frase.frase}}
+											span.tipo-frase(ng-show="::frase.frase_id") - {{::frase.tipo_frase}}
+
+							td.text-center(style="font-style: italic; font-size: 8pt;")  {{ ::asignatura.creditos }}
+							td.text-center(ng-class="{'nota-perdida-bold': asignatura.nota_final_per1<USER.nota_minima_aceptada}") {{ ::asignatura.nota_final_per1 }}
+							td.text-center(ng-class="{'nota-perdida-bold': asignatura.nota_final_per2<USER.nota_minima_aceptada}") {{ ::asignatura.nota_final_per2 }}
+							td.text-center(ng-class="{'nota-perdida-bold': asignatura.nota_final_per3<USER.nota_minima_aceptada}") {{ ::asignatura.nota_final_per3 }}
+							td.text-center(ng-class="{'nota-perdida-bold': asignatura.nota_final_per4<USER.nota_minima_aceptada}") {{ ::asignatura.nota_final_per4 }}
+							td.text-center(ng-class="{'nota-perdida-bold': asignatura['nota_final_per'+USER.numero_periodo]<USER.nota_minima_aceptada}") {{ ::asignatura.desempenio }}
+							td.text-center
+								span.text-tardanza {{::asignatura.total_ausencias}} / {{::asignatura.total_tardanzas}}
 
 
 

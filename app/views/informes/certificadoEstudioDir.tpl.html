@@ -9,7 +9,7 @@
               <div class="col-lg-2 col-xs-2"><img ng-if="!year.config_certificado_estudio_id" ng-src="{{perfilPath + year.logo}}" class="img-responsive logo-colegio"></div>
               <div class="col-lg-8 col-xs-8 title-encabezado-boletin">
                 <div class="dane-certificado">{{ year.codigo_dane }}</div>
-                <div class="nombre-colegio"> <span ng-show="year.sexo_rector=='M'">EL RECTOR DEL </span><span ng-show="year.sexo_rector=='F'">LA RECTORA DEL </span>{{ year.nombre_colegio }}</div>
+                <div class="nombre-colegio"><span ng-show="year.sexo_rector=='M'">EL RECTOR DEL</span><span ng-show="year.sexo_rector=='F'">LA RECTORA DEL</span>{{ year.nombre_colegio }}</div>
                 <div ng-if="!year.config_certificado_estudio_id" class="resolucion-colegio">{{year.resolucion}}</div>
                 <div class="nombre-colegio">CERTIFICA</div>
               </div>
@@ -17,11 +17,11 @@
             </div>
             <div style="margin-top: 20px; " class="row descripcion-encabezado">
               <div class="col-lg-12 col-xs-12">
-                <div class="grupo-alumno">Que, <b>{{alumno.nombres + ' ' + alumno.apellidos}}</b>, <span ng-show="alumno.cant_lost_asig &gt; 1" style="font-weight:bold">NO aprobó </span><span ng-hide="alumno.cant_lost_asig &gt; 1">cursó y aprobó </span>en éste plantel educativo las áreas correspondientes al grado <b>{{grupo.nombre_grupo | capitalize}} </b>de la {{grupo.nivel_educativo}} 
-                  académica durante el año <b>{{USER.year}}</b>, obteniendo los siguientes resultados:
+                <div class="grupo-alumno">Que,<b>{{alumno.nombres + ' ' + alumno.apellidos}}</b>,<span ng-show="alumno.cant_lost_asig &gt; 1" style="font-weight:bold">NO aprobó</span><span ng-hide="alumno.cant_lost_asig &gt; 1">cursó y aprobó</span>en éste plantel educativo las áreas correspondientes al grado<b class="camel">{{grupo.nombre_grupo.toLowerCase()}}</b>de la {{grupo.nivel_educativo}}
+                  académica durante el año<b>{{USER.year}}</b>, obteniendo los siguientes resultados:
                 </div>
                 <!-- Esto no se verá en la impresión-->
-                <div uib-popover-template="views+'informes/infoTitularPop.tpl.html'" popover-popup-delay="500" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true" popover-trigger="mouseenter" style="float: right" popover-append-to-body="true" class="titular-grupo hidden-print">Titular: {{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor | capitalize}}</div>
+                <div uib-popover-template="views+'informes/infoTitularPop.tpl.html'" popover-popup-delay="500" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true" popover-trigger="mouseenter" style="float: right" popover-append-to-body="true" class="titular-grupo hidden-print">Titular:<span class="camel">  {{grupo.nombres_profesor.toLowerCase() + ' ' + grupo.apellidos_profesor.toLowerCase()}}</span></div>
               </div>
             </div>
           </div>
@@ -34,9 +34,9 @@
                   <th class="txtcentro">No</th>
                   <th style="width: 310px" class="txtcentro">Nombres</th>
                   <th style="width: 65px" class="txtcentro">Cred</th>
-                  <th style="width: 35px" class="txtcentro"> <i class="fa fa-clock-o icon-tardanza"> </i>A</th>
+                  <th style="width: 35px" class="txtcentro"><i class="fa fa-clock-o icon-tardanza"></i>A</th>
                   <!--th(ng-repeat="periodo in year.periodos") Per{{periodo.numero}}-->
-                  <th style="width: 140px" class="txtcentro">Valoración </th>
+                  <th style="width: 140px" class="txtcentro">Valoración</th>
                   <th style="width: 65px; border-left: 2px solid !important;" class="txtcentro">%</th>
                 </tr>
               </thead>
@@ -48,31 +48,25 @@
                   </td>
                   <td class="txtcentro">{{ asignatura.creditos }}</td>
                   <td class="txtcentro"><span ng-show="asignatura.ausencias &gt; 0">{{asignatura.ausencias}}</span></td>
-                  <!--td(ng-repeat="definitiva in asignatura.definitivas" ng-class="{'nota-perdida-puestos': ((definitiva.DefMateria | number:0 )*1) < (USER.nota_minima_aceptada*1) }") 
+                  <!--td(ng-repeat="definitiva in asignatura.definitivas" ng-class="{'nota-perdida-puestos': ((definitiva.DefMateria | number:0 )*1) < (USER.nota_minima_aceptada*1) }")
                   | {{ definitiva.DefMateria | number:0 }}
                   span.cant-unidades-perdidas(ng-show="{{definitiva.notas_perdidas > 0}}")
                   	| ({{definitiva.notas_perdidas}})
                   
                   -->
                   <td class="txtcentro">{{ asignatura.desempenio }}</td>
-                  <td ng-class="{'nota-perdida-puestos': ((asignatura.promedio | number:0 )*1) &lt; (USER.nota_minima_aceptada*1) }" class="puntero txtcentro">
-                     
-                    {{asignatura.promedio | number:0}}<span ng-show="{{asignatura.notas_perdidas &gt; 0}}" class="cant-unidades-perdidas">({{asignatura.notas_perdidas}})</span>
-                  </td>
+                  <td ng-class="{'nota-perdida-puestos': ((asignatura.promedio | number:0 )*1) &lt; (USER.nota_minima_aceptada*1) }" class="puntero txtcentro">{{asignatura.promedio | number:0}}<span ng-show="{{asignatura.notas_perdidas &gt; 0}}" class="cant-unidades-perdidas">({{asignatura.notas_perdidas}})</span></td>
                 </tr>
               </tbody>
               <tfoot>
                 <tr style="border-top: 2px solid; text-align: center; font-weight: bold">
-                  <td>  </td>
+                  <td></td>
                   <td style="text-align: left;">Total</td>
                   <td>{{ alumno.total_creditos }}</td>
                   <td>{{alumno.ausencias}}</td>
                   <!--td(ng-repeat="periodo in year.periodos") {{ alumno.asignaturas | promedioPeriodo:periodo.id | decimales:0 }}-->
                   <td>{{ alumno.desempenio }}</td>
-                  <td style="font-weight: bold; border-left: 2px solid !important;">
-                     
-                    {{alumno.promedio | decimales:0 }}<span ng-show="{{alumno.notas_perdidas &gt; 0}}" class="cant-unidades-perdidas">({{alumno.notas_perdidas}})</span>
-                  </td>
+                  <td style="font-weight: bold; border-left: 2px solid !important;">{{alumno.promedio | decimales:0 }}<span ng-show="{{alumno.notas_perdidas &gt; 0}}" class="cant-unidades-perdidas">({{alumno.notas_perdidas}})</span></td>
                 </tr>
               </tfoot>
             </table>

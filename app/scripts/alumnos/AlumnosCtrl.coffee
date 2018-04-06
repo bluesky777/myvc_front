@@ -262,9 +262,6 @@ angular.module("myvcFrontApp")
 		if not fila.alumno_id
 			fila.alumno_id = fila.id
 
-		#datosAlum = angular.copy(fila)
-		#delete datosAlum.subGridOptions
-
 		datos =
 			alumno_id: 	fila.alumno_id
 			propiedad: 	'pazysalvo'
@@ -274,6 +271,43 @@ angular.module("myvcFrontApp")
 			console.log 'Cambios guardados'
 		, (r2)->
 			fila.pazysalvo = !fila.pazysalvo
+			toastr.error 'Cambio no guardado', 'Error'
+		)
+
+
+
+	$scope.toggleNuevo = (fila)->
+		fila.nuevo = !fila.nuevo
+		if not fila.alumno_id
+			fila.alumno_id = fila.id
+
+		datos =
+			alumno_id: 	fila.alumno_id
+			propiedad: 	'nuevo'
+			valor: 		fila.nuevo
+
+		$http.put('::alumnos/guardar-valor', datos).then((r)->
+			console.log 'Cambios guardados'
+		, (r2)->
+			fila.nuevo = !fila.nuevo
+			toastr.error 'Cambio no guardado', 'Error'
+		)
+
+
+	$scope.toggleRepitente = (fila)->
+		fila.repitente = !fila.repitente
+		if not fila.alumno_id
+			fila.alumno_id = fila.id
+
+		datos =
+			alumno_id: 	fila.alumno_id
+			propiedad: 	'repitente'
+			valor: 		fila.repitente
+
+		$http.put('::alumnos/guardar-valor', datos).then((r)->
+			console.log 'Cambios guardados'
+		, (r2)->
+			fila.repitente = !fila.repitente
 			toastr.error 'Cambio no guardado', 'Error'
 		)
 
@@ -313,6 +347,8 @@ angular.module("myvcFrontApp")
 	btMatricular = "==directives/botonesMatricularMas.tpl.html"
 	btEditReligion = "==alumnos/botonEditReligion.tpl.html"
 	btPazysalvo = "==directives/botonPazysalvo.tpl.html"
+	btIsNuevo = "==directives/botonIsNuevo.tpl.html"
+	btIsRepitente = "==directives/botonIsRepitente.tpl.html"
 	btUsuario = "==directives/botonesResetPassword.tpl.html"
 	btCiudadNac = "==directives/botonCiudadNac.tpl.html"
 	btCiudadDoc = "==directives/botonCiudadDoc.tpl.html"
@@ -325,7 +361,7 @@ angular.module("myvcFrontApp")
 	appendPopover2 = "'mouseenter'"
 	append3 = "' '"
 	appendPopover = 'uib-popover-template="views+' + appendPopover1 + '" popover-trigger="'+appendPopover2+'" popover-title="{{ row.entity.nombres + ' + append3 + ' + row.entity.apellidos }}" popover-popup-delay="500" popover-append-to-body="true"'
-	checkIsNuevo = '<input type="checkbox" ng-model="row.entity.nuevo" ng-true-value="1" ng-false-value="0" ng-change="grid.appScope.toggleNuevo(row.entity)">'
+
 
 	$scope.gridOptions =
 		showGridFooter: true,
@@ -366,8 +402,9 @@ angular.module("myvcFrontApp")
 			{ field: 'no_matricula', displayName: '# matrícula', minWidth: 80, enableColumnMenu: true }
 			{ field: 'username', filter: { condition: uiGridConstants.filter.CONTAINS }, displayName: 'Usuario', cellTemplate: btUsuario, editableCellTemplate: btEditUsername, minWidth: 135 }
 			{ field: 'deuda', displayName: 'Deuda', type: 'number', cellFilter: 'currency:"$":0', minWidth: 70 }
-			{ field: 'nuevo', displayName: 'Nuevo?', type: 'number', minWidth: 70 }
 			{ field: 'pazysalvo', displayName: 'A paz?', cellTemplate: btPazysalvo, minWidth: 60, enableCellEdit: false }
+			{ field: 'nuevo', displayName: 'Nuevo?', cellTemplate: btIsNuevo, minWidth: 60, enableCellEdit: false }
+			{ field: 'repitente', displayName: 'Repitente?', cellTemplate: btIsRepitente, minWidth: 60, enableCellEdit: false }
 			{ field: 'religion', displayName: 'Religión', minWidth: 70, editableCellTemplate: btEditReligion }
 			{ field: 'tipo_doc', displayName: 'Tipo documento', minWidth: 120, cellTemplate: btTipoDoc, enableCellEdit: false }
 			{ field: 'documento', minWidth: 100, cellFilter: 'formatNumberDocumento' }
@@ -401,7 +438,7 @@ angular.module("myvcFrontApp")
 			if col.name == 'ciudad_nac'
 				return row.entity.ciudad_nac_nombre
 
-			if( col.name == 'pazysalvo' )
+			if( col.name == 'pazysalvo' or col.name == 'nuevo' )
 				if input
 					return 'Si'
 				else
@@ -458,19 +495,6 @@ angular.module("myvcFrontApp")
 							toastr.warning 'Debe ser de diez dígitos'
 							#rowEntity.documento = oldValue
 							return
-
-					if colDef.field == "nuevo"
-						if parseInt(newValue) < 0 or parseInt(newValue) > 1
-							rowEntity[colDef.field] = oldValue
-							toastr.warning 'Coloque 1 si es nuevo, 0 si estuvo el año pasado.'
-							return
-						$http.put('::matriculas/toggle-nuevo', {matricula_id: rowEntity.matricula_id, is_nuevo: newValue }).then((r)->
-							toastr.success 'Cambiado'
-						, (r2)->
-							toastr.error 'No se cambió si era nuevo o no', 'Problema'
-							rowEntity[colDef.field] = oldValue
-						)
-						return
 
 					$http.put('::alumnos/guardar-valor', {alumno_id: rowEntity.alumno_id, propiedad: colDef.field, valor: newValue } ).then((r)->
 						toastr.success 'Alumno(a) actualizado con éxito'

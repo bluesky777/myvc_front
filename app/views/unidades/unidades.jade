@@ -220,7 +220,7 @@
 
 					.row(ng-show="unidades_eliminadas.length == 0" style="border-bottom: 1px solid #ccc;")
 						.col-xs-12
-							| No hay unidades en la papelera
+							| No hay {{::UNIDADES}} en la papelera
 
 					.row(ng-repeat="unidad in unidades_eliminadas" style="border-bottom: 1px solid #ccc;")
 						.col-xs-1
@@ -248,7 +248,7 @@
 
 					.row(ng-show="subunidades_eliminadas.length == 0" style="border-bottom: 1px solid #ccc;")
 						.col-xs-12
-							| No hay subunidades en la papelera
+							| No hay {{ ::SUBUNIDADES }} en la papelera
 
 					.row(ng-repeat="subunidad in subunidades_eliminadas" style="border-bottom: 1px solid #ccc;")
 						.col-xs-1

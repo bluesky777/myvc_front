@@ -5,7 +5,7 @@ div(ng-repeat="alumnoBig in alumnos")
 			.row
 				.col-lg-12.col-xs-12
 					.row.encabezado-boletin
-						.col-lg-12.col-xs-12
+						.col-lg-12.col-xs-12.no-padding
 							.row
 								.col-lg-2.col-xs-2
 									img.img-responsive.logo-colegio(ng-src="{{ ::perfilPath }}{{ ::year.logo }}")
@@ -34,7 +34,7 @@ div(ng-repeat="alumnoBig in alumnos")
 
 
 					.row.body-boletin(ng-repeat="alumno in ::alumnoBig.periodos" ng-if="::alumno.cant_perdidas > 0")
-						.col-lg-12.col-xs-12.no-padding
+						.col-lg-12.col-xs-12
 							.row
 								.col-xs-12.text-center(style="font-size: 13pt; font-weight: bold;")
 									| -------- PERIODO {{ alumno.numero }} --------

@@ -6,12 +6,12 @@
         <div class="row encabezado-planilla">
           <div class="col-lg-12 col-xs-12">
             <div class="row">
-              <div class="col-lg-2 col-xs-2"><img ng-src="{{::perfilPath + year.logo}}" class="img-responsive logo-colegio"></div>
+              <div class="col-lg-2 col-xs-2"><img ng-src="{{::perfilPath + year.logo}}" style="width: 70px;" class="img-responsive logo-colegio menos-margin"></div>
               <div class="col-lg-8 col-xs-8 title-encabezado-planilla">
                 <div class="row">
                   <div class="col-lg-12">
                     <div class="nombre-colegio">{{::year.nombre_colegio + ' - ' + year.abrev_colegio}}</div>
-                    <div class="descripcion-title">Planilla de trabajo Per{{::USER.numero_periodo}}-{{::USER.year}}<b> {{::asignatura.nombre_grupo}} - {{::asignatura.materia | capitalize}}</b></div>
+                    <div class="descripcion-title">Planilla de trabajo Per{{::USER.numero_periodo}}-{{::USER.year}}<b class="camel"> {{::asignatura.nombre_grupo}} - {{::asignatura.materia.toLowerCase() }}</b></div>
                   </div>
                 </div>
                 <div class="row">
@@ -20,7 +20,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-lg-2 col-xs-2"><img ng-src="{{::perfilPath + asignatura.foto_nombre}}" ng-show="::config.mostrar_foto &amp;&amp; asignatura.foto_id" class="img-responsive img-thumbnail foto-profe"></div>
+              <div class="col-lg-2 col-xs-2"><img ng-src="{{::perfilPath + asignatura.foto_nombre}}" ng-show="::config.mostrar_foto &amp;&amp; asignatura.foto_id" style="float: right; width: 70px;" class="img-responsive foto-profe menos-margin"></div>
             </div>
           </div>
         </div>
@@ -56,19 +56,19 @@
                   <tr ng-repeat="alumno in ::asignatura.alumnos1" class="altura-22">
                     <td>{{$index + 1}}</td>
                     <td>
-                      <div ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative" class="ellipsis250 alumno-planilla">{{::alumno.apellidos}} {{::alumno.nombres}}<span ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white;">(Asis)</span></div>
+                      <div ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative; vertical-align: middle;" class="ellipsis250 alumno-planilla">{{::alumno.apellidos}} {{::alumno.nombres}}<span ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;">(Asis)</span></div>
                     </td>
-                    <td>
-                      <div class="def-per-planilla">{{ ::alumno.definitivas.nota_final_per1 }}</div>
+                    <td class="text-center">
+                      <div class="def-per-planilla"><span ng-show="::alumno.periodos[0].nota_asignatura">{{ ::alumno.periodos[0].nota_asignatura }}</span></div>
                     </td>
-                    <td>
-                      <div class="def-per-planilla">{{ ::alumno.definitivas.nota_final_per2 }}</div>
+                    <td class="text-center">
+                      <div class="def-per-planilla"><span ng-show="::alumno.periodos[1].nota_asignatura">{{ ::alumno.periodos[1].nota_asignatura }}</span></div>
                     </td>
-                    <td>
-                      <div class="def-per-planilla">{{ ::alumno.definitivas.nota_final_per3 }}</div>
+                    <td class="text-center">
+                      <div class="def-per-planilla"><span ng-show="::alumno.periodos[2].nota_asignatura">{{ ::alumno.periodos[2].nota_asignatura }}</span></div>
                     </td>
-                    <td>
-                      <div class="def-per-planilla">{{ ::alumno.definitivas.nota_final_per4 }}</div>
+                    <td class="text-center">
+                      <div class="def-per-planilla"><span ng-show="::alumno.periodos[3].nota_asignatura">{{ ::alumno.periodos[3].nota_asignatura }}</span></div>
                     </td>
                     <td ng-repeat="subuni in ::subunidadesdefault track by $index" style="width: 50px">{{::subuni}}</td>
                   </tr>
@@ -100,7 +100,7 @@
                 <div class="row">
                   <div class="col-lg-12">
                     <div class="nombre-colegio">{{::year.nombre_colegio + ' - ' + year.abrev_colegio}}</div>
-                    <div class="descripcion-title">Planilla de trabajo Per{{::USER.numero_periodo}}-{{::USER.year}}<b> {{::asignatura.nombre_grupo}} - {{::asignatura.materia | capitalize}}</b></div>
+                    <div class="descripcion-title">Planilla de trabajo Per{{::USER.numero_periodo}}-{{::USER.year}}<b> {{::asignatura.nombre_grupo}} -<span class="camel">  {{::asignatura.materia.toLowerCase()}}</span></b></div>
                   </div>
                 </div>
                 <div class="row">
@@ -109,7 +109,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-lg-2 col-xs-2"><img ng-src="{{::perfilPath + asignatura.foto_nombre}}" ng-show="::config.mostrar_foto &amp;&amp; asignatura.foto_id" class="img-responsive img-thumbnail foto-profe"></div>
+              <div class="col-lg-2 col-xs-2"><img ng-src="{{::perfilPath + asignatura.foto_nombre}}" ng-show="::config.mostrar_foto &amp;&amp; asignatura.foto_id" style="float: right;" class="img-responsive foto-profe"></div>
             </div>
           </div>
         </div>
@@ -145,19 +145,19 @@
                   <tr ng-repeat="alumno in ::asignatura.alumnos2" class="altura-22">
                     <td>{{$index + 1 + asignatura.alumnos1.length }}</td>
                     <td>
-                      <div ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative" class="ellipsis250 alumno-planilla">{{::alumno.apellidos}} {{::alumno.nombres}}<span ng-show="alumno.estado=='ASIS'" style="font-size: 7pt; right: 0px; position: absolute; background-color: white;">(Asis)</span></div>
+                      <div ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative; vertical-align: middle;" class="ellipsis250 alumno-planilla">{{::alumno.apellidos}} {{::alumno.nombres}}<span ng-show="alumno.estado=='ASIS'" style="font-size: 7pt; right: 0px; position: absolute; background-color: white; top: -2px;">(Asis)</span></div>
                     </td>
-                    <td>
-                      <div class="def-per-planilla">{{ ::alumno.definitivas.nota_final_per1 }}</div>
+                    <td class="text-center">
+                      <div class="def-per-planilla"><span ng-show="::alumno.periodos[0].nota_asignatura">{{ ::alumno.periodos[0].nota_asignatura }}</span></div>
                     </td>
-                    <td>
-                      <div class="def-per-planilla">{{ ::alumno.definitivas.nota_final_per2 }}</div>
+                    <td class="text-center">
+                      <div class="def-per-planilla"><span ng-show="::alumno.periodos[1].nota_asignatura">{{ ::alumno.periodos[1].nota_asignatura }}</span></div>
                     </td>
-                    <td>
-                      <div class="def-per-planilla">{{ ::alumno.definitivas.nota_final_per3 }}</div>
+                    <td class="text-center">
+                      <div class="def-per-planilla"><span ng-show="::alumno.periodos[2].nota_asignatura">{{ ::alumno.periodos[2].nota_asignatura }}</span></div>
                     </td>
-                    <td>
-                      <div class="def-per-planilla">{{ ::alumno.definitivas.nota_final_per4 }}</div>
+                    <td class="text-center">
+                      <div class="def-per-planilla"><span ng-show="::alumno.periodos[3].nota_asignatura">{{ ::alumno.periodos[3].nota_asignatura }}</span></div>
                     </td>
                     <td ng-repeat="subuni in ::subunidadesdefault track by $index" style="width: 50px">{{::subuni}}</td>
                   </tr>

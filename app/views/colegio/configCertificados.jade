@@ -195,4 +195,11 @@ div(ng-hide="creando_certificado")
 				small {{ certif.nombre | highlight: $select.search}}
 
 
+	br
+	.form-group
+		label Encabezado boletines:
+		textarea.form-control(ng-model="year.encabezado_certificado")
+		a(ng-click="guardarEncabezado()" href="") Guardar encabezado
+
+
 

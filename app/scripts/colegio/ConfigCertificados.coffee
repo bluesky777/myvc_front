@@ -151,6 +151,14 @@ angular.module('myvcFrontApp')
 		)
 
 
+	$scope.guardarEncabezado = ()->
+		$http.put('::certificados/encabezado', {encabezado_certificado: $scope.year.encabezado_certificado, year_id: $scope.year.id}).then((r)->
+			toastr.success 'Encabezado guardado.'
+		, (r2)->
+			toastr.error 'Encabezado no guardado', 'Error'
+		)
+
+
 
 	return
 ]

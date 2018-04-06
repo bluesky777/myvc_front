@@ -155,5 +155,9 @@
         <div ng-bind-html="certif.nombre | highlight: $select.search"></div><small>{{ certif.nombre | highlight: $select.search}}</small>
       </ui-select-choices>
     </ui-select>
+  </div><br>
+  <div class="form-group">
+    <label>Encabezado boletines:</label>
+    <textarea ng-model="year.encabezado_certificado" class="form-control"></textarea><a ng-click="guardarEncabezado()" href="">Guardar encabezado</a>
   </div>
 </div>

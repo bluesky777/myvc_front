@@ -13,9 +13,9 @@ div(style="display: table; height: 30cm ; position: relative; " ng-class="{'page
 							.col-lg-8.col-xs-8.title-encabezado-boletin
 								.dane-certificado
 									| {{ year.codigo_dane }}
-								.nombre-colegio 
-									span(ng-show="year.sexo_rector=='M'") EL RECTOR DEL 
-									span(ng-show="year.sexo_rector=='F'") LA RECTORA DEL 
+								.nombre-colegio
+									span(ng-show="year.sexo_rector=='M'") EL RECTOR DEL
+									span(ng-show="year.sexo_rector=='F'") LA RECTORA DEL
 									| {{ year.nombre_colegio }}
 								.resolucion-colegio(ng-if="!year.config_certificado_estudio_id")
 									| {{year.resolucion}}
@@ -27,26 +27,27 @@ div(style="display: table; height: 30cm ; position: relative; " ng-class="{'page
 						.row.descripcion-encabezado(style="margin-top: 20px; ")
 							.col-lg-12.col-xs-12
 								.grupo-alumno
-									| Que, 
+									| Que,
 									b {{alumno.nombres + ' ' + alumno.apellidos}}
-									| , 
+									| ,
 									span(ng-show="alumno.cant_lost_asig > 1" style="font-weight:bold")
-										| NO aprobó 
+										| NO aprobó
 									span(ng-hide="alumno.cant_lost_asig > 1")
-										| cursó y aprobó 
-									| en éste plantel educativo las áreas correspondientes al grado 
-									b {{grupo.nombre_grupo | capitalize}} 
-									| de la {{grupo.nivel_educativo}} 
-									| académica durante el año 
+										| cursó y aprobó
+									| en éste plantel educativo las áreas correspondientes al grado
+									b.camel {{grupo.nombre_grupo.toLowerCase()}}
+									| de la {{grupo.nivel_educativo}}
+									| académica durante el año
 									b {{USER.year}}
 									| , obteniendo los siguientes resultados:
 
 								// Esto no se verá en la impresión
-								.titular-grupo.hidden-print(uib-popover-template="views+'informes/infoTitularPop.tpl.html'"  
-										popover-popup-delay="500" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true" 
+								.titular-grupo.hidden-print(uib-popover-template="views+'informes/infoTitularPop.tpl.html'"
+										popover-popup-delay="500" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true"
 										popover-trigger="mouseenter" style="float: right" popover-append-to-body="true")
-									| Titular: {{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor | capitalize}}
-							
+									| Titular:
+									span.camel   {{grupo.nombres_profesor.toLowerCase() + ' ' + grupo.apellidos_profesor.toLowerCase()}}
+
 				.row.body-boletin(style="margin-top: 10px; margin-bottom: 10px; ")
 					.col-lg-11.col-xs-11(style="padding-left: 50px;")
 						table.table-bordered.table-striped(style="margin: 0 auto;")
@@ -55,39 +56,39 @@ div(style="display: table; height: 30cm ; position: relative; " ng-class="{'page
 									th.txtcentro No
 									th.txtcentro(style="width: 310px") Nombres
 									th.txtcentro(style="width: 65px") Cred
-									th.txtcentro(style="width: 35px") 
-										i.fa.fa-clock-o.icon-tardanza 
+									th.txtcentro(style="width: 35px")
+										i.fa.fa-clock-o.icon-tardanza
 										| A
 									//th(ng-repeat="periodo in year.periodos") Per{{periodo.numero}}
-									th.txtcentro(style="width: 140px") Valoración 
+									th.txtcentro(style="width: 140px") Valoración
 									th.txtcentro(style="width: 65px; border-left: 2px solid !important;") %
 							tbody
 								tr(ng-repeat="asignatura in alumno.asignaturas")
 									td {{$index + 1}}
 									td(style="text-align: justify;")
 										div(uib-popover-template="views+'informes/infoDocentePop.tpl.html'"
-											popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" 
+											popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true"
 											popover-trigger="mouseenter" popover-append-to-body="true") {{asignatura.materia}}
 									td.txtcentro
 										| {{ asignatura.creditos }}
 									td.txtcentro
 										span(ng-show="asignatura.ausencias > 0") {{asignatura.ausencias}}
 
-									//td(ng-repeat="definitiva in asignatura.definitivas" ng-class="{'nota-perdida-puestos': ((definitiva.DefMateria | number:0 )*1) < (USER.nota_minima_aceptada*1) }") 
+									//td(ng-repeat="definitiva in asignatura.definitivas" ng-class="{'nota-perdida-puestos': ((definitiva.DefMateria | number:0 )*1) < (USER.nota_minima_aceptada*1) }")
 										| {{ definitiva.DefMateria | number:0 }}
 										span.cant-unidades-perdidas(ng-show="{{definitiva.notas_perdidas > 0}}")
 											| ({{definitiva.notas_perdidas}})
-										
+
 									td.txtcentro
 										| {{ asignatura.desempenio }}
-									td.puntero.txtcentro(ng-class="{'nota-perdida-puestos': ((asignatura.promedio | number:0 )*1) < (USER.nota_minima_aceptada*1) }") 
+									td.puntero.txtcentro(ng-class="{'nota-perdida-puestos': ((asignatura.promedio | number:0 )*1) < (USER.nota_minima_aceptada*1) }")
 										| {{asignatura.promedio | number:0}}
 										span.cant-unidades-perdidas(ng-show="{{asignatura.notas_perdidas > 0}}")
 											| ({{asignatura.notas_perdidas}})
 
 							tfoot
 								tr(style="border-top: 2px solid; text-align: center; font-weight: bold")
-									td   
+									td
 									td(style="text-align: left;") Total
 									td
 										| {{ alumno.total_creditos }}
@@ -96,14 +97,14 @@ div(style="display: table; height: 30cm ; position: relative; " ng-class="{'page
 
 									//td(ng-repeat="periodo in year.periodos") {{ alumno.asignaturas | promedioPeriodo:periodo.id | decimales:0 }}
 									td {{ alumno.desempenio }}
-									td(style="font-weight: bold; border-left: 2px solid !important;") 
+									td(style="font-weight: bold; border-left: 2px solid !important;")
 										| {{alumno.promedio | decimales:0 }}
 										span.cant-unidades-perdidas(ng-show="{{alumno.notas_perdidas > 0}}")
 											| ({{alumno.notas_perdidas}})
 
 
 
-				
+
 
 
 				.row
@@ -132,7 +133,7 @@ div(style="display: table; height: 30cm ; position: relative; " ng-class="{'page
 	span(ng-if="year.config_certificado_estudio_id" style="display: table-row; vertical-align: bottom; height: {{year.config_certificado.piepagina_height}}px;")
 		img.footer-membrete(ng-src="{{perfilPath + year.config_certificado.piepagina_nombre}}"
 			style="width: 22cm; position: absolute; margin-left: -10px;")
-	
+
 
 
 

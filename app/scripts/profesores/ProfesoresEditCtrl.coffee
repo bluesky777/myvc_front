@@ -15,11 +15,21 @@ angular.module("myvcFrontApp")
 	$scope.sangres = [{sangre: 'O+'},{sangre: 'O-'}, {sangre: 'A+'}, {sangre: 'A-'}, {sangre: 'B+'}, {sangre: 'B-'}, {sangre: 'AB+'}, {sangre: 'AB-'}]
 	$scope.estados_civiles = [{estado_civil: 'Soltero'},{estado_civil: 'Casado'}, {estado_civil: 'Divorciado'}, {estado_civil: 'Viudo'}]
 
+
+
 	$http.get('::profesores/show/'+$state.params.profe_id).then (r)->
-		r = r.data
-		$scope.profesor = r[0]
+		$scope.profesor = r.data[0]
 		$scope.profesor.fecha_nac = new Date($scope.profesor.fecha_nac)
-		#$scope.profesor.estado_civil = {estado_civil: r[0].estado_civil}
+		$scope.profesor.password  = ''
+		$scope.profesor.password2 = ''
+
+		if $scope.profesor.estado_civil
+			for estado in $scope.estados_civiles
+				if estado.estado_civil == $scope.profesor.estado_civil
+					$scope.profesor.estado_civil = estado
+		else
+			$scope.profesor.estado_civil = $scope.estados_civiles[0]
+
 
 
 		if $scope.profesor.ciudad_nac == null
@@ -27,12 +37,22 @@ angular.module("myvcFrontApp")
 			$scope.paisNacSelect($scope.profesor.pais_nac, $scope.profesor.pais_nac)
 		else
 			$http.get('::ciudades/datosciudad/' + $scope.profesor.ciudad_nac).then (r2)->
-				$scope.paises = r2.paises
-				$scope.departamentosNac = r2.departamentos
-				$scope.ciudadesNac = r2.ciudades
-				$scope.profesor.pais_nac = r2.pais
-				$scope.profesor.departamento_nac = r2.departamento
-				$scope.profesor.ciudad_nac = r2.ciudad
+				$scope.paises             = r2.data.paises
+				$scope.departamentosNac   = r2.data.departamentos
+				$scope.ciudadesNac        = r2.data.ciudades
+
+				for pais in $scope.paises
+					if pais.id == r2.data.pais.id
+						$scope.profesor.pais_nac = pais
+
+				for depart in $scope.departamentosNac
+					if depart.departamento == r2.data.departamento.departamento
+						$scope.profesor.departamento_nac = depart
+
+				for ciudad in $scope.ciudadesNac
+					if ciudad.id == r2.data.ciudad.id
+						$scope.profesor.ciudad_nac = ciudad
+
 
 		if $scope.profesor.ciudad_doc == null
 			$scope.profesor.pais_doc = {id: 1, pais: 'COLOMBIA', abrev: 'CO'}
@@ -69,12 +89,30 @@ angular.module("myvcFrontApp")
 
 
 
+
 	$scope.guardar = ()->
+
+		if $scope.profesor.password.length == 0
+			if $scope.profesor.password.length > 0
+				toastr.warning 'Si lo quieres es cambiar la contraseña, debes copiarla 2 veces.'
+				return
+		else
+			if $scope.profesor.password.length < 3
+				toastr.warning 'La contraseña debe tener al menos 3 caracteres'
+				return
+			else
+				if $scope.profesor.password != $scope.profesor.password2
+					toastr.warning 'Las contraseñas deben ser iguales'
+					return
+
+
 		$http.put('::profesores/update/'+$scope.profesor.profesor_id, $scope.profesor).then((r)->
 			toastr.success 'Profesor actualizado con éxito'
 		, (r2)->
 			toastr.error 'No se guardaron los cambios', 'Problemas'
 		)
+
+
 
 
 	$scope.paisNacSelect = ($item, $model)->

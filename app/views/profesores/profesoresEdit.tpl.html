@@ -41,6 +41,25 @@
                             </div>
                           </div>
                         </div>
+                        <div style="margin-bottom: 5px;" class="form-group col-lg-4 col-sm-6 col-xs-12">
+                          <label>Tipo</label>
+                          <div class="row">
+                            <div style="padding: 0;" class="col-lg-3 col-sm-4 col-xs-6">
+                              <div class="radio">
+                                <label>
+                                  <input type="radio" name="tipo_profesor" value="Tiempo completo" ng-model="profesor.tipo_profesor" class="inverted"><span class="text">Tiempo completo</span>
+                                </label>
+                              </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-4 col-xs-6">
+                              <div class="radio">
+                                <label>
+                                  <input type="radio" name="tipo_profesor" value="Catedrático" ng-model="profesor.tipo_profesor" class="inverted"><span class="text">Catedrático</span>
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                       <div class="row">
                         <div class="form-group col-lg-4 col-sm-6">
@@ -113,7 +132,7 @@
                     </div>
                     <div class="form-group col-lg-4 col-sm-6 col-xs-12">
                       <label>Pais</label>
-                      <ui-select ng-model="profesor.pais_doc" on-select="paisSelecionado($item, $model)" style="width: 100%;" append-to-body="true">
+                      <ui-select ng-model="profesor.pais_doc" on-select="paisDocSelect($item, $model)" style="width: 100%;" append-to-body="true">
                         <ui-select-match placeholder="Pais documento" allow-clear="true">{{$select.selected.pais}} ({{$select.selected.abrev}})</ui-select-match>
                         <ui-select-choices repeat="pais in paises | filter: $select.search">
                           <div ng-bind-html="pais.pais | highlight: $select.search"></div><small>{{ pais.departamento | highlight: $select.search}}</small>
@@ -122,7 +141,7 @@
                     </div>
                     <div class="form-group col-lg-4 col-sm-6 col-xs-12">
                       <label>Departamento</label>
-                      <ui-select ng-model="profesor.departamento_doc" on-select="departSeleccionado($item, $model)" style="width: 100%;" append-to-body="true">
+                      <ui-select ng-model="profesor.departamento_doc" on-select="departDocSelect($item, $model)" style="width: 100%;" append-to-body="true">
                         <ui-select-match placeholder="Departamento documento" allow-clear="true">{{$select.selected.departamento}}</ui-select-match>
                         <ui-select-choices repeat="departamento in departamentos | filter: $select.search">
                           <div ng-bind-html="departamento.departamento | highlight: $select.search"></div>
@@ -146,7 +165,7 @@
               <div class="row">
                 <div class="form-group col-lg-4 col-sm-6 col-xs-12">
                   <label for="profesor-estado-civil">Estado civil</label>
-                  <ui-select ng-model="estado_civil" theme="select2" style="width: 100%;" append-to-body="true">
+                  <ui-select ng-model="profesor.estado_civil" theme="select2" style="width: 100%;" append-to-body="true">
                     <ui-select-match placeholder="Estado civil" allow-clear="true">{{$select.selected.estado_civil}}</ui-select-match>
                     <ui-select-choices repeat="estado in estados_civiles | filter: $select.search">
                       <div ng-bind-html="estado.estado_civil | highlight: $select.search"></div>

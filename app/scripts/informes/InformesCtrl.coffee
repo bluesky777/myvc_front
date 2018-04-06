@@ -182,6 +182,7 @@ angular.module('myvcFrontApp')
 	$scope.verBoletinAlumno = (tipo)->
 		if tipo == '1' or tipo == 1
 			tipo = ''
+		$cookies.remove 'requested_alumnos'
 		if $scope.datos.selected_alumno
 			$cookies.putObject 'requested_alumno', [$scope.datos.selected_alumno]
 			$state.go 'panel.informes'
@@ -213,6 +214,7 @@ angular.module('myvcFrontApp')
 
 
 	$scope.verNotasActualesAlumno = ()->
+		$cookies.remove 'requested_alumno'
 		if $scope.datos.selected_alumno
 			$cookies.putObject 'requested_alumno', [$scope.datos.selected_alumno]
 			$state.go 'panel.informes'

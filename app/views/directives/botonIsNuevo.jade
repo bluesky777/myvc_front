@@ -1,0 +1,10 @@
+div(style="text-align:center; padding-top: 4px")
+
+	a.btn.btn-xs(ng-class="{'btn-primary':row.entity.nuevo, 'btn-info':!row.entity.nuevo }"
+		ng-click="grid.appScope.toggleNuevo(row.entity);"
+		uib-tooltip="Llegó al colegio este año" tooltip-placement="left" href=""
+		tooltip-enable="row.entity.nuevo")
+
+		span(ng-hide="row.entity.nuevo") No
+		span(ng-show="row.entity.nuevo") Si
+

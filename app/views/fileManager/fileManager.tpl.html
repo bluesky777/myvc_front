@@ -10,7 +10,11 @@
               <label>
                 <input type="checkbox" ng-model="subir_intacta.intacta" class="checkbox-slider slider-icon colored-blue ocultar-input"><span class="text si-no"></span>
               </label></span>
-            <div ngf-select="uploadFiles($files)" ngf-multiple="true" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="4MB" class="btn btn-success"><i class="fa fa-upload"></i>Subir imágenes</div>
+            <div ngf-select="uploadFiles($files)" ngf-multiple="true" ngf-pattern="'image/*'" ngf-accept="'image/*'" class="btn btn-success"><i class="fa fa-upload"></i>Subir imágenes
+              <!--  ngf-max-size="7MB"-->
+              
+              
+            </div>
             <div ng-file-select ng-file-change="upload($files)" ng-multiple="true" ng-accept="'image/*'" ng-show="false" class="btn btn-success"><i class="fa fa-upload"></i>Subir imágenes</div><br>
           </div>
           <div class="col-lg-10 col-xs-12">

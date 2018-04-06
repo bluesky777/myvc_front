@@ -14,8 +14,9 @@ div(ng-repeat="asignatura in asignaturas")
 										.nombre-colegio
 											| {{year.nombre_colegio + ' - ' + year.abrev_colegio}}
 										.descripcion-title
-											|Planilla de trabajo Per{{USER.numero_periodo}}-{{USER.year}} 
-											b  {{asignatura.nombre_grupo}} - {{asignatura.materia | capitalize}}
+											|Planilla de trabajo Per{{USER.numero_periodo}}-{{USER.year}}
+											b  {{asignatura.nombre_grupo}} -
+												span.camel   {{asignatura.materia.toLowerCase()}}
 								.row
 									.col-lg-12
 										h5.nombre-profesor(style="padding: 0px; margin: 0px") {{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}
@@ -46,8 +47,8 @@ div(ng-repeat="asignatura in asignaturas")
 											| {{$index + 1}}
 										td
 											.ellipsis200.alumno-planilla(ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative")
-												| {{alumno.apellidos}} {{alumno.nombres}} 
-												span(ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white;") 
+												| {{alumno.apellidos}} {{alumno.nombres}}
+												span(ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white;")
 													| (Asis)
 										td(ng-repeat="periodo in alumno.periodos")
 											.def-per-planilla
@@ -55,13 +56,11 @@ div(ng-repeat="asignatura in asignaturas")
 										td(ng-repeat="subuni in subunidadesdefault track by $index" style="width: 50px")
 											| {{subuni}}
 									tr(style="height: 17px;")
-										td   
-											|  
-										td  
-											|  
-										td(ng-repeat="periodo in asignatura.periodosProm")  
-											.def-per-planilla(style="font-weight: bold;") 
-												| {{periodo.sumatoria / asignatura.alumnos.length | decimales:1}} 
+										td
+										td
+										td(ng-repeat="periodo in asignatura.periodosProm")
+											.def-per-planilla(style="font-weight: bold;")
+												| {{periodo.sumatoria / asignatura.alumnos.length | decimales:1}}
 										td(ng-repeat="subuni in subunidadesdefault track by $index" style="width: 50px")
 											| {{subuni}}
 

@@ -274,6 +274,14 @@ angular.module('myvcFrontApp')
 				else if scope.USER.numero_periodo >= 4
 					asignatura.desempenio_per4 = 'En proceso'
 
+
+				for unidad in asignatura.unidades
+					if unidad.nota_unidad >= scope.USER.nota_minima_aceptada
+						unidad.desempenio = 'Alcanzado'
+					else
+						unidad.desempenio = 'En proceso'
+
+
 				valores.push { label: asignatura.alias_materia, value: asignatura['nota_final_per'+scope.USER.numero_periodo] }
 
 

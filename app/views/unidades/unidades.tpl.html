@@ -142,7 +142,7 @@
       <div ng-show="mostrando_unidades_eliminadas" class="row">
         <div class="col-xs-12 col-md-12">
           <div ng-show="unidades_eliminadas.length == 0" style="border-bottom: 1px solid #ccc;" class="row">
-            <div class="col-xs-12">No hay unidades en la papelera</div>
+            <div class="col-xs-12">No hay {{::UNIDADES}} en la papelera</div>
           </div>
           <div ng-repeat="unidad in unidades_eliminadas" style="border-bottom: 1px solid #ccc;" class="row">
             <div class="col-xs-1">
@@ -162,7 +162,7 @@
       <div ng-show="mostrando_subunidades_eliminadas" class="row">
         <div class="col-xs-12 col-md-12">
           <div ng-show="subunidades_eliminadas.length == 0" style="border-bottom: 1px solid #ccc;" class="row">
-            <div class="col-xs-12">No hay subunidades en la papelera</div>
+            <div class="col-xs-12">No hay {{ ::SUBUNIDADES }} en la papelera</div>
           </div>
           <div ng-repeat="subunidad in subunidades_eliminadas" style="border-bottom: 1px solid #ccc;" class="row">
             <div class="col-xs-1">

@@ -1,0 +1,10 @@
+div(style="text-align:center; padding-top: 4px")
+
+	a.btn.btn-xs(ng-class="{'btn-primary':row.entity.repitente, 'btn-info':!row.entity.repitente }"
+		ng-click="grid.appScope.toggleRepitente(row.entity);"
+		uib-tooltip="Perdió el año pasado en esta institución" tooltip-placement="left" href=""
+		tooltip-enable="row.entity.repitente")
+
+		span(ng-hide="row.entity.repitente") No
+		span(ng-show="row.entity.repitente") Si
+
