@@ -169,10 +169,10 @@
 
 			.form-title Cambiar imagen a
 				.btn-group
-					label.btn.btn-default(ng-model="dato.tipo_a_cambiar" uib-btn-radio="'alumno'") Alumno
-					label.btn.btn-default(ng-model="dato.tipo_a_cambiar" uib-btn-radio="'profesor'") Profesor
-					label.btn.btn-default(ng-model="dato.tipo_a_cambiar" uib-btn-radio="'acudiente'" disabled="disabled") Acudiente
-					label.btn.btn-default(ng-model="dato.tipo_a_cambiar" uib-btn-radio="'otro'" disabled="disabled") Otro
+					label.btn.btn-default(ng-model="dato.tipo_a_cambiar" uib-btn-radio="'alumno'" ng-click="cambiar_tipo_img_a_cambiar('alumno')") Alumno
+					label.btn.btn-default(ng-model="dato.tipo_a_cambiar" uib-btn-radio="'profesor'" ng-click="cambiar_tipo_img_a_cambiar('profesor')") Profesor
+					label.btn.btn-default(ng-model="dato.tipo_a_cambiar" uib-btn-radio="'acudiente'" disabled="disabled" ng-click="cambiar_tipo_img_a_cambiar('acudiente')") Acudiente
+					label.btn.btn-default(ng-model="dato.tipo_a_cambiar" uib-btn-radio="'otro'" disabled="disabled" ng-click="cambiar_tipo_img_a_cambiar('otro')") Otro
 
 			.row
 				.col-lg-12.col-xs-12(ng-if="dato.tipo_a_cambiar == 'alumno' ")
@@ -185,26 +185,37 @@
 								ui-select-choices(repeat="grupo in grupos | filter: $select.search")
 									div(ng-bind-html="grupo.nombre | highlight: $select.search")
 
-						.col-md-6
-							label Alumno
-							ui-select(ng-model="dato.alumnoElegido" ng-disabled="!dato.grupo" on-select="alumSelect($item, $model)" theme="select2" style="width: 100%;")
-								ui-select-match(placeholder="Seleccione alumno")
-									img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;")
-									small(ng-bind-html="' ' + $select.selected.apellidos + ' ' + $select.selected.nombres + ' (' + $select.selected.username + ')'")
-								ui-select-choices(repeat="alumno in alumnos | filter: {nombres: $select.search}")
-									img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
-									small(ng-bind-html="' ' + alumno.apellidos + ' ' + alumno.nombres + ' (' + alumno.username + ')' | highlight: $select.search")
-
 					.row(style="margin-top: 10px;")
 						.col-md-6
+							label Alumno
+								input(type="text" placeholder="Buscar..." ng-model="search_alu")
+
+							div.select-alumn
+								.select-alumn_item(ng-repeat="alumno in alumnos | filterByNomApell:search_alu"
+									uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'"
+									popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}"
+									popover-trigger="'mouseenter'" popover-popup-delay="1000"
+									ng-class="{'alu-selected': alumno.selected, italic: alumno.estado=='ASIS' }"
+									ng-click="alumSelect(alumno)")
+
+									img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
+									small(ng-bind-html="' ' + (alumno.apellidos + ' ' + alumno.nombres | highlight: search_alu) + ' (' + alumno.username + ')' ")
+
+
+						.col-md-6
 							label Imagen
-							ui-select(ng-model="dato.selectedImg" ng-disabled="!dato.alumnoElegido" on-select="fotoSelect($item, $model)" theme="select2" style="width: 100%;")
-								ui-select-match(placeholder="Seleccione imagen")
-									img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
-									small(ng-bind-html="' ' + $select.selected.nombre")
-								ui-select-choices(repeat="imagen in imagenes_privadas | filter: {nombre: $select.search}")
+								input(type="text" placeholder="Buscar..." ng-model="search_img_cam")
+
+							div.select-alumn
+								.select-alumn_item(ng-repeat="imagen in imagenes_privadas | filter: {nombre: search_img_cam}"
+									uib-popover-template="views+'fileManager/popoverImagenView.tpl.html'"
+									popover-title="{{imagen.nombre}}"
+									popover-trigger="'mouseenter'" popover-popup-delay="1000"
+									ng-class="{'alu-selected': imagen.selected, italic: imagen.estado=='ASIS' }"
+									ng-click="select_imagen_item(imagen)")
+
 									img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
-									small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
+									small(ng-bind-html="' ' + imagen.nombre | highlight: search_img_cam")
 
 
 					.row(style="margin-top: 10px;")
@@ -242,7 +253,7 @@
 
 						.col-sm-6(style="height: 55px; line-height: 5.4;")
 							.btn-group
-								button.btn.btn-danger.shiny(ng-click="borrarImagen(dato.selectedImgDelUsuario, dato.alumnoElegido.user_id)") Eliminar
+								button.btn.btn-danger.shiny(ng-click="borrarImagen(dato.selectedImgDelUsuario, dato.alumnoElegido.user_id, true)") Eliminar
 								button.btn.btn-default.shiny(ng-click="moveImgToMe(dato.selectedImgDelUsuario, dato.alumnoElegido)" uib-tooltip="Quitar de usuario y ponerla en mis imágenes") Mover a mis imágenes
 
 

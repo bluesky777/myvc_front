@@ -114,10 +114,10 @@
     <uib-tab heading="Imágenes de usuarios" index="'imgs_usus'" select="selectTab('imgs_usus')" ng-if="hasRoleOrPerm('admin')">
       <div class="form-title">Cambiar imagen a
         <div class="btn-group">
-          <label ng-model="dato.tipo_a_cambiar" uib-btn-radio="'alumno'" class="btn btn-default">Alumno</label>
-          <label ng-model="dato.tipo_a_cambiar" uib-btn-radio="'profesor'" class="btn btn-default">Profesor</label>
-          <label ng-model="dato.tipo_a_cambiar" uib-btn-radio="'acudiente'" disabled="disabled" class="btn btn-default">Acudiente</label>
-          <label ng-model="dato.tipo_a_cambiar" uib-btn-radio="'otro'" disabled="disabled" class="btn btn-default">Otro</label>
+          <label ng-model="dato.tipo_a_cambiar" uib-btn-radio="'alumno'" ng-click="cambiar_tipo_img_a_cambiar('alumno')" class="btn btn-default">Alumno</label>
+          <label ng-model="dato.tipo_a_cambiar" uib-btn-radio="'profesor'" ng-click="cambiar_tipo_img_a_cambiar('profesor')" class="btn btn-default">Profesor</label>
+          <label ng-model="dato.tipo_a_cambiar" uib-btn-radio="'acudiente'" disabled="disabled" ng-click="cambiar_tipo_img_a_cambiar('acudiente')" class="btn btn-default">Acudiente</label>
+          <label ng-model="dato.tipo_a_cambiar" uib-btn-radio="'otro'" disabled="disabled" ng-click="cambiar_tipo_img_a_cambiar('otro')" class="btn btn-default">Otro</label>
         </div>
       </div>
       <div class="row">
@@ -132,21 +132,23 @@
                 </ui-select-choices>
               </ui-select>
             </div>
-            <div class="col-md-6">
-              <label>Alumno</label>
-              <ui-select ng-model="dato.alumnoElegido" ng-disabled="!dato.grupo" on-select="alumSelect($item, $model)" theme="select2" style="width: 100%;">
-                <ui-select-match placeholder="Seleccione alumno"><img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.apellidos + ' ' + $select.selected.nombres + ' (' + $select.selected.username + ')'"></small></ui-select-match>
-                <ui-select-choices repeat="alumno in alumnos | filter: {nombres: $select.search}"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + alumno.apellidos + ' ' + alumno.nombres + ' (' + alumno.username + ')' | highlight: $select.search"></small></ui-select-choices>
-              </ui-select>
-            </div>
           </div>
           <div style="margin-top: 10px;" class="row">
             <div class="col-md-6">
-              <label>Imagen</label>
-              <ui-select ng-model="dato.selectedImg" ng-disabled="!dato.alumnoElegido" on-select="fotoSelect($item, $model)" theme="select2" style="width: 100%;">
-                <ui-select-match placeholder="Seleccione imagen"><img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombre"></small></ui-select-match>
-                <ui-select-choices repeat="imagen in imagenes_privadas | filter: {nombre: $select.search}"><img ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + imagen.nombre | highlight: $select.search"></small></ui-select-choices>
-              </ui-select>
+              <label>Alumno
+                <input type="text" placeholder="Buscar..." ng-model="search_alu">
+              </label>
+              <div class="select-alumn">
+                <div ng-repeat="alumno in alumnos | filterByNomApell:search_alu" uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="1000" ng-class="{'alu-selected': alumno.selected, italic: alumno.estado=='ASIS' }" ng-click="alumSelect(alumno)" class="select-alumn_item"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + (alumno.apellidos + ' ' + alumno.nombres | highlight: search_alu) + ' (' + alumno.username + ')' "></small></div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label>Imagen
+                <input type="text" placeholder="Buscar..." ng-model="search_img_cam">
+              </label>
+              <div class="select-alumn">
+                <div ng-repeat="imagen in imagenes_privadas | filter: {nombre: search_img_cam}" uib-popover-template="views+'fileManager/popoverImagenView.tpl.html'" popover-title="{{imagen.nombre}}" popover-trigger="'mouseenter'" popover-popup-delay="1000" ng-class="{'alu-selected': imagen.selected, italic: imagen.estado=='ASIS' }" ng-click="select_imagen_item(imagen)" class="select-alumn_item"><img ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + imagen.nombre | highlight: search_img_cam"></small></div>
+              </div>
             </div>
           </div>
           <div style="margin-top: 10px;" class="row">
@@ -173,7 +175,7 @@
             </div>
             <div style="height: 55px; line-height: 5.4;" class="col-sm-6">
               <div class="btn-group">
-                <button ng-click="borrarImagen(dato.selectedImgDelUsuario, dato.alumnoElegido.user_id)" class="btn btn-danger shiny">Eliminar</button>
+                <button ng-click="borrarImagen(dato.selectedImgDelUsuario, dato.alumnoElegido.user_id, true)" class="btn btn-danger shiny">Eliminar</button>
                 <button ng-click="moveImgToMe(dato.selectedImgDelUsuario, dato.alumnoElegido)" uib-tooltip="Quitar de usuario y ponerla en mis imágenes" class="btn btn-default shiny">Mover a mis imágenes</button>
               </div>
             </div>

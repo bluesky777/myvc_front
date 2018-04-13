@@ -17045,3 +17045,25 @@ tr { page-break-inside: avoid }
 .italic{
   font-style: italic;
 }
+
+
+
+.select-alumn{
+  background-color: #fff;
+  height: 250px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+}
+.select-alumn_item{
+  padding: 3px;
+  cursor: pointer;
+}
+.alu-selected{
+  background-color: #2dc3e8!important;
+}
+.select-alumn_item:hover {
+  background-color: #f5f5f5;
+}
+.select-alumn_item:focus {
+  outline: none;
+}
