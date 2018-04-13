@@ -3,6 +3,13 @@
 
 // bower:scss
 // endbower
+
+* {
+	-webkit-print-color-adjust: exact !important;   /* Chrome, Safari */
+	color-adjust: exact !important;                 /*Firefox*/
+}
+
+
 @-webkit-keyframes borderPulse {
 		15% {
 		opacity: 1;
@@ -15776,8 +15783,8 @@ body {
 
 }
 .menos-margin{
-  margin-top: -4px;
-  margin-bottom: -4px;
+	margin-top: -4px;
+	margin-bottom: -4px;
 }
 .boletin-alumno .encabezado-boletin{
 		padding: 15px;
@@ -15787,7 +15794,7 @@ body {
 				//width: 60px;
 				max-height: 80px;
 				max-width: 100%;
-    }
+		}
 
 		.descripcion-encabezado{
 				font-size: 8pt;
@@ -16552,7 +16559,13 @@ tr { page-break-inside: avoid }
 	}
 }
 // **************************************************
-
+.bgtext {
+	position: relative;
+}
+.bgtext:before {
+	content: "El nombre de la persona";
+	position: absolute;
+}
 .img-fondo-boletin{
 	position:relative; max-width: 90%; max-height: 24cm; margin: auto; display: block; padding-top: 5cm;
 }
@@ -16989,3 +17002,46 @@ tr { page-break-inside: avoid }
 	}
 }
 
+
+
+
+
+
+
+//************************************************************************
+//************************************************************************
+
+.text-vertical{
+	writing-mode:tb-rl;
+	-webkit-transform:rotate(90deg);
+	-moz-transform:rotate(90deg);
+	-o-transform: rotate(90deg);
+	-ms-transform:rotate(90deg);
+	transform: rotate(90deg);
+	white-space:nowrap;
+	display:block;
+	bottom:0;
+	width:20px;
+	height:20px;
+}
+.gr-nombre-vertical{
+	position: absolute;
+	margin-left: -12px;
+	font-style: italic;
+	font-size: 7pt;
+
+	.nombre-vertical{
+		position: relative;
+		transform: rotate(180deg);
+		writing-mode: vertical-lr;
+		height: 600px;
+		background-color: #fff !important;
+	}
+}
+.padding-lr-10{
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.italic{
+  font-style: italic;
+}

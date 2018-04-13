@@ -64,7 +64,8 @@ angular.module('myvcFrontApp')
 		$scope.config = $cookies.getObject 'config'
 		#console.log '$scope.config', $scope.config
 	else
-		$scope.config.orientacion = 'vertical'
+		$scope.config.orientacion   = 'vertical'
+		$scope.config.cant_imagenes = 7
 
 
 	if $cookies.getObject 'requested_alumnos'

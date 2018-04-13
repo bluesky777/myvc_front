@@ -4,7 +4,7 @@ angular.module('myvcFrontApp')
 .controller('DefinitivasPeriodosCtrl', ['$scope', 'toastr', '$http', '$uibModal', '$state', '$rootScope', '$filter', 'App', 'asignaturas_definitivas', 'AuthService', '$timeout', 'EscalasValorativasServ', ($scope, toastr, $http, $modal, $state, $rootScope, $filter, App, asignaturas_definitivas, AuthService, $timeout, EscalasValorativasServ) ->
 
 	AuthService.verificar_acceso()
-
+	console.log $scope.periodos
 
 	$scope.asignatura 	= {}
 	$scope.asignatura_id = $state.params.asignatura_id
@@ -74,6 +74,7 @@ angular.module('myvcFrontApp')
 
 		if nf_id
 			$http.put('::definitivas_periodos/update', {nf_id: nf_id, nota: nota}).then((r)->
+				alumno['manual_'+num_periodo] = 1
 				toastr.success 'Cambiada: ' + nota
 			, (r2)->
 				toastr.error 'No pudimos guardar la nota ' + nota, '', {timeOut: 8000}

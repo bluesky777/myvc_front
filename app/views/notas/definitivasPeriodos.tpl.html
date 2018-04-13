@@ -114,56 +114,56 @@
               </td>
               <td>
                 <div ng-class="{'inputnota-perdida': alumno.nota_final_per1 &lt; nota_minima_aceptada, 'inputnota-superior': alumno.nota_final_per1 &gt;= escala_maxima.porc_inicial }" class="text-center">
-                  <input type="number" min="0" max="{{::escala_maxima.porc_final}}" ng-model="alumno.nota_final_per1" ng-change="cambiaNotaDef(alumno, alumno.nota_final_per1, alumno.nf_id_1, 1)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])" ng-disabled="::USER.profes_pueden_nivelar==0" class="input-nota">
+                  <input type="number" min="0" max="{{::escala_maxima.porc_final}}" ng-model="alumno.nota_final_per1" ng-change="cambiaNotaDef(alumno, alumno.nota_final_per1, alumno.nf_id_1, 1)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])" ng-disabled="::periodos[0].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="input-nota">
                 </div>
               </td>
               <td>
-                <input type="checkbox" ng-model="alumno.manual_1" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaManual(alumno, alumno.manual_1, alumno.nf_id_1, 1)" style="opacity: 1; position: unset;" ng-disabled="::USER.profes_pueden_nivelar==0" class="no-margin-top">
+                <input type="checkbox" ng-model="alumno.manual_1" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaManual(alumno, alumno.manual_1, alumno.nf_id_1, 1)" style="opacity: 1; position: unset;" ng-disabled="::periodos[0].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="no-margin-top">
               </td>
               <td class="border-right-dddd">
-                <input type="checkbox" ng-model="alumno.recuperada_1" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_1, alumno.nf_id_1, 1)" style="opacity: 1; position: unset;" ng-disabled="::USER.profes_pueden_nivelar==0" class="no-margin-top">
+                <input type="checkbox" ng-model="alumno.recuperada_1" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_1, alumno.nf_id_1, 1)" style="opacity: 1; position: unset;" ng-disabled="::periodos[0].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="no-margin-top">
               </td>
               <td>
                 <div>{{alumno.def_materia_auto_2 }}</div>
               </td>
               <td>
                 <div ng-class="{'inputnota-perdida': alumno.nota_final_per2 &lt; nota_minima_aceptada, 'inputnota-superior': alumno.nota_final_per2 &gt;= escala_maxima.porc_inicial }" class="text-center">
-                  <input type="number" min="0" max="{{::escala_maxima.porc_final}}" ng-model="alumno.nota_final_per2" ng-change="cambiaNotaDef(alumno, alumno.nota_final_per2, alumno.nf_id_2, 2)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])" ng-disabled="::USER.profes_pueden_nivelar==0" class="input-nota">
+                  <input type="number" min="0" max="{{::escala_maxima.porc_final}}" ng-model="alumno.nota_final_per2" ng-change="cambiaNotaDef(alumno, alumno.nota_final_per2, alumno.nf_id_2, 2)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])" ng-disabled="::periodos[1].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="input-nota">
                 </div>
               </td>
               <td>
-                <input type="checkbox" ng-model="alumno.manual_2" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaManual(alumno, alumno.manual_2, alumno.nf_id_2, 2)" style="opacity: 1; position: unset;" ng-disabled="::USER.profes_pueden_nivelar==0" class="no-margin-top">
+                <input type="checkbox" ng-model="alumno.manual_2" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaManual(alumno, alumno.manual_2, alumno.nf_id_2, 2)" style="opacity: 1; position: unset;" ng-disabled="::periodos[1].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="no-margin-top">
               </td>
               <td class="border-right-dddd">
-                <input type="checkbox" ng-model="alumno.recuperada_2" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_2, alumno.nf_id_2, 2)" style="opacity: 1; position: unset;" ng-disabled="::USER.profes_pueden_nivelar==0" class="no-margin-top">
+                <input type="checkbox" ng-model="alumno.recuperada_2" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_2, alumno.nf_id_2, 2)" style="opacity: 1; position: unset;" ng-disabled="::periodos[1].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="no-margin-top">
               </td>
               <td>
                 <div>{{alumno.def_materia_auto_3 }}</div>
               </td>
               <td>
                 <div ng-class="{'inputnota-perdida': alumno.nota_final_per3 &lt; nota_minima_aceptada, 'inputnota-superior': alumno.nota_final_per3 &gt;= escala_maxima.porc_inicial }" class="text-center">
-                  <input type="number" min="0" max="{{::escala_maxima.porc_final}}" ng-model="alumno.nota_final_per3" ng-change="cambiaNotaDef(alumno, alumno.nota_final_per3, alumno.nf_id_3, 3)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])" ng-disabled="::USER.profes_pueden_nivelar==0" class="input-nota">
+                  <input type="number" min="0" max="{{::escala_maxima.porc_final}}" ng-model="alumno.nota_final_per3" ng-change="cambiaNotaDef(alumno, alumno.nota_final_per3, alumno.nf_id_3, 3)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])" ng-disabled="::periodos[2].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="input-nota">
                 </div>
               </td>
               <td>
-                <input type="checkbox" ng-model="alumno.manual_3" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaManual(alumno, alumno.manual_3, alumno.nf_id_3, 3)" style="opacity: 1; position: unset;" ng-disabled="::USER.profes_pueden_nivelar==0" class="no-margin-top">
+                <input type="checkbox" ng-model="alumno.manual_3" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaManual(alumno, alumno.manual_3, alumno.nf_id_3, 3)" style="opacity: 1; position: unset;" ng-disabled="::USER.profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="no-margin-top">
               </td>
               <td class="border-right-dddd">
-                <input type="checkbox" ng-model="alumno.recuperada_3" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_3, alumno.nf_id_3, 3)" style="opacity: 1; position: unset;" ng-disabled="::USER.profes_pueden_nivelar==0" class="no-margin-top">
+                <input type="checkbox" ng-model="alumno.recuperada_3" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_3, alumno.nf_id_3, 3)" style="opacity: 1; position: unset;" ng-disabled="::USER.profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="no-margin-top">
               </td>
               <td>
                 <div>{{alumno.def_materia_auto_4 }}</div>
               </td>
               <td>
                 <div ng-class="{'inputnota-perdida': alumno.nota_final_per4 &lt; nota_minima_aceptada, 'inputnota-superior': alumno.nota_final_per4 &gt;= escala_maxima.porc_inicial }" class="text-center">
-                  <input type="number" min="0" max="{{::escala_maxima.porc_final}}" ng-model="alumno.nota_final_per4" ng-change="cambiaNotaDef(alumno, alumno.nota_final_per4, alumno.nf_id_4, 4)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-disabled="::USER.profes_pueden_nivelar==0" class="input-nota">
+                  <input type="number" min="0" max="{{::escala_maxima.porc_final}}" ng-model="alumno.nota_final_per4" ng-change="cambiaNotaDef(alumno, alumno.nota_final_per4, alumno.nf_id_4, 4)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])" ng-disabled="::periodos[3].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="input-nota">
                 </div>
               </td>
               <td>
-                <input type="checkbox" ng-model="alumno.manual_4" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaManual(alumno, alumno.manual_4, alumno.nf_id_4, 4)" style="opacity: 1; position: unset;" ng-disabled="::USER.profes_pueden_nivelar==0" class="no-margin-top">
+                <input type="checkbox" ng-model="alumno.manual_4" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaManual(alumno, alumno.manual_4, alumno.nf_id_4, 4)" style="opacity: 1; position: unset;" ng-disabled="::USER.profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="no-margin-top">
               </td>
               <td class="border-right-dddd">
-                <input type="checkbox" ng-model="alumno.recuperada_4" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_4, alumno.nf_id_4, 4)" style="opacity: 1; position: unset;" ng-disabled="::USER.profes_pueden_nivelar==0" class="no-margin-top">
+                <input type="checkbox" ng-model="alumno.recuperada_4" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_4, alumno.nf_id_4, 4)" style="opacity: 1; position: unset;" ng-disabled="::USER.profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="no-margin-top">
               </td>
               <td>
                 <div class="text-center">{{ ::alumno.promedio_automatico}}</div>

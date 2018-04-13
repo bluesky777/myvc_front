@@ -109,7 +109,7 @@
 								button.btn.btn-xs(ng-repeat="ausencia in alumno.ausencias"
 									ng-click="clickAusenciaObject(ausencia, alumno)"
 									uib-popover-template="views+'notas/popoverAusenciaObject.tpl.html'"
-									popover-title="Editar ausencia" style="width: 55px"
+									popover-title="Editar ausencia" style="width: 55px" popover-append-to-body="true"
 									popover-trigger="'none'" popover-is-open="ausencia.isOpen" ng-disabled="::USER.profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')")
 
 									span(ng-hide="ausencia.fecha_hora")
@@ -129,7 +129,7 @@
 								button.btn.btn-xs(ng-repeat="tardanza in alumno.tardanzas"
 									ng-click="clickTardanzaObject(tardanza, alumno)"
 									uib-popover-template="views+'notas/popoverTardanzaObject.tpl.html'"
-									popover-title="Editar tardanza" style="width: 55px"
+									popover-title="Editar tardanza" style="width: 55px" popover-append-to-body="true"
 									popover-trigger="'outsideClick'" popover-is-open="tardanza.isOpen" ng-disabled="::USER.profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')")
 
 									span(ng-hide="tardanza.fecha_hora")

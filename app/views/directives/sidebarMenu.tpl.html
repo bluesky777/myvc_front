@@ -79,10 +79,10 @@
       </ul>
     </li><!-- Profesores visto por un profesor-->
     <li sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm(['profesor'])"><a href="" class="menu-dropdown"><i class="menu-icon fa fa-graduation-cap"></i><span class="menu-text">Compañeros</span><i class="menu-expand"></i></a>
-      <ul class="submenu">
-        <li ui-sref-active="active" ng-repeat="profe in profesores" ng-if="profe.profesor_id!=persona_id"><a ui-sref="panel.user.resumen({username: profe.username})" stop-event="click">
-            <div class="menu-text nombresellipsis">{{profe.nombres}} {{profe.apellidos}}</div></a></li>
-        <li ng-if="profesores.length==0"><a ui-sref="panel.profesores" stop-event="click"><span class="menu-text">Profes no contratados</span></a></li>
+      <ul class="submenu sin_puntos">
+        <li ui-sref-active="active" ng-repeat="profe in profesores" ng-if="profe.profesor_id!=persona_id" class="opcion-sidebar-flotante"><a ui-sref="panel.user.resumen({username: profe.username})" stop-event="click" uib-tooltip="{{profe.nombres}} {{profe.apellidos}}" tooltip-popup-delay="200" tooltip-placement="right" tooltip-append-to-body="true"><img ng-src="{{perfilPath + profe.foto_nombre}}"><span class="menu-text nombresellipsis">{{::profe.nombres}} {{::profe.apellidos}}</span></a></li>
+        <li ng-if="::profesores.length==0"><a href="" stop-event="click" uib-tooltip="Profesores no contratados" tooltip-popup-delay="1500" tooltip-placement="right">
+            <div class="menu-text nombresellipsis">No hay Profes contratados</div></a></li>
       </ul>
     </li><!-- Grados-->
     <li sub-menu ng-click="toggleOpen()" ng-if="!hasRoleOrPerm(['admin']) &amp;&amp; hasRoleOrPerm(['profesor'])" ng-class="{open:$state.includes('panel.niveles')||$state.includes('panel.grados')||$state.includes('panel.grupos')||$state.includes('panel.areas')||$state.includes('panel.materias')||$state.includes('panel.asignaturas')||$state.includes('panel.listalumnos')}"><a href="" class="menu-dropdown"><i class="menu-icon fa fa-th-large"></i><span class="menu-text">Grupos</span><i class="menu-expand"></i></a>

@@ -15,8 +15,9 @@
               <div class="nombre-colegio">{{year.nombre_colegio + ' - ' + year.abrev_colegio}}</div>
               <div class="resolucion-colegio">{{year.resolucion}}</div>
               <div class="title-descripcion">Puestos Año {{USER.year}} Grupo {{grupo.nombre_grupo}}</div>
+              <div style="font-size: 8pt;">{{ fechahora | date : 'dd/MM/yyyy h:mma' }}</div>
             </div>
-            <div style="text-align: right; font-size: 9pt" class="col-lg-2 col-xs-2 no-padding"><span>{{ fechahora | date : 'dd/MM/yyyy h:mma' }}</span></div>
+            <div style="text-align: right; font-size: 9pt" class="col-lg-2 col-xs-2 no-padding"><img ng-src="{{::perfilPath + grupo.foto_nombre}}" ng-show="::config.mostrar_foto &amp;&amp; grupo.foto_id" style="float: right; width: 70px;" class="img-responsive foto-profe menos-margin"></div>
           </div>
         </div>
       </div>

@@ -121,7 +121,7 @@
                       <ui-select-choices repeat="imagen in imgs_public | filter: $select.search"><img ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="imagen.nombre | highlight: $select.search"></small></ui-select-choices>
                     </ui-select>
                     <label>Cantidad:</label>
-                    <input type="number" ng-model="config.cant_imagenes" min="0" max="99">
+                    <input type="number" ng-model="config.cant_imagenes" min="1" max="30">
                   </div>
                 </div>
               </div></span><br><br>

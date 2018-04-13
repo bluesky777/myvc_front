@@ -153,13 +153,14 @@
 				span.menu-text Compañeros
 				i.menu-expand
 
-			ul.submenu
-				li(ui-sref-active="active" ng-repeat="profe in profesores" ng-if="profe.profesor_id!=persona_id")
-					a(ui-sref="panel.user.resumen({username: profe.username})" stop-event="click")
-						div.menu-text.nombresellipsis {{profe.nombres}} {{profe.apellidos}}
-				li(ng-if="profesores.length==0")
-					a(ui-sref="panel.profesores" stop-event="click")
-						span.menu-text Profes no contratados
+			ul.submenu.sin_puntos
+				li.opcion-sidebar-flotante(ui-sref-active="active" ng-repeat="profe in profesores" ng-if="profe.profesor_id!=persona_id")
+					a(ui-sref="panel.user.resumen({username: profe.username})" stop-event="click" uib-tooltip="{{profe.nombres}} {{profe.apellidos}}" tooltip-popup-delay="200" tooltip-placement="right" tooltip-append-to-body="true")
+						img(ng-src="{{perfilPath + profe.foto_nombre}}")
+						span.menu-text.nombresellipsis {{::profe.nombres}} {{::profe.apellidos}}
+				li(ng-if="::profesores.length==0")
+					a(href="" stop-event="click" uib-tooltip="Profesores no contratados" tooltip-popup-delay="1500" tooltip-placement="right")
+						div.menu-text.nombresellipsis No hay Profes contratados
 
 		<!-- Grados-->
 		li(sub-menu ng-click="toggleOpen()" ng-if="!hasRoleOrPerm(['admin']) && hasRoleOrPerm(['profesor'])"

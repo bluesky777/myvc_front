@@ -18,9 +18,10 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 								| {{year.resolucion}}
 							.title-descripcion
 								|Puestos periodo {{USER.numero_periodo}}-{{USER.year}} Grupo {{grupo.nombre_grupo}}
-						.col-lg-2.col-xs-2.no-padding(style="text-align: right; font-size: 9pt")
-							span
+							div(style="font-size: 8pt;")
 								| {{ fechahora | date : 'dd/MM/yyyy h:mma' }}
+						.col-lg-2.col-xs-2.no-padding(style="text-align: right; font-size: 9pt")
+							img.img-responsive.foto-profe.menos-margin(ng-src="{{::perfilPath + grupo.foto_nombre}}" ng-show="::config.mostrar_foto && grupo.foto_id" style="float: right; width: 70px;")
 	.row
 		.col-lg-12
 			table.table-bordered.table-bordered2.table-striped.table-striped2
@@ -52,7 +53,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 
 						td(style="border-left: 2px solid !important;")
 							span {{alumno.promedio | decimales:2}}
-							span.cant-unidades-perdidas|({{ alumno.asignaturas | notasPerdidasAsignaturaPeriodo:true:USER.numero_periodo}})
+							span.cant-unidades-perdidas ({{ alumno.perdidos_year}})
 				tfoot
 					tr(style="border-top: 2px solid;")
 						td
