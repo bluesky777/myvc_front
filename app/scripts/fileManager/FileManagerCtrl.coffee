@@ -408,20 +408,36 @@ angular.module("myvcFrontApp")
 
 	$scope.cambiarFirmaUnProfe = (profeElegido, imgParaUsuario)->
 
-		aEnviar = { imagen_id: imgParaUsuario.id }
+		confirmando = false
+		if imgParaUsuario
+			confirmando = confirm('Esto quitará la imágen de tu lista. ¿Seguro que deseas asignar firma a este usuario?')
+		else
+			confirmando = confirm('¿Ya no quieres que sea su firma?')
+
+		if confirmando
+
+			aEnviar = {}
+
+			if imgParaUsuario
+				aEnviar.imagen_id = imgParaUsuario.id
 
 		$http.put('::images-users/cambiar-firma-un-profe/'+profeElegido.profesor_id, aEnviar).then((r)->
 
-				profeElegido.firma_id 			= imgParaUsuario.id
-				profeElegido.firma_nombre 		= imgParaUsuario.nombre
+				if imgParaUsuario
+					profeElegido.firma_id 			= imgParaUsuario.id
+					profeElegido.firma_nombre 		= imgParaUsuario.nombre
 
-				$scope.imagenes_privadas = $filter('filter')($scope.imagenes_privadas, (item)->
-					return item.id != imgParaUsuario.id;
-				)
+					$scope.imagenes_privadas = $filter('filter')($scope.imagenes_privadas, (item)->
+						return item.id != imgParaUsuario.id;
+					)
 
-				$scope.dato.selectedImg = undefined
-				$scope.imagenes_del_usuario.push imgParaUsuario
-				toastr.success 'Firma asignada con éxito'
+					$scope.dato.selectedImg = undefined
+					$scope.imagenes_del_usuario.push imgParaUsuario
+					toastr.success 'Firma asignada con éxito'
+				else
+					profeElegido.firma_id 		  = null
+					profeElegido.firma_nombre 	= null
+					toastr.success 'Firma quitada con éxito'
 		, (r2)->
 			toastr.error 'Error al asignar firma', 'Problema'
 		)

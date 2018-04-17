@@ -46,7 +46,7 @@
                         <div style="padding: 0px" class="col-lg-1 col-xs-1"><i class="fa fa-clock-o icon-tardanza"></i><span class="text-tardanza">A:{{::asignatura.total_ausencias}} / T:{{::asignatura.total_tardanzas}}</span></div>
                         <div ng-class="{'nota-perdida': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}" style="padding: 0px; text-align: center;" class="col-lg-1 col-xs-1">{{ ::asignatura.desempenio }}</div>
                         <div class="col-lg-1 col-xs-1">
-                          <div ng-class="{'nota-perdida-bold': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}">{{ ::asignatura.nota_asignatura }}</div>
+                          <div ng-class="{'nota-perdida-bold': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}">{{ ::asignatura.nota_asignatura }}<span uib-tooltip="Materia recuperada por el docente" ng-show="asignatura.recuperada">  R</span></div>
                         </div>
                       </div>
                       <div style="margin: 0px 0px 0px 5px;" class="row unidades-list">
@@ -55,7 +55,7 @@
                             <div class="col-lg-12 col-xs-12">
                               <div class="row">
                                 <div class="col-lg-9 col-xs-9 subunidad-definicion"><span ng-show="::asignatura.unidades.length &gt; 1">{{ ::$index+1}}.</span>   {{::unidad.definicion_unidad}}</div>
-                                <div class="col-lg-1 col-xs-1 subunidad-porc">{{ ::unidad.porcentaje_unidad }}%</div>
+                                <div class="col-lg-1 col-xs-1 subunidad-porc"><span ng-show="config.show_porcentajes">{{ ::unidad.porcentaje_unidad }}%</span></div>
                                 <div ng-class="{'nota-perdida-bold': unidad.nota_unidad&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}" style="font-size: 6pt; line-height: 2; font-weight: bold;" class="col-lg-1 col-xs-1 subunidad-nota no-padding text-center">{{ ::unidad.desempenio }}</div>
                                 <div class="col-lg-1 col-xs-1 subunidad-nota puntero"><span ng-class="{'nota-perdida-bold': unidad.nota_unidad&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}">{{::unidad.nota_unidad}}</span></div>
                               </div>
@@ -80,7 +80,7 @@
                   <div style="padding: 0px" class="col-lg-1 col-xs-1"><i class="fa fa-clock-o icon-tardanza"></i><span class="text-tardanza">A:{{::asignatura.total_ausencias}} / T:{{::asignatura.total_tardanzas}}</span></div>
                   <div ng-class="{'nota-perdida': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}" style="padding: 0px; text-align: center;" class="col-lg-1 col-xs-1">{{ ::asignatura.desempenio }}</div>
                   <div class="col-lg-1 col-xs-1">
-                    <div ng-class="{'nota-perdida-bold': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}">{{ ::asignatura.nota_asignatura }}</div>
+                    <div ng-class="{'nota-perdida-bold': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}">{{ ::asignatura.nota_asignatura }}<span uib-tooltip="Materia recuperada por el docente" ng-show="asignatura.recuperada">  R</span></div>
                   </div>
                 </div>
                 <div class="row unidades-list">
@@ -89,7 +89,7 @@
                       <div class="col-lg-12 col-xs-12">
                         <div class="row">
                           <div class="col-lg-9 col-xs-9 subunidad-definicion"><span ng-show="::asignatura.unidades.length &gt; 1">{{ ::$index+1}}.</span>   {{::unidad.definicion_unidad}}</div>
-                          <div class="col-lg-1 col-xs-1 subunidad-porc">{{ ::unidad.porcentaje_unidad }}%</div>
+                          <div class="col-lg-1 col-xs-1 subunidad-porc"><span ng-show="config.show_porcentajes">{{ ::unidad.porcentaje_unidad }}%</span></div>
                           <div style="font-size: 6pt; line-height: 2; font-weight: bold;" class="col-lg-1 col-xs-1 subunidad-nota no-padding text-center">{{ ::unidad.desempenio }}</div>
                           <div class="col-lg-1 col-xs-1 subunidad-nota puntero"><span uib-tooltip="Valor nota: {{::subunidad.valor_nota}}" class="{{::unidad.clase_perdida}}">{{::unidad.nota_unidad}}</span></div>
                         </div>

@@ -70,10 +70,10 @@
                 </div>
               </td>
               <td style="font-style: italic; font-size: 8pt;" class="text-center"> {{ ::asignatura.creditos }}</td>
-              <td ng-class="{'nota-perdida-bold': asignatura.nota_final_per1&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.nota_final_per1 }}</td>
-              <td ng-class="{'nota-perdida-bold': asignatura.nota_final_per2&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.nota_final_per2 }}</td>
-              <td ng-class="{'nota-perdida-bold': asignatura.nota_final_per3&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.nota_final_per3 }}</td>
-              <td ng-class="{'nota-perdida-bold': asignatura.nota_final_per4&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.nota_final_per4 }}</td>
+              <td ng-class="{'nota-perdida-bold': asignatura.nota_final_per1&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.nota_final_per1 }}<span uib-tooltip="Materia recuperada por el docente" ng-show="asignatura.detalle_periodos.recuperada_1">  R</span></td>
+              <td ng-class="{'nota-perdida-bold': asignatura.nota_final_per2&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.nota_final_per2 }}<span uib-tooltip="Materia recuperada por el docente" ng-show="asignatura.detalle_periodos.recuperada_2">  R</span></td>
+              <td ng-class="{'nota-perdida-bold': asignatura.nota_final_per3&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.nota_final_per3 }}<span uib-tooltip="Materia recuperada por el docente" ng-show="asignatura.detalle_periodos.recuperada_3">  R</span></td>
+              <td ng-class="{'nota-perdida-bold': asignatura.nota_final_per4&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.nota_final_per4 }}<span uib-tooltip="Materia recuperada por el docente" ng-show="asignatura.detalle_periodos.recuperada_4">  R</span></td>
               <td ng-class="{'nota-perdida-bold': asignatura['nota_final_per'+USER.numero_periodo]&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.desempenio }}</td>
               <td class="text-center"><span class="text-tardanza">{{::asignatura.total_ausencias}} / {{::asignatura.total_tardanzas}}</span></td>
             </tr>

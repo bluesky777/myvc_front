@@ -111,6 +111,14 @@
                     </label>
                   </div>
                 </div>
+                <div ng-show="tipo_boletin==2" class="col-lg-2 col-sm-4 col-xs-12">
+                  <div class="form-group">
+                    <label>Mostrar porcentajes</label>
+                    <label>
+                      <input type="checkbox" ng-model="config.show_porcentajes" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                    </label>
+                  </div>
+                </div>
               </div>
               <div class="row">
                 <div class="col-lg-12 col-xs-12">
@@ -230,6 +238,11 @@
                     <ui-select-choices repeat="alumno in filtered_alumnos | filter: $select.search"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;"><small ng-show="alumno.estado=='RETI'" ng-bind-html="'&lt;i&gt; -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)&lt;/i&gt;'"></small><small ng-hide="alumno.estado=='RETI'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search"></small></ui-select-choices>
                   </ui-select><a href="" ng-click="verNotasActualesAlumno()" class="btn btn-default">Notas año actual</a><a href="" ng-click="verNotasPerdidasActualesAlumno()" class="btn btn-default">Notas perdidas año actual</a>
                 </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12 col-xs-12">
+                <div class="btn-group"><a href="" ng-click="verListadoDocentes()" class="btn btn-default">Listado docentes</a><a href="" ng-click="excelListadoDocentes()" uib-tooltip="Exportar a Excel listado docentes" class="btn btn-default"><i class="fa fa-file"></i></a></div>
               </div>
             </div>
           </uib-tab>

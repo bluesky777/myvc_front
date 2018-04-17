@@ -4,7 +4,6 @@ angular.module('myvcFrontApp')
 .controller('DefinitivasPeriodosCtrl', ['$scope', 'toastr', '$http', '$uibModal', '$state', '$rootScope', '$filter', 'App', 'asignaturas_definitivas', 'AuthService', '$timeout', 'EscalasValorativasServ', ($scope, toastr, $http, $modal, $state, $rootScope, $filter, App, asignaturas_definitivas, AuthService, $timeout, EscalasValorativasServ) ->
 
 	AuthService.verificar_acceso()
-	console.log $scope.periodos
 
 	$scope.asignatura 	= {}
 	$scope.asignatura_id = $state.params.asignatura_id
@@ -67,59 +66,71 @@ angular.module('myvcFrontApp')
 	#####################################################################
 
 
-	$scope.cambiaNotaDef = (alumno, nota, nf_id, num_periodo)->
+	$scope.cambiaNotaDef = (alumno, nota, nf_id, num_periodo, alumnos)->
 		if nota > $scope.escala_maxima.porc_final or nota == 'undefined' or nota == undefined
 			toastr.error 'No puede ser mayor de ' + $scope.escala_maxima.porc_final, 'NO guardada', {timeOut: 8000}
 			return
 
 		if nf_id
-			$http.put('::definitivas_periodos/update', {nf_id: nf_id, nota: nota}).then((r)->
+			$http.put('::definitivas_periodos/update', {nf_id: nf_id, nota: nota, num_periodo: num_periodo}).then((r)->
 				alumno['manual_'+num_periodo] = 1
 				toastr.success 'Cambiada: ' + nota
 			, (r2)->
-				toastr.error 'No pudimos guardar la nota ' + nota, '', {timeOut: 8000}
+				if r2.status == 400
+					toastr.warning 'Parece que no tienes permisos', 'Lo sentimos'
+				else
+					toastr.error 'No pudimos guardar la nota ' + nota, '', {timeOut: 8000}
 			)
 		else
-			$http.put('::definitivas_periodos/update', {alumno_id: alumno.alumno_id, nota: nota, asignatura_id: $scope.dato.asignatura.asignatura_id, periodo: num_periodo }).then((r)->
+			$http.put('::definitivas_periodos/update', {alumno_id: alumno.alumno_id, nota: nota, asignatura_id: $scope.dato.asignatura.asignatura_id, num_periodo: num_periodo }).then((r)->
 				toastr.success 'Creada: ' + nota
 				r = r.data[0]
 				alumno['nf_id_'+num_periodo]          = r.id
-				alumno['nfinal'+ num_periodo +'_desactualizada'] = 0
-				alumno['periodo_id'+ num_periodo]     = r.periodo_id
-				alumno['recuperada_'+ num_periodo]    = 0
-				alumno['manual_'+ num_periodo]        = 1
+				alumno['nfinal'+num_periodo+'_desactualizada'] = 0
+				alumno['periodo_id'+num_periodo]     = r.periodo_id
+				alumno['recuperada_'+num_periodo]    = 0
+				alumno['manual_'+num_periodo]        = 1
 			, (r2)->
-				toastr.error 'No pudimos guardar la nota ' + nota, '', {timeOut: 8000}
+				if r2.status == 400
+					toastr.warning 'Parece que no tienes permisos', 'Lo sentimos'
+				else
+					toastr.error 'No pudimos guardar la nota ' + nota, '', {timeOut: 8000}
 			)
 
 
 
 
-	$scope.toggleNotaRecuperada = (alumno, recuperada, nf_id, periodo)->
-		$http.put('::definitivas_periodos/toggle-recuperada', {nf_id: nf_id, recuperada: recuperada}).then((r)->
-			if recuperada and !alumno['manual_'+periodo]
-				alumno['manual_'+periodo] = 1
+	$scope.toggleNotaRecuperada = (alumno, recuperada, nf_id, num_periodo)->
+		$http.put('::definitivas_periodos/toggle-recuperada', {nf_id: nf_id, recuperada: recuperada, num_periodo: num_periodo}).then((r)->
+			if recuperada and !alumno['manual_'+num_periodo]
+				alumno['manual_'+num_periodo] = 1
 				toastr.success 'Indicará que es recuperada, así que también será manual.'
 			else if recuperada
 				toastr.success 'Recuperada'
 			else
 				toastr.success 'No recuperada'
 		, (r2)->
-			toastr.error 'No pudimos guardar la recuperación.', {timeOut: 8000}
+			if r2.status == 400
+				toastr.warning 'Parece que no tienes permisos', 'Lo sentimos'
+			else
+				toastr.error 'No pudimos guardar la recuperación.', {timeOut: 8000}
 		)
 
-	$scope.toggleNotaManual = (alumno, manual, nf_id, periodo)->
+	$scope.toggleNotaManual = (alumno, manual, nf_id, num_periodo)->
 
-		$http.put('::definitivas_periodos/toggle-manual', {nf_id: nf_id, manual: manual}).then((r)->
-			if !manual and alumno['recuperada_'+periodo]
-				alumno['recuperada_'+periodo] = 0
+		$http.put('::definitivas_periodos/toggle-manual', {nf_id: nf_id, manual: manual, num_periodo: num_periodo}).then((r)->
+			if !manual and alumno['recuperada_'+num_periodo]
+				alumno['recuperada_'+num_periodo] = 0
 				toastr.success 'Será automática y no recuperada.'
 			else if manual
 				toastr.success 'Nota manual.'
 			else
 				toastr.success 'Ahora la calculará el sistema.'
 		, (r2)->
-			toastr.error 'No pudimos guardar la recuperación.', {timeOut: 8000}
+			if r2.status == 400
+				toastr.warning 'Parece que no tienes permisos', 'Lo sentimos'
+			else
+				toastr.error 'No pudimos guardar la recuperación.', {timeOut: 8000}
 		)
 
 

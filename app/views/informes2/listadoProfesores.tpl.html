@@ -1,0 +1,87 @@
+
+<div ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false || !asignatura.alumnos2 }">
+  <div class="row">
+    <div class="col-lg-12 col-xs-12">
+      <div class="row encabezado-planilla">
+        <div class="col-lg-12 col-xs-12">
+          <div class="row">
+            <div class="col-lg-2 col-xs-2"><img ng-src="{{::perfilPath + year.logo}}" style="width: 70px;" class="img-responsive logo-colegio menos-margin"></div>
+            <div class="col-lg-8 col-xs-8 title-encabezado-planilla">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="nombre-colegio">{{::year.nombre_colegio + ' - ' + year.abrev_colegio}}</div>
+                  <div class="descripcion-title">Listado de profesores contratados {{::USER.year}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row body-boletin">
+        <div style="padding:0px" class="col-lg-12 col-xs-12 materias">
+          <div style="page-break-inside: auto;" class="materia-item">
+            <table class="table-bordered table-bordered2 table-striped table-striped2">
+              <tr style="background-color: #99caed !important;">
+                <th>No</th>
+                <th class="text-center">Grupo</th>
+                <th class="text-center">Docente</th>
+                <th style="font-size: 8pt" class="text-center">Sexo</th>
+                <th class="text-center">Título</th>
+                <th class="text-center">Tipo doc</th>
+                <th class="text-center">Documento</th>
+                <th class="text-center">Ciudad Docu</th>
+                <th class="text-center">Fecha nac</th>
+                <th class="text-center">Ciudad nac</th>
+                <th class="text-center">Usuario</th>
+                <th class="text-center">Estado civil</th>
+                <th class="text-center">Barrio</th>
+                <th class="text-center">Dirección</th>
+                <th class="text-center">Teléfono</th>
+                <th class="text-center">Celular</th>
+                <th class="text-center">Email</th>
+              </tr>
+              <tr ng-repeat="profesor in ::profesores | orderBy:['orden_grupo', 'nombres']" style="font-size: 9pt" class="altura-22">
+                <td class="text-center">{{$index + 1}}</td>
+                <td class="text-center"><b>{{ profesor.grupos }}</b></td>
+                <td>{{ ::profesor.nombres }} {{ ::profesor.apellidos }}</td>
+                <td class="text-center">{{ ::profesor.sexo }}</td>
+                <td class="text-center">{{ ::profesor.titulo }}</td>
+                <td class="text-center">{{ ::profesor.abrev }}</td>
+                <td class="text-center">{{ ::profesor.num_doc }}</td>
+                <td class="text-center">{{ ::profesor.ciudad_doc_nombre }}</td>
+                <td class="text-center">{{ ::profesor.fecha_nac }}</td>
+                <td class="text-center">{{ ::profesor.ciudad_nac_nombre }}</td>
+                <td style="font-size: 8pt" class="text-center">{{ ::profesor.username }}</td>
+                <td class="text-center">{{ ::profesor.estado_civil }}</td>
+                <td style="font-size: 8pt" class="text-center">{{ ::profesor.barrio }}</td>
+                <td style="font-size: 8pt" class="text-center">{{ ::profesor.direccion }}</td>
+                <td style="font-size: 8pt" class="text-center">{{ ::profesor.telefono }}</td>
+                <td style="font-size: 8pt" class="text-center">{{ ::profesor.celular }}</td>
+                <td style="font-size: 8pt" class="text-center">{{ ::profesor.email }}</td>
+              </tr>
+              <tr style="height: 17px;" class="altura-22">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="width: 50px">{{::subuni}}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

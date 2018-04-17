@@ -128,17 +128,6 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 
 
 
-			// GRÁFICO RESUMEN ASIGNATURA
-			.row.comportamiento-boletin(style="padding-top: 5px")
-				.col-lg-12.col-xs-12(style="height: 140px;")
-					.row
-						.col-lg-12.col-xs-12.resumen-title
-							div(style="position: relative")
-								div(style="position: absolute; font-weight: 600; padding-left: 10px")
-									| Definitivas por asignaturas
-
-							nvd3(options='options' data='data' api="api")
-
 
 
 			.row.resumen-perdidas

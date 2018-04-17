@@ -337,7 +337,10 @@ angular.module('myvcFrontApp')
 				alumno.nota_final.manual = 1
 			toastr.success 'Cambiada: ' + nota
 		, (r2)->
-			toastr.error 'No pudimos guardar la nota ' + nota, '', {timeOut: 8000}
+			if r2.status == 400
+				toastr.warning 'Parece que no tienes permisos', 'Lo sentimos'
+			else
+				toastr.error 'No pudimos guardar la nota ' + nota, '', {timeOut: 8000}
 		)
 
 	$scope.toggleNotaFinalRecuperada = (alumno, recuperada, nf_id)->
@@ -351,7 +354,10 @@ angular.module('myvcFrontApp')
 			else
 				toastr.success 'No recuperada'
 		, (r2)->
-			toastr.error 'No pudimos cambiar.', '', {timeOut: 8000}
+			if r2.status == 400
+				toastr.warning 'Parece que no tienes permisos', 'Lo sentimos'
+			else
+				toastr.error 'No pudimos cambiar.', '', {timeOut: 8000}
 		)
 
 	$scope.toggleNotaFinalManual = (alumno, manual, nf_id)->
@@ -365,7 +371,10 @@ angular.module('myvcFrontApp')
 			else
 				toastr.success 'Ahora la calculará el sistema.'
 		, (r2)->
-			toastr.error 'No pudimos cambiar.', '', {timeOut: 8000}
+			if r2.status == 400
+				toastr.warning 'Parece que no tienes permisos', 'Lo sentimos'
+			else
+				toastr.error 'No pudimos cambiar.', '', {timeOut: 8000}
 		)
 
 
@@ -379,7 +388,10 @@ angular.module('myvcFrontApp')
 			toastr.success 'Cambiada: ' + nota.nota
 			nota.updated_at = nota.updated_at
 		, (r2)->
-			toastr.error 'No pudimos guardar la nota ' + nota.nota, '', {timeOut: 8000}
+			if r2.status == 400
+				toastr.warning 'Parece que no tienes permisos', 'Lo sentimos'
+			else
+				toastr.error 'No pudimos guardar la nota ' + nota.nota, '', {timeOut: 8000}
 		)
 
 

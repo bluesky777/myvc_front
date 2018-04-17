@@ -10,6 +10,7 @@ angular.module('myvcFrontApp')
 		mostrar_foto: true
 		show_firma_rector: true
 		show_rojos: true
+		show_porcentajes: true
 		show_firma_titular: true
 		periodo_a_calcular: $scope.USER.numero_periodo
 	}
@@ -200,21 +201,12 @@ angular.module('myvcFrontApp')
 
 
 
-	###
-	$scope.verNotasActualesAlumnosGrupo = ()->
-
-		$cookies.remove 'requested_alumnos'
-		$cookies.remove 'requested_alumno'
-
-		if !$scope.datos.grupo.id
-			toastr.warning 'Debes seleccionar el grupo'
-			return
-
-		$scope.config.orientacion = 'vertical'
-		$state.go 'panel.informes.notas_actuales_alumnos', {grupo_id: $scope.datos.grupo.id, periodo_a_calcular: $scope.USER.numero_periodo}, {reload: true}
-	###
 
 
+
+	#######################
+	# VARIOS
+	#######################
 
 	$scope.verNotasActualesAlumno = ()->
 		$cookies.remove 'requested_alumno'
@@ -265,10 +257,25 @@ angular.module('myvcFrontApp')
 			toastr.warning 'Debes seleccionar al menos un alumno'
 
 
+	$scope.verListadoDocentes = ()->
+		$scope.config.orientacion = 'oficio_horizontal'
+		$state.go 'panel.informes.listado_profesores'
+
+
+	$scope.excelListadoDocentes = ()->
+		DownloadServ.download('::excel-docentes/docentes/'+$scope.USER.year+'/'+$scope.USER.year_id, 'Listado docentes '+$scope.USER.year+'.xls')
 
 
 
 
+
+
+
+
+
+	#######################
+	# PLANILLAS
+	#######################
 
 	$scope.verPuestosPeriodo = ()->
 		if !$scope.datos.grupo.id

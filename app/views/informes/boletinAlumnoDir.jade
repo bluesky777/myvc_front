@@ -59,6 +59,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 							.col-lg-1.col-xs-1
 								div(ng-class="{'nota-perdida-bold': asignatura.nota_asignatura<USER.nota_minima_aceptada && config.show_rojos}")
 									| {{ ::asignatura.nota_asignatura }}
+									span(uib-tooltip="Materia recuperada por el docente" ng-show="asignatura.recuperada")   R
 						.row.unidades-list
 							.col-lg-12.col-xs-12
 								.row.unidades-item(ng-repeat="unidad in ::asignatura.unidades track by $index")

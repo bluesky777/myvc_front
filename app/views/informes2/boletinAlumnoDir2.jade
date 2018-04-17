@@ -75,6 +75,8 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 												.col-lg-1.col-xs-1
 													div(ng-class="{'nota-perdida-bold': asignatura.nota_asignatura<USER.nota_minima_aceptada && config.show_rojos}")
 														| {{ ::asignatura.nota_asignatura }}
+														span(uib-tooltip="Materia recuperada por el docente" ng-show="asignatura.recuperada")   R
+
 											.row.unidades-list(style="margin: 0px 0px 0px 5px;")
 												.col-lg-12.col-xs-12
 													.row.subunidades-list(ng-repeat="unidad in ::asignatura.unidades track by $index")
@@ -84,7 +86,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 																	span(ng-show="::asignatura.unidades.length > 1") {{ ::$index+1}}.
 																	|    {{::unidad.definicion_unidad}}
 																.col-lg-1.col-xs-1.subunidad-porc
-																	| {{ ::unidad.porcentaje_unidad }}%
+																	span(ng-show="config.show_porcentajes") {{ ::unidad.porcentaje_unidad }}%
 																.col-lg-1.col-xs-1.subunidad-nota.no-padding.text-center(ng-class="{'nota-perdida-bold': unidad.nota_unidad<USER.nota_minima_aceptada && config.show_rojos}" style="font-size: 6pt; line-height: 2; font-weight: bold;")
 																	| {{ ::unidad.desempenio }}
 																.col-lg-1.col-xs-1.subunidad-nota.puntero
@@ -122,6 +124,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 									.col-lg-1.col-xs-1
 										div(ng-class="{'nota-perdida-bold': asignatura.nota_asignatura<USER.nota_minima_aceptada && config.show_rojos}")
 											| {{ ::asignatura.nota_asignatura }}
+											span(uib-tooltip="Materia recuperada por el docente" ng-show="asignatura.recuperada")   R
 								.row.unidades-list
 									.col-lg-12.col-xs-12
 										.row.subunidades-list(ng-repeat="unidad in ::asignatura.unidades track by $index")
@@ -131,7 +134,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 														span(ng-show="::asignatura.unidades.length > 1") {{ ::$index+1}}.
 														|    {{::unidad.definicion_unidad}}
 													.col-lg-1.col-xs-1.subunidad-porc
-														| {{ ::unidad.porcentaje_unidad }}%
+														span(ng-show="config.show_porcentajes") {{ ::unidad.porcentaje_unidad }}%
 													.col-lg-1.col-xs-1.subunidad-nota.no-padding.text-center(style="font-size: 6pt; line-height: 2; font-weight: bold;")
 														| {{ ::unidad.desempenio }}
 													.col-lg-1.col-xs-1.subunidad-nota.puntero

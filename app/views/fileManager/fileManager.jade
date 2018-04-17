@@ -302,9 +302,12 @@
 								button.btn.btn-default.shiny(ng-click="cambiarFotoUnUsuario(dato.profeElegido)" uib-tooltip="Quitar foto" style="height: 54px;")
 									i.fa.fa-times
 
-							button.btn.btn-default.shiny(ng-click="cambiarFirmaUnProfe(dato.profeElegido, dato.selectedImg)")
-								img(ng-src="{{ perfilPath + dato.profeElegido.firma_nombre }}" style="height: 40px" ng-show="dato.profeElegido.firma_nombre")
-								|   Firma
+							.btn-group
+								button.btn.btn-default.shiny(ng-click="cambiarFirmaUnProfe(dato.profeElegido, dato.selectedImg)" style="height: 54px;")
+									img(ng-src="{{ perfilPath + dato.profeElegido.firma_nombre }}" style="height: 40px" ng-show="dato.profeElegido.firma_nombre")
+									|   Firma
+								button.btn.btn-default.shiny(ng-click="cambiarFirmaUnProfe(dato.profeElegido)" uib-tooltip="Quitar firma" style="height: 54px;")
+									i.fa.fa-times
 
 
 					hr.wide

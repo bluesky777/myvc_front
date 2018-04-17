@@ -17,7 +17,7 @@ angular.module('myvcFrontApp')
 
 				defaultFileName = defaultFileName.replace(/[<>:"\/\\|?*]+/g, '_')
 				blob = new Blob([data.data], { type: type });
-				saveAs(blob, defaultFileName);
+				window.saveAs(blob, defaultFileName);
 				deferred.resolve(defaultFileName);
 		, (r2)->
 				console.log r2

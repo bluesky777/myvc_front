@@ -43,9 +43,10 @@ angular.module('myvcFrontApp')
 		$http.get('::notas/alumno/'+alumno_id).then((r)->
 			r = r.data
 			if r[0]
-				$scope.periodos = r[0].periodos
+				$scope.alumno_traido = r[0]
+				$scope.periodos_notas = r[0].periodos
 			else
-				$scope.periodos = undefined
+				$scope.periodos_notas = undefined
 				toastr.warning 'Sin matrícula este año.'
 		, (r2)->
 			toastr.warning 'Lo sentimos, No se trajeron las notas'
@@ -67,18 +68,37 @@ angular.module('myvcFrontApp')
 
 
 
-	$scope.cambiaNotaDef = (alumno, nota, nf_id)->
+	$scope.cambiaNotaDef = (asignatura, nota, nf_id, num_periodo)->
 
 		if nota > $scope.escala_maxima.porc_final or nota == 'undefined' or nota == undefined
 			toastr.error 'No puede ser mayor de ' + $scope.escala_maxima.porc_final, 'NO guardada', {timeOut: 8000}
 			return
-		$http.put('::definitivas_periodos/update', {nf_id: nf_id, nota: nota}).then((r)->
-			if !alumno.manual
-				alumno.manual = 1
-			toastr.success 'Cambiada: ' + nota
-		, (r2)->
-			toastr.error 'No pudimos guardar la nota ' + nota, '', {timeOut: 8000}
-		)
+
+		if nf_id
+			$http.put('::definitivas_periodos/update', {nf_id: nf_id, nota: nota}).then((r)->
+				if !asignatura.manual
+					asignatura.manual = 1
+				toastr.success 'Cambiada: ' + nota
+			, (r2)->
+				if r2.status == 400
+					toastr.warning 'Parece que no tienes permisos', 'Lo sentimos'
+				else
+					toastr.error 'No pudimos guardar la nota ' + nota, '', {timeOut: 8000}
+			)
+		else
+			$http.put('::definitivas_periodos/update', {alumno_id: $scope.alumno_traido.alumno_id, nota: nota, asignatura_id: asignatura.asignatura_id, num_periodo: num_periodo }).then((r)->
+				toastr.success 'Creada: ' + nota
+				r = r.data[0]
+				asignatura.nf_id          = r.id
+				asignatura.recuperada     = 0
+				asignatura.manual         = 1
+			, (r2)->
+				if r2.status == 400
+					toastr.warning 'Parece que no tienes permisos', 'Lo sentimos'
+				else
+					toastr.error 'No pudimos guardar la nota ' + nota, '', {timeOut: 8000}
+			)
+
 
 	$scope.toggleNotaFinalRecuperada = (alumno, recuperada, nf_id)->
 		$http.put('::definitivas_periodos/toggle-recuperada', {nf_id: nf_id, recuperada: recuperada}).then((r)->
@@ -91,7 +111,10 @@ angular.module('myvcFrontApp')
 			else
 				toastr.success 'No recuperada'
 		, (r2)->
-			toastr.error 'No pudimos cambiar.', '', {timeOut: 8000}
+			if r2.status == 400
+				toastr.warning 'Parece que no tienes permisos', 'Lo sentimos'
+			else
+				toastr.error 'No pudimos cambiar.', '', {timeOut: 8000}
 		)
 
 	$scope.toggleNotaFinalManual = (alumno, manual, nf_id)->
@@ -105,7 +128,10 @@ angular.module('myvcFrontApp')
 			else
 				toastr.success 'Ahora la calculará el sistema.'
 		, (r2)->
-			toastr.error 'No pudimos cambiar.', '', {timeOut: 8000}
+			if r2.status == 400
+				toastr.warning 'Parece que no tienes permisos', 'Lo sentimos'
+			else
+				toastr.error 'No pudimos cambiar.', '', {timeOut: 8000}
 		)
 
 
@@ -115,7 +141,10 @@ angular.module('myvcFrontApp')
 			r = r.data
 			toastr.success 'Cambiada: ' + nota.nota
 		, (r2)->
-			toastr.error 'No pudimos guardar la nota ' + nota.nota, '', {timeOut: 8000}
+			if r2.status == 400
+				toastr.warning 'Parece que no tienes permisos', 'Lo sentimos'
+			else
+				toastr.error 'No pudimos guardar la nota ' + nota.nota, '', {timeOut: 8000}
 		)
 
 

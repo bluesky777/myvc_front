@@ -225,32 +225,7 @@ angular.module('myvcFrontApp')
 
 
 
-		scope.options = {
-			chart: {
-				type: 'discreteBarChart',
-				height: 180,
-				width: scope.$parent.ancho_chart, #  En BoletinesPeriodoCtrl.coffee
-				margin : {
-					top: 20,
-					right: 20,
-					bottom: 60,
-					left: 55
-				},
-				useInteractiveGuideline: true,
-				x: (d)-> return d.label;
-				y: (d)-> return d.value;
-				showValues: true,
-				valueFormat: (d)-> d3.format(',.0f')(d);
-				transitionDuration: 500
-			}
-			title: {
-				enable: false,
-				text: 'Definitivas por asignaturas'
-			}
-		};
 
-
-		valores = []
 		for area in scope.alumno.areas
 			for asignatura in area.asignaturas
 
@@ -282,13 +257,7 @@ angular.module('myvcFrontApp')
 						unidad.desempenio = 'En proceso'
 
 
-				valores.push { label: asignatura.alias_materia, value: asignatura['nota_final_per'+scope.USER.numero_periodo] }
 
-
-		scope.data = [{
-			key: "Definitivas de asignaturas",
-			values: valores
-		}];
 
 
 

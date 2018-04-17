@@ -105,9 +105,13 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 
 							td.text-center(style="font-style: italic; font-size: 8pt;")  {{ ::asignatura.creditos }}
 							td.text-center(ng-class="{'nota-perdida-bold': asignatura.nota_final_per1<USER.nota_minima_aceptada}") {{ ::asignatura.nota_final_per1 }}
+								span(uib-tooltip="Materia recuperada por el docente" ng-show="asignatura.detalle_periodos.recuperada_1")   R
 							td.text-center(ng-class="{'nota-perdida-bold': asignatura.nota_final_per2<USER.nota_minima_aceptada}") {{ ::asignatura.nota_final_per2 }}
+								span(uib-tooltip="Materia recuperada por el docente" ng-show="asignatura.detalle_periodos.recuperada_2")   R
 							td.text-center(ng-class="{'nota-perdida-bold': asignatura.nota_final_per3<USER.nota_minima_aceptada}") {{ ::asignatura.nota_final_per3 }}
+								span(uib-tooltip="Materia recuperada por el docente" ng-show="asignatura.detalle_periodos.recuperada_3")   R
 							td.text-center(ng-class="{'nota-perdida-bold': asignatura.nota_final_per4<USER.nota_minima_aceptada}") {{ ::asignatura.nota_final_per4 }}
+								span(uib-tooltip="Materia recuperada por el docente" ng-show="asignatura.detalle_periodos.recuperada_4")   R
 							td.text-center(ng-class="{'nota-perdida-bold': asignatura['nota_final_per'+USER.numero_periodo]<USER.nota_minima_aceptada}") {{ ::asignatura.desempenio }}
 							td.text-center
 								span.text-tardanza {{::asignatura.total_ausencias}} / {{::asignatura.total_tardanzas}}

@@ -61,7 +61,7 @@
 
 	uib-accordion(close-others="true")
 
-		.panel-default.margin-padding-lados-xs.panel-acordeon(uib-accordion-group is-open="$first" heading="Periodo {{periodo.numero}} ({{periodo.asignaturas | notasPerdidasAsignaturas}})" ng-repeat="periodo in periodos")
+		.panel-default.margin-padding-lados-xs.panel-acordeon(uib-accordion-group is-open="$first" heading="Periodo {{periodo.numero}} ({{periodo.asignaturas | notasPerdidasAsignaturas}})" ng-repeat="periodo in periodos_notas")
 
 
 			.materia-item.animated.fadeInUp.margin-padding-lados-xs(ng-repeat="asignatura in periodo.asignaturas | soloAsignaturasConPerdidas:config.solo_notas_perdidas")
@@ -85,15 +85,15 @@
 						ng-if="hasRoleOrPerm(['admin', 'profesor'])" style="padding-left: 0px;")
 
 						input.input-nota(type="number" min="0" max="{{::escala_maxima.porc_final}}"
-												ng-model="asignatura.nota_asignatura" ng-disabled="::USER.profes_pueden_nivelar==0"
-												ng-change="cambiaNotaDef(asignatura, asignatura.nota_asignatura, asignatura.nf_id)"
+												ng-model="asignatura.nota_asignatura" ng-disabled="periodos[periodo.numero-1].profes_pueden_nivelar==0 && !hasRoleOrPerm('Admin')"
+												ng-change="cambiaNotaDef(asignatura, asignatura.nota_asignatura, asignatura.nf_id, periodo.numero)"
 												ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
 						label(for="manual-{{asignatura.asignatura_id}}" uib-tooltip="¿Es manual?" style="margin-bottom: 0px")
 							span(style="font-size: 9pt") M
-							input.no-margin-top(id="manual-{{asignatura.asignatura_id}}" type="checkbox" ng-disabled="::USER.profes_pueden_nivelar==0" ng-model="asignatura.manual" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaFinalManual(asignatura, asignatura.manual, asignatura.nf_id)" style="opacity: 1; position: unset;")
+							input.no-margin-top(id="manual-{{asignatura.asignatura_id}}" type="checkbox" ng-disabled="periodos[periodo.numero-1].profes_pueden_nivelar==0 && !hasRoleOrPerm('Admin')" ng-model="asignatura.manual" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaFinalManual(asignatura, asignatura.manual, asignatura.nf_id)" style="opacity: 1; position: unset;")
 						label(for="recuperada-{{asignatura.asignatura_id}}" uib-tooltip="¿Asignatura recuperada?" style="margin-bottom: 0px")
 							span(style="font-size: 9pt") R
-							input.no-margin-top(id="recuperada-{{asignatura.asignatura_id}}" type="checkbox" ng-disabled="::USER.profes_pueden_nivelar==0" ng-model="asignatura.recuperada" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaFinalRecuperada(asignatura, asignatura.recuperada, asignatura.nf_id)" style="opacity: 1; position: unset;")
+							input.no-margin-top(id="recuperada-{{asignatura.asignatura_id}}" type="checkbox" ng-disabled="periodos[periodo.numero-1].profes_pueden_nivelar==0 && !hasRoleOrPerm('Admin')" ng-model="asignatura.recuperada" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaFinalRecuperada(asignatura, asignatura.recuperada, asignatura.nf_id)" style="opacity: 1; position: unset;")
 
 				.row.unidades-list
 					.col-lg-12.col-xs-12
@@ -127,7 +127,7 @@
 												ng-if="hasRoleOrPerm(['admin', 'profesor'])")
 
 												input(type="number" min="0" max="100"
-													ng-model="subunidad.nota.nota" ng-disabled="::USER.profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')"
+													ng-model="subunidad.nota.nota" ng-disabled="periodos[periodo.numero-1].profes_pueden_nivelar==0 && !hasRoleOrPerm('Admin')"
 													ng-change="cambiaNota(subunidad.nota, subunidad.nota.nota)"
 													ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
 

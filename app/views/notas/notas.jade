@@ -1,7 +1,7 @@
 .col-lg-12.margin-padding-lados-xs
 	.widget
 		.widget-header.bordered-bottom.bordered-blue
-			span.widget-caption {{asignatura.materia + ' - ' + asignatura.nombre_grupo + ' - ' + asignatura.nombres_profesor}}
+			span.widget-caption {{asignatura.materia + ' - ' + asignatura.nombre_grupo + ' - ' + asignatura.nombres_profesor}}   {{::asignatura.apellidos_profesor}}
 		.widget-body
 			div
 				a.btn.btn-primary.btn-lg.flipInY.animated(ui-sref="panel.unidades({asignatura_id: asignatura_id})")

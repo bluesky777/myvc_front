@@ -121,6 +121,12 @@
 										label
 											input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.show_rojos")
 											span.text.si-no
+								.col-lg-2.col-sm-4.col-xs-12(ng-show="tipo_boletin==2")
+									.form-group
+										label Mostrar porcentajes
+										label
+											input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.show_porcentajes")
+											span.text.si-no
 
 
 							.row
@@ -274,6 +280,12 @@
 									a.btn.btn-default(href="" ng-click="verNotasActualesAlumno()") Notas año actual
 									a.btn.btn-default(href="" ng-click="verNotasPerdidasActualesAlumno()") Notas perdidas año actual
 
+						.row
+							.col-lg-12.col-xs-12
+								.btn-group
+									a.btn.btn-default(href="" ng-click="verListadoDocentes()") Listado docentes
+									a.btn.btn-default(href="" ng-click="excelListadoDocentes()" uib-tooltip="Exportar a Excel listado docentes")
+										i.fa.fa-file
 
 
 

@@ -37,11 +37,14 @@ angular.module('myvcFrontApp')
 
 
 	$scope.cambiaNota = (nota)->
-		$http.put('::notas/update/' + nota.nota_id, {nota: nota.nota}).then((r)->
+		$http.put('::notas/update/' + nota.nota_id, {nota: nota.nota, num_periodo: nota.numero_periodo}).then((r)->
 			r = r.data
 			toastr.success 'Cambiada: ' + nota.nota
 		, (r2)->
-			toastr.error 'No pudimos guardar la nota ' + nota.nota, '', {timeOut: 8000}
+			if r2.status == 400
+				toastr.warning 'Parece que no tienes permisos', 'Lo sentimos'
+			else
+				toastr.error 'No pudimos guardar la nota ' + nota.nota, '', {timeOut: 8000}
 		)
 
 
