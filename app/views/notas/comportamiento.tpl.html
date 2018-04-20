@@ -67,7 +67,7 @@
                   </label></span>
               </td>
               <td>
-                <input ng-model="alumno.nota.nota" type="number" min="0" max="100" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }" ng-change="cambiaNota(alumno.nota)" ng-if="::USER.profes_pueden_editar_notas==1 || hasRoleOrPerm('Admin')"><span ng-if="::USER.profes_pueden_editar_notas==0 &amp;&amp; !hasRoleOrPerm('Admin')">{{alumno.nota.nota}}</span>
+                <input ng-model="alumno.nota.nota" type="number" min="0" max="{{escala_maxima.porc_final}}" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }" ng-change="cambiaNota(alumno.nota)" ng-if="::USER.profes_pueden_editar_notas==1 || hasRoleOrPerm('Admin')"><span ng-if="::USER.profes_pueden_editar_notas==0 &amp;&amp; !hasRoleOrPerm('Admin')">{{alumno.nota.nota}}</span>
               </td>
             </tr>
           </tbody>

@@ -48,6 +48,10 @@ angular.module("myvcFrontApp")
 
 	$scope.crear = ()->
 
+		if !$scope.alumno.grupo
+			toastr.warning 'Debe seleccionar el grupo.'
+			return
+
 		$scope.alumno.fecha_nac = $filter('date')($scope.alumno.fecha_nac, 'yyyy-MM-dd')
 
 		$http.post('::alumnos/store', $scope.alumno).then((r)->

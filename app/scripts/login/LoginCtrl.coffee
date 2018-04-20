@@ -31,11 +31,14 @@ angular.module('myvcFrontApp')
 	$scope.host = $location.host()
 
 	$scope.login = (credentials)->
+		$cookies.remove('xtoken')
+		Perfil.deleteUser()
+
 		AuthService.login_credentials(credentials).then((r)->
 
 			AuthService.verificar().then((r2)->
 				#if localStorage.getItem('logueando') == 'token_verificado'
-				localStorage.removeItem('token_verificado')
+				localStorage.removeItem('logueando')
 			, (r3)->
 				console.log('Falló en Verificar')
 			)

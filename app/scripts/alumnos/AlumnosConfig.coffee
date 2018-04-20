@@ -4,6 +4,26 @@ angular.module('myvcFrontApp')
 	.config ['$stateProvider', 'App', 'PERMISSIONS', ($state, App, PERMISSIONS) ->
 
 		$state
+			.state 'panel.promocionar_notas',
+				url: '/promocionar_notas'
+				views:
+					'maincontent':
+						templateUrl: "#{App.views}alumnos/promocionarNotas.tpl.html"
+						controller: 'PromocionarNotasCtrl'
+					'headerContent':
+						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						controller: 'PanelHeaderCtrl'
+						resolve:
+							titulo: [->
+								'Promocionar notas de alumno promovido'
+							]
+				data:
+					displayName: 'Promocionar notas'
+					icon_fa: 'fa fa-apple'
+					pageTitle: 'Promocionar notas - MyVc'
+					needed_permissions: [PERMISSIONS.can_work_like_admin]
+
+
 			.state 'panel.alumnos.nuevo',
 				url: '/nuevo'
 				views:

@@ -18,7 +18,7 @@
 
 
 		<!--Alumnos-->
-		li(sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm('admin')" ng-class="{open:$state.includes('panel.alumnos')||$state.includes('panel.matriculas')||$state.includes('panel.cartera') || $state.includes('panel.acudientes')}")
+		li(sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm('admin')" ng-class="{open:$state.includes('panel.alumnos')||$state.includes('panel.promocionar_notas')||$state.includes('panel.cartera') || $state.includes('panel.acudientes')}")
 			a.menu-dropdown(href="")
 				i.menu-icon.fa.fa-child
 				span.menu-text Alumnos
@@ -36,6 +36,10 @@
 				li( ui-sref-active="active")
 					a(ui-sref="panel.cartera" stop-event="click")
 						span.menu-text Cartera
+
+				li( ui-sref-active="active")
+					a(ui-sref="panel.promocionar_notas" stop-event="click" uib-tooltip="Promocionar notas de un alumno promovido")
+						span.menu-text Promocionar notas
 
 				//li( ui-sref-active="active")
 					a(ui-sref="panel.acudientes" stop-event="click")

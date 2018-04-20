@@ -1,0 +1,282 @@
+.row
+	.col-xs-12.col-md-12
+		.well.with-header.with-footer.animated.bounceIn
+			.header.bordered-yellow
+				span(style="font-size: 12pt") Promocionar notas
+
+			.form-group
+				selector-grupo-dir
+
+			.row(ng-show="dato.grupo")
+				.col-lg-12.col-xs-12
+					.form-group
+						label Alumno
+						ui-select( ng-model="dato.selected_alumno" on-select="selectAlumno($item)" style="width: 300px;")
+							ui-select-match(placeholder="Elige un alumno" allow-clear="true")
+								img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;")
+								| {{$select.selected.nombres}} {{$select.selected.apellidos}}
+							ui-select-choices(repeat="alumno in alumnos | filter: $select.search")
+								img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
+								small(ng-show="alumno.estado=='RETI'" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)</i>'")
+								small(ng-hide="alumno.estado=='RETI'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
+
+			.row(ng-show="dato.selected_alumno" style="margin-bottom: 30px;")
+				.col-xs-12(style="text-align: center;")
+					.btn-group
+						button.btn.btn-info.shiny(ng-click="eligirPanelNotas(1)"
+							ng-class="{'active': dato.panel_index==1 }" uib-tooltip="Panel de ORIGEN")
+							i.fa.fa-angle-double-left
+							| Cargar en panel izquierdo
+						button.btn.btn-info.shiny(ng-click="eligirPanelNotas(2)"
+							ng-class="{'active': dato.panel_index==2 }" uib-tooltip="Panel de DESTINO")
+							| Cargar en panel derecho
+							i.fa.fa-angle-double-right(style="padding-left:3px;")
+
+
+			.row(ng-show="dato.panel_index==1" style="margin-bottom: 30px;")
+				.col-xs-12(style="margin-bottom: 15px") Aquí aparecen los años y grupos en que tiene por lo menos una nota, aunque no tenga una matrícula válida.
+				.col-sm-3.col-xs-12(ng-repeat="year in years_notas" style="text-align: center;")
+					div(style="border-bottom: 1px solid #888; font-size: 12pt; margin-top: 4px; background-color: #eee; border-radius: 5px;")
+						b {{year.year}}
+
+					.row
+						.col-lg-12.col-xs-12
+
+							div(ng-repeat="grupo in year.grupos")
+								div
+									b {{grupo.nombre}}
+
+								.btn-group
+									button.btn.btn-default(ng-repeat="periodo in grupo.periodos" ng-click="eligirPeriodoNotas(grupo, periodo, year.year, 1)"
+										ng-class="{'active': dato.periodo_id==periodo.id }") Per{{ periodo.numero }}
+
+
+			.row(ng-show="dato.panel_index==2" style="margin-bottom: 30px;")
+				.col-xs-12(style="margin-bottom: 15px") Aquí aparecen los años en que tiene una matrícula válida.
+				.col-sm-3.col-xs-12(ng-repeat="year in years_dest" style="text-align: center;")
+					div(style="border-bottom: 1px solid #888; font-size: 12pt; margin-top: 4px; background-color: #eee; border-radius: 5px;")
+						b {{year.year}} - {{year.nombre}} - {{year.estado}}
+
+					.row
+						.col-lg-12.col-xs-12
+
+							.btn-group
+								button.btn.btn-default(ng-repeat="periodo in year.periodos" ng-click="eligirPeriodoNotas(year, periodo, year.year, 2)"
+									ng-class="{'active': dato.periodo_id==periodo.id }") Per{{ periodo.numero }}
+
+
+
+.row(ng-show="dato.periodo_id")
+	.col-xs-12.col-sm-6
+		a(href="" ng-click="editarNotasOriginales=true" ng-hide="editarNotasOriginales") Editar notas originales (ORIGEN)
+		a(href="" ng-click="editarNotasOriginales=false" ng-show="editarNotasOriginales") DEJAR de Editar notas originales
+
+
+.row(ng-if="editarNotasOriginales")
+	.col-xs-12.col-sm-12(style="padding-left: 0px;")
+		.materia-item.animated.fadeInUp.margin-padding-lados-xs(ng-repeat="asignatura in notas_origen.asignaturas")
+			.row.materia-title(style="font-size: 10pt; display: flex; align-items: center;")
+				.col-lg-9.col-xs-9(uib-popover-template="views+'informes/infoDocentePop.tpl.html'"
+						popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true"
+						popover-trigger="'mouseenter'" popover-append-to-body="true")
+					span.materia-name {{asignatura.materia}}
+					span.materia-profesor(ng-if="!hasRoleOrPerm('profesor')")   - Prof.
+						span.camel   {{asignatura.nombres_profesor.toLowerCase()}} {{asignatura.apellidos_profesor.toLowerCase()}}
+				.col-sm-1.col-xs-2.no-padding(ng-class="{'nota-perdida': asignatura.nota_asignatura<USER.nota_minima_aceptada}")
+					| {{ asignatura.desempenio }}
+
+				.col-lg-1.col-sm-1.col-xs-2.subunidad-nota.puntero(ng-if="!hasRoleOrPerm(['admin', 'profesor'])")
+					span(ng-class="{'nota-perdida-bold': asignatura.nota_asignatura<USER.nota_minima_aceptada}" ) {{asignatura.nota_asignatura}}
+
+					span.nota-perdida(ng-show="!asignatura.nf_id && asignatura.nota_asignatura!=0" uib-tooltip="Aún sin nota")
+						i.fa.fa-warning
+
+				.col-lg-2.col-sm-3.col-md-3.col-xs-12(ng-class="{'inputnota-perdida': asignatura.nota_asignatura < USER.nota_minima_aceptada}"
+					ng-if="hasRoleOrPerm(['admin', 'profesor'])" style="padding-left: 0px;")
+
+					input.input-nota(type="number" min="0" max="{{escala_maxima.porc_final}}"
+											ng-model="asignatura.nota_asignatura" ng-disabled="periodos[periodo.numero-1].profes_pueden_nivelar==0 && !hasRoleOrPerm('Admin')"
+											ng-change="cambiaNotaDef(asignatura, asignatura.nota_asignatura, asignatura.nf_id, periodo.numero)"
+											ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+					label(for="manual-{{asignatura.asignatura_id}}" uib-tooltip="¿Es manual?" style="margin-bottom: 0px")
+						span(style="font-size: 9pt") M
+						input.no-margin-top(id="manual-{{asignatura.asignatura_id}}" type="checkbox" ng-disabled="periodos[periodo.numero-1].profes_pueden_nivelar==0 && !hasRoleOrPerm('Admin')" ng-model="asignatura.manual" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaFinalManual(asignatura, asignatura.manual, asignatura.nf_id)" style="opacity: 1; position: unset;")
+					label(for="recuperada-{{asignatura.asignatura_id}}" uib-tooltip="¿Asignatura recuperada?" style="margin-bottom: 0px")
+						span(style="font-size: 9pt") R
+						input.no-margin-top(id="recuperada-{{asignatura.asignatura_id}}" type="checkbox" ng-disabled="periodos[periodo.numero-1].profes_pueden_nivelar==0 && !hasRoleOrPerm('Admin')" ng-model="asignatura.recuperada" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaFinalRecuperada(asignatura, asignatura.recuperada, asignatura.nf_id)" style="opacity: 1; position: unset;")
+
+			.row.unidades-list(style="background-color: #fff; height: 150px; overflow-y: auto;")
+				.col-lg-12.col-xs-12
+					.row
+						.col-lg-12.col-xs-12(style="padding: 0px; text-align: center; margin-bottom: 5px;")
+							i.fa.fa-clock-o.icon-tardanza
+							span.text-tardanza Ausencias: {{::asignatura.total_ausencias}} / Tardanzas: {{::asignatura.total_tardanzas}}
+
+					.row.unidades-item.animated(ng-repeat="unidad in asignatura.unidades | soloUnidadesConPerdidas:config.solo_notas_perdidas")
+						.col-lg-12.col-xs-12
+							.row
+								.col-lg-10.col-xs-10.unidad-definicion
+									| {{unidad.definicion_unidad}}
+								.col-lg-1.col-xs-2.unidad-porc
+									| {{unidad.porcentaje_unidad}}% - {{unidad.nota_unidad | number:0}}
+							.row.subunidades-list(ng-repeat="subunidad in unidad.subunidades | soloSubunidadesPerdidas:config.solo_notas_perdidas" style="font-size: 9pt;")
+								.col-lg-12.col-xs-12
+									.row
+										.col-lg-10.col-xs-12.col-sm-10.subunidad-definicion
+											| {{$index+1}}. {{subunidad.definicion_subunidad}}
+										.col-lg-1.col-xs-4.col-sm-1.subunidad-porc()
+											| {{subunidad.porcentaje_subunidad}}%
+
+										.col-lg-1.col-xs-4.col-sm-1.subunidad-nota.puntero(ng-if="!hasRoleOrPerm(['admin', 'profesor'])")
+											span(ng-class="{'nota-perdida-bold': subunidad.nota.nota<USER.nota_minima_aceptada}" uib-tooltip="Valor nota: {{subunidad.nota.valor}}") {{subunidad.nota.nota}}
+
+											span.nota-perdida(ng-show="!subunidad.nota.nota && subunidad.nota.nota!=0" uib-tooltip="Aún sin nota")
+												i.fa.fa-warning
+
+										.col-lg-1.col-xs-4.col-sm-1.no-padding(ng-class="{'inputnota-perdida': subunidad.nota.nota < USER.nota_minima_aceptada}"
+											ng-if="hasRoleOrPerm(['admin', 'profesor'])")
+
+											input(type="number" min="0" max="100"
+												ng-model="subunidad.nota.nota" ng-disabled="periodos[periodo.numero-1].profes_pueden_nivelar==0 && !hasRoleOrPerm('Admin')"
+												ng-change="cambiaNota(subunidad.nota, subunidad.nota.nota)"
+												ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+					.row.comentarios-asignatura(ng-show="::asignatura.frases.length>0")
+						.col-lg-12.col-xs-12
+							.comentario-title
+								i.fa.fa-comments-o(style="padding-right: 5px;")
+								| Observaciones
+							.row.comentario-item(ng-repeat="frase in ::asignatura.frases")
+								| {{::frase.frase}}
+								span.tipo-frase(ng-show="::frase.frase_id") - {{::frase.tipo_frase}}
+
+
+
+
+
+.row(ng-if="!editarNotasOriginales")
+	.col-xs-12.col-sm-6(style="padding-left: 0px;")
+		h2(style="text-align: center; font-weight: bold!important;") ORIGEN
+		h2(ng-show="datos_origen" style="text-align: center;") {{datos_origen.grupo.nombre}} - Per{{datos_origen.periodo.numero}} - {{datos_origen.num_year}}
+
+		.materia-item.animated.fadeInUp.margin-padding-lados-xs(ng-repeat="asignatura in notas_origen.asignaturas")
+			.row.materia-title(style="font-size: 10pt; display: flex; align-items: center;")
+				.col-lg-11.col-xs-10(uib-popover-template="views+'informes/infoDocentePop.tpl.html'"
+						popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true"
+						popover-trigger="'mouseenter'" popover-append-to-body="true")
+					span.materia-name {{asignatura.materia}}
+					span.materia-profesor(ng-if="!hasRoleOrPerm('profesor')")   - Prof.
+						span.camel   {{asignatura.nombres_profesor.toLowerCase()}} {{asignatura.apellidos_profesor.toLowerCase()}}
+
+
+				.col-lg-1.col-sm-1.col-xs-2.subunidad-nota.puntero
+					span(ng-class="{'nota-perdida-bold': asignatura.nota_asignatura<USER.nota_minima_aceptada}"
+						ng-click="pasarNota(asignatura)" uib-tooltip="Copiar nota a destino") {{asignatura.nota_asignatura}}
+
+					span.nota-perdida(ng-show="!asignatura.nf_id && asignatura.nota_asignatura!=0" uib-tooltip="Aún sin nota")
+						i.fa.fa-warning
+
+
+			.row.unidades-list(style="background-color: #fff; height: 150px; overflow-y: auto;")
+				.col-lg-12.col-xs-12
+					.row
+						.col-lg-12.col-xs-12(style="padding: 0px; text-align: center; margin-bottom: 5px;")
+							i.fa.fa-clock-o.icon-tardanza
+							span.text-tardanza Ausencias: {{::asignatura.total_ausencias}} / Tardanzas: {{::asignatura.total_tardanzas}}
+
+					.row.unidades-item.animated(ng-repeat="unidad in asignatura.unidades | soloUnidadesConPerdidas:config.solo_notas_perdidas")
+						.col-lg-12.col-xs-12
+							.row
+								.col-lg-10.col-xs-10.unidad-definicion
+									| {{unidad.definicion_unidad}}
+								.col-lg-1.col-xs-2.unidad-porc
+									| {{unidad.porcentaje_unidad}}%
+							.row.subunidades-list(ng-repeat="subunidad in unidad.subunidades | soloSubunidadesPerdidas:config.solo_notas_perdidas" style="font-size: 9pt;")
+								.col-lg-12.col-xs-12
+									.row
+										.col-lg-10.col-xs-12.col-sm-10.subunidad-definicion
+											| {{$index+1}}. {{subunidad.definicion_subunidad}}
+
+										.col-lg-1.col-xs-4.col-sm-1.subunidad-nota.puntero
+											span(ng-class="{'nota-perdida-bold': subunidad.nota.nota<USER.nota_minima_aceptada}" uib-tooltip="Valor nota: {{subunidad.nota.valor}}") {{subunidad.nota.nota}}
+
+											span.nota-perdida(ng-show="!subunidad.nota.nota && subunidad.nota.nota!=0" uib-tooltip="Aún sin nota")
+												i.fa.fa-warning
+
+					.row.comentarios-asignatura(ng-show="::asignatura.frases.length>0")
+						.col-lg-12.col-xs-12
+							.comentario-title
+								i.fa.fa-comments-o(style="padding-right: 5px;")
+								| Observaciones
+							.row.comentario-item(ng-repeat="frase in ::asignatura.frases")
+								| {{::frase.frase}}
+								span.tipo-frase(ng-show="::frase.frase_id") - {{::frase.tipo_frase}}
+
+
+
+
+
+	.col-xs-12.col-sm-6(style="padding-left: 0px;")
+		h2(style="text-align: center; font-weight: bold!important;") DESTINO
+		h2(ng-show="datos_destino" style="text-align: center;") {{datos_destino.grupo.nombre}} - Per{{datos_destino.periodo.numero}} - {{datos_destino.num_year}}
+
+		.materia-item.animated.fadeInUp.margin-padding-lados-xs(ng-repeat="asignatura in notas_destino.asignaturas")
+			.row.materia-title(style="font-size: 10pt; display: flex; align-items: center;")
+				.col-lg-11.col-xs-10(uib-popover-template="views+'informes/infoDocentePop.tpl.html'"
+						popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true"
+						popover-trigger="'mouseenter'" popover-append-to-body="true")
+					span.materia-name {{asignatura.materia}}
+					span.materia-profesor(ng-if="!hasRoleOrPerm('profesor')")   - Prof.
+						span.camel   {{asignatura.nombres_profesor.toLowerCase()}} {{asignatura.apellidos_profesor.toLowerCase()}}
+
+
+				.col-lg-1.col-sm-1.col-xs-2.subunidad-nota.puntero
+					span(ng-class="{'nota-perdida-bold': asignatura.nota_asignatura<USER.nota_minima_aceptada}" ) {{asignatura.nota_asignatura}}
+
+					span.nota-perdida(ng-show="!asignatura.nf_id && asignatura.nota_asignatura!=0" uib-tooltip="Aún sin nota")
+						i.fa.fa-warning
+
+
+			.row.unidades-list(style="background-color: #fff; height: 150px; overflow-y: auto;")
+				.col-lg-12.col-xs-12
+					.row
+						.col-lg-12.col-xs-12(style="padding: 0px; text-align: center; margin-bottom: 5px;")
+							i.fa.fa-clock-o.icon-tardanza
+							span.text-tardanza Ausencias: {{::asignatura.total_ausencias}} / Tardanzas: {{::asignatura.total_tardanzas}}
+
+					.row.unidades-item.animated(ng-repeat="unidad in asignatura.unidades | soloUnidadesConPerdidas:config.solo_notas_perdidas")
+						.col-lg-12.col-xs-12
+							.row
+								.col-lg-10.col-xs-10.unidad-definicion
+									| {{unidad.definicion_unidad}}
+								.col-lg-1.col-xs-2.unidad-porc
+									| {{unidad.porcentaje_unidad}}%
+							.row.subunidades-list(ng-repeat="subunidad in unidad.subunidades | soloSubunidadesPerdidas:config.solo_notas_perdidas" style="font-size: 9pt;")
+								.col-lg-12.col-xs-12
+									.row
+										.col-lg-10.col-xs-12.col-sm-10.subunidad-definicion
+											| {{$index+1}}. {{subunidad.definicion_subunidad}}
+
+										.col-lg-1.col-xs-4.col-sm-1.subunidad-nota.puntero
+											span(ng-class="{'nota-perdida-bold': subunidad.nota.nota<USER.nota_minima_aceptada}" uib-tooltip="Valor nota: {{subunidad.nota.valor}}") {{subunidad.nota.nota}}
+
+											span.nota-perdida(ng-show="!subunidad.nota.nota && subunidad.nota.nota!=0" uib-tooltip="Aún sin nota")
+												i.fa.fa-warning
+
+					.row.comentarios-asignatura(ng-show="::asignatura.frases.length>0")
+						.col-lg-12.col-xs-12
+							.comentario-title
+								i.fa.fa-comments-o(style="padding-right: 5px;")
+								| Observaciones
+							.row.comentario-item(ng-repeat="frase in ::asignatura.frases")
+								| {{::frase.frase}}
+								span.tipo-frase(ng-show="::frase.frase_id") - {{::frase.tipo_frase}}
+
+
+
+
+
+
+
+
+

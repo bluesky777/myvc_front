@@ -1,5 +1,5 @@
 angular.module('myvcFrontApp')
-.controller('ComportamientoCtrl', ['$scope', '$filter', '$state', 'comportamiento', '$uibModal', 'App', '$http', 'AuthService', 'toastr', ($scope, $filter, $state, comportamiento, $modal, App, $http, AuthService, toastr) ->
+.controller('ComportamientoCtrl', ['$scope', '$filter', '$state', 'comportamiento', '$uibModal', 'App', '$http', 'AuthService', 'toastr', 'EscalasValorativasServ', ($scope, $filter, $state, comportamiento, $modal, App, $http, AuthService, toastr, EscalasValorativasServ) ->
 
 	AuthService.verificar_acceso()
 
@@ -17,6 +17,16 @@ angular.module('myvcFrontApp')
 		{tipo_frase:	'Oportunidad'}
 		{tipo_frase:	'Fortaleza'}
 	]
+
+
+	EscalasValorativasServ.escalas().then((r)->
+		$scope.escalas = r
+		$scope.escala_maxima = EscalasValorativasServ.escala_maxima()
+	, (r2)->
+		console.log 'No se trajeron las escalas valorativas', r2
+	)
+
+
 
 	$scope.addFrase = (alumno)->
 

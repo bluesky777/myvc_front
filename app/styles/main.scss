@@ -3126,8 +3126,10 @@ a:focus, a:active {
 		.header-title h1 small {
 		display: none;
 }
-}.page-body {
-		background: #eee;
+}
+.page-body {
+    //background: #eee;
+    background: rgba(240, 240, 240, 0.5);
 		padding: 18px 20px 24px;
 }
 .widget {

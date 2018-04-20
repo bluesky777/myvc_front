@@ -76,22 +76,7 @@ angular.module('myvcFrontApp')
 				#console.log 'No se trajo un token en el login.', user
 				$rootScope.$broadcast AUTH_EVENTS.loginFailed
 				d.reject 'Error en login'
-			###
-			user = r.data
-			if user.token
-				$cookies.put('xtoken', user.token)
 
-				$http.defaults.headers.common['Authorization'] = 'Bearer ' + $cookies.get('xtoken')
-
-				Perfil.setUser user
-
-				$rootScope.$broadcast AUTH_EVENTS.loginSuccess
-				d.resolve user
-			else
-				#console.log 'No se trajo un token en el login.', user
-				$rootScope.$broadcast AUTH_EVENTS.loginFailed
-				d.reject 'Error en login'
-			###
 
 
 		, (r2)->

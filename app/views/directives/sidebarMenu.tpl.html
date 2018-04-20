@@ -6,7 +6,7 @@
   </div><!-- /Page Sidebar Header -->
   <ul class="nav sidebar-menu hidden-print"><!--Dashboard-->
     <li ui-sref-active-eq="active"><a ui-sref="panel"><i class="menu-icon fa fa-home"></i><span class="menu-text">Inicio</span></a></li><!--Alumnos-->
-    <li sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm('admin')" ng-class="{open:$state.includes('panel.alumnos')||$state.includes('panel.matriculas')||$state.includes('panel.cartera') || $state.includes('panel.acudientes')}"><a href="" class="menu-dropdown"><i class="menu-icon fa fa-child"></i><span class="menu-text">Alumnos</span><i class="menu-expand"></i></a>
+    <li sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm('admin')" ng-class="{open:$state.includes('panel.alumnos')||$state.includes('panel.promocionar_notas')||$state.includes('panel.cartera') || $state.includes('panel.acudientes')}"><a href="" class="menu-dropdown"><i class="menu-icon fa fa-child"></i><span class="menu-text">Alumnos</span><i class="menu-expand"></i></a>
       <ul class="submenu">
         <li ui-sref-active="active"><a ui-sref="panel.alumnos" stop-event="click"><span class="menu-text">Todos</span></a></li>
         <!--li( ui-sref-active="active")
@@ -15,6 +15,7 @@
         
         -->
         <li ui-sref-active="active"><a ui-sref="panel.cartera" stop-event="click"><span class="menu-text">Cartera</span></a></li>
+        <li ui-sref-active="active"><a ui-sref="panel.promocionar_notas" stop-event="click" uib-tooltip="Promocionar notas de un alumno promovido"><span class="menu-text">Promocionar notas</span></a></li>
         <!--li( ui-sref-active="active")
         a(ui-sref="panel.acudientes" stop-event="click")
         	span.menu-text Acudientes
