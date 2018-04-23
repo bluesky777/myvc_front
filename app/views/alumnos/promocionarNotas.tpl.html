@@ -62,6 +62,18 @@
 </div>
 <div ng-if="editarNotasOriginales" class="row">
   <div style="padding-left: 0px;" class="col-xs-12 col-sm-12">
+    <!-- COMPORTAMIENTO-->
+    <div class="materia-item animated fadeInUp margin-padding-lados-xs">
+      <div style="font-size: 10pt; display: flex; align-items: center; border-radius: 5px;" uib-popover-template="views+'informes/infoDocenteOrigenPop.tpl.html'" popover-popup-delay="500" popover-title="{{notas_origen.nota_comportamiento.nombres + ' ' + notas_origen.nota_comportamiento.apellidos}}" popover-animation="true" popover-trigger="'mouseenter'" popover-append-to-body="true" class="row materia-title">
+        <div class="col-lg-9 col-xs-9"><span class="materia-name">COMPORTAMIENTO</span><span class="materia-profesor">  - Prof.<span class="camel">  {{notas_origen.nota_comportamiento.nombres.toLowerCase()}} {{notas_origen.nota_comportamiento.apellidos.toLowerCase()}}</span></span></div>
+        <div ng-class="{'nota-perdida': notas_origen.nota_comportamiento.nota&lt;USER.nota_minima_aceptada}" class="col-sm-1 col-xs-2 no-padding">{{ asignatura.desempenio }}</div>
+        <div ng-if="!hasRoleOrPerm(['admin', 'profesor'])" class="col-lg-1 col-sm-1 col-xs-2 subunidad-nota puntero"><span ng-class="{'nota-perdida-bold': notas_origen.nota_comportamiento.nota&lt;USER.nota_minima_aceptada}">{{notas_origen.nota_comportamiento.nota}}</span><span ng-show="!notas_origen.nota_comportamiento.id &amp;&amp; notas_origen.nota_comportamiento.nota!=0" uib-tooltip="Aún sin nota" class="nota-perdida"><i class="fa fa-warning"></i></span></div>
+        <div ng-class="{'inputnota-perdida': notas_origen.nota_comportamiento.nota &lt; USER.nota_minima_aceptada}" ng-if="hasRoleOrPerm(['admin', 'profesor'])" style="padding-left: 0px;" class="col-lg-2 col-sm-3 col-md-3 col-xs-12">
+          <input type="number" min="0" max="{{escala_maxima.porc_final}}" ng-model="notas_origen.nota_comportamiento.nota" ng-change="cambiaNotaComport(notas_origen.nota_comportamiento, notas_origen, 'datos_origen')" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-disabled="(notas_origen.nota_comportamiento.titular_id!=USER.persona_id &amp;&amp; !hasRoleOrPerm(['admin'])) || (periodos[notas_origen.periodo.numero-1].profes_pueden_editar_notas==0 &amp;&amp; !hasRoleOrPerm('admin')) || hasRoleOrPerm(['profesor', 'alumno', 'acudiente'])" class="input-nota">
+        </div>
+      </div>
+    </div>
+    <!-- ASIGNATURAS-->
     <div ng-repeat="asignatura in notas_origen.asignaturas" class="materia-item animated fadeInUp margin-padding-lados-xs">
       <div style="font-size: 10pt; display: flex; align-items: center;" class="row materia-title">
         <div uib-popover-template="views+'informes/infoDocentePop.tpl.html'" popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" popover-trigger="'mouseenter'" popover-append-to-body="true" class="col-lg-9 col-xs-9"><span class="materia-name">{{asignatura.materia}}</span><span ng-if="!hasRoleOrPerm('profesor')" class="materia-profesor">  - Prof.<span class="camel">  {{asignatura.nombres_profesor.toLowerCase()}} {{asignatura.apellidos_profesor.toLowerCase()}}</span></span></div>
@@ -117,6 +129,18 @@
   <div style="padding-left: 0px;" class="col-xs-12 col-sm-6">
     <h2 style="text-align: center; font-weight: bold!important;">ORIGEN</h2>
     <h2 ng-show="datos_origen" style="text-align: center; height: 90px;">{{datos_origen.alumno.apellidos + ' ' + datos_origen.alumno.nombres}} - {{datos_origen.grupo.nombre}} - Per{{datos_origen.periodo.numero}} - {{datos_origen.num_year}}</h2>
+    <!-- COMPORTAMIENTO-->
+    <div ng-show="notas_origen.nota_comportamiento" class="materia-item animated fadeInUp margin-padding-lados-xs">
+      <div style="font-size: 10pt; display: flex; align-items: center; border-radius: 5px; margin-left: 20px;" uib-popover-template="views+'informes/infoDocenteOrigenPop.tpl.html'" popover-popup-delay="500" popover-title="{{notas_origen.nota_comportamiento.nombres + ' ' + notas_origen.nota_comportamiento.apellidos}}" popover-animation="true" popover-trigger="'mouseenter'" popover-append-to-body="true" class="row materia-title">
+        <div style="height: 36px; overflow: auto;" class="col-lg-9 col-xs-9"><span class="materia-name">COMPORTAMIENTO</span><span class="materia-profesor">  - Prof.<span class="camel">  {{notas_origen.nota_comportamiento.nombres.toLowerCase()}} {{notas_origen.nota_comportamiento.apellidos.toLowerCase()}}</span></span></div>
+        <div ng-class="{'nota-perdida': notas_origen.nota_comportamiento.nota&lt;USER.nota_minima_aceptada}" class="col-sm-1 col-xs-2 no-padding">{{ asignatura.desempenio }}</div>
+        <div ng-if="!hasRoleOrPerm(['admin', 'profesor'])" class="col-lg-1 col-sm-1 col-xs-2 subunidad-nota puntero"><span ng-class="{'nota-perdida-bold': notas_origen.nota_comportamiento.nota&lt;USER.nota_minima_aceptada}">{{notas_origen.nota_comportamiento.nota}}</span><span ng-show="!notas_origen.nota_comportamiento.id &amp;&amp; notas_origen.nota_comportamiento.nota!=0" uib-tooltip="Aún sin nota" class="nota-perdida"><i class="fa fa-warning"></i></span></div>
+        <div ng-class="{'inputnota-perdida': notas_origen.nota_comportamiento.nota &lt; USER.nota_minima_aceptada}" ng-if="hasRoleOrPerm(['admin', 'profesor'])" style="padding-left: 0px;" class="col-lg-2 col-sm-3 col-md-3 col-xs-12">
+          <input type="number" min="0" max="{{escala_maxima.porc_final}}" ng-model="notas_origen.nota_comportamiento.nota" ng-change="cambiaNotaComport(notas_origen.nota_comportamiento, notas_origen, 'datos_origen')" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-disabled="(notas_origen.nota_comportamiento.titular_id!=USER.persona_id &amp;&amp; !hasRoleOrPerm(['admin'])) || (periodos[notas_origen.periodo.numero-1].profes_pueden_editar_notas==0 &amp;&amp; !hasRoleOrPerm('admin')) || hasRoleOrPerm(['profesor', 'alumno', 'acudiente'])" class="input-nota">
+        </div>
+      </div>
+    </div>
+    <!-- ASIGNATURAS-->
     <div ng-repeat="asignatura in notas_origen.asignaturas" class="materia-item animated fadeInUp margin-padding-lados-xs">
       <div style="font-size: 10pt; display: flex; align-items: center; margin-right: 0px;" class="row materia-title">
         <div uib-popover-template="views+'informes/infoDocentePop.tpl.html'" popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" popover-trigger="'mouseenter'" popover-append-to-body="true" style="height: 36px; overflow: auto;" class="col-lg-11 col-xs-10"><span class="materia-name">{{asignatura.materia}}</span><span ng-if="!hasRoleOrPerm('profesor')" class="materia-profesor">  - Prof.<span class="camel">  {{asignatura.nombres_profesor.toLowerCase()}} {{asignatura.apellidos_profesor.toLowerCase()}}</span></span></div>
@@ -156,6 +180,18 @@
   <div style="padding-left: 0px;" class="col-xs-12 col-sm-6">
     <h2 style="text-align: center; font-weight: bold!important;">DESTINO</h2>
     <h2 ng-show="datos_destino" style="text-align: center; height: 90px;">{{datos_destino.alumno.apellidos + ' ' + datos_destino.alumno.nombres}} - {{datos_destino.grupo.nombre}} - Per{{datos_destino.periodo.numero}} - {{datos_destino.num_year}}</h2>
+    <!-- COMPORTAMIENTO-->
+    <div ng-show="notas_destino.nota_comportamiento" class="materia-item animated fadeInUp margin-padding-lados-xs">
+      <div style="font-size: 10pt; display: flex; align-items: center; border-radius: 5px;" uib-popover-template="views+'informes/infoDocenteDestinoPop.tpl.html'" popover-popup-delay="500" popover-title="{{notas_destino.nota_comportamiento.nombres + ' ' + notas_destino.nota_comportamiento.apellidos}}" popover-animation="true" popover-trigger="'mouseenter'" popover-append-to-body="true" class="row materia-title">
+        <div style="height: 36px; overflow: auto;" class="col-lg-9 col-xs-9"><span class="materia-name">COMPORTAMIENTO</span><span class="materia-profesor">  - Prof.<span class="camel">  {{notas_destino.nota_comportamiento.nombres.toLowerCase()}} {{notas_destino.nota_comportamiento.apellidos.toLowerCase()}}</span></span></div>
+        <div ng-class="{'nota-perdida': notas_destino.nota_comportamiento.nota&lt;USER.nota_minima_aceptada}" class="col-sm-1 col-xs-2 no-padding">{{ asignatura.desempenio }}</div>
+        <div ng-if="!hasRoleOrPerm(['admin', 'profesor'])" class="col-lg-1 col-sm-1 col-xs-2 subunidad-nota puntero"><span ng-class="{'nota-perdida-bold': notas_destino.nota_comportamiento.nota&lt;USER.nota_minima_aceptada}">{{notas_destino.nota_comportamiento.nota}}</span><span ng-show="!notas_destino.nota_comportamiento.id &amp;&amp; notas_destino.nota_comportamiento.nota!=0" uib-tooltip="Aún sin nota" class="nota-perdida"><i class="fa fa-warning"></i></span></div>
+        <div ng-class="{'inputnota-perdida': notas_destino.nota_comportamiento.nota &lt; USER.nota_minima_aceptada}" ng-if="hasRoleOrPerm(['admin', 'profesor'])" style="padding-left: 0px;" class="col-lg-2 col-sm-3 col-md-3 col-xs-12">
+          <input type="number" min="0" max="{{escala_maxima.porc_final}}" ng-model="notas_destino.nota_comportamiento.nota" ng-change="cambiaNotaComport(notas_destino.nota_comportamiento, notas_destino, 'datos_destino')" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-disabled="(notas_destino.nota_comportamiento.titular_id!=USER.persona_id &amp;&amp; !hasRoleOrPerm(['admin'])) || (periodos[datos_destino.periodo.numero-1].profes_pueden_editar_notas==0 &amp;&amp; !hasRoleOrPerm('admin')) || hasRoleOrPerm(['profesor', 'alumno', 'acudiente'])" class="input-nota">
+        </div>
+      </div>
+    </div>
+    <!-- ASIGNATURAS-->
     <div ng-repeat="asignatura in notas_destino.asignaturas" class="materia-item animated fadeInUp margin-padding-lados-xs">
       <div style="font-size: 10pt; display: flex; align-items: center; margin-left: 0px; margin-right: 0px;" class="row materia-title">
         <div uib-popover-template="views+'informes/infoDocentePop.tpl.html'" popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" popover-trigger="'mouseenter'" popover-append-to-body="true" style="height: 36px; overflow: auto;" class="col-lg-11 col-xs-10"><span class="materia-name">{{asignatura.materia}}</span><span ng-if="!hasRoleOrPerm('profesor')" class="materia-profesor">  - Prof.<span class="camel">  {{asignatura.nombres_profesor.toLowerCase()}} {{asignatura.apellidos_profesor.toLowerCase()}}</span></span></div>

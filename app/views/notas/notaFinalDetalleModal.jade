@@ -9,7 +9,7 @@
 			.row
 				.col-xs-4(uib-tooltip="Código de la nota") Codigo:
 				.col-xs-8
-					span(uib-tooltip="Código de la nota" style="font-style: italic;") {{ nota.id }}
+					span(uib-tooltip="Código de la nota" style="font-style: italic;") {{ nota.nf_id }}
 					button.btn.btn-danger.btn-xs(ng-if="hasRoleOrPerm('Admin')" ng-click="eliminarNota()" uib-tooltip="Eliminar nota.") Eliminar
 			.row
 				.col-xs-4 Nota:

@@ -64,6 +64,36 @@
 		.panel-default.margin-padding-lados-xs.panel-acordeon(uib-accordion-group is-open="$first" heading="Periodo {{periodo.numero}} ({{periodo.asignaturas | notasPerdidasAsignaturas}})" ng-repeat="periodo in periodos_notas")
 
 
+			// COMPORTAMIENTO
+			.materia-item.animated.fadeInUp.margin-padding-lados-xs
+				.row.materia-title(style="font-size: 10pt; display: flex; align-items: center; border-radius: 5px;" uib-popover-template="views+'informes/infoDocentePop.tpl.html'"
+							popover-popup-delay="500" popover-title="{{periodo.nota_comportamiento.nombres + ' ' + periodo.nota_comportamiento.apellidos}}" popover-animation="true"
+							popover-trigger="'mouseenter'" popover-append-to-body="true")
+					.col-lg-9.col-xs-9
+						span.materia-name COMPORTAMIENTO
+						span.materia-profesor   - Prof.
+							span.camel   {{periodo.nota_comportamiento.nombres.toLowerCase()}} {{periodo.nota_comportamiento.apellidos.toLowerCase()}}
+					.col-sm-1.col-xs-2.no-padding(ng-class="{'nota-perdida': periodo.nota_comportamiento.nota<USER.nota_minima_aceptada}")
+						| {{ asignatura.desempenio }}
+
+					.col-lg-1.col-sm-1.col-xs-2.subunidad-nota.puntero(ng-if="!hasRoleOrPerm(['admin', 'profesor'])")
+						span(ng-class="{'nota-perdida-bold': periodo.nota_comportamiento.nota<USER.nota_minima_aceptada}" ) {{periodo.nota_comportamiento.nota}}
+
+						span.nota-perdida(ng-show="!periodo.nota_comportamiento.id && periodo.nota_comportamiento.nota!=0" uib-tooltip="Aún sin nota")
+							i.fa.fa-warning
+
+					.col-lg-2.col-sm-3.col-md-3.col-xs-12(ng-class="{'inputnota-perdida': periodo.nota_comportamiento.nota < USER.nota_minima_aceptada}"
+						ng-if="hasRoleOrPerm(['admin', 'profesor'])" style="padding-left: 0px;")
+
+						input.input-nota(type="number" min="0" max="{{escala_maxima.porc_final}}"
+												ng-model="periodo.nota_comportamiento.nota"
+												ng-change="cambiaNotaComport(periodo.nota_comportamiento, periodo)"
+												ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
+												ng-disabled="(periodo.nota_comportamiento.titular_id!=USER.persona_id && !hasRoleOrPerm(['admin'])) || (periodos[periodo.numero-1].profes_pueden_editar_notas==0 && !hasRoleOrPerm('admin')) || hasRoleOrPerm(['profesor', 'alumno', 'acudiente'])")
+
+
+
+			// ASIGNATURAS
 			.materia-item.animated.fadeInUp.margin-padding-lados-xs(ng-repeat="asignatura in periodo.asignaturas | soloAsignaturasConPerdidas:config.solo_notas_perdidas")
 				.row.materia-title(style="font-size: 10pt; display: flex; align-items: center;" uib-popover-template="views+'informes/infoDocentePop.tpl.html'"
 							popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true"
@@ -127,7 +157,7 @@
 												ng-if="hasRoleOrPerm(['admin', 'profesor'])")
 
 												input(type="number" min="0" max="100"
-													ng-model="subunidad.nota.nota" ng-disabled="periodos[periodo.numero-1].profes_pueden_nivelar==0 && !hasRoleOrPerm('Admin')"
+													ng-model="subunidad.nota.nota" ng-disabled="periodos[periodo.numero-1].profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')"
 													ng-change="cambiaNota(subunidad.nota, subunidad.nota.nota)"
 													ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
 

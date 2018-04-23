@@ -47,7 +47,7 @@
     
     
     --><!-- Notas visto por profesor-->
-    <li sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm(['profesor'])" ng-class="{open:$state.includes('panel.notas')||$state.includes('panel.listasignaturas')||$state.includes('panel.notas_alumno') || $state.includes('panel.notas_perdidas_profesor_edit')}"><a href="" class="menu-dropdown"><i class="menu-icon fa fa-apple"></i><span class="menu-text">Notas</span><i class="menu-expand"></i></a>
+    <li sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm(['profesor'])" ng-class="{open:$state.includes('panel.notas')||$state.includes('panel.listasignaturas')||$state.includes('panel.notas_alumno') || $state.includes('panel.notas_perdidas_profesor_edit') || $state.includes('panel.promocionar_notas')}"><a href="" class="menu-dropdown"><i class="menu-icon fa fa-apple"></i><span class="menu-text">Notas</span><i class="menu-expand"></i></a>
       <ul class="submenu">
         <li ui-sref-active="active"><a ui-sref="panel.listasignaturas" stop-event="click"><span class="menu-text">Asignaturas</span></a></li>
         <li ui-sref-active="active"><a ng-click="listarAsignaturas()" href="" stop-event="click"><span class="menu-text">Planilla</span></a></li>
@@ -60,6 +60,7 @@
         -->
         <li ui-sref-active="active"><a ui-sref="panel.copiar" stop-event="click"><span class="menu-text">Copiar</span><i class="menu-icon fa fa-copy"></i></a></li>
         <li ui-sref-active="active"><a ui-sref="panel.notas_alumno" stop-event="click"><span class="menu-text blue">De un alumno</span></a></li>
+        <li ui-sref-active="active"><a ui-sref="panel.promocionar_notas" stop-event="click" uib-tooltip="Promocionar notas de un alumno promovido"><span class="menu-text">Promocionar notas</span></a></li>
       </ul>
     </li><!-- Notas visto por el admin-->
     <li sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm(['admin'])" ng-class="{open:$state.includes('panel.listasignaturas')||$state.includes('panel.unidades')||$state.includes('panel.notas')||$state.includes('panel.notas_alumno') || $state.includes('panel.notas_perdidas_profesor_edit') || $state.includes('panel.definitivas_periodos')}"><a href="" class="menu-dropdown"><i class="menu-icon fa fa-apple"></i><span class="menu-text">Notas</span><i class="menu-expand"></i></a>

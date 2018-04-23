@@ -88,7 +88,7 @@
 
 
 		<!-- Notas visto por profesor-->
-		li(sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm(['profesor'])" ng-class="{open:$state.includes('panel.notas')||$state.includes('panel.listasignaturas')||$state.includes('panel.notas_alumno') || $state.includes('panel.notas_perdidas_profesor_edit')}")
+		li(sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm(['profesor'])" ng-class="{open:$state.includes('panel.notas')||$state.includes('panel.listasignaturas')||$state.includes('panel.notas_alumno') || $state.includes('panel.notas_perdidas_profesor_edit') || $state.includes('panel.promocionar_notas')}")
 			a.menu-dropdown(href="")
 				i.menu-icon.fa.fa-apple
 				span.menu-text Notas
@@ -118,6 +118,10 @@
 				li(ui-sref-active="active")
 					a(ui-sref="panel.notas_alumno" stop-event="click")
 						span.menu-text.blue De un alumno
+				li( ui-sref-active="active")
+					a(ui-sref="panel.promocionar_notas" stop-event="click" uib-tooltip="Promocionar notas de un alumno promovido")
+						span.menu-text Promocionar notas
+
 
 		<!-- Notas visto por el admin-->
 		li(sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm(['admin'])" ng-class="{open:$state.includes('panel.listasignaturas')||$state.includes('panel.unidades')||$state.includes('panel.notas')||$state.includes('panel.notas_alumno') || $state.includes('panel.notas_perdidas_profesor_edit') || $state.includes('panel.definitivas_periodos')}")

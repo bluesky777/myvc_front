@@ -10,7 +10,7 @@
     <div class="col-lg-12 col-xs-12">
       <div class="row">
         <div uib-tooltip="Código de la nota" class="col-xs-4">Codigo:</div>
-        <div class="col-xs-8"><span uib-tooltip="Código de la nota" style="font-style: italic;">{{ nota.id }}</span>
+        <div class="col-xs-8"><span uib-tooltip="Código de la nota" style="font-style: italic;">{{ nota.nf_id }}</span>
           <button ng-if="hasRoleOrPerm('Admin')" ng-click="eliminarNota()" uib-tooltip="Eliminar nota." class="btn btn-danger btn-xs">Eliminar</button>
         </div>
       </div>

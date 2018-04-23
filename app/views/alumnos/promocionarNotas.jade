@@ -74,6 +74,35 @@
 
 .row(ng-if="editarNotasOriginales")
 	.col-xs-12.col-sm-12(style="padding-left: 0px;")
+
+		// COMPORTAMIENTO
+		.materia-item.animated.fadeInUp.margin-padding-lados-xs
+			.row.materia-title(style="font-size: 10pt; display: flex; align-items: center; border-radius: 5px;" uib-popover-template="views+'informes/infoDocenteOrigenPop.tpl.html'"
+						popover-popup-delay="500" popover-title="{{notas_origen.nota_comportamiento.nombres + ' ' + notas_origen.nota_comportamiento.apellidos}}" popover-animation="true"
+						popover-trigger="'mouseenter'" popover-append-to-body="true")
+				.col-lg-9.col-xs-9
+					span.materia-name COMPORTAMIENTO
+					span.materia-profesor   - Prof.
+						span.camel   {{notas_origen.nota_comportamiento.nombres.toLowerCase()}} {{notas_origen.nota_comportamiento.apellidos.toLowerCase()}}
+				.col-sm-1.col-xs-2.no-padding(ng-class="{'nota-perdida': notas_origen.nota_comportamiento.nota<USER.nota_minima_aceptada}")
+					| {{ asignatura.desempenio }}
+
+				.col-lg-1.col-sm-1.col-xs-2.subunidad-nota.puntero(ng-if="!hasRoleOrPerm(['admin', 'profesor'])")
+					span(ng-class="{'nota-perdida-bold': notas_origen.nota_comportamiento.nota<USER.nota_minima_aceptada}" ) {{notas_origen.nota_comportamiento.nota}}
+
+					span.nota-perdida(ng-show="!notas_origen.nota_comportamiento.id && notas_origen.nota_comportamiento.nota!=0" uib-tooltip="Aún sin nota")
+						i.fa.fa-warning
+
+				.col-lg-2.col-sm-3.col-md-3.col-xs-12(ng-class="{'inputnota-perdida': notas_origen.nota_comportamiento.nota < USER.nota_minima_aceptada}"
+					ng-if="hasRoleOrPerm(['admin', 'profesor'])" style="padding-left: 0px;")
+
+					input.input-nota(type="number" min="0" max="{{escala_maxima.porc_final}}"
+											ng-model="notas_origen.nota_comportamiento.nota"
+											ng-change="cambiaNotaComport(notas_origen.nota_comportamiento, notas_origen, 'datos_origen')"
+											ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
+											ng-disabled="(notas_origen.nota_comportamiento.titular_id!=USER.persona_id && !hasRoleOrPerm(['admin'])) || (periodos[notas_origen.periodo.numero-1].profes_pueden_editar_notas==0 && !hasRoleOrPerm('admin')) || hasRoleOrPerm(['profesor', 'alumno', 'acudiente'])")
+
+		// ASIGNATURAS
 		.materia-item.animated.fadeInUp.margin-padding-lados-xs(ng-repeat="asignatura in notas_origen.asignaturas")
 			.row.materia-title(style="font-size: 10pt; display: flex; align-items: center;")
 				.col-lg-9.col-xs-9(uib-popover-template="views+'informes/infoDocentePop.tpl.html'"
@@ -159,6 +188,35 @@
 		h2(style="text-align: center; font-weight: bold!important;") ORIGEN
 		h2(ng-show="datos_origen" style="text-align: center; height: 90px;") {{datos_origen.alumno.apellidos + ' ' + datos_origen.alumno.nombres}} - {{datos_origen.grupo.nombre}} - Per{{datos_origen.periodo.numero}} - {{datos_origen.num_year}}
 
+		// COMPORTAMIENTO
+		.materia-item.animated.fadeInUp.margin-padding-lados-xs(ng-show="notas_origen.nota_comportamiento")
+			.row.materia-title(style="font-size: 10pt; display: flex; align-items: center; border-radius: 5px; margin-left: 20px;" uib-popover-template="views+'informes/infoDocenteOrigenPop.tpl.html'"
+						popover-popup-delay="500" popover-title="{{notas_origen.nota_comportamiento.nombres + ' ' + notas_origen.nota_comportamiento.apellidos}}" popover-animation="true"
+						popover-trigger="'mouseenter'" popover-append-to-body="true")
+				.col-lg-9.col-xs-9(style="height: 36px; overflow: auto;")
+					span.materia-name COMPORTAMIENTO
+					span.materia-profesor   - Prof.
+						span.camel   {{notas_origen.nota_comportamiento.nombres.toLowerCase()}} {{notas_origen.nota_comportamiento.apellidos.toLowerCase()}}
+				.col-sm-1.col-xs-2.no-padding(ng-class="{'nota-perdida': notas_origen.nota_comportamiento.nota<USER.nota_minima_aceptada}")
+					| {{ asignatura.desempenio }}
+
+				.col-lg-1.col-sm-1.col-xs-2.subunidad-nota.puntero(ng-if="!hasRoleOrPerm(['admin', 'profesor'])")
+					span(ng-class="{'nota-perdida-bold': notas_origen.nota_comportamiento.nota<USER.nota_minima_aceptada}" ) {{notas_origen.nota_comportamiento.nota}}
+
+					span.nota-perdida(ng-show="!notas_origen.nota_comportamiento.id && notas_origen.nota_comportamiento.nota!=0" uib-tooltip="Aún sin nota")
+						i.fa.fa-warning
+
+				.col-lg-2.col-sm-3.col-md-3.col-xs-12(ng-class="{'inputnota-perdida': notas_origen.nota_comportamiento.nota < USER.nota_minima_aceptada}"
+					ng-if="hasRoleOrPerm(['admin', 'profesor'])" style="padding-left: 0px;")
+
+					input.input-nota(type="number" min="0" max="{{escala_maxima.porc_final}}"
+											ng-model="notas_origen.nota_comportamiento.nota"
+											ng-change="cambiaNotaComport(notas_origen.nota_comportamiento, notas_origen, 'datos_origen')"
+											ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
+											ng-disabled="(notas_origen.nota_comportamiento.titular_id!=USER.persona_id && !hasRoleOrPerm(['admin'])) || (periodos[notas_origen.periodo.numero-1].profes_pueden_editar_notas==0 && !hasRoleOrPerm('admin')) || hasRoleOrPerm(['profesor', 'alumno', 'acudiente'])")
+
+
+		// ASIGNATURAS
 		.materia-item.animated.fadeInUp.margin-padding-lados-xs(ng-repeat="asignatura in notas_origen.asignaturas")
 			.row.materia-title(style="font-size: 10pt; display: flex; align-items: center; margin-right: 0px;")
 				.col-lg-11.col-xs-10(uib-popover-template="views+'informes/infoDocentePop.tpl.html'"
@@ -221,6 +279,35 @@
 		h2(style="text-align: center; font-weight: bold!important;") DESTINO
 		h2(ng-show="datos_destino" style="text-align: center; height: 90px;") {{datos_destino.alumno.apellidos + ' ' + datos_destino.alumno.nombres}} - {{datos_destino.grupo.nombre}} - Per{{datos_destino.periodo.numero}} - {{datos_destino.num_year}}
 
+		// COMPORTAMIENTO
+		.materia-item.animated.fadeInUp.margin-padding-lados-xs(ng-show="notas_destino.nota_comportamiento")
+			.row.materia-title(style="font-size: 10pt; display: flex; align-items: center; border-radius: 5px;" uib-popover-template="views+'informes/infoDocenteDestinoPop.tpl.html'"
+						popover-popup-delay="500" popover-title="{{notas_destino.nota_comportamiento.nombres + ' ' + notas_destino.nota_comportamiento.apellidos}}" popover-animation="true"
+						popover-trigger="'mouseenter'" popover-append-to-body="true")
+				.col-lg-9.col-xs-9(style="height: 36px; overflow: auto;")
+					span.materia-name COMPORTAMIENTO
+					span.materia-profesor   - Prof.
+						span.camel   {{notas_destino.nota_comportamiento.nombres.toLowerCase()}} {{notas_destino.nota_comportamiento.apellidos.toLowerCase()}}
+				.col-sm-1.col-xs-2.no-padding(ng-class="{'nota-perdida': notas_destino.nota_comportamiento.nota<USER.nota_minima_aceptada}")
+					| {{ asignatura.desempenio }}
+
+				.col-lg-1.col-sm-1.col-xs-2.subunidad-nota.puntero(ng-if="!hasRoleOrPerm(['admin', 'profesor'])")
+					span(ng-class="{'nota-perdida-bold': notas_destino.nota_comportamiento.nota<USER.nota_minima_aceptada}" ) {{notas_destino.nota_comportamiento.nota}}
+
+					span.nota-perdida(ng-show="!notas_destino.nota_comportamiento.id && notas_destino.nota_comportamiento.nota!=0" uib-tooltip="Aún sin nota")
+						i.fa.fa-warning
+
+				.col-lg-2.col-sm-3.col-md-3.col-xs-12(ng-class="{'inputnota-perdida': notas_destino.nota_comportamiento.nota < USER.nota_minima_aceptada}"
+					ng-if="hasRoleOrPerm(['admin', 'profesor'])" style="padding-left: 0px;")
+
+					input.input-nota(type="number" min="0" max="{{escala_maxima.porc_final}}"
+											ng-model="notas_destino.nota_comportamiento.nota"
+											ng-change="cambiaNotaComport(notas_destino.nota_comportamiento, notas_destino, 'datos_destino')"
+											ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
+											ng-disabled="(notas_destino.nota_comportamiento.titular_id!=USER.persona_id && !hasRoleOrPerm(['admin'])) || (periodos[datos_destino.periodo.numero-1].profes_pueden_editar_notas==0 && !hasRoleOrPerm('admin')) || hasRoleOrPerm(['profesor', 'alumno', 'acudiente'])")
+
+
+		// ASIGNATURAS
 		.materia-item.animated.fadeInUp.margin-padding-lados-xs(ng-repeat="asignatura in notas_destino.asignaturas")
 			.row.materia-title(style="font-size: 10pt; display: flex; align-items: center; margin-left: 0px; margin-right: 0px;")
 				.col-lg-11.col-xs-10(uib-popover-template="views+'informes/infoDocentePop.tpl.html'"

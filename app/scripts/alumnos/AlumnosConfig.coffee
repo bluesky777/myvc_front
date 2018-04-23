@@ -21,7 +21,7 @@ angular.module('myvcFrontApp')
 					displayName: 'Promocionar notas'
 					icon_fa: 'fa fa-apple'
 					pageTitle: 'Promocionar notas - MyVc'
-					needed_permissions: [PERMISSIONS.can_work_like_admin]
+					needed_permissions: [PERMISSIONS.can_work_like_teacher]
 
 
 			.state 'panel.alumnos.nuevo',

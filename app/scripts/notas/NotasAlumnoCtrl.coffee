@@ -35,6 +35,47 @@ angular.module('myvcFrontApp')
 
 
 
+	$scope.cambiaNotaComport = (nota, periodo)->
+		if $scope.datos.grupo.titular_id != $scope.USER.persona_id and !$scope.hasRoleOrPerm('admin')
+			toastr.warning 'No eres el titular para cambiar comportamiento.'
+			return
+
+		if nota.id
+			temp = nota.nota
+
+			$http.put('::nota_comportamiento/update/'+nota.id, {nota: nota.nota}).then((r)->
+				toastr.success 'Nota cambiada: ' + nota.nota
+			, (r2)->
+				toastr.error 'No pudimos guardar la nota ' + nota.nota
+				nota.nota = temp
+			)
+
+		else
+			temp              = {}
+			temp.nota         = nota.nota
+			temp.year_id      = periodo.year_id
+			temp.alumno_id    = $scope.datos.selected_alumno.alumno_id
+			temp.periodo_id   = periodo.id
+
+			$http.put('::nota_comportamiento/crear', temp).then((r)->
+				nota_temp 	= r.data.nota_comport
+				nota.id 				= nota_temp.id
+				nota.year_id 		= nota_temp.year_id
+				nota.nombres 		= nota_temp.nombres
+				nota.apellidos 	= nota_temp.apellidos
+				nota.alumno_id 	= nota_temp.alumno_id
+				nota.foto_id 		= nota_temp.foto_id
+				nota.foto_nombre 	= nota_temp.foto_nombre
+				nota.sexo 			= nota_temp.sexo
+				nota.periodo_id = nota_temp.periodo_id
+
+				toastr.success 'Nota creada: ' + nota.nota
+			, (r2)->
+				toastr.error 'No pudimos guardar la nota ' + temp.nota
+				nota = temp
+			)
+
+
 	$scope.verNotasAlumno = (alumno_id)->
 
 		if !alumno_id

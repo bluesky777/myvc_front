@@ -43,6 +43,48 @@ angular.module("myvcFrontApp")
 
 
 
+	$scope.cambiaNotaComport = (nota, periodo, datos)->
+		if $scope.dato.grupo.titular_id != $scope.USER.persona_id and !$scope.hasRoleOrPerm('admin')
+			toastr.warning 'No eres el titular para cambiar comportamiento.'
+			return
+
+		if nota.id
+			temp = nota.nota
+
+			$http.put('::nota_comportamiento/update/'+nota.id, {nota: nota.nota}).then((r)->
+				toastr.success 'Nota cambiada: ' + nota.nota
+			, (r2)->
+				toastr.error 'No pudimos guardar la nota ' + nota.nota
+				nota.nota = temp
+			)
+
+		else
+			temp              = {}
+			temp.nota         = nota.nota
+			temp.year_id      = periodo.year_id
+			temp.alumno_id    = $scope[datos].alumno.id
+			temp.periodo_id   = periodo.id
+
+			$http.put('::nota_comportamiento/crear', temp).then((r)->
+				nota_temp 	= r.data.nota_comport
+				nota.id 				= nota_temp.id
+				nota.year_id 		= nota_temp.year_id
+				nota.nombres 		= nota_temp.nombres
+				nota.apellidos 	= nota_temp.apellidos
+				nota.alumno_id 	= nota_temp.alumno_id
+				nota.foto_id 		= nota_temp.foto_id
+				nota.foto_nombre 	= nota_temp.foto_nombre
+				nota.sexo 			= nota_temp.sexo
+				nota.periodo_id = nota_temp.periodo_id
+
+				toastr.success 'Nota creada: ' + nota.nota
+			, (r2)->
+				toastr.error 'No pudimos guardar la nota ' + temp.nota
+				nota = temp
+			)
+
+
+
 
 	$scope.selectGrupo = (grupo)->
 		$scope.dato               = {}
@@ -97,6 +139,10 @@ angular.module("myvcFrontApp")
 				# Aquí, grupo es year en realidad con los datos del grupo
 				$scope.datos_destino = {grupo: grupo, periodo: periodo, num_year: num_year, alumno: alumno}
 				$scope.notas_destino = r.data.notas
+
+				if !$.isArray($scope.notas_destino.asignaturas)
+					$scope.notas_destino.asignaturas = [$scope.notas_destino.asignaturas[Object.keys($scope.notas_destino.asignaturas)[0]]]
+
 		)
 
 
@@ -109,7 +155,6 @@ angular.module("myvcFrontApp")
 		found = 0
 
 		for asignat in $scope.notas_destino.asignaturas
-
 			if asignat.materia_id == asignatura.materia_id
 				found = found + 1
 
@@ -142,6 +187,7 @@ angular.module("myvcFrontApp")
 
 		if found == 0
 			toastr.warning 'No coincide con ninguna materia destino.'
+			$scope.pasando_nota = false
 
 
 
