@@ -84,7 +84,7 @@
 					.col-lg-2.col-sm-3.col-md-3.col-xs-12(ng-class="{'inputnota-perdida': asignatura.nota_asignatura < USER.nota_minima_aceptada}"
 						ng-if="hasRoleOrPerm(['admin', 'profesor'])" style="padding-left: 0px;")
 
-						input.input-nota(type="number" min="0" max="{{::escala_maxima.porc_final}}"
+						input.input-nota(type="number" min="0" max="{{escala_maxima.porc_final}}"
 												ng-model="asignatura.nota_asignatura" ng-disabled="periodos[periodo.numero-1].profes_pueden_nivelar==0 && !hasRoleOrPerm('Admin')"
 												ng-change="cambiaNotaDef(asignatura, asignatura.nota_asignatura, asignatura.nf_id, periodo.numero)"
 												ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")

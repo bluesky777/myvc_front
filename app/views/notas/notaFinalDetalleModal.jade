@@ -1,0 +1,79 @@
+.modal-header
+	h3.modal-title.flipInY Detalles e historial de nota definitiva
+.modal-body
+	div(style="padding-bottom: 10px;")
+		h3(style="display: inline;") {{ alumno.nombres }} {{ alumno.apellidos }}
+
+	.row
+		.col-lg-12.col-xs-12
+			.row
+				.col-xs-4(uib-tooltip="Código de la nota") Codigo:
+				.col-xs-8
+					span(uib-tooltip="Código de la nota" style="font-style: italic;") {{ nota.id }}
+					button.btn.btn-danger.btn-xs(ng-if="hasRoleOrPerm('Admin')" ng-click="eliminarNota()" uib-tooltip="Eliminar nota.") Eliminar
+			.row
+				.col-xs-4 Nota:
+				.col-xs-8 {{ nota.nota_asignatura }}
+			.row
+				.col-xs-4 Fecha creación:
+				.col-xs-8 {{ nota.created_at }}
+			.row
+				.col-xs-4 Última modificación:
+				.col-xs-8 {{ nota_detalle.updated_at }}
+			.row
+				.col-xs-4 Modificada por:
+				.col-xs-8(ng-hide="nota_detalle")
+					span(uib-tooltip="Código del usuario") {{ nota.updated_by }}
+				.col-xs-8(ng-show="nota_detalle")
+					span(uib-tooltip="Nombre de usuario") {{ nota_detalle.modificado_por }}
+			.row
+				.col-xs-4 Modificar:
+				.col-xs-8(ng-class="{'inputnota-perdida': nota.nota_asignatura < USER.nota_minima_aceptada}"
+					ng-if="hasRoleOrPerm(['admin', 'profesor'])" style="padding-left: 0px;")
+
+					input.input-nota(type="number" min="0" max="{{escala_maxima.porc_final}}"
+											ng-model="nota.nota_asignatura" ng-disabled="periodos[periodo.numero-1].profes_pueden_nivelar==0 && !hasRoleOrPerm('Admin')"
+											ng-change="cambiaNotaDef(nota, nota.nota_asignatura, nota.nf_id, periodo.numero)"
+											ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+					label(for="manual-{{nota.asignatura_id}}" uib-tooltip="¿Es manual?" style="margin-bottom: 0px")
+						span(style="font-size: 9pt") M
+						input.no-margin-top(id="manual-{{nota.asignatura_id}}" type="checkbox" ng-disabled="periodos[periodo.numero-1].profes_pueden_nivelar==0 && !hasRoleOrPerm('Admin')" ng-model="nota.manual" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaFinalManual(nota, nota.manual, nota.nf_id)" style="opacity: 1; position: unset;")
+					label(for="recuperada-{{nota.asignatura_id}}" uib-tooltip="¿Asignatura recuperada?" style="margin-bottom: 0px")
+						span(style="font-size: 9pt") R
+						input.no-margin-top(id="recuperada-{{nota.asignatura_id}}" type="checkbox" ng-disabled="periodos[periodo.numero-1].profes_pueden_nivelar==0 && !hasRoleOrPerm('Admin')" ng-model="nota.recuperada" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaFinalRecuperada(nota, nota.recuperada, nota.nf_id)" style="opacity: 1; position: unset;")
+
+
+	.row
+		.col-lg-12.col-xs-12(style="overflow: auto;")
+			h4 Historial de cambios:
+			table.table.table-hover.table-condensed.table-striped
+				thead
+					tr
+						th.text-center No
+						th.text-center
+							span(uib-tooltip="Código de la bitácora") Id
+						th.text-center Nota nueva
+						th.text-center Anterior
+						th.text-center Fecha cambio
+						th.text-center Cambiada por
+				tbody
+					tr(ng-repeat="cambio in cambios | orderBy:'bit_id' track by $index")
+						td.text-center {{ $index+1 }}
+						td(style="font-size: 8pt; font-style: italic;")
+							span(uib-tooltip="Código de la bitácora") {{ cambio.bit_id }}
+						td.text-center {{ cambio.new_value }}
+						td.text-center {{ cambio.old_value }}
+						td {{ cambio.created_at }}
+						td {{ cambio.creado_por }}
+
+
+
+
+
+
+
+
+.modal-footer
+	button.btn.btn-labeled.btn-default(ng-click="ok()") Cerrar
+		i.btn-label.fa.fa-check
+

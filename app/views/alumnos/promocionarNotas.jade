@@ -47,7 +47,7 @@
 									b {{grupo.nombre}}
 
 								.btn-group
-									button.btn.btn-default(ng-repeat="periodo in grupo.periodos" ng-click="eligirPeriodoNotas(grupo, periodo, year.year, 1)"
+									button.btn.btn-default(ng-repeat="periodo in grupo.periodos" ng-click="eligirPeriodoNotas(grupo, periodo, year.year, 1, dato.selected_alumno)"
 										ng-class="{'active': dato.periodo_id==periodo.id }") Per{{ periodo.numero }}
 
 
@@ -61,7 +61,7 @@
 						.col-lg-12.col-xs-12
 
 							.btn-group
-								button.btn.btn-default(ng-repeat="periodo in year.periodos" ng-click="eligirPeriodoNotas(year, periodo, year.year, 2)"
+								button.btn.btn-default(ng-repeat="periodo in year.periodos" ng-click="eligirPeriodoNotas(year, periodo, year.year, 2, dato.selected_alumno)"
 									ng-class="{'active': dato.periodo_id==periodo.id }") Per{{ periodo.numero }}
 
 
@@ -157,13 +157,13 @@
 .row(ng-if="!editarNotasOriginales")
 	.col-xs-12.col-sm-6(style="padding-left: 0px;")
 		h2(style="text-align: center; font-weight: bold!important;") ORIGEN
-		h2(ng-show="datos_origen" style="text-align: center;") {{datos_origen.grupo.nombre}} - Per{{datos_origen.periodo.numero}} - {{datos_origen.num_year}}
+		h2(ng-show="datos_origen" style="text-align: center; height: 90px;") {{datos_origen.alumno.apellidos + ' ' + datos_origen.alumno.nombres}} - {{datos_origen.grupo.nombre}} - Per{{datos_origen.periodo.numero}} - {{datos_origen.num_year}}
 
 		.materia-item.animated.fadeInUp.margin-padding-lados-xs(ng-repeat="asignatura in notas_origen.asignaturas")
-			.row.materia-title(style="font-size: 10pt; display: flex; align-items: center;")
+			.row.materia-title(style="font-size: 10pt; display: flex; align-items: center; margin-right: 0px;")
 				.col-lg-11.col-xs-10(uib-popover-template="views+'informes/infoDocentePop.tpl.html'"
 						popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true"
-						popover-trigger="'mouseenter'" popover-append-to-body="true")
+						popover-trigger="'mouseenter'" popover-append-to-body="true" style="height: 36px; overflow: auto;")
 					span.materia-name {{asignatura.materia}}
 					span.materia-profesor(ng-if="!hasRoleOrPerm('profesor')")   - Prof.
 						span.camel   {{asignatura.nombres_profesor.toLowerCase()}} {{asignatura.apellidos_profesor.toLowerCase()}}
@@ -172,12 +172,13 @@
 				.col-lg-1.col-sm-1.col-xs-2.subunidad-nota.puntero
 					span(ng-class="{'nota-perdida-bold': asignatura.nota_asignatura<USER.nota_minima_aceptada}"
 						ng-click="pasarNota(asignatura)" uib-tooltip="Copiar nota a destino") {{asignatura.nota_asignatura}}
+						span(uib-tooltip="Materia recuperada" ng-show="asignatura.recuperada")   R
 
 					span.nota-perdida(ng-show="!asignatura.nf_id && asignatura.nota_asignatura!=0" uib-tooltip="Aún sin nota")
 						i.fa.fa-warning
 
 
-			.row.unidades-list(style="background-color: #fff; height: 150px; overflow-y: auto;")
+			.row.unidades-list(style="background-color: #fff; height: 150px; overflow-y: auto; margin-right: 0px;")
 				.col-lg-12.col-xs-12
 					.row
 						.col-lg-12.col-xs-12(style="padding: 0px; text-align: center; margin-bottom: 5px;")
@@ -218,26 +219,29 @@
 
 	.col-xs-12.col-sm-6(style="padding-left: 0px;")
 		h2(style="text-align: center; font-weight: bold!important;") DESTINO
-		h2(ng-show="datos_destino" style="text-align: center;") {{datos_destino.grupo.nombre}} - Per{{datos_destino.periodo.numero}} - {{datos_destino.num_year}}
+		h2(ng-show="datos_destino" style="text-align: center; height: 90px;") {{datos_destino.alumno.apellidos + ' ' + datos_destino.alumno.nombres}} - {{datos_destino.grupo.nombre}} - Per{{datos_destino.periodo.numero}} - {{datos_destino.num_year}}
 
 		.materia-item.animated.fadeInUp.margin-padding-lados-xs(ng-repeat="asignatura in notas_destino.asignaturas")
-			.row.materia-title(style="font-size: 10pt; display: flex; align-items: center;")
+			.row.materia-title(style="font-size: 10pt; display: flex; align-items: center; margin-left: 0px; margin-right: 0px;")
 				.col-lg-11.col-xs-10(uib-popover-template="views+'informes/infoDocentePop.tpl.html'"
 						popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true"
-						popover-trigger="'mouseenter'" popover-append-to-body="true")
+						popover-trigger="'mouseenter'" popover-append-to-body="true" style="height: 36px; overflow: auto;")
 					span.materia-name {{asignatura.materia}}
 					span.materia-profesor(ng-if="!hasRoleOrPerm('profesor')")   - Prof.
 						span.camel   {{asignatura.nombres_profesor.toLowerCase()}} {{asignatura.apellidos_profesor.toLowerCase()}}
 
 
 				.col-lg-1.col-sm-1.col-xs-2.subunidad-nota.puntero
-					span(ng-class="{'nota-perdida-bold': asignatura.nota_asignatura<USER.nota_minima_aceptada}" ) {{asignatura.nota_asignatura}}
+					span(ng-class="{'nota-perdida-bold': asignatura.nota_asignatura<USER.nota_minima_aceptada}"
+						ng-dblclick="verDetalleNota(asignatura, alumno)") {{asignatura.nota_asignatura}}
+						span(uib-tooltip="Materia recuperada" ng-show="asignatura.recuperada")   R
+						span(uib-tooltip="Materia manual" ng-show="asignatura.manual")   M
 
 					span.nota-perdida(ng-show="!asignatura.nf_id && asignatura.nota_asignatura!=0" uib-tooltip="Aún sin nota")
 						i.fa.fa-warning
 
 
-			.row.unidades-list(style="background-color: #fff; height: 150px; overflow-y: auto;")
+			.row.unidades-list(style="background-color: #fff; height: 150px; overflow-y: auto; margin-left: 0px; margin-right: 0px;")
 				.col-lg-12.col-xs-12
 					.row
 						.col-lg-12.col-xs-12(style="padding: 0px; text-align: center; margin-bottom: 5px;")

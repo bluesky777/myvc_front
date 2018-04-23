@@ -26,11 +26,11 @@ angular.module('myvcFrontApp')
 
 	EscalasValorativasServ.escalas().then((r)->
 		$scope.escalas = r
+		$scope.escala_maxima = EscalasValorativasServ.escala_maxima()
 	, (r2)->
 		console.log 'No se trajeron las escalas valorativas', r2
 	)
 
-	$scope.escala_maxima = EscalasValorativasServ.escala_maxima()
 
 
 

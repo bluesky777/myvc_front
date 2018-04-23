@@ -1,0 +1,78 @@
+
+<div class="modal-header">
+  <h3 class="modal-title flipInY">Detalles e historial de nota definitiva</h3>
+</div>
+<div class="modal-body">
+  <div style="padding-bottom: 10px;">
+    <h3 style="display: inline;">{{ alumno.nombres }} {{ alumno.apellidos }}</h3>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 col-xs-12">
+      <div class="row">
+        <div uib-tooltip="Código de la nota" class="col-xs-4">Codigo:</div>
+        <div class="col-xs-8"><span uib-tooltip="Código de la nota" style="font-style: italic;">{{ nota.id }}</span>
+          <button ng-if="hasRoleOrPerm('Admin')" ng-click="eliminarNota()" uib-tooltip="Eliminar nota." class="btn btn-danger btn-xs">Eliminar</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-4">Nota:</div>
+        <div class="col-xs-8">{{ nota.nota_asignatura }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-4">Fecha creación:</div>
+        <div class="col-xs-8">{{ nota.created_at }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-4">Última modificación:</div>
+        <div class="col-xs-8">{{ nota_detalle.updated_at }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-4">Modificada por:</div>
+        <div ng-hide="nota_detalle" class="col-xs-8"><span uib-tooltip="Código del usuario">{{ nota.updated_by }}</span></div>
+        <div ng-show="nota_detalle" class="col-xs-8"><span uib-tooltip="Nombre de usuario">{{ nota_detalle.modificado_por }}</span></div>
+      </div>
+      <div class="row">
+        <div class="col-xs-4">Modificar:</div>
+        <div ng-class="{'inputnota-perdida': nota.nota_asignatura &lt; USER.nota_minima_aceptada}" ng-if="hasRoleOrPerm(['admin', 'profesor'])" style="padding-left: 0px;" class="col-xs-8">
+          <input type="number" min="0" max="{{escala_maxima.porc_final}}" ng-model="nota.nota_asignatura" ng-disabled="periodos[periodo.numero-1].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" ng-change="cambiaNotaDef(nota, nota.nota_asignatura, nota.nf_id, periodo.numero)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" class="input-nota">
+          <label for="manual-{{nota.asignatura_id}}" uib-tooltip="¿Es manual?" style="margin-bottom: 0px"><span style="font-size: 9pt">M</span>
+            <input id="manual-{{nota.asignatura_id}}" type="checkbox" ng-disabled="periodos[periodo.numero-1].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" ng-model="nota.manual" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaFinalManual(nota, nota.manual, nota.nf_id)" style="opacity: 1; position: unset;" class="no-margin-top">
+          </label>
+          <label for="recuperada-{{nota.asignatura_id}}" uib-tooltip="¿Asignatura recuperada?" style="margin-bottom: 0px"><span style="font-size: 9pt">R</span>
+            <input id="recuperada-{{nota.asignatura_id}}" type="checkbox" ng-disabled="periodos[periodo.numero-1].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" ng-model="nota.recuperada" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaFinalRecuperada(nota, nota.recuperada, nota.nf_id)" style="opacity: 1; position: unset;" class="no-margin-top">
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div style="overflow: auto;" class="col-lg-12 col-xs-12">
+      <h4>Historial de cambios:</h4>
+      <table class="table table-hover table-condensed table-striped">
+        <thead>
+          <tr>
+            <th class="text-center">No</th>
+            <th class="text-center"><span uib-tooltip="Código de la bitácora">Id</span></th>
+            <th class="text-center">Nota nueva</th>
+            <th class="text-center">Anterior</th>
+            <th class="text-center">Fecha cambio</th>
+            <th class="text-center">Cambiada por</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="cambio in cambios | orderBy:'bit_id' track by $index">
+            <td class="text-center">{{ $index+1 }}</td>
+            <td style="font-size: 8pt; font-style: italic;"><span uib-tooltip="Código de la bitácora">{{ cambio.bit_id }}</span></td>
+            <td class="text-center">{{ cambio.new_value }}</td>
+            <td class="text-center">{{ cambio.old_value }}</td>
+            <td>{{ cambio.created_at }}</td>
+            <td>{{ cambio.creado_por }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button ng-click="ok()" class="btn btn-labeled btn-default">Cerrar<i class="btn-label fa fa-check"></i></button>
+</div>

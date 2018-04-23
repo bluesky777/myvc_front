@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('PromocionarNotasCtrl', ['$scope', 'App', '$rootScope', '$state', '$timeout', 'uiGridConstants', 'uiGridEditConstants', '$uibModal', '$filter', 'AuthService', 'toastr', '$http', ($scope, App, $rootScope, $state, $timeout, uiGridConstants, uiGridEditConstants, $modal, $filter, AuthService, toastr, $http)->
+.controller('PromocionarNotasCtrl', ['$scope', 'App', '$rootScope', '$state', '$timeout', 'uiGridConstants', 'uiGridEditConstants', '$uibModal', '$filter', 'AuthService', 'toastr', '$http', 'EscalasValorativasServ', ($scope, App, $rootScope, $state, $timeout, uiGridConstants, uiGridEditConstants, $modal, $filter, AuthService, toastr, $http, EscalasValorativasServ)->
 
 	AuthService.verificar_acceso()
 
@@ -31,6 +31,17 @@ angular.module("myvcFrontApp")
 				$scope.selectGrupo($scope.dato.grupo)
 
 	)
+
+
+	EscalasValorativasServ.escalas().then((r)->
+		$scope.escalas = r
+		$scope.escala_maxima = EscalasValorativasServ.escala_maxima()
+	, (r2)->
+		console.log 'No se trajeron las escalas valorativas', r2
+	)
+
+
+
 
 
 	$scope.selectGrupo = (grupo)->
@@ -74,17 +85,17 @@ angular.module("myvcFrontApp")
 
 
 
-	$scope.eligirPeriodoNotas = (grupo, periodo, num_year, panel_indice)->
+	$scope.eligirPeriodoNotas = (grupo, periodo, num_year, panel_indice, alumno)->
 
 		$scope.dato.periodo_id = periodo.id
 
 		$http.put("::notas/alumno-periodo-grupo", {alumno_id: $scope.dato.selected_alumno.id, periodo_id: periodo.id, grupo_id: grupo.grupo_id}).then((r)->
 			if panel_indice == 1
-				$scope.datos_origen = {grupo: grupo, periodo: periodo, num_year: num_year}
+				$scope.datos_origen = {grupo: grupo, periodo: periodo, num_year: num_year, alumno: alumno}
 				$scope.notas_origen = r.data.notas
 			else
 				# Aquí, grupo es year en realidad con los datos del grupo
-				$scope.datos_destino = {grupo: grupo, periodo: periodo, num_year: num_year}
+				$scope.datos_destino = {grupo: grupo, periodo: periodo, num_year: num_year, alumno: alumno}
 				$scope.notas_destino = r.data.notas
 		)
 
@@ -95,25 +106,20 @@ angular.module("myvcFrontApp")
 		else
 			$scope.pasando_nota = true
 
+		found = 0
+
 		for asignat in $scope.notas_destino.asignaturas
-			if asignat.asignatura_id == asignatura.asignatura_id
+
+			if asignat.materia_id == asignatura.materia_id
+				found = found + 1
 
 				if asignat.nf_id
 					$scope.asign_temp = asignatura
 
 					$http.put('::definitivas_periodos/update', {nf_id: asignat.nf_id, nota: asignatura.nota_asignatura, num_periodo: $scope.datos_destino.periodo.numero }).then((r)->
 
-						for asignatu in $scope.notas_destino.asignaturas
-							if asignatu.asignatura_id == $scope.asign_temp.asignatura_id
-								asignatu.nota_asignatura   = $scope.asign_temp.nota_asignatura
-								asignatu.manual            = 1
+						$scope.evento_definitiva_cambiada(false, asignatura)
 
-								$timeout( ()->
-									$scope.$apply()
-								)
-
-						toastr.success 'Cambiada: ' + asignatura.nota_asignatura
-						$scope.pasando_nota = false
 					, (r2)->
 						$scope.pasando_nota = false
 						if r2.status == 400
@@ -123,20 +129,8 @@ angular.module("myvcFrontApp")
 					)
 				else
 						$http.put('::definitivas_periodos/update', {alumno_id: $scope.dato.selected_alumno.id, nota: asignatura.nota_asignatura, asignatura_id: asignatura.asignatura_id, num_periodo: $scope.datos_destino.periodo.numero }).then((r)->
-							toastr.success 'Creada: ' + asignatura.nota_asignatura
-							r = r.data[0]
 
-							for asignatu in $scope.notas_destino.asignaturas
-								if asignatu.asignatura_id == r.asignatura_id
-									asignatu.nf_id         					= r.id
-									asignatu.nota_asignatura        = r.nota
-									asignatu.manual 								= 1
-									asignatu.recuperada 						= 0
-									$scope.pasando_nota = false
-
-									$timeout( ()->
-										$scope.$apply()
-									)
+							$scope.evento_definitiva_cambiada(true, asignatura, r.data[0])
 
 						, (r2)->
 							$scope.pasando_nota = false
@@ -146,33 +140,250 @@ angular.module("myvcFrontApp")
 								toastr.error 'No pudimos guardar la nota ' + asignatura.nota_asignatura, '', {timeOut: 8000}
 						)
 
+		if found == 0
+			toastr.warning 'No coincide con ninguna materia destino.'
 
 
 
+	# Para cuando sea cambiada alguna definitiva
+	$scope.evento_definitiva_cambiada = (is_new, asignatura, r)->
+		if is_new
 
-	$scope.agregarAcudiente = (rowAlum)->
-		delete $rootScope.acudiente_cambiar
+			toastr.success 'Creada: ' + asignatura.nota_asignatura
+
+			for asignatu in $scope.notas_destino.asignaturas
+				if asignatu.asignatura_id == r.asignatura_id
+					asignatu.nf_id         					= r.id
+					asignatu.nota_asignatura        = r.nota
+					asignatu.manual 								= 1
+					asignatu.recuperada 						= 0
+					$scope.pasando_nota = false
+
+					$timeout( ()->
+						$scope.$apply()
+					)
+
+		else
+
+			for asignatu in $scope.notas_destino.asignaturas
+				if asignatu.materia_id == $scope.asign_temp.materia_id
+					asignatu.nota_asignatura   = $scope.asign_temp.nota_asignatura
+					asignatu.manual            = 1
+
+					$timeout( ()->
+						$scope.$apply()
+					)
+
+			toastr.success 'Cambiada: ' + asignatura.nota_asignatura
+			$scope.pasando_nota = false
+
+
+
+	$scope.cambiaNotaDef = (asignatura, nota, nf_id, num_periodo)->
+
+		if nota > $scope.escala_maxima.porc_final or nota == 'undefined' or nota == undefined
+			toastr.error 'No puede ser mayor de ' + $scope.escala_maxima.porc_final, 'NO guardada', {timeOut: 8000}
+			return
+
+		if nf_id
+			$http.put('::definitivas_periodos/update', {nf_id: nf_id, nota: nota}).then((r)->
+				if !asignatura.manual
+					asignatura.manual = 1
+				toastr.success 'Cambiada: ' + nota
+			, (r2)->
+				if r2.status == 400
+					toastr.warning 'Parece que no tienes permisos', 'Lo sentimos'
+				else
+					toastr.error 'No pudimos guardar la nota ' + nota, '', {timeOut: 8000}
+			)
+		else
+			$http.put('::definitivas_periodos/update', {alumno_id: $scope.alumno_traido.alumno_id, nota: nota, asignatura_id: asignatura.asignatura_id, num_periodo: num_periodo }).then((r)->
+				toastr.success 'Creada: ' + nota
+				r = r.data[0]
+				asignatura.nf_id          = r.id
+				asignatura.recuperada     = 0
+				asignatura.manual         = 1
+			, (r2)->
+				if r2.status == 400
+					toastr.warning 'Parece que no tienes permisos', 'Lo sentimos'
+				else
+					toastr.error 'No pudimos guardar la nota ' + nota, '', {timeOut: 8000}
+			)
+
+
+	$scope.toggleNotaFinalRecuperada = (alumno, recuperada, nf_id)->
+		$http.put('::definitivas_periodos/toggle-recuperada', {nf_id: nf_id, recuperada: recuperada}).then((r)->
+
+			if recuperada and !alumno.manual
+				alumno.manual = 1
+				toastr.success 'Indicará que es recuperada, así que también será manual.'
+			else if recuperada
+				toastr.success 'Recuperada'
+			else
+				toastr.success 'No recuperada'
+		, (r2)->
+			if r2.status == 400
+				toastr.warning 'Parece que no tienes permisos', 'Lo sentimos'
+			else
+				toastr.error 'No pudimos cambiar.', '', {timeOut: 8000}
+		)
+
+	$scope.toggleNotaFinalManual = (alumno, manual, nf_id)->
+		$http.put('::definitivas_periodos/toggle-manual', {nf_id: nf_id, manual: manual}).then((r)->
+
+			if !manual and alumno.nota_final.recuperada
+				alumno.nota_final.recuperada = false
+				toastr.success 'Será automática y no recuperada.'
+			else if manual
+				toastr.success 'Nota manual.'
+			else
+				toastr.success 'Ahora la calculará el sistema.'
+		, (r2)->
+			if r2.status == 400
+				toastr.warning 'Parece que no tienes permisos', 'Lo sentimos'
+			else
+				toastr.error 'No pudimos cambiar.', '', {timeOut: 8000}
+		)
+
+
+	$scope.verDetalleNota = (asignatura, alumno)->
 
 		modalInstance = $modal.open({
-			templateUrl: '==alumnos/newAcudienteModal.tpl.html'
-			controller: 'NewAcudienteModalCtrl'
+			templateUrl: '==notas/notaFinalDetalleModal.tpl.html'
+			controller: 'NotaFinalDetalleModalCtrl'
 			resolve:
 				alumno: ()->
-					rowAlum
-				paises: ()->
-					$scope.paises
-				tipos_doc: ()->
-					$scope.tipos_doc
-				parentescos: ()->
-					$scope.parentescos
+					alumno
+				asignatura: ()->
+					asignatura
+				USER: ()->
+					$scope.USER
+				escala_maxima: ()->
+					$scope.escala_maxima
 		})
-		modalInstance.result.then( (acud)->
-			rowAlum.subGridOptions.data.splice(rowAlum.subGridOptions.data.length-1, 0, acud)
+		modalInstance.result.then( (r)->
+			if r=='Eliminada'
+				asignatura.eliminada = true
 		, ()->
 			# nada
 		)
+		return
+
 
 
 
 	return
 ])
+
+
+
+
+
+
+
+
+
+
+
+
+.controller('NotaFinalDetalleModalCtrl', ['$scope', '$uibModalInstance', 'alumno', 'asignatura', 'AuthService', '$http', 'toastr', '$filter', 'USER', 'escala_maxima', ($scope, $modalInstance, alumno, asignatura, AuthService, $http, toastr, $filter, USER, escala_maxima)->
+	$scope.alumno         = alumno
+	$scope.nota           = asignatura
+	$scope.hasRoleOrPerm  = AuthService.hasRoleOrPerm
+	$scope.escala_maxima  = escala_maxima
+
+	$http.put('::historiales/nota-final-detalle', {nf_id: asignatura.nf_id}).then((r)->
+		$scope.cambios        = r.data.cambios
+		$scope.nota_detalle   = r.data.nota
+	, (r2)->
+		toastr.warning 'No se pudo traer el historial.', 'Problema'
+	)
+
+
+
+	$scope.eliminarNota = ()->
+
+			$http.delete('::definitivas_periodos/destroy/' + asignatura.nf_id).then((r)->
+				toastr.success 'Nota eliminada', 'Recarga para ver'
+				$modalInstance.close('Eliminada')
+			, (r2)->
+				toastr.error 'No se pudo eliminar nota.', 'Problema'
+			)
+
+
+	$scope.ok = ()->
+		$modalInstance.close(alumno)
+
+
+
+	$scope.cambiaNotaDef = (asignatura, nota, nf_id, num_periodo)->
+
+		if nota > $scope.escala_maxima.porc_final or nota == 'undefined' or nota == undefined
+			toastr.error 'No puede ser mayor de ' + $scope.escala_maxima.porc_final, 'NO guardada', {timeOut: 8000}
+			return
+
+		if nf_id
+			$http.put('::definitivas_periodos/update', {nf_id: nf_id, nota: nota}).then((r)->
+				if !asignatura.manual
+					asignatura.manual = 1
+				toastr.success 'Cambiada: ' + nota
+			, (r2)->
+				if r2.status == 400
+					toastr.warning 'Parece que no tienes permisos', 'Lo sentimos'
+				else
+					toastr.error 'No pudimos guardar la nota ' + nota, '', {timeOut: 8000}
+			)
+		else
+			$http.put('::definitivas_periodos/update', {alumno_id: $scope.alumno_traido.alumno_id, nota: nota, asignatura_id: asignatura.asignatura_id, num_periodo: num_periodo }).then((r)->
+				toastr.success 'Creada: ' + nota
+				r = r.data[0]
+				asignatura.nf_id          = r.id
+				asignatura.recuperada     = 0
+				asignatura.manual         = 1
+			, (r2)->
+				if r2.status == 400
+					toastr.warning 'Parece que no tienes permisos', 'Lo sentimos'
+				else
+					toastr.error 'No pudimos guardar la nota ' + nota, '', {timeOut: 8000}
+			)
+
+
+	$scope.toggleNotaFinalRecuperada = (alumno, recuperada, nf_id)->
+		$http.put('::definitivas_periodos/toggle-recuperada', {nf_id: nf_id, recuperada: recuperada}).then((r)->
+
+			if recuperada and !alumno.manual
+				alumno.manual = 1
+				toastr.success 'Indicará que es recuperada, así que también será manual.'
+			else if recuperada
+				toastr.success 'Recuperada'
+			else
+				toastr.success 'No recuperada'
+		, (r2)->
+			if r2.status == 400
+				toastr.warning 'Parece que no tienes permisos', 'Lo sentimos'
+			else
+				toastr.error 'No pudimos cambiar.', '', {timeOut: 8000}
+		)
+
+	$scope.toggleNotaFinalManual = (alumno, manual, nf_id)->
+		$http.put('::definitivas_periodos/toggle-manual', {nf_id: nf_id, manual: manual}).then((r)->
+
+			if !manual and alumno.nota_final.recuperada
+				alumno.nota_final.recuperada = false
+				toastr.success 'Será automática y no recuperada.'
+			else if manual
+				toastr.success 'Nota manual.'
+			else
+				toastr.success 'Ahora la calculará el sistema.'
+		, (r2)->
+			if r2.status == 400
+				toastr.warning 'Parece que no tienes permisos', 'Lo sentimos'
+			else
+				toastr.error 'No pudimos cambiar.', '', {timeOut: 8000}
+		)
+
+
+
+])
+
+
