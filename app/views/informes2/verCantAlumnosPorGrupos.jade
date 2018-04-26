@@ -1,0 +1,55 @@
+div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false || !asignatura.alumnos2 }")
+	.row
+		.col-lg-12.col-xs-12
+			.row.encabezado-planilla
+				.col-lg-12.col-xs-12
+					.row
+						.col-lg-2.col-xs-2
+							//img.img-responsive.logo-colegio.menos-margin(ng-src="{{::perfilPath + $parent.year_actual.logo}}" style="width: 70px;")
+						.col-lg-8.col-xs-8.title-encabezado-planilla
+							.row
+								.col-lg-12
+									.nombre-colegio
+										| {{$parent.year_actual.nombre_colegio + ' - ' + $parent.year_actual.abrev_colegio}}
+									.descripcion-title
+										| Cantidad de alumnos matriculados por grupos {{::USER.year}}
+
+			.row.body-boletin
+				.col-lg-12.col-xs-12.materias(style="padding:0px")
+					.materia-item(style="page-break-inside: auto; text-align: center;")
+						table.table-bordered.table-bordered2.table-striped.table-striped2(style="margin: auto;")
+							tr(style="background-color: #99caed !important;")
+								th
+									| No
+								th.text-center
+									| Alias
+								th.text-center
+									| Grupo
+								th.text-center
+									| Titular
+								th.text-center
+									| Cantidad
+
+							tr.altura-22(ng-repeat="grupo in ::grupos | orderBy:['orden_grupo', 'nombres']" style="font-size: 9pt")
+								td.text-center
+									| {{$index + 1}}
+								td.text-center
+									b {{ grupo.abrev }}
+								td.text-center
+									b {{ grupo.nombre }}
+								td
+									| {{ ::grupo.nombres_titular }} {{ ::grupo.apellidos_titular }}
+
+								td.text-center
+									| {{ ::grupo.cant_alumnos }}
+							tr.altura-22(style="height: 17px;")
+								td
+								td
+								td
+								td
+								td.text-center(style="width: 50px")
+									| {{cant_total_alumnos}}
+
+
+
+

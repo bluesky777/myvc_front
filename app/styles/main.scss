@@ -15751,7 +15751,7 @@ body {
 				-webkit-print-color-adjust: exact;
 		}
 		.table-striped2 > tbody > tr:nth-of-type(odd) {
-				background-color: #d4e9f8!important;
+				background-color: rgba(153, 203, 238, 0.4)!important;
 		}
 		.table td, .table th {
 				background-color: inherit !important;
@@ -16084,7 +16084,7 @@ body {
 }
 
 .table-striped2 > tbody > tr:nth-of-type(odd) {
-		background-color: #d4e9f8!important;
+		background-color: rgba(153, 203, 238, 0.4)!important;
 }
 .table td, .table th {
 		background-color: inherit !important;

@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('AlumnosCtrl', ['$scope', 'App', '$rootScope', '$state', '$interval', 'uiGridConstants', 'uiGridEditConstants', '$uibModal', '$filter', 'AuthService', 'toastr', '$http', ($scope, App, $rootScope, $state, $interval, uiGridConstants, uiGridEditConstants, $modal, $filter, AuthService, toastr, $http)->
+.controller('AlumnosCtrl', ['$scope', 'App', '$rootScope', '$state', '$interval', 'uiGridConstants', 'uiGridEditConstants', '$uibModal', '$filter', 'AuthService', 'toastr', '$http', 'DownloadServ', 'Upload', ($scope, App, $rootScope, $state, $interval, uiGridConstants, uiGridEditConstants, $modal, $filter, AuthService, toastr, $http, DownloadServ, Upload)->
 
 	AuthService.verificar_acceso()
 
@@ -740,6 +740,35 @@ angular.module("myvcFrontApp")
 		, (r2)->
 			toastr.error 'No se pudo buscar', 'Problema'
 		)
+
+
+
+	$scope.exportarAlumnos = ()->
+		DownloadServ.download('::simat/alumnos-exportar', 'Alumnos a importar '+$scope.USER.year+'.xls')
+
+
+	$scope.importarSimat = (file, errFiles)->
+		$scope.f = file;
+		$scope.errFile = errFiles && errFiles[0];
+		if (file)
+			file.upload = Upload.upload({
+					url: App.Server + 'importar/algo/'+$scope.USER.year,
+					data: {file: file}
+			});
+
+			file.upload.then( (response)->
+					$timeout( ()->
+							file.result = response.data;
+					);
+			,  (response)->
+					if (response.status > 0)
+							$scope.errorMsg = response.status + ': ' + response.data;
+			, (evt)->
+					file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+			);
+
+
+
 
 
 

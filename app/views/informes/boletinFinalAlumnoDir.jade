@@ -1,4 +1,9 @@
-div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $parent.$last==false }")
+div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $parent.$last==false }"
+	style="position: relative; overflow: hidden; min-height: 27cm")
+
+	div(style="position: absolute; margin-bottom: 0; margin-left: -10px; border-bottom: none;" ng-show="$parent.config.imagen_fondo" ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical' } ")
+		img.img-fondo-boletin(ng-src="{{ perfilPath + $parent.config.imagen_fondo.nombre }}"
+			ng-repeat="cant in $parent.range(config.cant_imagenes) track by $index")
 
 	.row
 		.col-lg-12.col-xs-12
@@ -21,7 +26,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 						.col-lg-6.col-xs-6
 							.grupo-alumno
 								| Grupo:
-								b.camel {{grupo.nombre_grupo.toLowerCase()}}
+								b.camel   {{grupo.nombre_grupo.toLowerCase()}}
 							.titular-grupo(uib-popover-html="'<img src=\"{{perfilPath + grupo.foto_nombre}}\" style=\"width: 150px; height: 150px;\">'"
 									popover-popup-delay="1000" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true"
 									popover-trigger="mouseenter" popover-append-to-body="true")
@@ -30,66 +35,67 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 						.col-lg-6.col-xs-6
 							h5.nombre-alumno {{alumno.nombres + ' ' + alumno.apellidos}}
 							.promedio-alumno Puntaje: {{alumno.promedio | setDecimal:1 }}% - Puesto: {{alumno.puesto}}/{{grupo.cantidad_alumnos}}
+
 			.row.body-boletin(style="margin-top: 10px; margin-bottom: 10px; ")
 				.col-lg-12.col-xs-12
-					table.table-bordered.table-striped(style="margin: 0 auto;")
-						thead
-							tr(style="border-bottom: 2px solid;")
-								th No
-								th.txtcentro(style="width: 310px") Nombres
-								th.txtcentro()
-									i.fa.fa-clock-o.icon-tardanza
-									| A
-								th.txtcentro(ng-repeat="periodo in year.periodos") Per{{periodo.numero}}
-								th.txtcentro Valoración
-								th.txtcentro(style="border-left: 2px solid !important;") Prom
-						tbody
-							tr(ng-repeat="asignatura in alumno.asignaturas")
-								td {{$index + 1}}
-								td
-									div(uib-popover-template="views+'informes/infoDocentePop.tpl.html'"
-										popover-popup-delay="1000" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true"
-										popover-trigger="mouseenter"  popover-append-to-body="true") {{asignatura.materia}}
-								td.txtcentro
-									span(ng-show="asignatura.ausencias > 0") {{asignatura.ausencias}}
+					table.table-bordered.table-bordered2.table-striped.table-striped2(style="margin: 0 auto; width: 100%")
 
-								td.txtcentro(ng-repeat="definitiva in asignatura.definitivas" ng-class="{'nota-perdida-puestos': ((definitiva.DefMateria | number:0 )*1) < (USER.nota_minima_aceptada*1) }")
-									| {{ definitiva.DefMateria | number:0 }}
-									span.cant-unidades-perdidas(ng-show="{{definitiva.notas_perdidas > 0}}")
-										| ({{definitiva.notas_perdidas}})
+						tr(style="background-color: #99caed !important;")
+							td No
+							td.txtcentro(style="width: 310px")
+								b Asignatura / Área
+							td.text-center(style="width: 40px")
+								i.fa.fa-clock-o.icon-tardanza
+								span A/T
+							td.txtcentro(ng-repeat="periodo in year.periodos") Per{{periodo.numero}}
+							td.txtcentro Desempeño
+							td.txtcentro(style="border-left: 2px solid !important;") Prom
 
-								td.txtcentro
-										| {{ asignatura.desempenio }}
+						tr(ng-repeat="asignatura in alumno.asignaturas")
+							td.text-center {{$index + 1}}
+							td
+								div(uib-popover-template="views+'informes/infoDocentePop.tpl.html'"
+									popover-popup-delay="1000" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true"
+									popover-trigger="mouseenter"  popover-append-to-body="true") {{asignatura.materia}}
+							td.txtcentro
+								span(ng-show="asignatura.ausencias > 0") {{asignatura.ausencias}}
 
-								td.txtcentro.puntero(ng-class="{'nota-perdida-puestos': ((asignatura.promedio | number:0 )*1) < (USER.nota_minima_aceptada*1) }")
-									| {{asignatura.promedio | number:0}}
-									span.cant-unidades-perdidas(ng-show="{{asignatura.notas_perdidas > 0}}")
-										| ({{asignatura.notas_perdidas}})
+							td.txtcentro(ng-repeat="definitiva in asignatura.definitivas" ng-class="{'nota-perdida-puestos': ((definitiva.DefMateria | number:0 )*1) < (USER.nota_minima_aceptada*1) }")
+								| {{ definitiva.DefMateria | number:0 }}
+								span.cant-unidades-perdidas(ng-show="{{definitiva.notas_perdidas > 0}}")
+									| ({{definitiva.notas_perdidas}})
 
-							tr
-								td
-								td
-									i Comportamiento
-								td(colspan="6")
-								td.txtcentro
-									i {{alumno.nota_comportamiento_year}}
+							td.txtcentro
+									| {{ asignatura.desempenio }}
+
+							td.txtcentro.puntero(ng-class="{'nota-perdida-puestos': ((asignatura.promedio | number:0 )*1) < (USER.nota_minima_aceptada*1) }")
+								| {{asignatura.promedio | number:0}}
+								span.cant-unidades-perdidas(ng-show="{{asignatura.notas_perdidas > 0}}")
+									| ({{asignatura.notas_perdidas}})
+
+						tr
+							td
+							td
+								i Comportamiento
+							td(colspan="6")
+							td.txtcentro
+								i {{alumno.nota_comportamiento_year}}
 
 
-						tfoot
-							tr(style="border-top: 2px solid;")
-								td
-								td() Total
+						tr(style="border-top: 2px solid;")
+							td
+							td() Total
 
-								td.txtcentro {{alumno.ausencias}}
+							td.txtcentro {{alumno.ausencias}}
 
-								td.txtcentro(ng-repeat="periodo in year.periodos") {{ alumno.asignaturas | promedioPeriodo:periodo.id | decimales:0 }}
+							td.txtcentro(ng-repeat="periodo in year.periodos") {{ alumno.asignaturas | promedioPeriodo:periodo.id | decimales:0 }}
 
-								td
+							td
 
-								td.txtcentro(style="font-weight: bold; border-left: 2px solid !important;")
-									| {{alumno.promedio | decimales:0 }}
-									span.cant-unidades-perdidas(ng-show="{{alumno.notas_perdidas > 0}}")
-										| ({{alumno.notas_perdidas}})
+							td.txtcentro(style="font-weight: bold; border-left: 2px solid !important;")
+								| {{alumno.promedio | decimales:0 }}
+								span.cant-unidades-perdidas(ng-show="{{alumno.notas_perdidas > 0}}")
+									| ({{alumno.notas_perdidas}})
 
 
 
@@ -113,15 +119,15 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 							span(ng-switch-default) El alumno
 
 						span(ng-show="alumno.cant_lost_asig > 1")
-							span(style="font-weight:bold") NO
-							|  ha sido
+							span(style="font-weight:bold")   NO
+							|   ha sido
 
 						span(ng-hide="alumno.cant_lost_asig > 1")
-							| ha sido
+							|   ha sido
 
 						span(ng-switch on="alumno.sexo")
-							span(ng-switch-when="F") promovida.
-							span(ng-switch-default) promovido.
+							span(ng-switch-when="F")   promovida.
+							span(ng-switch-default)   promovido.
 
 
 

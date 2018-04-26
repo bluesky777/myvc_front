@@ -76,7 +76,6 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 													div(ng-class="{'nota-perdida-bold': asignatura.nota_asignatura<USER.nota_minima_aceptada && config.show_rojos}")
 														| {{ ::asignatura.nota_asignatura }}
 														span(uib-tooltip="Materia recuperada por el docente" ng-show="asignatura.recuperada")   R
-														| {{ ::asignatura.nota_asignatura }}
 														span(uib-tooltip="Nota puesta manualmente" ng-show="asignatura.manual" style="font-size: 7pt")   M
 
 											.row.unidades-list(style="margin: 0px 0px 0px 5px;")
@@ -127,7 +126,6 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 										div(ng-class="{'nota-perdida-bold': asignatura.nota_asignatura<USER.nota_minima_aceptada && config.show_rojos}")
 											| {{ ::asignatura.nota_asignatura }}
 											span(uib-tooltip="Materia recuperada por el docente" ng-show="asignatura.recuperada")   R
-											| {{ ::asignatura.nota_asignatura }}
 											span(uib-tooltip="Nota puesta manualmente" ng-show="asignatura.manual" style="font-size: 7pt")   M
 								.row.unidades-list
 									.col-lg-12.col-xs-12

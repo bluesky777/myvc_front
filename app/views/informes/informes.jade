@@ -201,7 +201,6 @@
 						.btn-group
 							a.btn.btn-default(href="" ng-click="verPlanillasControlTardanzas()") Control de tardanzas entrada
 							a.btn.btn-default(href="" ng-click="verAusencias()") Ver ausencias
-							a.btn.btn-default(href="" ng-click="verSimat()") SIMAT {{USER.year}}
 							a.btn.btn-default(href="" ng-click="verNotasPerdidasTodos()") Notas perdidas todos
 						br
 
@@ -214,6 +213,10 @@
 								li(role="menuitem")
 									a(ng-click="verObservadorVerticalTodos()") Observador vertical - Todos
 
+						.btn-group
+							a.btn.btn-default(href="" ng-click="verSimat()") SIMAT {{USER.year}}
+							a.btn.btn-default(href="" type="file" ngf-select="importarSimat($file, $invalidFiles)"
+								accept=".xls,.xlsx" ngf-max-size="1MB") Importar SIMAT {{USER.year}}
 
 						br
 
@@ -286,6 +289,8 @@
 									a.btn.btn-default(href="" ng-click="verListadoDocentes()") Listado docentes
 									a.btn.btn-default(href="" ng-click="excelListadoDocentes()" uib-tooltip="Exportar a Excel listado docentes")
 										i.fa.fa-file
+
+								a.btn.btn-default(href="" ng-click="verCantAlumnosEnGrupos()" uib-tooltip="Ver cantidad de alumnos por grupos") Alumnos en grupos
 
 
 

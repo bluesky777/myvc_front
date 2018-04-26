@@ -1,5 +1,5 @@
 angular.module('myvcFrontApp')
-.controller('InformesCtrl', ['$scope', '$http', '$state', '$stateParams', '$filter', 'App', 'AuthService', 'ProfesoresServ', 'alumnos', '$timeout', '$cookies', 'toastr', '$interval', 'DownloadServ', ($scope, $http, $state, $stateParams, $filter, App, AuthService, ProfesoresServ, alumnos, $timeout, $cookies, toastr, $interval, DownloadServ) ->
+.controller('InformesCtrl', ['$scope', '$http', '$state', '$stateParams', '$filter', 'App', 'AuthService', 'ProfesoresServ', 'alumnos', '$timeout', '$cookies', 'toastr', '$interval', 'DownloadServ', 'Upload', ($scope, $http, $state, $stateParams, $filter, App, AuthService, ProfesoresServ, alumnos, $timeout, $cookies, toastr, $interval, DownloadServ, Upload) ->
 
 	AuthService.verificar_acceso()
 	$scope.rowsAlum = []
@@ -266,6 +266,12 @@ angular.module('myvcFrontApp')
 		DownloadServ.download('::excel-docentes/docentes/'+$scope.USER.year+'/'+$scope.USER.year_id, 'Listado docentes '+$scope.USER.year+'.xls')
 
 
+	$scope.verCantAlumnosEnGrupos = ()->
+		$scope.config.orientacion = 'vertical'
+		$state.go 'panel.informes.ver_cant_alumnos_por_grupos'
+
+
+
 
 
 
@@ -314,9 +320,37 @@ angular.module('myvcFrontApp')
 	$scope.verAusencias = ()->
 		$state.go 'panel.informes.ver_ausencias', {periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
 
+
+
+
 	$scope.verSimat = ()->
 		DownloadServ.download('::simat/alumnos', 'Alumnos con acudientes '+$scope.USER.year+'.xls')
 		$state.go 'panel.informes.ver_simat', {reload: true}
+
+	$scope.importarSimat = (file, errFiles)->
+		$scope.f = file;
+		$scope.errFile = errFiles && errFiles[0];
+		if (file)
+			file.upload = Upload.upload({
+					url: App.Server + 'importar/algo/'+$scope.USER.year,
+					data: {file: file}
+			});
+
+			file.upload.then( (response)->
+					$timeout( ()->
+							file.result = response.data;
+					);
+			,  (response)->
+					if (response.status > 0)
+							$scope.errorMsg = response.status + ': ' + response.data;
+			, (evt)->
+					file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+			);
+
+
+
+
+
 
 	$scope.verObservadorVertical = ()->
 		#DownloadServ.download('::simat/alumnos', 'Grupos alumnos.xls')

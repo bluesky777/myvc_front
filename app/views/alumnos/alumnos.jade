@@ -6,7 +6,18 @@
 		.well.with-header.with-footer.animated.bounceIn
 			.header.bordered-yellow
 				span(style="font-size: 12pt") Alumnos
-				a.btn.btn-info.shiny(ui-sref="panel.alumnos.nuevo" uib-tooltip="Ingresa datos de un nuevo alumno") Crear alumno
+				a.btn.btn-info.shiny(ui-sref="panel.alumnos.nuevo" uib-tooltip="Ingresa datos de un nuevo alumno")
+					i.fa.fa-plus
+					|   Crear alumno
+
+				.btn-group
+					a.btn.btn-info.shiny(href="" ng-click="exportarAlumnos()" uib-tooltip="Exportar alumnos a Excel")
+						i.fa.fa-download
+						|   Exportar
+					a.btn.btn-info.shiny(href="" uib-tooltip="Importar alumnos de Excel" type="file" ngf-select="importarSimat($file, $invalidFiles)"
+						accept=".xls,.xlsx" ngf-max-size="1MB")
+						i.fa.fa-upload
+						|   Importar
 
 			.form-group
 				selector-grupo-dir

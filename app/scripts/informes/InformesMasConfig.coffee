@@ -22,6 +22,23 @@ angular.module('myvcFrontApp')
 
 
 
+		.state 'panel.informes.ver_cant_alumnos_por_grupos',
+			url: '/ver_cant_alumnos_por_grupos'
+			views:
+				'report_content':
+					templateUrl: "==informes2/verCantAlumnosPorGrupos.tpl.html"
+					controller: 'VerCantAlumnosPorGruposCtrl'
+					resolve:
+						grupos: ['$http', '$stateParams', ($http)->
+							$http.get('::grupos')
+						]
+			data:
+				displayName: 'Ver alumnos por grupos'
+				icon_fa: 'fa fa-print'
+				pageTitle: 'Ver alumnos por grupos - MyVc'
+
+
+
 
 
 ])

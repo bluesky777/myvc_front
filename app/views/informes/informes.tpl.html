@@ -180,7 +180,7 @@
                 </ui-select-choices>
               </ui-select><a href="" ng-click="verPlanillasGrupo()" class="btn btn-default">Ver planillas</a>
             </div>
-            <div class="btn-group"><a href="" ng-click="verPlanillasControlTardanzas()" class="btn btn-default">Control de tardanzas entrada</a><a href="" ng-click="verAusencias()" class="btn btn-default">Ver ausencias</a><a href="" ng-click="verSimat()" class="btn btn-default">SIMAT {{USER.year}}</a><a href="" ng-click="verNotasPerdidasTodos()" class="btn btn-default">Notas perdidas todos</a></div><br>
+            <div class="btn-group"><a href="" ng-click="verPlanillasControlTardanzas()" class="btn btn-default">Control de tardanzas entrada</a><a href="" ng-click="verAusencias()" class="btn btn-default">Ver ausencias</a><a href="" ng-click="verNotasPerdidasTodos()" class="btn btn-default">Notas perdidas todos</a></div><br>
             <div uib-dropdown class="btn-group">
               <button id="split-button" href="" ng-click="verObservadorVertical()" uib-tooltip="Observador del alumno para imprimir" class="btn btn-default">Observador vertical</button>
               <button type="button" uib-dropdown-toggle class="btn btn-default">
@@ -190,7 +190,8 @@
               <ul uib-dropdown-menu role="menu" aria-labelledby="split-button" class="dropdown-menu">
                 <li role="menuitem"><a ng-click="verObservadorVerticalTodos()">Observador vertical - Todos</a></li>
               </ul>
-            </div><br><br>
+            </div>
+            <div class="btn-group"><a href="" ng-click="verSimat()" class="btn btn-default">SIMAT {{USER.year}}</a><a href="" type="file" ngf-select="importarSimat($file, $invalidFiles)" accept=".xls,.xlsx" ngf-max-size="1MB" class="btn btn-default">Importar SIMAT {{USER.year}}</a></div><br><br>
             <div class="row">
               <div class="col-lg-2 col-sm-4 col-xs-12">
                 <div class="form-group">
@@ -242,7 +243,7 @@
             </div>
             <div class="row">
               <div class="col-lg-12 col-xs-12">
-                <div class="btn-group"><a href="" ng-click="verListadoDocentes()" class="btn btn-default">Listado docentes</a><a href="" ng-click="excelListadoDocentes()" uib-tooltip="Exportar a Excel listado docentes" class="btn btn-default"><i class="fa fa-file"></i></a></div>
+                <div class="btn-group"><a href="" ng-click="verListadoDocentes()" class="btn btn-default">Listado docentes</a><a href="" ng-click="excelListadoDocentes()" uib-tooltip="Exportar a Excel listado docentes" class="btn btn-default"><i class="fa fa-file"></i></a></div><a href="" ng-click="verCantAlumnosEnGrupos()" uib-tooltip="Ver cantidad de alumnos por grupos" class="btn btn-default">Alumnos en grupos</a>
               </div>
             </div>
           </uib-tab>

@@ -15,6 +15,24 @@ angular.module('myvcFrontApp')
 
 ])
 
+.controller('VerCantAlumnosPorGruposCtrl',['$scope', 'App', 'Perfil', 'grupos', '$state', ($scope, App, Perfil, grupos, $state)->
+
+	$scope.USER = Perfil.User()
+	$scope.grupos = grupos.data
+
+	$scope.perfilPath = App.images+'perfil/'
+
+
+	$scope.cant_total_alumnos = 0
+
+	for grup in $scope.grupos
+		$scope.cant_total_alumnos = $scope.cant_total_alumnos + grup.cant_alumnos
+
+	$scope.$emit 'cambia_descripcion', $scope.grupos.length + '  grupos.'
+
+
+])
+
 
 
 

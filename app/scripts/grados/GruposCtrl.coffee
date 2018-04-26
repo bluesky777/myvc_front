@@ -46,6 +46,7 @@ angular.module('myvcFrontApp')
 			{ field: 'abrev', displayName:'Abreviatura', maxWidth: 50, enableSorting: false }
 			{ field: 'titular_id', displayName: 'Titular', editDropdownOptionsArray: profesores, cellFilter: 'mapProfesores:grid.appScope.profesores', editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'profesor_id', editDropdownValueLabel: 'nombre_completo' }
 			{ field: 'grado_id', displayName: 'Grado', editDropdownOptionsArray: grados, cellFilter: 'mapGrado:grid.appScope.grados', editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'id', editDropdownValueLabel: 'nombre' }
+			{ field: 'cant_alumnos', displayName: 'Cantidad alumnos', enableSorting: false, enableFiltering: false, enableCellEdit: false }
 			#{ field: 'caritas', name: 'caritas', maxWidth: 70, cellTemplate: btCarit, enableFiltering: false, enableCellEdit: false }
 		],
 		multiSelect: false,
