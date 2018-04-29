@@ -30,7 +30,7 @@ angular.module('myvcFrontApp')
 					controller: 'VerCantAlumnosPorGruposCtrl'
 					resolve:
 						grupos: ['$http', '$stateParams', ($http)->
-							$http.get('::grupos')
+							$http.put('::grupos/con-cantidad-alumnos')
 						]
 			data:
 				displayName: 'Ver alumnos por grupos'

@@ -10,7 +10,7 @@
 							.widget
 								.widget-header.bordered-bottom.bordered-pink
 									span.widget-caption Básica
-								.widget-body 
+								.widget-body
 									.row
 										.col-lg-2.col-sm-12
 											img(style="width: 200px" ng-src="{{perfilPath + alumno.foto_nombre}}")
@@ -50,8 +50,8 @@
 							.widget
 								.widget-header.bordered-bottom.bordered-pink
 									span.widget-caption Nacimiento
-								.widget-body 
-									.row 
+								.widget-body
+									.row
 										.form-group.col-lg-4.col-sm-6.col-xs-12(style="margin-bottom: 12px;")
 											label(for="alumno-fecha-nac") Fecha de nacimiento
 											.controls
@@ -59,7 +59,7 @@
 													span.input-group-addon
 														i.fa.fa-calendar
 													input.form-control.active#alumno-fecha-nac(type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="alumno.fecha_nac" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2020-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha nacimiento")
-										
+
 										.form-group.col-lg-4.col-sm-6.col-xs-12
 											label Pais
 											ui-select(ng-model="alumno.pais_nac" on-select="paisNacSelect($item, $model)" style="width: 100%;")
@@ -80,16 +80,16 @@
 												ui-select-match(placeholder="Ciudad nacimiento" allow-clear="true") {{$select.selected.ciudad}}
 												ui-select-choices(repeat="ciudad in ciudadesNac | filter: $select.search")
 													div(ng-bind-html="ciudad.ciudad | highlight: $select.search")
-									
+
 
 
 							.widget
 								.widget-header.bordered-bottom.bordered-pink
 									span.widget-caption Documento
-								.widget-body 
+								.widget-body
 									.row
 										.form-group.col-lg-4.col-sm-6.col-xs-12
-											label Tipo 
+											label Tipo
 											ui-select(ng-model="alumno.tipo_doc" style="width: 100%;")
 												ui-select-match(placeholder="Tipo de documento" allow-clear="true") {{$select.selected.tipo}}{{ ' ('+$select.selected.abrev+')'}}
 												ui-select-choices(repeat="tipo_doc in tipos_doc")
@@ -98,7 +98,7 @@
 										.form-group.col-lg-4.col-sm-6.col-xs-12
 											label(for="alumno-documento") Número documento
 											input#alumno-documento.form-control(type="text" ng-model="alumno.documento" placeholder="Documento")
-										
+
 										.form-group.col-lg-4.col-sm-6.col-xs-12
 											label Pais
 											ui-select(ng-model="alumno.pais_doc" on-select="paisSelecionado($item, $model)" style="width: 100%;")
@@ -144,7 +144,7 @@
 								.form-group.col-lg-3.col-sm-6.col-xs-12
 									label(for="alumno-barrio") Barrio
 									input#alumno-barrio.form-control(type="text" ng-model="alumno.barrio" placeholder="Barrio")
-							
+
 								.form-group.col-lg-3.col-sm-6.col-xs-12
 									label(for="alumno-estrato") Estrato
 									.spinner.spinner-horizontal
@@ -192,20 +192,16 @@
 							.form-group
 								label(for="alumno-email2") Correo electrónico
 								input#alumno-email2.form-control(type="email" ng-model="alumno.email2" placeholder="Correo electrónico")
-							.form-group
-								label ¿Es Super usuario?
-								label
-									input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="alumno.superuser")
-									span.text.si-no
+
 					br
-					input.btn.btn-primary.btn-lg.shiny(type="submit" ng-submit="guardar()" value="Guardar cambios") 
+					input.btn.btn-primary.btn-lg.shiny(type="submit" ng-submit="guardar()" value="Guardar cambios")
 
 					span(ng-show="$state.includes('panel.cartera')")
 						a.btn.btn-danger.btn-lg.shiny(type="button" ui-sref="panel.cartera") Cerrar
 					span(ng-show="$state.includes('panel.alumnos')")
 						a.btn.btn-danger.btn-lg.shiny(type="button" ui-sref="panel.alumnos") Cerrar
-					
 
 
-					
+
+
 

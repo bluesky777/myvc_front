@@ -92,7 +92,7 @@ angular.module('myvcFrontApp')
 		)
 
 
-	$http.get('::grupos').then((data)->
+	$http.get('::grupos/cant-alumnos').then((data)->
 		$scope.grupos = data.data
 		for grup in $scope.grupos
 			grup.caritas = if grup.caritas then true else false

@@ -9,7 +9,7 @@
             <uib-tab heading="Información">
               <div class="widget">
                 <div class="widget-header bordered-bottom bordered-pink"><span class="widget-caption">Básica</span></div>
-                <div class="widget-body"> 
+                <div class="widget-body">
                   <div class="row">
                     <div class="col-lg-2 col-sm-12"><img style="width: 200px" ng-src="{{perfilPath + alumno.foto_nombre}}"></div>
                     <div class="col-lg-10 col-sm-12">
@@ -63,8 +63,8 @@
               </div>
               <div class="widget">
                 <div class="widget-header bordered-bottom bordered-pink"><span class="widget-caption">Nacimiento</span></div>
-                <div class="widget-body"> 
-                  <div class="row"> 
+                <div class="widget-body">
+                  <div class="row">
                     <div style="margin-bottom: 12px;" class="form-group col-lg-4 col-sm-6 col-xs-12">
                       <label for="alumno-fecha-nac">Fecha de nacimiento</label>
                       <div class="controls">
@@ -105,10 +105,10 @@
               </div>
               <div class="widget">
                 <div class="widget-header bordered-bottom bordered-pink"><span class="widget-caption">Documento</span></div>
-                <div class="widget-body"> 
+                <div class="widget-body">
                   <div class="row">
                     <div class="form-group col-lg-4 col-sm-6 col-xs-12">
-                      <label>Tipo </label>
+                      <label>Tipo</label>
                       <ui-select ng-model="alumno.tipo_doc" style="width: 100%;">
                         <ui-select-match placeholder="Tipo de documento" allow-clear="true">{{$select.selected.tipo}}{{ ' ('+$select.selected.abrev+')'}}</ui-select-match>
                         <ui-select-choices repeat="tipo_doc in tipos_doc">
@@ -240,12 +240,6 @@
               <div class="form-group">
                 <label for="alumno-email2">Correo electrónico</label>
                 <input id="alumno-email2" type="email" ng-model="alumno.email2" placeholder="Correo electrónico" class="form-control">
-              </div>
-              <div class="form-group">
-                <label>¿Es Super usuario?</label>
-                <label>
-                  <input type="checkbox" ng-model="alumno.superuser" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
-                </label>
               </div>
             </uib-tab>
           </uib-tabset><br>

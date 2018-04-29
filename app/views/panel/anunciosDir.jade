@@ -156,8 +156,6 @@
 
 
 
-
-
 	.col-xs-12.col-md-12
 		.widget
 			.widget-header.bordered-bottom.bordered-themesecondary
@@ -373,6 +371,16 @@
 
 
 
+
+
+
+	// Cantidad de Alumnos por grupos
+	.col-xs-12
+		.widget
+			.widget-body
+				.widget-main.no-padding
+					a(href="" ng-click="traerCatAlumnosPorGrupos()") Ver cantidad de alumnos por grupos
+					div(ng-if="grupos_cantidades" ng-include="srcCant")
 
 
 

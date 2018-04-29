@@ -5,50 +5,85 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 				.col-lg-12.col-xs-12
 					.row
 						.col-lg-2.col-xs-2
-							//img.img-responsive.logo-colegio.menos-margin(ng-src="{{::perfilPath + $parent.year_actual.logo}}" style="width: 70px;")
+							//img.img-responsive.logo-colegio.menos-margin(ng-src="{{perfilPath + $parent.year_actual.logo}}" style="width: 70px;")
 						.col-lg-8.col-xs-8.title-encabezado-planilla
 							.row
 								.col-lg-12
-									.nombre-colegio
+									.nombre-colegio(ng-if="$parent.year_actual")
 										| {{$parent.year_actual.nombre_colegio + ' - ' + $parent.year_actual.abrev_colegio}}
 									.descripcion-title
-										| Cantidad de alumnos matriculados por grupos {{::USER.year}}
+										| Cantidad de alumnos matriculados por grupos {{USER.year}}
 
 			.row.body-boletin
 				.col-lg-12.col-xs-12.materias(style="padding:0px")
 					.materia-item(style="page-break-inside: auto; text-align: center;")
 						table.table-bordered.table-bordered2.table-striped.table-striped2(style="margin: auto;")
 							tr(style="background-color: #99caed !important;")
-								th
+								th(rowspan="2")
 									| No
-								th.text-center
+								th.text-center(rowspan="2")
 									| Alias
-								th.text-center
+								th.text-center(rowspan="2")
 									| Grupo
-								th.text-center
+								th.text-center(rowspan="2")
 									| Titular
-								th.text-center
-									| Cantidad
+								th.text-center(rowspan="2")
+									div(uib-tooltip="Matriculados y Asistentes actuales") Actual
+								th(colspan=4 style="text-align: center;")
+									div(uib-tooltip="Retirados y desertores") Reti-Desert
+								th(colspan=4 style="text-align: center;")
+									div(uib-tooltip="Matriculas o asistentes creados en determinado periodo") Matriculados
 
-							tr.altura-22(ng-repeat="grupo in ::grupos | orderBy:['orden_grupo', 'nombres']" style="font-size: 9pt")
+							tr(style="background-color: #99caed !important;")
+								th.text-center
+									| Per1
+								th.text-center
+									| Per2
+								th.text-center
+									| Per3
+								th.text-center
+									| Per4
+
+								th.text-center
+									| Per1
+								th.text-center
+									| Per2
+								th.text-center
+									| Per3
+								th.text-center
+									| Per4
+
+							tr.altura-22(ng-repeat="grupo in grupos_cantidades | orderBy:['orden_grupo', 'nombres']" style="font-size: 9pt")
 								td.text-center
 									| {{$index + 1}}
 								td.text-center
 									b {{ grupo.abrev }}
 								td.text-center
 									b {{ grupo.nombre }}
-								td
-									| {{ ::grupo.nombres_titular }} {{ ::grupo.apellidos_titular }}
+								td(style="text-align: left;")
+									img(ng-src="{{perfilPath + grupo.foto_nombre}}" style="width: 30px; height: 30px;")
+									| {{ grupo.nombres_titular }} {{ grupo.apellidos_titular }}
 
 								td.text-center
-									| {{ ::grupo.cant_alumnos }}
+									b {{ grupo.cant_alumnos }}
+
+								td.text-center(ng-repeat="perio in grupo.periodos_ret")
+									| {{ perio.cant_reti }}
+
+								td.text-center(ng-repeat="perio in grupo.periodos_matr")
+									| {{ perio.cant_matr }}
+
 							tr.altura-22(style="height: 17px;")
 								td
 								td
 								td
 								td
 								td.text-center(style="width: 50px")
-									| {{cant_total_alumnos}}
+									b {{cant_total_alumnos}}
+								td(ng-repeat="peri in periodos_total")
+									| {{ peri.total_reti.cant_alumnos }}
+								td(ng-repeat="peri in periodos_total")
+									| {{ peri.total_matr.cant_alumnos }}
 
 
 

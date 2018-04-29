@@ -11,7 +11,7 @@
 								.widget-header.bordered-bottom.bordered-pink
 									span.widget-caption Básica
 								.widget-body
-									.row 
+									.row
 										.form-group.col-lg-4.col-sm-6
 											label(for="alumno-nombres") Nombres
 											input.form-control#alumno-nombres(type="text" ng-model="alumno.nombres" placeholder="Nombres")
@@ -42,12 +42,12 @@
 												ui-select-choices(repeat="grupo in grupos | filter: $select.search")
 													div(ng-bind-html="grupo.nombre | highlight: $select.search")
 
-									
+
 							.widget
 								.widget-header.bordered-bottom.bordered-pink
 									span.widget-caption Nacimiento
-								.widget-body 
-									.row 
+								.widget-body
+									.row
 										.form-group.col-lg-4.col-sm-6.col-xs-12(style="margin-bottom: 12px;")
 											label(for="alumno-fecha-nac") Fecha de nacimiento
 											.controls
@@ -55,7 +55,7 @@
 													span.input-group-addon
 														i.fa.fa-calendar
 													input.form-control.active#alumno-fecha-nac(type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="alumno.fecha_nac" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2020-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha nacimiento")
-										
+
 										.form-group.col-lg-4.col-sm-6.col-xs-12
 											label Pais
 											ui-select(ng-model="alumno.pais_nac" on-select="paisNacSelect($item, $model)" style="width: 100%;")
@@ -76,7 +76,7 @@
 												ui-select-match(placeholder="Ciudad nacimiento" allow-clear="true") {{$select.selected.ciudad}}
 												ui-select-choices(repeat="ciudad in ciudadesNac | filter: $select.search")
 													div(ng-bind-html="ciudad.ciudad | highlight: $select.search")
-									
+
 
 
 
@@ -103,7 +103,7 @@
 												ui-select-choices(repeat="pais in paises | filter: $select.search")
 													div(ng-bind-html="pais.pais | highlight: $select.search")
 													small {{ pais.departamento | highlight: $select.search}}
-									
+
 									.row
 										.form-group.col-lg-4.col-sm-6.col-xs-12
 											label Departamento
@@ -143,7 +143,7 @@
 								.form-group.col-lg-3.col-sm-6.col-xs-12
 									label(for="alumno-barrio") Barrio
 									input#alumno-barrio.form-control(type="text" ng-model="alumno.barrio" placeholder="Barrio")
-								
+
 								.form-group.col-lg-3.col-sm-6.col-xs-12
 									label(for="alumno-estrato") Estrato
 									.spinner.spinner-horizontal
@@ -154,7 +154,7 @@
 											button.btn.spinner-up.purple(type="button" ng-click="sumarEstrato()")
 												i.fa.fa-plus
 
-								.form-group.col-lg-3.col-sm-6.col-xs-12
+								.form-group.col-lg-3.col-sm-6.col-xs-12(ng-if="false")
 									label(for="alumno-ciudad_resid") Ciudad residencia
 									input#alumno-ciudad-resid.form-control(type="text" ng-model="alumno.ciudad_resid" placeholder="Ciudad residencia")
 								.form-group.col-lg-3.col-sm-6.col-xs-12
@@ -189,17 +189,12 @@
 							.form-group
 								label(for="alumno-email2") Correo electrónico
 								input#alumno-email2.form-control(type="email" ng-model="alumno.email2" placeholder="Correo electrónico")
-							.form-group
-								label ¿Es Super usuario?
-								label
-									input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="alumno.superuser")
-									span.text.si-no
 
 					br
-					input.btn.btn-primary.btn-lg.shiny(type="submit" ng-submit="crear()" value="Crear") 
+					input.btn.btn-primary.btn-lg.shiny(type="submit" ng-submit="crear()" value="Crear")
 					span(ng-show="$state.includes('panel.matriculas')")
 						a.btn.btn-danger.btn-lg.shiny(type="button" ui-sref="panel.matriculas") Cerrar
 					span(ng-show="$state.includes('panel.alumnos')")
 						a.btn.btn-danger.btn-lg.shiny(type="button" ui-sref="panel.alumnos") Cerrar
-					
+
 

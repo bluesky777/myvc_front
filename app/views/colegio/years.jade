@@ -245,11 +245,11 @@
 
 											.form-group.col-lg-3.col-sm-6.col-xs-12(style="margin-bottom: 0px; font-size: 9pt;")
 												label(uib-tooltip="Fecha de inicio") Fecha ini
-												input(type="date" ng-model="periodo.fecha_inicio" ng-change="cambiarFechaInicio(periodo, periodo.fecha_inicio)")
+												input(type="date" ng-model="periodo.fecha_inicio" ng-change="cambiarFechaInicio(periodo, periodo.fecha_inicio)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
 
 											.form-group.col-lg-3.col-sm-6.col-xs-12(style="margin-bottom: 0px; font-size: 9pt;")
 												label(uib-tooltip="Fecha en que termina el periodo") Fecha fin
-												input(type="date" ng-model="periodo.fecha_fin" ng-change="cambiarFechaFin(periodo, periodo.fecha_fin)")
+												input(type="date" ng-model="periodo.fecha_fin" ng-change="cambiarFechaFin(periodo, periodo.fecha_fin)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
 
 
 											.btn-group.btn-group-sm.col-lg-3.col-sm-6.col-xs-12

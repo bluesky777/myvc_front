@@ -6,13 +6,13 @@
         <div class="col-lg-12 col-xs-12">
           <div class="row">
             <div class="col-lg-2 col-xs-2">
-              <!--img.img-responsive.logo-colegio.menos-margin(ng-src="{{::perfilPath + $parent.year_actual.logo}}" style="width: 70px;")-->
+              <!--img.img-responsive.logo-colegio.menos-margin(ng-src="{{perfilPath + $parent.year_actual.logo}}" style="width: 70px;")-->
             </div>
             <div class="col-lg-8 col-xs-8 title-encabezado-planilla">
               <div class="row">
                 <div class="col-lg-12">
-                  <div class="nombre-colegio">{{$parent.year_actual.nombre_colegio + ' - ' + $parent.year_actual.abrev_colegio}}</div>
-                  <div class="descripcion-title">Cantidad de alumnos matriculados por grupos {{::USER.year}}</div>
+                  <div ng-if="$parent.year_actual" class="nombre-colegio">{{$parent.year_actual.nombre_colegio + ' - ' + $parent.year_actual.abrev_colegio}}</div>
+                  <div class="descripcion-title">Cantidad de alumnos matriculados por grupos {{USER.year}}</div>
                 </div>
               </div>
             </div>
@@ -24,25 +24,47 @@
           <div style="page-break-inside: auto; text-align: center;" class="materia-item">
             <table style="margin: auto;" class="table-bordered table-bordered2 table-striped table-striped2">
               <tr style="background-color: #99caed !important;">
-                <th>No</th>
-                <th class="text-center">Alias</th>
-                <th class="text-center">Grupo</th>
-                <th class="text-center">Titular</th>
-                <th class="text-center">Cantidad</th>
+                <th rowspan="2">No</th>
+                <th rowspan="2" class="text-center">Alias</th>
+                <th rowspan="2" class="text-center">Grupo</th>
+                <th rowspan="2" class="text-center">Titular</th>
+                <th rowspan="2" class="text-center">
+                  <div uib-tooltip="Matriculados y Asistentes actuales">Actual</div>
+                </th>
+                <th colspan="4" style="text-align: center;">
+                  <div uib-tooltip="Retirados y desertores">Reti-Desert</div>
+                </th>
+                <th colspan="4" style="text-align: center;">
+                  <div uib-tooltip="Matriculas o asistentes creados en determinado periodo">Matriculados</div>
+                </th>
               </tr>
-              <tr ng-repeat="grupo in ::grupos | orderBy:['orden_grupo', 'nombres']" style="font-size: 9pt" class="altura-22">
+              <tr style="background-color: #99caed !important;">
+                <th class="text-center">Per1</th>
+                <th class="text-center">Per2</th>
+                <th class="text-center">Per3</th>
+                <th class="text-center">Per4</th>
+                <th class="text-center">Per1</th>
+                <th class="text-center">Per2</th>
+                <th class="text-center">Per3</th>
+                <th class="text-center">Per4</th>
+              </tr>
+              <tr ng-repeat="grupo in grupos_cantidades | orderBy:['orden_grupo', 'nombres']" style="font-size: 9pt" class="altura-22">
                 <td class="text-center">{{$index + 1}}</td>
                 <td class="text-center"><b>{{ grupo.abrev }}</b></td>
                 <td class="text-center"><b>{{ grupo.nombre }}</b></td>
-                <td>{{ ::grupo.nombres_titular }} {{ ::grupo.apellidos_titular }}</td>
-                <td class="text-center">{{ ::grupo.cant_alumnos }}</td>
+                <td style="text-align: left;"><img ng-src="{{perfilPath + grupo.foto_nombre}}" style="width: 30px; height: 30px;">{{ grupo.nombres_titular }} {{ grupo.apellidos_titular }}</td>
+                <td class="text-center"><b>{{ grupo.cant_alumnos }}</b></td>
+                <td ng-repeat="perio in grupo.periodos_ret" class="text-center">{{ perio.cant_reti }}</td>
+                <td ng-repeat="perio in grupo.periodos_matr" class="text-center">{{ perio.cant_matr }}</td>
               </tr>
               <tr style="height: 17px;" class="altura-22">
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td style="width: 50px" class="text-center">{{cant_total_alumnos}}</td>
+                <td style="width: 50px" class="text-center"><b>{{cant_total_alumnos}}</b></td>
+                <td ng-repeat="peri in periodos_total">{{ peri.total_reti.cant_alumnos }}</td>
+                <td ng-repeat="peri in periodos_total">{{ peri.total_matr.cant_alumnos }}</td>
               </tr>
             </table>
           </div>

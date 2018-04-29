@@ -77,10 +77,12 @@ angular.module('myvcFrontApp')
 ])
 
 
-.controller('AnunciosDirCtrl', ['$scope', '$uibModal', 'AuthService', '$http', 'toastr', '$filter', ($scope, $modal, AuthService, $http, toastr, $filter)->
+.controller('AnunciosDirCtrl', ['$scope', '$uibModal', 'AuthService', '$http', 'toastr', '$filter', 'App', ($scope, $modal, AuthService, $http, toastr, $filter, App)->
 
-	$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
-
+	$scope.hasRoleOrPerm  = AuthService.hasRoleOrPerm
+	$scope.perfilPath     = App.images+'perfil/'
+	$scope.views 			    = App.views
+	$scope.srcCant 				= $scope.views + 'informes2/verCantAlumnosPorGrupos.tpl.html'
 
 	$scope.profe_seleccionado = false
 
@@ -115,6 +117,23 @@ angular.module('myvcFrontApp')
 				, (r2)->
 					console.log 'Error trayendo detalles', r2
 				)
+
+
+
+	$scope.traerCatAlumnosPorGrupos = ()->
+
+		$http.put('::grupos/con-cantidad-alumnos').then((r)->
+			$scope.grupos_cantidades  = r.data.grupos
+			$scope.periodos_total     = r.data.periodos_total
+
+			$scope.cant_total_alumnos = 0
+
+			for grup in $scope.grupos_cantidades
+				$scope.cant_total_alumnos = $scope.cant_total_alumnos + grup.cant_alumnos
+
+		, (r2)->
+			console.log 'Error trayendo cantidad de alumnos', r2
+		)
 
 
 	$scope.rechazarCambio = (asked, tipo)->
