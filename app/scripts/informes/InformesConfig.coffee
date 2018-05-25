@@ -467,9 +467,10 @@ angular.module('myvcFrontApp')
 
 
 		.state 'panel.informes.boletines_finales',
-			url: '/boletines_finales/:grupo_id'
+			url: '/boletines_finales/:grupo_id/year_selected/:year_selected'
 			params:
-				grupo_id: {value: null}
+				grupo_id:       {value: null}
+				year_selected:   {value: null}
 			views:
 				'report_content':
 					templateUrl: "==informes/boletinesFinales.tpl.html"
@@ -486,20 +487,20 @@ angular.module('myvcFrontApp')
 							if requested_alumnos
 
 								#console.log 'Pidiendo por varios alumnos: ', requested_alumnos
-								$http.put('::bolfinales/detailed-notas-year/'+$stateParams.grupo_id, {requested_alumnos: requested_alumnos}).then((r)->
+								$http.put('::bolfinales/detailed-notas-year/'+$stateParams.grupo_id, {requested_alumnos: requested_alumnos, year_selected: $stateParams.year_selected}).then((r)->
 									d.resolve r.data
 								, (r2)->
 									d.reject r2.data
 								)
 							else if requested_alumno
-								$http.put('::bolfinales/detailed-notas-year/'+requested_alumno[0].grupo_id, {requested_alumnos: requested_alumno}).then((r)->
+								$http.put('::bolfinales/detailed-notas-year/'+requested_alumno[0].grupo_id, {requested_alumnos: requested_alumno, year_selected: $stateParams.year_selected}).then((r)->
 									d.resolve r.data
 								, (r2)->
 									d.reject r2.data
 								)
 							else
 								#console.log 'Pidiendo por grupo:', $stateParams.grupo_id
-								$http.put('::bolfinales/detailed-notas-year-group/'+$stateParams.grupo_id).then((r)->
+								$http.put('::bolfinales/detailed-notas-year-group/'+$stateParams.grupo_id, {year_selected: $stateParams.year_selected}).then((r)->
 									d.resolve r.data
 								, (r2)->
 									d.reject r2.data

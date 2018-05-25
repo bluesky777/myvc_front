@@ -15794,7 +15794,7 @@ body {
 
 		.logo-colegio{
 				//width: 60px;
-				max-height: 80px;
+				max-height: 110px;
 				max-width: 100%;
 		}
 
@@ -15829,7 +15829,7 @@ body {
 				margin-top: 2px;
 		}
 		.foto-alumno{
-				width: 80px;
+				width: 110px;
 		}
 		.promedio-alumno{
 				font-size: 8pt;
@@ -16041,7 +16041,7 @@ body {
 		text-align: center;
 
 		.logo-colegio{
-				width: 80px;
+				width: 90px;
 		}
 		.nombre-colegio, .title-descripcion{
 				font-weight: bold!important;
@@ -17068,4 +17068,37 @@ tr { page-break-inside: avoid }
 }
 .select-alumn_item:focus {
   outline: none;
+}
+.color-defin-perdida1{
+  background-color: #fefeb4;
+}
+.color-defin-perdida2{
+  background-color: #ffb2fa;
+}
+.color-defin-perdida3{
+  background-color: #bafac8;
+}
+.color-defin-perdida4{
+  background-color: #f8a582;
+}
+.color-defin-perdida5{
+  background-color: rgb(255, 0, 132);
+  color: #fff;
+}
+.color-defin-perdida6{
+  background-color: yellow;
+}
+
+.acudido-item{
+  padding: 5px;
+  border-radius: 4px;
+  transition: all .5s;
+  cursor: pointer;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.acudido-item:hover, .acudido-item.seleccionado{
+  background: rgba(179,220,237,1);
+  background: linear-gradient(to bottom, rgba(179,220,237,1) 0%, rgba(41,184,229,1) 50%, rgba(188,224,238,1) 100%);
 }

@@ -314,6 +314,10 @@ angular.module("myvcFrontApp")
 
 	$scope.resetPass = (row)->
 
+		if !row.user_id
+			toastr.warning 'Aún no tiene usuario'
+			return
+
 		modalInstance = $modal.open({
 			templateUrl: App.views + 'usuarios/resetPass.tpl.html'
 			controller: 'ResetPassCtrl'

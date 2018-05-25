@@ -22,7 +22,8 @@ angular.module('myvcFrontApp')
 			r = r.data
 			$scope.grupos = r
 		)
-
+	else if $scope.hasRoleOrPerm(['alumno', 'acudiente'])
+		console.log($scope.mis_acudidos);
 
 	EscalasValorativasServ.escalas().then((r)->
 		$scope.escalas = r
@@ -92,6 +93,31 @@ angular.module('myvcFrontApp')
 		, (r2)->
 			toastr.warning 'Lo sentimos, No se trajeron las notas'
 		)
+
+
+	$scope.seleccionarAcudido = (alumno)->
+
+		if !alumno.pazysalvo
+			toastr.info 'Lo sentimos. Debe estar a paz y salvo'
+			return
+
+		for alu in $scope.mis_acudidos
+			alu.seleccionado = false
+		alumno.seleccionado = true
+
+
+		$http.get('::notas/alumno/'+alumno.alumno_id).then((r)->
+			r = r.data
+			if r[0]
+				$scope.alumno_traido = r[0]
+				$scope.periodos_notas = r[0].periodos
+			else
+				$scope.periodos_notas = undefined
+				toastr.warning 'Sin matrícula este año.'
+		, (r2)->
+			toastr.warning 'Lo sentimos, No se trajeron las notas'
+		)
+
 
 
 	if $state.params.alumno_id

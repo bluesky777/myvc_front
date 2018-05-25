@@ -41,7 +41,7 @@
 					a(ui-sref="panel.promocionar_notas" stop-event="click" uib-tooltip="Promocionar notas de un alumno promovido")
 						span.menu-text Promocionar notas
 
-				//li( ui-sref-active="active")
+				li( ui-sref-active="active")
 					a(ui-sref="panel.acudientes" stop-event="click")
 						span.menu-text Acudientes
 
@@ -79,6 +79,12 @@
 			a(ui-sref="panel.notas_alumno")
 				i.menu-icon.fa.fa-apple
 				span.menu-text Mis Notas
+
+		<!--Notas vista por un Acudiente-->
+		li(ui-sref-active="active" ng-if="$parent.USER.tipo=='Acudiente'")
+			a(ui-sref="panel.notas_alumno")
+				i.menu-icon.fa.fa-apple
+				span.menu-text Notas
 
 
 		//li(ui-sref-active="active" ng-if="hasRoleOrPerm('alumno') && false")

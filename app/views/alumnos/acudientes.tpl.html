@@ -2,19 +2,13 @@
 <div ui-view="edit_alumno" class="row"></div>
 <div class="row">
   <div class="col-xs-12 col-md-12">
-    <div class="well with-header with-footer">
-      <div class="header bordered-yellow">Acudientes </div>
+    <div class="well with-header with-footer animated bounceIn">
+      <div class="header bordered-yellow"><span style="font-size: 12pt">Acudientes</span><a href="" ng-click="crearAcudiente()" uib-tooltip="Ingresa datos de un nuevo acudiente" class="btn btn-info shiny"><i class="fa fa-plus"></i>  Crear acudiente</a></div>
       <div class="form-group">
-        <label>Elija grupo</label>
-        <div><span uib-tooltip="Debe seleccionar un grupo" tooltip-placement="right">
-            <ui-select ng-model="dato.grupo" on-select="onGrupoSelect($item, $model)" theme="select2" style="min-width: 200px;">
-              <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
-              <ui-select-choices repeat="grupo in grupos | filter: $select.search">
-                <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
-              </ui-select-choices>
-            </ui-select></span></div><a ng-click="traerNOAsignados()" href="" style="margin: 20px 0px; display: block;" uib-tooltip="Mostrar acudientes NO asignados a algún alumno">Mostrar los NO asignados</a>
+        <selector-grupo-dir></selector-grupo-dir>
+        <div style="margin-top: 10px;"><a ng-click="traerNOAsignados()" href="" style="margin: 20px 0px;" uib-tooltip="Mostrar acudientes NO asignados a algún alumno">Mostrar los NO asignados</a></div>
       </div>
-      <div id="grid1" ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-auto-resize style="height: 700px" class="grid"></div>
+      <div id="grid1" ui-grid="gridOptions" ui-grid-exporter ui-grid-move-columns ui-grid-expandable ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-auto-resize ui-grid-pinning style="height: 700px" class="grid"></div>
     </div>
   </div>
 </div>

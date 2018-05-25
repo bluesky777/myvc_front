@@ -1,6 +1,6 @@
 angular.module('myvcFrontApp')
 
-.directive('anunciosDir',['App', '$http', 'toastr', '$uibModal', '$state', (App, $http, toastr, $modal, $state)->
+.directive('anunciosDir',['App', '$http', 'toastr', '$uibModal', '$state', 'AuthService', (App, $http, toastr, $modal, $state, AuthService)->
 
 	restrict: 'E'
 	templateUrl: "#{App.views}panel/anunciosDir.tpl.html"
@@ -11,59 +11,64 @@ angular.module('myvcFrontApp')
 		scope.perfilPath      = App.images+'perfil/'
 		scope.views 		      = App.views
 
+
+
 		if $state.is 'panel'
 			$http.get('::ChangesAsked/to-me').then((r)->
 				scope.changes_asked = r.data
 
 
+				if AuthService.hasRoleOrPerm(['admin', 'profesor', 'alumno'])
 
-				scope.options = {
-					chart: {
-						type: 'discreteBarChart',
-						height: 180,
-						margin : {
-							top: 20,
-							right: 20,
-							bottom: 60,
-							left: 55
-						},
-						useInteractiveGuideline: true,
-						x: (d)-> return d.label;
-						y: (d)-> return d.value;
-						showValues: true,
-						valueFormat: (d)-> d3.format(',.0f')(d);
-						transitionDuration: 500
-						xAxis: {
-							axisLabel: "X Axis",
-							rotateLabels: 30,
-							showMaxMin: false
+					scope.options = {
+						chart: {
+							type: 'discreteBarChart',
+							height: 180,
+							margin : {
+								top: 20,
+								right: 20,
+								bottom: 60,
+								left: 55
+							},
+							useInteractiveGuideline: true,
+							x: (d)-> return d.label;
+							y: (d)-> return d.value;
+							showValues: true,
+							valueFormat: (d)-> d3.format(',.0f')(d);
+							transitionDuration: 500
+							xAxis: {
+								axisLabel: "X Axis",
+								rotateLabels: 30,
+								showMaxMin: false
+							}
+							zoom: {
+								enabled: true,
+								scaleExtent: [1,10],
+								useFixedDomain: false,
+								useNiceScale: false,
+								horizontalOff: false,
+								verticalOff: true,
+								unzoomEventType: "dblclick.zoom"
+							}
 						}
-						zoom: {
-							enabled: true,
-							scaleExtent: [1,10],
-							useFixedDomain: false,
-							useNiceScale: false,
-							horizontalOff: false,
-							verticalOff: true,
-							unzoomEventType: "dblclick.zoom"
+						title: {
+							enable: false,
+							text: 'Asignaturas correctas'
 						}
-					}
-					title: {
-						enable: false,
-						text: 'Asignaturas correctas'
-					}
-				};
+					};
 
 
-				valores = []
-				for profe in scope.changes_asked.profes_actuales
-					valores.push { label: profe.nombres + ' ' + profe.apellidos.substr(0,1) + '.', value: profe.porcentaje }
+					valores = []
+					for profe in scope.changes_asked.profes_actuales
+						valores.push { label: profe.nombres + ' ' + profe.apellidos.substr(0,1) + '.', value: profe.porcentaje }
 
 
-				scope.data = [{
-					key: "Asignaturas correctas",
-					values: valores
-				}];
+					scope.data = [{
+						key: "Asignaturas correctas",
+						values: valores
+					}];
+				# fin de IF AuthService
+
 
 
 

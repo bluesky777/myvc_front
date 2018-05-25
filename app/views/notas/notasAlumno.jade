@@ -23,12 +23,12 @@
 		.widget-header.bg-blue
 			i.widget-icon.fa.fa-bar-chart
 			.widget-caption
-				| Alumno
+				|  Alumno
 			.widget-buttons
 				a(href="" ng-init="minimized = false" ng-click="minimized = !minimized")
 					i.fa(ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimized]")
 		.widget-body(ng-class="{'ng-hide':minimized}")
-			.row(ng-if="!hasRoleOrPerm('alumno')")
+			.row(ng-if="!hasRoleOrPerm('alumno') && USER.tipo!='Acudiente'")
 				.col-lg-12.col-xs-12
 					.form-group
 						label(style="margin-right: 9px") Grupo
@@ -37,7 +37,7 @@
 							ui-select-choices(repeat="grupo in grupos | filter: $select.search")
 								div(ng-bind-html="grupo.nombre | highlight: $select.search")
 
-			.row(ng-if="!hasRoleOrPerm('alumno')")
+			.row(ng-if="!hasRoleOrPerm('alumno') && USER.tipo!='Acudiente'")
 				.col-lg-12.col-xs-12
 					.form-group
 						label Alumno
@@ -49,6 +49,17 @@
 								img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
 								small(ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
 						a.btn.btn-default(href="" ng-click="verNotasAlumno()") Ver notas
+
+			.row(ng-if="USER.tipo=='Acudiente'")
+				.col-lg-4.col-sm-6.col-xs-12(ng-repeat="alumno in mis_acudidos")
+					.acudido-item(ng-class="{ seleccionado: alumno.seleccionado }" ng-click="seleccionarAcudido(alumno)")
+						img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 60px; height: 60px;")
+						span(style="display: inline-block; padding-left: 4px;")
+							div {{alumno.nombres}} {{alumno.apellidos}}
+							div {{alumno.deuda | currency:'$':0}} -
+								span(ng-show="alumno.pazysalvo")  Está a paz y salvo
+								span(ng-show="!alumno.pazysalvo" style="color: red; font-weight: 800;")  NO Está a paz y salvo
+
 			.row
 				.col-lg-2.col-sm-4.col-xs-12
 					.form-group

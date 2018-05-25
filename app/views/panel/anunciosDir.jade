@@ -3,24 +3,58 @@
 		.widget
 			.widget-header.bordered-bottom.bordered-themesecondary
 				i.widget-icon.fa.fa-tags.themesecondary
-				span.widget-caption.themesecondary(uib-tooltip="Hay alumnos que piden algunos cambios. Tú podrías aceptar o rechazar esas peticiones.")
+				span.widget-caption.themesecondary()
 					| Disciplina
 
 			.widget-body
 				.widget-main.no-padding
 					.row(style="text-align: center")
 						.col-xs-12.col-sm-3
-							| Tardanzas a la institución: {{ ::changes_asked.ausencias_periodo.cant_tardanzas_entrada }}
+							| Tardanzas a la institución: {{ changes_asked.ausencias_periodo.cant_tardanzas_entrada }}
 						.col-xs-12.col-sm-3
-							| Ausencias a la institución: {{ ::changes_asked.ausencias_periodo.cant_ausencias_entrada }}
+							| Ausencias a la institución: {{ changes_asked.ausencias_periodo.cant_ausencias_entrada }}
 						.col-xs-12.col-sm-3
-							| Ausencias a la institución: {{ ::changes_asked.ausencias_periodo.cant_tardanzas_clases }}
+							| Tardanzas a las clases: {{ changes_asked.ausencias_periodo.cant_tardanzas_clases }}
 						.col-xs-12.col-sm-3
-							| Ausencias a la institución: {{ ::changes_asked.ausencias_periodo.cant_ausencias_clases }}
+							| Ausencias a las clases: {{ changes_asked.ausencias_periodo.cant_ausencias_clases }}
 					hr
 					.row(style="text-align: center")
 						.col-xs-12
-							b Nota de comportamiento: {{ ::changes_asked.comportamiento.nota }}
+							b Nota de comportamiento: {{ changes_asked.comportamiento.nota }}
+
+					hr
+					.row
+						.col-xs-12
+							ul
+								li(ng-repeat="definicion in ::changes_asked.comportamiento.definiciones")
+									| {{definicion.frase}}
+
+.row(ng-if="USER.tipo=='Acudiente'")
+	.col-xs-12.col-md-12(ng-repeat="alumno in mis_acudidos")
+		.widget
+			.widget-header.bordered-bottom.bordered-themesecondary
+				i.widget-icon.fa.fa-tags.themesecondary
+				span.widget-caption.themesecondary(uib-tooltip="")
+					| {{alumno.nombre_grupo}} - Disciplina
+
+			.widget-body
+				.widget-main.no-padding
+					.row(style="text-align: center")
+						.col-xs-12.col-sm-12
+							img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 70px; height: 70px; margin-top: -20px;")
+							h2(style="display: inline-block;") {{alumno.nombres}} {{alumno.apellidos}}
+						.col-xs-12.col-sm-3
+							| Tardanzas a la institución: {{ alumno.ausencias_periodo.cant_tardanzas_entrada }}
+						.col-xs-12.col-sm-3
+							| Ausencias a la institución: {{ alumno.ausencias_periodo.cant_ausencias_entrada }}
+						.col-xs-12.col-sm-3
+							| Tardanzas a las clases: {{ alumno.ausencias_periodo.cant_tardanzas_clases }}
+						.col-xs-12.col-sm-3
+							| Ausencias a las clases: {{ alumno.ausencias_periodo.cant_ausencias_clases }}
+					hr
+					.row(style="text-align: center")
+						.col-xs-12
+							b Nota de comportamiento: {{ alumno.comportamiento.nota }}
 
 					hr
 					.row
@@ -31,7 +65,7 @@
 
 
 // Gráfico de docentes
-.row.comportamiento-boletin(style="padding-top: 5px; padding-bottom: 40px; height: 310px")
+.row.comportamiento-boletin(style="padding-top: 5px; padding-bottom: 40px; height: 310px" ng-if="hasRoleOrPerm(['admin', 'profesor', 'alumno'])")
 	.col-lg-12.col-xs-12(style="height: 140px;")
 		.row
 			.col-lg-12.col-xs-12(style="text-align: center; ")

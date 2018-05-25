@@ -21,11 +21,11 @@
 <div ng-if=" (USER.alumnos_can_see_notas &amp;&amp; hasRoleOrPerm(['alumno', 'acudiente']) ) || !hasRoleOrPerm(['alumno', 'acudiente'])" class="col-lg-12 margin-padding-lados-xs bounceInLeft animated">
   <div class="widget">
     <div class="widget-header bg-blue"><i class="widget-icon fa fa-bar-chart"></i>
-      <div class="widget-caption">Alumno</div>
+      <div class="widget-caption"> Alumno</div>
       <div class="widget-buttons"><a href="" ng-init="minimized = false" ng-click="minimized = !minimized"><i ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimized]" class="fa"></i></a></div>
     </div>
     <div ng-class="{'ng-hide':minimized}" class="widget-body">
-      <div ng-if="!hasRoleOrPerm('alumno')" class="row">
+      <div ng-if="!hasRoleOrPerm('alumno') &amp;&amp; USER.tipo!='Acudiente'" class="row">
         <div class="col-lg-12 col-xs-12">
           <div class="form-group">
             <label style="margin-right: 9px">Grupo</label>
@@ -38,7 +38,7 @@
           </div>
         </div>
       </div>
-      <div ng-if="!hasRoleOrPerm('alumno')" class="row">
+      <div ng-if="!hasRoleOrPerm('alumno') &amp;&amp; USER.tipo!='Acudiente'" class="row">
         <div class="col-lg-12 col-xs-12">
           <div class="form-group">
             <label>Alumno</label>
@@ -47,6 +47,13 @@
               <ui-select-choices repeat="alumno in filtered_alumnos | filter: $select.search"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search"></small></ui-select-choices>
             </ui-select><a href="" ng-click="verNotasAlumno()" class="btn btn-default">Ver notas</a>
           </div>
+        </div>
+      </div>
+      <div ng-if="USER.tipo=='Acudiente'" class="row">
+        <div ng-repeat="alumno in mis_acudidos" class="col-lg-4 col-sm-6 col-xs-12">
+          <div ng-class="{ seleccionado: alumno.seleccionado }" ng-click="seleccionarAcudido(alumno)" class="acudido-item"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 60px; height: 60px;"><span style="display: inline-block; padding-left: 4px;">
+              <div>{{alumno.nombres}} {{alumno.apellidos}}</div>
+              <div>{{alumno.deuda | currency:'$':0}} -<span ng-show="alumno.pazysalvo"> Está a paz y salvo</span><span ng-show="!alumno.pazysalvo" style="color: red; font-weight: 800;"> NO Está a paz y salvo</span></div></span></div>
         </div>
       </div>
       <div class="row">

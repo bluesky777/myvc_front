@@ -8,19 +8,20 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 	.row
 		.col-lg-12.col-xs-12
 			.row.encabezado-boletin
-				.col-lg-12.col-xs-12
+				.col-lg-12.col-xs-12(style="padding: 0;")
 					.row
 						.col-lg-2.col-xs-2
 							img.img-responsive.logo-colegio(ng-src="{{perfilPath + year.logo}}")
-						.col-lg-8.col-xs-8.title-encabezado-boletin
+						.col-lg-8.col-xs-8.title-encabezado-boletin(style="padding: 0;")
 							.nombre-colegio
 								| {{year.nombre_colegio + ' - ' + year.abrev_colegio}}
 							.resolucion-colegio
-								| {{year.resolucion}}
+								span(ng-bind-html="::year.encabezado_certificado" ng-if="::year.encabezado_certificado!=null && year.encabezado_certificado!='' ")
+								span(ng-hide="::year.encabezado_certificado!=null && year.encabezado_certificado!=''") {{::year.resolucion}}
 							.title-descripcion
 								| Boletin FINAL {{USER.year}}
-						.col-lg-2.col-xs-2
-							img.img-responsive.img-thumbnail.foto-alumno(ng-src="{{perfilPath + alumno.foto_nombre}}" ng-show="config.mostrar_foto && alumno.foto_id")
+						.col-lg-2.col-xs-2(style="padding: 0;")
+							img.img-responsive.foto-alumno(ng-src="{{perfilPath + alumno.foto_nombre}}" ng-show="config.mostrar_foto && alumno.foto_id")
 
 					.row.descripcion-encabezado
 						.col-lg-6.col-xs-6
@@ -136,22 +137,36 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 					.row
 						.col-lg-6.col-xs-6.rector-firma
 							img(ng-show="config.show_firma_rector" ng-src="{{perfilPath + year.rector_firma}}")
-						.col-lg-6.col-xs-6.titular-firma
+
+						.col-lg-6.col-xs-6.titular-firma(ng-show="$parent.tipo_boletin_final==1")
 							img(ng-show="config.show_firma_titular" ng-src="{{perfilPath + grupo.firma_titular_nombre}}")
+
+						.col-lg-6.col-xs-6.titular-firma(ng-show="$parent.tipo_boletin_final==2 || $parent.tipo_boletin_final==3")
+							img(ng-show="config.show_firma_titular" ng-src="{{perfilPath + year.secre_firma}}")
+
 					.row
 						.col-lg-6.col-xs-6.nombre-rector-firma
 							| {{year.nombres_rector}} {{year.apellidos_rector}}
-						.col-lg-6.col-xs-6.nombre-titular-firma
-							| {{grupo.nombres_profesor}} {{grupo.apellidos_profesor}}
+
+						.col-lg-6.col-xs-6.nombre-titular-firma(ng-show="$parent.tipo_boletin_final==2 || $parent.tipo_boletin_final==3")
+							| {{year.nombres_secretario}} {{year.apellidos_secretario}}
+
+						.col-lg-6.col-xs-6.nombre-titular-firma(ng-show="$parent.tipo_boletin_final==1")
+							| {{::grupo.nombres_profesor}} {{::grupo.apellidos_profesor}}
 
 					.row
-						.col-lg-6.col-xs-6(ng-show="year.sexo_rector=='M'")
+						.col-lg-6.col-xs-6(ng-show="::year.sexo_rector=='M'")
 							| Rector
-						.col-lg-6.col-xs-6(ng-show="year.sexo_rector=='F'")
+						.col-lg-6.col-xs-6(ng-show="::year.sexo_rector=='F'")
 							| Rectora
 
-						.col-lg-6.col-xs-6
-							| Titular
+						span(ng-show="$parent.tipo_boletin_final==2 || $parent.tipo_boletin_final==3")
+							.col-lg-6.col-xs-6(ng-show="year.sexo_secretario=='M'")
+								| Secretario
+							.col-lg-6.col-xs-6(ng-show="year.sexo_secretario=='F'")
+								| Secretaria
 
+						.col-lg-6.col-xs-6(ng-show="$parent.tipo_boletin_final==1")
+							| Titular
 
 

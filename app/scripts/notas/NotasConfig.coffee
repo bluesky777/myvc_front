@@ -124,7 +124,7 @@ angular.module('myvcFrontApp')
 			data:
 				displayName: 'Notas alumno'
 				icon_fa: 'fa fa-graduation-cap'
-				needed_permissions: [PERMISSIONS.can_work_like_student, PERMISSIONS.can_work_like_teacher, PERMISSIONS.can_work_like_admin, PERMISSIONS.can_edit_notas]
+				#needed_permissions: [PERMISSIONS.can_work_like_student, PERMISSIONS.can_work_like_teacher, PERMISSIONS.can_work_like_admin, PERMISSIONS.can_edit_notas]
 				pageTitle: 'Notas alumno - MyVc'
 
 

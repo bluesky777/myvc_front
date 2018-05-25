@@ -23,12 +23,11 @@ angular.module('myvcFrontApp')
 			$scope.certificados 	= r.certificados
 			$scope.imagenes 		= r.imagenes
 
-			ProfesoresServ.contratos().then((r)->
-				$scope.profesores = r
 
+			$http.get('::profesores/todos').then((r)->
+				$scope.profesores = r.data
 				# Arreglamos paneles y selects cuando ya han llegado todos los datos
 				$scope.fixControles()
-
 			, (r2)->
 				toastr.error 'No se pudo traer los profesores'
 			)

@@ -53,6 +53,15 @@ angular.module('myvcFrontApp')
 		)
 
 
+		if $scope.USER.tipo == 'Acudiente'
+			$http.put('::acudientes/mis-acudidos').then((r)->
+				$scope.mis_acudidos = r.data.alumnos
+			, (r)->
+				toastr.error 'No se trajeron los acudidos'
+			)
+
+
+
 		$scope.setImagenPrincipal = ()->
 			ini = App.images+'perfil/'
 

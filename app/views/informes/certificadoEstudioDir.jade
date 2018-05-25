@@ -16,30 +16,29 @@ div(style="display: table; height: 30cm ; position: relative; " ng-class="{'page
 								.nombre-colegio
 									span(ng-show="year.sexo_rector=='M'") EL RECTOR DEL
 									span(ng-show="year.sexo_rector=='F'") LA RECTORA DEL
-									| {{ year.nombre_colegio }}
+									|    {{ year.nombre_colegio }}
 								.resolucion-colegio(ng-if="!year.config_certificado_estudio_id")
-									| {{year.resolucion}}
+									|   {{year.resolucion}}
 								.nombre-colegio
-									| CERTIFICA
+									|   CERTIFICA
 							.col-lg-2.col-xs-2
 								img.img-responsive.img-thumbnail.foto-alumno(ng-src="{{perfilPath + alumno.foto_nombre}}" ng-show="config.mostrar_foto && alumno.foto_id")
 
 						.row.descripcion-encabezado(style="margin-top: 20px; ")
 							.col-lg-12.col-xs-12
 								.grupo-alumno
-									| Que,
-									b {{alumno.nombres + ' ' + alumno.apellidos}}
-									| ,
+									|   Que,
+									b   {{alumno.nombres + ' ' + alumno.apellidos}},
 									span(ng-show="alumno.cant_lost_asig > 1" style="font-weight:bold")
-										| NO aprobó
+										|   NO aprobó
 									span(ng-hide="alumno.cant_lost_asig > 1")
-										| cursó y aprobó
-									| en éste plantel educativo las áreas correspondientes al grado
-									b.camel {{grupo.nombre_grupo.toLowerCase()}}
-									| de la {{grupo.nivel_educativo}}
-									| académica durante el año
-									b {{USER.year}}
-									| , obteniendo los siguientes resultados:
+										|    cursó y aprobó
+									|   en éste plantel educativo las áreas correspondientes al grado
+									b.camel   {{grupo.nombre_grupo.toLowerCase()}}
+									|   de la {{grupo.nivel_educativo}}
+									|   académica durante el año
+									b  {{USER.year}},
+									|  obteniendo los siguientes resultados:
 
 								// Esto no se verá en la impresión
 								.titular-grupo.hidden-print(uib-popover-template="views+'informes/infoTitularPop.tpl.html'"
@@ -50,19 +49,19 @@ div(style="display: table; height: 30cm ; position: relative; " ng-class="{'page
 
 				.row.body-boletin(style="margin-top: 10px; margin-bottom: 10px; ")
 					.col-lg-11.col-xs-11(style="padding-left: 50px;")
-						table.table-bordered.table-striped(style="margin: 0 auto;")
-							thead
-								tr(style="border-bottom: 2px solid;")
-									th.txtcentro No
-									th.txtcentro(style="width: 310px") Nombres
-									th.txtcentro(style="width: 65px") Cred
-									th.txtcentro(style="width: 35px")
+						table.table-bordered.table-bordered2.table-striped.table-striped2(style="margin: 0 auto; width: 100%")
+
+								tr(style="background-color: #99caed !important;")
+									td.txtcentro No
+									td.txtcentro(style="width: 310px") Nombres
+									td.txtcentro(style="width: 65px") Cred
+									td.txtcentro(style="width: 35px")
 										i.fa.fa-clock-o.icon-tardanza
 										| A
 									//th(ng-repeat="periodo in year.periodos") Per{{periodo.numero}}
-									th.txtcentro(style="width: 140px") Valoración
-									th.txtcentro(style="width: 65px; border-left: 2px solid !important;") %
-							tbody
+									td.txtcentro(style="width: 140px") Valoración
+									td.txtcentro(style="width: 65px; border-left: 2px solid !important;") %
+
 								tr(ng-repeat="asignatura in alumno.asignaturas")
 									td {{$index + 1}}
 									td(style="text-align: justify;")
@@ -86,7 +85,6 @@ div(style="display: table; height: 30cm ; position: relative; " ng-class="{'page
 										span.cant-unidades-perdidas(ng-show="{{asignatura.notas_perdidas > 0}}")
 											| ({{asignatura.notas_perdidas}})
 
-							tfoot
 								tr(style="border-top: 2px solid; text-align: center; font-weight: bold")
 									td
 									td(style="text-align: left;") Total
@@ -128,6 +126,7 @@ div(style="display: table; height: 30cm ; position: relative; " ng-class="{'page
 								| Rector
 							.col-lg-6.col-xs-6(ng-show="year.sexo_rector=='F'")
 								| Rectora
+
 
 
 	span(ng-if="year.config_certificado_estudio_id" style="display: table-row; vertical-align: bottom; height: {{year.config_certificado.piepagina_height}}px;")

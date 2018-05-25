@@ -2,18 +2,50 @@
 <div ng-if="hasRoleOrPerm(['alumno'])" class="row">
   <div class="col-xs-12 col-md-12">
     <div class="widget">
-      <div class="widget-header bordered-bottom bordered-themesecondary"><i class="widget-icon fa fa-tags themesecondary"></i><span uib-tooltip="Hay alumnos que piden algunos cambios. Tú podrías aceptar o rechazar esas peticiones." class="widget-caption themesecondary">Disciplina</span></div>
+      <div class="widget-header bordered-bottom bordered-themesecondary"><i class="widget-icon fa fa-tags themesecondary"></i><span class="widget-caption themesecondary">Disciplina</span></div>
       <div class="widget-body">
         <div class="widget-main no-padding">
           <div style="text-align: center" class="row">
-            <div class="col-xs-12 col-sm-3">Tardanzas a la institución: {{ ::changes_asked.ausencias_periodo.cant_tardanzas_entrada }}</div>
-            <div class="col-xs-12 col-sm-3">Ausencias a la institución: {{ ::changes_asked.ausencias_periodo.cant_ausencias_entrada }}</div>
-            <div class="col-xs-12 col-sm-3">Ausencias a la institución: {{ ::changes_asked.ausencias_periodo.cant_tardanzas_clases }}</div>
-            <div class="col-xs-12 col-sm-3">Ausencias a la institución: {{ ::changes_asked.ausencias_periodo.cant_ausencias_clases }}</div>
+            <div class="col-xs-12 col-sm-3">Tardanzas a la institución: {{ changes_asked.ausencias_periodo.cant_tardanzas_entrada }}</div>
+            <div class="col-xs-12 col-sm-3">Ausencias a la institución: {{ changes_asked.ausencias_periodo.cant_ausencias_entrada }}</div>
+            <div class="col-xs-12 col-sm-3">Tardanzas a las clases: {{ changes_asked.ausencias_periodo.cant_tardanzas_clases }}</div>
+            <div class="col-xs-12 col-sm-3">Ausencias a las clases: {{ changes_asked.ausencias_periodo.cant_ausencias_clases }}</div>
           </div>
           <hr>
           <div style="text-align: center" class="row">
-            <div class="col-xs-12"><b>Nota de comportamiento: {{ ::changes_asked.comportamiento.nota }}</b></div>
+            <div class="col-xs-12"><b>Nota de comportamiento: {{ changes_asked.comportamiento.nota }}</b></div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-xs-12">
+              <ul>
+                <li ng-repeat="definicion in ::changes_asked.comportamiento.definiciones">{{definicion.frase}}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div ng-if="USER.tipo=='Acudiente'" class="row">
+  <div ng-repeat="alumno in mis_acudidos" class="col-xs-12 col-md-12">
+    <div class="widget">
+      <div class="widget-header bordered-bottom bordered-themesecondary"><i class="widget-icon fa fa-tags themesecondary"></i><span uib-tooltip="" class="widget-caption themesecondary">{{alumno.nombre_grupo}} - Disciplina</span></div>
+      <div class="widget-body">
+        <div class="widget-main no-padding">
+          <div style="text-align: center" class="row">
+            <div class="col-xs-12 col-sm-12"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 70px; height: 70px; margin-top: -20px;">
+              <h2 style="display: inline-block;">{{alumno.nombres}} {{alumno.apellidos}}</h2>
+            </div>
+            <div class="col-xs-12 col-sm-3">Tardanzas a la institución: {{ alumno.ausencias_periodo.cant_tardanzas_entrada }}</div>
+            <div class="col-xs-12 col-sm-3">Ausencias a la institución: {{ alumno.ausencias_periodo.cant_ausencias_entrada }}</div>
+            <div class="col-xs-12 col-sm-3">Tardanzas a las clases: {{ alumno.ausencias_periodo.cant_tardanzas_clases }}</div>
+            <div class="col-xs-12 col-sm-3">Ausencias a las clases: {{ alumno.ausencias_periodo.cant_ausencias_clases }}</div>
+          </div>
+          <hr>
+          <div style="text-align: center" class="row">
+            <div class="col-xs-12"><b>Nota de comportamiento: {{ alumno.comportamiento.nota }}</b></div>
           </div>
           <hr>
           <div class="row">
@@ -29,7 +61,7 @@
   </div>
 </div>
 <!-- Gráfico de docentes-->
-<div style="padding-top: 5px; padding-bottom: 40px; height: 310px" class="row comportamiento-boletin">
+<div style="padding-top: 5px; padding-bottom: 40px; height: 310px" ng-if="hasRoleOrPerm(['admin', 'profesor', 'alumno'])" class="row comportamiento-boletin">
   <div style="height: 140px;" class="col-lg-12 col-xs-12">
     <div class="row">
       <div style="text-align: center; " class="col-lg-12 col-xs-12">

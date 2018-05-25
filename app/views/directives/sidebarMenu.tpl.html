@@ -16,13 +16,7 @@
         -->
         <li ui-sref-active="active"><a ui-sref="panel.cartera" stop-event="click"><span class="menu-text">Cartera</span></a></li>
         <li ui-sref-active="active"><a ui-sref="panel.promocionar_notas" stop-event="click" uib-tooltip="Promocionar notas de un alumno promovido"><span class="menu-text">Promocionar notas</span></a></li>
-        <!--li( ui-sref-active="active")
-        a(ui-sref="panel.acudientes" stop-event="click")
-        	span.menu-text Acudientes
-        
-        
-        
-        -->
+        <li ui-sref-active="active"><a ui-sref="panel.acudientes" stop-event="click"><span class="menu-text">Acudientes</span></a></li>
       </ul>
     </li><!-- Profesores-->
     <li sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm('admin')" ng-class="{open:$state.includes('panel.profesores')}"><a href="" class="menu-dropdown"><i class="menu-icon fa fa-graduation-cap"></i><span class="menu-text">Profesores</span><i class="menu-expand"></i></a>
@@ -39,7 +33,8 @@
         </li>
       </ul>
     </li><!--Notas vista por un Alumno-->
-    <li ui-sref-active="active" ng-if="hasRoleOrPerm('alumno')"><a ui-sref="panel.notas_alumno"><i class="menu-icon fa fa-apple"></i><span class="menu-text">Mis Notas</span></a></li>
+    <li ui-sref-active="active" ng-if="hasRoleOrPerm('alumno')"><a ui-sref="panel.notas_alumno"><i class="menu-icon fa fa-apple"></i><span class="menu-text">Mis Notas</span></a></li><!--Notas vista por un Acudiente-->
+    <li ui-sref-active="active" ng-if="$parent.USER.tipo=='Acudiente'"><a ui-sref="panel.notas_alumno"><i class="menu-icon fa fa-apple"></i><span class="menu-text">Notas</span></a></li>
     <!--li(ui-sref-active="active" ng-if="hasRoleOrPerm('alumno') && false")
     a(ui-sref="panel.mis_actividades" stop-event="click")
     	i.menu-icon.fa.fa-soccer-ball-o

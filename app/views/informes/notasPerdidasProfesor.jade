@@ -1,5 +1,5 @@
 div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }")
-	
+
 	.row
 		.col-lg-12.col-xs-12
 			.row.encabezado-planilla
@@ -9,7 +9,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 							.nombre-colegio
 								| {{ grupos[0].asignaturas[0].profesor_apellidos + ' ' + grupos[0].asignaturas[0].profesor_nombres }} - {{USER.year}}
 							.descripcion-title
-								| Alumnos con notas pendientes 
+								| Alumnos con notas pendientes
 
 
 	.row
@@ -20,8 +20,8 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 				div(ng-repeat="asignatura in grupo.asignaturas")
 
 					div.text-center(style="padding-top: 10px; font-size: 12pt;")
-						span(style="font-weight: 600;") {{ grupo.nombre }} - 
-						span {{ asignatura.materia }}
+						span(style="font-weight: 600;") {{ grupo.nombre }} -
+						span   {{ asignatura.materia }}
 
 					table.table-bordered.table-bordered2.table-striped.table-striped2(align="center")
 						thead
@@ -58,45 +58,46 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 								td
 									| {{ $index + 1 }}
 								td
-									
-									.nombresellipsis( uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" 
-										popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" 
-										popover-trigger="'mouseenter'" popover-popup-delay="500" 
-										ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}") 
-										
-										| {{alumno.apellidos + ' ' + alumno.nombres}} 
-									
-								td
-									div(ng-repeat="nota in alumno.notas | orderBy:'orden_subunidad' track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 10pt")
-										| {{ nota.numero_periodo }}
+
+									.nombresellipsis( uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'"
+										popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}"
+										popover-trigger="'mouseenter'" popover-popup-delay="500"
+										ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}")
+
+										| {{alumno.apellidos + ' ' + alumno.nombres}}
 
 								td
-									div.ellipsis350(ng-repeat="nota in alumno.notas | orderBy:'orden_subunidad' track by $index" 
-										ng-style=" !$last && {'border-bottom': '1px #111 solid' }" 
-										style="font-size: 10pt" uib-tooltip="{{nota.defin_subunidad}} - {{nota.defin_unidad}}" 
-										tooltip-popup-delay="500" tooltip-class="hidden-print")
-										| {{ nota.defin_subunidad }}
+									div(ng-repeat="nota in ::alumno.notas | orderBy:['numero_periodo','orden_unidad','orden_subunidad'] track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 10pt")
+										| {{ ::nota.numero_periodo }}
+
+								td
+									div.ellipsis350(ng-repeat="nota in ::alumno.notas | orderBy:['numero_periodo','orden_unidad','orden_subunidad'] track by $index"
+										ng-style=" !$last && {'border-bottom': '1px #111 solid' }"
+										style="font-size: 9pt; line-height: 1.55;" uib-tooltip="{{nota.defin_subunidad}} - {{nota.defin_unidad}}"
+										tooltip-popup-delay="500" tooltip-class="hidden-print" class="color-defin-perdida{{nota.orden_unidad}}")
+										| {{::nota.orden_unidad}}.{{ ::nota.defin_subunidad }}
+
 								td(style="width: 20px;")
-									div.text-center(ng-repeat="nota in alumno.notas | orderBy:'orden_subunidad' track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 10pt")
-										| {{ nota.nota }}
+									div.text-center(ng-repeat="nota in ::alumno.notas | orderBy:['numero_periodo','orden_unidad','orden_subunidad'] track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 10pt")
+										| {{ ::nota.nota }}
 
-								td 
-									div(ng-repeat="nota in alumno.notas track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 10pt")
+								td
+									div(ng-repeat="nota in ::alumno.notas | orderBy:['numero_periodo','orden_unidad','orden_subunidad'] track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 10pt")
 										|  &nbsp
-								td  
-									div(ng-repeat="nota in alumno.notas track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 10pt")
+								td
+									div(ng-repeat="nota in ::alumno.notas | orderBy:['numero_periodo','orden_unidad','orden_subunidad'] track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 10pt")
 										|  &nbsp
-								td(style="width: 25px;")  
-									div(ng-repeat="nota in alumno.notas track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 10pt")
+								td(style="width: 25px;")
+									div(ng-repeat="nota in ::alumno.notas | orderBy:['numero_periodo','orden_unidad','orden_subunidad'] track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 10pt")
 										|  &nbsp
-								td  
-									div(ng-repeat="nota in alumno.notas track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 10pt")
+								td
+									div(ng-repeat="nota in ::alumno.notas | orderBy:['numero_periodo','orden_unidad','orden_subunidad'] track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 10pt")
 										|  &nbsp
-								td  
-									div(ng-repeat="nota in alumno.notas track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 10pt")
+								td
+									div(ng-repeat="nota in ::alumno.notas | orderBy:['numero_periodo','orden_unidad','orden_subunidad'] track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 10pt")
 										|  &nbsp
-								td  
-									div(ng-repeat="nota in alumno.notas track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 10pt")
+								td
+									div(ng-repeat="nota in ::alumno.notas | orderBy:['numero_periodo','orden_unidad','orden_subunidad'] track by $index" ng-style=" !$last && {'border-bottom': '1px #111 solid' }" style="font-size: 10pt")
 										|  &nbsp
 
 

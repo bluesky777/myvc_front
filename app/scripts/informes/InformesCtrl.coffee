@@ -54,9 +54,17 @@ angular.module('myvcFrontApp')
 	if localStorage.tipo_boletin
 		$scope.tipo_boletin 				= localStorage.tipo_boletin
 
+	if localStorage.tipo_boletin_final
+		$scope.tipo_boletin_final 	= localStorage.tipo_boletin_final
+
+
 	$scope.eligirTipo = (n)->
 		localStorage.tipo_boletin 	= n
 		$scope.tipo_boletin 				= n
+
+	$scope.eligirTipoFinal = (n)->
+		localStorage.tipo_boletin_final 	= n
+		$scope.tipo_boletin_final 				= n
 
 
 	$scope.range = (n)->
@@ -450,14 +458,24 @@ angular.module('myvcFrontApp')
 			toastr.warning 'Debes seleccionar el grupo'
 			return
 
-		$state.go 'panel.informes.boletines_finales', {grupo_id: $scope.datos.grupo.id, periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
+		datos = {grupo_id: $scope.datos.grupo.id, periodos_a_calcular: $scope.config.periodos_a_calcular};
+
+		if $scope.tipo_boletin_final == 2 || $scope.tipo_boletin_final == '2'
+			datos.year_selected = true
+
+		$state.go 'panel.informes.boletines_finales', datos, {reload: true}
 
 
 	$scope.verBoletinesFinalesAlumnos = ()->
 
 		if $scope.datos.selected_alumnos.length > 0
 			$cookies.putObject 'requested_alumnos', $scope.datos.selected_alumnos
-			$state.go 'panel.informes.boletines_finales', {grupo_id: $scope.datos.grupo.id, periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
+
+			datos = {grupo_id: $scope.datos.grupo.id, periodos_a_calcular: $scope.config.periodos_a_calcular}
+			if $scope.tipo_boletin_final == 2 || $scope.tipo_boletin_final == '2'
+				datos.year_selected = true
+
+			$state.go 'panel.informes.boletines_finales', datos, {reload: true}
 		else
 			toastr.warning 'Debes seleccionar al menos un alumno o cargar boletines del grupo completo'
 
@@ -469,7 +487,11 @@ angular.module('myvcFrontApp')
 			$cookies.putObject 'requested_alumno', [$scope.datos.selected_alumno]
 			$state.go 'panel.informes'
 			$interval ()->
-				$state.go 'panel.informes.boletines_finales'
+				datos = {grupo_id: $scope.datos.grupo.id, periodos_a_calcular: $scope.config.periodos_a_calcular}
+				if $scope.tipo_boletin_final == 2 || $scope.tipo_boletin_final == '2'
+					datos.year_selected = true
+
+				$state.go 'panel.informes.boletines_finales', datos
 			, 1, 1
 		else
 			toastr.warning 'Elige un alumno o carga el grupo completo'

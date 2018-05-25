@@ -1,0 +1,13 @@
+.modal-header
+	h3.modal-title ¿Seguro que deseas eliminar?
+.modal-body
+	div(style="padding-bottom: 10px;")
+		img(ng-src="{{ perfilPath + acudiente.foto_nombre }}" style="width: 70px")
+		h3(style="display: inline;") {{ acudiente.nombres }} {{ acudiente.apellidos }}
+		h5 Id: {{acudiente.id}}
+
+
+.modal-footer
+	button.btn.btn-labeled.btn-danger(ng-click="ok()") Eliminar
+		i.btn-label.fa.fa-times
+	button.btn.btn-yellow(ng-click="cancel()") Cancelar

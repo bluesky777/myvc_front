@@ -4,15 +4,15 @@
   <div class="row">
     <div class="col-lg-12 col-xs-12">
       <div class="row encabezado-boletin">
-        <div class="col-lg-12 col-xs-12">
+        <div style="padding: 0;" class="col-lg-12 col-xs-12">
           <div class="row">
             <div class="col-lg-2 col-xs-2"><img ng-src="{{perfilPath + year.logo}}" class="img-responsive logo-colegio"></div>
-            <div class="col-lg-8 col-xs-8 title-encabezado-boletin">
+            <div style="padding: 0;" class="col-lg-8 col-xs-8 title-encabezado-boletin">
               <div class="nombre-colegio">{{year.nombre_colegio + ' - ' + year.abrev_colegio}}</div>
-              <div class="resolucion-colegio">{{year.resolucion}}</div>
+              <div class="resolucion-colegio"><span ng-bind-html="::year.encabezado_certificado" ng-if="::year.encabezado_certificado!=null &amp;&amp; year.encabezado_certificado!='' "></span><span ng-hide="::year.encabezado_certificado!=null &amp;&amp; year.encabezado_certificado!=''">{{::year.resolucion}}</span></div>
               <div class="title-descripcion">Boletin FINAL {{USER.year}}</div>
             </div>
-            <div class="col-lg-2 col-xs-2"><img ng-src="{{perfilPath + alumno.foto_nombre}}" ng-show="config.mostrar_foto &amp;&amp; alumno.foto_id" class="img-responsive img-thumbnail foto-alumno"></div>
+            <div style="padding: 0;" class="col-lg-2 col-xs-2"><img ng-src="{{perfilPath + alumno.foto_nombre}}" ng-show="config.mostrar_foto &amp;&amp; alumno.foto_id" class="img-responsive foto-alumno"></div>
           </div>
           <div class="row descripcion-encabezado">
             <div class="col-lg-6 col-xs-6">
@@ -84,16 +84,20 @@
         <div class="col-lg-12 col-xs-12">
           <div class="row">
             <div class="col-lg-6 col-xs-6 rector-firma"><img ng-show="config.show_firma_rector" ng-src="{{perfilPath + year.rector_firma}}"></div>
-            <div class="col-lg-6 col-xs-6 titular-firma"><img ng-show="config.show_firma_titular" ng-src="{{perfilPath + grupo.firma_titular_nombre}}"></div>
+            <div ng-show="$parent.tipo_boletin_final==1" class="col-lg-6 col-xs-6 titular-firma"><img ng-show="config.show_firma_titular" ng-src="{{perfilPath + grupo.firma_titular_nombre}}"></div>
+            <div ng-show="$parent.tipo_boletin_final==2 || $parent.tipo_boletin_final==3" class="col-lg-6 col-xs-6 titular-firma"><img ng-show="config.show_firma_titular" ng-src="{{perfilPath + year.secre_firma}}"></div>
           </div>
           <div class="row">
             <div class="col-lg-6 col-xs-6 nombre-rector-firma">{{year.nombres_rector}} {{year.apellidos_rector}}</div>
-            <div class="col-lg-6 col-xs-6 nombre-titular-firma">{{grupo.nombres_profesor}} {{grupo.apellidos_profesor}}</div>
+            <div ng-show="$parent.tipo_boletin_final==2 || $parent.tipo_boletin_final==3" class="col-lg-6 col-xs-6 nombre-titular-firma">{{year.nombres_secretario}} {{year.apellidos_secretario}}</div>
+            <div ng-show="$parent.tipo_boletin_final==1" class="col-lg-6 col-xs-6 nombre-titular-firma">{{::grupo.nombres_profesor}} {{::grupo.apellidos_profesor}}</div>
           </div>
           <div class="row">
-            <div ng-show="year.sexo_rector=='M'" class="col-lg-6 col-xs-6">Rector</div>
-            <div ng-show="year.sexo_rector=='F'" class="col-lg-6 col-xs-6">Rectora</div>
-            <div class="col-lg-6 col-xs-6">Titular</div>
+            <div ng-show="::year.sexo_rector=='M'" class="col-lg-6 col-xs-6">Rector</div>
+            <div ng-show="::year.sexo_rector=='F'" class="col-lg-6 col-xs-6">Rectora</div><span ng-show="$parent.tipo_boletin_final==2 || $parent.tipo_boletin_final==3">
+              <div ng-show="year.sexo_secretario=='M'" class="col-lg-6 col-xs-6">Secretario</div>
+              <div ng-show="year.sexo_secretario=='F'" class="col-lg-6 col-xs-6">Secretaria</div></span>
+            <div ng-show="$parent.tipo_boletin_final==1" class="col-lg-6 col-xs-6">Titular</div>
           </div>
         </div>
       </div>

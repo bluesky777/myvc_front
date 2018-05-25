@@ -3,23 +3,21 @@
 
 .row
 	.col-xs-12.col-md-12
-		.well.with-header.with-footer
-			.header.bordered-yellow Acudientes 
-				
-			
+		.well.with-header.with-footer.animated.bounceIn
+			.header.bordered-yellow
+				span(style="font-size: 12pt") Acudientes
+				a.btn.btn-info.shiny(href="" ng-click="crearAcudiente()" uib-tooltip="Ingresa datos de un nuevo acudiente")
+					i.fa.fa-plus
+					|   Crear acudiente
+
+
 			.form-group
-				label Elija grupo
-				div
-					span(uib-tooltip="Debe seleccionar un grupo" tooltip-placement="right")
-						ui-select(ng-model="dato.grupo" on-select="onGrupoSelect($item, $model)" theme="select2" style="min-width: 200px;")
-							ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}}
-							ui-select-choices(repeat="grupo in grupos | filter: $select.search")
-								div(ng-bind-html="grupo.nombre | highlight: $select.search")
-
-				a(ng-click="traerNOAsignados()" href="" style="margin: 20px 0px; display: block;" uib-tooltip="Mostrar acudientes NO asignados a algún alumno") Mostrar los NO asignados
+				selector-grupo-dir
+				div(style="margin-top: 10px;")
+					a(ng-click="traerNOAsignados()" href="" style="margin: 20px 0px;" uib-tooltip="Mostrar acudientes NO asignados a algún alumno") Mostrar los NO asignados
 
 
-			#grid1.grid(ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-auto-resize style="height: 700px")
+			#grid1.grid(ui-grid="gridOptions" ui-grid-exporter ui-grid-move-columns ui-grid-expandable ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-auto-resize ui-grid-pinning style="height: 700px")
 
 
 
