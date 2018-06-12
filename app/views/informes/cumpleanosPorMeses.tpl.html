@@ -1,0 +1,21 @@
+
+<div ng-repeat="mes in ::meses_cumple">
+  <div ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }">
+    <div class="row">
+      <div class="col-lg-12 col-xs-12">
+        <div draggable class="row">
+          <div ng-repeat="item in [1,2,3,4,5,6,7,8,9,10]" class="titulo-mes-cumpleanos">{{ mes.mes }}</div>
+          <!--.stage
+          //.layer.titulo-mes-cumpleanos(ng-repeat="item in [1,2,3,4,5,6,7,8,9,10]") {{ mes.mes }}
+          
+          -->
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div draggable class="col-lg-12 col-xs-12">
+        <div ng-repeat="alumno in ::mes.alumnos"><span style="font-weight: bold;">{{ alumno.abrev_grupo }}</span><span class="camel">   {{ alumno.nombres }} {{ alumno.apellidos }} - {{ alumno.fecha_nac }}</span></div>
+      </div>
+    </div>
+  </div>
+</div>

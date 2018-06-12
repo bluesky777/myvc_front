@@ -5,31 +5,30 @@
 <div class="modal-body">
   <div style="padding-bottom: 10px;"><img ng-src="{{ perfilPath + alumno.foto_nombre }}" style="width: 70px">
     <h3 style="display: inline;">{{ alumno.nombres }} {{ alumno.apellidos }}</h3>
+    <h4 style="border: 1px solid #ccc; padding: 4px;">Actual:<span style="font-weight: bold">  {{acudiente_cambiar.nombres}} {{acudiente_cambiar.apellidos}}.</span>  ID:  {{acudiente_cambiar.id}}.<span style="font-weight: bold">   {{acudiente_cambiar.parentesco}}</span></h4>
   </div>
   <uib-tabset active="config.informe_tab_actual" class="widget-main">
     <uib-tab heading="Seleccionar" index="'seleccionar'" select="selectSelectTab()">
       <div class="row">
         <div class="col-lg-12 col-xs-12">
           <h4>Acudientes</h4>
-          <div class="form-group col-lg-6 col-sm-6 col-xs-12">
-            <label>Seleccione</label>
+          <div style="padding: 2px;" class="form-group col-lg-8 col-sm-8 col-xs-12">
+            <label uib-tooltip="Entre paréntesis, la cantidad de acudidos que tiene cada acudiente. A la derecha el código del acudiente.">Seleccione</label>
             <ui-select ng-model="datos.acudiente" autofocus="true" style="width: 100%;">
               <ui-select-match placeholder="Escribe mínimo 1 letra" allow-clear="true">{{$select.selected.nombres}} {{$select.selected.apellidos}}</ui-select-match>
-              <ui-select-choices repeat="acudiente in acudientes track by $index" refresh="refreshAcudientes($select.search)" refresh-delay="1">
-                <div ng-bind-html="acudiente.nombres + ' ' + acudiente.apellidos | highlight: $select.search"></div>
-              </ui-select-choices>
+              <ui-select-choices repeat="acudiente in acudientes track by $index" refresh="refreshAcudientes($select.search)" refresh-delay="1"><small style="float: right; font-size: 75%;">{{ acudiente.id }}</small><span ng-bind-html="'(' + acudiente.cant_acudidos + ') ' +acudiente.nombres + ' ' + acudiente.apellidos | highlight: $select.search"></span></ui-select-choices>
             </ui-select>
           </div>
-          <div class="form-group col-lg-6 col-sm-6 col-xs-12">
+          <div style="padding: 2px;" class="form-group col-lg-4 col-sm-4 col-xs-12">
             <label>Parentesco</label>
             <ui-select ng-model="acudiente.parentesco" on-select="parentescoSelect($item, $model)" style="width: 100%;">
               <ui-select-match placeholder="Parentesco" allow-clear="true">{{$select.selected.parentesco}}</ui-select-match>
               <ui-select-choices repeat="parentesc in parentescos | filter: $select.search">
-                <div ng-bind-html="parentesc.parentesco | highlight: $select.search"></div><small>{{ pais.departamento | highlight: $select.search}}</small>
+                <div ng-bind-html="parentesc.parentesco | highlight: $select.search"></div>
               </ui-select-choices>
             </ui-select>
           </div>
-          <div id="ocupacion-autocompletar1" class="form-group col-lg-6 col-sm-6 col-xs-12">
+          <div id="ocupacion-autocompletar1" style="padding: 2px;" ng-if="false" class="form-group col-lg-6 col-sm-6 col-xs-12">
             <label for="acudiente-select-ocupacion">Ocupación</label>
             <input id="acudiente-select-ocupacion" type="text" ng-model="acudiente.ocupacion" placeholder="Ocupación" typeahead-append-to="'#ocupacion-autocompletar1'" typeahead-min-length="1" uib-typeahead="ocupacion_check for ocupacion_check in ocupacionCheck($viewValue)" typeahead-loading="loadingOcupaciones" typeahead-no-results="noResults" class="form-control"><i ng-show="loadingOcupaciones" style="font-size: 7pt" class="fa fa-refresh"></i>
             <div ng-show="noResults" style="font-size: 7pt"><i class="fa fa-check"></i>No existe. Puedes agregarla.</div>

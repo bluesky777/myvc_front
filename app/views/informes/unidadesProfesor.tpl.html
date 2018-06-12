@@ -1,0 +1,79 @@
+
+<div ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false || !asignatura.alumnos2 }">
+  <div class="row">
+    <div class="col-lg-12 col-xs-12">
+      <div class="row encabezado-planilla">
+        <div class="col-lg-12 col-xs-12">
+          <div class="row">
+            <div class="col-lg-2 col-xs-2"><img ng-src="{{::perfilPath + year.logo}}" style="width: 70px;" class="img-responsive logo-colegio menos-margin"></div>
+            <div class="col-lg-8 col-xs-8 title-encabezado-planilla">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="nombre-colegio">{{$parent.USER.unidades_displayname}} de profesor Per{{::$parent.USER.numero_periodo}}-{{::$parent.USER.year}}</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-12">
+                  <h5 style="padding: 0px; margin: 0px" class="nombre-profesor">{{::info_profe.nombres_profesor + ' ' + info_profe.apellidos_profesor}}</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-2 col-xs-2"><img ng-src="{{::perfilPath + info_profe.foto_nombre}}" ng-show="::config.mostrar_foto &amp;&amp; info_profe.foto_id" style="float: right; width: 70px;" class="img-responsive foto-profe menos-margin"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-repeat="asignatura in ::asignaturas">
+    <div class="row">
+      <div class="col-lg-12 col-xs-12">
+        <div class="row body-boletin">
+          <div style="padding:0px" class="col-lg-12 col-xs-12 materias">
+            <div class="materia-item">
+              <h4 style="font-weight: bold">{{ ::asignatura.nombre_grupo }} - {{::asignatura.materia}}</h4>
+              <!--table.table-bordered.table-bordered2.table-striped.table-striped2-->
+              <table style="width: 100%;" class="table-bordered table-bordered2">
+                <tr ng-repeat-start="unidad in ::asignatura.unidades">
+                  <td>
+                    <div ng-show="!unidad.editando" ng-click="editarUnidad(unidad)" class="subunidades-fila">{{$index+1}}. {{unidad.definicion}}
+                      <button ng-click="editarUnidad(unidad)" class="btn btn-primary btn-xs hidden-print"><i class="fa fa-pencil"></i></button>
+                    </div><span ng-show="unidad.editando">
+                      <form ng-submit="guardarCambiosUnidad(unidad)">
+                        <input type="text" ng-model="unidad.definicion" uib-tooltip="Definición" class="form-control">
+                        <input type="number" min="0" max="100" ng-model="unidad.porcentaje" uib-tooltip="Porcentaje" style="width: 100px; display: inline-block;" class="form-control">
+                        <input type="button" value="Cancelar" ng-click="cancelarEditUnidad(unidad)" class="btn btn-default btn-xs">
+                        <input type="submit" value="Guardar" class="btn btn-primary btn-xs">
+                      </form></span>
+                  </td>
+                  <td class="text-center">{{unidad.porcentaje}}%</td>
+                </tr>
+                <tr ng-repeat-end>
+                  <td colspan="2" style="padding-left: 10px">
+                    <div ng-repeat-start="subunidad in ::unidad.subunidades" ng-show="!subunidad.editando" ng-click="editarSubunidad(subunidad)" class="row subunidades-fila">
+                      <div class="col-xs-10">{{ $index + 1 }}. {{ subunidad.definicion }}
+                        <div class="btn-container-edit hidden-print">
+                          <button ng-click="editarSubunidad(subunidad)" class="btn btn-default"><i class="fa fa-pencil">Editar</i></button>
+                        </div>
+                      </div>
+                      <div class="col-xs-2">{{ subunidad.porcentaje }}%</div>
+                    </div>
+                    <div ng-repeat-end ng-show="subunidad.editando" class="row">
+                      <div class="col-xs-12">
+                        <form ng-submit="guardarCambiosSubunidad(subunidad)">
+                          <input type="text" ng-model="subunidad.definicion" uib-tooltip="Definición" class="form-control">
+                          <input type="number" min="0" max="100" ng-model="subunidad.porcentaje" uib-tooltip="Porcentaje" style="width: 100px; display: inline-block;" class="form-control">
+                          <input type="button" value="Cancelar" ng-click="cancelarEditSubunidad(subunidad)" class="btn btn-default btn-xs">
+                          <input type="submit" value="Guardar" class="btn btn-primary btn-xs">
+                        </form>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

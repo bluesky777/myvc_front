@@ -24,6 +24,7 @@ angular.module("myvcFrontApp")
 	$scope.tipos_sangre 				= App.tipos_sangre
 	$scope.mostrar_pasado     = false
 	$scope.mostrar_retirados  = false
+	$scope.texto_a_buscar    = ''
 
 	$scope.parentescos 			= App.parentescos
 
@@ -380,14 +381,15 @@ angular.module("myvcFrontApp")
 		enebleGridColumnMenu: false,
 		enableCellEditOnFocus: true,
 		expandableRowTemplate: '==alumnos/expandableRowTemplate.tpl.html',
-		expandableRowHeight: 110,
+		expandableRowHeight: 120,
 		expandableRowScope:
 			agregarAcudiente: 		$scope.agregarAcudiente
-			quitarAcudiente: 		$scope.quitarAcudiente
+			quitarAcudiente: 			$scope.quitarAcudiente
 			cambiarAcudiente: 		$scope.cambiarAcudiente
-			resetPass: 				$scope.resetPass
-			cambiarCiudad: 			$scope.cambiarCiudad
+			resetPass: 						$scope.resetPass
+			cambiarCiudad: 				$scope.cambiarCiudad
 			cambiaUsernameCheck: 	$scope.cambiaUsernameCheck
+			crearUsuario: 				$scope.crearUsuario
 
 		columnDefs: [
 			{ field: 'no', pinnedLeft:true, cellTemplate: '<div class="ui-grid-cell-contents">{{grid.renderContainers.body.visibleRowCache.indexOf(row) + 1}}</div>', width: 40, enableCellEdit: false }
@@ -602,6 +604,32 @@ angular.module("myvcFrontApp")
 		)
 
 
+	$scope.crearUsuario = (row)->
+		console.log row
+		if row.user_id
+			toastr.warning 'Ya tiene usuario'
+			return
+
+		if row.tipo == 'Acudiente'
+
+			if !row.id
+				toastr.info 'Sólo con acudientes creados'
+				return
+
+			$http.post('::acudientes/crear-usuario', {acudiente: row}).then((r)->
+				$scope.usuario_creado = true
+				row.user_id 	= r.data.id
+				row.username 	= r.data.username
+				toastr.success 'Usuario creado'
+
+			, ()->
+				toastr.error 'No se pudo crear el usuario'
+			)
+
+		if row.tipo != 'Acudiente'
+			toastr.info 'Aquí solo puede crear usuario de acudiente', 'Lo sentimos'
+
+
 
 	$scope.cambiaUsernameCheck = (texto)->
 		$scope.verificandoUsername = true
@@ -733,17 +761,20 @@ angular.module("myvcFrontApp")
 
 
 
-	$scope.buscar_por_nombre = ()->
+	$scope.buscar_por = (campo)->
 
 		if $scope.texto_a_buscar == ""
 			toastr.warning 'Escriba término a buscar'
 			return
 
-		$http.put('::buscar/por-nombre', {texto_a_buscar: $scope.texto_a_buscar }).then((r)->
+		$http.put('::buscar/por-'+campo, {texto_a_buscar: $scope.texto_a_buscar }).then((r)->
 			$scope.alumnos_encontrados = r.data
 		, (r2)->
 			toastr.error 'No se pudo buscar', 'Problema'
 		)
+
+
+
 
 
 

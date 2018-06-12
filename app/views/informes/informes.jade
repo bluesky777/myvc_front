@@ -166,6 +166,12 @@
 								a.btn.btn-default(href="" ng-click="verPuestosPeriodo()") Puestos del periodo
 								a.btn.btn-success(href="" ng-click="verPuestosYear()") Puestos del año
 
+						.row
+							.col-lg-7.col-sm-12.col-xs-12
+								.btn-group
+									a.btn.btn-default(href="" ng-click="verTodosPuestosPeriodo()") Todos del periodo
+									a.btn.btn-success(href="" ng-click="verTodosPuestosYear()") Todos del año
+
 
 					uib-tab(heading="Planillas" index="'planillas'" select="selectTab('planillas')")
 						.row
@@ -199,7 +205,7 @@
 
 
 						.btn-group
-							a.btn.btn-default(href="" ng-click="verPlanillasControlTardanzas()") Control de tardanzas entrada
+							a.btn.btn-default(href="" ng-click="verPlanillasControlTardanzas()" uib-tooltip="Usada para la entrada al colegio") Control de tardanzas entrada
 							a.btn.btn-default(href="" ng-click="verAusencias()") Ver ausencias
 							a.btn.btn-default(href="" ng-click="verNotasPerdidasTodos()") Notas perdidas todos
 						br
@@ -215,8 +221,15 @@
 
 						.btn-group
 							a.btn.btn-default(href="" ng-click="verSimat()") SIMAT {{USER.year}}
-							a.btn.btn-default(href="" type="file" ngf-select="importarSimat($file, $invalidFiles)"
+							//a.btn.btn-default(href="" type="file" ngf-select="importarSimat($file, $invalidFiles)"
 								accept=".xls,.xlsx" ngf-max-size="1MB") Importar SIMAT {{USER.year}}
+
+						a.btn.btn-default(href="" ui-sref="panel.informes.planillas-ausencias-acudientes") Asistencia Padres
+
+						br
+
+						a.btn.btn-default(href="" ng-click="mostrarUnidadesProfe()" uib-tooltip="Mostrar toda@s l@s {{USER.unidades_displayname}} del docente seleccionado") {{ USER.unidades_displayname }}
+
 
 						br
 
@@ -291,6 +304,8 @@
 										i.fa.fa-file
 
 								a.btn.btn-default(href="" ng-click="verCantAlumnosEnGrupos()" uib-tooltip="Ver cantidad de alumnos por grupos") Alumnos en grupos
+
+								a.btn.btn-default(href="" ng-click="verCumpleanosPorMeses()" uib-tooltip="Ver cumpleaños por cada mes") Cumpleaños meses
 
 
 

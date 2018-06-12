@@ -3,7 +3,10 @@
 <div class="row">
   <div class="col-xs-12 col-md-12">
     <div class="well with-header with-footer animated bounceIn">
-      <div class="header bordered-yellow"><span style="font-size: 12pt">Acudientes</span><a href="" ng-click="crearAcudiente()" uib-tooltip="Ingresa datos de un nuevo acudiente" class="btn btn-info shiny"><i class="fa fa-plus"></i>  Crear acudiente</a></div>
+      <div class="header bordered-yellow"><span style="font-size: 12pt">Acudientes</span><a href="" ng-click="crearAcudiente()" uib-tooltip="Ingresa datos de un nuevo acudiente" style="float: right;" class="btn btn-info shiny"><i class="fa fa-plus"></i>  Crear acudiente</a>
+        <div class="btn-group"><a href="" ng-click="exportarAcudientes()" uib-tooltip="Exportar acudientes a Excel" class="btn btn-info shiny"><i class="fa fa-download"></i>  Exportar</a></div>
+        <div class="btn-group"><a href="" ng-click="verPlanillas()" uib-tooltip="Ver informe de planilla de asistencia para imprimir" tooltip-append-to-body="true" class="btn btn-info shiny"><i class="fa fa-print"></i>  Planillas</a></div>
+      </div>
       <div class="form-group">
         <selector-grupo-dir></selector-grupo-dir>
         <div style="margin-top: 10px;"><a ng-click="traerNOAsignados()" href="" style="margin: 20px 0px;" uib-tooltip="Mostrar acudientes NO asignados a algún alumno">Mostrar los NO asignados</a></div>

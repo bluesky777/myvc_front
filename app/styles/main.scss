@@ -1,4 +1,5 @@
 @import "boots.scss";
+@import "texto-fancy.scss";
 
 
 // bower:scss
@@ -17090,6 +17091,7 @@ tr { page-break-inside: avoid }
 }
 
 .acudido-item{
+  border: 1px solid #ccc;
   padding: 5px;
   border-radius: 4px;
   transition: all .5s;
@@ -17102,3 +17104,36 @@ tr { page-break-inside: avoid }
   background: rgba(179,220,237,1);
   background: linear-gradient(to bottom, rgba(179,220,237,1) 0%, rgba(41,184,229,1) 50%, rgba(188,224,238,1) 100%);
 }
+.altura-tr-firma{
+  height: 30px;
+}
+
+.subunidades-fila{
+  cursor: pointer;
+}
+
+.subunidades-fila:hover .btn-container-edit{
+  right: 5px;
+  opacity: 1;
+}
+.subunidades-fila .btn-container-edit{
+  position: absolute;
+  right: -25px;
+  top: -5px;
+
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+
+@media only screen  {
+	.subunidades-fila:hover {
+    background-color: #bae9ff;
+	}
+}
+
+.titulo-mes-cumpleanos{
+  font-size: 30pt;
+  //font-weight: bold;
+}
+

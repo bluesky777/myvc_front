@@ -310,6 +310,21 @@ angular.module('myvcFrontApp')
 
 
 
+	$scope.verTodosPuestosPeriodo = ()->
+		localStorage.grupos_puestos = JSON.stringify($scope.grupos)
+		$scope.config.orientacion = 'vertical'
+		$state.go 'panel.informes.puestos_todos_periodo', {periodos_a_calcular: $scope.config.periodos_a_calcular}
+
+
+	$scope.verTodosPuestosYear = ()->
+		localStorage.grupos_puestos = JSON.stringify($scope.grupos)
+		$scope.config.orientacion = 'vertical'
+		$state.go 'panel.informes.puestos_todos_year', {periodo_a_calcular: $scope.config.periodo_a_calcular}
+
+
+
+	####### // Puestos
+
 	$scope.verPlanillasGrupo = ()->
 		if $scope.datos.grupo.id
 			$scope.config.orientacion = 'oficio_horizontal'
@@ -388,6 +403,23 @@ angular.module('myvcFrontApp')
 	$scope.verNotasPerdidasTodos = ()->
 		$scope.config.orientacion = 'carta_horizontal'
 		$state.go 'panel.informes.notas_perdidas_todos', {periodo_a_calcular: $scope.config.periodo_a_calcular}, {reload: true}
+
+
+	$scope.verCumpleanosPorMeses = ()->
+		$scope.config.orientacion = 'carta_horizontal'
+		$state.go 'panel.informes.cumpleanos_por_meses'
+
+
+
+	$scope.mostrarUnidadesProfe = ()->
+		if $scope.datos.profesor
+			$scope.config.orientacion = 'vertical'
+			$state.go 'panel.informes.unidades_profesor', {profesor_id: $scope.datos.profesor.profesor_id}, {reload: true}
+		else
+			toastr.warning 'Elige un profesor'
+
+	$scope.verAusencias = ()->
+		$state.go 'panel.informes.ver_ausencias', {periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
 
 
 

@@ -33,7 +33,7 @@
               <div><a ui-sref="panel.matriculas.detalles({alumno_id: alumno.alumno_id})" uib-tooltip="Ver matrículas" class="btn btn-default btn-xs menu-matrics"><i class="fa fa-pencil"></i></a></div>
             </td>
             <td>
-              <div uib-popover-template="views+'alumnos/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="mouseenter" popover-popup-delay="500"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 20px; height: 20px; margin-top: -3px;">{{ alumno.apellidos }}</div>
+              <div uib-popover-template="views+'alumnos/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 20px; height: 20px; margin-top: -3px;">{{ alumno.apellidos }}</div>
             </td>
             <td>{{ alumno.nombres }}</td>
             <td>{{ alumno.sexo }}</td>
@@ -66,13 +66,13 @@
       <hr class="wide">
       <div class="row">
         <div class="col-sm-6 col-xs-12">
-          <form ng-submit="buscar_por_nombre()">
+          <form ng-submit="buscar_por('nombre')">
             <div>Buscar en todo el sistema:
               <div class="input-group">
                 <input type="text" name="buscar" placeholder="Buscar..." ng-model="texto_a_buscar" class="form-control">
                 <div class="input-group-btn">
                   <button type="submit" class="btn btn-default">Por nombre</button>
-                  <button type="button" ng-click="buscar_por_apellido()" ng-show="false" class="btn btn-default">Por Apellido</button>
+                  <button type="button" ng-click="buscar_por('apellido')" class="btn btn-default">Por Apellido</button>
                 </div>
               </div>
             </div>
@@ -83,29 +83,31 @@
         <thead>
           <tr>
             <th style="max-width: 25px">No</th>
-            <th>Matrícula</th>
-            <th>Apellidos</th>
-            <th>Nombres</th>
-            <th style="max-width: 20px; padding: 0px 0px 8px;"><i style="font-weight: bold;" class="fa fa-venus-mars"></i></th>
-            <th style="min-width: 120px; text-align: center;">Creado en</th>
-            <th>Modificado</th>
-            <th>Eliminado</th>
+            <th style="min-width: 170px" class="text-center">Matrícula</th>
+            <th class="text-center">Apellidos</th>
+            <th class="text-center">Nombres</th>
+            <th style="max-width: 20px; padding: 0px 0px 8px;" class="text-center"><i style="font-weight: bold;" class="fa fa-venus-mars"></i></th>
+            <th uib-tooltip="Grupo en este año" tooltip-append-to-body="true" class="text-center">Gru</th>
+            <th style="min-width: 120px; text-align: center;" class="text-center">Creado en</th>
+            <th class="text-center">Modificado</th>
+            <th class="text-center">Eliminado</th>
           </tr>
         </thead>
         <tbody class="filasestrechas">
           <tr ng-repeat="alumno in alumnos_encontrados track by $index" ng-class="{'filagris': alumno.grupo_id!=dato_f.grupo.id, 'filawarning': alumno.estado=='ASIS' }">
             <td>{{ $index+1 }}</td>
-            <td>
-              <div class="btn-group"><a ui-sref="panel.alumnos.matricula_detalles({alumno_id: alumno.alumno_id})" uib-tooltip="Ver matrículas" tooltip-append-to-body="true" class="btn btn-default btn-xs"><i class="fa fa-pencil"></i></a><a ng-click="matricularUno(alumno)" uib-tooltip="Matricular en {{dato.grupo.abrev}}" tooltip-append-to-body="true" class="btn btn-default btn-xs">Matri en {{dato.grupo.abrev}}</a><a ng-click="matricularEn(alumno)" uib-tooltip="Matricular en..." tooltip-append-to-body="true" class="btn btn-default btn-xs">Matri en...</a></div>
+            <td class="text-center">
+              <div class="btn-group"><a ui-sref="panel.alumnos.matricula_detalles({alumno_id: alumno.alumno_id})" uib-tooltip="Ver matrículas" tooltip-append-to-body="true" class="btn btn-default btn-xs"><i class="fa fa-pencil"></i></a><a ng-click="matricularUno(alumno)" uib-tooltip="Matricular en {{dato.grupo.abrev}}" tooltip-append-to-body="true" tooltip- class="btn btn-default btn-xs">Matri en {{dato.grupo.abrev}}</a><a ng-click="matricularEn(alumno)" uib-tooltip="Matricular en..." tooltip-append-to-body="true" tooltip- class="btn btn-default btn-xs">Matri en...</a></div>
             </td>
             <td>
-              <div uib-popover-template="views+'alumnos/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="mouseenter" popover-popup-delay="500"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 20px; height: 20px; margin-top: -3px;">{{ alumno.apellidos }}</div>
+              <div uib-popover-template="views+'alumnos/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 20px; height: 20px; margin-top: -3px;">{{ alumno.apellidos }}</div>
             </td>
             <td>{{ alumno.nombres }}</td>
             <td>{{ alumno.sexo }}</td>
-            <td>{{ alumno.created_at }}</td>
-            <td>{{ alumno.updated_at }}</td>
-            <td>{{ alumno.deleted_at }}</td>
+            <td style="background-color: #a8cbea!important;" uib-tooltip="{{alumno.estado}} - {{alumno.nombre_grupo}}" tooltip-append-to-body="true" class="text-center">{{ alumno.abrev_grupo }}</td>
+            <td style="font-size: 7pt" class="text-center">{{ alumno.created_at }}</td>
+            <td style="font-size: 7pt" class="text-center">{{ alumno.updated_at }}</td>
+            <td style="font-size: 7pt" class="text-center">{{ alumno.deleted_at }}</td>
           </tr>
         </tbody>
       </table>

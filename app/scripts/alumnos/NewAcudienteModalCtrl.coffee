@@ -12,6 +12,7 @@ angular.module("myvcFrontApp")
 	$scope.crearTabSelected 	= false
 	$scope.selectTabSelected 	= true
 	$scope.perfilPath 			= App.images+'perfil/'
+	$scope.acudiente_cambiar = $rootScope.acudiente_cambiar
 	$scope.acudiente 	= {
 		sexo:			'M'
 		parentesco: 	$scope.parentescos[0]
@@ -21,7 +22,11 @@ angular.module("myvcFrontApp")
 	$scope.acudientes = [  ]
 
 
-
+	if $scope.acudiente_cambiar
+		if $scope.acudiente_cambiar.parentesco
+			for paren in $scope.parentescos
+				if paren.parentesco.toLowerCase() == $scope.acudiente_cambiar.parentesco.toLowerCase()
+					$scope.acudiente.parentesco = paren
 
 	$scope.selectCrearTab = ()->
 		$scope.crearTabSelected 	= true

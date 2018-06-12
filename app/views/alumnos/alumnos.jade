@@ -86,7 +86,7 @@
 						td
 							div( uib-popover-template="views+'alumnos/popoverAlumnoInfo.tpl.html'"
 								popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}"
-								popover-trigger="mouseenter" popover-popup-delay="500")
+								popover-trigger="'mouseenter'" popover-popup-delay="500")
 
 								img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 20px; height: 20px; margin-top: -3px;")
 								| {{ alumno.apellidos }}
@@ -132,13 +132,13 @@
 
 			.row
 				.col-sm-6.col-xs-12
-					form(ng-submit="buscar_por_nombre()")
+					form(ng-submit="buscar_por('nombre')")
 						div Buscar en todo el sistema:
 							.input-group
 								input.form-control(type="text" name="buscar" placeholder="Buscar..." ng-model="texto_a_buscar")
 								.input-group-btn
 									button.btn.btn-default(type="submit") Por nombre
-									button.btn.btn-default(type="button" ng-click="buscar_por_apellido()" ng-show="false") Por Apellido
+									button.btn.btn-default(type="button" ng-click="buscar_por('apellido')") Por Apellido
 
 
 
@@ -146,30 +146,31 @@
 				thead
 					tr
 						th(style="max-width: 25px") No
-						th Matrícula
-						th Apellidos
-						th Nombres
-						th(style="max-width: 20px; padding: 0px 0px 8px;")
+						th.text-center(style="min-width: 170px") Matrícula
+						th.text-center Apellidos
+						th.text-center Nombres
+						th.text-center(style="max-width: 20px; padding: 0px 0px 8px;")
 							i(style="font-weight: bold;").fa.fa-venus-mars
-						th(style="min-width: 120px; text-align: center;") Creado en
-						th Modificado
-						th Eliminado
+						th.text-center(uib-tooltip="Grupo en este año" tooltip-append-to-body="true") Gru
+						th.text-center(style="min-width: 120px; text-align: center;") Creado en
+						th.text-center Modificado
+						th.text-center Eliminado
 
 				tbody.filasestrechas
 					tr(ng-repeat="alumno in alumnos_encontrados track by $index" ng-class="{'filagris': alumno.grupo_id!=dato_f.grupo.id, 'filawarning': alumno.estado=='ASIS' }")
 						td {{ $index+1 }}
-						td
+						td.text-center
 
 							.btn-group
 								a.btn.btn-default.btn-xs(ui-sref="panel.alumnos.matricula_detalles({alumno_id: alumno.alumno_id})" uib-tooltip="Ver matrículas" tooltip-append-to-body="true")
 									i.fa.fa-pencil
-								a.btn.btn-default.btn-xs(ng-click="matricularUno(alumno)" uib-tooltip="Matricular en {{dato.grupo.abrev}}" tooltip-append-to-body="true") Matri en {{dato.grupo.abrev}}
-								a.btn.btn-default.btn-xs(ng-click="matricularEn(alumno)" uib-tooltip="Matricular en..." tooltip-append-to-body="true") Matri en...
+								a.btn.btn-default.btn-xs(ng-click="matricularUno(alumno)" uib-tooltip="Matricular en {{dato.grupo.abrev}}" tooltip-append-to-body="true" tooltip-) Matri en {{dato.grupo.abrev}}
+								a.btn.btn-default.btn-xs(ng-click="matricularEn(alumno)" uib-tooltip="Matricular en..." tooltip-append-to-body="true" tooltip-) Matri en...
 
 						td
 							div( uib-popover-template="views+'alumnos/popoverAlumnoInfo.tpl.html'"
 								popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}"
-								popover-trigger="mouseenter" popover-popup-delay="500")
+								popover-trigger="'mouseenter'" popover-popup-delay="500")
 
 								img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 20px; height: 20px; margin-top: -3px;")
 								| {{ alumno.apellidos }}
@@ -177,9 +178,11 @@
 							| {{ alumno.nombres }}
 
 						td {{ alumno.sexo }}
-						td {{ alumno.created_at }}
-						td {{ alumno.updated_at }}
-						td {{ alumno.deleted_at }}
+						td.text-center(style="background-color: #a8cbea!important;" uib-tooltip="{{alumno.estado}} - {{alumno.nombre_grupo}}" tooltip-append-to-body="true")
+							{{ alumno.abrev_grupo }}
+						td.text-center(style="font-size: 7pt") {{ alumno.created_at }}
+						td.text-center(style="font-size: 7pt") {{ alumno.updated_at }}
+						td.text-center(style="font-size: 7pt") {{ alumno.deleted_at }}
 
 
 

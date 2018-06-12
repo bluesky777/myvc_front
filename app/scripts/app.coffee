@@ -54,6 +54,9 @@ angular.module('myvcFrontApp', [
 	server 		= dominio + '5myvc/public/'
 	frontapp 	= location.origin + '/myvc_front/'
 
+	# Para el demo
+	if(location.href.indexOf('demo') > 0)
+		server = dominio + 'demo/5myvc/public/'
 
 
 	return {

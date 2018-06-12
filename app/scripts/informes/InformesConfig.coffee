@@ -275,13 +275,44 @@ angular.module('myvcFrontApp')
 							$http.put('::puestos/detailed-notas-year', datos)
 						],
 						escalas: ['EscalasValorativasServ', (EscalasValorativasServ)->
-							#debugger
 							EscalasValorativasServ.escalas()
 						]
 			data:
 				displayName: 'Puestos del año'
 				icon_fa: 'fa fa-print'
 				pageTitle: 'Puestos del año - MyVc'
+
+
+
+		.state 'panel.informes.puestos_todos_periodo',
+			url: '/puestos_todos_periodo'
+			views:
+				'report_content':
+					templateUrl: "==informes/puestosTodosPeriodo.tpl.html"
+					controller: 'PuestosTodosPeriodoCtrl'
+					resolve:
+						escalas: ['EscalasValorativasServ', (EscalasValorativasServ)->
+							EscalasValorativasServ.escalas()
+						]
+			data:
+				pageTitle: 'Puestos todos periodo - MyVc'
+
+
+
+		.state 'panel.informes.puestos_todos_year',
+			url: '/puestos_todos_year/:periodo_a_calcular'
+			views:
+				'report_content':
+					templateUrl: "==informes/puestosTodosYear.tpl.html"
+					controller: 'PuestosTodosYearCtrl'
+					resolve:
+						escalas: ['EscalasValorativasServ', (EscalasValorativasServ)->
+							EscalasValorativasServ.escalas()
+						]
+			data:
+				pageTitle: 'Puestos todos año - MyVc'
+
+
 
 
 
@@ -372,6 +403,23 @@ angular.module('myvcFrontApp')
 				pageTitle: 'SIMAT - MyVc'
 
 
+		.state 'panel.informes.planillas-ausencias-acudientes',
+			url: '/planillas-ausencias-acudientes'
+			views:
+				'report_content':
+					templateUrl: "==informes2/planillasAusenciasAcudientes.tpl.html"
+					controller: 'PlanillasAusenciasAcudientesCtrl' # En NotasPerdidasProfesorCtrl.coffee
+					resolve:
+						grupos_acud: ['$http', '$stateParams', ($http, $stateParams)->
+							$http.put('::acudientes/planillas-ausencias')
+						]
+			data:
+				displayName: 'Asistencia acudientes'
+				icon_fa: 'fa fa-print'
+				pageTitle: 'Planillas asistencia padres - MyVc'
+
+
+
 
 		.state 'panel.informes.ver_observador_vertical',
 			url: '/ver_observador_vertical/:grupo_id'
@@ -455,6 +503,41 @@ angular.module('myvcFrontApp')
 				displayName: 'Planillas profesor'
 				icon_fa: 'fa fa-print'
 				pageTitle: 'Planillas profesor - MyVc'
+
+
+
+		.state 'panel.informes.unidades_profesor',
+			url: '/unidades_profesor/:profesor_id'
+			views:
+				'report_content':
+					templateUrl: "==informes/unidadesProfesor.tpl.html"
+					controller: 'UnidadesProfesorCtrl'
+					resolve:
+						asignaturas: ['$http', '$stateParams', ($http, $stateParams)->
+							$http.put('::unidades/de-profesor', {profesor_id: $stateParams.profesor_id})
+						]
+			data:
+				displayName: 'Unidades profesor'
+				icon_fa: 'fa fa-print'
+				pageTitle: 'Unidades profesor - MyVc'
+
+
+
+		.state 'panel.informes.cumpleanos_por_meses', # En NotasPerdidasProfesorCtrl.coffee
+			url: '/cumpleanos_por_meses'
+			views:
+				'report_content':
+					templateUrl: "==informes/cumpleanosPorMeses.tpl.html"
+					controller: 'CumpleanosPorMesesCtrl'
+					resolve:
+						meses_cumple: ['$http', '$stateParams', ($http, $stateParams)->
+							$http.put('::informes/cumpleanos-por-meses')
+						]
+			data:
+				displayName: 'Cumpleaños por meses'
+				icon_fa: 'fa fa-print'
+				pageTitle: 'Cumpleaños por meses - MyVc'
+
 
 
 

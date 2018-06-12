@@ -1,0 +1,67 @@
+.row.hidden-print()
+	.col-lg-12.col-xs-12
+		edit-notas-mat-year-dir(asignatura="alumno_mat.asignatura" alumno="alumno_mat.alumno" alumnosasigs="alumnos_materias" ng-repeat="alumno_mat in alumnos_materias")
+
+
+div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal', 'page-vertical': config.orientacion=='vertical', 'salto-pagina': $parent.$last==false }"
+	ng-repeat="grupo in grupos_puestos | orderBy:'orden'")
+	.row
+		.col-lg-12.col-xs-12
+			.row.encabezado-puestos
+				.col-lg-12.col-xs-12
+					.row
+						.col-lg-2.col-xs-2
+							img.img-responsive.logo-colegio(ng-src="{{perfilPath + year.logo}}")
+						.col-lg-8.col-xs-8.title-encabezado-boletin
+							.nombre-colegio
+								| {{grupo.year.nombre_colegio + ' - ' + grupo.year.abrev_colegio}}
+							.resolucion-colegio
+								| {{grupo.year.resolucion}}
+							.title-descripcion
+								| Puestos periodo {{USER.numero_periodo}}-{{USER.year}} Grupo {{grupo.grupo.nombre_grupo}}
+							div(style="font-size: 8pt;")
+								| {{ fechahora | date : 'dd/MM/yyyy h:mma' }}
+						.col-lg-2.col-xs-2.no-padding(style="text-align: right; font-size: 9pt")
+							img.img-responsive.foto-profe.menos-margin(ng-src="{{perfilPath + grupo.grupo.foto_nombre}}" ng-show="config.mostrar_foto && grupo.grupo.foto_id" style="float: right; width: 70px;")
+	.row
+		.col-lg-12
+
+			table.table-bordered.table-bordered2.table-striped.table-striped2
+				thead
+					tr(style="border-bottom: 2px solid;")
+						th No
+						th Nombres
+						th(ng-repeat="asignatura in grupo.alumnos[0].asignaturas | orderBy:['orden_area', 'orden_materia', 'orden_asignatura'] ") {{asignatura.alias}}
+						th(style="border-left: 2px solid !important;") Total
+				tbody
+					tr(ng-repeat="alumno in grupo.alumnos | orderBy:'-promedio' | materiasPerdidas:filtrar.materias_perdidas:USER.nota_minima_aceptada")
+						td {{$index + 1}}
+						td(ng-class="{'nota-sobre':alumno.sobre }")
+							.nombresellipsis.ellipsis250( uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'"
+								popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}"
+								popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true"
+								ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}")
+
+								|  {{alumno.nombres + ' ' + alumno.apellidos}}
+
+						td(ng-repeat="asignatura in alumno.asignaturas | orderBy:['orden_area', 'orden_materia', 'orden_asignatura']" ng-class="{'nota-perdida-puestos': asignatura.nota_asignatura < USER.nota_minima_aceptada }"
+							ng-click="add_alum_materia(asignatura, alumno)" ng-mouseenter="asignatura.sobre=true; alumno.sobre=true" ng-mouseleave="asignatura.sobre=false; alumno.sobre=false")
+
+							span
+								| {{asignatura.nota_asignatura }}
+
+							span.cant-unidades-perdidas.puntero(ng-show="asignatura.cant_perdidas > 0")
+								| ({{asignatura.cant_perdidas}})
+
+						td(style="border-left: 2px solid !important;")
+							span {{alumno.promedio | decimales:2}}
+							span.cant-unidades-perdidas ({{ alumno.perdidos_year}})
+				tfoot
+					tr(style="border-top: 2px solid;")
+						td
+						td() Total
+						td(ng-repeat="asignatura in grupo.alumnos[0].asignaturas") {{ grupo.alumnos | promAsig:asignatura.asignatura_id | decimales:1 }}
+						td(style="font-weight: bold; border-left: 2px solid !important;") {{ grupo.alumnos | promGrupoPer | decimales:1 }}
+							span.cant-unidades-perdidas|({{grupo.alumnos | notasPerdidasGrupoPer}})
+
+

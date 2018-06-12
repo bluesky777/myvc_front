@@ -6,9 +6,19 @@
 		.well.with-header.with-footer.animated.bounceIn
 			.header.bordered-yellow
 				span(style="font-size: 12pt") Acudientes
-				a.btn.btn-info.shiny(href="" ng-click="crearAcudiente()" uib-tooltip="Ingresa datos de un nuevo acudiente")
+				a.btn.btn-info.shiny(href="" ng-click="crearAcudiente()" uib-tooltip="Ingresa datos de un nuevo acudiente" style="float: right;")
 					i.fa.fa-plus
 					|   Crear acudiente
+
+				.btn-group
+					a.btn.btn-info.shiny(href="" ng-click="exportarAcudientes()" uib-tooltip="Exportar acudientes a Excel")
+						i.fa.fa-download
+						|   Exportar
+
+				.btn-group
+					a.btn.btn-info.shiny(href="" ng-click="verPlanillas()" uib-tooltip="Ver informe de planilla de asistencia para imprimir" tooltip-append-to-body="true")
+						i.fa.fa-print
+						|   Planillas
 
 
 			.form-group

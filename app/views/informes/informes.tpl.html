@@ -154,6 +154,11 @@
               </ui-select>
               <div class="btn-group"><a href="" ng-click="verPuestosPeriodo()" class="btn btn-default">Puestos del periodo</a><a href="" ng-click="verPuestosYear()" class="btn btn-success">Puestos del año</a></div>
             </div>
+            <div class="row">
+              <div class="col-lg-7 col-sm-12 col-xs-12">
+                <div class="btn-group"><a href="" ng-click="verTodosPuestosPeriodo()" class="btn btn-default">Todos del periodo</a><a href="" ng-click="verTodosPuestosYear()" class="btn btn-success">Todos del año</a></div>
+              </div>
+            </div>
           </uib-tab>
           <uib-tab heading="Planillas" index="'planillas'" select="selectTab('planillas')">
             <div class="row">
@@ -180,7 +185,7 @@
                 </ui-select-choices>
               </ui-select><a href="" ng-click="verPlanillasGrupo()" class="btn btn-default">Ver planillas</a>
             </div>
-            <div class="btn-group"><a href="" ng-click="verPlanillasControlTardanzas()" class="btn btn-default">Control de tardanzas entrada</a><a href="" ng-click="verAusencias()" class="btn btn-default">Ver ausencias</a><a href="" ng-click="verNotasPerdidasTodos()" class="btn btn-default">Notas perdidas todos</a></div><br>
+            <div class="btn-group"><a href="" ng-click="verPlanillasControlTardanzas()" uib-tooltip="Usada para la entrada al colegio" class="btn btn-default">Control de tardanzas entrada</a><a href="" ng-click="verAusencias()" class="btn btn-default">Ver ausencias</a><a href="" ng-click="verNotasPerdidasTodos()" class="btn btn-default">Notas perdidas todos</a></div><br>
             <div uib-dropdown class="btn-group">
               <button id="split-button" href="" ng-click="verObservadorVertical()" uib-tooltip="Observador del alumno para imprimir" class="btn btn-default">Observador vertical</button>
               <button type="button" uib-dropdown-toggle class="btn btn-default">
@@ -191,7 +196,12 @@
                 <li role="menuitem"><a ng-click="verObservadorVerticalTodos()">Observador vertical - Todos</a></li>
               </ul>
             </div>
-            <div class="btn-group"><a href="" ng-click="verSimat()" class="btn btn-default">SIMAT {{USER.year}}</a><a href="" type="file" ngf-select="importarSimat($file, $invalidFiles)" accept=".xls,.xlsx" ngf-max-size="1MB" class="btn btn-default">Importar SIMAT {{USER.year}}</a></div><br><br>
+            <div class="btn-group"><a href="" ng-click="verSimat()" class="btn btn-default">SIMAT {{USER.year}}</a>
+              <!--a.btn.btn-default(href="" type="file" ngf-select="importarSimat($file, $invalidFiles)"
+              accept=".xls,.xlsx" ngf-max-size="1MB") Importar SIMAT {{USER.year}}
+              
+              -->
+            </div><a href="" ui-sref="panel.informes.planillas-ausencias-acudientes" class="btn btn-default">Asistencia Padres</a><br><a href="" ng-click="mostrarUnidadesProfe()" uib-tooltip="Mostrar toda@s l@s {{USER.unidades_displayname}} del docente seleccionado" class="btn btn-default">{{ USER.unidades_displayname }}</a><br><br>
             <div class="row">
               <div class="col-lg-2 col-sm-4 col-xs-12">
                 <div class="form-group">
@@ -243,7 +253,7 @@
             </div>
             <div class="row">
               <div class="col-lg-12 col-xs-12">
-                <div class="btn-group"><a href="" ng-click="verListadoDocentes()" class="btn btn-default">Listado docentes</a><a href="" ng-click="excelListadoDocentes()" uib-tooltip="Exportar a Excel listado docentes" class="btn btn-default"><i class="fa fa-file"></i></a></div><a href="" ng-click="verCantAlumnosEnGrupos()" uib-tooltip="Ver cantidad de alumnos por grupos" class="btn btn-default">Alumnos en grupos</a>
+                <div class="btn-group"><a href="" ng-click="verListadoDocentes()" class="btn btn-default">Listado docentes</a><a href="" ng-click="excelListadoDocentes()" uib-tooltip="Exportar a Excel listado docentes" class="btn btn-default"><i class="fa fa-file"></i></a></div><a href="" ng-click="verCantAlumnosEnGrupos()" uib-tooltip="Ver cantidad de alumnos por grupos" class="btn btn-default">Alumnos en grupos</a><a href="" ng-click="verCumpleanosPorMeses()" uib-tooltip="Ver cumpleaños por cada mes" class="btn btn-default">Cumpleaños meses</a>
               </div>
             </div>
           </uib-tab>

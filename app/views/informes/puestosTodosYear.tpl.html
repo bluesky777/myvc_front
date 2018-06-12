@@ -1,0 +1,58 @@
+
+<div class="row hidden-print">
+  <div class="col-lg-12 col-xs-12">
+    <edit-notas-mat-year-dir asignatura="alumno_mat.asignatura" alumno="alumno_mat.alumno" alumnosasigs="alumnos_materias" ng-repeat="alumno_mat in alumnos_materias"></edit-notas-mat-year-dir>
+  </div>
+</div>
+<div ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal', 'page-vertical': config.orientacion=='vertical', 'salto-pagina': $parent.$last==false }" ng-repeat="grupo in grupos_puestos | orderBy:'orden'">
+  <div class="row">
+    <div class="col-lg-12 col-xs-12">
+      <div class="row encabezado-puestos">
+        <div class="col-lg-12 col-xs-12">
+          <div class="row">
+            <div class="col-lg-2 col-xs-2"><img ng-src="{{perfilPath + year.logo}}" class="img-responsive logo-colegio"></div>
+            <div class="col-lg-8 col-xs-8 title-encabezado-boletin">
+              <div class="nombre-colegio">{{grupo.year.nombre_colegio + ' - ' + grupo.year.abrev_colegio}}</div>
+              <div class="resolucion-colegio">{{grupo.year.resolucion}}</div>
+              <div class="title-descripcion">Puestos Año {{USER.year}} Grupo {{grupo.grupo.nombre_grupo}}</div>
+              <div style="font-size: 8pt;">{{ fechahora | date : 'dd/MM/yyyy h:mma' }}</div>
+            </div>
+            <div style="text-align: right; font-size: 9pt" class="col-lg-2 col-xs-2 no-padding"><img ng-src="{{perfilPath + grupo.grupo.foto_nombre}}" ng-show="config.mostrar_foto &amp;&amp; grupo.grupo.foto_id" style="float: right; width: 70px;" class="img-responsive foto-profe menos-margin"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <table class="table-bordered table-bordered2 table-striped table-striped2">
+        <thead>
+          <tr style="border-bottom: 2px solid;">
+            <th>No</th>
+            <th class="text-center">Nombres</th>
+            <th ng-repeat="asignatura in grupo.alumnos[0].notas_asig | orderBy:['orden_area', 'orden_materia', 'orden_asignatura'] ">{{ asignatura.alias }}</th>
+            <th style="border-left: 2px solid !important;">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="alumno in grupo.alumnos | orderBy:'-promedio_year' | materiasPerdidasYear:filtrar.materias_perdidas:USER.nota_minima_aceptada">
+            <td>{{$index + 1}}</td>
+            <td ng-class="{'nota-sobre':alumno.sobre }">
+              <div uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true" ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" class="nombresellipsis ellipsis250">{{alumno.nombres + ' ' + alumno.apellidos}}</div>
+            </td>
+            <td ng-repeat="asignatura in alumno.notas_asig | orderBy:['orden_area', 'orden_materia', 'orden_asignatura'] " ng-class="{'nota-perdida-puestos': asignatura.nota_final_year &lt; USER.nota_minima_aceptada, 'nota-sobre':(asignatura.sobre) &amp;&amp; (alumno.sobre) }" ng-click="add_alum_materia(asignatura, alumno)" ng-mouseenter="asignatura.sobre=true; alumno.sobre=true" ng-mouseleave="asignatura.sobre=false; alumno.sobre=false" class="puntero"><span>{{asignatura.nota_final_year}}</span><span ng-show="asignatura.cant_perdidas &gt; 0" class="cant-unidades-perdidas">({{asignatura.cant_perdidas}})</span></td>
+            <td style="border-left: 2px solid !important;"><span>{{alumno.promedio_year | decimales:2}}</span><span ng-show="alumno.perdidos_year &gt; 0" class="cant-unidades-perdidas">({{ alumno.perdidos_year }})</span></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr style="border-top: 2px solid;">
+            <td></td>
+            <td>Total</td>
+            <td ng-repeat="asignatura in grupo.alumnos[0].notas_asig">{{ grupo.alumnos | promAsigYear:asignatura.asignatura_id }}</td>
+            <td style="font-weight: bold; border-left: 2px solid !important;">{{ grupo.alumnos | promGrupoYear }}<span ng-show="(grupo.alumnos | notasPerdidasGrupoYear) &gt; 0" class="cant-unidades-perdidas">({{grupo.alumnos | notasPerdidasGrupoYear}})</span></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>

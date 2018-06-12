@@ -1,10 +1,10 @@
 
 <div style="padding: 10px; background-color: white; margin: 10px; border: 2px solid #ccc; width: 500px" class="hidden-print">
   <label>Col externas
-    <input type="number" ng-model="numberColumExt" style="width: 40px">
+    <input type="number" ng-model="numberColumExt" style="width: 40px" min="1">
   </label>
-  <label>Col externas
-    <input type="number" ng-model="numberColumInt" style="width: 40px">
+  <label>Col Internas
+    <input type="number" ng-model="numberColumInt" style="width: 40px" min="1">
   </label>
   <select multiple ng-click="mesSeleccionado()" ng-model="mesMostrar" style="width: 100px; padding: 0">
     <option value="-1">Sin días</option>
@@ -61,14 +61,14 @@
                 </tr>
                 <tbody style="font-size: 9pt">
                   <tr ng-repeat-start="alumno in grupo.alumnos">
-                    <td rowspan="2" style="height: 16px;" ng-class-odd="'fondo-gris-td'" ng-class-even="'fondo-blanco-td'">{{$index + 1}}</td>
-                    <td rowspan="2" style="height: 16px;" ng-class-odd="'fondo-gris-td'" ng-class-even="'fondo-blanco-td'">
+                    <td rowspan="2" style="height: 22px;" ng-class-odd="'fondo-gris-td'" ng-class-even="'fondo-blanco-td'">{{$index + 1}}</td>
+                    <td rowspan="2" style="height: 22px;" ng-class-odd="'fondo-gris-td'" ng-class-even="'fondo-blanco-td'">
                       <div uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true" ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" class="nombresellipsis">{{alumno.apellidos + ' ' + alumno.nombres}}</div>
                     </td>
-                    <td ng-repeat="i in getNumber(numberColumExt * numberColumInt) track by $index" style="height: 8px; font-size: 3px;" ng-class="{'fondo-blanco-td': $parent.$odd, 'fondo-gris-td': $parent.$even }"><span></span></td>
+                    <td ng-repeat="i in getNumber(numberColumExt * numberColumInt) track by $index" style="height: 11px; font-size: 3px;" ng-class="{'fondo-blanco-td': $parent.$odd, 'fondo-gris-td': $parent.$even }"><span></span></td>
                   </tr>
-                  <tr ng-repeat-end style="height: 8px;">
-                    <td ng-repeat="i in getNumber(numberColumExt * numberColumInt) track by $index" style="height: 8px; font-size: 3px;" ng-class="{'fondo-blanco-td': $parent.$odd, 'fondo-gris-td': $parent.$even }"><span></span></td>
+                  <tr ng-repeat-end style="height: 11px;">
+                    <td ng-repeat="i in getNumber(numberColumExt * numberColumInt) track by $index" style="height: 11px; font-size: 3px;" ng-class="{'fondo-blanco-td': $parent.$odd, 'fondo-gris-td': $parent.$even }"><span></span></td>
                   </tr>
                 </tbody>
               </table>
