@@ -313,6 +313,33 @@ angular.module("myvcFrontApp")
 		)
 
 
+
+	$scope.crearUsuario = (row)->
+
+		if row.user_id
+			toastr.warning 'Ya tiene usuario'
+			return
+
+		if row.tipo == 'Acudiente'
+
+			if !row.id
+				toastr.info 'Sólo con acudientes creados'
+				return
+
+			$http.post('::acudientes/crear-usuario', {acudiente: row}).then((r)->
+				$scope.usuario_creado = true
+				row.user_id 	= r.data.id
+				row.username 	= r.data.username
+				toastr.success 'Usuario creado'
+
+			, ()->
+				toastr.error 'No se pudo crear el usuario'
+			)
+
+		if row.tipo != 'Acudiente'
+			toastr.info 'Aquí solo puede crear usuario de acudiente', 'Lo sentimos'
+
+
 	$scope.resetPass = (row)->
 
 		if !row.user_id
@@ -329,6 +356,18 @@ angular.module("myvcFrontApp")
 		modalInstance.result.then( (user)->
 			#console.log 'Resultado del modal: ', user
 		)
+
+
+	$scope.cambiaUsernameCheck = (texto)->
+		$scope.verificandoUsername = true
+		return $http.put('::users/usernames-check', {texto: texto}).then((r)->
+			$scope.username_match 		= r.data.usernames
+			$scope.verificandoUsername 	= false
+			return $scope.username_match.map((item)->
+				return item.username
+			)
+		)
+
 
 
 
@@ -386,10 +425,10 @@ angular.module("myvcFrontApp")
 			agregarAcudiente: 		$scope.agregarAcudiente
 			quitarAcudiente: 			$scope.quitarAcudiente
 			cambiarAcudiente: 		$scope.cambiarAcudiente
+			crearUsuario: 				$scope.crearUsuario
 			resetPass: 						$scope.resetPass
 			cambiarCiudad: 				$scope.cambiarCiudad
 			cambiaUsernameCheck: 	$scope.cambiaUsernameCheck
-			crearUsuario: 				$scope.crearUsuario
 
 		columnDefs: [
 			{ field: 'no', pinnedLeft:true, cellTemplate: '<div class="ui-grid-cell-contents">{{grid.renderContainers.body.visibleRowCache.indexOf(row) + 1}}</div>', width: 40, enableCellEdit: false }
@@ -602,45 +641,6 @@ angular.module("myvcFrontApp")
 			toastr.error 'No se pudo matricular el alumno.', 'Error'
 
 		)
-
-
-	$scope.crearUsuario = (row)->
-		console.log row
-		if row.user_id
-			toastr.warning 'Ya tiene usuario'
-			return
-
-		if row.tipo == 'Acudiente'
-
-			if !row.id
-				toastr.info 'Sólo con acudientes creados'
-				return
-
-			$http.post('::acudientes/crear-usuario', {acudiente: row}).then((r)->
-				$scope.usuario_creado = true
-				row.user_id 	= r.data.id
-				row.username 	= r.data.username
-				toastr.success 'Usuario creado'
-
-			, ()->
-				toastr.error 'No se pudo crear el usuario'
-			)
-
-		if row.tipo != 'Acudiente'
-			toastr.info 'Aquí solo puede crear usuario de acudiente', 'Lo sentimos'
-
-
-
-	$scope.cambiaUsernameCheck = (texto)->
-		$scope.verificandoUsername = true
-		return $http.put('::users/usernames-check', {texto: texto}).then((r)->
-			$scope.username_match 		= r.data.usernames
-			$scope.verificandoUsername 	= false
-			return $scope.username_match.map((item)->
-				return item.username
-			)
-		)
-
 
 	$scope.cambiaEpsCheck = (texto)->
 		$scope.verificandoEps = true

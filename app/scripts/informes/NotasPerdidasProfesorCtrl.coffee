@@ -92,6 +92,24 @@ angular.module('myvcFrontApp')
 	$scope.USER = Perfil.User()
 
 	$scope.perfilPath = App.images+'perfil/'
+	$scope.fecha_hoy  = new Date();
+	$scope.texto_informativo = {}
+
+
+	hay = localStorage.txt_informativo_asist_padres
+	if hay
+		$scope.texto_informativo.texto = hay
+	else
+			$scope.texto_informativo.texto = "<b>PLANILLA ASISTENCIA ASAMBLEA DE PADRES</b><br>"
+
+	$scope.cambia_texto_informativo = ()->
+		localStorage.txt_informativo_asist_padres = $scope.texto_informativo.texto
+
+
+
+	$scope.editor_options =
+		allowedContent: true,
+		entities: false
 
 
 	for grup in $scope.grupos_acud
@@ -117,19 +135,6 @@ angular.module('myvcFrontApp')
 ])
 
 
-.controller('CumpleanosPorMesesCtrl',['$scope', 'App', 'Perfil', 'meses_cumple', '$state', ($scope, App, Perfil, meses_cumple, $state)->
-	$scope.meses_cumple = meses_cumple.data
-
-	$scope.USER = Perfil.User()
-
-	$scope.perfilPath = App.images+'perfil/'
-
-
-	$scope.$emit 'cambia_descripcion', 'Cumpleaños por meses '
-
-])
-
-
 
 
 
@@ -146,63 +151,3 @@ angular.module('myvcFrontApp')
 )
 
 
-
-
-.directive "draggable", ($document) ->
-	(scope, element, attr) ->
-		[x, y, container, startX, startY] = [null, null, null, null, null]
-
-		# Prevent default dragging of selected content
-
-		mousemove = (event) ->
-			y = event.pageY - startY
-			x = event.pageX - startX
-			#console.log "x: " + x + " y: " + y
-			if x < 0 then x = 0
-			if y < 0 then y = 0
-			scope.$apply( ->
-				scope.$parent.events.push mousemove: x: x, y: y, pageX: event.pageX, pageY: event.pageY, startY: startY, startX: startX
-				)
-			#console.log "#{event.pageX}  #{event.pageY} "
-			container.css
-				top: y + "px"
-				left: x + "px"
-
-		mouseup = ->
-			$document.unbind "mousemove", mousemove
-			$document.unbind "mouseup", mouseup
-			#debugger
-			scope.elem.top = y
-			scope.elem.left = x
-			console.log element
-
-			scope.$apply( ->
-				scope.$parent.events.push mouseup: x: x, y: y
-				)
-
-		startX = 0
-		startY = 0
-		x = scope.elem.left
-		y = scope.elem.top
-		container = null
-
-		element.css
-			position: "relative"
-			cursor: "pointer"
-
-		element.on "mousedown", (event) ->
-			return unless event.which == 1
-			event.preventDefault()
-			console.log 'mousedown'
-			console.log event
-			console.log element
-			container = attr.$$element.parent()
-			console.log container
-			scope.$apply( ->
-				scope.$parent.events = ["mousedown": x: x, y: y, pageX: event.pageX, pageY: event.pageY, startY: startY, startX: startX]
-				)
-			startX = event.pageX - x
-			startY = event.pageY - y
-
-			$document.on "mousemove", mousemove
-			$document.on "mouseup", mouseup

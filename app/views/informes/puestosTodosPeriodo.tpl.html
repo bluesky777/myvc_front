@@ -4,13 +4,13 @@
     <edit-notas-mat-year-dir asignatura="alumno_mat.asignatura" alumno="alumno_mat.alumno" alumnosasigs="alumnos_materias" ng-repeat="alumno_mat in alumnos_materias"></edit-notas-mat-year-dir>
   </div>
 </div>
-<div ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal', 'page-vertical': config.orientacion=='vertical', 'salto-pagina': $parent.$last==false }" ng-repeat="grupo in grupos_puestos | orderBy:'orden'">
+<div ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal', 'page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }" ng-repeat="grupo in grupos_puestos | orderBy:'orden'">
   <div class="row">
     <div class="col-lg-12 col-xs-12">
       <div class="row encabezado-puestos">
         <div class="col-lg-12 col-xs-12">
           <div class="row">
-            <div class="col-lg-2 col-xs-2"><img ng-src="{{perfilPath + year.logo}}" class="img-responsive logo-colegio"></div>
+            <div class="col-lg-2 col-xs-2"><img ng-src="{{perfilPath + grupo.year.logo}}" style="width: 70px;" class="img-responsive logo-colegio"></div>
             <div class="col-lg-8 col-xs-8 title-encabezado-boletin">
               <div class="nombre-colegio">{{grupo.year.nombre_colegio + ' - ' + grupo.year.abrev_colegio}}</div>
               <div class="resolucion-colegio">{{grupo.year.resolucion}}</div>
@@ -26,32 +26,26 @@
   <div class="row">
     <div class="col-lg-12">
       <table class="table-bordered table-bordered2 table-striped table-striped2">
-        <thead>
-          <tr style="border-bottom: 2px solid;">
-            <th>No</th>
-            <th>Nombres</th>
-            <th ng-repeat="asignatura in grupo.alumnos[0].asignaturas | orderBy:['orden_area', 'orden_materia', 'orden_asignatura'] ">{{asignatura.alias}}</th>
-            <th style="border-left: 2px solid !important;">Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="alumno in grupo.alumnos | orderBy:'-promedio' | materiasPerdidas:filtrar.materias_perdidas:USER.nota_minima_aceptada">
-            <td>{{$index + 1}}</td>
-            <td ng-class="{'nota-sobre':alumno.sobre }">
-              <div uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true" ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" class="nombresellipsis ellipsis250"> {{alumno.nombres + ' ' + alumno.apellidos}}</div>
-            </td>
-            <td ng-repeat="asignatura in alumno.asignaturas | orderBy:['orden_area', 'orden_materia', 'orden_asignatura']" ng-class="{'nota-perdida-puestos': asignatura.nota_asignatura &lt; USER.nota_minima_aceptada }" ng-click="add_alum_materia(asignatura, alumno)" ng-mouseenter="asignatura.sobre=true; alumno.sobre=true" ng-mouseleave="asignatura.sobre=false; alumno.sobre=false"><span>{{asignatura.nota_asignatura }}</span><span ng-show="asignatura.cant_perdidas &gt; 0" class="cant-unidades-perdidas puntero">({{asignatura.cant_perdidas}})</span></td>
-            <td style="border-left: 2px solid !important;"><span>{{alumno.promedio | decimales:2}}</span><span class="cant-unidades-perdidas">({{ alumno.perdidos_year}})</span></td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr style="border-top: 2px solid;">
-            <td></td>
-            <td>Total</td>
-            <td ng-repeat="asignatura in grupo.alumnos[0].asignaturas">{{ grupo.alumnos | promAsig:asignatura.asignatura_id | decimales:1 }}</td>
-            <td style="font-weight: bold; border-left: 2px solid !important;">{{ grupo.alumnos | promGrupoPer | decimales:1 }}<span class="cant-unidades-perdidas">({{grupo.alumnos | notasPerdidasGrupoPer}})</span></td>
-          </tr>
-        </tfoot>
+        <tr style="border-bottom: 2px solid;">
+          <td class="texto-negrita">No</td>
+          <td class="text-center texto-negrita">Nombres</td>
+          <td ng-repeat="asignatura in grupo.alumnos[0].asignaturas | orderBy:['orden_area', 'orden_materia', 'orden_asignatura'] " class="texto-negrita">{{asignatura.alias}}</td>
+          <td style="border-left: 2px solid !important;" class="text-center texto-negrita">Total</td>
+        </tr>
+        <tr ng-repeat="alumno in grupo.alumnos | orderBy:'-promedio' | materiasPerdidas:filtrar.materias_perdidas:USER.nota_minima_aceptada">
+          <td>{{$index + 1}}</td>
+          <td ng-class="{'nota-sobre':alumno.sobre }">
+            <div uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true" ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" class="nombresellipsis ellipsis250"> {{alumno.nombres + ' ' + alumno.apellidos}}</div>
+          </td>
+          <td ng-repeat="asignatura in alumno.asignaturas | orderBy:['orden_area', 'orden_materia', 'orden_asignatura']" ng-class="{'nota-perdida-puestos': asignatura.nota_asignatura &lt; USER.nota_minima_aceptada }" ng-click="add_alum_materia(asignatura, alumno)" ng-mouseenter="asignatura.sobre=true; alumno.sobre=true" ng-mouseleave="asignatura.sobre=false; alumno.sobre=false"><span>{{asignatura.nota_asignatura }}</span><span ng-show="asignatura.cant_perdidas &gt; 0" class="cant-unidades-perdidas puntero">({{asignatura.cant_perdidas}})</span></td>
+          <td style="border-left: 2px solid !important;"><span>{{alumno.promedio | decimales:2}}</span><span class="cant-unidades-perdidas">({{ alumno.perdidos_year}})</span></td>
+        </tr>
+        <tr style="border-top: 2px solid;">
+          <td class="texto-negrita"></td>
+          <td class="texto-negrita">Total</td>
+          <td ng-repeat="asignatura in grupo.alumnos[0].asignaturas" class="texto-negrita">{{ grupo.alumnos | promAsig:asignatura.asignatura_id | decimales:1 }}</td>
+          <td style="border-left: 2px solid !important;" class="texto-negrita">{{ grupo.alumnos | promGrupoPer | decimales:1 }}<span class="cant-unidades-perdidas">({{grupo.alumnos | notasPerdidasGrupoPer}})</span></td>
+        </tr>
       </table>
     </div>
   </div>

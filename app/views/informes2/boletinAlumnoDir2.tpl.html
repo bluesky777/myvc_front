@@ -3,7 +3,7 @@
   <div style="position: absolute; margin-bottom: 0; margin-left: -10px; border-bottom: none;" ng-show="$parent.config.imagen_fondo" ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical' } "><img ng-src="{{ perfilPath + $parent.config.imagen_fondo.nombre }}" ng-repeat="cant in $parent.range(config.cant_imagenes) track by $index" class="img-fondo-boletin"></div>
   <div class="gr-nombre-vertical">
     <div ng-repeat="num in [1,2,3,4,5,6,7,8,9,10] track by $index" class="nombre-vertical">
-      <div style="color: #777!important;" class="camel">{{::alumno.apellidos.toLowerCase() }} {{ ::alumno.nombres.toLowerCase() }}</div>
+      <div style="color: #222!important;" class="camel">{{::alumno.apellidos.toLowerCase() }} {{ ::alumno.nombres.toLowerCase() }}</div>
     </div>
   </div>
   <div class="row">
@@ -17,7 +17,7 @@
               <div class="resolucion-colegio"><span ng-bind-html="::year.encabezado_certificado" ng-if="::year.encabezado_certificado!=null &amp;&amp; year.encabezado_certificado!='' "></span><span ng-hide="::year.encabezado_certificado!=null &amp;&amp; year.encabezado_certificado!=''">{{::year.resolucion}}</span></div>
               <div class="title-descripcion">Boletin periodo {{ ::USER.numero_periodo }} - {{ ::USER.year }}</div>
             </div>
-            <div class="col-lg-2 col-xs-2"><img ng-src="{{::perfilPath}}{{::alumno.foto_nombre}}" ng-show="config.mostrar_foto &amp;&amp; alumno.foto_id" class="img-responsive img-thumbnail foto-alumno"></div>
+            <div class="col-lg-2 col-xs-2"><img ng-src="{{::perfilPath}}{{::alumno.foto_nombre}}" ng-show="config.mostrar_foto &amp;&amp; alumno.foto_id" class="img-responsive foto-alumno"></div>
           </div>
           <div class="row descripcion-encabezado">
             <div class="col-lg-6 col-xs-6">
@@ -32,7 +32,7 @@
         </div>
         <div class="row body-boletin">
           <div class="col-lg-12 col-xs-12 no-padding"><span ng-repeat="area in ::alumno.areas | orderBy:'orden' track by $index">
-              <div ng-if="::area.asignaturas.length&gt;1" class="materia-item">
+              <div ng-if="::area.asignaturas.length&gt;1" class="area-group materia-item">
                 <div style="border-radius: 5px 5px 0 0; font-style: italic; border: 1px solid #000;margin: 0px 10px 0px 10px;" class="row materia-title">
                   <div class="col-lg-10 col-xs-10"><span class="materia-name">{{::area.area_nombre}}</span></div>
                   <div class="col-xs-1"><span class="materia-name">{{::area.area_desempenio}}</span></div>
@@ -90,7 +90,7 @@
                         <div class="row">
                           <div class="col-lg-9 col-xs-9 subunidad-definicion"><span ng-show="::asignatura.unidades.length &gt; 1">{{ ::$index+1}}.</span>   {{::unidad.definicion_unidad}}</div>
                           <div class="col-lg-1 col-xs-1 subunidad-porc"><span ng-show="config.show_porcentajes">{{ ::unidad.porcentaje_unidad }}%</span></div>
-                          <div style="font-size: 6pt; line-height: 2; font-weight: bold;" class="col-lg-1 col-xs-1 subunidad-nota no-padding text-center">{{ ::unidad.desempenio }}</div>
+                          <div ng-class="{'nota-perdida-bold': unidad.nota_unidad&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}" style="font-size: 6pt; line-height: 2; font-weight: bold;" class="col-lg-1 col-xs-1 subunidad-nota no-padding text-center">{{ ::unidad.desempenio }}</div>
                           <div class="col-lg-1 col-xs-1 subunidad-nota puntero"><span uib-tooltip="Valor nota: {{::subunidad.valor_nota}}" class="{{::unidad.clase_perdida}}">{{::unidad.nota_unidad}}</span></div>
                         </div>
                       </div>
@@ -164,7 +164,7 @@
                   <td ng-repeat="periodo in ::year.periodos track by $index" class="text-center">
                     <div>{{ ::asignatura_perdida.detalle_periodos['cant_perdidas_' + ($index+1) ] }}</div>
                   </td>
-                  <td><b>{{::asignatura_perdida.detalle_periodos.cant_perdidas_year}}</b></td>
+                  <td class="text-center"><b>{{::asignatura_perdida.detalle_periodos.cant_perdidas_year}}</b></td>
                 </tr>
                 <tr>
                   <td colspan="2">Total</td>

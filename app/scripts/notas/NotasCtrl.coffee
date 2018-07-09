@@ -164,6 +164,13 @@ angular.module('myvcFrontApp')
 
 
 
+	$scope.seleccionarFila = (alumno)->
+		for alum in $scope.alumnos
+			alum.seleccionado = false
+		alumno.seleccionado = true
+
+
+
 
 
 

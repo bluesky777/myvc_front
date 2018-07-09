@@ -18,7 +18,7 @@ angular.module('myvcFrontApp')
 	$scope.cancelarEditUnidad = (unidad)->
 		unidad.editando = false
 
-	$scope.guardarCambiosSubunidad = (unidad)->
+	$scope.guardarCambiosUnidad = (unidad)->
 		$http.put('::unidades/update/'+unidad.id, unidad).then((r)->
 			toastr.success 'Cambios guardados'
 			unidad.editando = false

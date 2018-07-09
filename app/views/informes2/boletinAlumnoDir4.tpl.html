@@ -1,9 +1,9 @@
 
 <div ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $parent.$last==false }" style="position: relative; overflow: hidden;">
-  <div style="position: absolute; margin-bottom: 0; margin-left: -10px; border-bottom: none;" ng-show="config.config.imagen_fondo" ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical' } "><img ng-src="{{ perfilPath + $parent.config.imagen_fondo.nombre }}" ng-repeat="cant in $parent.range(config.cant_imagenes) track by $index" class="img-fondo-boletin"></div>
+  <div style="position: absolute; margin-bottom: 0; margin-left: -10px; border-bottom: none;" ng-show="$parent.config.imagen_fondo" ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical' } "><img ng-src="{{ perfilPath + $parent.config.imagen_fondo.nombre }}" ng-repeat="cant in $parent.range(config.cant_imagenes) track by $index" class="img-fondo-boletin"></div>
   <div class="gr-nombre-vertical">
     <div ng-repeat="num in [1,2,3,4,5,6,7,8,9,10] track by $index" class="nombre-vertical">
-      <div style="color: #777!important;" class="camel">{{::alumno.apellidos.toLowerCase() }} {{ ::alumno.nombres.toLowerCase() }}</div>
+      <div style="color: #222!important;" class="camel">{{::alumno.apellidos.toLowerCase() }} {{ ::alumno.nombres.toLowerCase() }}</div>
     </div>
   </div>
   <div class="row">
@@ -17,7 +17,7 @@
               <div class="resolucion-colegio"><span ng-bind-html="::year.encabezado_certificado" ng-if="::year.encabezado_certificado!=null &amp;&amp; year.encabezado_certificado!='' "></span><span ng-hide="::year.encabezado_certificado!=null &amp;&amp; year.encabezado_certificado!=''">{{::year.resolucion}}</span></div>
               <div class="title-descripcion">Boletin periodo {{ ::USER.numero_periodo }} - {{ ::USER.year }}</div>
             </div>
-            <div class="col-lg-2 col-xs-2"><img ng-src="{{::perfilPath}}{{::alumno.foto_nombre}}" ng-show="config.mostrar_foto &amp;&amp; alumno.foto_id" class="img-responsive img-thumbnail foto-alumno"></div>
+            <div class="col-lg-2 col-xs-2"><img ng-src="{{::perfilPath}}{{::alumno.foto_nombre}}" ng-show="config.mostrar_foto &amp;&amp; alumno.foto_id" class="img-responsive foto-alumno"></div>
           </div>
           <div class="row descripcion-encabezado">
             <div class="col-lg-6 col-xs-6">

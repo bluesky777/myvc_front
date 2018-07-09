@@ -243,6 +243,8 @@ angular.module('myvcFrontApp')
 		# console.log $item
 
 	$scope.bloquear_animacion = (elemento)->
+		if !elemento
+			return
 		$timeout(()->
 			elemento.anim_bloqueada   = true
 		, 2000)

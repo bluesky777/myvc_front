@@ -7,7 +7,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 
 	div.gr-nombre-vertical
 		div.nombre-vertical(ng-repeat="num in [1,2,3,4,5,6,7,8,9,10] track by $index")
-			.camel(style="color: #777!important;") {{::alumno.apellidos.toLowerCase() }} {{ ::alumno.nombres.toLowerCase() }}
+			.camel(style="color: #222!important;") {{::alumno.apellidos.toLowerCase() }} {{ ::alumno.nombres.toLowerCase() }}
 
 	.row
 		.col-lg-12.col-xs-12
@@ -25,7 +25,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 							.title-descripcion
 								| Boletin periodo {{ ::USER.numero_periodo }} - {{ ::USER.year }}
 						.col-lg-2.col-xs-2
-							img.img-responsive.img-thumbnail.foto-alumno(ng-src="{{::perfilPath}}{{::alumno.foto_nombre}}" ng-show="config.mostrar_foto && alumno.foto_id")
+							img.img-responsive.foto-alumno(ng-src="{{::perfilPath}}{{::alumno.foto_nombre}}" ng-show="config.mostrar_foto && alumno.foto_id")
 
 					.row.descripcion-encabezado
 						.col-lg-6.col-xs-6
@@ -47,7 +47,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 					.col-lg-12.col-xs-12.no-padding
 
 						span(ng-repeat="area in ::alumno.areas | orderBy:'orden' track by $index")
-							.materia-item(ng-if="::area.asignaturas.length>1")
+							.area-group.materia-item(ng-if="::area.asignaturas.length>1")
 								.row.materia-title(style="border-radius: 5px 5px 0 0; font-style: italic; border: 1px solid #000;margin: 0px 10px 0px 10px;")
 									.col-lg-10.col-xs-10
 										span.materia-name {{::area.area_nombre}}
@@ -137,7 +137,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 														|    {{::unidad.definicion_unidad}}
 													.col-lg-1.col-xs-1.subunidad-porc
 														span(ng-show="config.show_porcentajes") {{ ::unidad.porcentaje_unidad }}%
-													.col-lg-1.col-xs-1.subunidad-nota.no-padding.text-center(style="font-size: 6pt; line-height: 2; font-weight: bold;")
+													.col-lg-1.col-xs-1.subunidad-nota.no-padding.text-center(ng-class="{'nota-perdida-bold': unidad.nota_unidad<USER.nota_minima_aceptada && config.show_rojos}" style="font-size: 6pt; line-height: 2; font-weight: bold;")
 														| {{ ::unidad.desempenio }}
 													.col-lg-1.col-xs-1.subunidad-nota.puntero
 														span(class="{{::unidad.clase_perdida}}" uib-tooltip="Valor nota: {{::subunidad.valor_nota}}") {{::unidad.nota_unidad}}
@@ -225,7 +225,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 									td.text-center(ng-repeat="periodo in ::year.periodos track by $index")
 										div {{ ::asignatura_perdida.detalle_periodos['cant_perdidas_' + ($index+1) ] }}
 
-									td
+									td.text-center
 										b {{::asignatura_perdida.detalle_periodos.cant_perdidas_year}}
 
 								tr

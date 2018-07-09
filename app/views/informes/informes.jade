@@ -307,6 +307,20 @@
 
 								a.btn.btn-default(href="" ng-click="verCumpleanosPorMeses()" uib-tooltip="Ver cumpleaños por cada mes") Cumpleaños meses
 
+						.row(ng-show="$state.is('panel.informes.cumpleanos_por_meses')" style="margin-top: 20px;")
+							.col-lg-12.col-xs-12
+								.form-group
+									label Imagen de fondo
+									ui-select(ng-model="config.imagen_fondo" on-select="putConfigCookie($item)" style="width: 300px; display: inline-block;")
+										ui-select-match(placeholder="Imagen de Fondo" allow-clear="true")
+											img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
+											| {{$select.selected.nombre}}
+										ui-select-choices(repeat="imagen in imgs_public | filter: $select.search")
+											img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
+											small(ng-bind-html="imagen.nombre | highlight: $select.search")
+
+										label Cantidad:
+										input(type="number" ng-model="config.cant_imagenes" min="1" max="30")
 
 
 
@@ -344,6 +358,7 @@
 
 				hr.wide
 				h5 {{descripcion_informe}}
+
 
 
 // ng-class="{'altura-informe': !$state.is('panel.informes.certificados_estudio') } "

@@ -3,7 +3,7 @@
   <div style="position: absolute; margin-bottom: 0; margin-left: -10px; border-bottom: none;" ng-show="$parent.config.imagen_fondo" ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical' } "><img ng-src="{{ perfilPath + $parent.config.imagen_fondo.nombre }}" ng-repeat="cant in $parent.range(config.cant_imagenes) track by $index" class="img-fondo-boletin"></div>
   <div class="gr-nombre-vertical">
     <div ng-repeat="num in [1,2,3,4,5,6,7,8,9,10] track by $index" class="nombre-vertical">
-      <div style="color: #777!important;" class="camel">{{::alumno.apellidos.toLowerCase() }} {{ ::alumno.nombres.toLowerCase() }}</div>
+      <div style="color: #222!important;" class="camel">{{::alumno.apellidos.toLowerCase() }} {{ ::alumno.nombres.toLowerCase() }}</div>
     </div>
   </div>
   <div class="row">

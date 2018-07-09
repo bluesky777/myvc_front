@@ -1,3 +1,15 @@
+.row.hidden-print(style="margin-bottom: 20px" ng-show="$state.is('panel.informes.planillas-ausencias-acudientes')")
+	.col-xs-12
+
+		//div(ckeditor="editor_options" ng-model="texto_informativo.texto" ready="onEditorReady" ng-change="cambia_texto_informativo()")
+
+
+		textarea(ng-model="texto_informativo.texto" ng-model-options="{ updateOn: 'blur' }"
+			style="width: 100%; height: 100px; " ng-change="cambia_texto_informativo()")
+		input(type="date" ng-model="fecha_hoy" class="form-control" style="width: 200px")
+
+
+
 div(ng-repeat="grupo in ::grupos_acud")
 
 	div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false || !asignatura.alumnos2 }")
@@ -14,11 +26,14 @@ div(ng-repeat="grupo in ::grupos_acud")
 										.nombre-colegio
 											| {{::year.nombre_colegio + ' - ' + year.abrev_colegio}}
 										.descripcion-title
-											| Planilla asistencia padres Per{{::USER.numero_periodo}} - {{::USER.year}}.
-											b.camel  {{::grupo.nombre}}
+											span.center(ng-bind-html="texto_informativo.texto" style="border: 0px; width: 100%; ")
+											| {{ fecha_hoy | date:"dd ' de ' MMMM" }}. Per{{::USER.numero_periodo}} - {{::USER.year}}.
+
+
 								.row
 									.col-lg-12
-										h5.nombre-profesor(style="padding: 0px; margin: 0px") {{::grupo.nombres_titular + ' ' + grupo.apellidos_titular}}
+										h5.nombre-profesor(style="padding: 0px; margin: 0px") {{::grupo.nombres_titular + ' ' + grupo.apellidos_titular}} -
+											b.camel    {{::grupo.nombre}}
 
 							.col-lg-2.col-xs-2
 								img.img-responsive.foto-profe.menos-margin(ng-src="{{::perfilPath + asignatura.foto_nombre}}" ng-show="::config.mostrar_foto && asignatura.foto_id" style="float: right; width: 70px;")

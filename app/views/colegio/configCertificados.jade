@@ -14,7 +14,7 @@ div(ng-show="creando_certificado")
 
 				label Imagen
 				ui-select(ng-model="newcertif.encabezado_img_id" on-select="usuarioSelect($item, $model)" theme="select2" style="min-width: 300px;")
-					ui-select-match(placeholder="Encabezado")
+					ui-select-match(placeholder="Encabezado" allow-clear="true")
 						img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
 						small(ng-bind-html="' ' + $select.selected.nombre ")
 					ui-select-choices(repeat="imagen in imagenes | filter: {nombre: $select.search}")
@@ -50,7 +50,7 @@ div(ng-show="creando_certificado")
 			.form-group
 				label Imagen
 				ui-select(ng-model="newcertif.piepagina_img_id" on-select="usuarioSelect($item, $model)" theme="select2" style="min-width: 300px;")
-					ui-select-match(placeholder="Pie de página")
+					ui-select-match(placeholder="Pie de página" allow-clear="true")
 						img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
 						small(ng-bind-html="' ' + $select.selected.nombre ")
 					ui-select-choices(repeat="imagen in imagenes | filter: {nombre: $select.search}")

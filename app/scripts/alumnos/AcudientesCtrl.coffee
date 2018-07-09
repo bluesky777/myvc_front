@@ -13,7 +13,6 @@ angular.module("myvcFrontApp")
 		$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
 
 
-
 		$scope.dato.grupo = ''
 
 		$http.get('::grupos/con-paises-tipos').then((r)->
@@ -248,7 +247,7 @@ angular.module("myvcFrontApp")
 
 
 		$scope.exportarAcudientesPlanillas = ()->
-				DownloadServ.download('::acudientes-export/acudientes', 'Asistencia acudientes Per ' + $scope.USER.numero_periodo + ' - ' +$scope.USER.year+'.xls')
+			DownloadServ.download('::acudientes-export/acudientes', 'Asistencia acudientes Per ' + $scope.USER.numero_periodo + ' - ' +$scope.USER.year+'.xls')
 
 
 

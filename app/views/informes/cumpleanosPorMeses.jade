@@ -1,18 +1,61 @@
 div(ng-repeat="mes in ::meses_cumple")
 
-	div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }")
+	div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }"
+		style="padding-top: 0; text-align: center; position: relative; overflow: hidden; min-height: 23cm")
+
+		div(style="position: absolute; margin-bottom: 0; margin-left: -10px; border-bottom: none;" ng-show="$parent.config.imagen_fondo" ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical' } ")
+			img(ng-src="{{ perfilPath + $parent.config.imagen_fondo.nombre }}"
+				ng-repeat="cant in [1,2] track by $index"
+				style="position: relative; margin: auto; display: block;")
 
 
-		.row
+		.row(ng-hide="mes.quitado == true")
 			.col-lg-12.col-xs-12
-				.row(draggable)
-					.titulo-mes-cumpleanos(ng-repeat="item in [1,2,3,4,5,6,7,8,9,10]") {{ mes.mes }}
-					//.stage
-						//.layer.titulo-mes-cumpleanos(ng-repeat="item in [1,2,3,4,5,6,7,8,9,10]") {{ mes.mes }}
+				.row(draggable style="cursor: move;")
 
-		.row
-			.col-lg-12.col-xs-12(draggable)
+					div.menu-cumpleanos
+						button.btn.btn-primary.shiny(ng-click="quitar_mes(mes)")
+							i.fa.fa-times
 
-				div(ng-repeat="alumno in ::mes.alumnos")
-					span(style="font-weight: bold;") {{ alumno.abrev_grupo }}
-					span.camel    {{ alumno.nombres }} {{ alumno.apellidos }} - {{ alumno.fecha_nac }}
+					.titulo-mes-cumpleanos {{ mes.mes }}
+
+		.row(style="font-size: {{tamanio_letra}}pt;")
+			.col-lg-12.col-xs-12.arrastrable-cumple(draggable style="cursor: move;" class="text-{{ alinear }}")
+
+				div.menu-cumpleanos
+					.btn-group
+						button.btn.btn-primary.shiny(ng-click="setAlinear('left')")
+							i.fa.fa-align-left
+						button.btn.btn-primary.shiny(ng-click="setAlinear('center')")
+							i.fa.fa-align-center
+						button.btn.btn-primary.shiny(ng-click="setAlinear('right')")
+							i.fa.fa-align-right
+					.btn-group
+						button.btn.btn-primary.shiny(ng-click="aumentar_letra()" style="font-weight: bold;")
+							| +
+						button.btn.btn-primary.shiny(ng-click="disminuir_letra()" style="font-weight: bold;")
+							| -
+					button.btn.btn-primary.shiny(ng-click="establecerColumnas(mes)" uib-tooltip="Columnas" tooltip-append-to-body="true" ng-hide="mes.alumnos_temp.length > 0")
+						i.fa.fa-columns
+
+				div(ng-repeat="alumno in mes.alumnos")
+					span(style="font-weight: bold;") {{ alumno.day_nac }} -
+					span.camel    {{ alumno.nombres.toLowerCase() }} {{ alumno.apellidos.toLowerCase() }} ({{ alumno.abrev_grupo }})
+
+
+			.col-lg-12.col-xs-12.arrastrable-cumple(draggable style="cursor: move;" class="text-{{ alinear2 }}" ng-show="mes.alumnos_temp.length > 0")
+
+				div.menu-cumpleanos
+					.btn-group
+						button.btn.btn-primary.shiny(ng-click="setAlinear2('left')")
+							i.fa.fa-align-left
+						button.btn.btn-primary.shiny(ng-click="setAlinear2('center')")
+							i.fa.fa-align-center
+						button.btn.btn-primary.shiny(ng-click="setAlinear2('right')")
+							i.fa.fa-align-right
+					button.btn.btn-primary.shiny(ng-click="establecerColumnas2(mes)" uib-tooltip="Volver" tooltip-append-to-body="true")
+						i.fa.fa-times
+
+				div(ng-repeat="alumno in mes.alumnos_temp")
+					span(style="font-weight: bold;") {{ alumno.day_nac }} -
+					span.camel    {{ alumno.nombres.toLowerCase() }} {{ alumno.apellidos.toLowerCase() }} ({{ alumno.abrev_grupo }})

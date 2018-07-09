@@ -85,7 +85,9 @@
 									i.fa.fa-frown-o
 
 					tbody
-						tr.animated.fadeInUp(ng-repeat="alumno in alumnos | filter:searchAlum" style="animation-delay: {{ $index/10 }}s; animation-duration: 0.5s;")
+						tr.animated.fadeInUp(ng-repeat="alumno in alumnos | filter:searchAlum" style="animation-delay: {{ $index/10 }}s; animation-duration: 0.5s;"
+							ng-click="seleccionarFila(alumno)" ng-class="{ seleccionado: alumno.seleccionado  }")
+
 							td
 								div {{$index+1}}
 							td(ng-click="filaNotaRapida(alumno, $index)" style="padding: 0 5px;")
@@ -149,7 +151,7 @@
 										popover-append-to-body="true")
 										| {{ alumno.frases.length }}
 							div
-								td(ng-repeat="nota in alumno.notas" ng-class="{'border-right-dddd': $last}")
+								td(ng-repeat="nota in alumno.notas " ng-class="{'border-right-dddd': $last}")
 									div.text-center(ng-class="{'inputnota-perdida': nota.nota < nota_minima_aceptada, 'inputnota-superior': nota.nota >= escala_maxima.porc_inicial, 'cursorcell': notaRapida.enable == true}")
 										input.input-nota(uib-tooltip="{{nota.subunidad_porcentaje}}% {{nota.definicion}}" tooltip-popup-delay="500" tooltip-append-to-body="true"
 											type="number" min="0" max="{{escala_maxima.porc_final}}"
