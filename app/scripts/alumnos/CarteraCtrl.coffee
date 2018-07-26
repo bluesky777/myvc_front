@@ -15,12 +15,12 @@ angular.module("myvcFrontApp")
 
 
 	$scope.dato.grupo = ''
-	
+
 	$http.get('::grupos').then((r)->
 
 		matr_grupo = 0
 
-		if localStorage.matr_grupo 
+		if localStorage.matr_grupo
 			matr_grupo = parseInt(localStorage.matr_grupo)
 
 		$scope.grupos = r.data
@@ -42,7 +42,7 @@ angular.module("myvcFrontApp")
 		$scope.traerAlumnos($item)
 
 
-	
+
 	$scope.editar = (row)->
 		console.log row.alumno_id
 		$state.go('panel.cartera.editar', {alumno_id: row.alumno_id})
@@ -53,7 +53,7 @@ angular.module("myvcFrontApp")
 	btUsuario = "==directives/botonesResetPassword.tpl.html"
 
 
-	$scope.gridOptions = 
+	$scope.gridOptions =
 		showGridFooter: true,
 		enableSorting: true,
 		enableFiltering: true,
@@ -82,37 +82,27 @@ angular.module("myvcFrontApp")
 		onRegisterApi: ( gridApi ) ->
 			$scope.gridApi = gridApi
 			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
-				
+
 				if newValue != oldValue
 
-					if colDef.field == "sexo"
-						if newValue == 'M' or newValue == 'F'
-							# Es correcto...
-							$http.put('::alumnos/update/'+rowEntity.alumno_id, rowEntity).then((r)->
-								toastr.success 'Alumno(a) actualizado con éxito', 'Actualizado'
-							, (r2)->
-								toastr.error 'Cambio no guardado', 'Error'
-							)
-						else
-							toastr.warning 'Debe usar M o F'
-							rowEntity.sexo = oldValue
-					else
+					if not rowEntity.alumno_id
+						rowEntity.alumno_id = fila.id
 
-						$http.put('::alumnos/update/'+rowEntity.alumno_id, rowEntity).then((r)->
-							toastr.success 'Alumno(a) actualizado con éxito', 'Actualizado'
-						, (r2)->
-							toastr.error 'Cambio no guardado', 'Error'
-						)
-
+					$http.put('::alumnos/guardar-valor', {alumno_id: rowEntity.alumno_id, propiedad: colDef.field, valor: newValue } ).then((r)->
+						toastr.success 'Alumno(a) actualizado con éxito'
+					, (r2)->
+						rowEntity[colDef.field] = oldValue
+						toastr.error 'Cambio no guardado', 'Error'
+					)
 				$scope.$apply()
 			)
 
-	
-	
+
+
 
 
 	$scope.traerAlumnos = (item)->
-		
+
 		$http.put("::cartera/alumnos", {grupo_actual: item}).then((r)->
 			$scope.gridOptions.data = r.data
 
@@ -124,20 +114,28 @@ angular.module("myvcFrontApp")
 
 	$scope.cambiarPazysalvo = (fila)->
 		fila.pazysalvo = !fila.pazysalvo
-		$http.put('::alumnos/update/' + fila.alumno_id, fila).then((r)->
+		if not fila.alumno_id
+			fila.alumno_id = fila.id
+
+		datos =
+			alumno_id: 	fila.alumno_id
+			propiedad: 	'pazysalvo'
+			valor: 		fila.pazysalvo
+
+		$http.put('::alumnos/guardar-valor', datos).then((r)->
 			console.log 'Cambios guardados'
 		, (r2)->
 			fila.pazysalvo = !fila.pazysalvo
 			toastr.error 'Cambio no guardado', 'Error'
 		)
-		
-	
+
+
 	$scope.resetPass = (row)->
-		
+
 		modalInstance = $modal.open({
 			templateUrl: App.views + 'usuarios/resetPass.tpl.html'
 			controller: 'ResetPassCtrl'
-			resolve: 
+			resolve:
 				usuario: ()->
 					row
 		})

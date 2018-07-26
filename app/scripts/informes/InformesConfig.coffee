@@ -47,8 +47,8 @@ angular.module('myvcFrontApp')
 							d = $q.defer()
 
 
-							requested_alumnos = $cookies.getObject 'requested_alumnos'
-							requested_alumno = $cookies.getObject 'requested_alumno'
+							requested_alumnos   = $cookies.getObject 'requested_alumnos'
+							requested_alumno    = $cookies.getObject 'requested_alumno'
 
 							if requested_alumnos
 
@@ -474,7 +474,7 @@ angular.module('myvcFrontApp')
 
 
 		.state 'panel.informes.control_tardanza_entrada',
-			url: '/control_tardanza_entrada/:grupo_id'
+			url: '/control_tardanza_entrada'
 			views:
 				'report_content':
 					templateUrl: "==informes/controlTardanzaEntrada.tpl.html" # En archivo PlanillasCtrl.coffee
@@ -487,6 +487,23 @@ angular.module('myvcFrontApp')
 				displayName: 'Control de tardanza entrada'
 				icon_fa: 'fa fa-print'
 				pageTitle: 'Control de tardanza entrada - MyVc'
+
+
+
+		.state 'panel.informes.control_asistencia_clase',
+			url: '/control_asistencia_clase'
+			views:
+				'report_content':
+					templateUrl: "==informes/controlAsistenciaClase.tpl.html" # En archivo PlanillasCtrl.coffee
+					controller: 'ControlAsistenciaClaseCtrl'
+					resolve:
+						grupos: ['$http', '$stateParams', ($http, $stateParams)->
+							$http.put('::planillas-ausencias/tardanza-entrada')
+						]
+			data:
+				displayName: 'Control asistencia a Clases'
+				icon_fa: 'fa fa-print'
+				pageTitle: 'Control asistencia a Clases - MyVc'
 
 
 		.state 'panel.informes.planillas_ausencias1',

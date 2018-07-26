@@ -67,7 +67,7 @@
                   </div>
                 </div>
               </div>
-              <div ng-show="!datos.grupo" class="row">
+              <div ng-hide="datos.grupo || USER.tipo=='Profesor'" class="row">
                 <div class="col-lg-12 col-xs-12">
                   <div class="form-group">
                     <label>Alumno</label>
@@ -78,7 +78,7 @@
                   </div>
                 </div>
               </div><br>
-              <div class="row">
+              <div ng-hide="USER.tipo=='Profesor'" class="row">
                 <div class="col-lg-2 col-sm-4 col-xs-12">
                   <div class="form-group">
                     <label>Mostrar foto</label>
@@ -154,7 +154,7 @@
               </ui-select>
               <div class="btn-group"><a href="" ng-click="verPuestosPeriodo()" class="btn btn-default">Puestos del periodo</a><a href="" ng-click="verPuestosYear()" class="btn btn-success">Puestos del año</a></div>
             </div>
-            <div class="row">
+            <div ng-if="USER.tipo!='Profesor'" class="row">
               <div class="col-lg-7 col-sm-12 col-xs-12">
                 <div class="btn-group"><a href="" ng-click="verTodosPuestosPeriodo()" class="btn btn-default">Todos del periodo</a><a href="" ng-click="verTodosPuestosYear()" class="btn btn-success">Todos del año</a></div>
               </div>
@@ -185,7 +185,7 @@
                 </ui-select-choices>
               </ui-select><a href="" ng-click="verPlanillasGrupo()" class="btn btn-default">Ver planillas</a>
             </div>
-            <div class="btn-group"><a href="" ng-click="verPlanillasControlTardanzas()" uib-tooltip="Usada para la entrada al colegio" class="btn btn-default">Control de tardanzas entrada</a><a href="" ng-click="verAusencias()" class="btn btn-default">Ver ausencias</a><a href="" ng-click="verNotasPerdidasTodos()" class="btn btn-default">Notas perdidas todos</a></div><br>
+            <div class="btn-group"><a href="" ng-click="verPlanillasControlTardanzas()" uib-tooltip="Usada para las tardanzas y ausencias en la entrada a la institución" class="btn btn-default">Control entrada</a><a href="" ng-click="verPlanillasAsistenciaClase()" uib-tooltip="Para las tardandas y tardanzas a cada clase" class="btn btn-default">Planillas asistencias clases</a><a href="" ng-click="verAusencias()" class="btn btn-default">Ver ausencias</a><a href="" ng-click="verNotasPerdidasTodos()" class="btn btn-default">Notas perdidas todos</a></div><br>
             <div uib-dropdown class="btn-group">
               <button id="split-button" href="" ng-click="verObservadorVertical()" uib-tooltip="Observador del alumno para imprimir" class="btn btn-default">Observador vertical</button>
               <button type="button" uib-dropdown-toggle class="btn btn-default">

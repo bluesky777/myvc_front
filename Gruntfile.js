@@ -286,7 +286,7 @@ module.exports = function (grunt) {
     },
 
     // The following *-min tasks will produce minified files in the dist folder
-    // By default, your `index.html`'s <!-- Usemin block --> will take care of
+    // By default, your index.html 's <!-- Usemin block --> will take care of
     // minification. These next options are pre-configured if you do not wish
     // to use the Usemin blocks.
     // cssmin: {
@@ -489,7 +489,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('server', 'DEPRECATED TASK. Use the "serve" task instead', function (target) {
-    grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
+    grunt.log.warn('The server task has been deprecated. Use grunt serve to start a server.');
     grunt.task.run(['serve:' + target]);
   });
 

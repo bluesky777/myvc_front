@@ -1,4 +1,4 @@
-.row(ng-if="hasRoleOrPerm(['alumno'])")
+.row.hidden-print(ng-if="hasRoleOrPerm(['alumno'])")
 	.col-xs-12.col-md-12
 		.widget
 			.widget-header.bordered-bottom.bordered-themesecondary
@@ -29,7 +29,7 @@
 								li(ng-repeat="definicion in ::changes_asked.comportamiento.definiciones")
 									| {{definicion.frase}}
 
-.row(ng-if="USER.tipo=='Acudiente'")
+.row.hidden-print(ng-if="USER.tipo=='Acudiente'")
 	.col-xs-12.col-md-12(ng-repeat="alumno in mis_acudidos")
 		.widget
 			.widget-header.bordered-bottom.bordered-themesecondary

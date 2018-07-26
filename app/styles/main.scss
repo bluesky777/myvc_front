@@ -199,30 +199,34 @@ body {
 
 
 .page-vertical{
+  /*
 		@page {
 				size:22cm 31cm;
 				margin: 2cm;
 				background-color: white;
 		}
-
+*/
+    background-color: white;
 		width: 22cm;
 		margin-bottom: 10px;
 }
 .page-carta-horizontal{
-		@page {
+		/*@page {
 				size:31cm 22cm;
 				margin: 2cm;
 				background-color: white;
-		}
+    }*/
+    background-color: white;
 		width: 31cm;
 }
 
 .page-oficio-horizontal{
-		@page {
+		/*@page {
 				size:36cm 22cm;
 				margin: 2cm;
 				background-color: white;
-		}
+		}*/
+    background-color: white;
 		width: 36cm;
 }
 
@@ -238,10 +242,6 @@ body {
 
 
 @media print {
-
-		#sidebar{
-
-		}
 
 		.fa-search, .sidebar-header-wrapper{
 				display: none;
@@ -259,7 +259,7 @@ body {
 		@page{
 				size: landscape;
 		}
-		*/
+
 
 
 
@@ -284,32 +284,33 @@ body {
 				background-color: white;
 
 		}
-
+    */
 
 		.page-vertical{
-				page: cartavertical;
+				//page: cartavertical;
 				width: 22cm;
 				margin-bottom: 0px;
 				border: 0px;
-				counter-reset: numpagina;
+				//counter-reset: numpagina;
 		}
 		.page-carta-horizontal{
-				page: cartahorizontal;
+				//page: cartahorizontal;
 				width: 31cm;
 				margin-bottom: 0px;
 				border: 0px;
 		}
 		.page-oficio-horizontal{
-				page: oficiohorizontal;
+				//page: oficiohorizontal;
 				width: 36cm;
 				margin-bottom: 0px;
 				border: 0px;
-		}
+    }
 
+    /*
 		@page{
 				counter-increment: numpagina;
 		}
-		/*
+
 		.encabezado-boletin:after{
 				content: "Página " counter(page) " de " counter(pages) " y " counter(numpagina);
 		}
@@ -488,9 +489,6 @@ body {
 				font-weight: bold;
 		}
 
-		.icon-tardanza{
-				//margin-left: 5px;
-		}
 		.text-tardanza{
 				padding-left: 5px;
 		}
@@ -519,15 +517,6 @@ body {
 		padding-left: 5px;
 		font-size: 8pt;
 
-		.subunidad-definicion{
-
-		}
-		.subunidad-porc{
-
-		}
-		.subunidad-nota{
-
-		}
 }
 .definicion-subunidad-inside, .definicion-unidad-inside{
 		overflow: hidden;
@@ -574,12 +563,6 @@ body {
 				background-color: #A7C7EB!important;
 		}
 
-		.comportamiento-title, .comportamiento-body{
-
-		}
-		.comportamiento-title{
-
-		}
 		.comportamiento-body{
 				font-size: 7pt;
 				border: 1px solid #000;
@@ -990,9 +973,7 @@ body {
 		border-radius: 5px;
 		border: 1px solid #ccc;
 }
-.ed-unidad-move{
 
-}
 .tickets-container {
 		padding: 10px 10px 0 !important;
 }

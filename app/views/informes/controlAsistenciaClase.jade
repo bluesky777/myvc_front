@@ -1,0 +1,79 @@
+div.hidden-print(style="padding: 10px; background-color: white; margin: 10px; border: 2px solid #ccc; width: 500px")
+
+	select(multiple ng-click="mesSeleccionado()" ng-model="mesMostrar" style="width: 100px; padding: 0")
+		option(value="-1") Sin días
+		option(value="0") Enero
+		option(value="1") Febrero
+		option(value="2") Marzo
+		option(value="3") Abril
+		option(value="4") Mayo
+		option(value="5") Junio
+		option(value="6") Julio
+		option(value="7") Agosto
+		option(value="8") Septiembre
+		option(value="9") Octubre
+		option(value="10") Noviembre
+		option(value="11") Diciembre
+
+div(ng-repeat="grupo in ::grupos")
+
+	div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }")
+		.row
+			.col-lg-12.col-xs-12
+				.row.encabezado-planilla
+					.col-lg-12.col-xs-12
+						.row
+							.col-lg-2.col-xs-2
+								img.img-responsive.logo-colegio(ng-src="{{::perfilPath + year.logo}}")
+							.col-lg-8.col-xs-8.title-encabezado-planilla
+								.row
+									.col-lg-12
+										.nombre-colegio
+											| {{::year.nombre_colegio + ' - ' + year.abrev_colegio}}
+										.descripcion-title
+											| Control de tardanzas {{USER.year}}
+
+								.row
+									.col-lg-12
+										h5.nombre-profesor(style="padding: 0px; margin: 0px") {{::grupo.nombre}} - {{::grupo.nombres_titular + ' ' + grupo.apellidos_titular }}
+							.col-lg-2.col-xs-2
+								img.img-responsive.img-thumbnail.foto-profe(ng-src="{{::perfilPath + grupo.foto_nombre}}" ng-show="::grupo.foto_id")
+
+
+				.row.body-boletin
+					.col-lg-12.col-xs-12.materias
+						.materia-item
+
+							table.table-bordered.table-bordered2.table-striped.table-striped2(style="width: 100%")
+								tr(style="background-color: #fff !important;")
+									th(rowspan="2")
+										|No
+									th(rowspan="2" style="text-align: center;")
+										|Alumnos
+									th(colspan="{{ numberColumExt }}" style="font-size: 8pt; height: 20px; text-align: center;")
+										span(ng-show="mesMostrar!='-1'")
+											|  {{ meses[mesMostrar].nombre }}
+								tr(style="height: 20px;")
+									th(style="width: 50px" ng-repeat="i in getNumber(numberColumExt) track by $index")
+										span(ng-show="mesMostrar=='-1'")
+										span(ng-show="mesMostrar != -1 ")  {{ $parent.dias[$index] }}
+								tbody(style="font-size: 9pt")
+									tr(ng-repeat="alumno in grupo.alumnos" )
+										td(style="height: 22px;" ng-class-odd="'fondo-gris-td'" ng-class-even="'fondo-blanco-td'" )
+											| {{$index + 1}}
+										td(style="height: 22px;" ng-class-odd="'fondo-gris-td'" ng-class-even="'fondo-blanco-td'" )
+											.nombresellipsis( uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'"
+												popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}"
+												popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true"
+												ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}")
+
+												| {{alumno.apellidos + ' ' + alumno.nombres}}
+
+										td(ng-repeat="i in getNumber(numberColumExt) track by $index" style="height: 11px; font-size: 3px;" ng-class="{'fondo-blanco-td': $parent.$odd, 'fondo-gris-td': $parent.$even }")
+											span
+
+
+
+
+
+

@@ -90,3 +90,53 @@ angular.module('myvcFrontApp')
 			$scope.numberColumExt = $scope.dias.length
 
 ])
+
+
+
+.controller('ControlAsistenciaClaseCtrl',['$scope', 'App', 'Perfil', '$state', 'grupos', ($scope, App, Perfil, $state, grupos)->
+
+	$scope.USER = Perfil.User()
+
+	r = grupos.data[0]
+	$scope.year = r
+	$scope.grupos = r.grupos
+
+
+	$scope.perfilPath = App.images+'perfil/'
+
+	$scope.getNumber = (num)->
+		return new Array(num)
+
+
+	for grupo in $scope.grupos
+		cont = 0
+		for alumno in grupo.alumnos
+			cont++
+			if cont == 3
+				alumno.gris = true
+				cont = 0
+			else
+				alumno.gris = false
+
+
+	$scope.$emit 'cambia_descripcion', 'Planillas para de asistencia a clase.'
+
+
+	$scope.dato = {}
+
+
+
+	$scope.mesSeleccionado = ()->
+		if $scope.mesMostrar == '-1'
+			$scope.numberColumExt = 21;
+		else
+			$scope.dato.mes = '' + $scope.mesMostrar
+			$scope.dias = $scope.getAllDaysInMonth($scope.dato.mes)
+			$scope.numberColumExt = $scope.dias.length
+
+
+	r = new Date();
+	$scope.mesMostrar = r.getMonth();
+	$scope.mesSeleccionado();
+
+])

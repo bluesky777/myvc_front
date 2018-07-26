@@ -1,9 +1,9 @@
 angular.module('myvcFrontApp')
-.controller('NotasAlumnoCtrl', ['$scope', 'toastr', '$http', '$uibModal', '$state', 'alumnos', 'escalas', '$rootScope', '$filter', 'App', 'AuthService', 'Perfil', 'EscalasValorativasServ', ($scope, toastr, $http, $modal, $state, alumnos, escalas, $rootScope, $filter, App, AuthService, Perfil, EscalasValorativasServ) ->
+.controller('NotasAlumnoCtrl', ['$scope', 'toastr', '$http', '$uibModal', '$state', 'alumnos', 'escalas', '$rootScope', '$filter', 'App', 'AuthService', 'Perfil', 'EscalasValorativasServ', '$cookies', ($scope, toastr, $http, $modal, $state, alumnos, escalas, $rootScope, $filter, App, AuthService, Perfil, EscalasValorativasServ, $cookies) ->
 
 	AuthService.verificar_acceso()
-	$scope.hasRoleOrPerm 	= AuthService.hasRoleOrPerm
-	alumnos 				= alumnos.data
+	$scope.hasRoleOrPerm 	  = AuthService.hasRoleOrPerm
+	alumnos 				        = alumnos.data
 
 	if !alumnos == 'Sin alumnos'
 		$scope.filtered_alumnos = alumnos
@@ -31,6 +31,34 @@ angular.module('myvcFrontApp')
 	, (r2)->
 		console.log 'No se trajeron las escalas valorativas', r2
 	)
+
+
+
+	$scope.verBoletin = ()=>
+
+		for alumno in $scope.mis_acudidos
+			if alumno.seleccionado == true
+
+				if !alumno.pazysalvo
+					toastr.info 'Lo sentimos. Debe estar a paz y salvo'
+					return
+
+				$cookies.putObject 'requested_alumno', [{ alumno_id: alumno.alumno_id, grupo_id: alumno.grupo_id }]
+
+				$state.go 'panel.boletin_acudiente', {periodo_a_calcular: $scope.USER.numero_periodo}
+
+
+
+
+	$scope.verMiBoletin = ()=>
+
+			if !$scope.USER.pazysalvo
+				toastr.info 'Lo sentimos. Debe estar a paz y salvo'
+				return
+
+			$cookies.putObject 'requested_alumno', [{ alumno_id: $scope.USER.persona_id, grupo_id: $scope.USER.grupo_id }]
+
+			$state.go 'panel.boletin_acudiente', {periodo_a_calcular: $scope.USER.numero_periodo}
 
 
 

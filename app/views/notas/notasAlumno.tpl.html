@@ -64,10 +64,12 @@
               <input type="checkbox" ng-model="config.solo_notas_perdidas" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
             </label>
           </div>
+          <div ng-if="USER.tipo=='Alumno' "><a ng-click="verMiBoletin()" href="">Ver mi boletín</a></div>
         </div>
       </div>
     </div>
   </div>
+  <div ng-if="periodos_notas.length &gt; 0 &amp;&amp; USER.tipo=='Acudiente' "><a ng-click="verBoletin()" href="">Ver boletín</a></div>
   <uib-accordion close-others="true">
     <div uib-accordion-group is-open="$first" heading="Periodo {{periodo.numero}} ({{periodo.asignaturas | notasPerdidasAsignaturas}})" ng-repeat="periodo in periodos_notas" class="panel-default margin-padding-lados-xs panel-acordeon">
       <!-- COMPORTAMIENTO-->

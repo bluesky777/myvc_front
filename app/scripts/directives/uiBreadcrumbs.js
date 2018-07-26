@@ -18,7 +18,7 @@ angular.module('uiBreadcrumbs', ['ui.router', 'myvcFrontApp'])
                 function updateBreadcrumbsArray() {
                     var breadcrumbs = [];
                     var currentState = $state.$current;
-                    
+
                     while(currentState && currentState.name !== '') {
                         var displayName = getDisplayName(currentState);
                         var iconClass = getIconClass(currentState);
@@ -48,10 +48,10 @@ angular.module('uiBreadcrumbs', ['ui.router', 'myvcFrontApp'])
                  * Start with the current state and traverse up the path to build the
                  * array of breadcrumbs that can be used in an ng-repeat in the template.
                  */
-                
+
 
                 /**
-                 * Resolve the displayName of the specified state. Take the property specified by the `displayname-property`
+                 * Resolve the displayName of the specified state. Take the property specified by the displayname-property
                  * attribute and look up the corresponding property on the state's config object. The specified string can be interpolated against any resolved
                  * properties on the state config object, by using the usual {{ }} syntax.
                  * @param currentState

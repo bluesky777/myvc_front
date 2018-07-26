@@ -35,8 +35,8 @@ angular.module('myvcFrontApp')
 
 		# Grupo seleccionado
 		if $state.params.grupo_id
-			$tempParam 				= parseInt($state.params.grupo_id)
-			$scope.datos.grupo 		= $filter('filter')($scope.grupos, {id: $tempParam}, true)[0]
+			$tempParam 				      = parseInt($state.params.grupo_id)
+			$scope.datos.grupo 		  = $filter('filter')($scope.grupos, {id: $tempParam}, true)[0]
 			$scope.filtered_alumnos = $filter('filter')(alumnos, {grupo_id: $tempParam}, true)
 
 		# Profesor seleccionado
@@ -391,6 +391,11 @@ angular.module('myvcFrontApp')
 	$scope.verPlanillasControlTardanzas = ()->
 		$scope.config.orientacion = 'oficio_horizontal'
 		$state.go 'panel.informes.control_tardanza_entrada', {reload: true}
+
+
+	$scope.verPlanillasAsistenciaClase = ()->
+		$scope.config.orientacion = 'oficio_horizontal'
+		$state.go 'panel.informes.control_asistencia_clase', {reload: true}
 
 	$scope.verNotasPerdidasProfesor = ()->
 		if $scope.datos.profesor

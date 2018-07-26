@@ -1,5 +1,5 @@
 
-<div ng-if="hasRoleOrPerm(['alumno'])" class="row">
+<div ng-if="hasRoleOrPerm(['alumno'])" class="row hidden-print">
   <div class="col-xs-12 col-md-12">
     <div class="widget">
       <div class="widget-header bordered-bottom bordered-themesecondary"><i class="widget-icon fa fa-tags themesecondary"></i><span class="widget-caption themesecondary">Disciplina</span></div>
@@ -28,7 +28,7 @@
     </div>
   </div>
 </div>
-<div ng-if="USER.tipo=='Acudiente'" class="row">
+<div ng-if="USER.tipo=='Acudiente'" class="row hidden-print">
   <div ng-repeat="alumno in mis_acudidos" class="col-xs-12 col-md-12">
     <div class="widget">
       <div class="widget-header bordered-bottom bordered-themesecondary"><i class="widget-icon fa fa-tags themesecondary"></i><span uib-tooltip="" class="widget-caption themesecondary">{{alumno.nombre_grupo}} - Disciplina</span></div>

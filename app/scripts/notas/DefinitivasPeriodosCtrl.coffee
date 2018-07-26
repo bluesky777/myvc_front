@@ -5,19 +5,20 @@ angular.module('myvcFrontApp')
 
 	AuthService.verificar_acceso()
 
-	$scope.asignatura 	= {}
-	$scope.asignatura_id = $state.params.asignatura_id
-	$scope.datos 		  = {}
-	$scope.UNIDAD 		= $scope.USER.unidad_displayname
-	$scope.SUBUNIDAD 	= $scope.USER.subunidad_displayname
-	$scope.UNIDADES 	= $scope.USER.unidades_displayname
-	$scope.SUBUNIDADES 	= $scope.USER.subunidades_displayname
-	$scope.perfilPath 	= App.images+'perfil/'
-	$scope.views 		= App.views
+	$scope.asignatura 	        = {}
+	$scope.asignatura_id        = $state.params.asignatura_id
+	$scope.datos 		            = {}
+	$scope.UNIDAD 		          = $scope.USER.unidad_displayname
+	$scope.SUBUNIDAD 	          = $scope.USER.subunidad_displayname
+	$scope.UNIDADES 	          = $scope.USER.unidades_displayname
+	$scope.SUBUNIDADES 	        = $scope.USER.subunidades_displayname
+	$scope.perfilPath 	        = App.images+'perfil/'
+	$scope.views 		            = App.views
 	$scope.nota_minima_aceptada = parseInt($scope.USER.nota_minima_aceptada)
-	$scope.opts_picker 		= { minDate: new Date('1/1/2017'), showWeeks: false, startingDay: 0 }
-	$scope.dato       = { asignatura: {} }
+	$scope.opts_picker 		      = { minDate: new Date('1/1/2017'), showWeeks: false, startingDay: 0 }
+	$scope.dato                 = { asignatura: {} }
 	$scope.ocultando_ausencias 	= true
+	$scope.hasRoleOrPerm        = AuthService.hasRoleOrPerm
 
 	$scope.escala_maxima = EscalasValorativasServ.escala_maxima()
 

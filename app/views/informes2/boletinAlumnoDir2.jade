@@ -14,9 +14,9 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 			.row.encabezado-boletin
 				.col-lg-12.col-xs-12
 					.row
-						.col-lg-2.col-xs-2
+						.col-lg-2.col-xs-2(ng-if="USER.tipo!='Profesor'")
 							img.img-responsive.logo-colegio(ng-src="{{ ::perfilPath }}{{ ::year.logo }}")
-						.col-lg-8.col-xs-8.title-encabezado-boletin
+						.col-lg-8.col-xs-8.title-encabezado-boletin(ng-if="USER.tipo!='Profesor'")
 							.nombre-colegio
 								| {{ ::year.nombre_colegio }} - {{ ::year.abrev_colegio }}
 							.resolucion-colegio
@@ -294,7 +294,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 
 
 
-			.row.footer-boletin
+			.row.footer-boletin(ng-if="USER.tipo!='Profesor'")
 				.col-lg-12.col-xs-12
 					.row
 						.col-lg-6.col-xs-6.rector-firma

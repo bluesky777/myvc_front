@@ -86,7 +86,7 @@
       <div class="form-group">
         <label>Imagen</label>
         <ui-select ng-model="currentCertif.encabezado_img" theme="select2" style="min-width: 300px;">
-          <ui-select-match placeholder="Encabezado"><img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombre "></small></ui-select-match>
+          <ui-select-match placeholder="Encabezado" allow-clear="true"><img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombre "></small></ui-select-match>
           <ui-select-choices repeat="imagen in imagenes | filter: {nombre: $select.search}"><img ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + imagen.nombre | highlight: $select.search"></small></ui-select-choices>
         </ui-select>
       </div>
@@ -116,7 +116,7 @@
       <div class="form-group">
         <label>Imagen</label>
         <ui-select ng-model="currentCertif.piepagina_img" theme="select2" style="min-width: 300px;">
-          <ui-select-match placeholder="Pie de página"><img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombre "></small></ui-select-match>
+          <ui-select-match placeholder="Pie de página" allow-clear="true"><img ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + $select.selected.nombre "></small></ui-select-match>
           <ui-select-choices repeat="imagen in imagenes | filter: {nombre: $select.search}"><img ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + imagen.nombre | highlight: $select.search"></small></ui-select-choices>
         </ui-select>
       </div>

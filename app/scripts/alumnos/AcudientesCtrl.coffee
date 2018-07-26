@@ -190,13 +190,21 @@ angular.module("myvcFrontApp")
 
 
 		$scope.cambiarPazysalvo = (fila)->
+			fila.pazysalvo = !fila.pazysalvo
+			if not fila.alumno_id
+				fila.alumno_id = fila.id
+
+			datos =
+				alumno_id: 	fila.alumno_id
+				propiedad: 	'pazysalvo'
+				valor: 		fila.pazysalvo
+
+			$http.put('::alumnos/guardar-valor', datos).then((r)->
+				console.log 'Cambios guardados'
+			, (r2)->
 				fila.pazysalvo = !fila.pazysalvo
-				$http.put('::alumnos/update/' + fila.alumno_id, fila).then((r)->
-						console.log 'Cambios guardados'
-				, (r2)->
-						fila.pazysalvo = !fila.pazysalvo
-						toastr.error 'Cambio no guardado', 'Error'
-				)
+				toastr.error 'Cambio no guardado', 'Error'
+			)
 
 
 		$scope.resetPass = (row)->

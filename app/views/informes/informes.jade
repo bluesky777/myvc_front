@@ -81,7 +81,7 @@
 												small(ng-hide="alumno.estado=='RETI'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
 										a.btn.btn-default(href="" ng-click="verBoletinesAlumnos(tipo_boletin)") Cargar boletines
 
-							.row(ng-show="!datos.grupo")
+							.row(ng-hide="datos.grupo || USER.tipo=='Profesor'")
 								.col-lg-12.col-xs-12
 									.form-group
 										label Alumno
@@ -96,7 +96,7 @@
 										a.btn.btn-default(href="" ng-click="verBoletinAlumno(tipo_boletin)") Cargar boletin
 							br
 
-							.row
+							.row(ng-hide="USER.tipo=='Profesor'")
 								.col-lg-2.col-sm-4.col-xs-12
 									.form-group
 										label Mostrar foto
@@ -166,7 +166,7 @@
 								a.btn.btn-default(href="" ng-click="verPuestosPeriodo()") Puestos del periodo
 								a.btn.btn-success(href="" ng-click="verPuestosYear()") Puestos del año
 
-						.row
+						.row(ng-if="USER.tipo!='Profesor'")
 							.col-lg-7.col-sm-12.col-xs-12
 								.btn-group
 									a.btn.btn-default(href="" ng-click="verTodosPuestosPeriodo()") Todos del periodo
@@ -205,7 +205,8 @@
 
 
 						.btn-group
-							a.btn.btn-default(href="" ng-click="verPlanillasControlTardanzas()" uib-tooltip="Usada para la entrada al colegio") Control de tardanzas entrada
+							a.btn.btn-default(href="" ng-click="verPlanillasControlTardanzas()" uib-tooltip="Usada para las tardanzas y ausencias en la entrada a la institución") Control entrada
+							a.btn.btn-default(href="" ng-click="verPlanillasAsistenciaClase()" uib-tooltip="Para las tardandas y tardanzas a cada clase") Planillas asistencias clases
 							a.btn.btn-default(href="" ng-click="verAusencias()") Ver ausencias
 							a.btn.btn-default(href="" ng-click="verNotasPerdidasTodos()") Notas perdidas todos
 						br

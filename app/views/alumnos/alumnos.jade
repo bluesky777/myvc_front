@@ -179,7 +179,7 @@
 
 						td {{ alumno.sexo }}
 						td.text-center(style="background-color: #a8cbea!important;" uib-tooltip="{{alumno.estado}} - {{alumno.nombre_grupo}}" tooltip-append-to-body="true")
-							{{ alumno.abrev_grupo }}
+							| {{ alumno.abrev_grupo }}
 						td.text-center(style="font-size: 7pt") {{ alumno.created_at }}
 						td.text-center(style="font-size: 7pt") {{ alumno.updated_at }}
 						td.text-center(style="font-size: 7pt") {{ alumno.deleted_at }}

@@ -68,6 +68,11 @@
 							input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.solo_notas_perdidas")
 							span.text.si-no
 
+					div(ng-if="USER.tipo=='Alumno' ")
+						a(ng-click="verMiBoletin()" href="") Ver mi boletín
+
+	div(ng-if="periodos_notas.length > 0 && USER.tipo=='Acudiente' ")
+		a(ng-click="verBoletin()" href="") Ver boletín
 
 
 	uib-accordion(close-others="true")

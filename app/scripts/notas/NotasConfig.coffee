@@ -129,6 +129,43 @@ angular.module('myvcFrontApp')
 
 
 
+		.state 'panel.boletin_acudiente',
+			url: '/boletin_acudiente/:grupo_id/:periodo_a_calcular'
+			params:
+				grupo_id: 					{value: null}
+				periodo_a_calcular: {value: null}
+			views:
+				'maincontent':
+					templateUrl:  "==informes/boletinesPeriodo.tpl.html"
+					controller:   'BoletinesPeriodoCtrl'
+					resolve:
+						alumnosDat: ['$http', '$stateParams', '$q', '$cookies', ($http, $stateParams, $q, $cookies)->
+
+							d = $q.defer()
+
+							requested_alumno  = $cookies.getObject 'requested_alumno'
+
+							if requested_alumno
+								$http.put('::boletines/detailed-notas/'+requested_alumno[0].grupo_id, {requested_alumnos: requested_alumno, periodo_a_calcular: $stateParams.periodo_a_calcular}).then((r)->
+									d.resolve r.data
+								, (r2)->
+									d.reject r2.data
+								)
+
+
+							return d.promise
+						],
+						escalas: ['EscalasValorativasServ', (EscalasValorativasServ)->
+							#debugger
+							EscalasValorativasServ.escalas()
+						]
+			data:
+				displayName: 'Boletín del periodo'
+				pageTitle: 'Boletín del periodo - MyVc'
+
+
+
+
 		.state 'panel.notas_perdidas_profesor_edit',
 			url: '^/notas_perdidas_profesor_edit'
 			views:
