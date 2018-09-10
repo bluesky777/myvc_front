@@ -1,0 +1,106 @@
+.col-lg-12.margin-padding-lados-xs
+	.widget
+		.widget-header.bordered-bottom.bordered-blue
+			span.widget-caption {{grupo.abrev + '. ' + grupo.nombre }}
+		.widget-body
+
+			.form-group.flipInY.animated(style="margin-top: 10px;")
+				div(style="width=100%; height: 60px; text-align: center; border: 1px solid #ccc; overflow-y: auto; background-color: #eee;")
+						.btn-group.animated.zoomInDown.animated
+								button.btn.btn-default(ng-repeat="grupo in grupos" ng-class="{active: grupo.active}"
+										ng-click="traerAsistencias(grupo)" uib-tooltip="{{grupo.nombre}}" tooltip-append-to-body="true")
+										| {{ grupo.abrev }}
+
+
+
+			.row
+				.col-lg-3.col-sm-4.col-xs-12
+					input.form-control(type="text" ng-model="searchAlum" placeholder="Buscar alumno...")
+
+			div.table-responsive(ng-class="{cursorcopy:notaRapida.enable}")
+
+
+				table.table.table-hover.table-condensed.table-striped.tablenot100
+					thead
+						tr
+							th(style="width: 20px; line-height: 3;")
+								div No
+							th.text-center( style="min-width: 50px; line-height: 3;")
+								div Nombres
+							th.text-center(style="min-width: 50px; line-height: 3;")
+								div
+							th.td-ausencia.text-center(style="min-width: 260px; line-height: 3")
+								div Ausencias
+							th.td-ausencia.text-center(style="min-width: 260px; line-height: 3")
+								div Tardanzas
+
+
+					tbody
+						tr.animated.fadeInUp(ng-repeat="alumno in alumnos | filter:searchAlum" style="animation-delay: {{ $index/10 }}s; animation-duration: 0.5s;"
+							ng-click="seleccionarFila(alumno)" ng-class="{ seleccionado: alumno.seleccionado  }")
+
+							td
+								div {{$index+1}}
+							td(ng-click="filaNotaRapida(alumno, $index)" style="padding: 0 5px;")
+								.nombresellipsis( uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'"
+									popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}"
+									popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true"
+									ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}")
+									img(ng-src="{{perfilPath + alumno.userData.foto_nombre}}" style="width: 30px; height: 30px;")
+									| {{alumno.apellidos + ' ' + alumno.nombres}}
+									span(ng-show="alumno.estado=='ASIS'" style="font-size: 8pt") (Asis)
+
+							td
+								a.btn.btn-default.btn-xs(href="" ng-click="showFrases(alumno)" uib-tooltip="Información para el alumno" tooltip-append-to-body="true")
+									i.fa.fa-info
+
+									.badge.badge-success(ng-show="alumno.frases.length>0"
+										style="background-color: cornflowerblue; padding-top: 3px; position: absolute;"
+										uib-popover-template="views+'notas/popoverFrasesAlumAsig.tpl.html'"
+										popover-title="Frases en esta materia" popover-placement="bottom"
+										popover-trigger="'mouseenter'" popover-popup-delay="500"
+										popover-append-to-body="true")
+										| {{ alumno.frases.length }}
+
+							// Ausencias
+							td.td-ausencia
+								input.input-ausencia(uib-tooltip="" tooltip-popup-delay="500"
+									type="number" min="0" max="99"
+									ng-model="alumno.ausencias_count"
+									ng-change="cambiaAusencia(alumno)"
+									ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
+									ng-focus="onInputFocus($event)" ng-disabled="::USER.profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')")
+
+								button.btn.btn-xs(ng-repeat="ausencia in alumno.ausencias"
+									ng-click="clickAusenciaObject(ausencia, alumno)"
+									uib-popover-template="views+'notas/popoverAusenciaObject.tpl.html'"
+									popover-title="Editar ausencia" style="width: 55px" popover-append-to-body="true"
+									popover-trigger="'none'" popover-is-open="ausencia.isOpen" ng-disabled="::USER.profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')")
+
+									span(ng-hide="ausencia.fecha_hora")
+										i.fa.fa-clock-o
+									span(ng-show="ausencia.fecha_hora") {{ ausencia.fecha_hora | date:'d MMM' }}
+
+
+							// Tardanzas
+							td.td-ausencia
+								input.input-ausencia(uib-tooltip="" tooltip-popup-delay="500"
+									type="number" min="0" max="99"
+									ng-model="alumno.tardanzas_count"
+									ng-change="cambiaTardanza(alumno)"
+									ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
+									ng-focus="onInputFocus($event)" ng-disabled="::USER.profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')")
+
+								button.btn.btn-xs(ng-repeat="tardanza in alumno.tardanzas"
+									ng-click="clickTardanzaObject(tardanza, alumno)"
+									uib-popover-template="views+'notas/popoverTardanzaObject.tpl.html'"
+									popover-title="Editar tardanza" style="width: 55px" popover-append-to-body="true"
+									popover-trigger="'outsideClick'" popover-is-open="tardanza.isOpen" ng-disabled="::USER.profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')")
+
+									span(ng-hide="tardanza.fecha_hora")
+										i.fa.fa-clock-o
+									span(ng-show="tardanza.fecha_hora") {{ tardanza.fecha_hora | date:'d MMM' }}
+
+
+
+

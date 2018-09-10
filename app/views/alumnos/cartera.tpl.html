@@ -3,7 +3,7 @@
 <div class="row">
   <div class="col-xs-12 col-md-12">
     <div class="well with-header with-footer">
-      <div class="header bordered-yellow">Alumnos </div>
+      <div class="header bordered-yellow">Alumnos</div>
       <div class="form-group">
         <label>Elija grupo</label>
         <div><span uib-tooltip="Debe seleccionar un grupo" tooltip-placement="right">
@@ -12,9 +12,15 @@
               <ui-select-choices repeat="grupo in grupos | filter: $select.search">
                 <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
               </ui-select-choices>
-            </ui-select></span></div><a ng-click="traerSoloDeudores()" href="" style="margin: 20px 0px; display: block;">Traer todos los deudores</a>
+            </ui-select></span></div>
       </div>
-      <div id="grid1" ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-auto-resize style="height: 700px" class="grid"></div>
+      <div style="margin: 20px 0px;"><a ng-click="traerSoloDeudores()" href="">Traer todos los deudores</a></div>
+      <div style="min-height: 40px; border: 1px solid #ccc; margin-bottom: 10px; padding: 4px;">
+        <div ng-show="getSelectedRows().length &gt; 0"><a ng-click="cambiarValorVarios(true, 'pazysalvo')" href="" style="margin-top: 5px; padding-right: 10px; display: inline-block; ">Establecer a paz y salvo</a><a ng-click="cambiarValorVarios(false, 'pazysalvo')" href="" style="margin-top: 5px; padding-right: 10px; display: inline-block; ">- Establecer como deudor</a><span style="padding-right: 10px; display: inline-block; ">
+            <input type="number" min="0" style="margin-top: 5px; width: 75px;" ng-model="valorDeuda"><a ng-click="cambiarValorVarios(valorDeuda, 'deuda')" href="">Cambiar</a></span><span style="padding-right: 10px; display: inline-block; ">
+            <input type="date" style="margin-top: 5px; width: 130px;" ng-model="valorFecha"><a ng-click="cambiarValorVarios(valorFecha, 'fecha_pension')" href="">Cambiar fecha</a></span></div>
+      </div>
+      <div id="grid1" ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-selection ui-grid-auto-resize style="height: 700px" class="grid"></div>
     </div>
   </div>
 </div>

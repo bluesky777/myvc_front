@@ -11,7 +11,8 @@ angular.module("myvcFrontApp")
 	$scope.perfilPath 				= App.images+'perfil/'
 	$scope.views 					= App.views
 	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
-
+	$scope.mySelectedRows   = []
+	$scope.valorDeuda   = 0
 
 
 	$scope.dato.grupo = ''
@@ -77,10 +78,12 @@ angular.module("myvcFrontApp")
 			{ field: 'username', filter: { condition: uiGridConstants.filter.CONTAINS }, displayName: 'Usuario', cellTemplate: btUsuario, minWidth: 150 }
 			# { field: 'fecha_nac', displayName:'Nacimiento', cellFilter: "date:mediumDate", type: 'date'}
 			{ field: 'deuda', displayName: 'Deuda', cellTemplate: btPazysalvo, minWidth: 150 }
+			{ field: 'fecha_pension', displayName: 'Fecha hasta', minWidth: 150, cellFilter: "date:mediumDate", type: 'date' }
 		],
-		multiSelect: false,
+		multiSelect: true,
 		onRegisterApi: ( gridApi ) ->
 			$scope.gridApi = gridApi
+
 			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
 
 				if newValue != oldValue
@@ -99,6 +102,9 @@ angular.module("myvcFrontApp")
 
 
 
+	$scope.getSelectedRows = ()->
+		$scope.mySelectedRows = $scope.gridApi.selection.getSelectedRows();
+
 
 
 	$scope.traerAlumnos = (item)->
@@ -108,6 +114,24 @@ angular.module("myvcFrontApp")
 
 			$scope.gridOptions.columnDefs[6].visible = false
 			$scope.gridApi.grid.refresh()
+		)
+
+
+	$scope.cambiarValorVarios = (valor, campo)->
+		if campo == 'fecha_pension'
+			valor = $filter('date')(valor, 'mediumDate')
+
+		datos =
+			alumnos: 	  $scope.getSelectedRows()
+			propiedad: 	campo
+			valor: 		  valor
+
+		$http.put('::alumnos/guardar-valor-varios', datos).then((r)->
+			for alumno in $scope.getSelectedRows()
+				alumno[campo] = valor
+			toastr.success 'Cambios guardados'
+		, (r2)->
+			toastr.error 'Cambio no guardado', 'Error'
 		)
 
 

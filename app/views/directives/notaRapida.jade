@@ -25,6 +25,7 @@ draggable
 			.form-inline
 				.form-group(style="display: inline-block;")
 					label Nota:
-					input.form-control(type="number" ng-model="valorNotaRapida" cambiamodel placeholder="Nota" max="100" min="0" style="width: 70px;")
+					input.form-control#input-nota-rapida(type="number" ng-model="valorNotaRapida" ng-click="clickInput()" cambiamodel placeholder="Nota" max="100" min="0" style="width: 80px;")
+
 				button.btn.btn-default(ng-click="activar()" ng-class="activado?'ng-hide':''") Activar
 				button.btn.btn-danger(ng-click="desactivar()" ng-class="activado==false ? 'ng-hide':'' ") Desactivar

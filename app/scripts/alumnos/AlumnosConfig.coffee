@@ -256,6 +256,26 @@ angular.module('myvcFrontApp')
 					needed_permissions: [PERMISSIONS.can_work_like_teacher]
 
 
+			.state 'panel.asistencias',
+				url: '^/asistencias'
+				views:
+					'maincontent':
+						templateUrl: "#{App.views}alumnos/asistencias.tpl.html"
+						controller: 'AsistenciasCtrl'
+					'headerContent':
+						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						controller: 'PanelHeaderCtrl'
+						resolve:
+							titulo: [->
+								'Asistencias a la institución'
+							]
+				data:
+					displayName: 'Asistencias a la institución'
+					icon_fa: 'fa fa-users'
+					pageTitle: 'Asistencias - MyVc'
+					needed_permissions: [PERMISSIONS.can_work_like_teacher]
+
+
 
 		return
 	]

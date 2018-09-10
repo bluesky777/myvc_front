@@ -397,17 +397,17 @@ angular.module('myvcFrontApp')
 		$scope.config.orientacion = 'oficio_horizontal'
 		$state.go 'panel.informes.control_asistencia_clase', {reload: true}
 
-	$scope.verNotasPerdidasProfesor = ()->
+	$scope.verNotasPerdidasProfesor = (solo_periodo)->
 		if $scope.datos.profesor
 			$scope.config.orientacion = 'carta_horizontal'
-			$state.go 'panel.informes.notas_perdidas_profesor', {profesor_id: $scope.datos.profesor.profesor_id, periodo_a_calcular: $scope.config.periodo_a_calcular}, {reload: true}
+			$state.go 'panel.informes.notas_perdidas_profesor', {profesor_id: $scope.datos.profesor.profesor_id, periodo_a_calcular: $scope.config.periodo_a_calcular, solo_periodo: solo_periodo}, {reload: true}
 		else
 			toastr.warning 'Elige un profesor'
 
 
-	$scope.verNotasPerdidasTodos = ()->
+	$scope.verNotasPerdidasTodos = (solo_periodo)->
 		$scope.config.orientacion = 'carta_horizontal'
-		$state.go 'panel.informes.notas_perdidas_todos', {periodo_a_calcular: $scope.config.periodo_a_calcular}, {reload: true}
+		$state.go 'panel.informes.notas_perdidas_todos', {periodo_a_calcular: $scope.config.periodo_a_calcular, solo_periodo: solo_periodo}, {reload: true}
 
 
 	$scope.verCumpleanosPorMeses = ()->

@@ -16,7 +16,7 @@
       <div class="form-inline">
         <div style="display: inline-block;" class="form-group">
           <label>Nota:</label>
-          <input type="number" ng-model="valorNotaRapida" cambiamodel placeholder="Nota" max="100" min="0" style="width: 70px;" class="form-control">
+          <input id="input-nota-rapida" type="number" ng-model="valorNotaRapida" ng-click="clickInput()" cambiamodel placeholder="Nota" max="100" min="0" style="width: 80px;" class="form-control">
         </div>
         <button ng-click="activar()" ng-class="activado?'ng-hide':''" class="btn btn-default">Activar</button>
         <button ng-click="desactivar()" ng-class="activado==false ? 'ng-hide':'' " class="btn btn-danger">Desactivar</button>

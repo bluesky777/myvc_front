@@ -19,7 +19,7 @@ angular.module("myvcFrontApp")
 		$('body').on('contextmenu', (ev)=> event.preventDefault())
 
 
-	if $scope.year.mostrar_puesto_boletin
+	if $scope.year.mostrar_puesto_boletin and $scope.USER.tipo!='Acudiente' and $scope.USER.tipo!='Alumno'
 		for alumno in $scope.alumnos
 			alumno.texto_puesto = ' - Puesto: ' + alumno.puesto + '/' + $scope.grupo.cantidad_alumnos
 

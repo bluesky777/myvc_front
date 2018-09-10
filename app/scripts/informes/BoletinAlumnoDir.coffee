@@ -225,7 +225,7 @@ angular.module('myvcFrontApp')
 
 
 
-
+		###
 		for area in scope.alumno.areas
 			for asignatura in area.asignaturas
 
@@ -255,7 +255,7 @@ angular.module('myvcFrontApp')
 						unidad.desempenio = 'Alcanzado'
 					else
 						unidad.desempenio = 'En proceso'
-
+		###
 
 
 

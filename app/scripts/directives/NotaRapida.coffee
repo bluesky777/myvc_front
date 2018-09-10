@@ -1,20 +1,20 @@
 angular.module('myvcFrontApp')
 
-.directive('notaRapida',['$rootScope', 'toastr', 'EscalasValorativasServ', ($rootScope, toastr, EscalasValorativasServ)-> 
+.directive('notaRapida',['$rootScope', 'toastr', 'EscalasValorativasServ', ($rootScope, toastr, EscalasValorativasServ)->
 
 	restrict: 'AE'
 	transclude: true,
 	templateUrl: "==directives/notaRapida.tpl.html"
-	#scope: 
+	#scope:
 	#	ngModel: "="
 	#require: 'ngModel'
 
 	link: (scope, iElem, iAttrs)->
 		# Debo agregar la clase .loading-inactive para que desaparezca el loader de la pantalla.
 		# y eso lo puedo hacer con el ng-if
-		
+
 		scope.valorNotaRapida = 100
-		
+
 
 
 		if $rootScope.notaRapida.enable
@@ -32,6 +32,11 @@ angular.module('myvcFrontApp')
 			scope.activado = false
 			$rootScope.notaRapida.enable = scope.activado
 			toastr.info 'Nota rápida desactivada', 'DESACTIVADA'
+
+		scope.clickInput = ()->
+			elem = $('#input-nota-rapida')
+			if !elem.is(':focus')
+				$('#input-nota-rapida').focus()
 
 
 		scope.$on('keydown:27', (onEvent, keydownEvent)->
@@ -55,6 +60,7 @@ angular.module('myvcFrontApp')
 	restrict: 'A',
 	link: (scope, element, attrs)->
 		scope.$watch(attrs.ngModel, (v)->
+			console.log(v)
 			$rootScope.notaRapida.valorNota = v
 		)
 ])
@@ -94,7 +100,7 @@ angular.module('myvcFrontApp')
 		if angular.isDefined(attrs.template) then attrs.template else '/tmpls/draggable-default'
 	link: (scope, el, attrs) ->
 
-
+		el = $(el)
 		# draggable object properties
 		scope.obj =
 			id: null
@@ -112,7 +118,7 @@ angular.module('myvcFrontApp')
 			scope.obj.group = attrs.group
 			opts.stack = '.' + attrs.group
 		# event handlers
-		evts = 
+		evts =
 			start: (evt, ui) ->
 				if scope.placeholder
 					ui.helper.wrap '<div class="dragging"></div>'

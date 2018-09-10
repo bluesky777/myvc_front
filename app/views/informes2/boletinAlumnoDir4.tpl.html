@@ -37,10 +37,14 @@
               <td class="text-center"><b>No</b></td>
               <td class="text-center"><b>Asignatura / Área</b></td>
               <td class="text-center"><b>IH</b></td>
-              <td style="width: 65px;" class="text-center"><b>P1</b></td>
-              <td style="width: 65px;" class="text-center"><b>P2</b></td>
-              <td style="width: 65px;" class="text-center"><b>P3</b></td>
-              <td style="width: 65px;" class="text-center"><b>P4</b></td>
+              <!--td.text-center(style="width: 65px;")b P1
+              -->
+              <!--td.text-center(style="width: 65px;")b P2
+              -->
+              <!--td.text-center(style="width: 65px;")b P3
+              -->
+              <!--td.text-center(style="width: 65px;")b P4
+              -->
               <td style="width: 40px;" class="text-center"><i class="fa fa-clock-o icon-tardanza"></i><span>A/T</span></td>
             </tr>
             <tr ng-if="::area.asignaturas.length&gt;1" ng-repeat-start="area in ::alumno.areas | orderBy:'orden' track by $index">
@@ -51,7 +55,9 @@
               <td class="text-center">{{ asignatura.indice }}</td>
               <td><span style="font-weight: bold;" ng-class="{'padding-left-20': area.asignaturas.length&gt;1 }" uib-popover-template="::views+'informes/infoDocentePop.tpl.html'" popover-popup-delay="500" popover-title="{{::asignatura.nombres_profesor}} {{::asignatura.apellidos_profesor}}" popover-animation="true" popover-trigger="'mouseenter'" popover-append-to-body="true">{{ ::asignatura.materia }}</span>
                 <ol style="font-size: 9pt; margin: 0px; padding-left: 23px;" ng-class="{'padding-left-40': area.asignaturas.length&gt;1 }">
-                  <li ng-repeat="unidad in ::asignatura.unidades">{{::unidad.definicion_unidad}} - {{::unidad.desempenio}}</li>
+                  <li ng-repeat="unidad in ::asignatura.unidades">{{::unidad.definicion_unidad}}
+                    <!--span - {{::unidad.desempenio}}-->
+                  </li>
                 </ol>
                 <div ng-show="::asignatura.frases.length&gt;0" style="margin-left: 0px; margin-right: 0px;" class="row comentarios-asignatura">
                   <div class="col-lg-12 col-xs-12">
@@ -61,10 +67,10 @@
                 </div>
               </td>
               <td style="font-style: italic; font-size: 9pt;" class="text-center"> {{ ::asignatura.creditos }}</td>
-              <td ng-class="{'nota-perdida-bold': asignatura.nota_final_per1&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.desempenio_per1 }}</td>
-              <td ng-class="{'nota-perdida-bold': asignatura.nota_final_per2&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.desempenio_per2 }}</td>
-              <td ng-class="{'nota-perdida-bold': asignatura.nota_final_per3&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.desempenio_per3 }}</td>
-              <td ng-class="{'nota-perdida-bold': asignatura.nota_final_per4&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::asignatura.desempenio_per4 }}</td>
+              <!--td.text-center(ng-class="{'nota-perdida-bold': asignatura.nota_final_per1<USER.nota_minima_aceptada}") {{ ::asignatura.desempenio_per1 }}-->
+              <!--td.text-center(ng-class="{'nota-perdida-bold': asignatura.nota_final_per2<USER.nota_minima_aceptada}") {{ ::asignatura.desempenio_per2 }}-->
+              <!--td.text-center(ng-class="{'nota-perdida-bold': asignatura.nota_final_per3<USER.nota_minima_aceptada}") {{ ::asignatura.desempenio_per3 }}-->
+              <!--td.text-center(ng-class="{'nota-perdida-bold': asignatura.nota_final_per4<USER.nota_minima_aceptada}") {{ ::asignatura.desempenio_per4 }}-->
               <td class="text-center"><span class="text-tardanza">{{::asignatura.total_ausencias}} / {{::asignatura.total_tardanzas}}</span></td>
             </tr>
           </table>

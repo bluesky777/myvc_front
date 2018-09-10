@@ -49,13 +49,13 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 								b Asignatura / Área
 							td.text-center
 								b IH
-							td.text-center(style="width: 65px;")
+							//td.text-center(style="width: 65px;")
 								b P1
-							td.text-center(style="width: 65px;")
+							//td.text-center(style="width: 65px;")
 								b P2
-							td.text-center(style="width: 65px;")
+							//td.text-center(style="width: 65px;")
 								b P3
-							td.text-center(style="width: 65px;")
+							//td.text-center(style="width: 65px;")
 								b P4
 							td.text-center(style="width: 40px;")
 								i.fa.fa-clock-o.icon-tardanza
@@ -78,7 +78,8 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 
 								ol(style="font-size: 9pt; margin: 0px; padding-left: 23px;" ng-class="{'padding-left-40': area.asignaturas.length>1 }")
 									li(ng-repeat="unidad in ::asignatura.unidades")
-										| {{::unidad.definicion_unidad}} - {{::unidad.desempenio}}
+										| {{::unidad.definicion_unidad}}
+										//span - {{::unidad.desempenio}}
 
 								.row.comentarios-asignatura(ng-show="::asignatura.frases.length>0" style="margin-left: 0px; margin-right: 0px;")
 									.col-lg-12.col-xs-12
@@ -91,10 +92,10 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 
 
 							td.text-center(style="font-style: italic; font-size: 9pt;")  {{ ::asignatura.creditos }}
-							td.text-center(ng-class="{'nota-perdida-bold': asignatura.nota_final_per1<USER.nota_minima_aceptada}") {{ ::asignatura.desempenio_per1 }}
-							td.text-center(ng-class="{'nota-perdida-bold': asignatura.nota_final_per2<USER.nota_minima_aceptada}") {{ ::asignatura.desempenio_per2 }}
-							td.text-center(ng-class="{'nota-perdida-bold': asignatura.nota_final_per3<USER.nota_minima_aceptada}") {{ ::asignatura.desempenio_per3 }}
-							td.text-center(ng-class="{'nota-perdida-bold': asignatura.nota_final_per4<USER.nota_minima_aceptada}") {{ ::asignatura.desempenio_per4 }}
+							//td.text-center(ng-class="{'nota-perdida-bold': asignatura.nota_final_per1<USER.nota_minima_aceptada}") {{ ::asignatura.desempenio_per1 }}
+							//td.text-center(ng-class="{'nota-perdida-bold': asignatura.nota_final_per2<USER.nota_minima_aceptada}") {{ ::asignatura.desempenio_per2 }}
+							//td.text-center(ng-class="{'nota-perdida-bold': asignatura.nota_final_per3<USER.nota_minima_aceptada}") {{ ::asignatura.desempenio_per3 }}
+							//td.text-center(ng-class="{'nota-perdida-bold': asignatura.nota_final_per4<USER.nota_minima_aceptada}") {{ ::asignatura.desempenio_per4 }}
 							td.text-center
 								span.text-tardanza {{::asignatura.total_ausencias}} / {{::asignatura.total_tardanzas}}
 

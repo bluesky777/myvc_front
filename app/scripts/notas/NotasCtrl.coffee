@@ -98,14 +98,14 @@ angular.module('myvcFrontApp')
 	$scope.setTabVertically = ()->
 		localStorage.tab_horiz_or_verti = 'vertical'
 		$scope.tab_horiz_or_verti       = 'vertical'
-		filas = angular.element('table tr')
+		filas = $('table tr')
 
 		angular.forEach(filas, (value, key)->
-			fila 	= angular.element(value);
+			fila 	= $(value);
 			inputs 	= fila.find('.input-nota')
 
 			angular.forEach(inputs, (value2, key2)->
-				a = angular.element(value2);
+				a = $(value2);
 				a.attr('tabindex', key2+1)
 			)
 		)
@@ -118,10 +118,10 @@ angular.module('myvcFrontApp')
 	$scope.setTabHorizontally = ()->
 		localStorage.tab_horiz_or_verti   = 'horizontal'
 		$scope.tab_horiz_or_verti         = 'horizontal'
-		filas                             = angular.element('.input-nota')
+		filas                             = $('.input-nota')
 
 		angular.forEach(filas, (value, key)->
-			a = angular.element(value);
+			a = $(value);
 			a.attr('tabindex', key+1)
 		)
 		if $scope.eleFocus

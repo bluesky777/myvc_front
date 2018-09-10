@@ -174,7 +174,16 @@
               <ui-select ng-model="datos.profesor" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;">
                 <ui-select-match placeholder="Elige un profesor" allow-clear="true"><img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;">{{$select.selected.nombres + ' ' + $select.selected.apellidos}}</ui-select-match>
                 <ui-select-choices repeat="profe in profesores | filter: $select.search"><img ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search"></small></ui-select-choices>
-              </ui-select><a href="" ng-click="verPlanillasProfe()" class="btn btn-default">Ver planillas</a><a href="" ng-click="verNotasPerdidasProfesor()" class="btn btn-default">Notas perdidas</a>
+              </ui-select>
+              <div uib-dropdown class="btn-group"><a href="" ng-click="verPlanillasProfe()" class="btn btn-default">Ver planillas</a><a href="" ng-click="verNotasPerdidasProfesor()" uib-tooltip="Acumuladas de los periodos" class="btn btn-default">Notas perdidas</a>
+                <button type="button" uib-dropdown-toggle class="btn btn-default">
+                  <div class="caret"></div>
+                  <div class="sr-only">Notas perdidas</div>
+                </button>
+                <ul uib-dropdown-menu role="menu" aria-labelledby="split-button" class="dropdown-menu">
+                  <li role="menuitem"><a ng-click="verNotasPerdidasProfesor(true)" href="" uib-tooltip="Sólo periodo seleccionado">Notas perdidas periodo</a></li>
+                </ul>
+              </div>
             </div>
             <div class="form-group">
               <label style="margin-right: 13px;">Grupo</label>
@@ -185,15 +194,23 @@
                 </ui-select-choices>
               </ui-select><a href="" ng-click="verPlanillasGrupo()" class="btn btn-default">Ver planillas</a>
             </div>
-            <div class="btn-group"><a href="" ng-click="verPlanillasControlTardanzas()" uib-tooltip="Usada para las tardanzas y ausencias en la entrada a la institución" class="btn btn-default">Control entrada</a><a href="" ng-click="verPlanillasAsistenciaClase()" uib-tooltip="Para las tardandas y tardanzas a cada clase" class="btn btn-default">Planillas asistencias clases</a><a href="" ng-click="verAusencias()" class="btn btn-default">Ver ausencias</a><a href="" ng-click="verNotasPerdidasTodos()" class="btn btn-default">Notas perdidas todos</a></div><br>
+            <div uib-dropdown class="btn-group"><a href="" ng-click="verPlanillasControlTardanzas()" uib-tooltip="Usada para las tardanzas y ausencias en la entrada a la institución" class="btn btn-default">Control entrada</a><a href="" ng-click="verPlanillasAsistenciaClase()" uib-tooltip="Para las tardandas y tardanzas a cada clase" class="btn btn-default">Planillas asistencias clases</a><a href="" ng-click="verAusencias()" class="btn btn-default">Ver ausencias</a><a href="" ng-click="verNotasPerdidasTodos()" uib-tooltip="Acumuladas de los periodos - Todos los docentes" class="btn btn-default">Notas perdidas todos</a>
+              <button type="button" uib-dropdown-toggle class="btn btn-default">
+                <div class="caret"></div>
+                <div class="sr-only">Notas perdidas</div>
+              </button>
+              <ul uib-dropdown-menu role="menu" aria-labelledby="split-button" class="dropdown-menu">
+                <li role="menuitem"><a ng-click="verNotasPerdidasTodos(true)" href="" uib-tooltip="Sólo periodo seleccionado - Todos los docentes">Todos - Notas perdidas periodo</a></li>
+              </ul>
+            </div><br>
             <div uib-dropdown class="btn-group">
-              <button id="split-button" href="" ng-click="verObservadorVertical()" uib-tooltip="Observador del alumno para imprimir" class="btn btn-default">Observador vertical</button>
+              <button id="split-button" type="button" ng-click="verObservadorVertical()" uib-tooltip="Observador del alumno para imprimir" class="btn btn-default">Observador vertical</button>
               <button type="button" uib-dropdown-toggle class="btn btn-default">
                 <div class="caret"></div>
                 <div class="sr-only">Observador vertical</div>
               </button>
               <ul uib-dropdown-menu role="menu" aria-labelledby="split-button" class="dropdown-menu">
-                <li role="menuitem"><a ng-click="verObservadorVerticalTodos()">Observador vertical - Todos</a></li>
+                <li role="menuitem"><a ng-click="verObservadorVerticalTodos()" href="">Observador vertical - Todos</a></li>
               </ul>
             </div>
             <div class="btn-group"><a href="" ng-click="verSimat()" class="btn btn-default">SIMAT {{USER.year}}</a>

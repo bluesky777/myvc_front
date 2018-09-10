@@ -5,7 +5,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 				.col-lg-12.col-xs-12
 					.row
 						.col-lg-2.col-xs-2
-							img.img-responsive.logo-colegio.menos-margin(ng-src="{{::perfilPath + year.logo}}" style="width: 70px;")
+							img.img-responsive.logo-colegio.menos-margin(ng-src="{{perfilPath + $parent.year_actual.logo}}" style="width: 70px;")
 						.col-lg-8.col-xs-8.title-encabezado-planilla
 							.row
 								.col-lg-12

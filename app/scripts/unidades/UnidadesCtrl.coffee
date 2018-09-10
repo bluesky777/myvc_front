@@ -240,7 +240,7 @@ angular.module('myvcFrontApp')
 
 
 	$scope.onStartSortUnidades= ($item, $part, $index, $helper)->
-		# console.log $item
+		console.log $item, $part
 
 	$scope.bloquear_animacion = (elemento)->
 		if !elemento

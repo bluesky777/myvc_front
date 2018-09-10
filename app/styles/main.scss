@@ -290,20 +290,23 @@ body {
 				//page: cartavertical;
 				width: 22cm;
 				margin-bottom: 0px;
-				border: 0px;
+        border: 0px;
+        min-height: 27cm;
 				//counter-reset: numpagina;
 		}
 		.page-carta-horizontal{
 				//page: cartahorizontal;
 				width: 31cm;
 				margin-bottom: 0px;
-				border: 0px;
+        border: 0px;
+        min-height: 18cm;
 		}
 		.page-oficio-horizontal{
 				//page: oficiohorizontal;
 				width: 36cm;
 				margin-bottom: 0px;
-				border: 0px;
+        border: 0px;
+        min-height: 18cm;
     }
 
     /*
@@ -1658,7 +1661,7 @@ tr { page-break-inside: avoid }
 		position: relative;
 		transform: rotate(180deg);
 		writing-mode: vertical-lr;
-		height: 600px;
+		height: 300px;
 		background-color: #fff !important;
 	}
 }

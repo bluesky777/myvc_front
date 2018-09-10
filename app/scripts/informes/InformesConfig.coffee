@@ -339,14 +339,15 @@ angular.module('myvcFrontApp')
 
 
 		.state 'panel.informes.notas_perdidas_profesor',
-			url: '/notas_perdidas_profesor/:profesor_id/:periodo_a_calcular'
+			url: '/notas_perdidas_profesor/:profesor_id/:periodo_a_calcular/:solo_periodo'
 			views:
 				'report_content':
 					templateUrl: "==informes/notasPerdidasProfesor.tpl.html"
 					controller: 'NotasPerdidasProfesorCtrl'
 					resolve:
 						grupos: ['$http', '$stateParams', ($http, $stateParams)->
-							$http.put('::notas-perdidas/profesor-grupos', {profesor_id: $stateParams.profesor_id, periodo_a_calcular: $stateParams.periodo_a_calcular} )
+							solo_per = if $stateParams.solo_periodo then true else false
+							$http.put('::notas-perdidas/profesor-grupos', {profesor_id: $stateParams.profesor_id, periodo_a_calcular: $stateParams.periodo_a_calcular, solo_periodo: solo_per} )
 						]
 			data:
 				displayName: 'Notas perdidas por profesor'
@@ -355,14 +356,15 @@ angular.module('myvcFrontApp')
 
 
 		.state 'panel.informes.notas_perdidas_todos',
-			url: '/notas_perdidas_profesor/:periodo_a_calcular'
+			url: '/notas_perdidas_profesor/:periodo_a_calcular/:solo_periodo'
 			views:
 				'report_content':
 					templateUrl: "==informes/notasPerdidasTodos.tpl.html"
 					controller: 'NotasPerdidasTodosCtrl'
 					resolve:
 						profesores: ['$http', '$stateParams', ($http, $stateParams)->
-							$http.put('::notas-perdidas/todos', {periodo_a_calcular: $stateParams.periodo_a_calcular} )
+							solo_per = if $stateParams.solo_periodo then true else false
+							$http.put('::notas-perdidas/todos', {periodo_a_calcular: $stateParams.periodo_a_calcular, solo_periodo: solo_per} )
 						]
 			data:
 				displayName: 'Todas las notas perdidas'

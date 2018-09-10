@@ -266,17 +266,13 @@
 							$target.view.model($target.view.scope).splice(targetIndex, 0, spliced[0]);
 
 							// sv-on-sort callback
-							// *********************************************************************************************
-							// *******************************      AQUÍIIIIIIII              ******************************
-							// *********************************************************************************************
 							if($target.view !== originatingPart || index !== targetIndex)
 								onSort($scope, {
 									$partTo: $target.view.model($target.view.scope),
 									$partFrom: originatingPart.model(originatingPart.scope),
 									$item: spliced[0],
 									$indexTo: targetIndex,
-									$indexFrom: index,
-									$modeloPadre: $target.view.scope.$parent // Esta parte la agregé YO
+									$indexFrom: index
 								});
 
 						}
@@ -405,7 +401,9 @@
 						containment: 'html'
 					}, opts);
 					if(opts.containment){
-						var containmentRect = closestElement.call($element, opts.containment)[0].getBoundingClientRect();
+            //console.log($element, closestElement.call($element, opts.containment).getBoundingClientRect());
+            //var containmentRect = closestElement.call($element, opts.containment)[0].getBoundingClientRect();
+            var containmentRect = closestElement.call($element, opts.containment).getBoundingClientRect();
 					}
 
 					var target = $element;

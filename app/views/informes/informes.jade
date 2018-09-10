@@ -191,8 +191,15 @@
 									img(ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;")
 									small(ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
 
-							a.btn.btn-default(href="" ng-click="verPlanillasProfe()") Ver planillas
-							a.btn.btn-default(href="" ng-click="verNotasPerdidasProfesor()") Notas perdidas
+							.btn-group(uib-dropdown)
+								a.btn.btn-default(href="" ng-click="verPlanillasProfe()") Ver planillas
+								a.btn.btn-default(href="" ng-click="verNotasPerdidasProfesor()" uib-tooltip="Acumuladas de los periodos") Notas perdidas
+								button.btn.btn-default(type="button" uib-dropdown-toggle)
+									.caret
+									.sr-only Notas perdidas
+								ul.dropdown-menu(uib-dropdown-menu role="menu" aria-labelledby="split-button")
+									li(role="menuitem")
+										a(ng-click="verNotasPerdidasProfesor(true)" href="" uib-tooltip="Sólo periodo seleccionado") Notas perdidas periodo
 
 						.form-group
 							label(style="margin-right: 13px;") Grupo
@@ -204,21 +211,28 @@
 							a.btn.btn-default(href="" ng-click="verPlanillasGrupo()") Ver planillas
 
 
-						.btn-group
+						.btn-group(uib-dropdown)
 							a.btn.btn-default(href="" ng-click="verPlanillasControlTardanzas()" uib-tooltip="Usada para las tardanzas y ausencias en la entrada a la institución") Control entrada
 							a.btn.btn-default(href="" ng-click="verPlanillasAsistenciaClase()" uib-tooltip="Para las tardandas y tardanzas a cada clase") Planillas asistencias clases
 							a.btn.btn-default(href="" ng-click="verAusencias()") Ver ausencias
-							a.btn.btn-default(href="" ng-click="verNotasPerdidasTodos()") Notas perdidas todos
+							a.btn.btn-default(href="" ng-click="verNotasPerdidasTodos()" uib-tooltip="Acumuladas de los periodos - Todos los docentes") Notas perdidas todos
+							button.btn.btn-default(type="button" uib-dropdown-toggle)
+								.caret
+								.sr-only Notas perdidas
+							ul.dropdown-menu(uib-dropdown-menu role="menu" aria-labelledby="split-button")
+								li(role="menuitem")
+									a(ng-click="verNotasPerdidasTodos(true)" href="" uib-tooltip="Sólo periodo seleccionado - Todos los docentes") Todos - Notas perdidas periodo
+
 						br
 
 						.btn-group(uib-dropdown)
-							button#split-button.btn.btn-default(href="" ng-click="verObservadorVertical()" uib-tooltip="Observador del alumno para imprimir") Observador vertical
+							button#split-button.btn.btn-default(type="button" ng-click="verObservadorVertical()" uib-tooltip="Observador del alumno para imprimir") Observador vertical
 							button.btn.btn-default(type="button" uib-dropdown-toggle)
 								.caret
 								.sr-only Observador vertical
 							ul.dropdown-menu(uib-dropdown-menu role="menu" aria-labelledby="split-button")
 								li(role="menuitem")
-									a(ng-click="verObservadorVerticalTodos()") Observador vertical - Todos
+									a(ng-click="verObservadorVerticalTodos()" href="") Observador vertical - Todos
 
 						.btn-group
 							a.btn.btn-default(href="" ng-click="verSimat()") SIMAT {{USER.year}}

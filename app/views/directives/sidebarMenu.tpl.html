@@ -6,7 +6,7 @@
   </div><!-- /Page Sidebar Header -->
   <ul class="nav sidebar-menu hidden-print"><!--Dashboard-->
     <li ui-sref-active-eq="active"><a ui-sref="panel"><i class="menu-icon fa fa-home"></i><span class="menu-text">Inicio</span></a></li><!--Alumnos-->
-    <li sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm('admin')" ng-class="{open:$state.includes('panel.alumnos')||$state.includes('panel.promocionar_notas')||$state.includes('panel.cartera') || $state.includes('panel.acudientes')}"><a href="" class="menu-dropdown"><i class="menu-icon fa fa-child"></i><span class="menu-text">Alumnos</span><i class="menu-expand"></i></a>
+    <li sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm('admin')" ng-class="{open:$state.includes('panel.alumnos')||$state.includes('panel.promocionar_notas')||$state.includes('panel.cartera') || $state.includes('panel.acudientes') || $state.includes('panel.asistencias')}"><a href="" class="menu-dropdown"><i class="menu-icon fa fa-child"></i><span class="menu-text">Alumnos</span><i class="menu-expand"></i></a>
       <ul class="submenu">
         <li ui-sref-active="active"><a ui-sref="panel.alumnos" stop-event="click"><span class="menu-text">Todos</span></a></li>
         <!--li( ui-sref-active="active")
@@ -17,6 +17,7 @@
         <li ui-sref-active="active"><a ui-sref="panel.cartera" stop-event="click"><span class="menu-text">Cartera</span></a></li>
         <li ui-sref-active="active"><a ui-sref="panel.promocionar_notas" stop-event="click" uib-tooltip="Promocionar notas de un alumno promovido"><span class="menu-text">Promocionar notas</span></a></li>
         <li ui-sref-active="active"><a ui-sref="panel.acudientes" stop-event="click"><span class="menu-text">Acudientes</span></a></li>
+        <li ui-sref-active="active"><a ui-sref="panel.asistencias" stop-event="click" uib-tooltip="Tardanzas y ausencias a la institución"><span class="menu-text">Asistencias</span></a></li>
       </ul>
     </li><!-- Profesores-->
     <li sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm('admin')" ng-class="{open:$state.includes('panel.profesores')}"><a href="" class="menu-dropdown"><i class="menu-icon fa fa-graduation-cap"></i><span class="menu-text">Profesores</span><i class="menu-expand"></i></a>
@@ -87,7 +88,7 @@
         <li ui-sref-active="active" ng-repeat="grupo in grupos"><a ui-sref="panel.listalumnos({grupo_id: grupo.id})" stop-event="click"><span class="menu-text">{{grupo.nombre}}</span></a></li>
       </ul>
     </li><!-- Grados-->
-    <li sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm(['admin'])" ng-class="{open:$state.includes('panel.niveles')||$state.includes('panel.grados')||$state.includes('panel.grupos')||$state.includes('panel.areas')||$state.includes('panel.materias')||$state.includes('panel.asignaturas')||$state.includes('panel.listalumnos')}"><a href="" class="menu-dropdown"><i class="menu-icon fa fa-th-large"></i><span class="menu-text">Grados y Áreas</span><i class="menu-expand"></i></a>
+    <li sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm(['admin'])" ng-class="{open:$state.includes('panel.niveles')||$state.includes('panel.grados')||$state.includes('panel.grupos')||$state.includes('panel.areas')||$state.includes('panel.materias')||$state.includes('panel.asignaturas')||$state.includes('panel.listalumnos') || $state.includes('panel.frases')}"><a href="" class="menu-dropdown"><i class="menu-icon fa fa-th-large"></i><span class="menu-text">Grados y Áreas</span><i class="menu-expand"></i></a>
       <ul class="submenu">
         <li ui-sref-active="active" ng-if="hasRoleOrPerm(['admin'])"><a ui-sref="panel.niveles" stop-event="click"><span class="menu-text">Niveles educativos</span></a></li>
         <li ui-sref-active="active" ng-if="hasRoleOrPerm(['admin'])"><a ui-sref="panel.grados" stop-event="click"><span class="menu-text">Grados</span></a></li>
@@ -101,6 +102,7 @@
         <li ui-sref-active="active" ng-if="hasRoleOrPerm(['admin'])"><a ui-sref="panel.areas" class="menu-dropdown"><span class="menu-text">Áreas</span></a></li>
         <li ui-sref-active="active" ng-if="hasRoleOrPerm(['admin'])"><a ui-sref="panel.materias" class="menu-dropdown"><span class="menu-text">Materias</span></a></li>
         <li ui-sref-active="active" ng-if="hasRoleOrPerm(['admin'])"><a ui-sref="panel.asignaturas" class="menu-dropdown"><span class="menu-text">Asignaturas</span></a></li>
+        <li ui-sref-active="active" ng-if="hasRoleOrPerm(['admin'])"><a ui-sref="panel.frases" class="menu-dropdown"><span class="menu-text">Frases</span></a></li>
       </ul>
     </li>
     <li ui-sref-active="active" ng-if="!hasRoleOrPerm(['admin']) &amp;&amp; hasRoleOrPerm(['profesor'])"><a ui-sref="panel.bitacora" stop-event="click"><i class="menu-icon fa fa-align-justify"></i><span class="menu-text"> Bitácora</span></a></li><!-- Informes-->

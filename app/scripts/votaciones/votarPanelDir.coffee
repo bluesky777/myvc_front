@@ -14,7 +14,7 @@ angular.module('myvcFrontApp')
 
 		$scope.hover = false
 		$scope.maxi = false
-		$scope.windowHeight = angular.element($window).height()-100
+		$scope.windowHeight = $($window).height()-100
 		$scope.wzStep = 0
 
 

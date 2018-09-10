@@ -7,8 +7,6 @@ angular.module('myvcFrontApp')
 	$scope.USER = Perfil.User()
 	$scope.USER.nota_minima_aceptada = parseInt($scope.USER.nota_minima_aceptada)
 
-	$scope.year = asignaturas[0]
-
 	$scope.perfilPath = App.images+'perfil/'
 
 

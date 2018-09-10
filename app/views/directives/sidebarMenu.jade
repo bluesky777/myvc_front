@@ -18,7 +18,7 @@
 
 
 		<!--Alumnos-->
-		li(sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm('admin')" ng-class="{open:$state.includes('panel.alumnos')||$state.includes('panel.promocionar_notas')||$state.includes('panel.cartera') || $state.includes('panel.acudientes')}")
+		li(sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm('admin')" ng-class="{open:$state.includes('panel.alumnos')||$state.includes('panel.promocionar_notas')||$state.includes('panel.cartera') || $state.includes('panel.acudientes') || $state.includes('panel.asistencias')}")
 			a.menu-dropdown(href="")
 				i.menu-icon.fa.fa-child
 				span.menu-text Alumnos
@@ -44,6 +44,10 @@
 				li( ui-sref-active="active")
 					a(ui-sref="panel.acudientes" stop-event="click")
 						span.menu-text Acudientes
+
+				li( ui-sref-active="active")
+					a(ui-sref="panel.asistencias" stop-event="click" uib-tooltip="Tardanzas y ausencias a la institución")
+						span.menu-text Asistencias
 
 
 
@@ -192,7 +196,7 @@
 
 		<!-- Grados-->
 		li(sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm(['admin'])"
-			ng-class="{open:$state.includes('panel.niveles')||$state.includes('panel.grados')||$state.includes('panel.grupos')||$state.includes('panel.areas')||$state.includes('panel.materias')||$state.includes('panel.asignaturas')||$state.includes('panel.listalumnos')}")
+			ng-class="{open:$state.includes('panel.niveles')||$state.includes('panel.grados')||$state.includes('panel.grupos')||$state.includes('panel.areas')||$state.includes('panel.materias')||$state.includes('panel.asignaturas')||$state.includes('panel.listalumnos') || $state.includes('panel.frases')}")
 			a.menu-dropdown(href="")
 				i.menu-icon.fa.fa-th-large
 				span.menu-text Grados y Áreas
@@ -229,6 +233,9 @@
 				li(ui-sref-active="active" ng-if="hasRoleOrPerm(['admin'])")
 					a.menu-dropdown(ui-sref="panel.asignaturas")
 						span.menu-text Asignaturas
+				li(ui-sref-active="active" ng-if="hasRoleOrPerm(['admin'])")
+					a.menu-dropdown(ui-sref="panel.frases")
+						span.menu-text Frases
 
 		li(ui-sref-active="active" ng-if="!hasRoleOrPerm(['admin']) && hasRoleOrPerm(['profesor'])")
 			a(ui-sref="panel.bitacora" stop-event="click")
