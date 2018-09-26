@@ -169,6 +169,31 @@ angular.module('myvcFrontApp')
 
 
 	$scope.verBoletinesGrupo = (tipo)->
+		if $scope.periodos_desactualizados
+			found = false
+			grupo = {}
+
+			for perDesact in $scope.periodos_desactualizados
+
+				if $scope.USER.numero_periodo == perDesact.numero
+					for grup in perDesact.grupos
+						if grup.grupo_id == $scope.datos.grupo.id
+							found = true
+							grupo = grup
+
+			if found
+				$http.put('::definitivas_periodos/calcular-grupo-periodo', {grupo_id: grupo.grupo_id, periodo_id: $scope.USER.periodo_id, num_periodo: $scope.USER.numero_periodo}).then((r)->
+					$scope.verBoletinesGrupoCargar(tipo)
+
+				, (r2)->
+					toastr.warning 'No se pudo calcular ' + grupo.nombre + ', Per ' + $scope.USER.numero_periodo + '. Intentaremos de nuevo.'
+				)
+
+
+		else
+			$scope.verBoletinesGrupoCargar(tipo)
+
+	$scope.verBoletinesGrupoCargar = (tipo)->
 		if tipo == '1' or tipo == 1
 			tipo = ''
 		$cookies.remove 'requested_alumnos'

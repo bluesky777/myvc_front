@@ -12,6 +12,7 @@ angular.module('myvcFrontApp')
 		$scope.views 			= App.views
 
 
+
 		# Si el colegio quiere que aparezca su imagen en el encabezado, puede hacerlo.
 		$scope.logoPathDefault = 'images/Logo_MyVc_Header.gif'
 		$scope.logoPath = 'images/Logo_Colegio_Header.gif'

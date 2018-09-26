@@ -277,5 +277,30 @@ angular.module('myvcFrontApp')
 
 
 
+
+			.state 'panel.persona',
+				url: '^/persona/:persona_id/:tipo'
+				param:
+					alumno_id:  null
+					tipo:       null
+				views:
+					'maincontent':
+						templateUrl: "#{App.views}alumnos/persona.tpl.html"
+						controller: 'PersonaCtrl'
+					'headerContent':
+						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						controller: 'PanelHeaderCtrl'
+						resolve:
+							titulo: [->
+								'Detalle de persona'
+							]
+				data:
+					displayName: 'Persona'
+					icon_fa: 'fa fa-users'
+					pageTitle: 'Persona - MyVc'
+					needed_permissions: [PERMISSIONS.can_work_like_teacher]
+
+
+
 		return
 	]

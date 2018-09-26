@@ -1,20 +1,20 @@
 angular.module("myvcFrontApp")
 
-.controller('BoletinesFinalesCtrl', ['$scope', 'alumnosDat', 'escalas', '$cookieStore', ($scope, alumnos, escalas, $cookieStore)->
-	
+.controller('BoletinesFinalesCtrl', ['$scope', 'alumnosDat', 'escalas', '$cookies', ($scope, alumnos, escalas, $cookies)->
+
 	$scope.grupo = alumnos[0]
 	$scope.year = alumnos[1]
 	$scope.alumnos = alumnos[2]
 
 	$scope.escalas = escalas
 
-	$scope.config = $cookieStore.get 'config'
-	$scope.requested_alumnos = $cookieStore.get 'requested_alumnos'
-	$scope.requested_alumno = $cookieStore.get 'requested_alumno'
+	$scope.config = $cookies.getObject 'config'
+	$scope.requested_alumnos = $cookies.getObject 'requested_alumnos'
+	$scope.requested_alumno = $cookies.getObject 'requested_alumno'
 
-	
+
 	$scope.$on 'change_config', ()->
-		$scope.config = $cookieStore.get 'config'
+		$scope.config = $cookies.getObject 'config'
 
 
 	if $scope.requested_alumnos

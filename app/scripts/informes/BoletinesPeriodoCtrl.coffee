@@ -1,6 +1,6 @@
 angular.module("myvcFrontApp")
 
-.controller('BoletinesPeriodoCtrl', ['$scope', 'alumnosDat', 'escalas', '$uibModal', '$cookieStore', '$state', ($scope, alumnos, escalas, $modal, $cookieStore, $state)->
+.controller('BoletinesPeriodoCtrl', ['$scope', 'alumnosDat', 'escalas', '$uibModal', '$cookies', '$state', ($scope, alumnos, escalas, $modal, $cookies, $state)->
 
 	$scope.grupo    = alumnos[0]
 	$scope.year     = alumnos[1]
@@ -24,9 +24,9 @@ angular.module("myvcFrontApp")
 			alumno.texto_puesto = ' - Puesto: ' + alumno.puesto + '/' + $scope.grupo.cantidad_alumnos
 
 
-	$scope.config = $cookieStore.get 'config'
-	$scope.requested_alumnos = $cookieStore.get 'requested_alumnos'
-	$scope.requested_alumno = $cookieStore.get 'requested_alumno'
+	$scope.config = $cookies.getObject 'config'
+	$scope.requested_alumnos = $cookies.getObject 'requested_alumnos'
+	$scope.requested_alumno = $cookies.getObject 'requested_alumno'
 
 
 
@@ -65,7 +65,7 @@ angular.module("myvcFrontApp")
 
 
 	$scope.$on 'change_config', ()->
-		$scope.config = $cookieStore.get 'config'
+		$scope.config = $cookies.getObject 'config'
 
 
 	if $scope.requested_alumnos

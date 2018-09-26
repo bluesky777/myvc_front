@@ -1,6 +1,6 @@
 angular.module('myvcFrontApp')
 
-.directive('sidebarMenu',['$rootScope', 'AuthService', '$http', '$uibModal', 'Perfil', 'ProfesoresServ', '$window', '$state', ($rootScope, AuthService, $http, $modal, Perfil, ProfesoresServ, $window, $state)->
+.directive('sidebarMenu',['$rootScope', 'AuthService', '$http', '$uibModal', 'Perfil', 'ProfesoresServ', '$window', '$state', '$interval', ($rootScope, AuthService, $http, $modal, Perfil, ProfesoresServ, $window, $state, $interval)->
 
 	restrict: 'E'
 	replace: true
@@ -24,11 +24,51 @@ angular.module('myvcFrontApp')
 		)
 
 
-	controller: ($scope, $attrs, $state, App)->
+	controller: ($scope, $attrs, $state, App, $http)->
 		$scope.perfilPath = App.images+'perfil/'
 		# This array keeps track of the accordion groups
 		this.groups = []
 		$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
+
+		$scope.mensaje_no_buscar  = 'Alumno en este año '
+
+		stop = $interval(()->
+			if $scope.USER
+				$scope.mensaje_no_buscar  = 'Alumno en este año ' + $scope.USER.year
+				$scope.stopInterval()
+			else if $scope.$parent.USER
+				$scope.mensaje_no_buscar  = 'Alumno en este año ' + $scope.$parent.USER.year
+				$scope.stopInterval()
+		, 200)
+
+		$scope.stopInterval = ()->
+			if (angular.isDefined(stop))
+				$interval.cancel(stop);
+				stop = undefined;
+
+
+		$scope.persona_buscar 		= ''
+		$scope.templateTypeahead  = '==alumnos/personaTemplateTypeahead.tpl.html'
+
+		$scope.personaCheck = (texto)->
+			$scope.verificandoPersona = true
+			return $http.put('::alumnos/personas-check', {texto: texto}).then((r)->
+				$scope.personas_match 		= r.data.personas
+				$scope.personas_match.map((perso)->
+					perso.perfilPath = $scope.perfilPath
+				)
+				$scope.verificandoPersona 	= false
+				return $scope.personas_match
+				###
+				return $scope.personas_match.map((item)->
+					return item.nombres + ' ' + item.apellidos
+				)
+				###
+			)
+
+
+
+
 
 		$scope.$state = $rootScope.$state
 		$scope.persona_id = Perfil.User().persona_id
@@ -40,6 +80,10 @@ angular.module('myvcFrontApp')
 			, (r2)->
 				toastr.error 'No se pudo traer los grupos del menú'
 			)
+
+
+		$scope.ir_a_persona = ()->
+			$state.go 'panel.persona', { persona_id: $scope.persona_buscar.alumno_id, tipo: $scope.persona_buscar.tipo }
 
 		ProfesoresServ.contratos().then((r)->
 			$scope.profesores = r

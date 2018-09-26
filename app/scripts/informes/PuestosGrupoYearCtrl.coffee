@@ -1,10 +1,10 @@
 angular.module("myvcFrontApp")
 
-.controller('PuestosGrupoYearCtrl', ['$scope', 'datos_puestos', 'escalas', '$cookieStore', ($scope, datos_puestos, escalas, $cookieStore)->
+.controller('PuestosGrupoYearCtrl', ['$scope', 'datos_puestos', 'escalas', '$cookies', ($scope, datos_puestos, escalas, $cookies)->
 	datos_puestos = datos_puestos.data
 
 	$scope.fechahora = new Date();
-	
+
 
 	$scope.grupo = datos_puestos.grupo
 	$scope.year = datos_puestos.year
@@ -12,12 +12,12 @@ angular.module("myvcFrontApp")
 
 	$scope.escalas = escalas
 
-	$scope.config = $cookieStore.get 'config'
+	$scope.config = $cookies.getObject 'config'
 	#$scope.config.orientacion = $scope.orientacion
 	#$scope.config.mostrar_foto = $scope.mostrar_foto
 
 	$scope.$on 'change_config', ()->
-		$scope.config = $cookieStore.get 'config'
+		$scope.config = $cookies.getObject 'config'
 
 
 

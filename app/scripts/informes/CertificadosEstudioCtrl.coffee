@@ -1,20 +1,20 @@
 angular.module("myvcFrontApp")
 
-.controller('CertificadosEstudioCtrl', ['$scope', '$state', 'alumnosDat', 'escalas', '$cookieStore', ($scope, $state, alumnos, escalas, $cookieStore)->
-	
+.controller('CertificadosEstudioCtrl', ['$scope', '$state', 'alumnosDat', 'escalas', '$cookies', ($scope, $state, alumnos, escalas, $cookies)->
+
 	$scope.grupo = alumnos[0]
 	$scope.year = alumnos[1]
 	$scope.alumnos = alumnos[2]
 
 	$scope.escalas = escalas
 
-	$scope.config = $cookieStore.get 'config'
-	$scope.requested_alumnos = $cookieStore.get 'requested_alumnos'
-	$scope.requested_alumno = $cookieStore.get 'requested_alumno'
+	$scope.config = $cookies.getObject 'config'
+	$scope.requested_alumnos = $cookies.getObject 'requested_alumnos'
+	$scope.requested_alumno = $cookies.getObject 'requested_alumno'
 
-	
+
 	$scope.$on 'change_config', ()->
-		$scope.config = $cookieStore.get 'config'
+		$scope.config = $cookies.getObject 'config'
 
 
 	if $scope.requested_alumnos
@@ -35,7 +35,7 @@ angular.module("myvcFrontApp")
 			.error((r2)->
 				console.log 'Pailaaassss', r2
 			);
-	
+
 
 	$http.get('certificados-estudio/certificado-grupo/10', {}, {responseType: 'blob', "X-Auth-Token": 'token'}).then((response)->
 		console.log response

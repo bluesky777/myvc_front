@@ -28,8 +28,14 @@
                 <th rowspan="2" class="text-center">Alias</th>
                 <th rowspan="2" class="text-center">Grupo</th>
                 <th rowspan="2" class="text-center">Titular</th>
-                <th rowspan="2" class="text-center">
+                <th rowspan="2" style="border: 2px solid #000!important;" class="text-center">
                   <div uib-tooltip="Matriculados y Asistentes actuales">Actual</div>
+                </th>
+                <th rowspan="2" class="text-center">
+                  <div uib-tooltip="Hombres">Hom</div>
+                </th>
+                <th rowspan="2" class="text-center">
+                  <div uib-tooltip="Mujeres">Muj</div>
                 </th>
                 <th colspan="4" style="text-align: center;">
                   <div uib-tooltip="Retirados y desertores">Reti-Desert</div>
@@ -53,7 +59,9 @@
                 <td class="text-center"><b>{{ grupo.abrev }}</b></td>
                 <td class="text-center"><b>{{ grupo.nombre }}</b></td>
                 <td style="text-align: left;"><img ng-src="{{perfilPath + grupo.foto_nombre}}" style="width: 30px; height: 30px;">{{ grupo.nombres_titular }} {{ grupo.apellidos_titular }}</td>
-                <td class="text-center"><b>{{ grupo.cant_alumnos }}</b></td>
+                <td style="border: 2px solid #000!important;" class="text-center"><b>{{ grupo.cant_alumnos }}</b></td>
+                <td class="text-center"><b>{{ grupo.cant_hombres }}</b></td>
+                <td class="text-center"><b>{{ grupo.cant_mujeres }}</b></td>
                 <td ng-repeat="perio in grupo.periodos_ret" class="text-center">{{ perio.cant_reti }}</td>
                 <td ng-repeat="perio in grupo.periodos_matr" class="text-center">{{ perio.cant_matr }}</td>
               </tr>
@@ -62,7 +70,9 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td style="width: 50px" class="text-center"><b>{{cant_total_alumnos}}</b></td>
+                <td style="width: 50px; border: 2px solid #000!important;" class="text-center"><b>{{cant_total_alumnos}}</b></td>
+                <td>{{cant_total_hombres}}</td>
+                <td>{{cant_total_mujeres}}</td>
                 <td ng-repeat="peri in periodos_total">{{ peri.total_reti.cant_alumnos }}</td>
                 <td ng-repeat="peri in periodos_total">{{ peri.total_matr.cant_alumnos }}</td>
               </tr>

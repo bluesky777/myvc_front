@@ -1,0 +1,10 @@
+div
+
+	img(ng-show="match.model.foto_nombre" ng-src="{{match.model.perfilPath + match.model.foto_nombre}}" alt="foto oficial" style="width: 100px; height: 100px;")
+	span {{ $scope }}
+	br
+
+
+	div(ng-if="match.model.username")
+		| Usuario:
+		b {{match.model.username}}

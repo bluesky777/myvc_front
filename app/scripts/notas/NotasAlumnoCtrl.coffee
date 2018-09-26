@@ -251,7 +251,7 @@ angular.module('myvcFrontApp')
 		else
 			$scope.filtered_alumnos = alumnos
 
-			$cookieStore.put 'requested_alumno', ''
+			$cookies.putObject 'requested_alumno', ''
 
 		$scope.datos.selected_alumno = ''
 

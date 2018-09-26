@@ -457,6 +457,7 @@ angular.module("myvcFrontApp")
 			{ field: 'tipo_sangre', displayName: 'RH', minWidth: 70 }
 			{ field: 'estrato', minWidth: 70, type: 'number' }
 			{ field: 'fecha_nac', displayName:'Nacimiento', cellFilter: "date:mediumDate", type: 'date', minWidth: 100}
+			{ field: 'edad', minWidth: 70, enableCellEdit: false }
 			{ field: 'ciudad_nac', displayName: 'Ciud Nacimi', minWidth: 120, cellTemplate: btCiudadNac, enableCellEdit: false }
 			{ field: 'direccion', displayName: 'Dirección', minWidth: 80 }
 			{ field: 'barrio', minWidth: 80 }

@@ -1,10 +1,22 @@
 #sidebar.hidden-print
 
 	<!-- Page Sidebar Header-->
-	.sidebar-header-wrapper
-		input.searchinput(type="text")
+	#buscar-sidebar.sidebar-header-wrapper
+		form(ng-submit="ir_a_persona()")
+			input.searchinput(type="text" ng-model="persona_buscar" placeholder="Buscar alumno"
+					typeahead-append-to="'#buscar-sidebar'" typeahead-min-length="2"
+					uib-typeahead="persona_check as persona_check.nombres for persona_check in personaCheck($viewValue)"
+					typeahead-loading="loadingPersonas" typeahead-no-results="noResults"
+					typeahead-wait-ms="300" typeahead-template-url="{{templateTypeahead}}")
+
+
+		i.fa.fa-refresh(ng-show="loadingPersonas" style="font-size: 7pt")
+		div(ng-show="noResults" style="font-size: 7pt")
+			i.fa.fa-check
+			| No encontrado.
+
 		i.searchicon.fa.fa-search
-		.searchhelper Aún no puedes buscar en el sitio.
+		.searchhelper(ng-bind-html="mensaje_no_buscar")
 
 	<!-- /Page Sidebar Header -->
 

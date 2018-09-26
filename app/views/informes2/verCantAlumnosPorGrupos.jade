@@ -27,8 +27,12 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 									| Grupo
 								th.text-center(rowspan="2")
 									| Titular
-								th.text-center(rowspan="2")
+								th.text-center(rowspan="2" style="border: 2px solid #000!important;")
 									div(uib-tooltip="Matriculados y Asistentes actuales") Actual
+								th.text-center(rowspan="2")
+									div(uib-tooltip="Hombres") Hom
+								th.text-center(rowspan="2")
+									div(uib-tooltip="Mujeres") Muj
 								th(colspan=4 style="text-align: center;")
 									div(uib-tooltip="Retirados y desertores") Reti-Desert
 								th(colspan=4 style="text-align: center;")
@@ -64,8 +68,13 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 									img(ng-src="{{perfilPath + grupo.foto_nombre}}" style="width: 30px; height: 30px;")
 									| {{ grupo.nombres_titular }} {{ grupo.apellidos_titular }}
 
-								td.text-center
+								td.text-center(style="border: 2px solid #000!important;")
 									b {{ grupo.cant_alumnos }}
+
+								td.text-center
+									b {{ grupo.cant_hombres }}
+								td.text-center
+									b {{ grupo.cant_mujeres }}
 
 								td.text-center(ng-repeat="perio in grupo.periodos_ret")
 									| {{ perio.cant_reti }}
@@ -78,8 +87,12 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 								td
 								td
 								td
-								td.text-center(style="width: 50px")
+								td.text-center(style="width: 50px; border: 2px solid #000!important;")
 									b {{cant_total_alumnos}}
+
+								td {{cant_total_hombres}}
+								td {{cant_total_mujeres}}
+
 								td(ng-repeat="peri in periodos_total")
 									| {{ peri.total_reti.cant_alumnos }}
 								td(ng-repeat="peri in periodos_total")

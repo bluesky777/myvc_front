@@ -1,0 +1,266 @@
+
+<div class="col-lg-12 col-xs-12">
+  <div class="widget">
+    <div class="widget-header bordered-bottom bordered-blue"><span class="widget-caption">Alumno</span></div>
+    <div class="widget-body">
+      <div>
+        <form role="form">
+          <uib-tabset>
+            <uib-tab heading="Información">
+              <div class="widget">
+                <div class="widget-header bordered-bottom bordered-pink"><span class="widget-caption">Básica</span></div>
+                <div class="widget-body">
+                  <div class="row">
+                    <div uib-tooltip="Foto oficial" class="col-sm-4 col-xs-12"><img style="width: 200px" ng-src="{{perfilPath + alumno.foto_nombre}}"></div>
+                    <div uib-tooltip="Imagen de usuario (no importante)" class="col-sm-4 col-xs-12"><img style="width: 200px" ng-src="{{perfilPath + alumno.imagen_nombre}}"></div>
+                    <div style="margin-top: 60px; text-align: center" class="col-md-4 col-sm-12">
+                      <button style="font-size: 20pt; font-weight: bold;" type="button" ng-click="cambiarGrupo()" uib-tooltip="Cambiar grupo" class="btn btn-primary shiny">{{ alumno.grupo_nombre}}</button>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-lg-10 col-sm-12">
+                      <div class="row">
+                        <div class="form-group col-lg-4 col-sm-6">
+                          <label for="alumno-nombres">Nombres</label>
+                          <input id="alumno-nombres" type="text" ng-model="alumno.nombres" placeholder="Nombres" ng-change="guardarValor(alumno, 'nombres', alumno.nombres)" class="form-control">
+                        </div>
+                        <div class="form-group col-lg-4 col-sm-6">
+                          <label for="alumno-apellidos">Apellidos</label>
+                          <input id="alumno-apellidos" type="text" ng-model="alumno.apellidos" placeholder="Apellidos" ng-change="guardarValor(alumno, 'apellidos', alumno.apellidos)" class="form-control">
+                        </div>
+                        <div style="margin-bottom: 5px;" class="form-group col-lg-4 col-sm-6 col-xs-12">
+                          <label>Sexo</label>
+                          <div class="row">
+                            <div class="col-lg-6 col-sm-4 col-xs-12">
+                              <div class="radio">
+                                <label>
+                                  <input type="radio" name="sexo" value="M" ng-model="alumno.sexo" ng-change="guardarValor(alumno, 'sexo', alumno.sexo)" class="inverted"><span class="text">Masculino</span>
+                                </label>
+                              </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-4 col-xs-12">
+                              <div class="radio">
+                                <label>
+                                  <input type="radio" name="sexo" value="F" ng-model="alumno.sexo" ng-change="guardarValor(alumno, 'sexo', alumno.sexo)" class="inverted"><span class="text">Femenino</span>
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div style="margin-top: 15px;" class="form-group col-lg-4 col-sm-6"><span style="border: 1px solid #ccc; border-radius: 4px; padding: 15px;">
+                            <label>Paz y salvo</label>
+                            <label><a ng-class="{'btn-info':alumno.pazysalvo, 'btn-warning':!alumno.pazysalvo }" ng-click="cambiarPazysalvo(alumno);" uib-tooltip="NO está al día" href="" tooltip-enable="!alumno.pazysalvo" ng-model="alumno.pazysalvo" class="btn"><i ng-hide="alumno.pazysalvo" class="fa fa-times"></i><i ng-show="alumno.pazysalvo" class="fa fa-check"></i><span ng-hide="alumno.pazysalvo">No</span><span ng-show="alumno.pazysalvo">Si</span></a></label></span></div>
+                        <div class="form-group col-lg-4 col-sm-6 col-xs-12">
+                          <label for="alumno-deuda">Deuda $</label>
+                          <input id="alumno-deuda" type="number" ng-model="alumno.deuda" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }" placeholder="Deuda" min="0" ng-change="guardarValor(alumno, 'deuda', alumno.deuda)" class="form-control">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-lg-4 col-sm-6">
+                          <label for="alumno-estado">Estado</label><span style="padding-left: 2px; padding-top: 4px;" class="btn-group">
+                            <label ng-model="alumno.estado" uib-btn-radio="'MATR'" ng-click="reMatricularUno(alumno)" uib-tooltip="Matricular" class="btn btn-info">Matr</label>
+                            <label ng-model="alumno.estado" uib-btn-radio="'ASIS'" ng-click="setAsistente(alumno)" uib-tooltip="Establecer como Asistente" class="btn btn-info">Asis</label>
+                            <label ng-model="alumno.estado" uib-btn-radio="'RETI'" ng-click="retirar(alumno)" uib-tooltip="Retirar" class="btn btn-info">Reti</label>
+                            <label ng-model="alumno.estado" uib-btn-radio="'DESE'" ng-click="desertar(alumno)" uib-tooltip="Desertor" class="btn btn-info">Dese</label></span>
+                        </div>
+                        <div class="form-group col-lg-4 col-sm-6">
+                          <label for="alumno-no-matr">Número Matrícula</label>
+                          <input id="alumno-no-matr" type="text" ng-model="alumno.no_matricula" placeholder="Número de matrícula" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }" ng-change="guardarValor(alumno, 'no_matricula', alumno.no_matricula)" class="form-control">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div style="margin-bottom: 12px;" class="form-group col-lg-4 col-sm-6 col-xs-12">
+                          <label for="alumno-fecha_retiro">Fecha de retiro</label>
+                          <div ng-if="alumno.estado == 'MATR' || alumno.estado == 'ASIS' " class="controls">
+                            <div class="input-group"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                              <input id="alumno-fecha_retiro" type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="alumno.fecha_retiro" is-open="data.isOpenMatr" ng-click="data.isOpenMatr = true" max-date="'2020-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha nacimiento" ng-change="guardarValor(alumno, 'fecha_retiro', alumno.fecha_retiro)" class="form-control active">
+                            </div>
+                          </div>
+                          <div ng-if="alumno.estado == 'RETI' || alumno.estado == 'DESE' " class="controls">
+                            <div class="input-group"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                              <input id="alumno-fecha_retiro" type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="alumno.fecha_matricula" is-open="data.isOpenMatr" ng-click="data.isOpenMatr = true" max-date="'2020-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha nacimiento" ng-change="guardarValor(alumno, 'fecha_matricula', alumno.fecha_matricula)" class="form-control active">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="widget">
+                <div class="widget-header bordered-bottom bordered-pink"><span class="widget-caption">Nacimiento</span></div>
+                <div class="widget-body">
+                  <div class="row">
+                    <div style="margin-bottom: 12px;" class="form-group col-lg-4 col-sm-6 col-xs-12">
+                      <label for="alumno-fecha-nac">Fecha de nacimiento</label>
+                      <div class="controls">
+                        <div class="input-group"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                          <input id="alumno-fecha-nac" type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="alumno.fecha_nac" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2020-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha nacimiento" ng-change="guardarValor(alumno, 'fecha_nac', alumno.fecha_nac)" class="form-control active">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group col-lg-4 col-sm-6 col-xs-12">
+                      <label>Pais</label>
+                      <ui-select ng-model="alumno.pais_nac" on-select="paisNacSelect($item, $model)" style="width: 100%;">
+                        <ui-select-match placeholder="Pais nacimiento" allow-clear="true">{{$select.selected.pais}} ({{$select.selected.abrev}})</ui-select-match>
+                        <ui-select-choices repeat="pais in paises | filter: $select.search">
+                          <div ng-bind-html="pais.pais | highlight: $select.search"></div><small>{{ pais.departamento | highlight: $select.search}}</small>
+                        </ui-select-choices>
+                      </ui-select>
+                    </div>
+                    <div class="form-group col-lg-4 col-sm-6 col-xs-12">
+                      <label>Departamento</label>
+                      <ui-select ng-model="alumno.departamento_nac" on-select="departNacSelect($item, $model)" style="width: 100%;">
+                        <ui-select-match placeholder="Departamento nacimiento" allow-clear="true">{{$select.selected.departamento}}</ui-select-match>
+                        <ui-select-choices repeat="departamento in departamentosNac | filter: $select.search">
+                          <div ng-bind-html="departamento.departamento | highlight: $select.search"></div>
+                        </ui-select-choices>
+                      </ui-select>
+                    </div>
+                    <div class="form-group col-lg-4 col-sm-6 col-xs-12">
+                      <label>Ciudad</label>
+                      <ui-select ng-model="alumno.ciudad_nac" style="width: 100%;">
+                        <ui-select-match placeholder="Ciudad nacimiento" allow-clear="true">{{$select.selected.ciudad}}</ui-select-match>
+                        <ui-select-choices repeat="ciudad in ciudadesNac | filter: $select.search">
+                          <div ng-bind-html="ciudad.ciudad | highlight: $select.search"></div>
+                        </ui-select-choices>
+                      </ui-select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="widget">
+                <div class="widget-header bordered-bottom bordered-pink"><span class="widget-caption">Documento</span></div>
+                <div class="widget-body">
+                  <div class="row">
+                    <div class="form-group col-lg-4 col-sm-6 col-xs-12">
+                      <label>Tipo</label>
+                      <ui-select ng-model="alumno.tipo_doc" style="width: 100%;">
+                        <ui-select-match placeholder="Tipo de documento" allow-clear="true">{{$select.selected.tipo}}{{ ' ('+$select.selected.abrev+')'}}</ui-select-match>
+                        <ui-select-choices repeat="tipo_doc in tipos_doc">
+                          <div ng-bind-html="tipo_doc.tipo | highlight: $select.search"></div><small>{{ tipo_doc.abrev}}</small>
+                        </ui-select-choices>
+                      </ui-select>
+                    </div>
+                    <div class="form-group col-lg-4 col-sm-6 col-xs-12">
+                      <label for="alumno-documento">Número documento</label>
+                      <input id="alumno-documento" type="text" ng-model="alumno.documento" placeholder="Documento" class="form-control">
+                    </div>
+                    <div class="form-group col-lg-4 col-sm-6 col-xs-12">
+                      <label>Pais</label>
+                      <ui-select ng-model="alumno.pais_doc" on-select="paisSelecionado($item, $model)" style="width: 100%;">
+                        <ui-select-match placeholder="Pais documento" allow-clear="true">{{$select.selected.pais}} ({{$select.selected.abrev}})</ui-select-match>
+                        <ui-select-choices repeat="pais in paises | filter: $select.search">
+                          <div ng-bind-html="pais.pais | highlight: $select.search"></div><small>{{ pais.departamento | highlight: $select.search}}</small>
+                        </ui-select-choices>
+                      </ui-select>
+                    </div>
+                    <div class="form-group col-lg-4 col-sm-6 col-xs-12">
+                      <label>Departamento</label>
+                      <ui-select ng-model="alumno.departamento_doc" on-select="departSeleccionado($item, $model)" style="width: 100%;">
+                        <ui-select-match placeholder="Departamento documento" allow-clear="true">{{$select.selected.departamento}}</ui-select-match>
+                        <ui-select-choices repeat="departamento in departamentos | filter: $select.search">
+                          <div ng-bind-html="departamento.departamento | highlight: $select.search"></div>
+                        </ui-select-choices>
+                      </ui-select>
+                    </div>
+                    <div class="form-group col-lg-4 col-sm-6 col-xs-12">
+                      <label>Ciudad</label>
+                      <ui-select ng-model="alumno.ciudad_doc" style="width: 100%;">
+                        <ui-select-match placeholder="Ciudad documento" allow-clear="true">{{$select.selected.ciudad}}</ui-select-match>
+                        <ui-select-choices repeat="ciudad in ciudades | filter: $select.search">
+                          <div ng-bind-html="ciudad.ciudad | highlight: $select.search"></div>
+                        </ui-select-choices>
+                      </ui-select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </uib-tab>
+            <uib-tab heading="Datos extras">
+              <div class="row">
+                <div class="form-group col-lg-2 col-sm-6 col-xs-12">
+                  <label for="alumno-tipo-sangre">Tipo de sangre</label>
+                  <input id="alumno-tipo-sangre" type="text" ng-model="alumno.tipo_sangre" placeholder="Tipo sangre" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }" ng-change="guardarValor(alumno, 'tipo_sangre', alumno.tipo_sangre)" class="form-control">
+                </div>
+                <div class="form-group col-lg-3 col-sm-6 col-xs-12">
+                  <label for="alumno-eps">EPS</label>
+                  <input id="alumno-eps" type="text" typeahead-append-to-body="true" typeahead-min-length="1" uib-typeahead="eps_check for eps_check in cambiaEpsCheck($viewValue)" ng-model="alumno.eps" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1500, 'blur': 0} }" typeahead-loading="alumno.loadingEps" typeahead-no-results="alumno.noResultsEps" class="form-control"><i ng-show="alumno.loadingEps" style="font-size: 7pt" class="fa fa-refresh"></i>
+                  <div ng-show="alumno.noResultsEps" style="font-size: 7pt"><i class="fa fa-check"></i>Sin coincidencias</div>
+                </div>
+                <div class="form-group col-lg-3 col-sm-6 col-xs-12">
+                  <label for="alumno-telefono">Teléfono</label>
+                  <input id="alumno-telefono" type="text" ng-model="alumno.telefono" placeholder="Teléfono" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }" ng-change="guardarValor(alumno, 'telefono', alumno.telefono)" class="form-control">
+                </div>
+                <div class="form-group col-lg-3 col-sm-6 col-xs-12">
+                  <label for="alumno-celular">Celular</label>
+                  <input id="alumno-celular" type="text" ng-model="alumno.celular" placeholder="Celular" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }" ng-change="guardarValor(alumno, 'celular', alumno.celular)" class="form-control">
+                </div>
+                <div class="form-group col-lg-3 col-sm-6 col-xs-12">
+                  <label for="alumno-direccion">Dirección</label>
+                  <input id="alumno-direccion" type="text" ng-model="alumno.direccion" placeholder="Direccion" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }" ng-change="guardarValor(alumno, 'direccion', alumno.direccion)" class="form-control">
+                </div>
+                <div class="form-group col-lg-3 col-sm-6 col-xs-12">
+                  <label for="alumno-barrio">Barrio</label>
+                  <input id="alumno-barrio" type="text" ng-model="alumno.barrio" placeholder="Barrio" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }" ng-change="guardarValor(alumno, 'barrio', alumno.barrio)" class="form-control">
+                </div>
+                <div class="form-group col-lg-3 col-sm-6 col-xs-12">
+                  <label for="alumno-estrato">Estrato</label>
+                  <div class="spinner spinner-horizontal">
+                    <input id="alumno-estrato" type="text" minlength="0" maxlength="10" ng-model="alumno.estrato" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }" ng-change="guardarValor(alumno, 'estrato', alumno.estrato)" class="spinner-input form-control">
+                    <div class="spinner-buttons btn-group">
+                      <button type="button" ng-click="restarEstrato()" class="btn spinner-down blueberry"><i class="fa fa-minus"></i></button>
+                      <button type="button" ng-click="sumarEstrato()" class="btn spinner-up purple"><i class="fa fa-plus"></i></button>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-lg-3 col-sm-6 col-xs-12">
+                  <label for="alumno-ciudad_resid">Ciudad residencia</label>
+                  <input id="alumno-ciudad-resid" type="text" ng-model="alumno.ciudad_resid" placeholder="Ciudad residencia" class="form-control">
+                </div>
+                <div class="form-group col-lg-3 col-sm-6 col-xs-12">
+                  <label for="alumno-religion">Religión</label>
+                  <input id="alumno-religion" type="text" typeahead-append-to-body="true" typeahead-min-length="1" uib-typeahead="religion for religion in religiones | filter:$viewValue | limitTo:8" typeahead-on-select="religionSelected(alumno, $item)" ng-model="alumno.religion" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }" ng-change="guardarValor(alumno, 'religion', alumno.religion)" class="form-control">
+                </div>
+                <div class="form-group col-lg-3 col-sm-6 col-xs-12">
+                  <label for="alumno-email">E-mail</label>
+                  <input id="alumno-email" type="text" ng-model="alumno.email" placeholder="E-mail" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }" ng-change="guardarValor(alumno, 'email', alumno.email)" class="form-control">
+                </div>
+                <div class="form-group col-lg-3 col-sm-6 col-xs-12">
+                  <label for="alumno-facebook">Facebook</label>
+                  <input id="alumno-facebook" type="text" ng-model="alumno.facebook" placeholder="Facebook" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }" ng-change="guardarValor(alumno, 'facebook', alumno.facebook)" class="form-control">
+                </div>
+                <div class="form-group col-lg-3 col-sm-6 col-xs-12">
+                  <label for="alumno-foto">Foto oficial</label>
+                  <input id="alumno-foto" type="text" ng-model="alumno.foto" placeholder="Foto oficial" class="form-control">
+                </div>
+              </div>
+            </uib-tab>
+            <uib-tab heading="Usuario">
+              <div class="form-group">
+                <label for="alumno-username">Nombre de usuario</label>
+                <input id="alumno-username" type="text" ng-model="alumno.username" placeholder="Nombre usuario" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="alumno-password">Contraseña</label>
+                <input id="alumno-password" type="password" ng-model="alumno.password" placeholder="Contraseña" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="alumno-password2">Verificar contraseña</label>
+                <input id="alumno-password2" type="password" ng-model="alumno.password2" placeholder="Verificar contraseña" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="alumno-email2">Correo electrónico</label>
+                <input id="alumno-email2" type="email" ng-model="alumno.email2" placeholder="Correo electrónico" class="form-control">
+              </div>
+            </uib-tab>
+          </uib-tabset>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -33,7 +33,7 @@
                 <div ng-show="!unidad.editando" class="row">
                   <div ng-show="!unidad.editando" style="overflow: visible; line-height: 2.4;" class="ticket-user col-lg-10 col-sm-10 col-xs-12 overflow-auto-xs">
                     <button sv-handle tabindex="-1" ng-show="::USER.profes_pueden_editar_notas==1 || hasRoleOrPerm('Admin')" style="margin-bottom: 65px; display: inline-block; cursor: move;" class="hidden-xs btn btn-default btn-sm"><span class="fa fa-sort"></span></button>
-                    <div style="margin-bottom: 20px; font-weight: bold; " uib-tooltip="{{$index+1}}. {{unidad.definicion}}" tooltip-popup-delay="500" tooltip-append-to-body="true" class="definicion-unidad-inside no-margin-bottom-xs"><span>{{$index+1}}. {{unidad.definicion}}</span></div>
+                    <div style="margin-bottom: 20px; font-weight: bold; " uib-tooltip="{{unidad.orden}}. {{unidad.definicion}}" tooltip-popup-delay="500" tooltip-append-to-body="true" class="definicion-unidad-inside no-margin-bottom-xs"><span>{{$index+1}}. {{unidad.definicion}}</span></div>
                   </div>
                   <div uib-tooltip="Porcentaje" tooltip-popup-delay="500" class="ticket-time col-lg-2 col-sm-2 col-xs-12">
                     <div class="divider hidden-xs"></div>{{unidad.porcentaje}}%
@@ -76,7 +76,7 @@
                       -->
                       <button sv-handle tabindex="-1" style="margin-bottom: 25px; display: inline-block; cursor: move;" class="hidden-xs btn btn-default btn-sm"><span class="fa fa-sort"></span></button>
                       <div class="user-name definicion-subunidad-inside">
-                        <div uib-tooltip="{{subunidad.definicion}}" tooltip-popup-delay="500">{{$index+1}}. {{subunidad.definicion}}</div>
+                        <div uib-tooltip="{{subunidad.orden}}. {{subunidad.definicion}}" tooltip-popup-delay="500">{{$index+1}}. {{subunidad.definicion}}</div>
                       </div>
                     </div>
                     <div uib-tooltip="Porcentaje" tooltip-popup-delay="500" class="ticket-time col-lg-1 col-sm-2 col-xs-6">

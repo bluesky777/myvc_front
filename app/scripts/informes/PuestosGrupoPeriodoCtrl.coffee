@@ -1,6 +1,6 @@
 angular.module("myvcFrontApp")
 
-.controller('PuestosGrupoPeriodoCtrl', ['$scope', '$state', 'alumnosDat', 'escalas', '$cookieStore', ($scope, $state, alumnosDat, escalas, $cookieStore)->
+.controller('PuestosGrupoPeriodoCtrl', ['$scope', '$state', 'alumnosDat', 'escalas', '$cookies', ($scope, $state, alumnosDat, escalas, $cookies)->
 	alumnosDat = alumnosDat.data
 
 	$scope.fechahora = new Date();
@@ -11,12 +11,12 @@ angular.module("myvcFrontApp")
 
 	$scope.escalas = escalas
 
-	$scope.config = $cookieStore.get 'config'
+	$scope.config = $cookies.getObject 'config'
 	#$scope.config.orientacion = $scope.orientacion
 	#$scope.config.mostrar_foto = $scope.mostrar_foto
 
 	$scope.$on 'change_config', ()->
-		$scope.config = $cookieStore.get 'config'
+		$scope.config = $cookies.getObject 'config'
 
 
 
@@ -35,7 +35,7 @@ angular.module("myvcFrontApp")
 
 
 
-.controller('PuestosTodosPeriodoCtrl', ['$scope', '$state', 'escalas', '$cookieStore', '$http', 'toastr', ($scope, $state, escalas, $cookieStore, $http, toastr)->
+.controller('PuestosTodosPeriodoCtrl', ['$scope', '$state', 'escalas', '$http', 'toastr', ($scope, $state, escalas, $http, toastr)->
 
 
 	$scope.fechahora  = new Date();
@@ -57,10 +57,10 @@ angular.module("myvcFrontApp")
 	)
 
 
-	$scope.config = $cookieStore.get 'config'
+	$scope.config = $cookies.getObject 'config'
 
 	$scope.$on 'change_config', ()->
-		$scope.config = $cookieStore.get 'config'
+		$scope.config = $cookies.getObject 'config'
 
 
 
@@ -78,7 +78,7 @@ angular.module("myvcFrontApp")
 ])
 
 
-.controller('PuestosTodosYearCtrl', ['$scope', '$state', 'escalas', '$cookieStore', '$http', 'toastr', '$stateParams', ($scope, $state, escalas, $cookieStore, $http, toastr, $stateParams)->
+.controller('PuestosTodosYearCtrl', ['$scope', '$state', 'escalas', '$http', 'toastr', '$stateParams', ($scope, $state, escalas, $http, toastr, $stateParams)->
 
 
 	$scope.fechahora  = new Date();
@@ -100,10 +100,10 @@ angular.module("myvcFrontApp")
 	)
 
 
-	$scope.config = $cookieStore.get 'config'
+	$scope.config = $cookies.getObject 'config'
 
 	$scope.$on 'change_config', ()->
-		$scope.config = $cookieStore.get 'config'
+		$scope.config = $cookies.getObject 'config'
 
 
 

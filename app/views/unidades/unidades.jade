@@ -81,7 +81,7 @@
 											style="margin-bottom: 65px; display: inline-block; cursor: move;")
 											span.fa.fa-sort
 
-										.definicion-unidad-inside.no-margin-bottom-xs(style="margin-bottom: 20px; font-weight: bold; " uib-tooltip="{{$index+1}}. {{unidad.definicion}}" tooltip-popup-delay="500" tooltip-append-to-body="true")
+										.definicion-unidad-inside.no-margin-bottom-xs(style="margin-bottom: 20px; font-weight: bold; " uib-tooltip="{{unidad.orden}}. {{unidad.definicion}}" tooltip-popup-delay="500" tooltip-append-to-body="true")
 											span {{$index+1}}. {{unidad.definicion}}
 
 									.ticket-time.col-lg-2.col-sm-2.col-xs-12(uib-tooltip="Porcentaje" tooltip-popup-delay="500")
@@ -147,7 +147,7 @@
 												span.fa.fa-sort
 
 											.user-name.definicion-subunidad-inside
-												div(uib-tooltip="{{subunidad.definicion}}"  tooltip-popup-delay="500")
+												div(uib-tooltip="{{subunidad.orden}}. {{subunidad.definicion}}"  tooltip-popup-delay="500")
 													| {{$index+1}}. {{subunidad.definicion}}
 
 										.ticket-time.col-lg-1.col-sm-2.col-xs-6(uib-tooltip="Porcentaje"  tooltip-popup-delay="500")

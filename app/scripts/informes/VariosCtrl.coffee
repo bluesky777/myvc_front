@@ -25,9 +25,13 @@ angular.module('myvcFrontApp')
 
 
 	$scope.cant_total_alumnos = 0
+	$scope.cant_total_hombres = 0
+	$scope.cant_total_mujeres = 0
 
 	for grup in $scope.grupos_cantidades
 		$scope.cant_total_alumnos = $scope.cant_total_alumnos + grup.cant_alumnos
+		$scope.cant_total_hombres = $scope.cant_total_hombres + grup.cant_hombres
+		$scope.cant_total_mujeres = $scope.cant_total_mujeres + grup.cant_mujeres
 
 	$scope.$emit 'cambia_descripcion', $scope.grupos_cantidades.length + '  grupos.'
 
