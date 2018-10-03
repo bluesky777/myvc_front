@@ -361,7 +361,7 @@
 							input(type="radio" ng-model="config.orientacion" value="vertical")
 							.text Vertical
 
-				div(ng-show="config.informe_tab_actual=='puestos'")
+				div(ng-show="$state.is('panel.informes.puestos_todos_year') || $state.is('panel.informes.puestos_todos_periodo') || $state.is('panel.informes.puestos_grupo_year') || $state.is('panel.informes.puestos_grupo_periodo') ")
 					hr.wide
 					h5 Filtrar:
 					.control-group
@@ -370,6 +370,11 @@
 								| Mostrar alumnos con:
 								input(type="number" ng-model="filtrar.materias_perdidas" ng-value="0" min="0" max="20" ng-init="filtrar.materias_perdidas=0")
 								| materias perdidas o más.
+
+					button.btn.btn-primary(uib-tooltip="Sólo funciona con PUESTOS DEL AÑO calculados hasta el TERCER perido. Nota que falta en cuarto periodo."
+						ng-click="mostrar_nota_faltante()") Mostrar nota faltante:
+						span(ng-show="mostrar_faltante")  Si
+						span(ng-hide="mostrar_faltante")  No
 
 				hr.wide
 				h5 {{descripcion_informe}}

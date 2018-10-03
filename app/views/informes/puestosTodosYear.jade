@@ -46,9 +46,12 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 						ng-class="{'nota-perdida-puestos': asignatura.nota_final_year < USER.nota_minima_aceptada, 'nota-sobre':(asignatura.sobre) && (alumno.sobre) }"
 						ng-click="add_alum_materia(asignatura, alumno)" ng-mouseenter="asignatura.sobre=true; alumno.sobre=true" ng-mouseleave="asignatura.sobre=false; alumno.sobre=false")
 
-						span() {{asignatura.nota_final_year}}
-						span.cant-unidades-perdidas(ng-show="asignatura.cant_perdidas > 0")
+						span(ng-hide="mostrar_faltante") {{asignatura.nota_final_year}}
+						span(ng-show="mostrar_faltante" style="color: blue") {{asignatura.nota_faltante}}
+
+						span.cant-unidades-perdidas(ng-show="asignatura.cant_perdidas > 0 && !mostrar_faltante")
 							| ({{asignatura.cant_perdidas}})
+
 					td(style="border-left: 2px solid !important;")
 						span {{alumno.promedio_year | decimales:2}}
 						span.cant-unidades-perdidas(ng-show="alumno.perdidos_year > 0") ({{ alumno.perdidos_year }})

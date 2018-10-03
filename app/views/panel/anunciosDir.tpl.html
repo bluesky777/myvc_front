@@ -2,6 +2,30 @@
 <div ng-if="hasRoleOrPerm(['alumno'])" class="row hidden-print">
   <div class="col-xs-12 col-md-12">
     <div class="widget">
+      <div class="widget-header bordered-bottom bordered-themeprimary"><i class="widget-icon fa fa-money themeprimary"></i><span class="widget-caption themeprimary">Tesorería</span></div>
+      <div class="widget-body">
+        <div class="row">
+          <div class="col-lg-12 col-xs-12">
+            <p>Notas bloqueadas desde tesorería:<span style="font-weight: bold;" ng-show="USER.pazysalvo"> NO</span><span style="font-weight: bold; color: red; font-size: 15pt" ng-hide="USER.pazysalvo"> SI</span></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-xs-12">
+            <p>Su deuda es:<span style="font-weight: bold"> {{USER.deuda | currency:"$":0}}</span></p>
+          </div>
+        </div>
+        <div ng-show="USER.fecha_pension" class="row">
+          <div class="col-lg-12 col-xs-12">
+            <p>Fecha última actualización de pensión:<span style="font-weight: bold"> {{ USER.fecha_pension | date }}</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div ng-if="hasRoleOrPerm(['alumno'])" class="row hidden-print">
+  <div class="col-xs-12 col-md-12">
+    <div class="widget">
       <div class="widget-header bordered-bottom bordered-themesecondary"><i class="widget-icon fa fa-tags themesecondary"></i><span class="widget-caption themesecondary">Disciplina</span></div>
       <div class="widget-body">
         <div class="widget-main no-padding">
@@ -30,6 +54,26 @@
 </div>
 <div ng-if="USER.tipo=='Acudiente'" class="row hidden-print">
   <div ng-repeat="alumno in mis_acudidos" class="col-xs-12 col-md-12">
+    <div class="widget">
+      <div class="widget-header bordered-bottom bordered-themeprimary"><i class="widget-icon fa fa-money themeprimary"></i><span class="widget-caption themeprimary">Tesorería {{alumno.nombres}} {{alumno.apellidos}}</span></div>
+      <div class="widget-body">
+        <div class="row">
+          <div class="col-lg-12 col-xs-12">
+            <p>Notas bloqueadas desde tesorería:<span style="font-weight: bold;" ng-show="alumno.pazysalvo"> NO</span><span style="font-weight: bold; color: red; font-size: 15pt" ng-hide="alumno.pazysalvo"> SI</span></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-xs-12">
+            <p>Su deuda es:<span style="font-weight: bold"> {{alumno.deuda | currency:"$":0}}</span></p>
+          </div>
+        </div>
+        <div ng-show="alumno.fecha_pension" class="row">
+          <div class="col-lg-12 col-xs-12">
+            <p>Fecha última actualización de pensión:<span style="font-weight: bold"> {{ alumno.fecha_pension | date }}</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="widget">
       <div class="widget-header bordered-bottom bordered-themesecondary"><i class="widget-icon fa fa-tags themesecondary"></i><span uib-tooltip="" class="widget-caption themesecondary">{{alumno.nombre_grupo}} - Disciplina</span></div>
       <div class="widget-body">

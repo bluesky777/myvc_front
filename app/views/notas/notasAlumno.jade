@@ -10,7 +10,12 @@
 					p Lo sentimos, para ver sus notas debe acercarse a hacer arreglos en tesorería.
 			.row
 				.col-lg-12.col-xs-12
-					p Su deuda es: {{USER.deuda | currency:"$":0}}
+					p Su deuda es:
+						span(style="font-weight: bold")  {{USER.deuda | currency:"$":0}}
+			.row(ng-show="USER.fecha_pension")
+				.col-lg-12.col-xs-12
+					p Fecha última actualización de pensión:
+						span(style="font-weight: bold")  {{ USER.fecha_pension | date }}
 
 
 
@@ -71,13 +76,37 @@
 					div(ng-if="USER.tipo=='Alumno' ")
 						a(ng-click="verMiBoletin()" href="") Ver mi boletín
 
+
+
+	.widget(ng-show="alumno_traido")
+		.widget-header
+			.widget-caption
+				|  Nota faltante en el cuarto periodo
+			.widget-buttons
+				a(href="" ng-init="minimized = false" ng-click="minimized = !minimized")
+					i.fa(ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimized]")
+		.widget-body(ng-class="{'ng-hide':minimized}" style="text-align: center; overflow: auto;")
+
+			table.table-bordered.table-bordered2.table-striped.table-striped2
+				tr(style="background-color: #A7C7EB!important; font-weight: bold;")
+					td(ng-repeat="asignatura in alumno_traido.notas_tercer_per")
+						span(uib-tooltip="{{asignatura.materia}}") {{asignatura.alias}}
+				tr
+					td(ng-repeat="asignatura in alumno_traido.notas_tercer_per" style="padding: 6px" ng-class="{'nota-perdida-bold': asignatura.nota_final_year<USER.nota_minima_aceptada}")
+						span(style="" ng-show="asignatura.nota_faltante" uib-tooltip="Definitiva hasta 3per: {{ asignatura.nota_final_year }}")
+							{{ asignatura.nota_faltante }}
+
+
 	div(ng-if="periodos_notas.length > 0 && USER.tipo=='Acudiente' ")
 		a(ng-click="verBoletin()" href="") Ver boletín
 
 
+
 	uib-accordion(close-others="true")
 
-		.panel-default.margin-padding-lados-xs.panel-acordeon(uib-accordion-group is-open="$first" heading="Periodo {{periodo.numero}} ({{periodo.asignaturas | notasPerdidasAsignaturas}})" ng-repeat="periodo in periodos_notas")
+		.panel-default.margin-padding-lados-xs.panel-acordeon(uib-accordion-group is-open="$first"
+			heading="Periodo {{periodo.numero}} ({{periodo.asignaturas | notasPerdidasAsignaturas}})"
+			ng-repeat="periodo in periodos_notas")
 
 
 			// COMPORTAMIENTO

@@ -281,7 +281,7 @@ angular.module('myvcFrontApp')
 			.state 'panel.persona',
 				url: '^/persona/:persona_id/:tipo'
 				param:
-					alumno_id:  null
+					persona_id:  null
 					tipo:       null
 				views:
 					'maincontent':

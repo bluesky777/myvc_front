@@ -1,6 +1,6 @@
 angular.module("myvcFrontApp")
 
-.controller('PuestosGrupoYearCtrl', ['$scope', 'datos_puestos', 'escalas', '$cookies', ($scope, datos_puestos, escalas, $cookies)->
+.controller('PuestosGrupoYearCtrl', ['$scope', 'datos_puestos', 'escalas', '$cookies', '$state', ($scope, datos_puestos, escalas, $cookies, $state)->
 	datos_puestos = datos_puestos.data
 
 	$scope.fechahora = new Date();
@@ -9,6 +9,16 @@ angular.module("myvcFrontApp")
 	$scope.grupo = datos_puestos.grupo
 	$scope.year = datos_puestos.year
 	$scope.alumnos = datos_puestos.alumnos
+
+
+	if parseInt($state.params.periodo_a_calcular) == 3
+
+		for alumno in $scope.alumnos
+			for asig in alumno.notas_asig
+				nota_faltante       =  $scope.USER.nota_minima_aceptada * 4 - asig.nota_final_year*3
+				asig.nota_faltante  = if nota_faltante <= 0 then '' else nota_faltante
+
+
 
 	$scope.escalas = escalas
 

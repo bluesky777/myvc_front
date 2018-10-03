@@ -35,7 +35,7 @@ angular.module("myvcFrontApp")
 
 
 
-.controller('PuestosTodosPeriodoCtrl', ['$scope', '$state', 'escalas', '$http', 'toastr', ($scope, $state, escalas, $http, toastr)->
+.controller('PuestosTodosPeriodoCtrl', ['$scope', '$state', 'escalas', '$http', 'toastr', '$cookies', ($scope, $state, escalas, $http, toastr, $cookies)->
 
 
 	$scope.fechahora  = new Date();
@@ -78,11 +78,11 @@ angular.module("myvcFrontApp")
 ])
 
 
-.controller('PuestosTodosYearCtrl', ['$scope', '$state', 'escalas', '$http', 'toastr', '$stateParams', ($scope, $state, escalas, $http, toastr, $stateParams)->
+.controller('PuestosTodosYearCtrl', ['$scope', '$state', 'escalas', '$http', 'toastr', '$stateParams', '$cookies', ($scope, $state, escalas, $http, toastr, $stateParams, $cookies)->
 
 
-	$scope.fechahora  = new Date();
-	$scope.escalas    = escalas
+	$scope.fechahora          = new Date();
+	$scope.escalas            = escalas
 
 
 	$scope.grupos_puestos_temp  = JSON.parse(localStorage.grupos_puestos)
@@ -93,6 +93,15 @@ angular.module("myvcFrontApp")
 			grupo.year      = r.data.year
 			grupo.alumnos   = r.data.alumnos
 			grupo.grupo     = r.data.grupo
+
+			if parseInt($state.params.periodo_a_calcular) == 3
+
+				for alumno in grupo.alumnos
+					for asig in alumno.notas_asig
+						nota_faltante       =  $scope.USER.nota_minima_aceptada * 4 - asig.nota_final_year*3
+						asig.nota_faltante  = if nota_faltante <= 0 then '' else nota_faltante
+
+
 			$scope.grupos_puestos.push(grupo)
 		, ()->
 			toastr.error 'No se trajo grupo '+grupo.nombre

@@ -43,7 +43,8 @@
 				.col-lg-1.col-xs-1
 					div(ng-class="{'nota-perdida-bold': periodo_materia.nota_asignatura<USER.nota_minima_aceptada}")
 						| {{periodo_materia.nota_asignatura | number:0}}
-
+						span(uib-tooltip="Materia recuperada por el docente" ng-show="periodo_materia.recuperada")   R
+						span(uib-tooltip="Nota puesta manualmente" ng-show="periodo_materia.manual" style="font-size: 7pt")   M
 			.row.unidades-list
 				.col-lg-12.col-xs-12
 

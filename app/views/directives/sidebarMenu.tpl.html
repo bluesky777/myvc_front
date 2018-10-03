@@ -1,8 +1,8 @@
 
 <div id="sidebar" class="hidden-print"><!-- Page Sidebar Header-->
   <div id="buscar-sidebar" class="sidebar-header-wrapper">
-    <form ng-submit="ir_a_persona()">
-      <input type="text" ng-model="persona_buscar" placeholder="Buscar alumno" typeahead-append-to="'#buscar-sidebar'" typeahead-min-length="2" uib-typeahead="persona_check as persona_check.nombres for persona_check in personaCheck($viewValue)" typeahead-loading="loadingPersonas" typeahead-no-results="noResults" typeahead-wait-ms="300" typeahead-template-url="{{templateTypeahead}}" class="searchinput">
+    <form>
+      <input type="text" ng-model="selected" placeholder="Buscar alumno" typeahead-append-to="'#buscar-sidebar'" typeahead-min-length="2" typeahead-on-select="ir_a_persona($item, $model, $label)" uib-typeahead="persona_check as persona_check.nombres for persona_check in personaCheck($viewValue)" typeahead-loading="loadingPersonas" typeahead-no-results="noResults" typeahead-wait-ms="300" typeahead-template-url="{{templateTypeahead}}" class="searchinput">
     </form><i ng-show="loadingPersonas" style="font-size: 7pt" class="fa fa-refresh"></i>
     <div ng-show="noResults" style="font-size: 7pt"><i class="fa fa-check"></i>No encontrado.</div><i class="searchicon fa fa-search"></i>
     <div ng-bind-html="mensaje_no_buscar" class="searchhelper"></div>

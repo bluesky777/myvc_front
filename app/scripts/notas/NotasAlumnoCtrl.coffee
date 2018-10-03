@@ -8,13 +8,13 @@ angular.module('myvcFrontApp')
 	if !alumnos == 'Sin alumnos'
 		$scope.filtered_alumnos = alumnos
 
-	$scope.perfilPath 		= App.images+'perfil/'
-	$scope.views			= App.views
-	$scope.datos			= {grupo: ''}
-	$scope.USER 			= Perfil.User()
+	$scope.perfilPath 		  = App.images+'perfil/'
+	$scope.views			      = App.views
+	$scope.datos			      = {grupo: ''}
+	$scope.USER 			      = Perfil.User()
 	$scope.USER.nota_minima_aceptada = parseInt($scope.USER.nota_minima_aceptada)
-	$scope.escalas 			= escalas
-	$scope.config 			= {solo_notas_perdidas: true}
+	$scope.escalas 			    = escalas
+	$scope.config 			    = {solo_notas_perdidas: true}
 
 
 	if !$scope.hasRoleOrPerm(['alumno', 'acudiente'])
@@ -105,16 +105,24 @@ angular.module('myvcFrontApp')
 			)
 
 
-	$scope.verNotasAlumno = (alumno_id)->
+	$scope.verNotasAlumno = (alumno_id, grupo_id)->
 
 		if !alumno_id
 			alumno_id = $scope.datos.selected_alumno.alumno_id
 
-		$http.get('::notas/alumno/'+alumno_id).then((r)->
+		if !grupo_id
+			grupo_id  = $scope.datos.grupo.id
+
+		$http.get('::notas/alumno/'+alumno_id+'/'+grupo_id).then((r)->
 			r = r.data
 			if r[0]
 				$scope.alumno_traido = r[0]
 				$scope.periodos_notas = r[0].periodos
+
+				for asig in $scope.alumno_traido.notas_tercer_per
+					nota_faltante       =  $scope.USER.nota_minima_aceptada * 4 - asig.nota_final_year*3
+					asig.nota_faltante  = if nota_faltante <= 0 then '' else nota_faltante
+
 			else
 				$scope.periodos_notas = undefined
 				toastr.warning 'Sin matrícula este año.'
@@ -134,11 +142,16 @@ angular.module('myvcFrontApp')
 		alumno.seleccionado = true
 
 
-		$http.get('::notas/alumno/'+alumno.alumno_id).then((r)->
+		$http.get('::notas/alumno/'+alumno.alumno_id+'/'+alumno.grupo_id).then((r)->
 			r = r.data
 			if r[0]
 				$scope.alumno_traido = r[0]
 				$scope.periodos_notas = r[0].periodos
+
+				for asig in $scope.alumno_traido.notas_tercer_per
+					nota_faltante       =  $scope.USER.nota_minima_aceptada * 4 - asig.nota_final_year*3
+					asig.nota_faltante  = if nota_faltante <= 0 then '' else nota_faltante
+
 			else
 				$scope.periodos_notas = undefined
 				toastr.warning 'Sin matrícula este año.'
@@ -153,12 +166,12 @@ angular.module('myvcFrontApp')
 			toastr.warning 'No puedes ver otras notas'
 			return
 
-		$scope.verNotasAlumno($state.params.alumno_id)
+		$scope.verNotasAlumno($state.params.alumno_id, $scope.USER.grupo_id)
 
 
 
 	if $scope.USER.tipo == 'Alumno' and $scope.USER.pazysalvo
-			$scope.verNotasAlumno($scope.USER.persona_id)
+			$scope.verNotasAlumno($scope.USER.persona_id, $scope.USER.grupo_id)
 
 
 

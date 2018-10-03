@@ -82,8 +82,9 @@ angular.module('myvcFrontApp')
 			)
 
 
-		$scope.ir_a_persona = ()->
-			$state.go 'panel.persona', { persona_id: $scope.persona_buscar.alumno_id, tipo: $scope.persona_buscar.tipo }
+		$scope.ir_a_persona = ($item, $model, $label)->
+			datos = { persona_id: $item.alumno_id, tipo: $item.tipo }
+			$state.go 'panel.persona', datos
 
 		ProfesoresServ.contratos().then((r)->
 			$scope.profesores = r

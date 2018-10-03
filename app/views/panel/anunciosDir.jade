@@ -1,6 +1,31 @@
 .row.hidden-print(ng-if="hasRoleOrPerm(['alumno'])")
 	.col-xs-12.col-md-12
 		.widget
+			.widget-header.bordered-bottom.bordered-themeprimary
+				i.widget-icon.fa.fa-money.themeprimary
+				span.widget-caption.themeprimary()
+					| Tesorería
+
+			.widget-body
+				.row
+					.col-lg-12.col-xs-12
+						p Notas bloqueadas desde tesorería:
+							span(style="font-weight: bold;" ng-show="USER.pazysalvo")  NO
+							span(style="font-weight: bold; color: red; font-size: 15pt" ng-hide="USER.pazysalvo")  SI
+				.row
+					.col-lg-12.col-xs-12
+						p Su deuda es:
+							span(style="font-weight: bold")  {{USER.deuda | currency:"$":0}}
+				.row(ng-show="USER.fecha_pension")
+					.col-lg-12.col-xs-12
+						p Fecha última actualización de pensión:
+							span(style="font-weight: bold")  {{ USER.fecha_pension | date }}
+
+
+
+.row.hidden-print(ng-if="hasRoleOrPerm(['alumno'])")
+	.col-xs-12.col-md-12
+		.widget
 			.widget-header.bordered-bottom.bordered-themesecondary
 				i.widget-icon.fa.fa-tags.themesecondary
 				span.widget-caption.themesecondary()
@@ -29,8 +54,33 @@
 								li(ng-repeat="definicion in ::changes_asked.comportamiento.definiciones")
 									| {{definicion.frase}}
 
+
 .row.hidden-print(ng-if="USER.tipo=='Acudiente'")
 	.col-xs-12.col-md-12(ng-repeat="alumno in mis_acudidos")
+
+
+		.widget
+			.widget-header.bordered-bottom.bordered-themeprimary
+				i.widget-icon.fa.fa-money.themeprimary
+				span.widget-caption.themeprimary()
+					| Tesorería {{alumno.nombres}} {{alumno.apellidos}}
+
+			.widget-body
+				.row
+					.col-lg-12.col-xs-12
+						p Notas bloqueadas desde tesorería:
+							span(style="font-weight: bold;" ng-show="alumno.pazysalvo")  NO
+							span(style="font-weight: bold; color: red; font-size: 15pt" ng-hide="alumno.pazysalvo")  SI
+				.row
+					.col-lg-12.col-xs-12
+						p Su deuda es:
+							span(style="font-weight: bold")  {{alumno.deuda | currency:"$":0}}
+				.row(ng-show="alumno.fecha_pension")
+					.col-lg-12.col-xs-12
+						p Fecha última actualización de pensión:
+							span(style="font-weight: bold")  {{ alumno.fecha_pension | date }}
+
+
 		.widget
 			.widget-header.bordered-bottom.bordered-themesecondary
 				i.widget-icon.fa.fa-tags.themesecondary

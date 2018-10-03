@@ -12,7 +12,12 @@
       </div>
       <div class="row">
         <div class="col-lg-12 col-xs-12">
-          <p>Su deuda es: {{USER.deuda | currency:"$":0}}</p>
+          <p>Su deuda es:<span style="font-weight: bold"> {{USER.deuda | currency:"$":0}}</span></p>
+        </div>
+      </div>
+      <div ng-show="USER.fecha_pension" class="row">
+        <div class="col-lg-12 col-xs-12">
+          <p>Fecha última actualización de pensión:<span style="font-weight: bold"> {{ USER.fecha_pension | date }}</span></p>
         </div>
       </div>
     </div>
@@ -67,6 +72,22 @@
           <div ng-if="USER.tipo=='Alumno' "><a ng-click="verMiBoletin()" href="">Ver mi boletín</a></div>
         </div>
       </div>
+    </div>
+  </div>
+  <div ng-show="alumno_traido" class="widget">
+    <div class="widget-header">
+      <div class="widget-caption"> Nota faltante en el cuarto periodo</div>
+      <div class="widget-buttons"><a href="" ng-init="minimized = false" ng-click="minimized = !minimized"><i ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimized]" class="fa"></i></a></div>
+    </div>
+    <div ng-class="{'ng-hide':minimized}" style="text-align: center; overflow: auto;" class="widget-body">
+      <table class="table-bordered table-bordered2 table-striped table-striped2">
+        <tr style="background-color: #A7C7EB!important; font-weight: bold;">
+          <td ng-repeat="asignatura in alumno_traido.notas_tercer_per"><span uib-tooltip="{{asignatura.materia}}">{{asignatura.alias}}</span></td>
+        </tr>
+        <tr>
+          <td ng-repeat="asignatura in alumno_traido.notas_tercer_per" style="padding: 6px" ng-class="{'nota-perdida-bold': asignatura.nota_final_year&lt;USER.nota_minima_aceptada}"><span style="" ng-show="asignatura.nota_faltante" uib-tooltip="Definitiva hasta 3per: {{ asignatura.nota_final_year }}">{{ asignatura.nota_faltante }}</span></td>
+        </tr>
+      </table>
     </div>
   </div>
   <div ng-if="periodos_notas.length &gt; 0 &amp;&amp; USER.tipo=='Acudiente' "><a ng-click="verBoletin()" href="">Ver boletín</a></div>

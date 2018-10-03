@@ -2,12 +2,14 @@
 
 	<!-- Page Sidebar Header-->
 	#buscar-sidebar.sidebar-header-wrapper
-		form(ng-submit="ir_a_persona()")
-			input.searchinput(type="text" ng-model="persona_buscar" placeholder="Buscar alumno"
+		form
+			input.searchinput(type="text" ng-model="selected" placeholder="Buscar alumno"
 					typeahead-append-to="'#buscar-sidebar'" typeahead-min-length="2"
+					typeahead-on-select="ir_a_persona($item, $model, $label)"
 					uib-typeahead="persona_check as persona_check.nombres for persona_check in personaCheck($viewValue)"
 					typeahead-loading="loadingPersonas" typeahead-no-results="noResults"
 					typeahead-wait-ms="300" typeahead-template-url="{{templateTypeahead}}")
+
 
 
 		i.fa.fa-refresh(ng-show="loadingPersonas" style="font-size: 7pt")

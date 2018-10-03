@@ -17,6 +17,7 @@ angular.module('myvcFrontApp')
 	$scope.filtered_alumnos = alumnos
 	$scope.perfilPath 		= App.images + 'perfil/'
 	$scope.views 			= App.views
+	$scope.mostrar_faltante   = false
 
 	$scope.datos = { grupo: '' }
 
@@ -177,6 +178,7 @@ angular.module('myvcFrontApp')
 
 				if $scope.USER.numero_periodo == perDesact.numero
 					for grup in perDesact.grupos
+
 						if grup.grupo_id == $scope.datos.grupo.id
 							found = true
 							grupo = grup
@@ -188,6 +190,8 @@ angular.module('myvcFrontApp')
 				, (r2)->
 					toastr.warning 'No se pudo calcular ' + grupo.nombre + ', Per ' + $scope.USER.numero_periodo + '. Intentaremos de nuevo.'
 				)
+			else
+				$scope.verBoletinesGrupoCargar(tipo)
 
 
 		else
@@ -347,6 +351,11 @@ angular.module('myvcFrontApp')
 		$state.go 'panel.informes.puestos_todos_year', {periodo_a_calcular: $scope.config.periodo_a_calcular}
 
 
+	$scope.mostrar_nota_faltante = ()->
+		if parseInt($state.params.periodo_a_calcular) == 3 and ($state.is('panel.informes.puestos_todos_year') or $state.is('panel.informes.puestos_grupo_year'))
+			$scope.mostrar_faltante   = !$scope.mostrar_faltante
+		else
+			toastr.info 'Debe calcular PUESTOS DEL AÑO (no periodo) y hasta el periodo 3 '
 
 	####### // Puestos
 

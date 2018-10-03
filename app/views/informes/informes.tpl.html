@@ -310,7 +310,7 @@
             </label>
           </div>
         </div>
-        <div ng-show="config.informe_tab_actual=='puestos'">
+        <div ng-show="$state.is('panel.informes.puestos_todos_year') || $state.is('panel.informes.puestos_todos_periodo') || $state.is('panel.informes.puestos_grupo_year') || $state.is('panel.informes.puestos_grupo_periodo') ">
           <hr class="wide">
           <h5>Filtrar:</h5>
           <div class="control-group">
@@ -320,6 +320,7 @@
               </label>
             </div>
           </div>
+          <button uib-tooltip="Sólo funciona con PUESTOS DEL AÑO calculados hasta el TERCER perido. Nota que falta en cuarto periodo." ng-click="mostrar_nota_faltante()" class="btn btn-primary">Mostrar nota faltante:<span ng-show="mostrar_faltante"> Si</span><span ng-hide="mostrar_faltante"> No</span></button>
         </div>
         <hr class="wide">
         <h5>{{descripcion_informe}}</h5>
