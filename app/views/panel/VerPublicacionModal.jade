@@ -1,0 +1,23 @@
+.modal-header(style="background-color: #fff; border-bottom: 0px;")
+	button.close(type="button" ng-click="ok()" aria-label="Close")
+		span &times;
+
+.modal-body
+
+	.row
+		.col-xs-12.col-sm-8(style="border-right: 1px solid #ccc;")
+
+			div(ng-bind-html="publicacion_actual.contenido" ng-if="publicacion_actual.imagen_nombre")
+			div(ng-bind-html="publicacion_actual.contenido" ng-if="!publicacion_actual.imagen_nombre"
+				style="font-size: 16pt; text-align: center;")
+
+			img(ng-if="publicacion_actual.imagen_nombre" ng-src="{{ perfilPath + publicacion_actual.imagen_nombre }}" style="width: 100%;")
+
+
+		.col-xs-12.col-sm-4
+
+			div Comentarios
+
+
+
+

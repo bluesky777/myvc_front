@@ -17,6 +17,10 @@ angular.module('myvcFrontApp')
 			$http.get('::ChangesAsked/to-me').then((r)->
 				scope.changes_asked = r.data
 
+				if scope.changes_asked.publicaciones.length > 0
+					scope.publicacion_actual = scope.changes_asked.publicaciones[0]
+
+
 
 				if AuthService.hasRoleOrPerm(['admin', 'profesor', 'alumno'])
 
@@ -94,6 +98,7 @@ angular.module('myvcFrontApp')
 	$scope.fileReaderSupported 	= window.FileReader != null && (window.FileAPI == null || FileAPI.html5 != false);
 	$scope.imgFiles         = []
 	$scope.imagen_subida    = true
+	$scope.mostrar_publicaciones = true
 	$scope.new_publicacion  = {
 		publi_para: 'publi_para_todos',
 		publi_para_alumnos: true
@@ -101,6 +106,10 @@ angular.module('myvcFrontApp')
 
 	$scope.profe_seleccionado = false
 
+
+	$scope.verPublicacion = (publi)->
+		$scope.publicacion_actual   = publi
+		$scope.creando_publicacion  = false
 
 	$scope.eliminarPublicacion = (publi)->
 		$http.put('::publicaciones/delete', { publi_id: publi.id }).then((r)->
@@ -112,6 +121,21 @@ angular.module('myvcFrontApp')
 			toastr.error 'Error al eliminar', 'Problema'
 			return {}
 		)
+
+	$scope.verPublicacionDetalle = (publica)->
+
+		modalInstance = $modal.open({
+			templateUrl: '==panel/VerPublicacionModal.tpl.html'
+			controller: 'VerPublicacionModalCtrl'
+			size: 'lg',
+			resolve:
+				publicacion_actual: ()->
+					publica
+		})
+		modalInstance.result.then( (imag)->
+			console.log 'Cerrado'
+		)
+
 
 	$scope.restaurarPublicacion = (publi)->
 		$http.put('::publicaciones/restaurar', { publi_id: publi.id }).then((r)->
@@ -145,6 +169,15 @@ angular.module('myvcFrontApp')
 			toastr.error 'Error al publicar', 'Problema'
 			return {}
 		)
+
+	$scope.toggle_mis_publicaciones = (publi)->
+		$scope.mostrar_publicaciones = false
+		$scope.mostrar_mis_publicaciones = !$scope.mostrar_mis_publicaciones
+
+	$scope.toggle_publicaciones = (publi)->
+		$scope.mostrar_mis_publicaciones = false
+		$scope.mostrar_publicaciones = !$scope.mostrar_publicaciones
+
 
 	###########################################################
 	############### 	SUBIDA DE IMÁGENES 		###############
