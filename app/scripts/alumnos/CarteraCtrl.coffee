@@ -2,17 +2,18 @@
 
 angular.module("myvcFrontApp")
 
-.controller('CarteraCtrl', ['$scope', 'App', '$state', '$interval', '$uibModal', '$filter', 'AuthService', 'toastr', '$http', 'uiGridConstants', ($scope, App, $state, $interval, $modal, $filter, AuthService, toastr, $http, uiGridConstants)->
+.controller('CarteraCtrl', ['$scope', 'App', '$state', '$uibModal', '$filter', 'AuthService', 'toastr', '$http', 'uiGridConstants', 'Upload', '$timeout', ($scope, App, $state, $modal, $filter, AuthService, toastr, $http, uiGridConstants, Upload, $timeout)->
 
 	AuthService.verificar_acceso()
 
-	$scope.dato = {}
-	$scope.gridOptions = {}
+	$scope.dato               = {}
+	$scope.gridOptions        = {}
 	$scope.perfilPath 				= App.images+'perfil/'
-	$scope.views 					= App.views
-	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
-	$scope.mySelectedRows   = []
-	$scope.valorDeuda   = 0
+	$scope.views 					    = App.views
+	$scope.images 					  = App.images
+	$scope.gridScope          = $scope # Para getExternalScopes de ui-Grid
+	$scope.mySelectedRows     = []
+	$scope.valorDeuda         = 0
 
 
 	$scope.dato.grupo = ''
@@ -33,6 +34,29 @@ angular.module("myvcFrontApp")
 		$scope.traerAlumnos($scope.dato.grupo)
 
 	)
+
+
+	$scope.importarCambios = (file, errFiles)->
+		$scope.f = file;
+		$scope.errFile = errFiles && errFiles[0];
+		if (file)
+			file.upload = Upload.upload({
+					url: App.Server + 'importar/cartera',
+					data: {file: file}
+			});
+
+			file.upload.then( (response)->
+					$timeout( ()->
+							file.result = response.data;
+							$scope.traerAlumnos($scope.dato.grupo)
+					);
+			,  (response)->
+					if (response.status > 0)
+							$scope.errorMsg = response.status + ': ' + response.data;
+			, (evt)->
+					file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+			);
+
 
 
 	$scope.onGrupoSelect = ($item, $model)->
@@ -118,8 +142,6 @@ angular.module("myvcFrontApp")
 
 
 	$scope.cambiarValorVarios = (valor, campo)->
-		if campo == 'fecha_pension'
-			valor = $filter('date')(valor, 'mediumDate')
 
 		datos =
 			alumnos: 	  $scope.getSelectedRows()

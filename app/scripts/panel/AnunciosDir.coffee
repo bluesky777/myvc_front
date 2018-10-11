@@ -82,14 +82,160 @@ angular.module('myvcFrontApp')
 ])
 
 
-.controller('AnunciosDirCtrl', ['$scope', '$uibModal', 'AuthService', '$http', 'toastr', '$filter', 'App', ($scope, $modal, AuthService, $http, toastr, $filter, App)->
 
-	$scope.hasRoleOrPerm  = AuthService.hasRoleOrPerm
-	$scope.perfilPath     = App.images+'perfil/'
-	$scope.views 			    = App.views
-	$scope.srcCant 				= $scope.views + 'informes2/verCantAlumnosPorGrupos.tpl.html'
+
+
+.controller('AnunciosDirCtrl', ['$scope', '$uibModal', 'AuthService', '$http', 'toastr', '$filter', 'App', '$timeout', 'Upload', ($scope, $modal, AuthService, $http, toastr, $filter, App, $timeout, $upload)->
+
+	$scope.hasRoleOrPerm    = AuthService.hasRoleOrPerm
+	$scope.perfilPath       = App.images+'perfil/'
+	$scope.views 			      = App.views
+	$scope.srcCant 				  = $scope.views + 'informes2/verCantAlumnosPorGrupos.tpl.html'
+	$scope.fileReaderSupported 	= window.FileReader != null && (window.FileAPI == null || FileAPI.html5 != false);
+	$scope.imgFiles         = []
+	$scope.imagen_subida    = true
+	$scope.new_publicacion  = {
+		publi_para: 'publi_para_todos',
+		publi_para_alumnos: true
+	}
 
 	$scope.profe_seleccionado = false
+
+
+	$scope.eliminarPublicacion = (publi)->
+		$http.put('::publicaciones/delete', { publi_id: publi.id }).then((r)->
+
+			toastr.success 'Eliminada.'
+			publi.deleted_at = new Date().toString()
+
+		, (r2)->
+			toastr.error 'Error al eliminar', 'Problema'
+			return {}
+		)
+
+	$scope.restaurarPublicacion = (publi)->
+		$http.put('::publicaciones/restaurar', { publi_id: publi.id }).then((r)->
+
+			toastr.success 'Restaurada.'
+			publi.deleted_at = null
+
+		, (r2)->
+			toastr.error 'Error al Restaur', 'Problema'
+			return {}
+		)
+
+
+	$scope.crearPublicacion = (new_publicacion)->
+		$http.put('::publicaciones/store', new_publicacion).then((r)->
+
+			new_publicacion.id          	= r.data.publicacion_id
+			new_publicacion.imagen_nombre = new_publicacion.imagen.nombre
+			new_publicacion.updated_at 		= $filter('date')(new Date(), 'short')
+			$scope.changes_asked.mis_publicaciones.unshift new_publicacion
+
+			toastr.success 'Publicado con éxito'
+
+			$scope.new_publicacion  = {
+				publi_para: 'publi_para_todos',
+				publi_para_alumnos: true
+			}
+			$scope.creando_publicacion  = false
+
+		, (r2)->
+			toastr.error 'Error al publicar', 'Problema'
+			return {}
+		)
+
+	###########################################################
+	############### 	SUBIDA DE IMÁGENES 		###############
+	###########################################################
+	$scope.uploadFiles =  (files)->
+
+		$scope.errorMsg       = ''
+		$scope.imagen_subida  = false
+
+		if files and files.length
+
+			for i in [0...files.length]
+				file = files[i]
+				generateThumbAndUpload file
+
+
+	generateThumbAndUpload = (file)->
+		$scope.errorMsg = null
+		uploadUsing$upload(file)
+		$scope.generateThumb(file)
+
+	$scope.generateThumb = (file)->
+		console.log file
+		if file != null
+			if $scope.fileReaderSupported and file.type.indexOf('image') > -1
+				$timeout ()->
+					fileReader = new FileReader()
+					fileReader.readAsDataURL(file)
+					fileReader.onload = (e)->
+						$timeout(()->
+							file.dataUrl = e.target.result
+							$scope.imgFiles.push file
+						)
+
+	uploadUsing$upload = (file)->
+
+		if file.size > 5000000
+			$scope.errorMsg = 'Archivo excede los 5MB permitidos.'
+			return
+
+		$upload.upload({
+			url: App.Server + 'myimages/store-intacta-privada',
+			file: file
+		}).progress( (evt)->
+			progressPercentage = parseInt(100.0 * evt.loaded / evt.total)
+			file.porcentaje = progressPercentage
+			#console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name, evt.config)
+		).success( (data, status, headers, config)->
+			$scope.new_publicacion.imagen = data
+			$scope.imagen_subida          = true
+		).error((r2)->
+			$scope.imagen_subida          = true
+			console.log 'Falla uploading: ', r2
+		)
+
+
+
+	$scope.borrarImagen = (imagen)->
+
+		modalInstance = $modal.open({
+			templateUrl: '==fileManager/removeImage.tpl.html'
+			controller: 'RemoveImageCtrl'
+			size: 'md',
+			resolve:
+				imagen: ()->
+					imagen
+				user_id: ()->
+					$scope.USER.user_id
+				datos_imagen: ()->
+
+					codigos =
+						imagen_id: imagen.id
+						user_id: $scope.USER.user_id
+
+					$http.put('::myimages/datos-imagen', codigos).then((r)->
+						return $scope.datos_imagen = r.data
+					, (r2)->
+						toastr.error 'Error al traer datos de imagen', 'Problema'
+						return {}
+					)
+
+		})
+		modalInstance.result.then( (imag)->
+			$scope.new_publicacion.imagen = undefined
+			$scope.imgFiles               = []
+		)
+
+
+
+
+
 
 
 	$scope.seleccionar_profe = (profesor)->
@@ -101,6 +247,22 @@ angular.module('myvcFrontApp')
 			console.log 'Error trayendo detalles', r2
 		)
 
+	$scope.mostrar_crear_publicacion = ()->
+		$scope.creando_publicacion = true
+		$timeout(()->
+			$('#textarea-new-publicacion').focus()
+		)
+
+	# Editor options.
+	$scope.options = {
+		language: 'es',
+		allowedContent: true,
+		entities: false
+	};
+
+	# Called when the editor is completely ready.
+	$scope.onReady = ()->
+		console.log('Listo para editar')
 
 
 	$scope.desseleccionar_profe = ()->
@@ -254,6 +416,12 @@ angular.module('myvcFrontApp')
 
 
 
+
+
+
+
+
+
 .controller('AceptarAskedCtrl', ['$scope', '$uibModalInstance', 'asked', 'tipo', 'valor_nuevo', '$http', 'toastr', 'App', ($scope, $modalInstance, asked, tipo, valor_nuevo, $http, toastr, App)->
 
 	$scope.imagesPath = App.images + 'perfil/'
@@ -289,6 +457,7 @@ angular.module('myvcFrontApp')
 
 	$scope.cancel = ()->
 		$modalInstance.dismiss('cancel')
+
 
 ])
 

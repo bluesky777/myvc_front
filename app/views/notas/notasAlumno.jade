@@ -89,12 +89,12 @@
 
 			table.table-bordered.table-bordered2.table-striped.table-striped2
 				tr(style="background-color: #A7C7EB!important; font-weight: bold;")
-					td(ng-repeat="asignatura in alumno_traido.notas_tercer_per")
+					td(ng-repeat="asignatura in alumno_traido.notas_tercer_per" style="padding: 4px")
 						span(uib-tooltip="{{asignatura.materia}}") {{asignatura.alias}}
 				tr
 					td(ng-repeat="asignatura in alumno_traido.notas_tercer_per" style="padding: 6px" ng-class="{'nota-perdida-bold': asignatura.nota_final_year<USER.nota_minima_aceptada}")
 						span(style="" ng-show="asignatura.nota_faltante" uib-tooltip="Definitiva hasta 3per: {{ asignatura.nota_final_year }}")
-							{{ asignatura.nota_faltante }}
+							| {{ asignatura.nota_faltante }}
 
 
 	div(ng-if="periodos_notas.length > 0 && USER.tipo=='Acudiente' ")

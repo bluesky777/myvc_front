@@ -82,7 +82,7 @@
     <div ng-class="{'ng-hide':minimized}" style="text-align: center; overflow: auto;" class="widget-body">
       <table class="table-bordered table-bordered2 table-striped table-striped2">
         <tr style="background-color: #A7C7EB!important; font-weight: bold;">
-          <td ng-repeat="asignatura in alumno_traido.notas_tercer_per"><span uib-tooltip="{{asignatura.materia}}">{{asignatura.alias}}</span></td>
+          <td ng-repeat="asignatura in alumno_traido.notas_tercer_per" style="padding: 4px"><span uib-tooltip="{{asignatura.materia}}">{{asignatura.alias}}</span></td>
         </tr>
         <tr>
           <td ng-repeat="asignatura in alumno_traido.notas_tercer_per" style="padding: 6px" ng-class="{'nota-perdida-bold': asignatura.nota_final_year&lt;USER.nota_minima_aceptada}"><span style="" ng-show="asignatura.nota_faltante" uib-tooltip="Definitiva hasta 3per: {{ asignatura.nota_final_year }}">{{ asignatura.nota_faltante }}</span></td>

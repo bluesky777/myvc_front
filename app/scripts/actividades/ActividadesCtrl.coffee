@@ -13,6 +13,7 @@ angular.module("myvcFrontApp")
 	$scope.otras_asignaturas 	= datos.otras_asignaturas
 	$scope.mis_asignaturas 		= datos.mis_asignaturas
 	$scope.$state           = $state;
+	$scope.AuthService      = AuthService
 
 	$scope.actv_alumnos 		= datos.actv_alumnos
 	$scope.actv_profes 			= datos.actv_profes

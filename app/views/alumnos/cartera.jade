@@ -4,8 +4,18 @@
 .row
 	.col-xs-12.col-md-12
 		.well.with-header.with-footer
-			.header.bordered-yellow Alumnos
+			.header.bordered-yellow
+				span(style="font-size: 12pt") Alumnos
 
+				.btn-group
+					a.btn.btn-info.shiny(href="" type="file" ngf-select="importarCambios($file, $invalidFiles)"
+						accept=".xls,.xlsx" ngf-max-size="1MB"
+						uib-popover-template="views+'alumnos/popoverSubirExcelCartera.tpl.html'"
+						popover-title="Archivo de Excel" popover-placement="bottom"
+						popover-trigger="'mouseenter'" popover-append-to-body="true")
+
+						i.fa.fa-file-excel-o
+						|   Subir cambios
 
 			.form-group
 				label Elija grupo
@@ -21,6 +31,9 @@
 
 
 			div(style="min-height: 40px; border: 1px solid #ccc; margin-bottom: 10px; padding: 4px;")
+				div(ng-hide="getSelectedRows().length > 0" style="padding-left: 5px; padding-top: 5px;")
+					| Seleccione alumnos y aparecerán aquí varias opciones.
+
 				div(ng-show="getSelectedRows().length > 0")
 					a(ng-click="cambiarValorVarios(true, 'pazysalvo')" href="" style="margin-top: 5px; padding-right: 10px; display: inline-block; ") Establecer a paz y salvo
 					a(ng-click="cambiarValorVarios(false, 'pazysalvo')" href="" style="margin-top: 5px; padding-right: 10px; display: inline-block; ") - Establecer como deudor

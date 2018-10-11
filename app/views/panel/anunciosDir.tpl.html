@@ -104,6 +104,64 @@
     </div>
   </div>
 </div>
+<!-- PUBLICACIONES ADMINISTRADOR-->
+<div ng-if="hasRoleOrPerm(['admin'])" ngf-drop="uploadFiles($files)" ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-pattern="'image/*'" class="row drop-box">
+  <div class="col-lg-12 col-xs-12">
+    <div class="widget">
+      <div class="widget-body">
+        <div class="widget-main no-padding">
+          <div class="row">
+            <div class="col-sm-5 col-xs-12">
+              <h4 style="margin-top: 0;">Mis publicaciones</h4>
+              <div ng-show="changes_asked.mis_publicaciones.length == 0">Aún no has publicado</div>
+              <div ng-show="changes_asked.mis_publicaciones.length &gt; 0" class="listado-mis-publicaciones">
+                <div ng-repeat="publi in changes_asked.mis_publicaciones" ng-class="{'publicacion-eliminada': publi.deleted_at}" uib-tooltip="Última modificación: {{publi.updated_at}}" class="una-publicacion-mia"><a href="" ng-click="eliminarPublicacion(publi)" style="margin-right: 4px;" uib-tooltip="Eliminar publicación" ng-show="!publi.deleted_at" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a><a href="" ng-click="restaurarPublicacion(publi)" style="margin-right: 4px;" uib-tooltip="Restaurar publicación. Eliminada: {{publi.deleted_at}}" ng-show="publi.deleted_at" class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></a><img ng-if="publi.imagen_nombre" ng-src="{{ perfilPath + publi.imagen_nombre }}" style="height: 50px"><span ng-show="!publi.contenido">{{ publi.imagen_nombre }}</span><span ng-show="publi.contenido" style="max-height: 100px; overflow: hidden">{{ publi.contenido }}</span></div>
+              </div>
+            </div>
+            <div class="col-sm-7 col-xs-12">
+              <div ng-show="!creando_publicacion" ng-click="mostrar_crear_publicacion()" class="escribe-publicacion">Escribe aquí una publicación...</div>
+              <div ng-show="creando_publicacion" style="margin-right: 8px;" class="new-publicacion widget-body">
+                <div ng-if="false" ckeditor="options" ng-model="$parent.new_publicacion.contenido" ready="onReady()"></div><span>Puedes usar etiquetas html</span>
+                <textarea id="textarea-new-publicacion" ng-model="new_publicacion.contenido" placeholder="Escribe aquí una publicación..." style="font-size: 16pt;" class="form-control"></textarea><br>
+                <div ngf-select="uploadFiles($files)" ngf-multiple="false" ngf-pattern="'image/*'" ngf-accept="'image/*'" ng-show="imgFiles.length==0" class="btn btn-success"><i class="fa fa-image"></i>Agregar imagen</div><br>
+                <div>
+                  <div ng-show="errorMsg!=''">{{errorMsg}}</div>
+                  <div ng-repeat="file in imgFiles">
+                    <div class="row">
+                      <div class="ticket-user col-lg-5 col-sm-12"><img ng-src="{{file.dataUrl}}" style="width: 100%;" class="user-avatar"><span class="user-name">{{file.name}}</span><span class="user-company">- {{(file.size / 1000000) | number:2 }}MB</span></div>
+                      <div class="ticket-time col-lg-5 col-sm-12 col-xs-12">
+                        <div class="divider hidden-md hidden-sm hidden-xs"></div>
+                        <uib-progressbar value="file.porcentaje" style="margin-bottom: 10px;" class="progress-xlg progress-striped active"><b ng-show="file.porcentaje">{{file.porcentaje}}% Completado</b><span ng-show="!file.porcentaje">Subiendo...</span></uib-progressbar><a href="" ng-click="borrarImagen(new_publicacion.imagen)" class="btn btn-success"><i class="fa fa-times"></i>Eliminar imagen</a>
+                      </div>
+                    </div>
+                  </div>
+                </div><br>
+                <label for="publi_para_todos">
+                  <input id="publi_para_todos" type="radio" value="publi_para_todos" ng-model="new_publicacion.publi_para"><span>Pública</span>
+                </label>
+                <label for="publi_privada">
+                  <input id="publi_privada" type="radio" value="publi_privada" ng-model="new_publicacion.publi_para"><span>Privada</span>
+                </label>
+                <div ng-show="new_publicacion.publi_para == 'publi_privada' ">
+                  <label for="publi_para_alumnos">
+                    <input id="publi_para_alumnos" type="checkbox" value="publi_para_alumnos" ng-model="new_publicacion.publi_para_alumnos"><span>Para alumnos</span>
+                  </label>
+                  <label for="publi_para_profes">
+                    <input id="publi_para_profes" type="checkbox" value="publi_para_profes" ng-model="new_publicacion.publi_para_profes"><span>Para profesores</span>
+                  </label>
+                  <label for="publi_para_acudientes">
+                    <input id="publi_para_acudientes" type="checkbox" value="publi_para_acudientes" ng-model="new_publicacion.publi_para_acudientes"><span>Para acudientes</span>
+                  </label>
+                </div>
+                <div style="text-align: right;"><a href="" ng-disabled="!imagen_subida" ng-click="crearPublicacion(new_publicacion)" style="display: block;" class="btn btn-primary"><i class="fa fa-rss"></i>Publicar</a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- Gráfico de docentes-->
 <div style="padding-top: 5px; padding-bottom: 40px; height: 310px" ng-if="hasRoleOrPerm(['admin', 'profesor', 'alumno'])" class="row comportamiento-boletin">
   <div style="height: 140px;" class="col-lg-12 col-xs-12">
