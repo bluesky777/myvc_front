@@ -1833,7 +1833,12 @@ tr { page-break-inside: avoid }
   padding: 8px;
   border-bottom: 1px #d4c7ff solid;
   overflow-y: hidden;
+  transition: background-color .3s;
 }
+.una-publicacion-mia:hover{
+  background-color: #def9ff;
+}
+
 .listado-mis-publicaciones{
   background-color: #fff;
   border-radius: 4px;
@@ -1858,5 +1863,9 @@ tr { page-break-inside: avoid }
   div{
     font-size: 16pt;
   }
+}
+
+.modal-publicacion .modal-dialog{
+  width: 98%;
 }
 

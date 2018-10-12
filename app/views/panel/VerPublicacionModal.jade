@@ -2,22 +2,47 @@
 	button.close(type="button" ng-click="ok()" aria-label="Close")
 		span &times;
 
-.modal-body
+.modal-body(style="padding-bottom: 30px;")
 
 	.row
 		.col-xs-12.col-sm-8(style="border-right: 1px solid #ccc;")
 
+			img(ng-if="publicacion_actual.foto_autor" ng-src="{{ perfilPath + publicacion_actual.foto_autor }}" style="width: 50px;")
+			span {{ publicacion_actual.nombre_autor }}
+
+			hr(style="margin-top: 11px;")
+
 			div(ng-bind-html="publicacion_actual.contenido" ng-if="publicacion_actual.imagen_nombre")
-			div(ng-bind-html="publicacion_actual.contenido" ng-if="!publicacion_actual.imagen_nombre"
-				style="font-size: 16pt; text-align: center;")
+			.texto-publicacion-solo(ng-if="!publicacion_actual.imagen_nombre")
+				div(ng-bind-html="publicacion_actual.contenido")
+
 
 			img(ng-if="publicacion_actual.imagen_nombre" ng-src="{{ perfilPath + publicacion_actual.imagen_nombre }}" style="width: 100%;")
 
 
 		.col-xs-12.col-sm-4
 
-			div Comentarios
+			h4(style="font-weight: 500 !important;") Comentarios ({{ publicacion_actual.comentarios.length }} comentarios).
 
+			div
+				div(ng-repeat="comentario in publicacion_actual.comentarios"
+					style="white-space: nowrap; margin-bottom: 4px;")
+
+					img(ng-if="comentario.foto_autor" ng-src="{{ perfilPath + comentario.foto_autor }}" style="width: 40px; margin-top: -30px;")
+					img(ng-if="!comentario.foto_autor" ng-src="{{ perfilPath + 'default_female.png' }}" style="width: 40px; margin-top: -30px;")
+					div(style="background-color: #eee; display: inline-block; padding: 4px; border-radius: 8px; width: 80%;")
+						div(style="color: #337ab7; white-space: normal;") {{ comentario.nombre_autor }}:
+						div(style="white-space: normal;")  {{ comentario.comentario }}
+
+			div(style="margin-top: 15px")
+				form(ng-submit="agregarComentario(new_comentario)")
+					img(ng-src="{{ perfilPath + USER.imagen_nombre }}" style="height: 34px; float: left; background-color: #8fe6f8;")
+					.input-group
+						input.form-control(type="text" ng-model="new_comentario"
+							placeholder="Escribe comentario..." style="border-radius: 0 !important; padding: 6px;")
+						span.input-group-btn
+							button.btn.btn-default.shiny(type="submit")
+								i.fa.fa-envelope-o
 
 
 

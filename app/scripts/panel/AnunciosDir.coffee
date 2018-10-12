@@ -17,8 +17,16 @@ angular.module('myvcFrontApp')
 			$http.get('::ChangesAsked/to-me').then((r)->
 				scope.changes_asked = r.data
 
-				if scope.changes_asked.publicaciones.length > 0
-					scope.publicacion_actual = scope.changes_asked.publicaciones[0]
+				if AuthService.hasRoleOrPerm(['alumno', 'acudiente'])
+					scope.publicaciones_actuales   = [ scope.changes_asked.publicaciones[0] ]
+
+					if scope.changes_asked.publicaciones.length > 1
+						scope.publicaciones_actuales.push(scope.changes_asked.publicaciones[1])
+
+
+				if AuthService.hasRoleOrPerm(['admin', 'profesor'])
+					if scope.changes_asked.publicaciones.length > 0
+						scope.publicacion_actual = scope.changes_asked.publicaciones[0]
 
 
 
@@ -107,9 +115,17 @@ angular.module('myvcFrontApp')
 	$scope.profe_seleccionado = false
 
 
-	$scope.verPublicacion = (publi)->
-		$scope.publicacion_actual   = publi
-		$scope.creando_publicacion  = false
+	$scope.verPublicacion = (publi, $index)->
+		if $index > -1
+			$scope.publicaciones_actuales   = [ publi ]
+
+			if $scope.changes_asked.publicaciones.length > ($index + 1)
+				$scope.publicaciones_actuales.push($scope.changes_asked.publicaciones[$index + 1])
+
+			$scope.creando_publicacion      = false
+		else
+			$scope.publicacion_actual   = publi
+			$scope.creando_publicacion  = false
 
 	$scope.eliminarPublicacion = (publi)->
 		$http.put('::publicaciones/delete', { publi_id: publi.id }).then((r)->
@@ -128,9 +144,12 @@ angular.module('myvcFrontApp')
 			templateUrl: '==panel/VerPublicacionModal.tpl.html'
 			controller: 'VerPublicacionModalCtrl'
 			size: 'lg',
+			windowClass: 'modal-publicacion'
 			resolve:
 				publicacion_actual: ()->
 					publica
+				USER: ()->
+					$scope.USER
 		})
 		modalInstance.result.then( (imag)->
 			console.log 'Cerrado'

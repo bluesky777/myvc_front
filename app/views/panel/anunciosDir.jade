@@ -1,3 +1,220 @@
+
+
+// PUBLICACIONES ALUMNOS Y ACUDIENTES
+.row(ng-if="hasRoleOrPerm(['alumno', 'acudiente'])" ngf-drop="uploadFiles($files)" class="drop-box"
+	ngf-drag-over-class="'dragover'" ngf-multiple="false"
+	ngf-pattern="'image/*'")
+
+	.col-lg-12.col-xs-12
+		.widget
+			.widget-body
+				.widget-main.no-padding
+					.row
+						.col-sm-4.col-xs-12(style="border-right: 1px solid #ccc;")
+
+							div
+								div(ng-show="changes_asked.publicaciones.length == 0") No hay publicaciones
+
+								.listado-mis-publicaciones(ng-show="changes_asked.publicaciones.length > 0" style="max-height: 400px;")
+
+									.una-publicacion-mia.animated.fadeInUp(ng-repeat="publi in changes_asked.publicaciones"
+										ng-class="{'publicacion-eliminada': publi.deleted_at}" tooltip-popup-delay="400"
+										uib-tooltip="Última modificación: {{publi.updated_at}}" ng-click="verPublicacion(publi, $index)")
+
+										img(ng-if="publi.imagen_nombre" ng-src="{{ perfilPath + publi.imagen_nombre }}" style="height: 50px")
+										span(ng-show="!publi.contenido") {{ publi.imagen_nombre }}
+										span(ng-show="publi.contenido" style="max-height: 100px; overflow: hidden"
+											ng-bind-html="publi.contenido")
+
+
+						.col-sm-8.col-xs-12
+
+							// Publicaciones actuales
+							div.publicacion-actual(style="margin-right: 8px; margin-top: 10px;"
+								ng-show="publicaciones_actuales.length > 0" ng-repeat="publicacion_actual in publicaciones_actuales")
+
+								div(ng-click="verPublicacionDetalle(publicacion_actual)")
+									img(ng-if="publicacion_actual.foto_autor" ng-src="{{ perfilPath + publicacion_actual.foto_autor }}" style="width: 50px;")
+									span {{ publicacion_actual.nombre_autor }}
+
+									div(ng-bind-html="publicacion_actual.contenido" ng-if="publicacion_actual.imagen_nombre")
+
+									.texto-publicacion-solo(ng-if="!publicacion_actual.imagen_nombre")
+										div(ng-bind-html="publicacion_actual.contenido")
+
+									img(ng-if="publicacion_actual.imagen_nombre" ng-src="{{ perfilPath + publicacion_actual.imagen_nombre }}" style="width: 100%;")
+
+
+									div(style="margin-top: 10px;")
+										div(ng-show="publicacion_actual.comentarios.length>0" style="white-space: nowrap; margin-bottom: 4px;")
+											img(ng-if="publicacion_actual.comentarios[0].foto_autor" ng-src="{{ perfilPath + publicacion_actual.comentarios[0].foto_autor }}" style="width: 40px; margin-top: -30px;")
+											img(ng-if="!publicacion_actual.comentarios[0].foto_autor" ng-src="{{ perfilPath + 'default_female.png' }}" style="width: 40px; margin-top: -30px;")
+											div(style="background-color: #eee; display: inline-block; padding: 4px; border-radius: 8px; width: 80%;")
+												div(style="color: #337ab7; white-space: normal;") {{ publicacion_actual.comentarios[0].nombre_autor }}:
+												div(style="white-space: normal;")  {{ publicacion_actual.comentarios[0].comentario }}
+
+										div
+											a(href="") {{ publicacion_actual.comentarios.length }} comentarios.
+
+									hr
+
+
+
+
+// PUBLICACIONES ADMINISTRADOR
+.row(ng-if="hasRoleOrPerm(['admin'])" ngf-drop="uploadFiles($files)" class="drop-box"
+	ngf-drag-over-class="'dragover'" ngf-multiple="false"
+	ngf-pattern="'image/*'")
+
+	.col-lg-12.col-xs-12
+		.widget
+			.widget-body
+				.widget-main.no-padding
+					.row
+						.col-sm-4.col-xs-12(style="border-right: 1px solid #ccc;")
+							h4 Ver publicaciones
+
+							a(href="" style="margin-top: 0; display: block;" ng-click="toggle_mis_publicaciones()") Mis publicaciones
+								span(ng-show="mostrar_mis_publicaciones") :
+
+							div(ng-show="mostrar_mis_publicaciones")
+								div(ng-show="changes_asked.mis_publicaciones.length == 0") Aún no has publicado
+
+								.listado-mis-publicaciones(ng-show="changes_asked.mis_publicaciones.length > 0")
+
+									.una-publicacion-mia.animated.fadeInUp(ng-repeat="publi in changes_asked.mis_publicaciones" ng-class="{'publicacion-eliminada': publi.deleted_at}"
+										uib-tooltip="Última modificación: {{publi.updated_at}}" tooltip-popup-delay="400")
+
+										a.btn.btn-danger.btn-sm(href="" ng-click="eliminarPublicacion(publi)" style="margin-right: 4px;"
+											uib-tooltip="Eliminar publicación" ng-show="!publi.deleted_at")
+											i.fa.fa-trash
+										a.btn.btn-info.btn-sm(href="" ng-click="restaurarPublicacion(publi)" style="margin-right: 4px;"
+											uib-tooltip="Restaurar publicación. Eliminada: {{publi.deleted_at}}" ng-show="publi.deleted_at")
+											i.fa.fa-refresh
+
+										img(ng-if="publi.imagen_nombre" ng-src="{{ perfilPath + publi.imagen_nombre }}" style="height: 50px")
+										span(ng-show="!publi.contenido") {{ publi.imagen_nombre }}
+										span(ng-show="publi.contenido" style="max-height: 100px; overflow: hidden"
+											ng-bind-html="publi.contenido")
+
+
+							a(href="" style="margin-top: 10px; display: block;" ng-click="toggle_publicaciones()") Publicaciones
+								span(ng-show="mostrar_publicaciones") :
+
+							div(ng-show="mostrar_publicaciones")
+								div(ng-show="changes_asked.publicaciones.length == 0") No hay publicaciones
+
+								.listado-mis-publicaciones(ng-show="changes_asked.publicaciones.length > 0")
+
+									.una-publicacion-mia(ng-repeat="publi in changes_asked.publicaciones" ng-class="{'publicacion-eliminada': publi.deleted_at}"
+										uib-tooltip="Última modificación: {{publi.updated_at}}" tooltip-popup-delay="400" ng-click="verPublicacion(publi)")
+
+										img(ng-if="publi.imagen_nombre" ng-src="{{ perfilPath + publi.imagen_nombre }}" style="height: 50px")
+										span(ng-show="!publi.contenido") {{ publi.imagen_nombre }}
+										span(ng-show="publi.contenido" style="max-height: 100px; overflow: hidden"
+											ng-bind-html="publi.contenido")
+
+
+						.col-sm-8.col-xs-12
+							.escribe-publicacion(ng-show="!creando_publicacion" ng-click="mostrar_crear_publicacion()")
+								| Escribe aquí una publicación...
+
+							div.new-publicacion.widget-body(ng-show="creando_publicacion" style="margin-right: 8px;")
+								div(ng-if="false" ckeditor="options" ng-model="$parent.new_publicacion.contenido"
+									ready="onReady()")
+
+
+								form(ng-submit="crearPublicacion(new_publicacion)")
+									span Puedes usar etiquetas html
+
+									textarea.form-control#textarea-new-publicacion(ng-model="new_publicacion.contenido"
+										placeholder="Escribe aquí una publicación..." style="font-size: 16pt;")
+
+									br
+									.btn.btn-success(ngf-select="uploadFiles($files)" ngf-multiple="false" ngf-pattern="'image/*'"
+										ngf-accept="'image/*'" ng-show="imgFiles.length==0")
+										i.fa.fa-image
+										| Agregar imagen
+
+									br
+									div
+										div(ng-show="errorMsg!=''") {{errorMsg}}
+										div(ng-repeat="file in imgFiles")
+											.row
+												.ticket-user.col-lg-5.col-sm-12
+													img.user-avatar(ng-src="{{file.dataUrl}}" style="width: 100%;")
+													span.user-name {{file.name}}
+													span.user-company - {{(file.size / 1000000) | number:2 }}MB
+												.ticket-time.col-lg-5.col-sm-12.col-xs-12
+													.divider.hidden-md.hidden-sm.hidden-xs
+													uib-progressbar.progress-xlg.progress-striped.active( value="file.porcentaje" style="margin-bottom: 10px;")
+														b(ng-show="file.porcentaje") {{file.porcentaje}}% Completado
+														span(ng-show="!file.porcentaje") Subiendo...
+
+													a.btn.btn-success(href="" ng-click="borrarImagen(new_publicacion.imagen)")
+														i.fa.fa-times
+														| Eliminar imagen
+
+
+									br
+									label(for="publi_para_todos")
+										input#publi_para_todos(type="radio" value="publi_para_todos" ng-model="new_publicacion.publi_para")
+										span Pública
+
+									label(for="publi_privada")
+										input#publi_privada(type="radio" value="publi_privada" ng-model="new_publicacion.publi_para")
+										span Privada
+
+									div(ng-show="new_publicacion.publi_para == 'publi_privada' ")
+										label(for="publi_para_alumnos")
+											input#publi_para_alumnos(type="checkbox" value="publi_para_alumnos" ng-model="new_publicacion.publi_para_alumnos")
+											span Para alumnos
+
+										label(for="publi_para_profes")
+											input#publi_para_profes(type="checkbox" value="publi_para_profes" ng-model="new_publicacion.publi_para_profes")
+											span Para profesores
+
+										label(for="publi_para_acudientes")
+											input#publi_para_acudientes(type="checkbox" value="publi_para_acudientes" ng-model="new_publicacion.publi_para_acudientes")
+											span Para acudientes
+
+									div(style="text-align: right;")
+										button.btn.btn-primary(type="submit" ng-disabled="!imagen_subida" style="display: block;")
+											i.fa.fa-rss
+											| Publicar
+
+
+							// Publicación actual
+							div.publicacion-actual.animated.fadeInUp(style="margin-right: 8px; margin-top: 10px;"
+								ng-show="publicacion_actual")
+
+								img(ng-if="publicacion_actual.foto_autor" ng-src="{{ perfilPath + publicacion_actual.foto_autor }}" style="width: 50px;")
+								span {{ publicacion_actual.nombre_autor }}
+
+								div(ng-click="verPublicacionDetalle(publicacion_actual)")
+									div(ng-bind-html="publicacion_actual.contenido" ng-if="publicacion_actual.imagen_nombre")
+
+									.texto-publicacion-solo(ng-if="!publicacion_actual.imagen_nombre")
+										div(ng-bind-html="publicacion_actual.contenido")
+
+									img(ng-if="publicacion_actual.imagen_nombre" ng-src="{{ perfilPath + publicacion_actual.imagen_nombre }}" style="width: 100%;")
+
+									hr
+
+									div(style="margin-top: 10px;")
+										div(ng-show="publicacion_actual.comentarios.length>0" style="white-space: nowrap; margin-bottom: 4px;")
+
+											img(ng-if="publicacion_actual.comentarios[0].foto_autor" ng-src="{{ perfilPath + publicacion_actual.comentarios[0].foto_autor }}" style="width: 40px; margin-top: -30px;")
+											img(ng-if="!publicacion_actual.comentarios[0].foto_autor" ng-src="{{ perfilPath + 'default_female.png' }}" style="width: 40px; margin-top: -30px;")
+											div(style="background-color: #eee; display: inline-block; padding: 4px; border-radius: 8px; width: 80%;")
+												div(style="color: #337ab7; white-space: normal;") {{ publicacion_actual.comentarios[0].nombre_autor }}:
+												div(style="white-space: normal;")  {{ publicacion_actual.comentarios[0].comentario }}
+
+
+
+
+
+
 .row.hidden-print(ng-if="hasRoleOrPerm(['alumno'])")
 	.col-xs-12.col-md-12
 		.widget
@@ -114,145 +331,6 @@
 									| {{definicion.frase}}
 
 
-// PUBLICACIONES ADMINISTRADOR
-.row(ng-if="hasRoleOrPerm(['admin'])" ngf-drop="uploadFiles($files)" class="drop-box"
-	ngf-drag-over-class="'dragover'" ngf-multiple="false"
-	ngf-pattern="'image/*'")
-
-	.col-lg-12.col-xs-12
-		.widget
-			.widget-body
-				.widget-main.no-padding
-					.row
-						.col-sm-5.col-xs-12(style="border-right: 1px solid #ccc;")
-							h4 Ver publicaciones
-
-							a(href="" style="margin-top: 0; display: block;" ng-click="toggle_mis_publicaciones()") Mis publicaciones
-								span(ng-show="mostrar_mis_publicaciones") :
-
-							div(ng-show="mostrar_mis_publicaciones")
-								div(ng-show="changes_asked.mis_publicaciones.length == 0") Aún no has publicado
-
-								.listado-mis-publicaciones(ng-show="changes_asked.mis_publicaciones.length > 0")
-
-									.una-publicacion-mia(ng-repeat="publi in changes_asked.mis_publicaciones" ng-class="{'publicacion-eliminada': publi.deleted_at}" uib-tooltip="Última modificación: {{publi.updated_at}}")
-										a.btn.btn-danger.btn-sm(href="" ng-click="eliminarPublicacion(publi)" style="margin-right: 4px;"
-											uib-tooltip="Eliminar publicación" ng-show="!publi.deleted_at")
-											i.fa.fa-trash
-										a.btn.btn-info.btn-sm(href="" ng-click="restaurarPublicacion(publi)" style="margin-right: 4px;"
-											uib-tooltip="Restaurar publicación. Eliminada: {{publi.deleted_at}}" ng-show="publi.deleted_at")
-											i.fa.fa-refresh
-
-										img(ng-if="publi.imagen_nombre" ng-src="{{ perfilPath + publi.imagen_nombre }}" style="height: 50px")
-										span(ng-show="!publi.contenido") {{ publi.imagen_nombre }}
-										span(ng-show="publi.contenido" style="max-height: 100px; overflow: hidden"
-											ng-bind-html="publi.contenido")
-
-
-							a(href="" style="margin-top: 10px; display: block;" ng-click="toggle_publicaciones()") Publicaciones
-								span(ng-show="mostrar_publicaciones") :
-
-							div(ng-show="mostrar_publicaciones")
-								div(ng-show="changes_asked.publicaciones.length == 0") No hay publicaciones
-
-								.listado-mis-publicaciones(ng-show="changes_asked.publicaciones.length > 0")
-
-									.una-publicacion-mia(ng-repeat="publi in changes_asked.publicaciones" ng-class="{'publicacion-eliminada': publi.deleted_at}"
-										uib-tooltip="Última modificación: {{publi.updated_at}}" ng-click="verPublicacion(publi)")
-
-										img(ng-if="publi.imagen_nombre" ng-src="{{ perfilPath + publi.imagen_nombre }}" style="height: 50px")
-										span(ng-show="!publi.contenido") {{ publi.imagen_nombre }}
-										span(ng-show="publi.contenido" style="max-height: 100px; overflow: hidden"
-											ng-bind-html="publi.contenido")
-
-
-						.col-sm-7.col-xs-12
-							.escribe-publicacion(ng-show="!creando_publicacion" ng-click="mostrar_crear_publicacion()")
-								| Escribe aquí una publicación...
-
-							div.new-publicacion.widget-body(ng-show="creando_publicacion" style="margin-right: 8px;")
-								div(ng-if="false" ckeditor="options" ng-model="$parent.new_publicacion.contenido"
-									ready="onReady()")
-
-
-								form(ng-submit="crearPublicacion(new_publicacion)")
-									span Puedes usar etiquetas html
-
-									textarea.form-control#textarea-new-publicacion(ng-model="new_publicacion.contenido"
-										placeholder="Escribe aquí una publicación..." style="font-size: 16pt;")
-
-									br
-									.btn.btn-success(ngf-select="uploadFiles($files)" ngf-multiple="false" ngf-pattern="'image/*'"
-										ngf-accept="'image/*'" ng-show="imgFiles.length==0")
-										i.fa.fa-image
-										| Agregar imagen
-
-									br
-									div
-										div(ng-show="errorMsg!=''") {{errorMsg}}
-										div(ng-repeat="file in imgFiles")
-											.row
-												.ticket-user.col-lg-5.col-sm-12
-													img.user-avatar(ng-src="{{file.dataUrl}}" style="width: 100%;")
-													span.user-name {{file.name}}
-													span.user-company - {{(file.size / 1000000) | number:2 }}MB
-												.ticket-time.col-lg-5.col-sm-12.col-xs-12
-													.divider.hidden-md.hidden-sm.hidden-xs
-													uib-progressbar.progress-xlg.progress-striped.active( value="file.porcentaje" style="margin-bottom: 10px;")
-														b(ng-show="file.porcentaje") {{file.porcentaje}}% Completado
-														span(ng-show="!file.porcentaje") Subiendo...
-
-													a.btn.btn-success(href="" ng-click="borrarImagen(new_publicacion.imagen)")
-														i.fa.fa-times
-														| Eliminar imagen
-
-
-									br
-									label(for="publi_para_todos")
-										input#publi_para_todos(type="radio" value="publi_para_todos" ng-model="new_publicacion.publi_para")
-										span Pública
-
-									label(for="publi_privada")
-										input#publi_privada(type="radio" value="publi_privada" ng-model="new_publicacion.publi_para")
-										span Privada
-
-									div(ng-show="new_publicacion.publi_para == 'publi_privada' ")
-										label(for="publi_para_alumnos")
-											input#publi_para_alumnos(type="checkbox" value="publi_para_alumnos" ng-model="new_publicacion.publi_para_alumnos")
-											span Para alumnos
-
-										label(for="publi_para_profes")
-											input#publi_para_profes(type="checkbox" value="publi_para_profes" ng-model="new_publicacion.publi_para_profes")
-											span Para profesores
-
-										label(for="publi_para_acudientes")
-											input#publi_para_acudientes(type="checkbox" value="publi_para_acudientes" ng-model="new_publicacion.publi_para_acudientes")
-											span Para acudientes
-
-									div(style="text-align: right;")
-										button.btn.btn-primary(type="submit" ng-disabled="!imagen_subida" style="display: block;")
-											i.fa.fa-rss
-											| Publicar
-
-
-							// Publicación actual
-							div.publicacion-actual(style="margin-right: 8px; margin-top: 10px;"
-								ng-show="publicacion_actual")
-
-								div(ng-click="verPublicacionDetalle(publicacion_actual)")
-									div(ng-bind-html="publicacion_actual.contenido" ng-if="publicacion_actual.imagen_nombre")
-
-									.texto-publicacion-solo(ng-if="!publicacion_actual.imagen_nombre")
-										div(ng-bind-html="publicacion_actual.contenido")
-
-									img(ng-if="publicacion_actual.imagen_nombre" ng-src="{{ perfilPath + publicacion_actual.imagen_nombre }}" style="width: 100%;")
-
-									hr
-
-									div
-										div(ng-repeat="comentario in publicacion_actual.comentarios")
-											div {{ comentario.autor_nombres }} {{ comentario.autor_apellidos }}
-											div() {{ comentario.comentario }}
 
 // Gráfico de docentes
 .row.comportamiento-boletin(style="padding-top: 5px; padding-bottom: 40px; height: 310px" ng-if="hasRoleOrPerm(['admin', 'profesor', 'alumno'])")
