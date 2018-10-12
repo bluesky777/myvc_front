@@ -9,10 +9,11 @@
 
 			img(ng-if="publicacion_actual.foto_autor" ng-src="{{ perfilPath + publicacion_actual.foto_autor }}" style="width: 50px;")
 			span {{ publicacion_actual.nombre_autor }}
+			span(style="font-style: italic; color: #999; float: right;")  {{ publicacion_actual.created_at }}
 
 			hr(style="margin-top: 11px;")
 
-			div(ng-bind-html="publicacion_actual.contenido" ng-if="publicacion_actual.imagen_nombre")
+			.texto-publicacion-acompa(ng-bind-html="publicacion_actual.contenido" ng-if="publicacion_actual.imagen_nombre && publicacion_actual.contenido.length>0")
 			.texto-publicacion-solo(ng-if="!publicacion_actual.imagen_nombre")
 				div(ng-bind-html="publicacion_actual.contenido")
 
@@ -41,7 +42,7 @@
 						input.form-control(type="text" ng-model="new_comentario"
 							placeholder="Escribe comentario..." style="border-radius: 0 !important; padding: 6px;")
 						span.input-group-btn
-							button.btn.btn-default.shiny(type="submit")
+							button.btn.btn-default.shiny(type="submit" ng-disabled="guardando_coment")
 								i.fa.fa-envelope-o
 
 

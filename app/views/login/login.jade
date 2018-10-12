@@ -28,3 +28,40 @@
 					form(ng-submit="enviarPass(correo_electronico)")
 						input.form-control(type='email' style="margin-bottom: 6px" placeholder='Correo electrónico' ng-model="correo_electronico")
 						button.btn.btn-primary(type="submit") Restaurar contraseña
+
+.row(ng-show="publicaciones.length > 0" style="display: flex; justify-content: center; align-items: center; ")
+	.col-sm-8.col-xs-12
+		.widget(ng-repeat="publicacion_actual in publicaciones")
+			.widget-body
+				.widget-main.no-padding
+
+					.row
+						.col-xs-12
+							// Publicaciones actuales
+							div.publicacion-actual(style="margin-right: 8px; margin-top: 10px;")
+
+								div.sin-focus(ng-click="verPublicacionDetalle(publicacion_actual)")
+									img(ng-if="publicacion_actual.foto_autor" ng-src="{{ perfilPath + publicacion_actual.foto_autor }}" style="width: 50px;")
+									span(style="font-weght: bold") {{ publicacion_actual.nombre_autor }}
+									span(style="font-style: italic; color: #999; float: right;")  {{ publicacion_actual.created_at }}
+
+									.texto-publicacion-acompa(ng-bind-html="publicacion_actual.contenido" ng-if="publicacion_actual.imagen_nombre && publicacion_actual.contenido.length>0")
+
+									.texto-publicacion-solo(ng-if="!publicacion_actual.imagen_nombre")
+										div(ng-bind-html="publicacion_actual.contenido")
+
+									img(ng-if="publicacion_actual.imagen_nombre" ng-src="{{ perfilPath + publicacion_actual.imagen_nombre }}" style="width: 100%;")
+
+
+									div(style="margin-top: 10px;")
+										div(ng-show="publicacion_actual.comentarios.length>0" style="white-space: nowrap; margin-bottom: 4px;")
+											img(ng-if="publicacion_actual.comentarios[0].foto_autor" ng-src="{{ perfilPath + publicacion_actual.comentarios[0].foto_autor }}" style="width: 40px; margin-top: -30px;")
+											img(ng-if="!publicacion_actual.comentarios[0].foto_autor" ng-src="{{ perfilPath + 'default_female.png' }}" style="width: 40px; margin-top: -30px;")
+											div(style="background-color: #eee; display: inline-block; padding: 4px; border-radius: 8px; width: 80%;")
+												div(style="color: #337ab7; white-space: normal;") {{ publicacion_actual.comentarios[0].nombre_autor }}:
+												div(style="white-space: normal;")  {{ publicacion_actual.comentarios[0].comentario }}
+
+										div
+											a(href="") {{ publicacion_actual.comentarios }} comentarios.
+
+

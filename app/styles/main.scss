@@ -1831,32 +1831,50 @@ tr { page-break-inside: avoid }
 }
 .una-publicacion-mia{
   padding: 8px;
-  border-bottom: 1px #d4c7ff solid;
+  border-bottom: 1px #e5e5e5 solid;
   overflow-y: hidden;
-  transition: background-color .3s;
+  position: relative;
 }
 .una-publicacion-mia:hover{
-  background-color: #def9ff;
+  background-color: #fbfbfb;
 }
 
 .listado-mis-publicaciones{
   background-color: #fff;
-  border-radius: 4px;
   border: 1px solid #ccc;
-  max-height: 260px;
+  max-height: 320px;
   overflow: auto;
 }
+.listado-mis-publicaciones .una-publicacion-mia:hover:before {
+  display: block;
+}
+.listado-mis-publicaciones .una-publicacion-mia:before {
+  display: none;
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0px;
+  width: 4px;
+  max-width: 4px;
+  overflow: hidden;
+  background-color: #2dc3e8;
+}
+
 .publicacion-eliminada{
   color: #aaa;
   background-color: #fff0fc;
 }
+.texto-publicacion-acompa{
+  padding: 10px;
+  font-size: 13pt;
+}
 .texto-publicacion-solo{
-
   text-align: center;
   padding: 30px 10px;
   margin: auto 0;
   background-color: #1fc8db;
-  background-image: linear-gradient(141deg, #9fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
+  background-image: linear-gradient(141deg, #a1dfff 0%, #1fc8db 51%, #2cb5e8 75%);
   color: white;
   opacity: 0.95;
 
@@ -1868,4 +1886,6 @@ tr { page-break-inside: avoid }
 .modal-publicacion .modal-dialog{
   width: 98%;
 }
-
+.sin-focus:focus{
+  outline: -webkit-focus-ring-color auto 0px;
+}

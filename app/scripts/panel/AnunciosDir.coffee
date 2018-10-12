@@ -1,6 +1,6 @@
 angular.module('myvcFrontApp')
 
-.directive('anunciosDir',['App', '$http', 'toastr', '$uibModal', '$state', 'AuthService', (App, $http, toastr, $modal, $state, AuthService)->
+.directive('anunciosDir',['App', '$http', 'toastr', '$uibModal', '$state', 'AuthService', '$sce', (App, $http, toastr, $modal, $state, AuthService, $sce)->
 
 	restrict: 'E'
 	templateUrl: "#{App.views}panel/anunciosDir.tpl.html"
@@ -16,6 +16,9 @@ angular.module('myvcFrontApp')
 		if $state.is 'panel'
 			$http.get('::ChangesAsked/to-me').then((r)->
 				scope.changes_asked = r.data
+
+				for publi in scope.changes_asked.publicaciones
+					publi.contenido = $sce.trustAsHtml(publi.contenido)
 
 				if AuthService.hasRoleOrPerm(['alumno', 'acudiente'])
 					scope.publicaciones_actuales   = [ scope.changes_asked.publicaciones[0] ]
@@ -94,6 +97,13 @@ angular.module('myvcFrontApp')
 ])
 
 
+.directive('publicacionesPanelDir',['App', '$http', 'toastr', '$uibModal', '$state', 'AuthService', (App, $http, toastr, $modal, $state, AuthService)->
+
+	restrict: 'E'
+	templateUrl: "#{App.views}panel/publicacionesPanelDir.tpl.html"
+
+])
+
 
 
 
@@ -170,11 +180,13 @@ angular.module('myvcFrontApp')
 
 	$scope.crearPublicacion = (new_publicacion)->
 		$http.put('::publicaciones/store', new_publicacion).then((r)->
-
+			console.log($scope.imagen_temporal)
 			new_publicacion.id          	= r.data.publicacion_id
-			new_publicacion.imagen_nombre = new_publicacion.imagen.nombre
+			new_publicacion.imagen_nombre = if $scope.imagen_temporal then $scope.imagen_temporal.nombre else null
 			new_publicacion.updated_at 		= $filter('date')(new Date(), 'short')
 			$scope.changes_asked.mis_publicaciones.unshift new_publicacion
+
+			$scope.imagen_temporal = undefined
 
 			toastr.success 'Publicado con éxito'
 
@@ -204,12 +216,12 @@ angular.module('myvcFrontApp')
 	$scope.uploadFiles =  (files)->
 
 		$scope.errorMsg       = ''
-		$scope.imagen_subida  = false
 
 		if files and files.length
 
 			for i in [0...files.length]
 				file = files[i]
+				$scope.imagen_temporal = file
 				generateThumbAndUpload file
 
 
@@ -232,6 +244,8 @@ angular.module('myvcFrontApp')
 						)
 
 	uploadUsing$upload = (file)->
+
+		$scope.imagen_subida  = false
 
 		if file.size > 5000000
 			$scope.errorMsg = 'Archivo excede los 5MB permitidos.'

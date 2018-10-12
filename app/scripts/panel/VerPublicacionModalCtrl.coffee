@@ -8,10 +8,11 @@ angular.module("myvcFrontApp")
 	$scope.perfilPath             = App.images+'perfil/'
 	$scope.USER                   = USER
 	$scope.new_comentario         = ''
+	$scope.guardando_coment       = false
 
 
 	$scope.agregarComentario = (comentario)->
-
+		$scope.guardando_coment = true
 		datos = { publi_id: $scope.publicacion_actual.id, comentario: comentario }
 
 		$http.put('::publicaciones/comentar', datos).then((r)->
@@ -22,16 +23,16 @@ angular.module("myvcFrontApp")
 				id: r.data.comentario_id
 				publicacion_id: $scope.publicacion_actual.id
 				comentario: comentario
-				nombre_autor: $scope.USER.nombres + ' ' + $scope.USER.apellidos
+				nombre_autor: if $scope.USER.nombres then ($scope.USER.nombres + ' ' + $scope.USER.apellidos) else $scope.USER.username
 				foto_autor: $scope.USER.foto_nombre
 			}
 
 			$scope.publicacion_actual.comentarios.push(new_coment)
-
+			$scope.guardando_coment       = false
 
 		, (r2)->
 			toastr.error 'Error al eliminar', 'Problema'
-			return {}
+			$scope.guardando_coment       = false
 		)
 
 

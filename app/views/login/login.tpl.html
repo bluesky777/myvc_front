@@ -34,3 +34,35 @@
     </div>
   </div>
 </div>
+<div ng-show="publicaciones.length &gt; 0" style="display: flex; justify-content: center; align-items: center; " class="row">
+  <div class="col-sm-8 col-xs-12">
+    <div ng-repeat="publicacion_actual in publicaciones" class="widget">
+      <div class="widget-body">
+        <div class="widget-main no-padding">
+          <div class="row">
+            <div class="col-xs-12">
+              <!-- Publicaciones actuales-->
+              <div style="margin-right: 8px; margin-top: 10px;" class="publicacion-actual">
+                <div ng-click="verPublicacionDetalle(publicacion_actual)" class="sin-focus"><img ng-if="publicacion_actual.foto_autor" ng-src="{{ perfilPath + publicacion_actual.foto_autor }}" style="width: 50px;"><span style="font-weght: bold">{{ publicacion_actual.nombre_autor }}</span><span style="font-style: italic; color: #999; float: right;"> {{ publicacion_actual.created_at }}</span>
+                  <div ng-bind-html="publicacion_actual.contenido" ng-if="publicacion_actual.imagen_nombre &amp;&amp; publicacion_actual.contenido.length&gt;0" class="texto-publicacion-acompa"></div>
+                  <div ng-if="!publicacion_actual.imagen_nombre" class="texto-publicacion-solo">
+                    <div ng-bind-html="publicacion_actual.contenido"></div>
+                  </div><img ng-if="publicacion_actual.imagen_nombre" ng-src="{{ perfilPath + publicacion_actual.imagen_nombre }}" style="width: 100%;">
+                  <div style="margin-top: 10px;">
+                    <div ng-show="publicacion_actual.comentarios.length&gt;0" style="white-space: nowrap; margin-bottom: 4px;"><img ng-if="publicacion_actual.comentarios[0].foto_autor" ng-src="{{ perfilPath + publicacion_actual.comentarios[0].foto_autor }}" style="width: 40px; margin-top: -30px;"><img ng-if="!publicacion_actual.comentarios[0].foto_autor" ng-src="{{ perfilPath + 'default_female.png' }}" style="width: 40px; margin-top: -30px;">
+                      <div style="background-color: #eee; display: inline-block; padding: 4px; border-radius: 8px; width: 80%;">
+                        <div style="color: #337ab7; white-space: normal;">{{ publicacion_actual.comentarios[0].nombre_autor }}:</div>
+                        <div style="white-space: normal;"> {{ publicacion_actual.comentarios[0].comentario }}</div>
+                      </div>
+                    </div>
+                    <div><a href="">{{ publicacion_actual.comentarios }} comentarios.</a></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

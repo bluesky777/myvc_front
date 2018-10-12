@@ -1,12 +1,13 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-.controller('LoginCtrl', ['$scope', '$rootScope', 'AUTH_EVENTS', 'AuthService', '$location', '$cookies', 'Perfil', 'App', '$http', ($scope, $rootScope, AUTH_EVENTS, AuthService, $location, $cookies, Perfil, App, $http)->
+.controller('LoginCtrl', ['$scope', '$rootScope', 'AUTH_EVENTS', 'AuthService', '$location', '$cookies', 'Perfil', 'App', '$http', 'toastr', '$sce', ($scope, $rootScope, AUTH_EVENTS, AuthService, $location, $cookies, Perfil, App, $http, toastr, $sce)->
 
-	animation_speed = 300
-	$scope.logueando = true
-	$scope.recuperando = false
-	$scope.registrando = false
+	animation_speed         = 300
+	$scope.logueando        = true
+	$scope.recuperando      = false
+	$scope.registrando      = false
+	$scope.perfilPath       = App.images+'perfil/'
 
 
 	# Si el colegio quiere que aparezca su imagen en el encabezado, puede hacerlo.
@@ -15,8 +16,22 @@ angular.module('myvcFrontApp')
 	#$scope.paramuser = {'username': Perfil.User().username }
 
 
+	$scope.verPublicacionDetalle = ()->
+		toastr.info 'Debes loguearte para ver más detalles.'
+
 	$http.get($scope.logoPath).then(()->
 		console.log('imagen existe')
+	, ()->
+		#alert('image not exist')
+		$scope.logoPath = $scope.logoPathDefault # set default image
+	)
+
+
+
+	$http.get('::publicaciones/ultimas').then((r)->
+		$scope.publicaciones = r.data
+		for publi in $scope.publicaciones
+			publi.contenido = $sce.trustAsHtml(publi.contenido)
 	, ()->
 		#alert('image not exist')
 		$scope.logoPath = $scope.logoPathDefault # set default image
