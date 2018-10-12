@@ -1307,7 +1307,7 @@ a:focus, a:active {
 }
 .navbar {
     padding: 0;
-    margin: 0; 
+    margin: 0;
     border: none;
     height: 45px;
     min-height: 45px;
@@ -12462,7 +12462,7 @@ div[data-role="editor-toolbar"] {
 }
 .login-container {
     position: relative;
-    margin: 10% auto;
+    margin: 5% auto;
     max-width: 300px;
 }
 .login-container .loginbox {

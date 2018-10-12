@@ -107,7 +107,7 @@ angular.module('myvcFrontApp')
 
 
 
-.controller('AnunciosDirCtrl', ['$scope', '$uibModal', 'AuthService', '$http', 'toastr', '$filter', 'App', '$timeout', 'Upload', ($scope, $modal, AuthService, $http, toastr, $filter, App, $timeout, $upload)->
+.controller('AnunciosDirCtrl', ['$scope', '$uibModal', 'AuthService', '$http', 'toastr', '$filter', 'App', '$timeout', 'Upload', '$sce', ($scope, $modal, AuthService, $http, toastr, $filter, App, $timeout, $upload, $sce)->
 
 	$scope.hasRoleOrPerm    = AuthService.hasRoleOrPerm
 	$scope.perfilPath       = App.images+'perfil/'
@@ -119,10 +119,24 @@ angular.module('myvcFrontApp')
 	$scope.mostrar_publicaciones = true
 	$scope.new_publicacion  = {
 		publi_para: 'publi_para_todos',
-		publi_para_alumnos: true
+		para_alumnos: 1
 	}
+	$scope.USER             = $scope.USER
 
 	$scope.profe_seleccionado = false
+
+
+	$scope.editarPublicacion = (publicacion)->
+		if publicacion.para_todos
+			publicacion.publi_para = 'publi_para_todos'
+		else
+			publicacion.publi_para = 'publi_privada'
+
+		publicacion.editar          = true
+		$scope.new_publicacion      = publicacion
+		$scope.creando_publicacion  = true
+
+
 
 
 	$scope.verPublicacion = (publi, $index)->
@@ -136,6 +150,7 @@ angular.module('myvcFrontApp')
 		else
 			$scope.publicacion_actual   = publi
 			$scope.creando_publicacion  = false
+
 
 	$scope.eliminarPublicacion = (publi)->
 		$http.put('::publicaciones/delete', { publi_id: publi.id }).then((r)->
@@ -179,27 +194,53 @@ angular.module('myvcFrontApp')
 
 
 	$scope.crearPublicacion = (new_publicacion)->
-		$http.put('::publicaciones/store', new_publicacion).then((r)->
-			console.log($scope.imagen_temporal)
-			new_publicacion.id          	= r.data.publicacion_id
-			new_publicacion.imagen_nombre = if $scope.imagen_temporal then $scope.imagen_temporal.nombre else null
-			new_publicacion.updated_at 		= $filter('date')(new Date(), 'short')
-			$scope.changes_asked.mis_publicaciones.unshift new_publicacion
+		if new_publicacion.editar
+			$http.put('::publicaciones/guardar-edicion', new_publicacion).then((r)->
 
-			$scope.imagen_temporal = undefined
+				new_publicacion.id          	= r.data.publicacion_id
+				new_publicacion.imagen_nombre = if $scope.imagen_temporal then $scope.imagen_temporal.name else null
+				new_publicacion.contenido     = $sce.trustAsHtml(new_publicacion.contenido)
+				new_publicacion.updated_at 		= $filter('date')(new Date(), 'short')
 
-			toastr.success 'Publicado con éxito'
+				$scope.imagen_temporal = undefined
 
-			$scope.new_publicacion  = {
-				publi_para: 'publi_para_todos',
-				publi_para_alumnos: true
-			}
-			$scope.creando_publicacion  = false
+				toastr.success 'Guardado. Recargue la página'
 
-		, (r2)->
-			toastr.error 'Error al publicar', 'Problema'
-			return {}
-		)
+				$scope.new_publicacion  = {
+					publi_para: 'publi_para_todos',
+					para_alumnos: 1
+				}
+				$scope.creando_publicacion  = false
+
+			, (r2)->
+				toastr.error 'Error al publicar', 'Problema'
+				return {}
+			)
+		else
+			$http.put('::publicaciones/store', new_publicacion).then((r)->
+
+				new_publicacion.id          	= r.data.publicacion_id
+				new_publicacion.imagen_nombre = if $scope.imagen_temporal then $scope.imagen_temporal.name else null
+				new_publicacion.contenido     = $sce.trustAsHtml(new_publicacion.contenido)
+				new_publicacion.updated_at 		= $filter('date')(new Date(), 'short')
+
+				$scope.changes_asked.mis_publicaciones.unshift new_publicacion
+				$scope.changes_asked.publicaciones.unshift new_publicacion
+
+				$scope.imagen_temporal = undefined
+
+				toastr.success 'Publicado con éxito'
+
+				$scope.new_publicacion  = {
+					publi_para: 'publi_para_todos',
+					publi_para_alumnos: 1
+				}
+				$scope.creando_publicacion  = false
+
+			, (r2)->
+				toastr.error 'Error al publicar', 'Problema'
+				return {}
+			)
 
 	$scope.toggle_mis_publicaciones = (publi)->
 		$scope.mostrar_publicaciones = false
@@ -268,7 +309,13 @@ angular.module('myvcFrontApp')
 
 
 
-	$scope.borrarImagen = (imagen)->
+	$scope.borrarImagen = (imagen_temp)->
+		imagen = {}
+		angular.copy(imagen_temp, imagen)
+
+		if imagen.imagen_id
+			imagen.id     = imagen.imagen_id
+			imagen.nombre = imagen.imagen_nombre
 
 		modalInstance = $modal.open({
 			templateUrl: '==fileManager/removeImage.tpl.html'
@@ -282,7 +329,7 @@ angular.module('myvcFrontApp')
 				datos_imagen: ()->
 
 					codigos =
-						imagen_id: imagen.id
+						imagen_id: if imagen.imagen_id then imagen.imagen_id else imagen.id
 						user_id: $scope.USER.user_id
 
 					$http.put('::myimages/datos-imagen', codigos).then((r)->
@@ -294,8 +341,10 @@ angular.module('myvcFrontApp')
 
 		})
 		modalInstance.result.then( (imag)->
-			$scope.new_publicacion.imagen = undefined
-			$scope.imgFiles               = []
+			$scope.new_publicacion.imagen 				= undefined
+			$scope.new_publicacion.imagen_nombre 	= undefined
+			$scope.new_publicacion.imagen_id 			= undefined
+			$scope.imgFiles               				= []
 		)
 
 

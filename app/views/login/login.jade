@@ -50,7 +50,8 @@
 									.texto-publicacion-solo(ng-if="!publicacion_actual.imagen_nombre")
 										div(ng-bind-html="publicacion_actual.contenido")
 
-									img(ng-if="publicacion_actual.imagen_nombre" ng-src="{{ perfilPath + publicacion_actual.imagen_nombre }}" style="width: 100%;")
+									div(ng-if="publicacion_actual.imagen_nombre" style="overflow: auto; max-height: 500px;")
+										img(ng-src="{{ perfilPath + publicacion_actual.imagen_nombre }}" style="width: 100%;")
 
 
 									div(style="margin-top: 10px;")

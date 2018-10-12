@@ -17,7 +17,7 @@
 								.listado-mis-publicaciones(ng-show="changes_asked.publicaciones.length > 0" style="max-height: 400px;")
 
 									.una-publicacion-mia.animated.fadeInUp(ng-repeat="publi in changes_asked.publicaciones"
-										ng-class="{'publicacion-eliminada': publi.deleted_at}" tooltip-popup-delay="400"
+										ng-class="{'publicacion-eliminada': publi.deleted_at}" tooltip-popup-delay="600"
 										uib-tooltip="Última modificación: {{publi.updated_at}}" ng-click="verPublicacion(publi, $index)")
 
 										img(ng-if="publi.imagen_nombre" ng-src="{{ perfilPath + publi.imagen_nombre }}" style="height: 50px")
@@ -42,7 +42,8 @@
 									.texto-publicacion-solo(ng-if="!publicacion_actual.imagen_nombre")
 										div(ng-bind-html="publicacion_actual.contenido")
 
-									img(ng-if="publicacion_actual.imagen_nombre" ng-src="{{ perfilPath + publicacion_actual.imagen_nombre }}" style="width: 100%;")
+									div(ng-if="publicacion_actual.imagen_nombre" style="overflow: auto; max-height: 500px;")
+										img(ng-src="{{ perfilPath + publicacion_actual.imagen_nombre }}" style="width: 100%;")
 
 
 									div(style="margin-top: 10px;")
@@ -86,8 +87,8 @@
 
 								.listado-mis-publicaciones(ng-show="changes_asked.mis_publicaciones.length > 0")
 
-									.una-publicacion-mia.animated.fadeInUp(ng-repeat="publi in changes_asked.mis_publicaciones" ng-class="{'publicacion-eliminada': publi.deleted_at}"
-										uib-tooltip="Última modificación: {{publi.updated_at}}" tooltip-popup-delay="400")
+									.una-publicacion-mia(ng-repeat="publi in changes_asked.mis_publicaciones" ng-class="{'publicacion-eliminada': publi.deleted_at}"
+										uib-tooltip="Última modificación: {{publi.updated_at}}" tooltip-popup-delay="600" ng-click="verPublicacion(publi)")
 
 										a.btn.btn-danger.btn-sm(href="" ng-click="eliminarPublicacion(publi)" style="margin-right: 4px;"
 											uib-tooltip="Eliminar publicación" ng-show="!publi.deleted_at")
@@ -111,9 +112,11 @@
 								.listado-mis-publicaciones(ng-show="changes_asked.publicaciones.length > 0")
 
 									.una-publicacion-mia(ng-repeat="publi in changes_asked.publicaciones" ng-class="{'publicacion-eliminada': publi.deleted_at}"
-										uib-tooltip="Última modificación: {{publi.updated_at}}" tooltip-popup-delay="400" ng-click="verPublicacion(publi)")
+										uib-tooltip="Última modificación: {{publi.updated_at}}" tooltip-popup-delay="600" ng-click="verPublicacion(publi)")
 
-										img(ng-if="publi.imagen_nombre" ng-src="{{ perfilPath + publi.imagen_nombre }}" style="height: 50px")
+										span(ng-if="publi.imagen_nombre")
+											img(ng-src="{{ perfilPath + publi.imagen_nombre }}" style="height: 50px")
+
 										span(ng-show="!publi.contenido") {{ publi.imagen_nombre }}
 										span(ng-show="publi.contenido" style="max-height: 100px; overflow: hidden"
 											ng-bind-html="publi.contenido")
@@ -136,10 +139,21 @@
 
 									br
 									.btn.btn-success(ngf-select="uploadFiles($files)" ngf-multiple="false" ngf-pattern="'image/*'"
-										ngf-accept="'image/*'" ng-show="imgFiles.length==0")
+										ngf-accept="'image/*'" ng-show="imgFiles.length==0 && !new_publicacion.imagen_nombre")
 										i.fa.fa-image
 										| Agregar imagen
 
+									div(ng-show="new_publicacion.imagen_nombre")
+										.row
+											.ticket-user.col-lg-4.col-xs-6
+												img.user-avatar(ng-src="{{ perfilPath + new_publicacion.imagen_nombre }}" style="width: 100%;")
+												span.user-name {{new_publicacion.imagen_nombre}}
+											.ticket-time.col-lg-5.col-sm-12.col-xs-12
+													.divider.hidden-md.hidden-sm.hidden-xs
+
+													a.btn.btn-success(href="" ng-click="borrarImagen(new_publicacion)")
+														i.fa.fa-times
+														| Eliminar imagen
 									br
 									div
 										div(ng-show="errorMsg!=''") {{errorMsg}}
@@ -171,21 +185,22 @@
 
 									div(ng-show="new_publicacion.publi_para == 'publi_privada' ")
 										label(for="publi_para_alumnos")
-											input#publi_para_alumnos(type="checkbox" value="publi_para_alumnos" ng-model="new_publicacion.publi_para_alumnos")
+											input#publi_para_alumnos(type="checkbox" ng-model="new_publicacion.para_alumnos" ng-true-value="1" ng-false-value="0")
 											span Para alumnos
 
 										label(for="publi_para_profes")
-											input#publi_para_profes(type="checkbox" value="publi_para_profes" ng-model="new_publicacion.publi_para_profes")
+											input#publi_para_profes(type="checkbox" ng-model="new_publicacion.para_profes" ng-true-value="1" ng-false-value="0")
 											span Para profesores
 
 										label(for="publi_para_acudientes")
-											input#publi_para_acudientes(type="checkbox" value="publi_para_acudientes" ng-model="new_publicacion.publi_para_acudientes")
+											input#publi_para_acudientes(type="checkbox" ng-model="new_publicacion.para_acudientes" ng-true-value="1" ng-false-value="0")
 											span Para acudientes
 
 									div(style="text-align: right;")
 										button.btn.btn-primary(type="submit" ng-disabled="!imagen_subida" style="display: block;")
 											i.fa.fa-rss
-											| Publicar
+											span(ng-show="!new_publicacion.editar") Publicar
+											span(ng-show="new_publicacion.editar") Guardar
 
 
 							// Publicación actual
@@ -193,7 +208,7 @@
 								ng-show="publicacion_actual")
 
 								img(ng-if="publicacion_actual.foto_autor" ng-src="{{ perfilPath + publicacion_actual.foto_autor }}" style="width: 50px;")
-								span {{ publicacion_actual.nombre_autor }}
+								span(style="display: inline-block;") {{ publicacion_actual.nombre_autor }}
 								span(style="font-style: italic; color: #999; float: right;")  {{ publicacion_actual.created_at }}
 
 								div(ng-click="verPublicacionDetalle(publicacion_actual)")
@@ -202,7 +217,8 @@
 									.texto-publicacion-solo(ng-if="!publicacion_actual.imagen_nombre")
 										div(ng-bind-html="publicacion_actual.contenido")
 
-									img(ng-if="publicacion_actual.imagen_nombre" ng-src="{{ perfilPath + publicacion_actual.imagen_nombre }}" style="width: 100%;")
+									div(ng-if="publicacion_actual.imagen_nombre" style="overflow: auto; max-height: 500px;")
+										img(ng-src="{{ perfilPath + publicacion_actual.imagen_nombre }}" style="width: 100%;")
 
 
 									div(style="margin-top: 10px;")
@@ -215,9 +231,13 @@
 												div(style="white-space: normal;")  {{ publicacion_actual.comentarios[0].comentario }}
 
 										div
-											a(href="") {{ publicacion_actual.comentarios.length }} comentarios.
+											a(href="" ng-show="publicacion_actual.comentarios.length") {{ publicacion_actual.comentarios.length }} comentarios.
 
-									hr
+								button(type="button" ng-click="editarPublicacion(publicacion_actual)" aria-label="Editar publicidad"
+									ng-if="USER.persona_id==publicacion_actual.persona_id" style="float: right; font-size: 16pt; margin-top: -5px;" uib-tooltip="Editar" tooltip-placement="bottom" tooltip-append-to-body="true")
+									i.fa.fa-pencil
+
+								hr
 
 
 

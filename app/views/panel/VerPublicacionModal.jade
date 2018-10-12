@@ -1,14 +1,14 @@
-.modal-header(style="background-color: #fff; border-bottom: 0px;")
-	button.close(type="button" ng-click="ok()" aria-label="Close")
-		span &times;
+.modal-header(style="background-color: #fff; border-bottom: 0px; padding-top: 0px;")
+	button.close(type="button" ng-click="ok()" aria-label="Close" style="padding: 8px;")
+		i.fa.fa-times
 
-.modal-body(style="padding-bottom: 30px;")
+.modal-body(style="padding-bottom: 30px; padding-top: 0px; margin-top: 15px;")
 
 	.row
 		.col-xs-12.col-sm-8(style="border-right: 1px solid #ccc;")
 
 			img(ng-if="publicacion_actual.foto_autor" ng-src="{{ perfilPath + publicacion_actual.foto_autor }}" style="width: 50px;")
-			span {{ publicacion_actual.nombre_autor }}
+			span(style="font-size: 16pt; font-weght: bold;") {{ publicacion_actual.nombre_autor }}
 			span(style="font-style: italic; color: #999; float: right;")  {{ publicacion_actual.created_at }}
 
 			hr(style="margin-top: 11px;")
@@ -18,7 +18,8 @@
 				div(ng-bind-html="publicacion_actual.contenido")
 
 
-			img(ng-if="publicacion_actual.imagen_nombre" ng-src="{{ perfilPath + publicacion_actual.imagen_nombre }}" style="width: 100%;")
+			div(ng-if="publicacion_actual.imagen_nombre" style="overflow: auto; max-height: 500px;")
+				img(ng-src="{{ perfilPath + publicacion_actual.imagen_nombre }}" style="width: 100%;")
 
 
 		.col-xs-12.col-sm-4
@@ -31,9 +32,16 @@
 
 					img(ng-if="comentario.foto_autor" ng-src="{{ perfilPath + comentario.foto_autor }}" style="width: 40px; margin-top: -30px;")
 					img(ng-if="!comentario.foto_autor" ng-src="{{ perfilPath + 'default_female.png' }}" style="width: 40px; margin-top: -30px;")
-					div(style="background-color: #eee; display: inline-block; padding: 4px; border-radius: 8px; width: 80%;")
+
+					.texto-comentario-publicacion(uib-tooltip="{{ comentario.created_at }}" tooltip-popup-delay="1000")
+
 						div(style="color: #337ab7; white-space: normal;") {{ comentario.nombre_autor }}:
-						div(style="white-space: normal;")  {{ comentario.comentario }}
+						div(style="white-space: normal;" ng-show="!comentario.eliminado")  {{ comentario.comentario }}
+
+						button.close(type="button" ng-show="!comentario.eliminado" ng-click="eliminarComentario(comentario)" aria-label="Close"
+							ng-if="USER.is_superuser || USER.persona_id==comentario.persona_id" style="float: right; font-size: 16pt; margin-top: -18px;")
+							i.fa.fa-times
+
 
 			div(style="margin-top: 15px")
 				form(ng-submit="agregarComentario(new_comentario)")

@@ -3,7 +3,7 @@
 angular.module("myvcFrontApp")
 
 
-.controller('VerPublicacionModalCtrl', ['$scope', 'App', '$uibModalInstance', 'publicacion_actual', 'USER', '$http', 'toastr', '$filter', ($scope, App, $modalInstance, publicacion_actual, USER, $http, toastr, $filter)->
+.controller('VerPublicacionModalCtrl', ['$scope', 'App', '$uibModalInstance', 'publicacion_actual', 'USER', '$http', 'toastr', '$filter', '$timeout', ($scope, App, $modalInstance, publicacion_actual, USER, $http, toastr, $filter, $timeout)->
 	$scope.publicacion_actual 		= publicacion_actual
 	$scope.perfilPath             = App.images+'perfil/'
 	$scope.USER                   = USER
@@ -11,7 +11,27 @@ angular.module("myvcFrontApp")
 	$scope.guardando_coment       = false
 
 
+	$scope.eliminarComentario = (comentario)->
+		respu = confirm('¿Seguro que desea eliminar comentario: '+comentario.comentario+'?')
+		if respu
+			comentario.eliminado = true
+			$http.put('::publicaciones/borrar-comentario', { comentario_id: comentario.id }).then((r)->
+
+				toastr.success 'Eliminado.'
+				$scope.publicacion_actual.comentarios = $filter('filter')($scope.publicacion_actual.comentarios, {id: '!'+comentario.id}, true)
+				$timeout(()->
+					$scope.$apply()
+				)
+			, (r2)->
+				toastr.error 'Error al eliminar', 'Problema'
+				return {}
+			)
+
+
 	$scope.agregarComentario = (comentario)->
+		if $scope.new_comentario.length == 0
+			return
+
 		$scope.guardando_coment = true
 		datos = { publi_id: $scope.publicacion_actual.id, comentario: comentario }
 
