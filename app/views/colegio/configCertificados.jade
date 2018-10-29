@@ -23,24 +23,24 @@ div(ng-show="creando_certificado")
 	.row
 		.col-sm-2
 			.form-group
-				span.input-icon.icon-right
+				span.input-icon.icon-right(uib-tooltip="Ancho encabezado")
 					input#encab-width-certif.form-control(ng-model="newcertif.encabezado_width" type='number')
 					i.fa.fa-arrows-h.blue
 
 		.col-sm-2
 			.form-group
-				span.input-icon.icon-right
+				span.input-icon.icon-right(uib-tooltip="Altura encabezado")
 					input#encab-height-certif.form-control(ng-model="newcertif.encabezado_height" type='number')
 					i.fa.fa-arrows-v.blue
 
 		.col-sm-2
 			.form-group
-				span.input-icon.icon-right(uib-tooltip="Margen superior")
+				span.input-icon.icon-right(uib-tooltip="Margen superior del contenido")
 					input#encab-margintop-certif.form-control(ng-model="newcertif.encabezado_margin_top" type='number')
 					i.fa.fa-arrow-up.blue
 		.col-sm-2
 			.form-group
-				span.input-icon.icon-right(uib-tooltip="Margen inferior")
+				span.input-icon.icon-right(uib-tooltip="Margen izquierdo del contenido")
 					input#encab-marginleft-certif.form-control(ng-model="newcertif.encabezado_margin_left" type='number')
 					i.fa.fa-arrow-down.blue
 
@@ -60,13 +60,13 @@ div(ng-show="creando_certificado")
 	.row
 		.col-sm-2
 			.form-group
-				span.input-icon.icon-right
+				span.input-icon.icon-right(uib-tooltip="Ancho pie de página")
 					input#pie-width-certif.form-control(ng-model="newcertif.piepagina_width" type='number')
 					i.fa.fa-arrows-h.blue
 
 		.col-sm-2
 			.form-group
-				span.input-icon.icon-right
+				span.input-icon.icon-right(uib-tooltip="Altura pie de página")
 					input#pie-height-certif.form-control(ng-model="newcertif.piepagina_height" type='number')
 					i.fa.fa-arrows-v.blue
 
@@ -75,7 +75,7 @@ div(ng-show="creando_certificado")
 				span.input-icon.icon-right(uib-tooltip="Margen inferior")
 					input#pie-marginbottom-certif.form-control(ng-model="newcertif.piepagina_margin_bottom" type='number')
 					i.fa.fa-arrow-down.blue
-		.col-sm-2
+		.col-sm-2(ng-show="false")
 			.form-group
 				span.input-icon.icon-right(uib-tooltip="Margen izquierdo")
 					input#pie-marginleft-certif.form-control(ng-model="newcertif.piepagina_margin_left" type='number')
@@ -112,7 +112,7 @@ div(ng-show="editando")
 						img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
 						small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
 	.row
-		.col-sm-2
+		.col-sm-2(uib-tooltip="Ancho encabezado")
 			.form-group
 				span.input-icon.icon-right
 					input#encab-width-certif.form-control(ng-model="currentCertif.encabezado_width" type='number')
@@ -120,18 +120,18 @@ div(ng-show="editando")
 
 		.col-sm-2
 			.form-group
-				span.input-icon.icon-right
+				span.input-icon.icon-right(uib-tooltip="Altura encabezado")
 					input#encab-height-certif.form-control(ng-model="currentCertif.encabezado_height" type='number')
 					i.fa.fa-arrows-v.blue
 
 		.col-sm-2
 			.form-group
-				span.input-icon.icon-right(uib-tooltip="Margen superior")
+				span.input-icon.icon-right(uib-tooltip="Margen superior del contenido")
 					input#encab-margintop-certif.form-control(ng-model="currentCertif.encabezado_margin_top" type='number')
 					i.fa.fa-arrow-up.blue
 		.col-sm-2
 			.form-group
-				span.input-icon.icon-right(uib-tooltip="Margen inferior")
+				span.input-icon.icon-right(uib-tooltip="Margen izquierdo del contenido")
 					input#encab-marginleft-certif.form-control(ng-model="currentCertif.encabezado_margin_left" type='number')
 					i.fa.fa-arrow-down.blue
 
@@ -149,24 +149,24 @@ div(ng-show="editando")
 						small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
 
 	.row
-		.col-sm-2
+		.col-sm-2(uib-tooltip="Ancho pie de página")
 			.form-group
 				span.input-icon.icon-right
 					input#pie-width-certif.form-control(ng-model="currentCertif.piepagina_width" type='number')
 					i.fa.fa-arrows-h.blue
 
-		.col-sm-2
+		.col-sm-2(uib-tooltip="Altura pie de página")
 			.form-group
 				span.input-icon.icon-right
 					input#pie-height-certif.form-control(ng-model="currentCertif.piepagina_height" type='number')
 					i.fa.fa-arrows-v.blue
 
-		.col-sm-2
+		.col-sm-2(uib-tooltip="Margen inferior pie de página")
 			.form-group
 				span.input-icon.icon-right(uib-tooltip="Margen inferior")
 					input#pie-marginbottom-certif.form-control(ng-model="currentCertif.piepagina_margin_bottom" type='number')
 					i.fa.fa-arrow-down.blue
-		.col-sm-2
+		.col-sm-2(ng-show="false")
 			.form-group
 				span.input-icon.icon-right(uib-tooltip="Margen izquierdo")
 					input#pie-marginleft-certif.form-control(ng-model="currentCertif.piepagina_margin_left" type='number')
@@ -174,7 +174,8 @@ div(ng-show="editando")
 
 	button.btn.btn-default(ng-click="cancelEdit()") Cancelar
 	button.btn.btn-primary(ng-click="actualizar()") Guardar
-
+	br
+	br
 
 div(ng-hide="creando_certificado")
 	div(ng-repeat="configcert in configcertificados")

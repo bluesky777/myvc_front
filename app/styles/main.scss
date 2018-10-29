@@ -291,7 +291,7 @@ body {
 				width: 22cm;
 				margin-bottom: 0px;
         border: 0px;
-        min-height: 27cm;
+        min-height: 26cm;
 				//counter-reset: numpagina;
 		}
 		.page-carta-horizontal{
@@ -299,14 +299,14 @@ body {
 				width: 31cm;
 				margin-bottom: 0px;
         border: 0px;
-        min-height: 18cm;
+        min-height: 17cm;
 		}
 		.page-oficio-horizontal{
 				//page: oficiohorizontal;
 				width: 36cm;
 				margin-bottom: 0px;
         border: 0px;
-        min-height: 18cm;
+        min-height: 17cm;
     }
 
     /*
@@ -1834,7 +1834,7 @@ tr { page-break-inside: avoid }
   border-bottom: 1px #e5e5e5 solid;
   overflow-y: hidden;
   position: relative;
-  max-height: 150px;
+  height: 90px;
 }
 .una-publicacion-mia:hover{
   background-color: #fbfbfb;
@@ -1878,7 +1878,8 @@ tr { page-break-inside: avoid }
   background-image: linear-gradient(141deg, #a1dfff 0%, #1fc8db 51%, #2cb5e8 75%);
   color: white;
   opacity: 0.95;
-  overflow: hidden;
+  overflow-y: auto;
+  max-height: 60vh;
 
   div{
     font-size: 16pt;
@@ -1905,4 +1906,55 @@ tr { page-break-inside: avoid }
 }
 .texto-comentario-publicacion:hover button{
   opacity: .5;
+}
+.comentarios-publi img{
+  border-radius: 50%;
+}
+.del-modal{
+  max-height: 82vh;
+}
+@media (max-width: 768px){
+  .del-modal{
+    max-height: 70vh;
+  }
+}
+.tab-encabezado-bigger a{
+  font-size: 13pt;
+  padding: 15px 20px !important;
+}
+.calendario-evento-panel{
+  color: #3a87ad;
+  background-color: #d9edf7;
+  padding: 8px 35px 8px 14px;
+  margin-bottom: 20px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  border: 1px solid #bce8f1;
+  border-radius: 4px;
+  width: 360px;
+  height: 370px;
+}
+.fc-content{
+  font-size: 8pt;
+}
+
+.evento-cumpleanios{
+  background-color: #2a529c;
+}
+.evento-solo-profes{
+  background-color: #9d9568;
+}
+.table>tbody>tr.success>td, .table>thead>tr.success>td{
+  background-color: #dff0d8!important;
+}
+.table>tbody>tr.info>td, .table>thead>tr.info>td{
+  background-color: #d9edf7!important;
+}
+.mg-top-120{
+  margin-top: 120px;
+}
+.bold{
+  font-weight: bold;
+}
+.btn-prematriculas{
+  padding: 20px 12px; font-size: 16px;
 }

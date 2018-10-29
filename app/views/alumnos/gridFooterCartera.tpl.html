@@ -1,0 +1,13 @@
+
+<div ng-show="false" class="ui-grid-footer-panel ui-grid-footer-aggregates-row">
+  <div ui-grid-footer-viewport class="ui-grid-footer">
+    <div class="ui-grid-footer-canvas">
+      <div ng-style="colContainer.headerCellWrapperStyle()" class="ui-grid-footer-cell-wrapper">
+        <div role="row" class="ui-grid-footer-cell-row">
+          <div ui-grid-footer-cell role="gridcell" ng-repeat="col in colContainer.renderedColumns track by col.uid" col="col" render-index="$index" class="ui-grid-footer-cell ui-grid-clearfix"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div style="height: 60px;" class="ui-grid-footer-info ui-grid-grid-footer"><span class="bold">{{'search.totalItems' | t}} {{grid.rows.length}}</span><span ng-if="grid.renderContainers.body.visibleRowCache.length !== grid.rows.length" class="ngLabel"> (Mostrando {{grid.renderContainers.body.visibleRowCache.length}})</span><span> - Deudores: {{ grid.appScope.cantidadDeudores() }}</span><span> - Hombres: {{grid.appScope.hombresGrupo}} - Mujeres: {{ grid.appScope.mujeresGrupo }}</span></div>

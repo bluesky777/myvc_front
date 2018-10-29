@@ -2,14 +2,15 @@
 
 angular.module('myvcFrontApp')
 
-.controller('PanelCtrl', ['$scope', '$http', '$state', '$cookies', '$rootScope', 'AuthService', 'Perfil', 'App', 'resolved_user', 'toastr', 'cfpLoadingBar', '$window',
-	($scope, $http, $state, $cookies, $rootScope, AuthService, Perfil, App, resolved_user, toastr, cfpLoadingBar, $window) ->
+.controller('PanelCtrl', ['$scope', '$http', '$state', '$cookies', '$rootScope', 'AuthService', 'Perfil', 'App', 'resolved_user', 'toastr', 'cfpLoadingBar', '$window', '$uibModal',
+	($scope, $http, $state, $cookies, $rootScope, AuthService, Perfil, App, resolved_user, toastr, cfpLoadingBar, $window, $modal) ->
 
 		$scope.USER = resolved_user
 		$scope.pageTitle = $rootScope.pageTitle
 		#$scope.bigLoader = true
 		$scope.perfilPath = App.images+'perfil/'
 		$scope.views 			= App.views
+
 
 
 
@@ -137,6 +138,14 @@ angular.module('myvcFrontApp')
 		$scope.indexChar = (index)->
 			return String.fromCharCode(65 + index)
 
+
+		$scope.verPoliticasPrivacidad = ()->
+			modalInstance = $modal.open({
+				templateUrl: '==panel/politicasPrivacidadModal.tpl.html'
+				controller: 'PoliticasPrivacidadCtrl'
+				size: 'lg'
+			})
+
 		$scope.$on 'cambianImgs', (event, data)->
 			$scope.USER = Perfil.User()
 			$scope.setImagenPrincipal()
@@ -145,3 +154,15 @@ angular.module('myvcFrontApp')
 		return
 	]
 )
+
+.controller('PoliticasPrivacidadCtrl', ['$scope', '$uibModalInstance', '$http', 'toastr', 'App', ($scope, $modalInstance, $http, toastr, App)->
+
+	$scope.perfilPath 	= App.images+'perfil/'
+
+	$scope.ok = ()->
+		$modalInstance.close(alumno)
+
+	$scope.cancel = ()->
+		$modalInstance.dismiss('cancel')
+
+])

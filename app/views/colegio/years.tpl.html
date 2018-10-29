@@ -12,6 +12,16 @@
               <uib-accordion-heading>Básico<i ng-class="{'fa-chevron-down': status.open_year, 'fa-chevron-right': !status.open_year}" class="pull-right fa"></i></uib-accordion-heading>
               <form role="form" ng-submit="guardar_cambios(year)">
                 <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label uib-tooltip="¿Este es el año actual?">¿Año actual?</label>
+                      <label>
+                        <input type="checkbox" ng-change="toggleAnioActual(year.id, year.actual)" ng-true-value="1" ng-false-value="0" ng-model="year.actual" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
                   <div class="col-sm-6">
                     <div class="form-group">
                       <label for="year{{year.id}}-nombre">Nombre del colegio</label><span class="input-icon icon-right">

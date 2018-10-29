@@ -103,6 +103,15 @@ angular.module('myvcFrontApp')
 			)
 
 
+		$scope.toggleAnioActual = (year_id, can)->
+			$http.put('::years/set-actual', { can: can, year_id: year_id }).then((r)->
+				toastr.success r.data
+			, (r2)->
+				toastr.warning 'No se establecer como actual.', 'Problema'
+			)
+
+
+
 		$scope.toggleBloquearNotas = (year_id, can)->
 			$http.put('::years/alumnos-can-see-notas', { can: can, year_id: year_id }).then((r)->
 				toastr.success r.data

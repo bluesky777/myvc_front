@@ -3,28 +3,32 @@
 angular.module("myvcFrontApp")
 
 .controller('AlumnosNewCtrl', ['$scope', '$rootScope', 'toastr', '$http', '$filter', '$state', ($scope, $rootScope, toastr, $http, $filter, $state)->
-	$scope.data = {} # Para el popup del Datapicker
-	$scope.$state = $state;
+	$scope.data       			= {} # Para el popup del Datapicker
+	$scope.$state     			= $state;
+	$scope.data.proceso    	= 'matriculando'
 
-	$scope.alumno =
-		'no_matricula'	: ''
-		'nombres'		: ''
-		'apellidos'		: ''
-		'sexo'			: 'M'
-		'documento'		: ''
-		'fecha_nac'		: new Date('2000-06-26')
-		'tipo_sangre'	: {}
-		'eps'			: ''
-		'telefono'		: ''
-		'celular'		: ''
-		'direccion'		: ''
-		'barrio'		: ''
-		'estrato'		: 1
-		'email'			: '@gmail.com'
-		'foto'			: 'perfil/default_male.jpg'
-		'pazysalvo'		: true
-		'deuda'			: 0
-		'pais_nac'		: {id: 1, pais: 'COLOMBIA', abrev: 'CO' }
+	$scope.formatear_nuevo = ()->
+		$scope.alumno =
+			'no_matricula'	: ''
+			'nombres'		: ''
+			'apellidos'		: ''
+			'sexo'			: 'M'
+			'documento'		: ''
+			'fecha_nac'		: new Date('2000-06-26')
+			'tipo_sangre'	: {}
+			'eps'			: ''
+			'telefono'		: ''
+			'celular'		: ''
+			'direccion'		: ''
+			'barrio'		: ''
+			'estrato'		: 1
+			'email'			: '@gmail.com'
+			'foto'			: 'perfil/default_male.jpg'
+			'pazysalvo'		: true
+			'deuda'			: 0
+			'pais_nac'		: {id: 1, pais: 'COLOMBIA', abrev: 'CO' }
+
+	$scope.formatear_nuevo()
 
 	$scope.sangres = [{sangre: 'O+'},{sangre: 'O-'}, {sangre: 'A+'}, {sangre: 'A-'}, {sangre: 'B+'}, {sangre: 'B-'}, {sangre: 'AB+'}, {sangre: 'AB-'}]
 
@@ -36,30 +40,71 @@ angular.module("myvcFrontApp")
 	, ()->
 		console.log 'No se pudo traer los paises'
 	)
+
+	$http.get('::tiposdocumento').then (r)->
+		$scope.tipos_doc = r.data
+
+
+	if $rootScope.grupos_siguientes
+		$scope.grupos_siguientes    = $rootScope.grupos_siguientes
+		$scope.data.proceso         = 'prematriculando'
+	else
+		$http.get('::grupos/next-year').then (r)->
+			$scope.grupos_siguientes = r.data
+		, ()->
+			console.log 'No se pudo traer los grupos del siguiente año'
+
+
+
 	$http.get('::grupos').then((r)->
 		$scope.grupos = r.data
 	, ()->
 		console.log 'No se pudo traer los grupos'
 	)
 
-	$http.get('::tiposdocumento').then (r)->
-		$scope.tipos_doc = r.data
 
+	$scope.crear = (proceso)->
 
-	$scope.crear = ()->
+		$scope.guardando = true
 
-		if !$scope.alumno.grupo
+		if !$scope.alumno.grupo and proceso=='matriculando'
 			toastr.warning 'Debe seleccionar el grupo.'
+			return
+
+		if !$scope.alumno.grupo_sig and proceso=='prematriculando'
+			toastr.warning 'Debe seleccionar el grupo.'
+			return
+
+		if $scope.alumno.nombres.length == 0
+			toastr.warning 'Debe copiar el nombre.'
 			return
 
 		$scope.alumno.fecha_nac = $filter('date')($scope.alumno.fecha_nac, 'yyyy-MM-dd')
 
+		if proceso == 'prematriculando'
+			$scope.alumno.prematricula = true
+			$scope.alumno.grupo = $scope.alumno.grupo_sig
+
+		if proceso == 'formulario'
+			$scope.alumno.llevo_formulario = true
+			$scope.alumno.grupo = $scope.alumno.grupo_sig
+
 		$http.post('::alumnos/store', $scope.alumno).then((r)->
 			toastr.success 'Alumno '+r.data.nombres+' creado'
+			if proceso == 'prematriculando'
+				$state.go('panel.persona', {persona_id: r.data.id, tipo: 'alumno' })
+
+			$scope.guardando = false
+			$rootScope.grupos_siguientes = null
+
+			$scope.formatear_nuevo()
+
 			$scope.$emit 'alumnoguardado', r.data
 		, (r2)->
+			$scope.guardando = false
 			toastr.warning 'No se pudo guardar alumno', 'Problema'
 		)
+
 
 
 	$scope.paisNacSelect = ($item, $model)->

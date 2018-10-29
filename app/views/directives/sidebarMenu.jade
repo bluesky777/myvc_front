@@ -32,7 +32,7 @@
 
 
 		<!--Alumnos-->
-		li(sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm('admin')" ng-class="{open:$state.includes('panel.alumnos')||$state.includes('panel.promocionar_notas')||$state.includes('panel.cartera') || $state.includes('panel.acudientes') || $state.includes('panel.asistencias')}")
+		li(sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm('admin')" ng-class="{open:$state.includes('panel.alumnos')||$state.includes('panel.promocionar_notas')||$state.includes('panel.cartera') || $state.includes('panel.acudientes') || $state.includes('panel.asistencias') || $state.includes('panel.prematriculas') || $state.includes('panel.requisitos')}")
 			a.menu-dropdown(href="")
 				i.menu-icon.fa.fa-child
 				span.menu-text Alumnos
@@ -42,6 +42,10 @@
 				li( ui-sref-active="active")
 					a(ui-sref="panel.alumnos" stop-event="click")
 						span.menu-text Todos
+
+				li( ui-sref-active="active")
+					a(ui-sref="panel.prematriculas" stop-event="click")
+						span.menu-text Prematriculas
 
 				//li( ui-sref-active="active")
 					a(ui-sref="panel.matriculas" stop-event="click")
@@ -163,7 +167,7 @@
 						span.menu-text Perdidas
 				//li(ui-sref-active="active")
 					a(ui-sref="panel.actividades" stop-event="click")
-						span.menu-text Acti-tareas
+						span.menu-text Actividades
 						i.menu-icon.fa.fa-soccer-ball-o
 				li(ui-sref-active="active")
 					a(ui-sref="panel.copiar" stop-event="click")

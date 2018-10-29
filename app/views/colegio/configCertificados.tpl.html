@@ -22,19 +22,19 @@
   </div>
   <div class="row">
     <div class="col-sm-2">
-      <div class="form-group"><span class="input-icon icon-right">
+      <div class="form-group"><span uib-tooltip="Ancho encabezado" class="input-icon icon-right">
           <input id="encab-width-certif" ng-model="newcertif.encabezado_width" type="number" class="form-control"><i class="fa fa-arrows-h blue"></i></span></div>
     </div>
     <div class="col-sm-2">
-      <div class="form-group"><span class="input-icon icon-right">
+      <div class="form-group"><span uib-tooltip="Altura encabezado" class="input-icon icon-right">
           <input id="encab-height-certif" ng-model="newcertif.encabezado_height" type="number" class="form-control"><i class="fa fa-arrows-v blue"></i></span></div>
     </div>
     <div class="col-sm-2">
-      <div class="form-group"><span uib-tooltip="Margen superior" class="input-icon icon-right">
+      <div class="form-group"><span uib-tooltip="Margen superior del contenido" class="input-icon icon-right">
           <input id="encab-margintop-certif" ng-model="newcertif.encabezado_margin_top" type="number" class="form-control"><i class="fa fa-arrow-up blue"></i></span></div>
     </div>
     <div class="col-sm-2">
-      <div class="form-group"><span uib-tooltip="Margen inferior" class="input-icon icon-right">
+      <div class="form-group"><span uib-tooltip="Margen izquierdo del contenido" class="input-icon icon-right">
           <input id="encab-marginleft-certif" ng-model="newcertif.encabezado_margin_left" type="number" class="form-control"><i class="fa fa-arrow-down blue"></i></span></div>
     </div>
   </div>
@@ -52,18 +52,18 @@
   </div>
   <div class="row">
     <div class="col-sm-2">
-      <div class="form-group"><span class="input-icon icon-right">
+      <div class="form-group"><span uib-tooltip="Ancho pie de página" class="input-icon icon-right">
           <input id="pie-width-certif" ng-model="newcertif.piepagina_width" type="number" class="form-control"><i class="fa fa-arrows-h blue"></i></span></div>
     </div>
     <div class="col-sm-2">
-      <div class="form-group"><span class="input-icon icon-right">
+      <div class="form-group"><span uib-tooltip="Altura pie de página" class="input-icon icon-right">
           <input id="pie-height-certif" ng-model="newcertif.piepagina_height" type="number" class="form-control"><i class="fa fa-arrows-v blue"></i></span></div>
     </div>
     <div class="col-sm-2">
       <div class="form-group"><span uib-tooltip="Margen inferior" class="input-icon icon-right">
           <input id="pie-marginbottom-certif" ng-model="newcertif.piepagina_margin_bottom" type="number" class="form-control"><i class="fa fa-arrow-down blue"></i></span></div>
     </div>
-    <div class="col-sm-2">
+    <div ng-show="false" class="col-sm-2">
       <div class="form-group"><span uib-tooltip="Margen izquierdo" class="input-icon icon-right">
           <input id="pie-marginleft-certif" ng-model="newcertif.piepagina_margin_left" type="number" class="form-control"><i class="fa fa-arrow-left blue"></i></span></div>
     </div>
@@ -93,20 +93,20 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-2">
+    <div uib-tooltip="Ancho encabezado" class="col-sm-2">
       <div class="form-group"><span class="input-icon icon-right">
           <input id="encab-width-certif" ng-model="currentCertif.encabezado_width" type="number" class="form-control"><i class="fa fa-arrows-h blue"></i></span></div>
     </div>
     <div class="col-sm-2">
-      <div class="form-group"><span class="input-icon icon-right">
+      <div class="form-group"><span uib-tooltip="Altura encabezado" class="input-icon icon-right">
           <input id="encab-height-certif" ng-model="currentCertif.encabezado_height" type="number" class="form-control"><i class="fa fa-arrows-v blue"></i></span></div>
     </div>
     <div class="col-sm-2">
-      <div class="form-group"><span uib-tooltip="Margen superior" class="input-icon icon-right">
+      <div class="form-group"><span uib-tooltip="Margen superior del contenido" class="input-icon icon-right">
           <input id="encab-margintop-certif" ng-model="currentCertif.encabezado_margin_top" type="number" class="form-control"><i class="fa fa-arrow-up blue"></i></span></div>
     </div>
     <div class="col-sm-2">
-      <div class="form-group"><span uib-tooltip="Margen inferior" class="input-icon icon-right">
+      <div class="form-group"><span uib-tooltip="Margen izquierdo del contenido" class="input-icon icon-right">
           <input id="encab-marginleft-certif" ng-model="currentCertif.encabezado_margin_left" type="number" class="form-control"><i class="fa fa-arrow-down blue"></i></span></div>
     </div>
   </div>
@@ -123,25 +123,25 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-2">
+    <div uib-tooltip="Ancho pie de página" class="col-sm-2">
       <div class="form-group"><span class="input-icon icon-right">
           <input id="pie-width-certif" ng-model="currentCertif.piepagina_width" type="number" class="form-control"><i class="fa fa-arrows-h blue"></i></span></div>
     </div>
-    <div class="col-sm-2">
+    <div uib-tooltip="Altura pie de página" class="col-sm-2">
       <div class="form-group"><span class="input-icon icon-right">
           <input id="pie-height-certif" ng-model="currentCertif.piepagina_height" type="number" class="form-control"><i class="fa fa-arrows-v blue"></i></span></div>
     </div>
-    <div class="col-sm-2">
+    <div uib-tooltip="Margen inferior pie de página" class="col-sm-2">
       <div class="form-group"><span uib-tooltip="Margen inferior" class="input-icon icon-right">
           <input id="pie-marginbottom-certif" ng-model="currentCertif.piepagina_margin_bottom" type="number" class="form-control"><i class="fa fa-arrow-down blue"></i></span></div>
     </div>
-    <div class="col-sm-2">
+    <div ng-show="false" class="col-sm-2">
       <div class="form-group"><span uib-tooltip="Margen izquierdo" class="input-icon icon-right">
           <input id="pie-marginleft-certif" ng-model="currentCertif.piepagina_margin_left" type="number" class="form-control"><i class="fa fa-arrow-left blue"></i></span></div>
     </div>
   </div>
   <button ng-click="cancelEdit()" class="btn btn-default">Cancelar</button>
-  <button ng-click="actualizar()" class="btn btn-primary">Guardar</button>
+  <button ng-click="actualizar()" class="btn btn-primary">Guardar</button><br><br>
 </div>
 <div ng-hide="creando_certificado">
   <div ng-repeat="configcert in configcertificados"><span>{{configcert}}</span></div>

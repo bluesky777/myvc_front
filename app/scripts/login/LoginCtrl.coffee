@@ -27,6 +27,9 @@ angular.module('myvcFrontApp')
 	)
 
 
+	$scope.abrirImagenBlank = (ruta)->
+		window.open(ruta, '_blank');
+
 
 	$http.get('::publicaciones/ultimas').then((r)->
 		$scope.publicaciones = r.data

@@ -134,7 +134,11 @@
     <div class="page-content"><!-- Page Breadcrumb -->
       <ui-breadcrumbs displayname-property="data.displayName" class="hidden-print"></ui-breadcrumbs><!-- /Page Breadcrumb -->
       <!-- Page Header  ************************************* -->
-      <div ui-view="headerContent" class="page-header position-relative hidden-print"></div><!-- /Page Header ************************************* -->
+      <div ui-view="headerContent" class="page-header position-relative hidden-print">
+        <div class="header-title">
+          <h6><a href="" ng-click="verPoliticasPrivacidad()">Ver políticas de privacidad</a></h6>
+        </div>
+      </div><!-- /Page Header ************************************* -->
       <!-- Page Body -->
       <!-- Con esto quito espacios para el contenedor cuando sea el estado actividades-->
       <div withpadding-dir class="page-body margin-padding-lados-xs"><!-- Main Content ************************************* -->

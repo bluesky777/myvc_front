@@ -29,7 +29,7 @@
 						input.form-control(type='email' style="margin-bottom: 6px" placeholder='Correo electrónico' ng-model="correo_electronico")
 						button.btn.btn-primary(type="submit") Restaurar contraseña
 
-.row(ng-show="publicaciones.length > 0" style="display: flex; justify-content: center; align-items: center; ")
+.row(ng-show="publicaciones.length > 0" style="display: flex; justify-content: center; align-items: center; " ng-class="{'mg-top-120': olvida_pass}")
 	.col-sm-8.col-xs-12
 		.widget(ng-repeat="publicacion_actual in publicaciones")
 			.widget-body
@@ -40,29 +40,23 @@
 							// Publicaciones actuales
 							div.publicacion-actual(style="margin-right: 8px; margin-top: 10px;")
 
-								div.sin-focus(ng-click="verPublicacionDetalle(publicacion_actual)")
-									img(ng-if="publicacion_actual.foto_autor" ng-src="{{ perfilPath + publicacion_actual.foto_autor }}" style="width: 50px;")
-									span(style="font-weght: bold") {{ publicacion_actual.nombre_autor }}
-									span(style="font-style: italic; color: #999; float: right;")  {{ publicacion_actual.created_at }}
+								div
+									.sin-focus(ng-click="verPublicacionDetalle(publicacion_actual)")
+										img(ng-if="publicacion_actual.foto_autor" ng-src="{{ perfilPath + publicacion_actual.foto_autor }}" style="width: 50px;")
+										span(style="font-weght: bold") {{ publicacion_actual.nombre_autor }}
+										span(style="font-style: italic; color: #999; float: right;")  {{ publicacion_actual.created_at }}
 
-									.texto-publicacion-acompa(ng-bind-html="publicacion_actual.contenido" ng-if="publicacion_actual.imagen_nombre && publicacion_actual.contenido.length>0")
+										.texto-publicacion-acompa(ng-bind-html="publicacion_actual.contenido" ng-if="publicacion_actual.imagen_nombre && publicacion_actual.contenido.length>0")
 
-									.texto-publicacion-solo(ng-if="!publicacion_actual.imagen_nombre")
-										div(ng-bind-html="publicacion_actual.contenido")
+										.texto-publicacion-solo(ng-if="!publicacion_actual.imagen_nombre")
+											div(ng-bind-html="publicacion_actual.contenido")
 
 									div(ng-if="publicacion_actual.imagen_nombre" style="overflow: auto; max-height: 500px;")
-										img(ng-src="{{ perfilPath + publicacion_actual.imagen_nombre }}" style="width: 100%;")
+										img(ng-src="{{ perfilPath + publicacion_actual.imagen_nombre }}" style="width: 100%;"
+											ng-click="abrirImagenBlank(perfilPath + publicacion_actual.imagen_nombre);")
 
 
-									div(style="margin-top: 10px;")
-										div(ng-show="publicacion_actual.comentarios.length>0" style="white-space: nowrap; margin-bottom: 4px;")
-											img(ng-if="publicacion_actual.comentarios[0].foto_autor" ng-src="{{ perfilPath + publicacion_actual.comentarios[0].foto_autor }}" style="width: 40px; margin-top: -30px;")
-											img(ng-if="!publicacion_actual.comentarios[0].foto_autor" ng-src="{{ perfilPath + 'default_female.png' }}" style="width: 40px; margin-top: -30px;")
-											div(style="background-color: #eee; display: inline-block; padding: 4px; border-radius: 8px; width: 80%;")
-												div(style="color: #337ab7; white-space: normal;") {{ publicacion_actual.comentarios[0].nombre_autor }}:
-												div(style="white-space: normal;")  {{ publicacion_actual.comentarios[0].comentario }}
-
-										div
-											a(href="") {{ publicacion_actual.comentarios }} comentarios.
+									div(style="margin-top: 10px;" ng-click="verPublicacionDetalle(publicacion_actual)")
+										a(href="") {{ publicacion_actual.comentarios }} comentarios.
 
 

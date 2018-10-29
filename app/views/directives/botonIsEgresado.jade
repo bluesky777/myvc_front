@@ -1,0 +1,10 @@
+div(style="text-align:center; padding-top: 4px")
+
+	a.btn.btn-xs(ng-class="{'btn-primary':row.entity.egresado, 'btn-info':!row.entity.egresado }"
+		ng-click="grid.appScope.toggleEgresado(row.entity);"
+		uib-tooltip="Es egresado de la institución" tooltip-placement="left" href=""
+		tooltip-enable="row.entity.egresado")
+
+		span(ng-hide="row.entity.egresado") No
+		span(ng-show="row.entity.egresado") Si
+

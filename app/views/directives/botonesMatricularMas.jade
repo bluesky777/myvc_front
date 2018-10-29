@@ -1,6 +1,7 @@
 span.btn-group(style="padding-left: 2px; padding-top: 4px;")
-    label.btn.btn-info.btn-xs(ng-model="row.entity.estado" uib-btn-radio="'MATR'" ng-click="grid.appScope.reMatricularUno(row.entity)") Matr
-    label.btn.btn-info.btn-xs(ng-model="row.entity.estado" uib-btn-radio="'ASIS'" ng-click="grid.appScope.setAsistente(row.entity)") Asis
-    label.btn.btn-info.btn-xs(ng-model="row.entity.estado" uib-btn-radio="'RETI'" ng-click="grid.appScope.retirar(row.entity)" uib-tooltip="Retirar" tooltip-placement="right" tooltip-popup-delay="800") Reti
-    label.btn.btn-info.btn-xs(ng-model="row.entity.estado" uib-btn-radio="'DESE'" ng-click="grid.appScope.desertar(row.entity)" uib-tooltip="Desertor" tooltip-placement="right" tooltip-popup-delay="800") Dese
-    label.btn.btn-info.btn-xs(ng-model="row.entity.estado" ng-click="grid.appScope.matricularEn(row.entity)" uib-tooltip="Matricular en..." tooltip-placement="right" tooltip-popup-delay="800") ...
+		label.btn.btn-default.btn-xs(ng-model="row.entity.estado" uib-btn-radio="'PREM'" ng-click="grid.appScope.setPrematriculado(row.entity)") Prem
+		label.btn.btn-info.btn-xs(ng-model="row.entity.estado" uib-btn-radio="'MATR'" ng-click="grid.appScope.reMatricularUno(row.entity)") Matr
+		label.btn.btn-info.btn-xs(ng-model="row.entity.estado" uib-btn-radio="'ASIS'" ng-click="grid.appScope.setAsistente(row.entity)") Asis
+		label.btn.btn-info.btn-xs(ng-model="row.entity.estado" uib-btn-radio="'RETI'" ng-click="grid.appScope.retirar(row.entity)" uib-tooltip="Retirar" tooltip-placement="right" tooltip-popup-delay="500") Reti
+		label.btn.btn-info.btn-xs(ng-model="row.entity.estado" uib-btn-radio="'DESE'" ng-click="grid.appScope.desertar(row.entity)" uib-tooltip="Desertor" tooltip-placement="right" tooltip-popup-delay="500") Dese
+		label.btn.btn-info.btn-xs(ng-model="row.entity.estado" ng-click="grid.appScope.matricularEn(row.entity)" uib-tooltip="Matricular en..." tooltip-placement="right" tooltip-popup-delay="400") ...

@@ -18,6 +18,62 @@ angular.module('myvcFrontApp')
 
 ])
 
+
+
+.factory('AlumnosSinMatriculaServ', ['$http', '$q', '$filter', ($http, $q, $filter) ->
+	alumnos = []
+
+	alumnosResp = {}
+
+	alumnosResp.alumnos = ()->
+		d = $q.defer();
+
+		if alumnos.length > 0
+			d.resolve alumnos
+		else
+			$http.get('::alumnos/sin-matriculas').then((r)->
+				alumnos = r.data
+				d.resolve alumnos
+			, (r2)->
+				d.reject r2
+			)
+
+		return d.promise
+
+
+	return alumnosResp
+
+])
+
+
+
+.factory('InformesServ', ['$http', '$q', '$filter', ($http, $q, $filter) ->
+	datos = {}
+
+	datosResp = {}
+
+	datosResp.datos = ()->
+		d = $q.defer();
+
+		if datos.year
+			d.resolve datos
+		else
+			$http.put('::informes/datos').then((r)->
+				datos = r.data
+				d.resolve datos
+			, (r2)->
+				d.reject r2
+			)
+
+		return d.promise
+
+
+	return datosResp
+
+])
+
+
+
 .factory('EscalasValorativasServ', ['$http', '$q', '$filter', ($http, $q, $filter) ->
 	escalas = []
 

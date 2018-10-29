@@ -1,0 +1,118 @@
+.row
+	// Crear nuevo
+	.col-lg-12.col-xs-12(ng-show="mostrar_crear")
+		.widget
+			.widget-header.bordered-bottom.bordered-blue
+				span.widget-caption Nuevo requisito para {{ req_nuevo.year }}
+			.widget-body(style="padding-bottom: 50px;")
+					form(ng-submit="guardar_nuevo(req_nuevo)")
+						.row
+							.form-group.col-lg-3.col-sm-5
+								label(for="req_nuevo-Nombre") Nombre *
+								input.form-control#req_nuevo-nombres(type="text" ng-model="req_nuevo.requisito" placeholder="Nombre")
+							.form-group.col-lg-9.col-sm-7
+								label(for="req_nuevo-Descripcion") Descripción
+								input#req_nuevo-Descripcion.form-control(type="text" ng-model="req_nuevo.descripcion" placeholder="Describa este requisito")
+
+
+						br
+						span(style="float: right;")
+							button.btn.btn-primary.btn-lg.shiny(type="submit" ng-disabled="guardando")
+								i.fa.fa-save
+								| Crear
+
+							a.btn.btn-default.btn-lg.shiny(type="button" href="" ng-click) Cerrar
+
+	// Editar
+	.col-lg-12.col-xs-12(ng-show="mostrar_editar")
+		.widget
+			.widget-header.bordered-bottom.bordered-blue
+				span.widget-caption Editar requisito para {{ req_edit.year }}
+			.widget-body(style="padding-bottom: 50px;")
+					form(ng-submit="guardar_cambios(req_edit)")
+						.row
+							.form-group.col-lg-3.col-sm-5
+								label(for="req_edit-Nombre") Nombre *
+								input.form-control#req_edit-nombres(type="text" ng-model="req_edit.requisito" placeholder="Nombre")
+							.form-group.col-lg-9.col-sm-7
+								label(for="req_edit-Descripcion") Descripción
+								input#req_edit-Descripcion.form-control(type="text" ng-model="req_edit.descripcion" placeholder="Describa este requisito")
+
+
+						br
+						span(style="float: right;")
+							button.btn.btn-primary.btn-lg.shiny(type="submit" ng-disabled="guardando")
+								i.fa.fa-save
+								| Guardar
+
+							a.btn.btn-default.btn-lg.shiny(type="button" href="" ng-click) Cerrar
+
+
+	.col-xs-12.col-md-12
+		.well.with-header.with-footer.animated.bounceIn
+			.header.bordered-yellow
+				span(style="font-size: 12pt") Requistos para llevar control durante la matrícula
+
+			button.btn.btn-primary.btn-lg(ui-sref="panel.prematriculas")
+				i.fa.fa-arrow-left
+				| Ir a prematrículas
+			br
+			br
+
+			uib-accordion
+
+				.panel-default.margin-padding-lados-xs.panel-acordeon(uib-accordion-group is-open="$first"
+					heading="Año {{year.year}}"
+					ng-repeat="year in years_requisitos")
+
+					a.btn.btn-primary(href="" ng-click="crear_requisito(year)" style="float: right;")
+						i.fa.fa-plus
+						|   Crear requisito
+					br
+					br
+
+					table.table.table-condensed.table-striped.table-hover.table-responsive(style="")
+						thead
+							tr
+								th.txtcentro No
+								th.txtcentro(style="min-width: 150px;") Requisito
+								th(style="min-width: 20%") Descripción
+								th.txtcentro Modificado por
+								th.txtcentro Fecha modifi
+								th.txtcentro(style="width: 60px;") Edit
+
+						tbody
+							tr(ng-repeat="requisito in year.requisitos" ng-class="{ active: requisito.active, info: requisito.active }")
+								td(ng-class="{info: requisito.active}") {{ $index+1 }}
+								td(ng-class="{info: requisito.active}" ng-click="selectRequisito(requisito)") {{ requisito.requisito }}
+								td(ng-class="{info: requisito.active}" ng-click="selectRequisito(requisito)") {{ requisito.descripcion }}
+								td.txtcentro(ng-class="{info: requisito.active}") {{ requisito.updated_by }}
+								td.txtcentro(ng-class="{info: requisito.active}") {{ requisito.created_at }}
+								td
+									a.btn.btn-default.btn-xs.icon-only.info(uib-tooltip="Editar" ng-click="editar(requisito, year)")
+										i.fa.fa-edit
+									a.btn.btn-danger.btn-xs.icon-only(uib-tooltip="Eliminar" ng-click="eliminar(requisito)")
+										i.fa.fa-times
+
+						//tfoot
+							tr
+								td
+								td
+									.bold Total
+								td.txtcentro
+									.bold {{ total_prematriculados }}
+								td.txtcentro
+									.bold {{ total_sin_prematric }}
+
+					br
+					br
+
+					hr.wide
+
+					h4(style="margin-top: 15px") Alumnos que faltan por cumplir este requisito:
+
+
+
+
+					.footer
+						| Requisitos para matricularse.

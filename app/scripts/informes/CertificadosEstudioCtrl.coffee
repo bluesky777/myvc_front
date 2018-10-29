@@ -1,16 +1,18 @@
 angular.module("myvcFrontApp")
 
-.controller('CertificadosEstudioCtrl', ['$scope', '$state', 'alumnosDat', 'escalas', '$cookies', ($scope, $state, alumnos, escalas, $cookies)->
+.controller('CertificadosEstudioCtrl', ['$scope', '$state', 'alumnosDat', 'escalas', '$cookies', '$stateParams', ($scope, $state, alumnos, escalas, $cookies, $stateParams)->
 
-	$scope.grupo = alumnos[0]
-	$scope.year = alumnos[1]
-	$scope.alumnos = alumnos[2]
+	$scope.grupo          = alumnos[0]
+	$scope.year           = alumnos[1]
+	$scope.alumnos        = alumnos[2]
 
-	$scope.escalas = escalas
+	$scope.$stateParams 	= $stateParams
 
-	$scope.config = $cookies.getObject 'config'
-	$scope.requested_alumnos = $cookies.getObject 'requested_alumnos'
-	$scope.requested_alumno = $cookies.getObject 'requested_alumno'
+	$scope.escalas        = escalas
+
+	$scope.config             = $cookies.getObject 'config'
+	$scope.requested_alumnos  = $cookies.getObject 'requested_alumnos'
+	$scope.requested_alumno   = $cookies.getObject 'requested_alumno'
 
 
 	$scope.$on 'change_config', ()->

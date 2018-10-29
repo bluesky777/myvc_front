@@ -1537,7 +1537,7 @@ a:focus, a:active {
 }
 .navbar .navbar-inner .navbar-header .navbar-account .account-area>li .dropdown-menu {
 		padding: 0;
-		min-width: 240px;
+		min-width: 180px;
 		-webkit-animation-name: dropdownSlideInDown;
 		-moz-animation-name: dropdownSlideInDown;
 		-o-animation-name: dropdownSlideInDown;
@@ -1614,7 +1614,7 @@ a:focus, a:active {
 		margin-top: -3px;
 }
 .navbar .navbar-inner .navbar-header .navbar-account .account-area>li .dropdown-menu.dropdown-notifications {
-		min-width: 300px;
+		min-width: 200px;
 		padding-top: 10px;
 }
 .navbar .navbar-inner .navbar-header .navbar-account .account-area>li .dropdown-menu.dropdown-notifications li {
@@ -13544,7 +13544,7 @@ div[data-role="editor-toolbar"] {
 .mail-container .mail-sidebar .mail-menu>li a {
 		color: #777;
 		display: block;
-		padding: 10px 10px 10px 25px;
+		padding: 5px 5px 5px 25px;
 		-webkit-transition: all 200ms ease-in-out;
 		-moz-transition: all 200ms ease-in-out;
 		-o-transition: all 200ms ease-in-out;
@@ -14026,29 +14026,33 @@ div[data-role="editor-toolbar"] {
 }
 @media(max-width:999px) {
 		.mail-container .mail-body .mail-list .list-item {
-		height: 70px;
-		padding: 5px;
+      height: 70px;
+      padding: 5px;
+  }
+  .mail-container .mail-body .mail-list .list-item>div.item-subject {
+      top: 25px;
+      left: 0;
+      padding: 0 5px 0 15px;
+      min-width: 100px;
+  }
+  .mail-container .mail-body .mail-list .list-item>div.item-options {
+      right: 5px;
+  }
+  .mail-container .mail-body .mail-list .list-item>div.item-time {
+      right: 30px;
+  }
 }
-.mail-container .mail-body .mail-list .list-item>div.item-subject {
-		top: 25px;
-		left: 0;
-		padding: 0 5px 0 15px;
-		min-width: 100px;
-}
-.mail-container .mail-body .mail-list .list-item>div.item-options {
-		right: 5px;
-}
-.mail-container .mail-body .mail-list .list-item>div.item-time {
-		right: 30px;
-}
-}@media(max-width:760px) {
+/*
+@media(max-width:760px) {
 		.mail-container .mail-sidebar {
 		display: none;
-}
-.mail-container .mail-body, .mail-container .mail-header {
-		margin-left: 0;
-}
-}@media(max-width:570px) {
+  }
+
+  .mail-container .mail-body, .mail-container .mail-header {
+      margin-left: 0;
+  }
+}*/
+@media(max-width:570px) {
 		.mail-container .mail-header {
 		height: 76px;
 }

@@ -6,14 +6,16 @@
 	.col-xs-12.col-md-12
 		.well.with-header.with-footer
 			.header.bordered-blue Crear usuario
-				//a.btn.btn-info.shiny(ui-sref="panel.usuario.nuevo" uib-tooltip="Ingresa datos de un nuevo usuario") Crear usuario
+				form(ng-submit="crearUsuarioAdmin()" style="display: inline-block;")
+					button.btn.btn-info.shiny(type="submit" uib-tooltip="Crea un usuario administrador, que edite notas, colegio, etc."
+						ng-disabled="creando") Nuevo administrador
 
 
 			#grid1.grid(ui-grid="gridOptions" ui-grid-auto-resize ui-grid-edit ui-grid-resize-columns style="height: 600px" ui-grid-cellnav)
 
 
 
-.row
+//.row
 	.col-xs-12.col-md-12
 		.well.with-header.with-footer
 			.header.bordered-yellow Opciones

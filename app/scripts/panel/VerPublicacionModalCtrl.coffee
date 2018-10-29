@@ -11,6 +11,9 @@ angular.module("myvcFrontApp")
 	$scope.guardando_coment       = false
 
 
+	$scope.abrirImagenBlank = (ruta)->
+		window.open(ruta, '_blank');
+
 	$scope.eliminarComentario = (comentario)->
 		respu = confirm('¿Seguro que desea eliminar comentario: '+comentario.comentario+'?')
 		if respu

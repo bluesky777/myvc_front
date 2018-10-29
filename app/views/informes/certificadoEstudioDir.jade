@@ -1,7 +1,7 @@
-div(style="display: table; height: 30cm ; position: relative; " ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $parent.$last==false }")
+div(style="display: table; min-height: 28cm ; position: relative; " ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $parent.$last==false }")
 	span(ng-if="year.config_certificado_estudio_id")
 		img.encabezado-membrete(ng-src="{{perfilPath + year.config_certificado.encabezado_nombre}}"
-			style="width: 22cm; position: absolute; margin-left: -10px;")
+			style="width: 22cm; position: absolute; margin-left: -10px;" ng-if="year.config_certificado.encabezado_nombre")
 	.row
 		div(ng-style="{ 'margin-top' : year.config_certificado.encabezado_margin_top+'px', 'margin-left' : year.config_certificado.encabezado_margin_left+'px' }")
 			.col-lg-12.col-xs-12
@@ -11,7 +11,7 @@ div(style="display: table; height: 30cm ; position: relative; " ng-class="{'page
 							.col-lg-2.col-xs-2
 								img.img-responsive.logo-colegio(ng-if="!year.config_certificado_estudio_id" ng-src="{{perfilPath + year.logo}}")
 							.col-lg-8.col-xs-8.title-encabezado-boletin
-								.dane-certificado
+								.dane-certificado(ng-hide="year.config_certificado.encabezado_nombre")
 									| {{ year.codigo_dane }}
 								.nombre-colegio
 									span(ng-show="year.sexo_rector=='M'") EL RECTOR DEL
@@ -26,7 +26,21 @@ div(style="display: table; height: 30cm ; position: relative; " ng-class="{'page
 
 						.row.descripcion-encabezado(style="margin-top: 20px; ")
 							.col-lg-12.col-xs-12
-								.grupo-alumno
+
+								.grupo-alumno(ng-if="$parent.$state.is('panel.informes.certificados_estudio_periodo')")
+									|   Que,
+									b   {{ alumno.nombres + ' ' + alumno.apellidos }},
+									span
+										|    ha cursado en éste plantel educativo las áreas correspondientes al grado
+									b.camel   {{ grupo.nombre_grupo.toLowerCase() }}
+									|   de la {{ grupo.nivel_educativo}}
+									|   académica
+									i  hasta el periodo
+									b  {{ config.periodo_a_calcular }} de {{ USER.year }}
+									|  obteniendo los siguientes resultados:
+
+
+								.grupo-alumno(ng-if=" !$parent.$state.is('panel.informes.certificados_estudio_periodo')")
 									|   Que,
 									b   {{alumno.nombres + ' ' + alumno.apellidos}},
 									span(ng-show="alumno.cant_lost_asig > 1" style="font-weight:bold")
@@ -43,7 +57,7 @@ div(style="display: table; height: 30cm ; position: relative; " ng-class="{'page
 								// Esto no se verá en la impresión
 								.titular-grupo.hidden-print(uib-popover-template="views+'informes/infoTitularPop.tpl.html'"
 										popover-popup-delay="500" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true"
-										popover-trigger="mouseenter" style="float: right" popover-append-to-body="true")
+										popover-trigger="'mouseenter'" style="float: right" popover-append-to-body="true")
 									| Titular:
 									span.camel   {{grupo.nombres_profesor.toLowerCase() + ' ' + grupo.apellidos_profesor.toLowerCase()}}
 
@@ -67,7 +81,7 @@ div(style="display: table; height: 30cm ; position: relative; " ng-class="{'page
 									td(style="text-align: justify;")
 										div(uib-popover-template="views+'informes/infoDocentePop.tpl.html'"
 											popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true"
-											popover-trigger="mouseenter" popover-append-to-body="true") {{asignatura.materia}}
+											popover-trigger="'mouseenter'" popover-append-to-body="true") {{asignatura.materia}}
 									td.txtcentro
 										| {{ asignatura.creditos }}
 									td.txtcentro
@@ -130,7 +144,7 @@ div(style="display: table; height: 30cm ; position: relative; " ng-class="{'page
 
 
 	span(ng-if="year.config_certificado_estudio_id" style="display: table-row; vertical-align: bottom; height: {{year.config_certificado.piepagina_height}}px;")
-		img.footer-membrete(ng-src="{{perfilPath + year.config_certificado.piepagina_nombre}}"
+		img.footer-membrete(ng-if="year.config_certificado.piepagina_nombre" ng-src="{{perfilPath + year.config_certificado.piepagina_nombre}}"
 			style="width: 22cm; position: absolute; margin-left: -10px;")
 
 

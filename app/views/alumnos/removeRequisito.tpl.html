@@ -1,0 +1,16 @@
+
+<div class="modal-header">
+  <h3 class="modal-title">¿Seguro que deseas eliminar?</h3>
+</div>
+<div class="modal-body">
+  <div style="padding-bottom: 10px;">
+    <h3 style="display: inline;">{{ elemento.requisito }}</h3>
+    <h5>Id: {{elemento.id}}</h5>
+    <h5>Descripción</h5>
+    <p>{{ elemento.descripcion }}</p>
+  </div>
+</div>
+<div class="modal-footer">
+  <button ng-click="ok()" class="btn btn-labeled btn-danger">Eliminar<i class="btn-label fa fa-times"></i></button>
+  <button ng-click="cancel()" class="btn btn-yellow">Cancelar</button>
+</div>

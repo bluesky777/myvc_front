@@ -1,0 +1,91 @@
+
+<div class="row">
+  <!-- Crear nuevo-->
+  <div ng-show="mostrar_crear" class="col-lg-12 col-xs-12">
+    <div class="widget">
+      <div class="widget-header bordered-bottom bordered-blue"><span class="widget-caption">Nuevo requisito para {{ req_nuevo.year }}</span></div>
+      <div style="padding-bottom: 50px;" class="widget-body">
+        <form ng-submit="guardar_nuevo(req_nuevo)">
+          <div class="row">
+            <div class="form-group col-lg-3 col-sm-5">
+              <label for="req_nuevo-Nombre">Nombre *</label>
+              <input id="req_nuevo-nombres" type="text" ng-model="req_nuevo.requisito" placeholder="Nombre" class="form-control">
+            </div>
+            <div class="form-group col-lg-9 col-sm-7">
+              <label for="req_nuevo-Descripcion">Descripción</label>
+              <input id="req_nuevo-Descripcion" type="text" ng-model="req_nuevo.descripcion" placeholder="Describa este requisito" class="form-control">
+            </div>
+          </div><br><span style="float: right;">
+            <button type="submit" ng-disabled="guardando" class="btn btn-primary btn-lg shiny"><i class="fa fa-save"></i>Crear</button><a type="button" href="" ng-click class="btn btn-default btn-lg shiny">Cerrar</a></span>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- Editar-->
+  <div ng-show="mostrar_editar" class="col-lg-12 col-xs-12">
+    <div class="widget">
+      <div class="widget-header bordered-bottom bordered-blue"><span class="widget-caption">Editar requisito para {{ req_edit.year }}</span></div>
+      <div style="padding-bottom: 50px;" class="widget-body">
+        <form ng-submit="guardar_cambios(req_edit)">
+          <div class="row">
+            <div class="form-group col-lg-3 col-sm-5">
+              <label for="req_edit-Nombre">Nombre *</label>
+              <input id="req_edit-nombres" type="text" ng-model="req_edit.requisito" placeholder="Nombre" class="form-control">
+            </div>
+            <div class="form-group col-lg-9 col-sm-7">
+              <label for="req_edit-Descripcion">Descripción</label>
+              <input id="req_edit-Descripcion" type="text" ng-model="req_edit.descripcion" placeholder="Describa este requisito" class="form-control">
+            </div>
+          </div><br><span style="float: right;">
+            <button type="submit" ng-disabled="guardando" class="btn btn-primary btn-lg shiny"><i class="fa fa-save"></i>Guardar</button><a type="button" href="" ng-click class="btn btn-default btn-lg shiny">Cerrar</a></span>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-md-12">
+    <div class="well with-header with-footer animated bounceIn">
+      <div class="header bordered-yellow"><span style="font-size: 12pt">Requistos para llevar control durante la matrícula</span></div>
+      <button ui-sref="panel.prematriculas" class="btn btn-primary btn-lg"><i class="fa fa-arrow-left"></i>Ir a prematrículas</button><br><br>
+      <uib-accordion>
+        <div uib-accordion-group is-open="$first" heading="Año {{year.year}}" ng-repeat="year in years_requisitos" class="panel-default margin-padding-lados-xs panel-acordeon"><a href="" ng-click="crear_requisito(year)" style="float: right;" class="btn btn-primary"><i class="fa fa-plus"></i>  Crear requisito</a><br><br>
+          <table style="" class="table table-condensed table-striped table-hover table-responsive">
+            <thead>
+              <tr>
+                <th class="txtcentro">No</th>
+                <th style="min-width: 150px;" class="txtcentro">Requisito</th>
+                <th style="min-width: 20%">Descripción</th>
+                <th class="txtcentro">Modificado por</th>
+                <th class="txtcentro">Fecha modifi</th>
+                <th style="width: 60px;" class="txtcentro">Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="requisito in year.requisitos" ng-class="{ active: requisito.active, info: requisito.active }">
+                <td ng-class="{info: requisito.active}">{{ $index+1 }}</td>
+                <td ng-class="{info: requisito.active}" ng-click="selectRequisito(requisito)">{{ requisito.requisito }}</td>
+                <td ng-class="{info: requisito.active}" ng-click="selectRequisito(requisito)">{{ requisito.descripcion }}</td>
+                <td ng-class="{info: requisito.active}" class="txtcentro">{{ requisito.updated_by }}</td>
+                <td ng-class="{info: requisito.active}" class="txtcentro">{{ requisito.created_at }}</td>
+                <td><a uib-tooltip="Editar" ng-click="editar(requisito, year)" class="btn btn-default btn-xs icon-only info"><i class="fa fa-edit"></i></a><a uib-tooltip="Eliminar" ng-click="eliminar(requisito)" class="btn btn-danger btn-xs icon-only"><i class="fa fa-times"></i></a></td>
+              </tr>
+            </tbody>
+            <!--tfoot
+            tr
+            	td
+            	td
+            		.bold Total
+            	td.txtcentro
+            		.bold {{ total_prematriculados }}
+            	td.txtcentro
+            		.bold {{ total_sin_prematric }}
+            
+            -->
+          </table><br><br>
+          <hr class="wide">
+          <h4 style="margin-top: 15px">Alumnos que faltan por cumplir este requisito:</h4>
+          <div class="footer">Requisitos para matricularse.</div>
+        </div>
+      </uib-accordion>
+    </div>
+  </div>
+</div>

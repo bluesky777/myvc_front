@@ -2,7 +2,7 @@
 	button.close(type="button" ng-click="ok()" aria-label="Close" style="padding: 8px;")
 		i.fa.fa-times
 
-.modal-body(style="padding-bottom: 30px; padding-top: 0px; margin-top: 15px;")
+.modal-body(style="padding-top: 0px; margin-top: 15px;")
 
 	.row
 		.col-xs-12.col-sm-8(style="border-right: 1px solid #ccc;")
@@ -11,23 +11,24 @@
 			span(style="font-size: 16pt; font-weght: bold;") {{ publicacion_actual.nombre_autor }}
 			span(style="font-style: italic; color: #999; float: right;")  {{ publicacion_actual.created_at }}
 
-			hr(style="margin-top: 11px;")
+			hr(style="margin: 10px;")
 
 			.texto-publicacion-acompa(ng-bind-html="publicacion_actual.contenido" ng-if="publicacion_actual.imagen_nombre && publicacion_actual.contenido.length>0")
-			.texto-publicacion-solo(ng-if="!publicacion_actual.imagen_nombre")
+			.texto-publicacion-solo.del-modal(ng-if="!publicacion_actual.imagen_nombre")
 				div(ng-bind-html="publicacion_actual.contenido")
 
 
-			div(ng-if="publicacion_actual.imagen_nombre" style="overflow: auto; max-height: 500px;")
-				img(ng-src="{{ perfilPath + publicacion_actual.imagen_nombre }}" style="width: 100%;")
+			.del-modal(ng-if="publicacion_actual.imagen_nombre" style="overflow: auto;")
+				img(ng-src="{{ perfilPath + publicacion_actual.imagen_nombre }}" style="width: 100%;"
+					ng-click="abrirImagenBlank(perfilPath + publicacion_actual.imagen_nombre);")
 
 
 		.col-xs-12.col-sm-4
 
 			h4(style="font-weight: 500 !important;") Comentarios ({{ publicacion_actual.comentarios.length }} comentarios).
 
-			div
-				div(ng-repeat="comentario in publicacion_actual.comentarios"
+			div(style="height: 75vh; overflow: auto;")
+				.comentarios-publi(ng-repeat="comentario in publicacion_actual.comentarios"
 					style="white-space: nowrap; margin-bottom: 4px;")
 
 					img(ng-if="comentario.foto_autor" ng-src="{{ perfilPath + comentario.foto_autor }}" style="width: 40px; margin-top: -30px;")

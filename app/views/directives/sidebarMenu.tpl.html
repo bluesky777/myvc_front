@@ -9,9 +9,10 @@
   </div><!-- /Page Sidebar Header -->
   <ul class="nav sidebar-menu hidden-print"><!--Dashboard-->
     <li ui-sref-active-eq="active"><a ui-sref="panel"><i class="menu-icon fa fa-home"></i><span class="menu-text">Inicio</span></a></li><!--Alumnos-->
-    <li sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm('admin')" ng-class="{open:$state.includes('panel.alumnos')||$state.includes('panel.promocionar_notas')||$state.includes('panel.cartera') || $state.includes('panel.acudientes') || $state.includes('panel.asistencias')}"><a href="" class="menu-dropdown"><i class="menu-icon fa fa-child"></i><span class="menu-text">Alumnos</span><i class="menu-expand"></i></a>
+    <li sub-menu ng-click="toggleOpen()" ng-if="hasRoleOrPerm('admin')" ng-class="{open:$state.includes('panel.alumnos')||$state.includes('panel.promocionar_notas')||$state.includes('panel.cartera') || $state.includes('panel.acudientes') || $state.includes('panel.asistencias') || $state.includes('panel.prematriculas') || $state.includes('panel.requisitos')}"><a href="" class="menu-dropdown"><i class="menu-icon fa fa-child"></i><span class="menu-text">Alumnos</span><i class="menu-expand"></i></a>
       <ul class="submenu">
         <li ui-sref-active="active"><a ui-sref="panel.alumnos" stop-event="click"><span class="menu-text">Todos</span></a></li>
+        <li ui-sref-active="active"><a ui-sref="panel.prematriculas" stop-event="click"><span class="menu-text">Prematriculas</span></a></li>
         <!--li( ui-sref-active="active")
         a(ui-sref="panel.matriculas" stop-event="click")
         	span.menu-text Matriculas
@@ -68,7 +69,7 @@
         <li ui-sref-active="active"><a ui-sref="panel.notas_perdidas_profesor_edit" stop-event="click"><span class="menu-text">Perdidas</span></a></li>
         <!--li(ui-sref-active="active")
         a(ui-sref="panel.actividades" stop-event="click")
-        	span.menu-text Acti-tareas
+        	span.menu-text Actividades
         	i.menu-icon.fa.fa-soccer-ball-o
         -->
         <li ui-sref-active="active"><a ui-sref="panel.copiar" stop-event="click"><span class="menu-text">Copiar</span><i class="menu-icon fa fa-copy"></i></a></li>

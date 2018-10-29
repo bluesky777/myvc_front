@@ -4,7 +4,7 @@
     <div class="widget-header bordered-bottom bordered-blue"><span class="widget-caption">Nuevo alumno</span></div>
     <div class="widget-body">
       <div>
-        <form role="form" ng-submit="crear()">
+        <form role="form" ng-submit="crear(data.proceso)" style="padding-bottom: 40px;">
           <uib-tabset>
             <uib-tab heading="Información">
               <div class="widget">
@@ -44,8 +44,17 @@
                       <label for="alumno-no-matr"># Matrícula</label>
                       <input id="alumno-no-matr" type="text" ng-model="alumno.no_matricula" placeholder="Número de matrícula" class="form-control">
                     </div>
-                    <div class="form-group col-lg-4 col-sm-6 col-xs-12">
-                      <label>Grupo</label>
+                  </div>
+                  <div class="row">
+                    <div style="margin-top: 22px;" class="form-group col-lg-6 col-sm-8 col-xs-12">
+                      <div style="display: block;" class="btn-group">
+                        <label ng-model="data.proceso" name="proceso_matr" uib-btn-radio="'matriculando'" style="width: 30%;" class="btn btn-primary">Matricular {{USER.year}}</label>
+                        <label ng-model="data.proceso" name="proceso_matr" uib-btn-radio="'prematriculando'" style="width: 40%;" class="btn btn-success">Prematricular {{USER.year+1}}</label>
+                        <label ng-model="data.proceso" name="proceso_matr" uib-btn-radio="'formulario'" style="width: 30%;" class="btn btn-success">Formulario {{USER.year+1}}</label>
+                      </div>
+                    </div>
+                    <div ng-show="data.proceso=='matriculando' " class="form-group col-lg-4 col-sm-4 col-xs-12">
+                      <label>Matricular en grupo</label>
                       <ui-select ng-model="alumno.grupo" style="width: 100%;">
                         <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
                         <ui-select-choices repeat="grupo in grupos | filter: $select.search">
@@ -53,10 +62,19 @@
                         </ui-select-choices>
                       </ui-select>
                     </div>
+                    <div ng-show="data.proceso=='prematriculando' || data.proceso=='formulario' " class="form-group col-lg-4 col-sm-4 col-xs-12">
+                      <label>Grupos {{USER.year+1}}<span ng-show="data.proceso=='prematriculando'"> - Prematricular</span><span ng-show="data.proceso=='formulario'"> - Lleva formulario</span></label>
+                      <ui-select ng-model="alumno.grupo_sig" style="width: 100%;">
+                        <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
+                        <ui-select-choices repeat="grupo in grupos_siguientes | filter: $select.search">
+                          <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
+                        </ui-select-choices>
+                      </ui-select>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="widget">
+              </div><a href="" ng-click="mostrar_mas = true" ng-show="!mostrar_mas">Llenar más datos</a><a href="" ng-click="mostrar_mas = false" ng-show="mostrar_mas">Mostrar menos datos</a>
+              <div ng-show="mostrar_mas" class="widget">
                 <div class="widget-header bordered-bottom bordered-pink"><span class="widget-caption">Nacimiento</span></div>
                 <div class="widget-body">
                   <div class="row">
@@ -98,7 +116,7 @@
                   </div>
                 </div>
               </div>
-              <div class="widget">
+              <div ng-show="mostrar_mas" class="widget">
                 <div class="widget-header bordered-bottom bordered-pink"><span class="widget-caption">Documento</span></div>
                 <div class="widget-body">
                   <div class="row">
@@ -235,8 +253,8 @@
                 <input id="alumno-email2" type="email" ng-model="alumno.email2" placeholder="Correo electrónico" class="form-control">
               </div>
             </uib-tab>
-          </uib-tabset><br>
-          <input type="submit" ng-submit="crear()" value="Crear" class="btn btn-primary btn-lg shiny"><span ng-show="$state.includes('panel.matriculas')"><a type="button" ui-sref="panel.matriculas" class="btn btn-danger btn-lg shiny">Cerrar</a></span><span ng-show="$state.includes('panel.alumnos')"><a type="button" ui-sref="panel.alumnos" class="btn btn-danger btn-lg shiny">Cerrar</a></span>
+          </uib-tabset><br><span style="float: right;">
+            <button type="submit" ng-disabled="guardando" class="btn btn-primary btn-lg shiny"><i class="fa fa-save"></i>Crear</button><span ng-show="$state.includes('panel.prematriculas')"><a type="button" ui-sref="panel.prematriculas" class="btn btn-danger btn-lg shiny">Cerrar</a></span><span ng-show="$state.includes('panel.alumnos')"><a type="button" ui-sref="panel.alumnos" class="btn btn-danger btn-lg shiny">Cerrar</a></span></span>
         </form>
       </div>
     </div>

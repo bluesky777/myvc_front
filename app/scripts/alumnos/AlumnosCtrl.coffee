@@ -25,6 +25,8 @@ angular.module("myvcFrontApp")
 	$scope.mostrar_pasado     = false
 	$scope.mostrar_retirados  = false
 	$scope.texto_a_buscar    = ''
+	$scope.hombresGrupo       = 0
+	$scope.mujeresGrupo       = 0
 
 	$scope.parentescos 			= App.parentescos
 
@@ -149,7 +151,24 @@ angular.module("myvcFrontApp")
 
 
 	$scope.editar = (row)->
-		$state.go('panel.alumnos.editar', {alumno_id: row.alumno_id})
+		#$state.go('panel.cartera.editar', {alumno_id: row.alumno_id})
+		$state.go('panel.persona', { persona_id: row.alumno_id, tipo: 'alumno' })
+
+
+
+	$scope.restaurar = (row)->
+		$scope.restaurando = true
+		$http.put('::alumnos/restore/' + row.alumno_id).then((r)->
+			toastr.success 'Alumno restaurado, para verlo, debe recargar la página'
+			$scope.restaurando = false
+			row.restaurado = true
+		, (r2)->
+			toastr.error 'Alumno no restaurado', 'Error'
+			$scope.restaurando = false
+		)
+
+
+
 
 	$scope.eliminar = (row)->
 		modalInstance = $modal.open({
@@ -314,6 +333,25 @@ angular.module("myvcFrontApp")
 
 
 
+	$scope.toggleEgresado = (fila)->
+		fila.egresado = !fila.egresado
+		if not fila.alumno_id
+			fila.alumno_id = fila.id
+
+		datos =
+			alumno_id: 	fila.alumno_id
+			propiedad: 	'egresado'
+			valor: 		fila.egresado
+
+		$http.put('::alumnos/guardar-valor', datos).then((r)->
+			console.log 'Cambios guardados'
+		, (r2)->
+			fila.egresado = !fila.egresado
+			toastr.error 'Cambio no guardado', 'Error'
+		)
+
+
+
 	$scope.crearUsuario = (row)->
 
 		if row.user_id
@@ -384,8 +422,8 @@ angular.module("myvcFrontApp")
 			toastr.error 'No se pudo desmatricular', 'Problema'
 		)
 
-	#btGrid1 = '<a uib-tooltip="Editar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
-	btGrid1 = ''
+	btGrid1 = '<a uib-tooltip="Editar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
+	#btGrid2 = ''
 	btGrid2 = '<a uib-tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-trash "></i></a>'
 	bt2 	= '<span style="padding-left: 2px; padding-top: 4px;" class="btn-group">' + btGrid1 + btGrid2 + '</span>'
 	btMatricular = "==directives/botonesMatricularMas.tpl.html"
@@ -393,6 +431,7 @@ angular.module("myvcFrontApp")
 	btPazysalvo = "==directives/botonPazysalvo.tpl.html"
 	btIsNuevo = "==directives/botonIsNuevo.tpl.html"
 	btIsRepitente = "==directives/botonIsRepitente.tpl.html"
+	btIsEgresado = "==directives/botonIsEgresado.tpl.html"
 	btUsuario = "==directives/botonesResetPassword.tpl.html"
 	btCiudadNac = "==directives/botonCiudadNac.tpl.html"
 	btCiudadDoc = "==directives/botonCiudadDoc.tpl.html"
@@ -405,10 +444,14 @@ angular.module("myvcFrontApp")
 	appendPopover2 = "'mouseenter'"
 	append3 = "' '"
 	appendPopover = 'uib-popover-template="views+' + appendPopover1 + '" popover-trigger="'+appendPopover2+'" popover-title="{{ row.entity.nombres + ' + append3 + ' + row.entity.apellidos }}" popover-popup-delay="500" popover-append-to-body="true"'
+	gridFooterCartera = "==alumnos/gridFooterCartera.tpl.html"
 
 
 	$scope.gridOptions =
 		showGridFooter: true,
+		showColumnFooter: true,
+		showFooter: true,
+		gridFooterTemplate: gridFooterCartera,
 		enableSorting: true,
 		enableFiltering: true,
 		exporterSuppressColumns: [ 'edicion' ],
@@ -421,6 +464,7 @@ angular.module("myvcFrontApp")
 		enableCellEditOnFocus: true,
 		expandableRowTemplate: '==alumnos/expandableRowTemplate.tpl.html',
 		expandableRowHeight: 120,
+		#footerTemplate: '<div class="ui-grid-bottom-panel" style="text-align: center">Toma lo tuyo Footer</div>'
 		expandableRowScope:
 			agregarAcudiente: 		$scope.agregarAcudiente
 			quitarAcudiente: 			$scope.quitarAcudiente
@@ -440,16 +484,17 @@ angular.module("myvcFrontApp")
 			}
 			enableHiding: false, cellTemplate: '<div class="ui-grid-cell-contents" style="padding: 0px;" ' + appendPopover + '><img ng-src="{{grid.appScope.perfilPath + row.entity.foto_nombre}}" style="width: 35px" />{{row.entity.nombres}}</div>' }
 			{ field: 'apellidos', minWidth: 110, filter: { condition: uiGridConstants.filter.CONTAINS }}
-			{ name: 'edicion', displayName:'Elimi', width: 54, enableSorting: false, enableFiltering: false, cellTemplate: bt2, enableCellEdit: false, enableColumnMenu: true}
+			{ name: 'edicion', displayName:'Edit', width: 54, enableSorting: false, enableFiltering: false, cellTemplate: bt2, enableCellEdit: false, enableColumnMenu: true}
 			{ field: 'sexo', displayName: 'Sex', width: 40 }
-			{ field: 'grupo_id', displayName: 'Matrícula', enableCellEdit: false, cellTemplate: btMatricular, minWidth: 180, enableFiltering: false }
+			{ field: 'grupo_id', displayName: 'Matrícula', enableCellEdit: false, cellTemplate: btMatricular, minWidth: 230, enableFiltering: false }
 			{ field: 'fecha_matricula', displayName: 'Fecha matrícula', cellFilter: "date:mediumDate", type: 'date', minWidth: 100 }
 			{ field: 'no_matricula', displayName: '# matrícula', minWidth: 80, enableColumnMenu: true }
 			{ field: 'username', filter: { condition: uiGridConstants.filter.CONTAINS }, displayName: 'Usuario', cellTemplate: btUsuario, editableCellTemplate: btEditUsername, minWidth: 135 }
-			{ field: 'deuda', displayName: 'Deuda', type: 'number', cellFilter: 'currency:"$":0', minWidth: 70 }
+			{ field: 'deuda', displayName: 'Deuda', type: 'number', cellFilter: 'currency:"$":0', minWidth: 85, aggregationType: uiGridConstants.aggregationTypes.sum, aggregationHideLabel: true, footerCellTemplate: '<div class="ui-grid-cell-contents" >{{col.getAggregationValue() | currency:"$":0 }}</div>' }
 			{ field: 'pazysalvo', displayName: 'A paz?', cellTemplate: btPazysalvo, minWidth: 60, enableCellEdit: false }
 			{ field: 'nuevo', displayName: 'Nuevo?', cellTemplate: btIsNuevo, minWidth: 60, enableCellEdit: false }
 			{ field: 'repitente', displayName: 'Repitente?', cellTemplate: btIsRepitente, minWidth: 60, enableCellEdit: false }
+			{ field: 'egresado', displayName: 'Egresado?', cellTemplate: btIsEgresado, minWidth: 60, enableCellEdit: false }
 			{ field: 'religion', displayName: 'Religión', minWidth: 70, editableCellTemplate: btEditReligion }
 			{ field: 'tipo_doc', displayName: 'Tipo documento', minWidth: 120, cellTemplate: btTipoDoc, enableCellEdit: false }
 			{ field: 'documento', minWidth: 100, cellFilter: 'formatNumberDocumento' }
@@ -555,6 +600,23 @@ angular.module("myvcFrontApp")
 
 
 
+	$scope.cantidadDeudores = ()->
+		sum = 0
+		hombres = 0
+		mujeres = 0
+
+		if $scope.gridOptions.data
+			for alumno in $scope.gridOptions.data
+				if !alumno.pazysalvo
+					sum = sum + 1
+				if alumno.sexo == 'M'
+					hombres++
+				else
+					mujeres++
+		$scope.hombresGrupo = hombres
+		$scope.mujeresGrupo = mujeres
+
+		return sum
 
 
 
@@ -681,8 +743,8 @@ angular.module("myvcFrontApp")
 					row
 				grupos: ()->
 					$scope.grupos
-				year_id: ()->
-					$scope.USER.year_id
+				USER: ()->
+					$scope.USER
 		})
 		modalInstance.result.then( (alum)->
 			console.log 'Cierra'

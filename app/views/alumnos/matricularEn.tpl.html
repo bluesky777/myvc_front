@@ -1,12 +1,12 @@
 
 <div class="modal-header">
-  <h3 class="modal-title">Matricular en...</h3>
+  <h3 class="modal-title">{{USER.year}} - Matricular en...</h3>
 </div>
 <div class="modal-body">
   <div class="row">
     <div class="col-lg-12 col-xs-12">
       <h5>Id: {{alumno.alumno_id}}</h5>
-      <div>Nombre: </div>
+      <div>Nombre:</div>
       <h4 style="text-overflow: ellipsis">{{alumno.nombres}} {{alumno.apellidos}}</h4>
       <form role="form" class="form form-inline">
         <div class="form-group">
@@ -20,6 +20,15 @@
               </ui-select></span></div>
         </div>
       </form>
+      <div style="padding-top: 10px">
+        <label>¿Es Repitente en este año?</label><a ng-class="{'btn-primary':alumno.repitente, 'btn-info':!alumno.repitente }" ng-click="toggleRepitente(alumno);" uib-tooltip="Perdió el año pasado en esta institución" href="" tooltip-enable="alumno.repitente" style="margin-left: 8px;" class="btn btn-xs"><span ng-hide="alumno.repitente">No</span><span ng-show="alumno.repitente">Si</span></a>
+      </div>
+      <div style="padding-top: 10px">
+        <label>¿Es Nuevo en este año?</label><a ng-class="{'btn-primary':alumno.nuevo, 'btn-info':!alumno.nuevo }" ng-click="toggleNuevo(alumno);" uib-tooltip="Llegó al colegio este año" href="" tooltip-enable="alumno.nuevo" class="btn btn-xs"><span ng-hide="alumno.nuevo">No</span><span ng-show="alumno.nuevo">Si</span></a>
+      </div>
+      <div style="padding-top: 4px">
+        <label>¿Es Egresado de la institución?</label><a ng-class="{'btn-primary':alumno.egresado, 'btn-info':!alumno.egresado }" ng-click="toggleEgresado(alumno);" uib-tooltip="Es Egresado de la institución" href="" tooltip-enable="alumno.egresado" class="btn btn-xs"><span ng-hide="alumno.egresado">No</span><span ng-show="alumno.egresado">Si</span></a>
+      </div>
     </div>
   </div>
 </div>

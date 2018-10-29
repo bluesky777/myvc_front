@@ -18,7 +18,7 @@
 							ui-select-match(placeholder="Profesor titular" allow-clear="true") {{$select.selected.nombres + ' ' + $select.selected.apellidos}}
 							ui-select-choices(repeat="titular in profesores | filter: $select.search")
 								div(ng-bind-html="titular.nombres + ' ' + titular.apellidos | highlight: $select.search")
-					
+
 					br
 					.form-group
 						label Grado
@@ -33,6 +33,9 @@
 						label(for="grupo-valorpension") Valor pensión
 						input.form-control#grupo-valorpension(type="number" step="5" min="0" ng-model="grupo.valorpension" placeholder="Valor pensión")
 					.form-group
+						label(for="grupo-cupo-edit") Cupo
+						input.form-control#grupo-cupo-edit(type="number" min="0" ng-model="grupo.cupo" placeholder="Alumnos válidos")
+					.form-group
 						label Caritas en informes
 						label
 							input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="grupo.caritas")
@@ -46,8 +49,8 @@
 									i.fa.fa-minus
 								button.btn.spinner-up.purple(type="button" ng-click="sumarOrden()")
 									i.fa.fa-plus
-					
+
 					br
 					hr.wide
-					input.btn.btn-primary.btn-lg.shiny(type="submit" ng-submit="guardar()" value="Guardar grupo") 
+					input.btn.btn-primary.btn-lg.shiny(type="submit" ng-submit="guardar()" value="Guardar grupo")
 

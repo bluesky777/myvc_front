@@ -7,6 +7,22 @@ angular.module('myvcFrontApp')
 	$scope.editar = (row)->
 		$state.go('panel.usuarios.editar', {usuario_id: row.user_id})
 
+
+
+	$scope.crearUsuarioAdmin = ()->
+		res = confirm('¿Seguro que desea crear un usuario administrador?')
+		if res
+			$scope.creando = true
+			$http.post('::users/crear-administrador').then((r)->
+				toastr.success('Creado con éxito')
+				$scope.gridOptions.data.unshift(r.data.usuario);
+				$scope.creando = false
+			, ()->
+				toastr.error('No se pudo crear')
+				$scope.creando = false
+			)
+
+
 	$scope.eliminar = (row)->
 
 		modalInstance = $modal.open({
@@ -52,6 +68,7 @@ angular.module('myvcFrontApp')
 
 	btGrid1 = '<a uib-tooltip="No cambies roles, consulta antes" class="btn btn-default btn-xs shiny" ng-click="grid.appScope.verRoles(row.entity)">Roles</a>'
 	btGrid4 = '<a uib-tooltip="Resetear contraseña" tooltip-placement="right" class="btn btn-default btn-xs shiny" ng-click="grid.appScope.resetPass(row.entity)">Cambiar password</a>'
+	btGrid3 = '<a uib-tooltip="Eliminar usuario" tooltip-placement="right" ng-show="row.entity.is_superuser" class="btn btn-danger btn-xs shiny" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-times"></a>'
 
 
 	$scope.gridOptions =
@@ -62,7 +79,7 @@ angular.module('myvcFrontApp')
 		enableCellEditOnFocus: true,
 		columnDefs: [
 			{ field: 'user_id', width: 70, enableFiltering: false, enableCellEdit: false }
-			{ name: 'edicion', displayName:'Edición', width: 200, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid4, enableCellEdit: false}
+			{ name: 'edicion', displayName:'Edición', width: 200, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid4 + btGrid3, enableCellEdit: false}
 			{ field: 'username', displayName: 'Usuario',
 			filter: {
 				condition: (searchTerm, cellValue, row)->

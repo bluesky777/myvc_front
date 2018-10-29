@@ -2,11 +2,24 @@
 
 angular.module("myvcFrontApp")
 
-.controller('PersonaCtrl', ['$scope', '$state', '$http', 'toastr', '$uibModal', 'App', ($scope, $state, $http, toastr, $modal, App)->
+
+.directive('personaBasicoDir',['App', (App)->
+	restrict: 'E'
+	templateUrl: "#{App.views}alumnos/personaBasicoDir.tpl.html"
+])
+
+.directive('personaMatriculasDir',['App', (App)->
+	restrict: 'E'
+	templateUrl: "#{App.views}alumnos/personaMatriculasDir.tpl.html"
+])
+
+
+.controller('PersonaCtrl', ['$scope', '$state', '$http', 'toastr', '$uibModal', 'App', '$rootScope', '$timeout', ($scope, $state, $http, toastr, $modal, App, $rootScope, $timeout)->
 	$scope.data           = {} # Para el popup del Datapicker
 	$scope.alumno         = {}
 	$scope.religiones     = App.religiones
 	$scope.tipos_sangre   = App.tipos_sangre
+	$scope.dato 					= {}
 
 	$scope.sangres = [{sangre: 'O+'},{sangre: 'O-'}, {sangre: 'A+'}, {sangre: 'A-'}, {sangre: 'B+'}, {sangre: 'B-'}, {sangre: 'AB+'}, {sangre: 'AB-'}]
 
@@ -16,9 +29,12 @@ angular.module("myvcFrontApp")
 		$http.put('::alumnos/show', { id: $state.params.persona_id, con_grupos: true }).then (r)->
 
 			$scope.grupos 				      = r.data.grupos
+			$scope.grupos_siguientes 		= r.data.grupos_siguientes
 			$scope.tipos_doc 				    = r.data.tipos_doc
 			$scope.alumno 				      = r.data.alumno
+			$scope.matriculas 				  = r.data.matriculas
 			$scope.alum_copy            = angular.copy($scope.alumno)
+
 
 			$scope.alumno.ciudad_nac_id = $scope.alumno.ciudad_nac
 			$scope.alumno.ciudad_doc_id = $scope.alumno.ciudad_doc
@@ -26,6 +42,18 @@ angular.module("myvcFrontApp")
 			$scope.alumno.fecha_retiro      = if $scope.alumno.fecha_retiro     then new Date($scope.alumno.fecha_retiro.replace(/-/g, '\/')) else $scope.alumno.fecha_retiro
 			$scope.alumno.fecha_matricula   = if $scope.alumno.fecha_matricula  then new Date($scope.alumno.fecha_matricula.replace(/-/g, '\/')) else $scope.alumno.fecha_matricula
 			$scope.alumno.fecha_nac         = if $scope.alumno.fecha_nac        then new Date($scope.alumno.fecha_nac.replace(/-/g, '\/')) else $scope.alumno.fecha_nac
+
+			$scope.alumno.llevo_formulario 	= if $scope.alumno.llevo_formulario then new Date($scope.alumno.llevo_formulario) else $scope.alumno.llevo_formulario
+			$scope.alumno.llevo_formulario_bool 	= if $scope.alumno.llevo_formulario then 'Si' else 'No'
+
+
+			if $scope.alumno.next_year
+				$scope.alumno.next_year.prematriculado = if $scope.alumno.next_year.prematriculado then new Date($scope.alumno.next_year.prematriculado.replace(/-/g, '\/')) else $scope.alumno.next_year.prematriculado
+				$scope.alumno.next_year.fecha_matricula = if $scope.alumno.next_year.fecha_matricula then new Date($scope.alumno.next_year.fecha_matricula.replace(/-/g, '\/')) else $scope.alumno.next_year.fecha_matricula
+
+				for grup in $scope.grupos_siguientes
+					if grup.id == $scope.alumno.next_year.grupo_id
+						$scope.dato.grupo_prematr = grup
 
 			if $scope.alumno.ciudad_nac == null
 				$scope.alumno.pais_nac = {id: 1, pais: 'COLOMBIA', abrev: 'CO'}
@@ -57,7 +85,9 @@ angular.module("myvcFrontApp")
 
 
 
-
+	$scope.crear_alumno = ()->
+		$rootScope.grupos_siguientes = $scope.grupos_siguientes
+		$state.go('panel.prematriculas.nuevo')
 
 
 	$http.get('::paises').then((r)->
@@ -65,12 +95,36 @@ angular.module("myvcFrontApp")
 	)
 
 
-	$scope.guardar = ()->
-		$http.put('::alumnos/update/'+$scope.alumno.id, $scope.alumno).then((r)->
-			toastr.success 'Alumno actualizado correctamente'
-		, (r2)->
-			toastr.error 'No se pudo guardar el alumno'
+
+	$scope.religionSelected = (row, evento)->
+		if $scope.religiones.indexOf(row.religion) > -1
+			$scope.guardarValor(row, 'religion', row.religion)
+
+
+	$scope.llevo_formulario = (alumno)->
+
+		datos = {
+			alumno_id: alumno.alumno_id,
+			llevo_formulario: null,
+			year: $scope.USER.year+1
+		}
+
+		if !alumno.llevo_formulario
+			datos.llevo_formulario = new Date()
+
+		$http.put('::prematriculas/llevo-formulario', datos).then((r)->
+			toastr.success('Dato guardado')
+			if alumno.llevo_formulario
+				alumno.llevo_formulario_bool  = 'No'
+				alumno.llevo_formulario       = null
+			else
+				alumno.llevo_formulario_bool = 'Si'
+				alumno.llevo_formulario       = datos.llevo_formulario
+
+		, ()->
+			toastr.error('Error cambiando si llevó formulario')
 		)
+
 
 
 	$scope.paisNacSelect = ($item, $model)->
@@ -125,8 +179,8 @@ angular.module("myvcFrontApp")
 					$scope.alumno
 				grupos: ()->
 					$scope.grupos
-				year_id: ()->
-					$scope.USER.year_id
+				USER: ()->
+					$scope.USER
 		})
 		modalInstance.result.then( (alum)->
 
@@ -136,6 +190,27 @@ angular.module("myvcFrontApp")
 					$scope.alumno.grupo_id      = grupo.id
 		)
 
+
+
+
+	$scope.persona_buscar 		= ''
+	$scope.templateTypeahead  = '==alumnos/personaTemplateTypeahead.tpl.html'
+
+	$scope.personaCheck = (texto)->
+		$scope.verificandoPersona = true
+		return $http.put('::alumnos/personas-check', {texto: texto, todos_anios: $scope.dato.todos_anios }).then((r)->
+			$scope.personas_match 		= r.data.personas
+			$scope.personas_match.map((perso)->
+				perso.perfilPath = $scope.perfilPath
+			)
+			$scope.verificandoPersona 	= false
+			return $scope.personas_match
+		)
+
+
+	$scope.ir_a_persona = ($item, $model, $label)->
+		datos = { persona_id: $item.alumno_id, tipo: $item.tipo }
+		$state.go 'panel.persona', datos
 
 
 	$scope.religionEditPressEnter = (row)->
@@ -181,7 +256,7 @@ angular.module("myvcFrontApp")
 				$scope.traerAlumnnosConGradosAnterior()
 			return row
 		, (r2)->
-			toastr.error 'No se pudo matricular el alumno.', 'Error'
+			toastr.error 'No se pudo. Tal vez no tienes permiso.', 'Error'
 
 		)
 
@@ -205,7 +280,7 @@ angular.module("myvcFrontApp")
 			toastr.success 'Alumno rematriculado', 'Matriculado'
 			return row
 		, (r2)->
-			toastr.error 'No se pudo matricular el alumno.', 'Error'
+			toastr.error 'No se pudo. Tal vez no tienes permiso.', 'Error'
 
 		)
 
@@ -215,7 +290,7 @@ angular.module("myvcFrontApp")
 		$http.put('::matriculas/set-asistente', {matricula_id: fila.matricula_id, grupo_id: $scope.alumno.grupo_id}).then((r)->
 			toastr.success 'Guardado como asistente'
 		, (r2)->
-			toastr.error 'No se pudo guardar como asistente', 'Error'
+			toastr.error 'No se pudo. Tal vez no tienes permiso.', 'Error'
 		)
 
 
@@ -226,7 +301,7 @@ angular.module("myvcFrontApp")
 			toastr.success 'Fecha retiro guardada'
 		, (r2)->
 			row.fecha_retiro = row.fecha_retiro_ant
-			toastr.error 'No se pudo guardar la fecha', 'Error'
+			toastr.error 'No se pudo. Tal vez no tienes permiso.', 'Error'
 		)
 
 
@@ -236,7 +311,7 @@ angular.module("myvcFrontApp")
 			toastr.success 'Fecha matrícula guardada'
 		, (r2)->
 			row.fecha_matricula = row.fecha_matricula_ant
-			toastr.error 'No se pudo guardar la fecha', 'Error'
+			toastr.error 'No se pudo. Tal vez no tienes permiso.', 'Error'
 		)
 
 
@@ -252,7 +327,7 @@ angular.module("myvcFrontApp")
 		$http.put('::matriculas/desertar', {matricula_id: row.matricula_id, fecha_retiro: row.fecha_retiro }).then((r)->
 			toastr.success 'Alumno desertado'
 		, (r2)->
-			toastr.error 'No se pudo desertar', 'Problema'
+			toastr.error 'No se pudo desertar. Tal vez no tienes permiso.', 'Problema'
 		)
 
 
@@ -267,7 +342,97 @@ angular.module("myvcFrontApp")
 		$http.put('::matriculas/retirar', {matricula_id: row.matricula_id, fecha_retiro: row.fecha_retiro }).then((r)->
 			toastr.success 'Alumno retirado'
 		, (r2)->
-			toastr.error 'No se pudo desmatricular', 'Problema'
+			toastr.error 'No se pudo desmatricular. Tal vez no tienes permiso.', 'Problema'
+		)
+
+
+
+	# ya es inutil
+	$scope.prematricular = (row)->
+
+		if $scope.prematriculando
+			return
+
+		if !$scope.dato.grupo_prematr
+			toastr.warning 'Debe seleccionar el grupo'
+			return
+
+		$scope.prematriculando = true
+
+		datos = {
+			matricula_id: 	row.next_year.matricula_id,
+			alumno_id: 			row.alumno_id,
+			grupo_id: 			$scope.dato.grupo_prematr.id,
+			year_id: 				row.next_year.year_id
+		}
+
+		$http.put('::matriculas/prematricular', datos).then((r)->
+			toastr.success 'Alumno prematriculado'
+			$scope.prematriculando    = false
+			r.data.matricula.prematriculado = new Date(r.data.matricula.prematriculado.replace(/-/g, '\/'))
+			$scope.alumno.next_year   = r.data.matricula
+			$timeout(()->
+				$scope.$apply()
+			, 100)
+		, (r2)->
+			toastr.error 'Tal vez no existe el ' + ($scope.USER.year+1), 'Problema'
+			$scope.prematriculando = false
+		)
+
+
+
+	$scope.set_estado_next_matricula = (row, estado)->
+
+		if $scope.matriculando
+			return
+
+		if !$scope.dato.grupo_prematr
+			toastr.warning 'Debe seleccionar el grupo'
+			return
+
+		$scope.matriculando = true
+
+		datos = {
+			matricula_id: 	row.next_year.matricula_id,
+			alumno_id: 			row.alumno_id,
+			grupo_id: 			$scope.dato.grupo_prematr.id,
+			year_id: 				row.next_year.year_id
+			estado: 				row.next_year.estado
+		}
+
+		$http.put('::matriculas/prematricular', datos).then((r)->
+			toastr.success 'Cambios guardados'
+			$scope.matriculando    = false
+			r.data.matricula.prematriculado = new Date(r.data.matricula.prematriculado.replace(/-/g, '\/'))
+			$scope.alumno.next_year   = r.data.matricula
+			$timeout(()->
+				$scope.$apply()
+			, 100)
+		, (r2)->
+			toastr.error 'Tal vez no existe el ' + ($scope.USER.year+1), 'Problema'
+			$scope.matriculando = false
+		)
+
+
+
+	$scope.quitarPrematricula = (row)->
+
+		if $scope.prematriculando
+			return
+
+		$scope.prematriculando = true
+
+		datos = {
+			matricula_id: 	row.next_year.matricula_id
+		}
+
+		$http.put('::matriculas/quitar-prematricula', datos).then((r)->
+			toastr.success 'Matrícula quitada'
+			$scope.prematriculando = false
+			$scope.alumno.next_year = {}
+		, (r2)->
+			toastr.error 'No se pudo quitar', 'Problema'
+			$scope.prematriculando = false
 		)
 
 
@@ -290,6 +455,18 @@ angular.module("myvcFrontApp")
 			fila.pazysalvo = !fila.pazysalvo
 			toastr.error 'Cambio no guardado', 'Error'
 		)
+
+
+
+	$scope.guardarCambioRequisito = (requisito)->
+		#if requisito.estado=='Falta' or requisito.estado=='Ya' or requisito.estado=='N/A'
+		$http.post('::requisitos/alumno', requisito ).then((r)->
+			toastr.success 'Requisito actualizado'
+		, (r2)->
+			toastr.error 'Cambio no guardado', 'Error'
+		)
+
+
 
 
 	$scope.guardarValor = (rowEntity, colDef, newValue)->

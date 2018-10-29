@@ -34,6 +34,7 @@ angular.module('myvcFrontApp', [
 	#'ui.sortable'
 	#'as.sortable'
 	'angular-sortable-view'
+	'ui.calendar'
 ])
 #- Valores que usaremos para nuestro proyecto
 .constant('App', (()->

@@ -157,7 +157,10 @@
 						th.text-center Eliminado
 
 				tbody.filasestrechas
-					tr(ng-repeat="alumno in alumnos_encontrados track by $index" ng-class="{'filagris': alumno.grupo_id!=dato_f.grupo.id, 'filawarning': alumno.estado=='ASIS' }")
+					tr(ng-repeat="alumno in alumnos_encontrados track by $index"
+						ng-class="{'filagris': alumno.grupo_id!=dato_f.grupo.id, 'filawarning': alumno.estado=='ASIS' }"
+						ng-show="!alumno.restaurado")
+
 						td {{ $index+1 }}
 						td.text-center
 
@@ -182,7 +185,11 @@
 							| {{ alumno.abrev_grupo }}
 						td.text-center(style="font-size: 7pt") {{ alumno.created_at }}
 						td.text-center(style="font-size: 7pt") {{ alumno.updated_at }}
-						td.text-center(style="font-size: 7pt") {{ alumno.deleted_at }}
+						td.text-center(style="font-size: 7pt" ng-class="{danger: alumno.deleted_at}")
+							| {{ alumno.deleted_at }}
+							button.btn.btn-default.btn-xs(uib-tooltip="Sacar de papelera"
+								ng-click="restaurar(alumno)" ng-show="alumno.deleted_at")
+								i.fa.fa-refresh
 
 
 

@@ -94,7 +94,7 @@
           </tr>
         </thead>
         <tbody class="filasestrechas">
-          <tr ng-repeat="alumno in alumnos_encontrados track by $index" ng-class="{'filagris': alumno.grupo_id!=dato_f.grupo.id, 'filawarning': alumno.estado=='ASIS' }">
+          <tr ng-repeat="alumno in alumnos_encontrados track by $index" ng-class="{'filagris': alumno.grupo_id!=dato_f.grupo.id, 'filawarning': alumno.estado=='ASIS' }" ng-show="!alumno.restaurado">
             <td>{{ $index+1 }}</td>
             <td class="text-center">
               <div class="btn-group"><a ui-sref="panel.alumnos.matricula_detalles({alumno_id: alumno.alumno_id})" uib-tooltip="Ver matrículas" tooltip-append-to-body="true" class="btn btn-default btn-xs"><i class="fa fa-pencil"></i></a><a ng-click="matricularUno(alumno)" uib-tooltip="Matricular en {{dato.grupo.abrev}}" tooltip-append-to-body="true" tooltip- class="btn btn-default btn-xs">Matri en {{dato.grupo.abrev}}</a><a ng-click="matricularEn(alumno)" uib-tooltip="Matricular en..." tooltip-append-to-body="true" tooltip- class="btn btn-default btn-xs">Matri en...</a></div>
@@ -107,7 +107,9 @@
             <td style="background-color: #a8cbea!important;" uib-tooltip="{{alumno.estado}} - {{alumno.nombre_grupo}}" tooltip-append-to-body="true" class="text-center">{{ alumno.abrev_grupo }}</td>
             <td style="font-size: 7pt" class="text-center">{{ alumno.created_at }}</td>
             <td style="font-size: 7pt" class="text-center">{{ alumno.updated_at }}</td>
-            <td style="font-size: 7pt" class="text-center">{{ alumno.deleted_at }}</td>
+            <td style="font-size: 7pt" ng-class="{danger: alumno.deleted_at}" class="text-center">{{ alumno.deleted_at }}
+              <button uib-tooltip="Sacar de papelera" ng-click="restaurar(alumno)" ng-show="alumno.deleted_at" class="btn btn-default btn-xs"><i class="fa fa-refresh"></i></button>
+            </td>
           </tr>
         </tbody>
       </table>

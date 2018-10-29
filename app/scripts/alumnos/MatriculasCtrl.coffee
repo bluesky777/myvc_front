@@ -38,7 +38,7 @@ angular.module("myvcFrontApp")
 
 		matr_grupo = 0
 
-		if localStorage.matr_grupo 
+		if localStorage.matr_grupo
 			matr_grupo = parseInt(localStorage.matr_grupo)
 
 		$scope.grupos = r.data
@@ -62,7 +62,7 @@ angular.module("myvcFrontApp")
 		localStorage.setItem('matr_grupo', $item.id)
 		$scope.traerAlumnos($item)
 
-	
+
 	$scope.traerAlumnos = (item)->
 		grupos_ant = []
 
@@ -74,7 +74,7 @@ angular.module("myvcFrontApp")
 		# Quería mandar los grupos anteriores, pero solo voy a mandar el grado_id
 		if grupos_ant.length > 0
 			grado_ant_id 	= grupos_ant[0].grado_id
-		else 
+		else
 			grado_ant_id 	= null
 
 		$http.put("::matriculas/alumnos-grado-anterior", {grupo_actual: item, grado_ant_id: grado_ant_id, year_ant: $scope.year_ant}).then((r)->
@@ -95,9 +95,9 @@ angular.module("myvcFrontApp")
 		if not $scope.dato.grupo.id
 			toastr.warning 'Debes definir el grupo al que vas a matricular.', 'Falta grupo'
 			return
-		
+
 		datos = { alumno_id: row.alumno_id, grupo_id: $scope.dato.grupo.id, year_id: $scope.USER.year_id }
-		
+
 		$http.post('::matriculas/matricularuno', datos).then((r)->
 			r = r.data
 			row.matricula_id 			= r.id
@@ -118,9 +118,9 @@ angular.module("myvcFrontApp")
 		if not $scope.dato.grupo.id
 			toastr.warning 'Debes definir el grupo al que vas a matricular.', 'Falta grupo'
 			return
-		
+
 		datos = { matricula_id: row.matricula_id }
-		
+
 		$http.put('::matriculas/re-matricularuno', datos).then((r)->
 			r = r.data
 			toastr.success 'Alumno rematriculado', 'Matriculado'
@@ -135,13 +135,13 @@ angular.module("myvcFrontApp")
 		modalInstance = $modal.open({
 			templateUrl: '==alumnos/matricularEn.tpl.html'
 			controller: 'MatricularEnCtrl'
-			resolve: 
+			resolve:
 				alumno: ()->
 					row
 				grupos: ()->
 					$scope.grupos
-				year_id: ()->
-					$scope.USER.year_id
+				USER: ()->
+					$scope.USER
 		})
 		modalInstance.result.then( (alum)->
 			console.log 'Cierra'
@@ -150,42 +150,42 @@ angular.module("myvcFrontApp")
 
 
 	$scope.setAsistente = (fila)->
-		
+
 		$http.put('::matriculas/set-asistente', {matricula_id: fila.matricula_id, grupo_id: $scope.dato.grupo.grupo_id}).then((r)->
 			toastr.success 'Guardado como asistente'
 		, (r2)->
 			toastr.error 'No se pudo guardar como asistente', 'Error'
 		)
-		
+
 
 	$scope.setNewAsistente = (fila)->
-		
+
 		$http.put('::matriculas/set-new-asistente', {alumno_id: fila.alumno_id, grupo_id: $scope.dato.grupo.id}).then((r)->
 			console.log 'Cambios guardados'
 		, (r2)->
 			toastr.error 'No se pudo crear asistente', 'Error'
 		)
-		
+
 
 	$scope.cambiarFechaRetiro = (row)->
-		
+
 		$http.put('::matriculas/cambiar-fecha-retiro', { matricula_id: row.matricula_id, fecha_retiro: row.fecha_retiro }).then((r)->
 			toastr.success 'Fecha retiro guardada'
 		, (r2)->
 			row.fecha_retiro = row.fecha_retiro_ant
 			toastr.error 'No se pudo guardar la fecha', 'Error'
 		)
-		
+
 
 	$scope.cambiarFechaMatricula = (row)->
-		
+
 		$http.put('::matriculas/cambiar-fecha-matricula', { matricula_id: row.matricula_id, fecha_matricula: row.fecha_matricula }).then((r)->
 			toastr.success 'Fecha matricula guardada'
 		, (r2)->
 			row.fecha_matricula = row.fecha_matricula_ant
 			toastr.error 'No se pudo guardar la fecha', 'Error'
 		)
-		
+
 
 
 
@@ -221,7 +221,7 @@ angular.module("myvcFrontApp")
 
 
 	$scope.buscar_por_nombre = ()->
-		
+
 		if $scope.texto_a_buscar == ""
 			toastr.warning 'Escriba término a buscar'
 			return
@@ -244,13 +244,15 @@ angular.module("myvcFrontApp")
 ])
 
 
-.controller('MatricularEnCtrl', ['$scope', '$uibModalInstance', 'alumno', 'grupos', 'year_id', '$http', 'toastr', ($scope, $modalInstance, alumno, grupos, year_id, $http, toastr)->
+.controller('MatricularEnCtrl', ['$scope', '$uibModalInstance', 'alumno', 'grupos', 'USER', '$http', 'toastr', '$state', ($scope, $modalInstance, alumno, grupos, USER, $http, toastr, $state)->
 	$scope.alumno = alumno
 	$scope.grupos = grupos
+	$scope.$state = $state
+	$scope.USER   = USER
 	$scope.dato = {}
 
 
-	if localStorage.matr_grupo 
+	if localStorage.matr_grupo
 		matr_grupo = parseInt(localStorage.matr_grupo)
 
 	for grupo in $scope.grupos
@@ -262,9 +264,9 @@ angular.module("myvcFrontApp")
 		if not $scope.dato.grupo.id
 			toastr.warning 'Debes definir el grupo al que vas a matricular.', 'Falta grupo'
 			return
-		
-		datos = { alumno_id: $scope.alumno.alumno_id, grupo_id: $scope.dato.grupo.id, year_id: year_id }
-		
+
+		datos = { alumno_id: $scope.alumno.alumno_id, grupo_id: $scope.dato.grupo.id, year_id: $scope.USER.year_id }
+
 		$http.post('::matriculas/matricular-en', datos).then((r)->
 			r = r.data
 			if r == 'Ya matriculado'
@@ -274,11 +276,71 @@ angular.module("myvcFrontApp")
 			$scope.alumno.matricula_id = r.id
 			$scope.alumno.grupo_id = r.grupo_id
 			toastr.success 'Alumno matriculado con éxito', 'Matriculado'
-			$modalInstance.close($scope.alumno) 
+			$modalInstance.close($scope.alumno)
 		, (r2)->
 			toastr.error 'No se pudo matricular el alumno.', 'Error'
 
 		)
+
+
+
+
+	$scope.toggleNuevo = (fila)->
+		fila.nuevo = !fila.nuevo
+		if not fila.alumno_id
+			fila.alumno_id = fila.id
+
+		datos =
+			alumno_id: 	fila.alumno_id
+			propiedad: 	'nuevo'
+			valor: 		fila.nuevo
+
+		$http.put('::alumnos/guardar-valor', datos).then((r)->
+			console.log 'Cambios guardados'
+		, (r2)->
+			fila.nuevo = !fila.nuevo
+			toastr.error 'Cambio no guardado', 'Error'
+		)
+
+
+	$scope.toggleRepitente = (fila)->
+		fila.repitente = !fila.repitente
+		if not fila.alumno_id
+			fila.alumno_id = fila.id
+
+		datos =
+			alumno_id: 	fila.alumno_id
+			propiedad: 	'repitente'
+			valor: 		fila.repitente
+
+		$http.put('::alumnos/guardar-valor', datos).then((r)->
+			console.log 'Cambios guardados'
+		, (r2)->
+			fila.repitente = !fila.repitente
+			toastr.error 'Cambio no guardado', 'Error'
+		)
+
+
+
+	$scope.toggleEgresado = (fila)->
+		fila.egresado = !fila.egresado
+		if not fila.alumno_id
+			fila.alumno_id = fila.id
+
+		datos =
+			alumno_id: 	fila.alumno_id
+			propiedad: 	'egresado'
+			valor: 		fila.egresado
+
+		$http.put('::alumnos/guardar-valor', datos).then((r)->
+			console.log 'Cambios guardados'
+		, (r2)->
+			fila.egresado = !fila.egresado
+			toastr.error 'Cambio no guardado', 'Error'
+		)
+
+
+
 
 	$scope.cancel = ()->
 		$modalInstance.dismiss('cancel')

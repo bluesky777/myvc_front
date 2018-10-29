@@ -4,7 +4,7 @@
 			span.widget-caption Nuevo alumno
 		.widget-body
 			div
-				form(role="form" ng-submit="crear()")
+				form(role="form" ng-submit="crear(data.proceso)" style="padding-bottom: 40px;")
 					uib-tabset
 						uib-tab(heading="Información")
 							.widget
@@ -35,15 +35,37 @@
 										.form-group.col-lg-3.col-sm-6.col-xs-12
 											label(for="alumno-no-matr") # Matrícula
 											input.form-control#alumno-no-matr(type="text" ng-model="alumno.no_matricula" placeholder="Número de matrícula")
-										.form-group.col-lg-4.col-sm-6.col-xs-12
-											label Grupo
+
+									.row
+										.form-group.col-lg-6.col-sm-8.col-xs-12(style="margin-top: 22px;")
+											.btn-group(style="display: block;")
+												label.btn.btn-primary(ng-model="data.proceso" name="proceso_matr" uib-btn-radio="'matriculando'" style="width: 30%;")
+													| Matricular {{USER.year}}
+												label.btn.btn-success(ng-model="data.proceso" name="proceso_matr" uib-btn-radio="'prematriculando'" style="width: 40%;")
+													| Prematricular {{USER.year+1}}
+												label.btn.btn-success(ng-model="data.proceso" name="proceso_matr" uib-btn-radio="'formulario'" style="width: 30%;")
+													| Formulario {{USER.year+1}}
+
+										.form-group.col-lg-4.col-sm-4.col-xs-12(ng-show="data.proceso=='matriculando' ")
+											label Matricular en grupo
 											ui-select(ng-model="alumno.grupo" style="width: 100%;")
 												ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}}
 												ui-select-choices(repeat="grupo in grupos | filter: $select.search")
 													div(ng-bind-html="grupo.nombre | highlight: $select.search")
 
+										.form-group.col-lg-4.col-sm-4.col-xs-12(ng-show="data.proceso=='prematriculando' || data.proceso=='formulario' ")
+											label Grupos {{USER.year+1}}
+												span(ng-show="data.proceso=='prematriculando'")  - Prematricular
+												span(ng-show="data.proceso=='formulario'")  - Lleva formulario
+											ui-select(ng-model="alumno.grupo_sig" style="width: 100%;")
+												ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}}
+												ui-select-choices(repeat="grupo in grupos_siguientes | filter: $select.search")
+													div(ng-bind-html="grupo.nombre | highlight: $select.search")
 
-							.widget
+							a(href="" ng-click="mostrar_mas = true" ng-show="!mostrar_mas") Llenar más datos
+							a(href="" ng-click="mostrar_mas = false" ng-show="mostrar_mas") Mostrar menos datos
+
+							.widget(ng-show="mostrar_mas")
 								.widget-header.bordered-bottom.bordered-pink
 									span.widget-caption Nacimiento
 								.widget-body
@@ -80,7 +102,7 @@
 
 
 
-							.widget
+							.widget(ng-show="mostrar_mas")
 								.widget-header.bordered-bottom.bordered-pink
 									span.widget-caption Documento
 								.widget-body
@@ -191,10 +213,14 @@
 								input#alumno-email2.form-control(type="email" ng-model="alumno.email2" placeholder="Correo electrónico")
 
 					br
-					input.btn.btn-primary.btn-lg.shiny(type="submit" ng-submit="crear()" value="Crear")
-					span(ng-show="$state.includes('panel.matriculas')")
-						a.btn.btn-danger.btn-lg.shiny(type="button" ui-sref="panel.matriculas") Cerrar
-					span(ng-show="$state.includes('panel.alumnos')")
-						a.btn.btn-danger.btn-lg.shiny(type="button" ui-sref="panel.alumnos") Cerrar
+					span(style="float: right;")
+						button.btn.btn-primary.btn-lg.shiny(type="submit" ng-disabled="guardando")
+							i.fa.fa-save
+							| Crear
+
+						span(ng-show="$state.includes('panel.prematriculas')")
+							a.btn.btn-danger.btn-lg.shiny(type="button" ui-sref="panel.prematriculas") Cerrar
+						span(ng-show="$state.includes('panel.alumnos')")
+							a.btn.btn-danger.btn-lg.shiny(type="button" ui-sref="panel.alumnos") Cerrar
 
 

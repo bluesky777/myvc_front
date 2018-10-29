@@ -4,23 +4,22 @@
   <div class="col-xs-12 col-md-12">
     <div class="well with-header with-footer">
       <div class="header bordered-blue">Crear usuario
-        <!--a.btn.btn-info.shiny(ui-sref="panel.usuario.nuevo" uib-tooltip="Ingresa datos de un nuevo usuario") Crear usuario-->
-        
+        <form ng-submit="crearUsuarioAdmin()" style="display: inline-block;">
+          <button type="submit" uib-tooltip="Crea un usuario administrador, que edite notas, colegio, etc." ng-disabled="creando" class="btn btn-info shiny">Nuevo administrador</button>
+        </form>
       </div>
       <div id="grid1" ui-grid="gridOptions" ui-grid-auto-resize ui-grid-edit ui-grid-resize-columns style="height: 600px" ui-grid-cellnav class="grid"></div>
     </div>
   </div>
 </div>
-<div class="row">
-  <div class="col-xs-12 col-md-12">
-    <div class="well with-header with-footer">
-      <div class="header bordered-yellow">Opciones</div>
-      <button ng-click="crearTodosLosUsuarios()" class="btn btn-primary">Crear todos los usuarios</button>
-      <!--button.btn.btn-primary(ui-sref="panel.usuarios.roles")
-      |Roles
-      
-      -->
-    </div>
-  </div>
-</div>
+<!--.row
+.col-xs-12.col-md-12
+	.well.with-header.with-footer
+		.header.bordered-yellow Opciones
+		button.btn.btn-primary(ng-click="crearTodosLosUsuarios()")
+			| Crear todos los usuarios
+		//button.btn.btn-primary(ui-sref="panel.usuarios.roles")
+			|Roles
+
+-->
 <div ui-view="user_roles" class="row"></div>

@@ -4,7 +4,8 @@ a(uib-popover-template="'views/alumnos/popoverPersonaInfo.tpl.html'"
 	style="cursor: pointer")
 
 	img(ng-src="{{match.model.perfilPath + match.model.foto_nombre}}" width="20")
-	span(ng-bind-html="match.model.nombres + ' ' + match.model.apellidos + '-' + match.model.abrev | uibTypeaheadHighlight:query")
+	//span(ng-bind-html="match.model.nombres + ' ' + match.model.apellidos + '-' + match.model.abrev | uibTypeaheadHighlight:query")
+	span(ng-bind-html="match.model.nombres + ' ' + match.model.apellidos | uibTypeaheadHighlight:query")
 
 
 //.custom-popup-wrapper(ng-style="{top: position().top+'px', left: position().left+'px'}"

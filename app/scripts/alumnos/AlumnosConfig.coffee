@@ -4,6 +4,68 @@ angular.module('myvcFrontApp')
 	.config ['$stateProvider', 'App', 'PERMISSIONS', ($state, App, PERMISSIONS) ->
 
 		$state
+
+			.state 'panel.prematriculas',
+				url: '^/prematriculas'
+				views:
+					'maincontent':
+						templateUrl: "==alumnos/prematriculas.tpl.html"
+						controller: 'PrematriculasCtrl'
+					'headerContent':
+						templateUrl: "==panel/panelHeader.tpl.html"
+						controller: 'PanelHeaderCtrl'
+						resolve:
+							titulo: [->
+								'Prematrículas'
+							]
+				data:
+					displayName: 'Prematrículas'
+					icon_fa: 'fa fa-male'
+					needed_permissions: [PERMISSIONS.can_work_like_teacher, PERMISSIONS.can_work_like_admin, PERMISSIONS.can_edit_alumnos]
+					pageTitle: 'Prematrículas - MyVc'
+
+			.state 'panel.prematriculas.nuevo',
+				url: '/nuevo'
+				views:
+					'edit_alumno':
+						templateUrl: "#{App.views}alumnos/alumnosNew.tpl.html"
+						controller: 'AlumnosNewCtrl'
+					'headerContent':
+						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						controller: 'PanelHeaderCtrl'
+						resolve:
+							titulo: [->
+								'Nuevo alumno'
+							]
+				data:
+					displayName: 'Nuevo'
+					icon_fa: 'fa fa-male'
+					pageTitle: 'Nuevo alumno - MyVc'
+					needed_permissions: [PERMISSIONS.can_work_like_teacher, PERMISSIONS.can_work_like_admin, PERMISSIONS.can_edit_alumnos]
+
+
+
+
+			.state 'panel.requisitos',
+				url: '^/requisitos'
+				views:
+					'maincontent':
+						templateUrl: "==alumnos/requisitos.tpl.html"
+						controller: 'RequisitosCtrl'
+					'headerContent':
+						templateUrl: "==panel/panelHeader.tpl.html"
+						controller: 'PanelHeaderCtrl'
+						resolve:
+							titulo: [->
+								'Requisitos'
+							]
+				data:
+					displayName: 'Requisitos'
+					icon_fa: 'fa fa-file'
+					needed_permissions: [PERMISSIONS.can_work_like_admin]
+					pageTitle: 'Requisitos - MyVc'
+
+
 			.state 'panel.promocionar_notas',
 				url: '/promocionar_notas'
 				views:

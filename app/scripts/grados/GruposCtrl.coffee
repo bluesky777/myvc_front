@@ -40,14 +40,14 @@ angular.module('myvcFrontApp')
 		enebleGridColumnMenu: false,
 		enableCellEditOnFocus: true,
 		columnDefs: [
-			{ field: 'orden', type: 'number', maxWidth: 60 }
-			{ name: 'edicion', displayName:'Edición', maxWidth: 80, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2 + btGrid3, enableCellEdit: false}
-			{ field: 'nombre', enableHiding: false }
-			{ field: 'abrev', displayName:'Abreviatura', maxWidth: 50, enableSorting: false }
-			{ field: 'titular_id', displayName: 'Titular', editDropdownOptionsArray: profesores, cellFilter: 'mapProfesores:grid.appScope.profesores', editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'profesor_id', editDropdownValueLabel: 'nombre_completo' }
-			{ field: 'grado_id', displayName: 'Grado', editDropdownOptionsArray: grados, cellFilter: 'mapGrado:grid.appScope.grados', editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'id', editDropdownValueLabel: 'nombre' }
-			{ field: 'cant_alumnos', displayName: 'Cantidad alumnos', enableSorting: false, enableFiltering: false, enableCellEdit: false }
-			#{ field: 'caritas', name: 'caritas', maxWidth: 70, cellTemplate: btCarit, enableFiltering: false, enableCellEdit: false }
+			{ field: 'orden', type: 'number', width: 40, enableCellEdit: false }
+			{ name: 'edicion', displayName:'Edición', width: 80, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2 + btGrid3, enableCellEdit: false}
+			{ field: 'nombre', enableHiding: false, minWidth: 100 }
+			{ field: 'abrev', displayName:'Abrev', minWidth: 30 }
+			{ field: 'titular_id', displayName: 'Titular', minWidth: 130, editDropdownOptionsArray: profesores, cellFilter: 'mapProfesores:grid.appScope.profesores', editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'profesor_id', editDropdownValueLabel: 'nombre_completo' }
+			{ field: 'grado_id', displayName: 'Grado', minWidth: 90, editDropdownOptionsArray: grados, cellFilter: 'mapGrado:grid.appScope.grados', editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'id', editDropdownValueLabel: 'nombre' }
+			{ field: 'cant_alumnos', displayName: 'Canti alumnos', enableSorting: false, enableCellEdit: false }
+			{ field: 'cupo', displayName: 'Cupo', minWidth: 40, type: 'number' }
 		],
 		multiSelect: false,
 		#filterOptions: $scope.filterOptions,
@@ -63,6 +63,7 @@ angular.module('myvcFrontApp')
 						orden:	  	rowEntity.orden
 						titular_id:	rowEntity.titular_id
 						caritas:	  rowEntity.caritas
+						cupo:	      rowEntity.cupo
 						id:			    rowEntity.id
 
 					$http.put('::grupos/update', dato).then((r)->
@@ -97,6 +98,7 @@ angular.module('myvcFrontApp')
 		for grup in $scope.grupos
 			grup.caritas = if grup.caritas then true else false
 		$scope.gridOptions.data = $scope.grupos;
+		console.log $scope.gridOptions.data
 	)
 
 	$scope.$on 'grupocreado', (ev, grupo)->

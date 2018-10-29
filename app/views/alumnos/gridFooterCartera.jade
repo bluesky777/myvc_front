@@ -1,0 +1,16 @@
+.ui-grid-footer-panel.ui-grid-footer-aggregates-row(ng-show="false")
+	.ui-grid-footer(ui-grid-footer-viewport)
+		.ui-grid-footer-canvas
+			.ui-grid-footer-cell-wrapper(ng-style="colContainer.headerCellWrapperStyle()")
+				.ui-grid-footer-cell-row(role="row")
+					.ui-grid-footer-cell.ui-grid-clearfix(ui-grid-footer-cell role="gridcell"
+						ng-repeat="col in colContainer.renderedColumns track by col.uid"
+						col="col" render-index="$index")
+
+
+.ui-grid-footer-info.ui-grid-grid-footer(style="height: 60px;")
+	span.bold {{'search.totalItems' | t}} {{grid.rows.length}}
+	span.ngLabel(ng-if="grid.renderContainers.body.visibleRowCache.length !== grid.rows.length")
+		|  (Mostrando {{grid.renderContainers.body.visibleRowCache.length}})
+	span  - Deudores: {{ grid.appScope.cantidadDeudores() }}
+	span  - Hombres: {{grid.appScope.hombresGrupo}} - Mujeres: {{ grid.appScope.mujeresGrupo }}

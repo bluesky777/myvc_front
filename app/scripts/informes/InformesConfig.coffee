@@ -21,8 +21,12 @@ angular.module('myvcFrontApp')
 				resolved_user: ['AuthService', (AuthService)->
 					AuthService.verificar()
 				]
-				alumnos: ['$http', ($http)->
-					$http.get('::alumnos/sin-matriculas')
+				alumnos: ['AlumnosSinMatriculaServ', (AlumnosSinMatriculaServ)->
+					#$http.get('::alumnos/sin-matriculas')
+					AlumnosSinMatriculaServ.alumnos()
+				]
+				informes_datos: ['InformesServ', (InformesServ)->
+					InformesServ.datos()
 				]
 			}
 			data:
@@ -657,6 +661,62 @@ angular.module('myvcFrontApp')
 								)
 							else
 								$http.put('::bolfinales/detailed-notas-year/'+$stateParams.grupo_id).then((r)->
+									d.resolve r.data
+								, (r2)->
+									d.reject r2.data
+								)
+
+
+
+							return d.promise
+						],
+						escalas: ['EscalasValorativasServ', (EscalasValorativasServ)->
+							#debugger
+							EscalasValorativasServ.escalas()
+						]
+			data:
+				displayName: 'Certificados de estudio'
+				pageTitle: 'Certificados de estudio - MyVc'
+
+
+
+
+
+
+		.state 'panel.informes.certificados_estudio_periodo',
+			url: '/certificados-estudio-periodo/:grupo_id/:periodo_a_calcular'
+			params:
+				grupo_id: {value: null}
+				periodo_a_calcular:  {value: null}
+			views:
+				'report_content':
+					templateUrl: "==informes/certificadosEstudio.tpl.html"
+					controller: 'CertificadosEstudioCtrl'
+					resolve:
+						alumnosDat: ['$http', '$stateParams', '$q', '$cookies', ($http, $stateParams, $q, $cookies)->
+
+							d = $q.defer()
+
+
+							requested_alumnos = $cookies.getObject 'requested_alumnos'
+							requested_alumno = $cookies.getObject 'requested_alumno'
+
+							if requested_alumnos
+
+								#console.log 'Pidiendo por varios alumnos: ', requested_alumnos
+								$http.put('::bolfinales/detailed-notas-year/'+$stateParams.grupo_id, {requested_alumnos: requested_alumnos, periodo_a_calcular: $stateParams.periodo_a_calcular }).then((r)->
+									d.resolve r.data
+								, (r2)->
+									d.reject r2.data
+								)
+							else if requested_alumno
+								$http.put('::bolfinales/detailed-notas-year/'+requested_alumno[0].grupo_id, {requested_alumnos: requested_alumno, periodo_a_calcular: $stateParams.periodo_a_calcular }).then((r)->
+									d.resolve r.data
+								, (r2)->
+									d.reject r2.data
+								)
+							else
+								$http.put('::bolfinales/detailed-notas-year/'+$stateParams.grupo_id, { periodo_a_calcular: $stateParams.periodo_a_calcular } ).then((r)->
 									d.resolve r.data
 								, (r2)->
 									d.reject r2.data

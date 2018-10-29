@@ -1,12 +1,12 @@
 .modal-header
-	h3.modal-title Matricular en...
+	h3.modal-title {{USER.year}} - Matricular en...
 .modal-body
 	.row
 		.col-lg-12.col-xs-12
 			h5 Id: {{alumno.alumno_id}}
-			div Nombre: 
+			div Nombre:
 			h4(style="text-overflow: ellipsis") {{alumno.nombres}} {{alumno.apellidos}}
-			
+
 			form.form.form-inline(role="form")
 
 				.form-group
@@ -17,6 +17,39 @@
 								ui-select-match(placeholder="Grupo a matricular" allow-clear="true") {{$select.selected.nombre}}
 								ui-select-choices(repeat="grupo in grupos | filter: $select.search")
 									div(ng-bind-html="grupo.nombre | highlight: $select.search")
+
+
+			div(style="padding-top: 10px")
+				label ¿Es Repitente en este año?
+				a.btn.btn-xs(ng-class="{'btn-primary':alumno.repitente, 'btn-info':!alumno.repitente }"
+					ng-click="toggleRepitente(alumno);"
+					uib-tooltip="Perdió el año pasado en esta institución" href=""
+					tooltip-enable="alumno.repitente" style="margin-left: 8px;")
+
+					span(ng-hide="alumno.repitente") No
+					span(ng-show="alumno.repitente") Si
+
+			div(style="padding-top: 10px")
+				label ¿Es Nuevo en este año?
+				a.btn.btn-xs(ng-class="{'btn-primary':alumno.nuevo, 'btn-info':!alumno.nuevo }"
+					ng-click="toggleNuevo(alumno);"
+					uib-tooltip="Llegó al colegio este año" href=""
+					tooltip-enable="alumno.nuevo")
+
+					span(ng-hide="alumno.nuevo") No
+					span(ng-show="alumno.nuevo") Si
+
+			div(style="padding-top: 4px")
+				label ¿Es Egresado de la institución?
+				a.btn.btn-xs(ng-class="{'btn-primary':alumno.egresado, 'btn-info':!alumno.egresado }"
+					ng-click="toggleEgresado(alumno);"
+					uib-tooltip="Es Egresado de la institución" href=""
+					tooltip-enable="alumno.egresado")
+
+					span(ng-hide="alumno.egresado") No
+					span(ng-show="alumno.egresado") Si
+
+
 
 
 .modal-footer

@@ -14,6 +14,8 @@ angular.module("myvcFrontApp")
 	$scope.gridScope          = $scope # Para getExternalScopes de ui-Grid
 	$scope.mySelectedRows     = []
 	$scope.valorDeuda         = 0
+	$scope.hombresGrupo       = 0
+	$scope.mujeresGrupo       = 0
 
 
 	$scope.dato.grupo = ''
@@ -69,17 +71,20 @@ angular.module("myvcFrontApp")
 
 
 	$scope.editar = (row)->
-		console.log row.alumno_id
-		$state.go('panel.cartera.editar', {alumno_id: row.alumno_id})
+		#$state.go('panel.cartera.editar', {alumno_id: row.alumno_id})
+		$state.go('panel.persona', { persona_id: row.alumno_id, tipo: 'alumno' })
 
 
 	btGrid1 = '<a uib-tooltip="Editar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
 	btPazysalvo = "==directives/botonesPazysalvo.tpl.html"
 	btUsuario = "==directives/botonesResetPassword.tpl.html"
+	gridFooterCartera = "==alumnos/gridFooterCartera.tpl.html"
 
 
 	$scope.gridOptions =
 		showGridFooter: true,
+		showColumnFooter: true,
+		gridFooterTemplate: gridFooterCartera,
 		enableSorting: true,
 		enableFiltering: true,
 		enebleGridColumnMenu: false,
@@ -101,7 +106,7 @@ angular.module("myvcFrontApp")
 			{ field: 'nombre_grupo', displayName:'Grupo' }
 			{ field: 'username', filter: { condition: uiGridConstants.filter.CONTAINS }, displayName: 'Usuario', cellTemplate: btUsuario, minWidth: 150 }
 			# { field: 'fecha_nac', displayName:'Nacimiento', cellFilter: "date:mediumDate", type: 'date'}
-			{ field: 'deuda', displayName: 'Deuda', cellTemplate: btPazysalvo, minWidth: 150 }
+			{ field: 'deuda', displayName: 'Deuda', cellTemplate: btPazysalvo, minWidth: 150, aggregationType: uiGridConstants.aggregationTypes.sum, footerCellTemplate: '<div class="ui-grid-cell-contents" >Total: {{col.getAggregationValue() | currency:"$":0 }}</div>' }
 			{ field: 'fecha_pension', displayName: 'Fecha hasta', minWidth: 150, cellFilter: "date:mediumDate", type: 'date' }
 		],
 		multiSelect: true,
@@ -140,6 +145,23 @@ angular.module("myvcFrontApp")
 			$scope.gridApi.grid.refresh()
 		)
 
+	$scope.cantidadDeudores = ()->
+		sum = 0
+		hombres = 0
+		mujeres = 0
+
+		if $scope.gridOptions.data
+			for alumno in $scope.gridOptions.data
+				if !alumno.pazysalvo
+					sum = sum + 1
+				if alumno.sexo == 'M'
+					hombres++
+				else
+					mujeres++
+		$scope.hombresGrupo = hombres
+		$scope.mujeresGrupo = mujeres
+
+		return sum
 
 	$scope.cambiarValorVarios = (valor, campo)->
 

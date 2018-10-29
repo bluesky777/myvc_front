@@ -57,7 +57,7 @@ angular.module('myvcFrontApp')
 		enebleGridColumnMenu: false,
 		columnDefs: [
 			{ field: 'id', displayName:'Id', width: 50, enableCellEdit: false, enableColumnMenu: false}
-			{ field: 'nombre', displayName:'Nombre', enableSorting: false, enableColumnMenu: false }
+			{ field: 'nombre', displayName:'Nombre', minWidth: 80, enableSorting: false, enableColumnMenu: false }
 			{ name: 'edicion', displayName:'Edición', width: 60, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2, enableCellEdit: false, enableColumnMenu: false}
 			{ field: 'encabezado_width', displayName:'AnchoE', filter: { condition: uiGridConstants.filter.CONTAINS } }
 			{ field: 'encabezado_height', displayName:'AltoE', filter: { condition: uiGridConstants.filter.CONTAINS } }
@@ -66,7 +66,6 @@ angular.module('myvcFrontApp')
 			{ field: 'piepagina_width', displayName:'AnchoP'}
 			{ field: 'piepagina_height', displayName:'AltoP'}
 			{ field: 'piepagina_margin_left', displayName:'MargenPIzq'}
-			{ field: 'piepagina_margin_bottom', displayName:'MargenPAba'}
 		],
 		multiSelect: false,
 		onRegisterApi: ( gridApi ) ->

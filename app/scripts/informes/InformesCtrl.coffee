@@ -1,10 +1,11 @@
 angular.module('myvcFrontApp')
-.controller('InformesCtrl', ['$scope', '$http', '$state', '$stateParams', '$filter', 'App', 'AuthService', 'ProfesoresServ', 'alumnos', '$timeout', '$cookies', 'toastr', '$interval', 'DownloadServ', 'Upload', ($scope, $http, $state, $stateParams, $filter, App, AuthService, ProfesoresServ, alumnos, $timeout, $cookies, toastr, $interval, DownloadServ, Upload) ->
+.controller('InformesCtrl', ['$scope', '$http', '$state', '$stateParams', '$filter', 'App', 'AuthService', 'ProfesoresServ', 'informes_datos', 'alumnos', '$timeout', '$cookies', 'toastr', '$interval', 'DownloadServ', 'Upload', ($scope, $http, $state, $stateParams, $filter, App, AuthService, ProfesoresServ, informes_datos, alumnos, $timeout, $cookies, toastr, $interval, DownloadServ, Upload) ->
 
 	AuthService.verificar_acceso()
 	$scope.rowsAlum = []
-	alumnos 		= alumnos.data
-	$scope.$state 	= $state
+	#alumnos 		= alumnos.data
+	$scope.$state 	      = $state
+	$scope.$stateParams 	= $stateParams
 	$scope.config 	= {
 		periodos_a_calcular: 1  # de_usuario, de_colegio, todos
 		mostrar_foto: true
@@ -23,33 +24,27 @@ angular.module('myvcFrontApp')
 
 
 
-	$http.put('::informes/datos').then((r)->
-		r 											= r.data
-		$scope.year_actual 			= r.year
-		$scope.grupos 					= r.grupos
-		$scope.profesores 			= r.profesores
-		$scope.imgs_public 			= r.imagenes
-		$scope.periodos_grupos 	= r.periodos_grupos
+	r = informes_datos
+	$scope.year_actual 			= r.year
+	$scope.grupos 					= r.grupos
+	$scope.profesores 			= r.profesores
+	$scope.imgs_public 			= r.imagenes
+	$scope.periodos_grupos 	= r.periodos_grupos
 
-		if r.periodos_desactualizados
-			$scope.periodos_desactualizados 	= r.periodos_desactualizados
+	if r.periodos_desactualizados
+		$scope.periodos_desactualizados 	= r.periodos_desactualizados
 
-		# Grupo seleccionado
-		if $state.params.grupo_id
-			$tempParam 				      = parseInt($state.params.grupo_id)
-			$scope.datos.grupo 		  = $filter('filter')($scope.grupos, {id: $tempParam}, true)[0]
-			$scope.filtered_alumnos = $filter('filter')(alumnos, {grupo_id: $tempParam}, true)
+	# Grupo seleccionado
+	if $state.params.grupo_id
+		$tempParam 				      = parseInt($state.params.grupo_id)
+		$scope.datos.grupo 		  = $filter('filter')($scope.grupos, {id: $tempParam}, true)[0]
+		$scope.filtered_alumnos = $filter('filter')(alumnos, {grupo_id: $tempParam}, true)
 
-		# Profesor seleccionado
-		if $state.params.profesor_id
-			$tempParam 				= parseInt($state.params.profesor_id)
-			$scope.datos.profesor 	= $filter('filter')($scope.profesores, {profesor_id: $tempParam}, true)[0]
+	# Profesor seleccionado
+	if $state.params.profesor_id
+		$tempParam 				= parseInt($state.params.profesor_id)
+		$scope.datos.profesor 	= $filter('filter')($scope.profesores, {profesor_id: $tempParam}, true)[0]
 
-		#$scope.$parent.bigLoader 	= false
-	, (r2)->
-		toastr.error 'No se pudo traer los profesores'
-		#$scope.$parent.bigLoader 	= false
-	)
 
 
 	if localStorage.tipo_boletin
@@ -569,7 +564,7 @@ angular.module('myvcFrontApp')
 
 
 
-	$scope.verCertificadosEstudioGrupo = ()->
+	$scope.verCertificadosEstudioGrupo = (periodo)->
 
 		$cookies.remove 'requested_alumnos'
 		$cookies.remove 'requested_alumno'
@@ -578,30 +573,51 @@ angular.module('myvcFrontApp')
 			toastr.warning 'Debes seleccionar el grupo'
 			return
 
-		$state.go 'panel.informes.certificados_estudio', {grupo_id: $scope.datos.grupo.id}, {reload: true}
-
-
-	$scope.verCertificadosEstudioAlumnos = ()->
-
-		if $scope.datos.selected_alumnos.length > 0
-			$cookies.putObject 'requested_alumnos', $scope.datos.selected_alumnos
-			$state.go 'panel.informes.certificados_estudio', {grupo_id: $scope.datos.grupo.id, periodos_a_calcular: $scope.config.periodos_a_calcular}, {reload: true}
+		if periodo
+			$state.go 'panel.informes.certificados_estudio_periodo', {grupo_id: $scope.datos.grupo.id, periodo_a_calcular: periodo}, {reload: true}
 		else
-			toastr.warning 'Debes seleccionar al menos un alumno o cargar boletines del grupo completo'
+			$state.go 'panel.informes.certificados_estudio', {grupo_id: $scope.datos.grupo.id}, {reload: true}
 
 
+	$scope.verCertificadosEstudioAlumnos = (periodo)->
+		if periodo
+			if $scope.datos.selected_alumnos.length > 0
+				$cookies.putObject 'requested_alumnos', $scope.datos.selected_alumnos
+				$state.go 'panel.informes.certificados_estudio_periodo', {grupo_id: $scope.datos.grupo.id, periodo_a_calcular: periodo}, {reload: true}
+			else
+				toastr.warning 'Debes seleccionar al menos un alumno o cargar boletines del grupo completo'
 
-	$scope.verCertificadosEstudioAlumno = ()->
-
-		if $scope.datos.selected_alumno
-			$cookies.remove 'requested_alumnos'
-			$cookies.putObject 'requested_alumno', [$scope.datos.selected_alumno]
-			$state.go 'panel.informes'
-			$interval ()->
-				$state.go 'panel.informes.certificados_estudio'
-			, 1, 1
 		else
-			toastr.warning 'Elige un alumno o carga el grupo completo'
+			if $scope.datos.selected_alumnos.length > 0
+				$cookies.putObject 'requested_alumnos', $scope.datos.selected_alumnos
+				$state.go 'panel.informes.certificados_estudio', {grupo_id: $scope.datos.grupo.id, periodo_a_calcular: periodo}, {reload: true}
+			else
+				toastr.warning 'Debes seleccionar al menos un alumno o cargar boletines del grupo completo'
+
+
+
+	$scope.verCertificadosEstudioAlumno = (periodo)->
+		if periodo
+			if $scope.datos.selected_alumno
+				$cookies.remove 'requested_alumnos'
+				$cookies.putObject 'requested_alumno', [$scope.datos.selected_alumno]
+				$state.go 'panel.informes'
+				$interval ()->
+					$state.go 'panel.informes.certificados_estudio_periodo', { periodo_a_calcular: periodo }
+				, 1, 1
+			else
+				toastr.warning 'Elige un alumno o carga el grupo completo'
+
+		else
+			if $scope.datos.selected_alumno
+				$cookies.remove 'requested_alumnos'
+				$cookies.putObject 'requested_alumno', [$scope.datos.selected_alumno]
+				$state.go 'panel.informes'
+				$interval ()->
+					$state.go 'panel.informes.certificados_estudio'
+				, 1, 1
+			else
+				toastr.warning 'Elige un alumno o carga el grupo completo'
 
 
 

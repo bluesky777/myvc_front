@@ -23,6 +23,14 @@
 
 							form(role='form' ng-submit="guardar_cambios(year)")
 								.row
+									.col-sm-12
+										.form-group
+											label(uib-tooltip="¿Este es el año actual?") ¿Año actual?
+											label
+												input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleAnioActual(year.id, year.actual)" ng-true-value="1" ng-false-value="0" ng-model="year.actual")
+												span.text.si-no
+
+								.row
 									.col-sm-6
 										.form-group
 											label(for='year{{year.id}}-nombre') Nombre del colegio
