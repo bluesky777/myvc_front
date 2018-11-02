@@ -7,21 +7,31 @@ angular.module("myvcFrontApp")
 	restrict: 'E'
 	templateUrl: "#{App.views}alumnos/personaBasicoDir.tpl.html"
 ])
-
 .directive('personaMatriculasDir',['App', (App)->
 	restrict: 'E'
 	templateUrl: "#{App.views}alumnos/personaMatriculasDir.tpl.html"
 ])
+.directive('personaDatosExtrasDir',['App', (App)->
+	restrict: 'E'
+	templateUrl: "#{App.views}alumnos/personaDatosExtrasDir.tpl.html"
+])
 
 
-.controller('PersonaCtrl', ['$scope', '$state', '$http', 'toastr', '$uibModal', 'App', '$rootScope', '$timeout', ($scope, $state, $http, toastr, $modal, App, $rootScope, $timeout)->
+.controller('PersonaCtrl', ['$scope', '$state', '$http', 'toastr', '$uibModal', 'App', '$rootScope', '$timeout', 'AuthService', ($scope, $state, $http, toastr, $modal, App, $rootScope, $timeout, AuthService)->
 	$scope.data           = {} # Para el popup del Datapicker
 	$scope.alumno         = {}
 	$scope.religiones     = App.religiones
 	$scope.tipos_sangre   = App.tipos_sangre
 	$scope.dato 					= {}
+	$scope.hasRoleOrPerm  = AuthService.hasRoleOrPerm
+	$scope.mostrar_mas    = false
 
 	$scope.sangres = [{sangre: 'O+'},{sangre: 'O-'}, {sangre: 'A+'}, {sangre: 'A-'}, {sangre: 'B+'}, {sangre: 'B-'}, {sangre: 'AB+'}, {sangre: 'AB-'}]
+
+
+	if localStorage.mostrar_mas_deta_alum
+		$scope.mostrar_mas = if localStorage.mostrar_mas_deta_alum == 'true' then true else false
+
 
 
 	if $state.params.tipo == 'alumno'
@@ -36,6 +46,7 @@ angular.module("myvcFrontApp")
 			$scope.alum_copy            = angular.copy($scope.alumno)
 
 
+			$scope.alumno.next_year.estado_ant = $scope.alumno.next_year.estado
 			$scope.alumno.ciudad_nac_id = $scope.alumno.ciudad_nac
 			$scope.alumno.ciudad_doc_id = $scope.alumno.ciudad_doc
 
@@ -59,22 +70,41 @@ angular.module("myvcFrontApp")
 				$scope.alumno.pais_nac = {id: 1, pais: 'COLOMBIA', abrev: 'CO'}
 				$scope.paisNacSelect($scope.alumno.pais_nac, $scope.alumno.pais_nac)
 			else
-				$http.get('::ciudades/datosciudad/'+$scope.alumno.ciudad_nac_id).then (r2)->
-					$scope.paises 				= r2.data.paises
-					$scope.departamentosNac 	= r2.departamentos
-					$scope.ciudadesNac 			= r2.ciudades
-					$scope.alumno.pais_nac 		= r2.pais
-					$scope.alumno.departamento_nac = r2.departamento
-					$scope.alumno.ciudad_nac 	= r2.ciudad
+				$http.get('::ciudades/datosciudad/'+$scope.alumno.ciudad_nac).then (r2)->
+					r2 = r2.data
+					$scope.paises 									= r2.paises
+					$scope.departamentosNac 				= r2.departamentos
+					$scope.ciudadesNac 							= r2.ciudades
+					$scope.alumno.pais_nac 					= r2.pais
+					$scope.alumno.departamento_nac 	= r2.departamento
+					$scope.alumno.ciudad_nac 				= r2.ciudad
 
 			if $scope.alumno.ciudad_doc > 0
-				$http.get('::ciudades/datosciudad/'+$scope.alumno.ciudad_doc_id).then (r2)->
-					$scope.paises 				= r2.data.paises
-					$scope.departamentos 		= r2.departamentos
-					$scope.ciudades 			= r2.ciudades
-					$scope.alumno.pais_doc 		= r2.pais
-					$scope.alumno.departamento_doc = r2.departamento
-					$scope.alumno.ciudad_doc 	= r2.ciudad
+				$http.get('::ciudades/datosciudad/'+$scope.alumno.ciudad_doc).then (r2)->
+					r2 = r2.data
+					$scope.paises 									= r2.paises
+					$scope.departamentos 						= r2.departamentos
+					$scope.ciudades 								= r2.ciudades
+					$scope.alumno.pais_doc 					= r2.pais
+					$scope.alumno.departamento_doc 	= r2.departamento
+					$scope.alumno.ciudad_doc 				= r2.ciudad
+			else
+				$scope.alumno.pais_doc = {id: 1, pais: 'COLOMBIA', abrev: 'CO'}
+				$scope.paisSeleccionado($scope.alumno.pais_doc, $scope.alumno.pais_doc)
+
+			if $scope.alumno.ciudad_resid > 0
+				$http.get('::ciudades/datosciudad/'+$scope.alumno.ciudad_resid).then (r2)->
+					r2 = r2.data
+					$scope.paises 									= r2.paises
+					$scope.departamentosResid 			= r2.departamentos
+					$scope.ciudadesResid 						= r2.ciudades
+					$scope.alumno.pais_resid 				= r2.pais
+					$scope.alumno.departamento_resid = r2.departamento
+					$scope.alumno.ciudad_resid 			= r2.ciudad
+			else
+				$scope.alumno.pais_resid = {id: 1, pais: 'COLOMBIA', abrev: 'CO'}
+				$scope.paisResidSeleccionado($scope.alumno.pais_resid, $scope.alumno.pais_resid)
+
 
 			if $scope.alumno.tipo_doc
 				for tipo_doc in $scope.tipos_doc
@@ -83,11 +113,33 @@ angular.module("myvcFrontApp")
 
 
 
+	$scope.mostarMasDetalle = ()->
+		$scope.mostrar_mas = !$scope.mostrar_mas
+		localStorage.mostrar_mas_deta_alum = $scope.mostrar_mas
+
+
+	$scope.toggleNuevoRepite = (fila, campo)->
+		#fila.nuevo = !fila.nuevo
+
+		datos =
+			alumno_id: 	    fila.alumno_id
+			propiedad: 	    campo
+			valor: 		      fila.nuevo
+			year_id: 				fila.next_year.year_id
+
+		$http.put('::alumnos/guardar-valor', datos).then((r)->
+			console.log 'Cambios guardados'
+		, (r2)->
+			fila.nuevo = !fila.nuevo
+			toastr.error 'Cambio no guardado', 'Error'
+		)
+
+
 
 
 	$scope.crear_alumno = ()->
 		$rootScope.grupos_siguientes = $scope.grupos_siguientes
-		$state.go('panel.prematriculas.nuevo')
+		$state.go('panel.persona.nuevo')
 
 
 	$http.get('::paises').then((r)->
@@ -133,7 +185,7 @@ angular.module("myvcFrontApp")
 
 			if typeof $scope.alumno.pais_doc is 'undefined'
 				$scope.alumno.pais_doc = $item
-				$scope.paisSelecionado($item)
+				$scope.paisSeleccionado($item)
 		)
 
 	$scope.departNacSelect = ($item)->
@@ -145,7 +197,7 @@ angular.module("myvcFrontApp")
 				$scope.departSeleccionado($item)
 		)
 
-	$scope.paisSelecionado = ($item, $model)->
+	$scope.paisSeleccionado = ($item, $model)->
 
 		$http.get("::ciudades/departamentos/"+$item.id).then((r)->
 			$scope.departamentos = r.data
@@ -155,6 +207,21 @@ angular.module("myvcFrontApp")
 		$http.get("::ciudades/por-departamento/"+$item.departamento).then((r)->
 			$scope.ciudades = r.data
 		)
+
+
+	$scope.paisResidSelecionado = ($item, $model)->
+
+		$http.get("::ciudades/departamentos/"+$item.id).then((r)->
+			$scope.departamentosResid = r.data
+		)
+
+	$scope.departResidSeleccionado = ($item)->
+		$http.get("::ciudades/por-departamento/"+$item.departamento).then((r)->
+			$scope.ciudadesResid = r.data
+		)
+
+	$scope.ciudadSeleccionada = ($item, campo)->
+		$scope.guardarValor($scope.alumno, campo, $item.id)
 
 	$scope.dateOptions =
 		formatYear: 'yyyy'
@@ -171,6 +238,9 @@ angular.module("myvcFrontApp")
 
 
 	$scope.cambiarGrupo = ()->
+		if $scope.USER.tipo == 'Acudiente' or $scope.USER.tipo == 'Alumno'
+			return
+
 		modalInstance = $modal.open({
 			templateUrl: '==alumnos/matricularEn.tpl.html'
 			controller: 'MatricularEnCtrl'
@@ -205,6 +275,16 @@ angular.module("myvcFrontApp")
 			)
 			$scope.verificandoPersona 	= false
 			return $scope.personas_match
+		)
+
+	$scope.cambiaEpsCheck = (texto)->
+		$scope.verificandoEps = true
+		return $http.put('::alumnos/eps-check', {texto: texto}).then((r)->
+			$scope.eps_match 		= r.data.eps
+			$scope.verificandoEps 	= false
+			return $scope.eps_match.map((item)->
+				return item.eps
+			)
 		)
 
 
@@ -381,7 +461,37 @@ angular.module("myvcFrontApp")
 
 
 
-	$scope.set_estado_next_matricula = (row, estado)->
+
+	$scope.cambiaUsernameCheck = (texto)->
+		$scope.username_cambiado = true
+		$scope.verificandoUsername = true
+		return $http.put('::users/usernames-check', {texto: texto}).then((r)->
+			$scope.username_match 		= r.data.usernames
+			$scope.verificandoUsername 	= false
+			return $scope.username_match.map((item)->
+				return item.username
+			)
+		)
+
+	$scope.resetPass = (row)->
+
+		if !row.user_id
+			toastr.warning 'Aún no tiene usuario'
+			return
+
+		modalInstance = $modal.open({
+			templateUrl: App.views + 'usuarios/resetPass.tpl.html'
+			controller: 'ResetPassCtrl'
+			resolve:
+				usuario: ()->
+					row
+		})
+		modalInstance.result.then( (user)->
+			#console.log 'Resultado del modal: ', user
+		)
+
+
+	$scope.set_estado_next_matricula = (row)->
 
 		if $scope.matriculando
 			return
@@ -389,6 +499,20 @@ angular.module("myvcFrontApp")
 		if !$scope.dato.grupo_prematr
 			toastr.warning 'Debe seleccionar el grupo'
 			return
+
+		if row.next_year.estado == 'MATR'
+			faltan = 0
+			for requisito in $scope.matriculas[0].requisitos
+				if requisito.estado == 'falta'
+					faltan = faltan+1
+			if faltan > 0
+				frase = if faltan==1 then faltan+' requisito.' else faltan+' requisitos. '
+				res = confirm('A este estudiante aún le falta por cumplir ' + frase + ' ¿Desea matricular de todos modos?')
+				if res
+					console.log($scope.alumno.next_year.estado, $scope.alumno.next_year.estado_ant)
+					$scope.alumno.next_year.estado = $scope.alumno.next_year.estado_ant
+				else
+					return
 
 		$scope.matriculando = true
 
@@ -403,8 +527,9 @@ angular.module("myvcFrontApp")
 		$http.put('::matriculas/prematricular', datos).then((r)->
 			toastr.success 'Cambios guardados'
 			$scope.matriculando    = false
-			r.data.matricula.prematriculado = new Date(r.data.matricula.prematriculado.replace(/-/g, '\/'))
+			r.data.matricula.prematriculado = if r.data.matricula.prematriculado then new Date(r.data.matricula.prematriculado.replace(/-/g, '\/')) else r.data.matricula.prematriculado
 			$scope.alumno.next_year   = r.data.matricula
+			$scope.alumno.next_year.estado_ant = $scope.alumno.next_year.estado
 			$timeout(()->
 				$scope.$apply()
 			, 100)
@@ -414,7 +539,7 @@ angular.module("myvcFrontApp")
 		)
 
 
-
+	#Ya puedo borrar:
 	$scope.quitarPrematricula = (row)->
 
 		if $scope.prematriculando
@@ -469,7 +594,20 @@ angular.module("myvcFrontApp")
 
 
 
-	$scope.guardarValor = (rowEntity, colDef, newValue)->
+	$scope.guardarValor = (rowEntity, colDef, newValue, year_id)->
+		datos = {}
+
+		if colDef == 'username'
+			if $scope.username_cambiado
+				datos.user_id = rowEntity.user_id
+			else
+				return
+
+		if colDef == 'email'
+			datos.user_id = rowEntity.user_id
+			if !window.validateEmail(newValue)
+				toastr.warning 'No es un correo válido'
+				return
 
 		if not rowEntity.alumno_id
 			rowEntity.alumno_id = fila.id
@@ -507,7 +645,14 @@ angular.module("myvcFrontApp")
 				#rowEntity.documento = oldValue
 				return
 
-		$http.put('::alumnos/guardar-valor', {alumno_id: rowEntity.alumno_id, propiedad: colDef, valor: newValue } ).then((r)->
+		datos.alumno_id = rowEntity.alumno_id
+		datos.propiedad = colDef
+		datos.valor 		= newValue
+
+		if year_id
+			datos.year_id = year_id
+
+		$http.put('::alumnos/guardar-valor', datos ).then((r)->
 			toastr.success 'Alumno(a) actualizado con éxito'
 		, (r2)->
 			rowEntity[colDef] = $scope.alum_copy[colDef]

@@ -11,20 +11,21 @@
 					span(ng-show="matricula.grupo_nombre")  - {{matricula.grupo_nombre}}
 
 				h4(style="font-weight: 600!important;") Requisitos
-				form.form-inline.row(ng-submit="crearUnidad()" role="form" ng-show="::USER.profes_pueden_editar_notas || hasRoleOrPerm('Admin')"
-					ng-repeat="requisito in matricula.requisitos" style="border: 1px solid #ccc; border-radius: 5px; margin: 4px 0; padding: 4px 0;")
+				form.form-inline.row(role="form" ng-show="::USER.profes_pueden_editar_notas || hasRoleOrPerm('Admin')"
+					ng-repeat="requisito in matricula.requisitos" style="border: 1px solid #ccc; border-radius: 5px; margin: 4px 0; padding: 4px 0;"
+					ng-class="{'requisito-falta': requisito.estado=='falta'}")
 
 					.form-group.col-md-3.col-sm-4.col-xs-12.si-padding-left-xs(style="padding-right: 0px; min-height: 50px;" uib-tooltip="{{requisito.descripcion_titulo}}" tooltip-popup-delay="500")
 						label {{requisito.requisito}}
 
-					.form-group.col-lg-3.col-md-3.col-sm-3(uib-tooltip="Estadoa actual")
+					.form-group.col-lg-3.col-md-3.col-sm-3.si-padding-left-xs(uib-tooltip="Estadoa actual" style="padding: 0;")
 						span.btn-group(style="padding-left: 2px; padding-top: 4px;")
 							label.btn.btn-info(ng-model="requisito.estado" uib-btn-radio="'falta'" ng-click="guardarCambioRequisito(requisito)") Falta
 							label.btn.btn-info(ng-model="requisito.estado" uib-btn-radio="'ya'" ng-click="guardarCambioRequisito(requisito)") Ya
 							label.btn.btn-info(ng-model="requisito.estado" uib-btn-radio="'n/a'" ng-click="guardarCambioRequisito(requisito)") N/A
 
 
-					.form-group.definicion-add-unidad.col-md-6.col-sm-5.col-xs-12.si-padding-left-xs
+					.form-group.col-md-6.col-sm-5.col-xs-12.si-padding-left-xs
 						label.sr-only Escriba una descripción
 						textarea.form-control(required ng-model="requisito.descripcion" placeholder="Descripción (opcional)"
 							uib-tooltip="Descripción (opcional)" tooltip-popup-delay="500" style="height: 50px; width: 100%;"

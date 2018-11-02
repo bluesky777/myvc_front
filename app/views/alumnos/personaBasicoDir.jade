@@ -28,7 +28,7 @@
 			.form-group.col-lg-4.col-sm-6
 				label(for="alumno-apellidos") Apellidos
 				input#alumno-apellidos.form-control(type="text" ng-model="alumno.apellidos" placeholder="Apellidos" ng-change="guardarValor(alumno, 'apellidos', alumno.apellidos)" style="font-size: 12pt; color: #444; border: 1px solid #999;")
-			.form-group.col-lg-4.col-sm-6.col-xs-12(style="margin-bottom: 5px;")
+			.form-group.col-lg-4.col-sm-6.col-xs-12(style="margin-bottom: 8px;")
 				label Sexo
 				.row
 					.col-lg-6.col-sm-4.col-xs-12
@@ -41,6 +41,12 @@
 							label
 								input.inverted(type="radio" name="sexo" value="F" ng-model="alumno.sexo" ng-change="guardarValor(alumno, 'sexo', alumno.sexo)")
 								span.text Femenino
+
+			.form-group.col-lg-3.col-sm-6.col-xs-12
+				label(for="alumno-celular") Celular
+				input#alumno-celular.form-control(type="text" ng-model="alumno.celular" placeholder="Celular"
+					ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
+					ng-change="guardarValor(alumno, 'celular', alumno.celular)")
 
 		hr
 		.row
@@ -80,7 +86,7 @@
 							ng-change="guardarValor(alumno, 'fecha_pension', alumno.fecha_pension)")
 
 
-.widget
+.widget(ng-if="hasRoleOrPerm(['admin'])")
 	.widget-header.bordered-bottom.bordered-pink
 		span.widget-caption Matrícula {{::USER.year}} y prematrícula {{::USER.year+1}}
 	.widget-body
@@ -133,19 +139,34 @@
 			.form-group.col-lg-3.col-md-3.col-sm-4.col-xs-12()
 				label Grupo próximo año
 				div
-					span(uib-tooltip="Debe seleccionar un grupo" tooltip-placement="right")
+					span(uib-tooltip="Debe seleccionar un grupo" tooltip-placement="right" tooltip-popup-delay="400")
 						ui-select(ng-model="dato.grupo_prematr" theme="select2" style="width: 100%;")
 							ui-select-match(placeholder="Grupo a prematricular" allow-clear="true") {{$select.selected.nombre}}
 							ui-select-choices(repeat="grupo in grupos_siguientes | filter: $select.search")
 								div(ng-bind-html="grupo.nombre | highlight: $select.search")
 
 			.form-group.col-sm-8(style="padding-right: 0px;")
-				label(for="alumno-estado") {{ USER.year + 1 }}:
+				label(for="alumno-estado-next") {{ USER.year + 1 }}:
 				span.btn-group(style="padding-left: 2px; padding-top: 4px;")
 					label.btn.btn-success.btn-prematriculas(ng-model="alumno.next_year.estado" uib-btn-radio="'FORM'" ng-click="set_estado_next_matricula(alumno)" uib-tooltip="Formulario vendido") Formulario
 					label.btn.btn-success.btn-prematriculas(ng-model="alumno.next_year.estado" uib-btn-radio="'PREM'" ng-click="set_estado_next_matricula(alumno)" uib-tooltip="Prematriculado") Prematriculado
 					label.btn.btn-success.btn-prematriculas(ng-model="alumno.next_year.estado" uib-btn-radio="'ASIS'" ng-click="set_estado_next_matricula(alumno)" uib-tooltip="Establecer como Asistente") Asist
 					label.btn.btn-success.btn-prematriculas(ng-model="alumno.next_year.estado" uib-btn-radio="'MATR'" ng-click="set_estado_next_matricula(alumno)" uib-tooltip="Matricular") Matr
+
+			span(ng-show="alumno.next_year.year")
+				.form-group.col-lg-2.col-sm-3.col-xs-12(uib-tooltip="¿Es nuevo en {{ alumno.next_year.year }} en la institución?" tooltip-popup-delay="400" style="margin-top: 20px;")
+					label Es nuevo
+					label
+						input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="alumno.next_year.nuevo" ng-true-value="1" ng-false-value="0" ng-change="toggleNuevoRepite(alumno, 'nuevo')")
+						span.text.si-no
+
+				.form-group.col-lg-2.col-sm-3.col-xs-12(uib-tooltip="¿Va a repetir el año en {{ alumno.next_year.year }}?" tooltip-popup-delay="400" style="margin-top: 20px;")
+					label Es repitente
+					label
+						input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="alumno.next_year.repitente" ng-true-value="1" ng-false-value="0" ng-change="toggleNuevoRepite(alumno, 'repitente')")
+						span.text.si-no
+
+
 
 
 			.form-group.col-lg-4.col-md-4.col-sm-4.col-xs-12(ng-show="alumno.next_year.estado=='PREM'" style="margin-bottom: 12px;" uib-tooltip="Fecha en que se prematriculó")
@@ -159,7 +180,7 @@
 							ng-model="alumno.next_year.prematriculado" is-open="data.isOpenPrema" ng-click="data.isOpenPrema = true"
 							max-date="'2025-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy"
 							clear-text="Borrar" placeholder="Fecha prematrícula"
-							ng-change="guardarValor(alumno, 'prematriculado', alumno.next_year.prematriculado)")
+							ng-change="guardarValor(alumno, 'prematriculado', alumno.next_year.prematriculado, alumno.next_year.year_id)")
 
 
 

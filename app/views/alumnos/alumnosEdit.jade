@@ -161,9 +161,6 @@
 									label(for="alumno-religion") Religión
 									input#alumno-religion.form-control(type="text" ng-model="alumno.religion" placeholder="Religión")
 								.form-group.col-lg-3.col-sm-6.col-xs-12
-									label(for="alumno-email") E-mail
-									input#alumno-email.form-control(type="text" ng-model="alumno.email" placeholder="E-mail")
-								.form-group.col-lg-3.col-sm-6.col-xs-12
 									label(for="alumno-facebook") Facebook
 									input#alumno-facebook.form-control(type="text" ng-model="alumno.facebook" placeholder="Facebook")
 								.form-group.col-lg-3.col-sm-6.col-xs-12
@@ -190,8 +187,8 @@
 								label(for="alumno-password2") Verificar contraseña
 								input#alumno-password2.form-control(type="password" ng-model="alumno.password2" placeholder="Verificar contraseña")
 							.form-group
-								label(for="alumno-email2") Correo electrónico
-								input#alumno-email2.form-control(type="email" ng-model="alumno.email2" placeholder="Correo electrónico")
+								label(for="alumno-email") Correo electrónico
+								input#alumno-email.form-control(type="email" ng-model="alumno.email" placeholder="Correo electrónico")
 
 					br
 					input.btn.btn-primary.btn-lg.shiny(type="submit" ng-submit="guardar()" value="Guardar cambios")

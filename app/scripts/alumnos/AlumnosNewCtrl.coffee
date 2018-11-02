@@ -26,11 +26,16 @@ angular.module("myvcFrontApp")
 			'foto'			: 'perfil/default_male.jpg'
 			'pazysalvo'		: true
 			'deuda'			: 0
+			'nuevo'			: 0
+			'repitente'			: 0
 			'pais_nac'		: {id: 1, pais: 'COLOMBIA', abrev: 'CO' }
 
 	$scope.formatear_nuevo()
 
 	$scope.sangres = [{sangre: 'O+'},{sangre: 'O-'}, {sangre: 'A+'}, {sangre: 'A-'}, {sangre: 'B+'}, {sangre: 'B-'}, {sangre: 'AB+'}, {sangre: 'AB-'}]
+
+	if localStorage.mostrar_mas_new
+		$scope.mostrar_mas_new = if localStorage.mostrar_mas_new == 'true' then true else false
 
 	$http.get('::paises').then((r)->
 		r = r.data
@@ -43,6 +48,12 @@ angular.module("myvcFrontApp")
 
 	$http.get('::tiposdocumento').then (r)->
 		$scope.tipos_doc = r.data
+
+
+
+	$scope.mostarMasDetalleNew = ()->
+		$scope.mostrar_mas_new = !$scope.mostrar_mas_new
+		localStorage.mostrar_mas_new = $scope.mostrar_mas_new
 
 
 	if $rootScope.grupos_siguientes
@@ -63,33 +74,35 @@ angular.module("myvcFrontApp")
 	)
 
 
-	$scope.crear = (proceso)->
+	$scope.crear = (alumno, proceso)->
+
+		console.log(alumno)
 
 		$scope.guardando = true
 
-		if !$scope.alumno.grupo and proceso=='matriculando'
+		if !alumno.grupo and proceso=='matriculando'
 			toastr.warning 'Debe seleccionar el grupo.'
 			return
 
-		if !$scope.alumno.grupo_sig and proceso=='prematriculando'
+		if !alumno.grupo_sig and proceso=='prematriculando'
 			toastr.warning 'Debe seleccionar el grupo.'
 			return
 
-		if $scope.alumno.nombres.length == 0
+		if alumno.nombres.length == 0
 			toastr.warning 'Debe copiar el nombre.'
 			return
 
-		$scope.alumno.fecha_nac = $filter('date')($scope.alumno.fecha_nac, 'yyyy-MM-dd')
+		alumno.fecha_nac = $filter('date')(alumno.fecha_nac, 'yyyy-MM-dd')
 
 		if proceso == 'prematriculando'
-			$scope.alumno.prematricula = true
-			$scope.alumno.grupo = $scope.alumno.grupo_sig
+			alumno.prematricula = true
+			alumno.grupo = alumno.grupo_sig
 
 		if proceso == 'formulario'
-			$scope.alumno.llevo_formulario = true
-			$scope.alumno.grupo = $scope.alumno.grupo_sig
+			alumno.llevo_formulario = true
+			alumno.grupo = alumno.grupo_sig
 
-		$http.post('::alumnos/store', $scope.alumno).then((r)->
+		$http.post('::alumnos/store', alumno).then((r)->
 			toastr.success 'Alumno '+r.data.nombres+' creado'
 			if proceso == 'prematriculando'
 				$state.go('panel.persona', {persona_id: r.data.id, tipo: 'alumno' })
@@ -130,6 +143,19 @@ angular.module("myvcFrontApp")
 		$http.get("::ciudades/departamentos/"+$item.id).then((r)->
 			$scope.departamentos = r.data
 		)
+
+
+
+	$scope.cambiaUsernameCheck = (texto)->
+		$scope.verificandoUsername = true
+		return $http.put('::users/usernames-check', {texto: texto}).then((r)->
+			$scope.username_match 		= r.data.usernames
+			$scope.verificandoUsername 	= false
+			return $scope.username_match.map((item)->
+				return item.username
+			)
+		)
+
 
 	$scope.departSeleccionado = ($item)->
 		$http.get("::ciudades/por-departamento/"+$item.departamento).then((r)->

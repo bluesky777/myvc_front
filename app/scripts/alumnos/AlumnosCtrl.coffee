@@ -565,6 +565,9 @@ angular.module("myvcFrontApp")
 					if colDef.field == "fecha_matricula"
 						return $scope.cambiarFechaMatricula(rowEntity)
 
+					if colDef.field == "username"
+						user_id_temp = rowEntity.user_id
+
 
 					if colDef.field == "tipo_sangre"
 						newValue = newValue.toUpperCase()
@@ -587,7 +590,7 @@ angular.module("myvcFrontApp")
 							#rowEntity.documento = oldValue
 							return
 
-					$http.put('::alumnos/guardar-valor', {alumno_id: rowEntity.alumno_id, propiedad: colDef.field, valor: newValue } ).then((r)->
+					$http.put('::alumnos/guardar-valor', {alumno_id: rowEntity.alumno_id, propiedad: colDef.field, valor: newValue, user_id: user_id_temp } ).then((r)->
 						toastr.success 'Alumno(a) actualizado con éxito'
 					, (r2)->
 						rowEntity[colDef.field] = oldValue

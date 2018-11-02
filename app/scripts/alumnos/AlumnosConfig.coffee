@@ -190,6 +190,27 @@ angular.module('myvcFrontApp')
 					needed_permissions: [PERMISSIONS.can_work_like_teacher, PERMISSIONS.can_work_like_admin, PERMISSIONS.can_edit_alumnos]
 
 
+		$state
+			.state 'panel.persona.nuevo',
+				url: '/nuevo'
+				views:
+					'edit_alumno':
+						templateUrl: "#{App.views}alumnos/alumnosNew.tpl.html"
+						controller: 'AlumnosNewCtrl'
+					'headerContent':
+						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						controller: 'PanelHeaderCtrl'
+						resolve:
+							titulo: [->
+								'Nuevo alumno'
+							]
+				data:
+					displayName: 'Nuevo'
+					icon_fa: 'fa fa-male'
+					pageTitle: 'Nuevo alumno - MyVc'
+					needed_permissions: [PERMISSIONS.can_work_like_teacher, PERMISSIONS.can_work_like_admin, PERMISSIONS.can_edit_alumnos]
+
+
 			.state 'panel.matriculas.detalles',
 				url: '^/matriculas/detalles/:alumno_id'
 				param:
@@ -213,6 +234,27 @@ angular.module('myvcFrontApp')
 
 			.state 'panel.alumnos.matricula_detalles',
 				url: '^/alumnos/matricula_detalles/:alumno_id'
+				param:
+					alumno_id: null
+				views:
+					'matricula_detalle':
+						templateUrl: "#{App.views}alumnos/matriculasDetalles.tpl.html"
+						controller: 'MatriculasDetallesCtrl'
+					'headerContent':
+						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						controller: 'PanelHeaderCtrl'
+						resolve:
+							titulo: [->
+								'Matrículas detalladas'
+							]
+				data:
+					displayName: 'detalles'
+					icon_fa: 'fa fa-pencil'
+					pageTitle: 'Matrículas alumnos - MyVc'
+					needed_permissions: [PERMISSIONS.can_work_like_admin ]
+
+			.state 'panel.prematriculas.matricula_detalles',
+				url: '^/prematriculas/matricula_detalles/:alumno_id'
 				param:
 					alumno_id: null
 				views:

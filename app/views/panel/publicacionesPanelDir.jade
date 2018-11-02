@@ -18,7 +18,7 @@ uib-tabset.widget-main(active="panel_tab_actual" style="margin-bottom: 20px;")
 							ng-class="{'publicacion-eliminada': publi.deleted_at}" tooltip-popup-delay="600"
 							uib-tooltip="Última modificación: {{publi.updated_at}}" ng-click="verPublicacion(publi, $index)")
 
-							img(ng-if="publi.imagen_nombre" ng-src="{{ perfilPath + publi.imagen_nombre }}" style="height: 50px")
+							img(ng-if="publi.imagen_nombre" ng-src="{{ perfilPath + publi.imagen_nombre }}" style="height: 50px; ")
 							span(ng-show="!publi.contenido") {{ publi.imagen_nombre }}
 							span(ng-show="publi.contenido" style="max-height: 100px; overflow: hidden"
 								ng-bind-html="publi.contenido_tr")
@@ -31,7 +31,7 @@ uib-tabset.widget-main(active="panel_tab_actual" style="margin-bottom: 20px;")
 					ng-show="publicaciones_actuales.length > 0" ng-repeat="publicacion_actual in publicaciones_actuales")
 
 					div(ng-click="verPublicacionDetalle(publicacion_actual)")
-						img(ng-if="publicacion_actual.foto_autor" ng-src="{{ perfilPath + publicacion_actual.foto_autor }}" style="width: 50px;")
+						img(ng-if="publicacion_actual.foto_autor" ng-src="{{ perfilPath + publicacion_actual.foto_autor }}" style="width: 50px; border-radius: 50%; ")
 						span {{ publicacion_actual.nombre_autor }}
 						span(style="font-style: italic; color: #999; float: right;")  {{ publicacion_actual.created_at }}
 
@@ -200,7 +200,7 @@ uib-tabset.widget-main(active="panel_tab_actual" style="margin-bottom: 20px;")
 				div.publicacion-actual.animated.fadeInUp(style="margin-right: 8px; margin-top: 10px;"
 					ng-show="publicacion_actual")
 
-					img(ng-if="publicacion_actual.foto_autor" ng-src="{{ perfilPath + publicacion_actual.foto_autor }}" style="width: 50px;")
+					img(ng-if="publicacion_actual.foto_autor" ng-src="{{ perfilPath + publicacion_actual.foto_autor }}" style="width: 50px; border-radius: 50%;")
 					span(style="display: inline-block;") {{ publicacion_actual.nombre_autor }}
 					span(style="font-style: italic; color: #999; float: right;")  {{ publicacion_actual.created_at }}
 

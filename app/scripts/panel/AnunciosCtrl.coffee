@@ -17,7 +17,7 @@ angular.module('myvcFrontApp')
 	$scope.mostrando_edit_evento  = false
 	$scope.actualizando_cumples   = false
 	$scope.IS_PROF_ADMIN 		      = $scope.hasRoleOrPerm(['admin', 'profesor']);
-	$scope.IS_ALUM_ACUD 		      = $scope.hasRoleOrPerm(['alumno', 'acudiente']);
+	$scope.IS_ALUM_ACUD 		      = $scope.hasRoleOrPerm(['alumno', 'acudiente']) || $scope.USER.tipo == 'Acudiente';
 
 
 	$scope.new_publicacion  = {

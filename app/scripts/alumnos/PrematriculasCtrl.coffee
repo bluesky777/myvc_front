@@ -35,8 +35,8 @@ angular.module("myvcFrontApp")
 	$http.get('::grupos/con-paises-tipos-next-year').then((r)->
 		matr_grupo = 0
 
-		if localStorage.matr_grupo
-			matr_grupo = parseInt(localStorage.matr_grupo)
+		if localStorage.matr_grupo_premat
+			matr_grupo = parseInt(localStorage.matr_grupo_premat)
 
 		$scope.grupos 		= r.data.grupos
 		$scope.paises 		= r.data.paises
@@ -53,14 +53,14 @@ angular.module("myvcFrontApp")
 		sin_matr    = 0
 		cant_cupo   = 0
 		faltan      = 0
-		#formus      = 0
+		formus      = 0
 
 		for grup in $scope.grupos
 			cant_matr   += grup.cantidad
 			sin_matr    += grup.sin_matricular
 			cant_cupo   += grup.cupo
 			faltan      += grup.cant_faltantes
-			#formus      += grup.cant_formularios
+			formus      += grup.cant_formularios
 
 			grup.active = false
 
@@ -68,14 +68,14 @@ angular.module("myvcFrontApp")
 		$scope.total_sin_prematric    = sin_matr
 		$scope.total_cupo             = cant_cupo
 		$scope.total_taltantes        = faltan
-		#$scope.total_formularios      = formus
+		$scope.total_formularios      = formus
 
 		#$scope.$parent.bigLoader 	= false
 	)
 
 
 	$scope.selectGrupo = (grupo)->
-		localStorage.matr_grupo = grupo.id
+		localStorage.matr_grupo_premat = grupo.id
 		$scope.dato.grupo 		= grupo
 
 		cant_matr   = 0
@@ -111,6 +111,7 @@ angular.module("myvcFrontApp")
 			$http.put("::prematriculas/alumnos-con-grado-anterior", {grupo_actual: grupo, grado_ant_id: grado_ant_id, year_ant: $scope.year_ant}).then((r)->
 				$scope.gridOptions.data 	            = r.data.AlumnosActuales
 				$scope.gridOptionsSinMatricula.data 	= r.data.AlumnosSinMatricula
+				$scope.AlumnosFormularios 	          = r.data.AlumnosFormularios
 
 				for alumno in $scope.gridOptions.data
 					#console.log alumno.fecha_retiro, new Date(alumno.fecha_retiro.replace( /(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3"))

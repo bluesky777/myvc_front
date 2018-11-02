@@ -1,3 +1,5 @@
+.row(ui-view="edit_alumno")
+
 .widget
 	.widget-header.bordered-bottom
 		span.widget-caption Buscar persona
@@ -42,192 +44,31 @@
 form(role="form")
 
 	uib-tabset
-		uib-tab(heading="Matriculas")
+		uib-tab(heading="Matriculas" classes="tab-encabezado-bigger")
 
 			// Información de las matrículas
 			persona-matriculas-dir
 
 
-			a(href="" ng-click="mostrar_mas = true" ng-show="!mostrar_mas") Mostrar más
-			a(href="" ng-click="mostrar_mas = false" ng-show="mostrar_mas") Mostrar menos
+		uib-tab(heading="Datos extras" classes="tab-encabezado-bigger")
+			persona-datos-extras-dir
 
-			.widget(ng-show="mostrar_mas")
-				.widget-header.bordered-bottom.bordered-pink
-					span.widget-caption Nacimiento
-				.widget-body
-					.row
-						.form-group.col-lg-4.col-sm-6.col-xs-12(style="margin-bottom: 12px;")
-							label(for="alumno-fecha-nac") Fecha de nacimiento
-							.controls
-								.input-group
-									span.input-group-addon
-										i.fa.fa-calendar
-									input.form-control.active#alumno-fecha-nac(type="text" uib-datepicker-popup="dd-MMMM-yyyy"
-										ng-model="alumno.fecha_nac" is-open="data.isOpen" ng-click="data.isOpen = true"
-										max-date="'2020-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy"
-										clear-text="Borrar" placeholder="Fecha nacimiento"
-										ng-change="guardarValor(alumno, 'fecha_nac', alumno.fecha_nac)")
-
-						.form-group.col-lg-4.col-sm-6.col-xs-12
-							label Pais
-							ui-select(ng-model="alumno.pais_nac" on-select="paisNacSelect($item, $model)" style="width: 100%;")
-								ui-select-match(placeholder="Pais nacimiento" allow-clear="true") {{$select.selected.pais}} ({{$select.selected.abrev}})
-								ui-select-choices(repeat="pais in paises | filter: $select.search")
-									div(ng-bind-html="pais.pais | highlight: $select.search")
-									small {{ pais.departamento | highlight: $select.search}}
-						.form-group.col-lg-4.col-sm-6.col-xs-12
-							label Departamento
-							ui-select(ng-model="alumno.departamento_nac" on-select="departNacSelect($item, $model)" style="width: 100%;")
-								ui-select-match(placeholder="Departamento nacimiento" allow-clear="true") {{$select.selected.departamento}}
-								ui-select-choices(repeat="departamento in departamentosNac | filter: $select.search")
-									div(ng-bind-html="departamento.departamento | highlight: $select.search")
-
-						.form-group.col-lg-4.col-sm-6.col-xs-12(ng-show="false")
-							label Ciudad
-							ui-select(ng-model="alumno.ciudad_nac" style="width: 100%;")
-								ui-select-match(placeholder="Ciudad nacimiento" allow-clear="true") {{$select.selected.ciudad}}
-								ui-select-choices(repeat="ciudad in ciudadesNac | filter: $select.search")
-									div(ng-bind-html="ciudad.ciudad | highlight: $select.search")
-
-
-
-			.widget(ng-show="mostrar_mas")
-				.widget-header.bordered-bottom.bordered-pink
-					span.widget-caption Documento
-				.widget-body
-					.row
-						.form-group.col-lg-4.col-sm-6.col-xs-12
-							label Tipo
-							ui-select(ng-model="alumno.tipo_doc" style="width: 100%;")
-								ui-select-match(placeholder="Tipo de documento" allow-clear="true") {{$select.selected.tipo}}{{ ' ('+$select.selected.abrev+')'}}
-								ui-select-choices(repeat="tipo_doc in tipos_doc")
-									div(ng-bind-html="tipo_doc.tipo | highlight: $select.search")
-									small {{ tipo_doc.abrev}}
-						.form-group.col-lg-4.col-sm-6.col-xs-12
-							label(for="alumno-documento") Número documento
-							input#alumno-documento.form-control(type="text" ng-model="alumno.documento" placeholder="Documento")
-
-						.form-group.col-lg-4.col-sm-6.col-xs-12
-							label Pais
-							ui-select(ng-model="alumno.pais_doc" on-select="paisSelecionado($item, $model)" style="width: 100%;")
-								ui-select-match(placeholder="Pais documento" allow-clear="true") {{$select.selected.pais}} ({{$select.selected.abrev}})
-								ui-select-choices(repeat="pais in paises | filter: $select.search")
-									div(ng-bind-html="pais.pais | highlight: $select.search")
-									small {{ pais.departamento | highlight: $select.search}}
-						.form-group.col-lg-4.col-sm-6.col-xs-12
-							label Departamento
-							ui-select(ng-model="alumno.departamento_doc" on-select="departSeleccionado($item, $model)" style="width: 100%;")
-								ui-select-match(placeholder="Departamento documento" allow-clear="true") {{$select.selected.departamento}}
-								ui-select-choices(repeat="departamento in departamentos | filter: $select.search")
-									div(ng-bind-html="departamento.departamento | highlight: $select.search")
-
-						.form-group.col-lg-4.col-sm-6.col-xs-12
-							label Ciudad
-							ui-select(ng-model="alumno.ciudad_doc" style="width: 100%;")
-								ui-select-match(placeholder="Ciudad documento" allow-clear="true") {{$select.selected.ciudad}}
-								ui-select-choices(repeat="ciudad in ciudades | filter: $select.search")
-									div(ng-bind-html="ciudad.ciudad | highlight: $select.search")
-
-		uib-tab(heading="Datos extras")
-			.row
-				.form-group.col-lg-2.col-sm-6.col-xs-12
-					label(for="alumno-tipo-sangre") Tipo de sangre
-					input#alumno-tipo-sangre.form-control(type="text" ng-model="alumno.tipo_sangre" placeholder="Tipo sangre"
-						ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
-						ng-change="guardarValor(alumno, 'tipo_sangre', alumno.tipo_sangre)")
-
-
-				.form-group.col-lg-3.col-sm-6.col-xs-12
-					label(for="alumno-eps") EPS
-					input#alumno-eps.form-control(type="text"
-						typeahead-append-to-body="true" typeahead-min-length="1"
-						uib-typeahead="eps_check for eps_check in cambiaEpsCheck($viewValue)"
-						ng-model="alumno.eps"
-						ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1500, 'blur': 0} }"
-						typeahead-loading="alumno.loadingEps" typeahead-no-results="alumno.noResultsEps")
-
-					i.fa.fa-refresh(ng-show="alumno.loadingEps" style="font-size: 7pt")
-					div(ng-show="alumno.noResultsEps" style="font-size: 7pt")
-						i.fa.fa-check
-						| Sin coincidencias
-
-
-				.form-group.col-lg-3.col-sm-6.col-xs-12
-					label(for="alumno-telefono") Teléfono
-					input#alumno-telefono.form-control(type="text" ng-model="alumno.telefono" placeholder="Teléfono"
-						ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
-						ng-change="guardarValor(alumno, 'telefono', alumno.telefono)")
-
-				.form-group.col-lg-3.col-sm-6.col-xs-12
-					label(for="alumno-celular") Celular
-					input#alumno-celular.form-control(type="text" ng-model="alumno.celular" placeholder="Celular"
-						ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
-						ng-change="guardarValor(alumno, 'celular', alumno.celular)")
-
-				.form-group.col-lg-3.col-sm-6.col-xs-12
-					label(for="alumno-direccion") Dirección
-					input#alumno-direccion.form-control(type="text" ng-model="alumno.direccion" placeholder="Direccion"
-						ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
-						ng-change="guardarValor(alumno, 'direccion', alumno.direccion)")
-
-				.form-group.col-lg-3.col-sm-6.col-xs-12
-					label(for="alumno-barrio") Barrio
-					input#alumno-barrio.form-control(type="text" ng-model="alumno.barrio" placeholder="Barrio"
-						ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
-						ng-change="guardarValor(alumno, 'barrio', alumno.barrio)")
-
-				.form-group.col-lg-3.col-sm-6.col-xs-12
-					label(for="alumno-estrato") Estrato
-					.spinner.spinner-horizontal
-						input.spinner-input.form-control#alumno-estrato(type="text" minlength="0" maxlength="10" ng-model="alumno.estrato"
-							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
-							ng-change="guardarValor(alumno, 'estrato', alumno.estrato)")
-						.spinner-buttons.btn-group
-							button.btn.spinner-down.blueberry(type="button" ng-click="restarEstrato()")
-								i.fa.fa-minus
-							button.btn.spinner-up.purple(type="button" ng-click="sumarEstrato()")
-								i.fa.fa-plus
-
-				.form-group.col-lg-3.col-sm-6.col-xs-12
-					label(for="alumno-ciudad_resid") Ciudad residencia
-					input#alumno-ciudad-resid.form-control(type="text" ng-model="alumno.ciudad_resid" placeholder="Ciudad residencia")
-
-				.form-group.col-lg-3.col-sm-6.col-xs-12
-					label(for="alumno-religion") Religión
-					input#alumno-religion.form-control(type="text"
-						typeahead-append-to-body="true" typeahead-min-length="1"
-						uib-typeahead="religion for religion in religiones | filter:$viewValue | limitTo:8"
-						typeahead-on-select="religionSelected(alumno, $item)"
-						ng-model="alumno.religion"
-						ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
-						ng-change="guardarValor(alumno, 'religion', alumno.religion)")
-
-				.form-group.col-lg-3.col-sm-6.col-xs-12
-					label(for="alumno-email") E-mail
-					input#alumno-email.form-control(type="text" ng-model="alumno.email" placeholder="E-mail"
-						ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
-						ng-change="guardarValor(alumno, 'email', alumno.email)")
-
-				.form-group.col-lg-3.col-sm-6.col-xs-12
-					label(for="alumno-facebook") Facebook
-					input#alumno-facebook.form-control(type="text" ng-model="alumno.facebook" placeholder="Facebook"
-						ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
-						ng-change="guardarValor(alumno, 'facebook', alumno.facebook)")
-
-				.form-group.col-lg-3.col-sm-6.col-xs-12
-					label(for="alumno-foto") Foto oficial
-					input#alumno-foto.form-control(type="text" ng-model="alumno.foto" placeholder="Foto oficial")
-
-
-
-		uib-tab(heading="Usuario")
+		uib-tab(heading="Usuario" classes="tab-encabezado-bigger")
 			.form-group
 				label(for="alumno-username") Nombre de usuario
-				input#alumno-username.form-control(type="text" ng-model="alumno.username" placeholder="Nombre usuario")
+
+
 			.form-group
+				a(uib-tooltip="Resetear contraseña" tooltip-placement="right" tooltip-append-to-body="true" class="btn btn-default shiny"
+					ng-click="resetPass(alumno)" style="")
+					i.fa.fa-user-secret
+					| Cambiar contraseña
+
+
+			//.form-group
 				label(for="alumno-password") Contraseña
 				input#alumno-password.form-control(type="password" ng-model="alumno.password" placeholder="Contraseña")
-			.form-group
+			//.form-group
 				label(for="alumno-password2") Verificar contraseña
 				input#alumno-password2.form-control(type="password" ng-model="alumno.password2" placeholder="Verificar contraseña")
 			.form-group

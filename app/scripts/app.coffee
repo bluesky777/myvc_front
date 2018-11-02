@@ -124,3 +124,6 @@ angular.module('myvcFrontApp', [
 
 
 
+window.validateEmail = (email)->
+	re = /\S+@\S+\.\S+/;
+	return re.test(email);

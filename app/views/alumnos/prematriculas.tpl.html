@@ -4,55 +4,77 @@
   <div class="col-xs-12 col-md-12">
     <div class="well with-header with-footer animated bounceIn">
       <div class="header bordered-yellow"><span style="font-size: 12pt">Alumnos en grupos {{USER.year+1}} (incluyendo matriculados)</span><a href="" ng-click="crear_alumno()" uib-tooltip="Ingresa datos de un nuevo alumno" style="float: right;" class="btn btn-info shiny"><i class="fa fa-plus"></i><span class="hidden-xs">  Crear alumno</span></a><a ui-sref="panel.requisitos" uib-tooltip="Requisitos para poder matricularse" style="float: right;" class="btn btn-default shiny"><i class="fa fa-file"></i><span class="hidden-xs">  Requisitos</span></a></div>
-      <div style="overflow: auto">
-        <table style="max-width: 600px;" class="table table-condensed table-striped table-hover table-responsive">
-          <thead>
-            <tr>
-              <th class="txtcentro">No</th>
-              <th style="min-width: min-width: 150px;" class="txtcentro">Grupo</th>
-              <!--th.txtcentrospan(uib-tooltip="Alumnos que llevaron formulario") Formulario
-              -->
-              <th class="txtcentro">Prematriculados</th>
-              <th class="txtcentro"><span uib-tooltip="Sin prematricular del año pasado">Sin prematricular</span></th>
-              <th class="txtcentro"><span uib-tooltip="Edite valor en 'Editar grupos'">Cupo</span></th>
-              <th class="txtcentro"><span uib-tooltip="Alumnos faltantes para llenar cupo">Faltan</span></th>
-            </tr>
-          </thead>
-          <tbody class="filasestrechas">
-            <tr ng-repeat="grupo in grupos" ng-click="selectGrupo(grupo)" ng-class="{ active: grupo.active, info: grupo.active }">
-              <td ng-class="{info: grupo.active}">{{ $index+1 }}</td>
-              <td ng-class="{info: grupo.active}">{{ grupo.nombre }}</td>
-              <!--td.txtcentro(ng-class="{info: grupo.active}") {{ grupo.cant_formularios }}-->
-              <td ng-class="{info: grupo.active}" class="txtcentro">{{ grupo.cantidad }}</td>
-              <td ng-class="{info: grupo.active}" uib-tooltip="Sin prematricular del año pasado" tooltip-append-to-body="true" tooltip-popup-delay="400" class="txtcentro">{{ grupo.sin_matricular }}</td>
-              <td ng-class="{info: grupo.active}" uib-tooltip="Edite valor en 'Editar grupos' {{USER.year+1}}" tooltip-append-to-body="true" tooltip-popup-delay="400" class="txtcentro">{{ grupo.cupo }}</td>
-              <td ng-class="{info: grupo.active}" uib-tooltip="Alumnos faltantes para llenar cupo {{USER.year+1}}" tooltip-append-to-body="true" tooltip-popup-delay="400" class="txtcentro">{{ grupo.cant_faltantes }}</td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td></td>
-              <td>
-                <div class="bold">Total</div>
-              </td>
-              <!--td.txtcentro.bold {{ total_formularios }}
-              -->
-              <td class="txtcentro">
-                <div class="bold">{{ total_prematriculados }}</div>
-              </td>
-              <td class="txtcentro">
-                <div class="bold">{{ total_sin_prematric }}</div>
-              </td>
-              <td class="txtcentro">
-                <div class="bold">{{ total_cupo }}</div>
-              </td>
-              <td class="txtcentro">
-                <div class="bold">{{ total_taltantes }}</div>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-      </div><br><br>
+      <div style="overflow: auto" class="row">
+        <div class="col-sm-7 col-xs-12">
+          <table class="table table-condensed table-striped table-hover table-responsive">
+            <thead>
+              <tr>
+                <th class="txtcentro">No</th>
+                <th style="min-width: min-width: 150px;" class="txtcentro">Grupo</th>
+                <th class="txtcentro"><span uib-tooltip="Alumnos que llevaron formulario" tooltip-append-to-body="true">Formul</span></th>
+                <th class="txtcentro"><span uib-tooltip="Prematriculados" tooltip-append-to-body="true">Prematr</span></th>
+                <th class="txtcentro"><span uib-tooltip="Sin prematricular del año pasado" tooltip-append-to-body="true">Sin prematr</span></th>
+                <th class="txtcentro"><span uib-tooltip="Edite valor en 'Editar grupos'" tooltip-append-to-body="true">Cupo</span></th>
+                <th class="txtcentro"><span uib-tooltip="Alumnos faltantes para llenar cupo" tooltip-append-to-body="true">Faltan</span></th>
+              </tr>
+            </thead>
+            <tbody class="filasestrechas">
+              <tr ng-repeat="grupo in grupos" ng-click="selectGrupo(grupo)" ng-class="{ active: grupo.active, info: grupo.active }">
+                <td ng-class="{info: grupo.active}">{{ $index+1 }}</td>
+                <td ng-class="{info: grupo.active}">{{ grupo.nombre }}</td>
+                <td ng-class="{info: grupo.active}" class="txtcentro">{{ grupo.cant_formularios }}</td>
+                <td ng-class="{info: grupo.active}" class="txtcentro">{{ grupo.cantidad }}</td>
+                <td ng-class="{info: grupo.active}" uib-tooltip="Sin prematricular del año pasado" tooltip-append-to-body="true" tooltip-popup-delay="400" class="txtcentro">{{ grupo.sin_matricular }}</td>
+                <td ng-class="{info: grupo.active}" uib-tooltip="Edite valor en 'Editar grupos' {{USER.year+1}}" tooltip-append-to-body="true" tooltip-popup-delay="400" class="txtcentro">{{ grupo.cupo }}</td>
+                <td ng-class="{info: grupo.active}" uib-tooltip="Alumnos faltantes para llenar cupo {{USER.year+1}}" tooltip-append-to-body="true" tooltip-popup-delay="400" class="txtcentro">{{ grupo.cant_faltantes }}</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td></td>
+                <td>
+                  <div class="bold">Total</div>
+                </td>
+                <td class="txtcentro">
+                  <div class="bold">{{ total_formularios }}</div>
+                </td>
+                <td class="txtcentro">
+                  <div class="bold">{{ total_prematriculados }}</div>
+                </td>
+                <td class="txtcentro">
+                  <div class="bold">{{ total_sin_prematric }}</div>
+                </td>
+                <td class="txtcentro">
+                  <div class="bold">{{ total_cupo }}</div>
+                </td>
+                <td class="txtcentro">
+                  <div class="bold">{{ total_taltantes }}</div>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        <div class="col-sm-5 col-xs-12">
+          <h4 style="font-weight: 600!important">{{total_formularios}} formularios vendidos a:</h4>
+          <table class="table table-condensed table-striped table-hover table-responsive">
+            <thead>
+              <tr>
+                <th class="txtcentro">No</th>
+                <th style="min-width: min-width: 150px;" class="txtcentro">Alumno</th>
+                <th class="txtcentro">Celular</th>
+              </tr>
+            </thead>
+            <tbody class="filasestrechas">
+              <tr ng-repeat="alumno in AlumnosFormularios">
+                <td>{{ $index+1 }}</td>
+                <td>{{ alumno.apellidos }} {{ alumno.nombres }}</td>
+                <td>{{ alumno.celular }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <hr><br><br>
       <p>Mueva las columnas para mayor comodidad y oculte las que desee:</p>
       <div id="grid1" ui-grid="gridOptions" ui-grid-exporter ui-grid-move-columns ui-grid-expandable ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-auto-resize ui-grid-pinning style="height: 600px" class="grid"></div>
       <hr class="wide">
@@ -94,7 +116,7 @@
           <tr ng-repeat="alumno in alumnos_encontrados track by $index" ng-class="{'filagris': alumno.grupo_id!=dato_f.grupo.id, 'filawarning': alumno.estado=='ASIS' }">
             <td>{{ $index+1 }}</td>
             <td class="text-center">
-              <div class="btn-group"><a ui-sref="panel.alumnos.matricula_detalles({alumno_id: alumno.alumno_id})" uib-tooltip="Ver matrículas" tooltip-append-to-body="true" class="btn btn-default btn-xs"><i class="fa fa-pencil"></i></a><a ng-click="matricularUno(alumno)" uib-tooltip="Matricular en {{dato.grupo.abrev}}" tooltip-append-to-body="true" tooltip- class="btn btn-default btn-xs">Matri en {{dato.grupo.abrev}}</a><a ng-click="matricularEn(alumno)" uib-tooltip="Matricular en..." tooltip-append-to-body="true" tooltip- class="btn btn-default btn-xs">Matri en...</a></div>
+              <div class="btn-group"><a ui-sref="panel.prematriculas.matricula_detalles({alumno_id: alumno.alumno_id})" uib-tooltip="Ver matrículas" tooltip-append-to-body="true" class="btn btn-default btn-xs"><i class="fa fa-pencil"></i></a><a ng-click="matricularUno(alumno)" uib-tooltip="Matricular en {{dato.grupo.abrev}}" tooltip-append-to-body="true" tooltip- class="btn btn-default btn-xs">Matri en {{dato.grupo.abrev}}</a><a ng-click="matricularEn(alumno)" uib-tooltip="Matricular en..." tooltip-append-to-body="true" tooltip- class="btn btn-default btn-xs">Matri en...</a></div>
             </td>
             <td>
               <div uib-popover-template="views+'alumnos/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 20px; height: 20px; margin-top: -3px;">{{ alumno.apellidos }}</div>

@@ -116,11 +116,19 @@ angular.module("myvcFrontApp")
 			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
 
 				if newValue != oldValue
+					datos = {}
+
+					if colDef.field == 'username'
+						datos.user_id = rowEntity.user_id
 
 					if not rowEntity.alumno_id
 						rowEntity.alumno_id = fila.id
 
-					$http.put('::alumnos/guardar-valor', {alumno_id: rowEntity.alumno_id, propiedad: colDef.field, valor: newValue } ).then((r)->
+					datos.alumno_id = rowEntity.alumno_id
+					datos.propiedad = colDef.field
+					datos.valor 		= newValue
+
+					$http.put('::alumnos/guardar-valor', datos ).then((r)->
 						toastr.success 'Alumno(a) actualizado con éxito'
 					, (r2)->
 						rowEntity[colDef.field] = oldValue
