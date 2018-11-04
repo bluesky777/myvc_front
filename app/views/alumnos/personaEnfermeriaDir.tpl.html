@@ -1,0 +1,13 @@
+
+<div ng-show="!enfermedia_cargada" style="text-align: center;"><i style="font-size: 20pt" class="fa fa-spinner fa-spin"></i></div>
+<div ng-show="enfermedia_cargada" class="row">
+  <div class="form-group col-lg-2 col-sm-6 col-xs-12">
+    <label for="alumno-tipo-sangre">Tipo de sangre</label>
+    <input id="alumno-tipo-sangre" type="text" ng-model="alumno.tipo_sangre" placeholder="Tipo sangre" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }" ng-change="guardarValor(alumno, 'tipo_sangre', alumno.tipo_sangre)" class="form-control">
+  </div>
+  <div class="form-group col-lg-3 col-sm-6 col-xs-12">
+    <label for="alumno-eps">EPS</label>
+    <input id="alumno-eps" type="text" typeahead-append-to-body="true" typeahead-min-length="1" uib-typeahead="eps_check for eps_check in cambiaEpsCheck($viewValue)" ng-model="alumno.eps" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }" ng-change="guardarValor(alumno, 'eps', alumno.eps)" typeahead-loading="alumno.loadingEps" typeahead-no-results="alumno.noResultsEps" class="form-control"><i ng-show="alumno.loadingEps" style="font-size: 7pt" class="fa fa-refresh"></i>
+    <div ng-show="alumno.noResultsEps" style="font-size: 7pt"><i class="fa fa-check"></i>Sin coincidencias</div>
+  </div>
+</div>

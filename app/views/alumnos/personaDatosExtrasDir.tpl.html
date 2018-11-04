@@ -1,14 +1,5 @@
 
 <div class="row">
-  <div class="form-group col-lg-2 col-sm-6 col-xs-12">
-    <label for="alumno-tipo-sangre">Tipo de sangre</label>
-    <input id="alumno-tipo-sangre" type="text" ng-model="alumno.tipo_sangre" placeholder="Tipo sangre" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }" ng-change="guardarValor(alumno, 'tipo_sangre', alumno.tipo_sangre)" class="form-control">
-  </div>
-  <div class="form-group col-lg-3 col-sm-6 col-xs-12">
-    <label for="alumno-eps">EPS</label>
-    <input id="alumno-eps" type="text" typeahead-append-to-body="true" typeahead-min-length="1" uib-typeahead="eps_check for eps_check in cambiaEpsCheck($viewValue)" ng-model="alumno.eps" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }" ng-change="guardarValor(alumno, 'eps', alumno.eps)" typeahead-loading="alumno.loadingEps" typeahead-no-results="alumno.noResultsEps" class="form-control"><i ng-show="alumno.loadingEps" style="font-size: 7pt" class="fa fa-refresh"></i>
-    <div ng-show="alumno.noResultsEps" style="font-size: 7pt"><i class="fa fa-check"></i>Sin coincidencias</div>
-  </div>
   <div class="form-group col-lg-3 col-sm-6 col-xs-12">
     <label for="alumno-religion">Religión</label>
     <input id="alumno-religion" type="text" typeahead-append-to-body="true" typeahead-min-length="1" uib-typeahead="religion for religion in religiones | filter:$viewValue | limitTo:8" typeahead-on-select="religionSelected(alumno, $item)" ng-model="alumno.religion" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }" ng-change="guardarValor(alumno, 'religion', alumno.religion)" class="form-control">
@@ -20,6 +11,53 @@
   <div class="form-group col-lg-3 col-sm-6 col-xs-12">
     <label for="alumno-facebook">Facebook</label>
     <input id="alumno-facebook" type="text" ng-model="alumno.facebook" placeholder="Facebook" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }" ng-change="guardarValor(alumno, 'facebook', alumno.facebook)" class="form-control">
+  </div>
+</div>
+<div class="widget">
+  <div class="widget-header bordered-bottom bordered-info"><span class="widget-caption">Documento</span></div>
+  <div class="widget-body">
+    <div class="row">
+      <div class="form-group col-lg-4 col-sm-6 col-xs-12">
+        <label>Tipo</label>
+        <ui-select ng-model="alumno.tipo_doc" style="width: 100%;">
+          <ui-select-match placeholder="Tipo de documento" allow-clear="true">{{$select.selected.tipo}}{{ ' ('+$select.selected.abrev+')'}}</ui-select-match>
+          <ui-select-choices repeat="tipo_doc in tipos_doc">
+            <div ng-bind-html="tipo_doc.tipo | highlight: $select.search"></div><small>{{ tipo_doc.abrev}}</small>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+      <div class="form-group col-lg-4 col-sm-6 col-xs-12">
+        <label for="alumno-documento">Número documento:<span style="font-weight: 700; padding-left: 15px;">{{ alumno.documento | formatNumberDocumento }}</span></label>
+        <input id="alumno-documento" type="text" ng-model="alumno.documento" placeholder="Documento" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }" ng-change="guardarValor(alumno, 'documento', alumno.documento)" class="form-control">
+      </div>
+      <div style="margin-bottom: 17px;" class="form-group col-lg-4 col-sm-6 col-xs-12">
+        <label>Pais</label>
+        <ui-select ng-model="alumno.pais_doc" on-select="paisSeleccionado($item, $model)" style="width: 100%;">
+          <ui-select-match placeholder="Pais documento" allow-clear="true">{{$select.selected.pais}} ({{$select.selected.abrev}})</ui-select-match>
+          <ui-select-choices repeat="pais in paises | filter: $select.search">
+            <div ng-bind-html="pais.pais | highlight: $select.search"></div><small>{{ pais.departamento | highlight: $select.search}}</small>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+      <div class="form-group col-lg-4 col-sm-6 col-xs-12">
+        <label>Departamento</label>
+        <ui-select ng-model="alumno.departamento_doc" on-select="departSeleccionado($item, $model)" style="width: 100%;">
+          <ui-select-match placeholder="Departamento documento" allow-clear="true">{{$select.selected.departamento}}</ui-select-match>
+          <ui-select-choices repeat="departamento in departamentos | filter: $select.search">
+            <div ng-bind-html="departamento.departamento | highlight: $select.search"></div>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+      <div class="form-group col-lg-4 col-sm-6 col-xs-12">
+        <label>Ciudad</label>
+        <ui-select ng-model="alumno.ciudad_doc" on-select="ciudadSeleccionada($item, 'ciudad_doc')" style="width: 100%;">
+          <ui-select-match placeholder="Ciudad documento" allow-clear="true">{{$select.selected.ciudad}}</ui-select-match>
+          <ui-select-choices repeat="ciudad in ciudades | filter: $select.search">
+            <div ng-bind-html="ciudad.ciudad | highlight: $select.search"></div>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
   </div>
 </div>
 <div class="widget">
@@ -35,9 +73,9 @@
     </div>
     <div class="form-group"><a uib-tooltip="Resetear contraseña" tooltip-placement="right" tooltip-append-to-body="true" ng-click="resetPass(alumno)" style="" class="btn btn-default shiny"><i class="fa fa-user-secret"></i>Cambiar contraseña</a></div>
   </div>
-</div><a href="" ng-click="mostarMasDetalle()" ng-show="!mostrar_mas" style="font-size: 12pt;">Mostrar Nacimiento, Documento, etc.</a><a href="" ng-click="mostarMasDetalle()" ng-show="mostrar_mas" style="font-size: 12pt;">Mostrar menos</a>
+</div><a href="" ng-click="mostarMasDetalle()" ng-show="!mostrar_mas" style="font-size: 12pt;">Mostrar Nacimiento, residencia, etc.</a><a href="" ng-click="mostarMasDetalle()" ng-show="mostrar_mas" style="font-size: 12pt;">Mostrar menos</a>
 <div ng-show="mostrar_mas" class="widget">
-  <div class="widget-header bordered-bottom bordered-pink"><span class="widget-caption">Nacimiento</span></div>
+  <div class="widget-header bordered-bottom bordered-info"><span class="widget-caption">Nacimiento</span></div>
   <div class="widget-body">
     <div class="row">
       <div style="margin-bottom: 12px;" class="form-group col-lg-4 col-sm-6 col-xs-12">
@@ -79,54 +117,7 @@
   </div>
 </div>
 <div ng-show="mostrar_mas" class="widget">
-  <div class="widget-header bordered-bottom bordered-pink"><span class="widget-caption">Documento</span></div>
-  <div class="widget-body">
-    <div class="row">
-      <div class="form-group col-lg-4 col-sm-6 col-xs-12">
-        <label>Tipo</label>
-        <ui-select ng-model="alumno.tipo_doc" style="width: 100%;">
-          <ui-select-match placeholder="Tipo de documento" allow-clear="true">{{$select.selected.tipo}}{{ ' ('+$select.selected.abrev+')'}}</ui-select-match>
-          <ui-select-choices repeat="tipo_doc in tipos_doc">
-            <div ng-bind-html="tipo_doc.tipo | highlight: $select.search"></div><small>{{ tipo_doc.abrev}}</small>
-          </ui-select-choices>
-        </ui-select>
-      </div>
-      <div class="form-group col-lg-4 col-sm-6 col-xs-12">
-        <label for="alumno-documento">Número documento:<span style="font-weight: 700; padding-left: 15px;">{{ alumno.documento | formatNumberDocumento }}</span></label>
-        <input id="alumno-documento" type="text" ng-model="alumno.documento" placeholder="Documento" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }" ng-change="guardarValor(alumno, 'documento', alumno.documento)" class="form-control">
-      </div>
-      <div class="form-group col-lg-4 col-sm-6 col-xs-12">
-        <label>Pais</label>
-        <ui-select ng-model="alumno.pais_doc" on-select="paisSeleccionado($item, $model)" style="width: 100%;">
-          <ui-select-match placeholder="Pais documento" allow-clear="true">{{$select.selected.pais}} ({{$select.selected.abrev}})</ui-select-match>
-          <ui-select-choices repeat="pais in paises | filter: $select.search">
-            <div ng-bind-html="pais.pais | highlight: $select.search"></div><small>{{ pais.departamento | highlight: $select.search}}</small>
-          </ui-select-choices>
-        </ui-select>
-      </div>
-      <div class="form-group col-lg-4 col-sm-6 col-xs-12">
-        <label>Departamento</label>
-        <ui-select ng-model="alumno.departamento_doc" on-select="departSeleccionado($item, $model)" style="width: 100%;">
-          <ui-select-match placeholder="Departamento documento" allow-clear="true">{{$select.selected.departamento}}</ui-select-match>
-          <ui-select-choices repeat="departamento in departamentos | filter: $select.search">
-            <div ng-bind-html="departamento.departamento | highlight: $select.search"></div>
-          </ui-select-choices>
-        </ui-select>
-      </div>
-      <div class="form-group col-lg-4 col-sm-6 col-xs-12">
-        <label>Ciudad</label>
-        <ui-select ng-model="alumno.ciudad_doc" on-select="ciudadSeleccionada($item, 'ciudad_doc')" style="width: 100%;">
-          <ui-select-match placeholder="Ciudad documento" allow-clear="true">{{$select.selected.ciudad}}</ui-select-match>
-          <ui-select-choices repeat="ciudad in ciudades | filter: $select.search">
-            <div ng-bind-html="ciudad.ciudad | highlight: $select.search"></div>
-          </ui-select-choices>
-        </ui-select>
-      </div>
-    </div>
-  </div>
-</div>
-<div ng-show="mostrar_mas" class="widget">
-  <div class="widget-header bordered-bottom bordered-pink"><span class="widget-caption">Residencia</span></div>
+  <div class="widget-header bordered-bottom bordered-info"><span class="widget-caption">Residencia</span></div>
   <div class="widget-body">
     <div class="row">
       <div class="form-group col-lg-3 col-sm-6 col-xs-12">

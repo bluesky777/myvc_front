@@ -50,30 +50,12 @@ form(role="form")
 			persona-matriculas-dir
 
 
-		uib-tab(heading="Datos extras" classes="tab-encabezado-bigger")
+		uib-tab(heading="Datos" classes="tab-encabezado-bigger")
 			persona-datos-extras-dir
 
-		uib-tab(heading="Usuario" classes="tab-encabezado-bigger")
-			.form-group
-				label(for="alumno-username") Nombre de usuario
+		uib-tab(heading="Enfermería" classes="tab-encabezado-bigger" select="cargarEnfermeria()")
+			persona-enfermeria-dir
 
-
-			.form-group
-				a(uib-tooltip="Resetear contraseña" tooltip-placement="right" tooltip-append-to-body="true" class="btn btn-default shiny"
-					ng-click="resetPass(alumno)" style="")
-					i.fa.fa-user-secret
-					| Cambiar contraseña
-
-
-			//.form-group
-				label(for="alumno-password") Contraseña
-				input#alumno-password.form-control(type="password" ng-model="alumno.password" placeholder="Contraseña")
-			//.form-group
-				label(for="alumno-password2") Verificar contraseña
-				input#alumno-password2.form-control(type="password" ng-model="alumno.password2" placeholder="Verificar contraseña")
-			.form-group
-				label(for="alumno-email2") Correo electrónico
-				input#alumno-email2.form-control(type="email" ng-model="alumno.email2" placeholder="Correo electrónico")
 
 
 

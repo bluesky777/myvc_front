@@ -1,26 +1,4 @@
 .row
-	.form-group.col-lg-2.col-sm-6.col-xs-12
-		label(for="alumno-tipo-sangre") Tipo de sangre
-		input#alumno-tipo-sangre.form-control(type="text" ng-model="alumno.tipo_sangre" placeholder="Tipo sangre"
-			ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }"
-			ng-change="guardarValor(alumno, 'tipo_sangre', alumno.tipo_sangre)")
-
-
-	.form-group.col-lg-3.col-sm-6.col-xs-12
-		label(for="alumno-eps") EPS
-		input#alumno-eps.form-control(type="text"
-			typeahead-append-to-body="true" typeahead-min-length="1"
-			uib-typeahead="eps_check for eps_check in cambiaEpsCheck($viewValue)"
-			ng-model="alumno.eps"
-			ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }"
-			ng-change="guardarValor(alumno, 'eps', alumno.eps)"
-			typeahead-loading="alumno.loadingEps" typeahead-no-results="alumno.noResultsEps")
-
-		i.fa.fa-refresh(ng-show="alumno.loadingEps" style="font-size: 7pt")
-		div(ng-show="alumno.noResultsEps" style="font-size: 7pt")
-			i.fa.fa-check
-			| Sin coincidencias
-
 
 	.form-group.col-lg-3.col-sm-6.col-xs-12
 		label(for="alumno-religion") Religión
@@ -43,6 +21,47 @@
 		input#alumno-facebook.form-control(type="text" ng-model="alumno.facebook" placeholder="Facebook"
 			ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
 			ng-change="guardarValor(alumno, 'facebook', alumno.facebook)")
+
+
+.widget
+	.widget-header.bordered-bottom.bordered-info
+		span.widget-caption Documento
+	.widget-body
+		.row
+			.form-group.col-lg-4.col-sm-6.col-xs-12
+				label Tipo
+				ui-select(ng-model="alumno.tipo_doc" style="width: 100%;")
+					ui-select-match(placeholder="Tipo de documento" allow-clear="true") {{$select.selected.tipo}}{{ ' ('+$select.selected.abrev+')'}}
+					ui-select-choices(repeat="tipo_doc in tipos_doc")
+						div(ng-bind-html="tipo_doc.tipo | highlight: $select.search")
+						small {{ tipo_doc.abrev}}
+			.form-group.col-lg-4.col-sm-6.col-xs-12
+				label(for="alumno-documento") Número documento:
+					span(style="font-weight: 700; padding-left: 15px;") {{ alumno.documento | formatNumberDocumento }}
+				input#alumno-documento.form-control(type="text" ng-model="alumno.documento" placeholder="Documento"
+					ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
+					ng-change="guardarValor(alumno, 'documento', alumno.documento)")
+
+			.form-group.col-lg-4.col-sm-6.col-xs-12(style="margin-bottom: 17px;")
+				label Pais
+				ui-select(ng-model="alumno.pais_doc" on-select="paisSeleccionado($item, $model)" style="width: 100%;")
+					ui-select-match(placeholder="Pais documento" allow-clear="true") {{$select.selected.pais}} ({{$select.selected.abrev}})
+					ui-select-choices(repeat="pais in paises | filter: $select.search")
+						div(ng-bind-html="pais.pais | highlight: $select.search")
+						small {{ pais.departamento | highlight: $select.search}}
+			.form-group.col-lg-4.col-sm-6.col-xs-12
+				label Departamento
+				ui-select(ng-model="alumno.departamento_doc" on-select="departSeleccionado($item, $model)" style="width: 100%;")
+					ui-select-match(placeholder="Departamento documento" allow-clear="true") {{$select.selected.departamento}}
+					ui-select-choices(repeat="departamento in departamentos | filter: $select.search")
+						div(ng-bind-html="departamento.departamento | highlight: $select.search")
+
+			.form-group.col-lg-4.col-sm-6.col-xs-12
+				label Ciudad
+				ui-select(ng-model="alumno.ciudad_doc" on-select="ciudadSeleccionada($item, 'ciudad_doc')" style="width: 100%;")
+					ui-select-match(placeholder="Ciudad documento" allow-clear="true") {{$select.selected.ciudad}}
+					ui-select-choices(repeat="ciudad in ciudades | filter: $select.search")
+						div(ng-bind-html="ciudad.ciudad | highlight: $select.search")
 
 
 .widget
@@ -78,11 +97,11 @@
 
 
 
-a(href="" ng-click="mostarMasDetalle()" ng-show="!mostrar_mas" style="font-size: 12pt;") Mostrar Nacimiento, Documento, etc.
+a(href="" ng-click="mostarMasDetalle()" ng-show="!mostrar_mas" style="font-size: 12pt;") Mostrar Nacimiento, residencia, etc.
 a(href="" ng-click="mostarMasDetalle()" ng-show="mostrar_mas" style="font-size: 12pt;") Mostrar menos
 
 .widget(ng-show="mostrar_mas")
-	.widget-header.bordered-bottom.bordered-pink
+	.widget-header.bordered-bottom.bordered-info
 		span.widget-caption Nacimiento
 	.widget-body
 		.row
@@ -121,48 +140,7 @@ a(href="" ng-click="mostarMasDetalle()" ng-show="mostrar_mas" style="font-size: 
 
 
 .widget(ng-show="mostrar_mas")
-	.widget-header.bordered-bottom.bordered-pink
-		span.widget-caption Documento
-	.widget-body
-		.row
-			.form-group.col-lg-4.col-sm-6.col-xs-12
-				label Tipo
-				ui-select(ng-model="alumno.tipo_doc" style="width: 100%;")
-					ui-select-match(placeholder="Tipo de documento" allow-clear="true") {{$select.selected.tipo}}{{ ' ('+$select.selected.abrev+')'}}
-					ui-select-choices(repeat="tipo_doc in tipos_doc")
-						div(ng-bind-html="tipo_doc.tipo | highlight: $select.search")
-						small {{ tipo_doc.abrev}}
-			.form-group.col-lg-4.col-sm-6.col-xs-12
-				label(for="alumno-documento") Número documento:
-					span(style="font-weight: 700; padding-left: 15px;") {{ alumno.documento | formatNumberDocumento }}
-				input#alumno-documento.form-control(type="text" ng-model="alumno.documento" placeholder="Documento"
-					ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
-					ng-change="guardarValor(alumno, 'documento', alumno.documento)")
-
-			.form-group.col-lg-4.col-sm-6.col-xs-12
-				label Pais
-				ui-select(ng-model="alumno.pais_doc" on-select="paisSeleccionado($item, $model)" style="width: 100%;")
-					ui-select-match(placeholder="Pais documento" allow-clear="true") {{$select.selected.pais}} ({{$select.selected.abrev}})
-					ui-select-choices(repeat="pais in paises | filter: $select.search")
-						div(ng-bind-html="pais.pais | highlight: $select.search")
-						small {{ pais.departamento | highlight: $select.search}}
-			.form-group.col-lg-4.col-sm-6.col-xs-12
-				label Departamento
-				ui-select(ng-model="alumno.departamento_doc" on-select="departSeleccionado($item, $model)" style="width: 100%;")
-					ui-select-match(placeholder="Departamento documento" allow-clear="true") {{$select.selected.departamento}}
-					ui-select-choices(repeat="departamento in departamentos | filter: $select.search")
-						div(ng-bind-html="departamento.departamento | highlight: $select.search")
-
-			.form-group.col-lg-4.col-sm-6.col-xs-12
-				label Ciudad
-				ui-select(ng-model="alumno.ciudad_doc" on-select="ciudadSeleccionada($item, 'ciudad_doc')" style="width: 100%;")
-					ui-select-match(placeholder="Ciudad documento" allow-clear="true") {{$select.selected.ciudad}}
-					ui-select-choices(repeat="ciudad in ciudades | filter: $select.search")
-						div(ng-bind-html="ciudad.ciudad | highlight: $select.search")
-
-
-.widget(ng-show="mostrar_mas")
-	.widget-header.bordered-bottom.bordered-pink
+	.widget-header.bordered-bottom.bordered-info
 		span.widget-caption Residencia
 	.widget-body
 		.row

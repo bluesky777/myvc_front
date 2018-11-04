@@ -15,6 +15,10 @@ angular.module("myvcFrontApp")
 	restrict: 'E'
 	templateUrl: "#{App.views}alumnos/personaDatosExtrasDir.tpl.html"
 ])
+.directive('personaEnfermeriaDir',['App', (App)->
+	restrict: 'E'
+	templateUrl: "#{App.views}alumnos/personaEnfermeriaDir.tpl.html"
+])
 
 
 .controller('PersonaCtrl', ['$scope', '$state', '$http', 'toastr', '$uibModal', 'App', '$rootScope', '$timeout', 'AuthService', ($scope, $state, $http, toastr, $modal, App, $rootScope, $timeout, AuthService)->
@@ -25,6 +29,7 @@ angular.module("myvcFrontApp")
 	$scope.dato 					= {}
 	$scope.hasRoleOrPerm  = AuthService.hasRoleOrPerm
 	$scope.mostrar_mas    = false
+	$scope.enfermedia_cargada = false
 
 	$scope.sangres = [{sangre: 'O+'},{sangre: 'O-'}, {sangre: 'A+'}, {sangre: 'A-'}, {sangre: 'B+'}, {sangre: 'B-'}, {sangre: 'AB+'}, {sangre: 'AB-'}]
 
@@ -140,6 +145,13 @@ angular.module("myvcFrontApp")
 	$scope.crear_alumno = ()->
 		$rootScope.grupos_siguientes = $scope.grupos_siguientes
 		$state.go('panel.persona.nuevo')
+
+
+	$scope.cargarEnfermeria = ()->
+		$http.put('::enfermeria/datos', {alumno_id: $scope.alumno.alumno_id}).then((r)->
+			$scope.enfermeria = r.data.enfermeria
+			$scope.enfermedia_cargada = true
+		)
 
 
 	$http.get('::paises').then((r)->

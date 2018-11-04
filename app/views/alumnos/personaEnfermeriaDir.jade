@@ -1,0 +1,26 @@
+
+div(ng-show="!enfermedia_cargada" style="text-align: center;")
+	i.fa.fa-spinner.fa-spin(style="font-size: 20pt")
+
+.row(ng-show="enfermedia_cargada")
+	.form-group.col-lg-2.col-sm-6.col-xs-12
+		label(for="alumno-tipo-sangre") Tipo de sangre
+		input#alumno-tipo-sangre.form-control(type="text" ng-model="alumno.tipo_sangre" placeholder="Tipo sangre"
+			ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }"
+			ng-change="guardarValor(alumno, 'tipo_sangre', alumno.tipo_sangre)")
+
+
+	.form-group.col-lg-3.col-sm-6.col-xs-12
+		label(for="alumno-eps") EPS
+		input#alumno-eps.form-control(type="text"
+			typeahead-append-to-body="true" typeahead-min-length="1"
+			uib-typeahead="eps_check for eps_check in cambiaEpsCheck($viewValue)"
+			ng-model="alumno.eps"
+			ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }"
+			ng-change="guardarValor(alumno, 'eps', alumno.eps)"
+			typeahead-loading="alumno.loadingEps" typeahead-no-results="alumno.noResultsEps")
+
+		i.fa.fa-refresh(ng-show="alumno.loadingEps" style="font-size: 7pt")
+		div(ng-show="alumno.noResultsEps" style="font-size: 7pt")
+			i.fa.fa-check
+			| Sin coincidencias
