@@ -499,17 +499,17 @@ angular.module("myvcFrontApp")
 			{ field: 'tipo_doc', displayName: 'Tipo documento', minWidth: 120, cellTemplate: btTipoDoc, enableCellEdit: false }
 			{ field: 'documento', minWidth: 100, cellFilter: 'formatNumberDocumento' }
 			{ field: 'ciudad_doc', displayName: 'Ciud Docu', minWidth: 120, cellTemplate: btCiudadDoc, enableCellEdit: false }
-			{ field: 'tipo_sangre', displayName: 'RH', minWidth: 70 }
+			#{ field: 'tipo_sangre', displayName: 'RH', minWidth: 70 }
 			{ field: 'estrato', minWidth: 70, type: 'number' }
 			{ field: 'fecha_nac', displayName:'Nacimiento', cellFilter: "date:mediumDate", type: 'date', minWidth: 100}
 			{ field: 'edad', minWidth: 70, enableCellEdit: false }
-			{ field: 'ciudad_nac', displayName: 'Ciud Nacimi', minWidth: 120, cellTemplate: btCiudadNac, enableCellEdit: false }
+			#{ field: 'ciudad_nac', displayName: 'Ciud Nacimi', minWidth: 120, cellTemplate: btCiudadNac, enableCellEdit: false }
 			{ field: 'direccion', displayName: 'Dirección', minWidth: 80 }
 			{ field: 'barrio', minWidth: 80 }
-			{ field: 'ciudad_resid', displayName: 'Ciud Resid', minWidth: 120, cellTemplate: btCiudadResid, enableCellEdit: false }
-			{ field: 'telefono', displayName: 'Teléfono', minWidth: 80 }
+			#{ field: 'ciudad_resid', displayName: 'Ciud Resid', minWidth: 120, cellTemplate: btCiudadResid, enableCellEdit: false }
+			#{ field: 'telefono', displayName: 'Teléfono', minWidth: 80 }
 			{ field: 'celular', displayName: 'Celular', minWidth: 80 }
-			{ field: 'eps', displayName: 'EPS', minWidth: 100, editableCellTemplate: btEditEPS }
+			#{ field: 'eps', displayName: 'EPS', minWidth: 100, editableCellTemplate: btEditEPS }
 		],
 		multiSelect: false,
 		#filterOptions: $scope.filterOptions,

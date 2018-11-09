@@ -55,7 +55,61 @@ angular.module('myvcFrontApp')
 
 
 
-	$scope.$emit 'cambia_descripcion', 'Ausencias y tardanzas a la institución '
+	$scope.$emit 'cambia_descripcion', 'Listado SIMAT '
+
+])
+
+
+
+.controller('ListasPersonalizadasCtrl',['$scope', 'App', 'Perfil', 'grupos_simat', '$state', ($scope, App, Perfil, grupos_simat, $state)->
+	$scope.grupos_simat_copy = grupos_simat.data
+	$scope.grupos_simat = grupos_simat.data
+
+	$scope.USER                 = Perfil.User()
+	$scope.perfilPath           = App.images+'perfil/'
+	$scope.titulo_listado 			= {}
+	$scope.show_documento       = true
+	$scope.columnas             = 2
+
+	$scope.columnasArray = new Array($scope.columnas)
+
+	hay = localStorage.txt_titulo_listado
+	if hay
+		$scope.titulo_listado.texto = hay
+	else
+			$scope.titulo_listado.texto = "<b>LISTADO DE ALUMNOS</b><br>"
+
+	$scope.cambia_texto_informativo = ()->
+		localStorage.txt_titulo_listado = $scope.titulo_listado.texto
+
+	$scope.cambiaColumnas = (col)->
+		#nuevos = new Array(num)
+		$scope.columnasArray = new Array(col)
+		###
+		for nue in nuevos
+			elem = {texto: '' }
+			columnasArray.push(nue)
+		###
+
+		localStorage.txt_titulo_listado = $scope.titulo_listado.texto
+
+	$scope.getNumber = (num)->
+		return new Array(num)
+
+	$scope.todos = ()->
+		$scope.grupos_simat = $scope.grupos_simat_copy
+
+
+
+	$scope.selectGrupo = (item)->
+		for grupo in $scope.grupos_simat_copy
+			if grupo.id == item.id
+				$scope.grupos_simat = [grupo]
+
+
+
+
+	$scope.$emit 'cambia_descripcion', 'Listas personalizadas '
 
 ])
 

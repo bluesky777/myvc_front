@@ -12,9 +12,12 @@ angular.module('myvcFrontApp')
 		show_firma_rector: true
 		show_rojos: true
 		show_porcentajes: true
+		show_tabla_perdidas: true
 		show_firma_titular: true
+		show_datos: true
 		periodo_a_calcular: $scope.USER.numero_periodo
 	}
+
 	$scope.filtered_alumnos = alumnos
 	$scope.perfilPath 		= App.images + 'perfil/'
 	$scope.views 			= App.views
@@ -375,9 +378,17 @@ angular.module('myvcFrontApp')
 
 
 
+
+	$scope.listasPersonalizadas = ()->
+		$state.go 'panel.informes.listas_personalizadas', {reload: true}
+
+
 	$scope.verSimat = ()->
 		DownloadServ.download('::simat/alumnos', 'Alumnos con acudientes '+$scope.USER.year+'.xls')
 		$state.go 'panel.informes.ver_simat', {reload: true}
+
+	$scope.asistenciaPadres = ()->
+		$state.go 'panel.informes.planillas-ausencias-acudientes', {reload: true}
 
 	$scope.importarSimat = (file, errFiles)->
 		$scope.f = file;

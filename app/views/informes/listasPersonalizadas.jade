@@ -1,0 +1,85 @@
+.row.hidden-print(style="margin-bottom: 20px")
+	.col-xs-12
+
+		textarea(ng-model="titulo_listado.texto" ng-model-options="{ updateOn: 'blur' }"
+			style="width: 70%; height: 100px; " ng-change="cambia_texto_informativo()")
+
+	.col-xs-12
+		input(type="number" ng-model="columnas" ng-change="cambiaColumnas(columnas)" class="form-control" style="width: 140px; display: inline-block;")
+
+		span
+			label(style="margin-right: 9px;") Grupo
+			ui-select(ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;")
+				ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}}
+				ui-select-choices(repeat="grupo in grupos | filter: $select.search")
+					div(ng-bind-html="grupo.nombre | highlight: $select.search")
+			a(href ng-click="todos()") Todos
+
+		br
+		.row
+			.col-xs-12
+				label Documento
+				label
+					input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="show_documento")
+					span.text.si-no
+		hr
+		br
+
+div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }")
+
+	.row.encabezado-planilla
+		.col-lg-12
+			//.nombre-colegio
+				| {{::year.nombre_colegio + ' - ' + year.abrev_colegio}}
+			.descripcion-title
+				h4.center(ng-bind-html="titulo_listado.texto" style="border: 0px; width: 100%; ")
+
+
+	.row
+		.col-lg-12.col-xs-12(style="padding: 4px;")
+
+			div(ng-repeat="grupo in grupos_simat track by $index")
+
+
+				div.text-center(style="padding-top: 10px; font-size: 12pt;")
+					span(style="font-weight: 600;") {{ grupo.nombre }}
+
+				table.table-bordered.table-bordered2.table-striped.table-striped2(align="center" style="width: 100%")
+					thead
+						tr
+							th(style="width: 20px")
+								| No
+							th.text-center(style="width: 190px")
+								| Nombres
+							th(style="text-align: center; width: 80px;" ng-show="show_documento")
+								| Documento
+							th.text-center(ng-repeat="i in columnasArray track by $index")
+								input.hidden-print(type="text" ng-model="i.titulo")
+								.show-on-print {{i.titulo}}
+
+
+
+					tbody(style="font-size: 10pt")
+						tr(ng-repeat="alumno in grupo.alumnos track by $index")
+							td
+								| {{ $index + 1 }}
+							td(style="width: 190px")
+								.nombresellipsis.ellipsis250( uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'"
+									popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}"
+									popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true"
+									ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}")
+
+									| {{ alumno.apellidos }} {{ alumno.nombres }}
+
+							td(ng-show="show_documento")
+								| {{ alumno.documento | formatNumberDocumento }}
+
+							td(ng-repeat="i in columnasArray track by $index")
+
+
+
+
+
+
+
+

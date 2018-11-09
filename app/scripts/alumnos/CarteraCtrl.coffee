@@ -69,6 +69,11 @@ angular.module("myvcFrontApp")
 		$scope.traerAlumnos($item)
 
 
+	$scope.imprimir = ()->
+		window.print();
+
+
+
 
 	$scope.editar = (row)->
 		#$state.go('panel.cartera.editar', {alumno_id: row.alumno_id})
@@ -81,12 +86,19 @@ angular.module("myvcFrontApp")
 	gridFooterCartera = "==alumnos/gridFooterCartera.tpl.html"
 
 
+
 	$scope.gridOptions =
 		showGridFooter: true,
 		showColumnFooter: true,
 		gridFooterTemplate: gridFooterCartera,
 		enableSorting: true,
 		enableFiltering: true,
+		exporterSuppressColumns: [ 'edicion', 'foto_nombre' ],
+		exporterCsvColumnSeparator: ';',
+		exporterMenuPdf: false,
+		exporterMenuExcel: false,
+		exporterCsvFilename: "Alumnos cartera - MyVC.csv",
+		enableGridMenu: true,
 		enebleGridColumnMenu: false,
 		enableCellEdit: true,
 		enableCellEditOnFocus: true,
@@ -152,6 +164,14 @@ angular.module("myvcFrontApp")
 			$scope.gridOptions.columnDefs[6].visible = false
 			$scope.gridApi.grid.refresh()
 		)
+
+	$scope.deuda_total = ()->
+		sum = 0
+		if $scope.gridOptions.data
+			for alumno in $scope.gridOptions.data
+				sum = sum + alumno.deuda
+		return $filter('currency')(sum, "$", 0)
+
 
 	$scope.cantidadDeudores = ()->
 		sum = 0

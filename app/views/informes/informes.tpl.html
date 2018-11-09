@@ -119,6 +119,14 @@
                     </label>
                   </div>
                 </div>
+                <div ng-show="tipo_boletin==2" class="col-lg-2 col-sm-4 col-xs-12">
+                  <div class="form-group">
+                    <label>Mostrar tabla perdidas</label>
+                    <label>
+                      <input type="checkbox" ng-model="config.show_tabla_perdidas" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                    </label>
+                  </div>
+                </div>
               </div>
               <div class="row">
                 <div class="col-lg-12 col-xs-12">
@@ -218,7 +226,7 @@
               accept=".xls,.xlsx" ngf-max-size="1MB") Importar SIMAT {{USER.year}}
               
               -->
-            </div><a href="" ui-sref="panel.informes.planillas-ausencias-acudientes" class="btn btn-default">Asistencia Padres</a><br><a href="" ng-click="mostrarUnidadesProfe()" uib-tooltip="Mostrar toda@s l@s {{USER.unidades_displayname}} del docente seleccionado" class="btn btn-default">{{ USER.unidades_displayname }}</a><br><br>
+            </div><a href="" ng-click="asistenciaPadres()" class="btn btn-default">Asistencia Padres</a><a href="" ng-click="listasPersonalizadas()" class="btn btn-default">Listas personalizadas</a><br><a href="" ng-click="mostrarUnidadesProfe()" uib-tooltip="Mostrar toda@s l@s {{USER.unidades_displayname}} del docente seleccionado" class="btn btn-default">{{ USER.unidades_displayname }}</a><br><br>
             <div class="row">
               <div class="col-lg-2 col-sm-4 col-xs-12">
                 <div class="form-group">

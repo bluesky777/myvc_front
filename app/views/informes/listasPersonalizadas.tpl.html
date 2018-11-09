@@ -1,0 +1,66 @@
+
+<div style="margin-bottom: 20px" class="row hidden-print">
+  <div class="col-xs-12">
+    <textarea ng-model="titulo_listado.texto" ng-model-options="{ updateOn: 'blur' }" style="width: 70%; height: 100px; " ng-change="cambia_texto_informativo()"></textarea>
+  </div>
+  <div class="col-xs-12">
+    <input type="number" ng-model="columnas" ng-change="cambiaColumnas(columnas)" style="width: 140px; display: inline-block;" class="form-control"><span>
+      <label style="margin-right: 9px;">Grupo</label>
+      <ui-select ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;">
+        <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
+        <ui-select-choices repeat="grupo in grupos | filter: $select.search">
+          <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
+        </ui-select-choices>
+      </ui-select><a href ng-click="todos()">Todos</a></span><br>
+    <div class="row">
+      <div class="col-xs-12">
+        <label>Documento</label>
+        <label>
+          <input type="checkbox" ng-model="show_documento" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+        </label>
+      </div>
+    </div>
+    <hr><br>
+  </div>
+</div>
+<div ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }">
+  <div class="row encabezado-planilla">
+    <div class="col-lg-12">
+      <!--.nombre-colegio| {{::year.nombre_colegio + ' - ' + year.abrev_colegio}}
+      -->
+      <div class="descripcion-title">
+        <h4 ng-bind-html="titulo_listado.texto" style="border: 0px; width: 100%; " class="center"></h4>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div style="padding: 4px;" class="col-lg-12 col-xs-12">
+      <div ng-repeat="grupo in grupos_simat track by $index">
+        <div style="padding-top: 10px; font-size: 12pt;" class="text-center"><span style="font-weight: 600;">{{ grupo.nombre }}</span></div>
+        <table align="center" style="width: 100%" class="table-bordered table-bordered2 table-striped table-striped2">
+          <thead>
+            <tr>
+              <th style="width: 20px">No</th>
+              <th style="width: 190px" class="text-center">Nombres</th>
+              <th style="text-align: center; width: 80px;" ng-show="show_documento">Documento</th>
+              <th ng-repeat="i in columnasArray track by $index" class="text-center">
+                <input type="text" ng-model="i.titulo" class="hidden-print">
+                <div class="show-on-print">{{i.titulo}}</div>
+              </th>
+            </tr>
+          </thead>
+          <tbody style="font-size: 10pt">
+            <tr ng-repeat="alumno in grupo.alumnos track by $index">
+              <td>{{ $index + 1 }}</td>
+              <td style="width: 190px">
+                <div uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true" ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" class="nombresellipsis ellipsis250">{{ alumno.apellidos }} {{ alumno.nombres }}</div>
+              </td>
+              <td ng-show="show_documento">{{ alumno.documento | formatNumberDocumento }}</td>
+              <td ng-repeat="i in columnasArray track by $index"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

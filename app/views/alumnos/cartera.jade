@@ -1,7 +1,7 @@
-.row(ui-view="edit_alumno")
+.row.hidden-print(ui-view="edit_alumno")
 
 
-.row
+.row.hidden-print
 	.col-xs-12.col-md-12
 		.well.with-header.with-footer
 			.header.bordered-yellow
@@ -48,8 +48,96 @@
 						a(ng-click="cambiarValorVarios(valorFecha, 'fecha_pension')" href="") Cambiar fecha
 
 
-			#grid1.grid(ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-selection ui-grid-auto-resize style="height: 700px")
+			#grid1.grid(ui-grid="gridOptions" ui-grid-exporter ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-selection ui-grid-auto-resize style="height: 700px")
 
 
 
+			button.btn.btn-default(ng-click="imprimir()")
+				i.glyphicon.glyphicon-print
+				| Imprimir
+
+
+div.show-on-print(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }")
+
+	.row
+		.col-lg-12.col-xs-12
+			.row.encabezado-planilla
+				.col-lg-12.col-xs-12
+					.row
+						.col-lg-12
+							.nombre-colegio
+								| Alumnos por cartera
+
+
+	.row
+		.col-lg-12.col-xs-12(style="padding: 4px;")
+
+			div.text-center(style="padding-top: 10px; font-size: 12pt;")
+				span(style="font-weight: 600;") {{ grupo.nombre }}
+
+			table.table-bordered.table-bordered2.table-striped.table-striped2(align="center")
+				thead
+					tr
+						th(style="width: 20px")
+							| No
+						th.text-center
+							| Nombres
+						th
+							| Última fecha
+						th.text-center
+							| Estado
+						th.text-center
+							| Deuda
+						th.text-center
+							| Grupo
+						th.text-center
+							| Documento
+						th.text-center
+							| Celular
+
+
+
+				tbody(style="font-size: 10pt")
+					tr(ng-repeat="alumno in gridOptions.data track by $index")
+						td
+							| {{ $index + 1 }}
+						td
+							.nombresellipsis( uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'"
+								popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}"
+								popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true"
+								ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}")
+
+								img(width="35px" ng-src="{{perfilPath + alumno.foto_nombre}}")
+
+								| {{ alumno.apellidos }} {{ alumno.nombres }}
+
+						td
+							| {{ alumno.fecha_pension | date:'mediumDate' }}
+
+						td
+							span(ng-show="alumno.pazysalvo") A paz
+							span(ng-show="!alumno.pazysalvo" style="font-weight: 700") Deudor
+						td
+							| {{ alumno.deuda | currency:"$":0 }}
+						td
+							| {{ alumno.nombre_grupo }}
+						td
+							| {{ alumno.documento }}
+						td
+							| {{ alumno.celular }}
+
+				tfoot
+					tr
+						td
+						td(colspan="2")
+							span  Deudores: {{ cantidadDeudores() }}
+							span  - Hombres: {{hombresGrupo}} - Mujeres: {{ mujeresGrupo }}
+
+
+						td
+						td
+							| {{ deuda_total() }}
+						td
+						td
+						td
 

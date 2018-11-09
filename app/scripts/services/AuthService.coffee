@@ -65,6 +65,7 @@ angular.module('myvcFrontApp')
 
 		$http.post('::login/credentials', credentials).then((r)->
 			respuesta = r.data
+
 			if respuesta.el_token
 				$cookies.put('xtoken', respuesta.el_token)
 
@@ -82,6 +83,8 @@ angular.module('myvcFrontApp')
 		, (r2)->
 			$rootScope.$broadcast AUTH_EVENTS.loginFailed
 
+			console.log(r2)
+
 			if r2
 				if r2.status
 					if r2.status == 400
@@ -92,6 +95,9 @@ angular.module('myvcFrontApp')
 						toastr.error 'No parece haber comunicación con la Base de datos', '', {timeOut: 8000}
 
 				else if r2.data
+					if r2.data == 'user_inactivo'
+						toastr.warning 'Usuario desactivado'
+
 					if r2.data.error
 						if r2.data.error == 'Token expirado' or r2.error == 'token_expired'
 							toastr.warning 'La sesión ha expirado'
@@ -121,7 +127,11 @@ angular.module('myvcFrontApp')
 			d.resolve usuario
 
 		, (r2)->
-			# console.log 'No se pudo loguear con token. ', r2
+
+			if r2.data
+				if r2.data.message == "user_inactivo"
+					toastr.warning 'Usuario desactivado'
+
 			d.reject 'Error en login con token.'
 			#$rootScope.$broadcast AUTH_EVENTS.loginFailed
 		)

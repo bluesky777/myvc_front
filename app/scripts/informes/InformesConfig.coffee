@@ -409,6 +409,22 @@ angular.module('myvcFrontApp')
 				pageTitle: 'SIMAT - MyVc'
 
 
+		.state 'panel.informes.listas_personalizadas',
+			url: '/listas_personalizadas'
+			views:
+				'report_content':
+					templateUrl: "==informes/listasPersonalizadas.tpl.html"
+					controller: 'ListasPersonalizadasCtrl' # En NotasPerdidasProfesorCtrl.coffee
+					resolve:
+						grupos_simat: ['$http', '$stateParams', ($http, $stateParams)->
+							$http.get('::planillas/listas-personalizadas')
+						]
+			data:
+				displayName: 'Listas personalizadas'
+				icon_fa: 'fa fa-print'
+				pageTitle: 'Listas personalizadas - MyVc'
+
+
 		.state 'panel.informes.planillas-ausencias-acudientes',
 			url: '/planillas-ausencias-acudientes'
 			views:

@@ -6,25 +6,26 @@ div(style="display: table; min-height: 28cm ; position: relative; " ng-class="{'
 		div(ng-style="{ 'margin-top' : year.config_certificado.encabezado_margin_top+'px', 'margin-left' : year.config_certificado.encabezado_margin_left+'px' }")
 			.col-lg-12.col-xs-12
 				.row.encabezado-boletin
-					.col-lg-12.col-xs-12
+					.col-lg-12.col-xs-12(style="padding: 0;")
 						.row
 							.col-lg-2.col-xs-2
 								img.img-responsive.logo-colegio(ng-if="!year.config_certificado_estudio_id" ng-src="{{perfilPath + year.logo}}")
 							.col-lg-8.col-xs-8.title-encabezado-boletin
-								.dane-certificado(ng-hide="year.config_certificado.encabezado_nombre")
+								.dane-certificado(ng-show="config.show_datos")
 									| {{ year.codigo_dane }}
 								.nombre-colegio
 									span(ng-show="year.sexo_rector=='M'") EL RECTOR DEL
 									span(ng-show="year.sexo_rector=='F'") LA RECTORA DEL
 									|    {{ year.nombre_colegio }}
-								.resolucion-colegio(ng-if="!year.config_certificado_estudio_id")
+								.resolucion-colegio(ng-if="config.show_datos")
 									|   {{year.resolucion}}
 								.nombre-colegio
 									|   CERTIFICA
-							.col-lg-2.col-xs-2
-								img.img-responsive.img-thumbnail.foto-alumno(ng-src="{{perfilPath + alumno.foto_nombre}}" ng-show="config.mostrar_foto && alumno.foto_id")
+							.col-lg-2.col-xs-2(style="padding: 0; margin-top: -15px;")
+								img.img-responsive.foto-alumno(ng-src="{{perfilPath + alumno.foto_nombre}}" ng-show="config.mostrar_foto && alumno.foto_id")
 
-						.row.descripcion-encabezado(style="margin-top: 20px; ")
+
+						.row.descripcion-encabezado(style="margin-top: 4px; ")
 							.col-lg-12.col-xs-12
 
 								.grupo-alumno(ng-if="$parent.$state.is('panel.informes.certificados_estudio_periodo')")

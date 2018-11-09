@@ -58,7 +58,7 @@ angular.module('myvcFrontApp')
 				#if localStorage.getItem('logueando') == 'token_verificado'
 				localStorage.removeItem('logueando')
 			, (r3)->
-				console.log('Falló en Verificar')
+				console.log('Falló en Verificar', r3)
 			)
 			return
 		)

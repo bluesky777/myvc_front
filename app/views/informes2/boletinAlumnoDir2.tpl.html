@@ -139,7 +139,7 @@
           </div>
         </div>
       </div>
-      <div class="row resumen-perdidas">
+      <div ng-show="config.show_tabla_perdidas" class="row resumen-perdidas">
         <!-- Tabla de perdidas de este año-->
         <div ng-if="::alumno.notas_perdidas_year &gt; 0" class="col-lg-6 col-xs-6 no-padding">
           <div class="row resumen-head">
@@ -177,7 +177,7 @@
           </div>
         </div>
         <!-- Tabla de perdidas del año pasado-->
-        <div ng-if="::alumno.yp_notas_perdidas_year &gt; 0" class="col-lg-6 col-xs-6 no-padding">
+        <div ng-if="::alumno.yp_notas_perdidas_year &gt; 0" ng-show="config.show_tabla_perdidas" class="col-lg-6 col-xs-6 no-padding">
           <div class="row resumen-head">
             <div class="col-lg-12 col-xs-12 resumen-title"><span>Notas pendientes del año {{::USER.year - 1}}</span></div>
           </div>

@@ -4,18 +4,18 @@
     <div ng-style="{ 'margin-top' : year.config_certificado.encabezado_margin_top+'px', 'margin-left' : year.config_certificado.encabezado_margin_left+'px' }">
       <div class="col-lg-12 col-xs-12">
         <div class="row encabezado-boletin">
-          <div class="col-lg-12 col-xs-12">
+          <div style="padding: 0;" class="col-lg-12 col-xs-12">
             <div class="row">
               <div class="col-lg-2 col-xs-2"><img ng-if="!year.config_certificado_estudio_id" ng-src="{{perfilPath + year.logo}}" class="img-responsive logo-colegio"></div>
               <div class="col-lg-8 col-xs-8 title-encabezado-boletin">
-                <div ng-hide="year.config_certificado.encabezado_nombre" class="dane-certificado">{{ year.codigo_dane }}</div>
+                <div ng-show="config.show_datos" class="dane-certificado">{{ year.codigo_dane }}</div>
                 <div class="nombre-colegio"><span ng-show="year.sexo_rector=='M'">EL RECTOR DEL</span><span ng-show="year.sexo_rector=='F'">LA RECTORA DEL</span>   {{ year.nombre_colegio }}</div>
-                <div ng-if="!year.config_certificado_estudio_id" class="resolucion-colegio">  {{year.resolucion}}</div>
+                <div ng-if="config.show_datos" class="resolucion-colegio">  {{year.resolucion}}</div>
                 <div class="nombre-colegio">  CERTIFICA</div>
               </div>
-              <div class="col-lg-2 col-xs-2"><img ng-src="{{perfilPath + alumno.foto_nombre}}" ng-show="config.mostrar_foto &amp;&amp; alumno.foto_id" class="img-responsive img-thumbnail foto-alumno"></div>
+              <div style="padding: 0; margin-top: -15px;" class="col-lg-2 col-xs-2"><img ng-src="{{perfilPath + alumno.foto_nombre}}" ng-show="config.mostrar_foto &amp;&amp; alumno.foto_id" class="img-responsive foto-alumno"></div>
             </div>
-            <div style="margin-top: 20px; " class="row descripcion-encabezado">
+            <div style="margin-top: 4px; " class="row descripcion-encabezado">
               <div class="col-lg-12 col-xs-12">
                 <div ng-if="$parent.$state.is('panel.informes.certificados_estudio_periodo')" class="grupo-alumno">  Que,<b>  {{ alumno.nombres + ' ' + alumno.apellidos }},</b><span>   ha cursado en éste plantel educativo las áreas correspondientes al grado</span><b class="camel">  {{ grupo.nombre_grupo.toLowerCase() }}</b>  de la {{ grupo.nivel_educativo}}
                     académica<i> hasta el periodo</i><b> {{ config.periodo_a_calcular }} de {{ USER.year }}</b> obteniendo los siguientes resultados:

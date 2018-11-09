@@ -1961,3 +1961,12 @@ tr { page-break-inside: avoid }
 .requisito-falta{
   background-color: #e5ca62;
 }
+
+.show-on-print{
+  display: none;
+}
+@media print{
+  .show-on-print{
+    display: block;
+  }
+}

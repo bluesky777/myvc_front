@@ -127,6 +127,12 @@
 										label
 											input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.show_porcentajes")
 											span.text.si-no
+								.col-lg-2.col-sm-4.col-xs-12(ng-show="tipo_boletin==2")
+									.form-group
+										label Mostrar tabla perdidas
+										label
+											input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.show_tabla_perdidas")
+											span.text.si-no
 
 
 							.row
@@ -239,7 +245,8 @@
 							//a.btn.btn-default(href="" type="file" ngf-select="importarSimat($file, $invalidFiles)"
 								accept=".xls,.xlsx" ngf-max-size="1MB") Importar SIMAT {{USER.year}}
 
-						a.btn.btn-default(href="" ui-sref="panel.informes.planillas-ausencias-acudientes") Asistencia Padres
+						a.btn.btn-default(href="" ng-click="asistenciaPadres()") Asistencia Padres
+						a.btn.btn-default(href="" ng-click="listasPersonalizadas()") Listas personalizadas
 
 						br
 

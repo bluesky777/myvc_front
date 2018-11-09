@@ -199,7 +199,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 
 
 
-			.row.resumen-perdidas
+			.row.resumen-perdidas(ng-show="config.show_tabla_perdidas")
 				// Tabla de perdidas de este año
 				.col-lg-6.col-xs-6.no-padding(ng-if="::alumno.notas_perdidas_year > 0")
 
@@ -239,7 +239,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 
 
 				// Tabla de perdidas del año pasado
-				.col-lg-6.col-xs-6.no-padding(ng-if="::alumno.yp_notas_perdidas_year > 0")
+				.col-lg-6.col-xs-6.no-padding(ng-if="::alumno.yp_notas_perdidas_year > 0" ng-show="config.show_tabla_perdidas")
 
 					.row.resumen-head
 						.col-lg-12.col-xs-12.resumen-title
