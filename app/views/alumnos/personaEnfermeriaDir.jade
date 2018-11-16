@@ -2,25 +2,243 @@
 div(ng-show="!enfermedia_cargada" style="text-align: center;")
 	i.fa.fa-spinner.fa-spin(style="font-size: 20pt")
 
-.row(ng-show="enfermedia_cargada")
-	.form-group.col-lg-2.col-sm-6.col-xs-12
-		label(for="alumno-tipo-sangre") Tipo de sangre
-		input#alumno-tipo-sangre.form-control(type="text" ng-model="alumno.tipo_sangre" placeholder="Tipo sangre"
-			ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }"
-			ng-change="guardarValor(alumno, 'tipo_sangre', alumno.tipo_sangre)")
+span(ng-show="enfermedia_cargada")
+	.row
+		.form-group.col-lg-2.col-sm-6.col-xs-12
+			label(for="alumno-tipo-sangre") Tipo de sangre
+			div
+				ui-select(ng-model="dato.tipo_sangre" on-select="guardarValor(alumno, 'tipo_sangre', dato.tipo_sangre.sangre)" theme="select2" style="width: 100%;")
+					ui-select-match(placeholder="Tipo sangre" allow-clear="true") {{$select.selected.sangre}}
+					ui-select-choices(repeat="sangre in sangres | filter: $select.search")
+						div(ng-bind-html="sangre.sangre | highlight: $select.search")
 
 
-	.form-group.col-lg-3.col-sm-6.col-xs-12
-		label(for="alumno-eps") EPS
-		input#alumno-eps.form-control(type="text"
-			typeahead-append-to-body="true" typeahead-min-length="1"
-			uib-typeahead="eps_check for eps_check in cambiaEpsCheck($viewValue)"
-			ng-model="alumno.eps"
-			ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }"
-			ng-change="guardarValor(alumno, 'eps', alumno.eps)"
-			typeahead-loading="alumno.loadingEps" typeahead-no-results="alumno.noResultsEps")
 
-		i.fa.fa-refresh(ng-show="alumno.loadingEps" style="font-size: 7pt")
-		div(ng-show="alumno.noResultsEps" style="font-size: 7pt")
-			i.fa.fa-check
-			| Sin coincidencias
+		.form-group.col-lg-3.col-sm-6.col-xs-12
+			label(for="alumno-eps") EPS
+			input#alumno-eps.form-control(type="text"
+				typeahead-append-to-body="true" typeahead-min-length="1"
+				uib-typeahead="eps_check for eps_check in cambiaEpsCheck($viewValue)"
+				ng-model="alumno.eps"
+				ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }"
+				ng-change="guardarValor(alumno, 'eps', alumno.eps)"
+				typeahead-loading="alumno.loadingEps" typeahead-no-results="alumno.noResultsEps")
+
+			i.fa.fa-refresh(ng-show="alumno.loadingEps" style="font-size: 7pt")
+			div(ng-show="alumno.noResultsEps" style="font-size: 7pt")
+				i.fa.fa-check
+				| Sin coincidencias
+
+
+
+	.row
+		.form-group.col-lg-2.col-sm-6.col-xs-12
+			label(for="enfermeria-cirugias") Cirugías
+			input#enfermeria-cirugias.form-control(type="text" ng-model="enfermeria.cirugias" placeholder="Las cirugías que ha tenido"
+				ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }"
+				ng-change="guardarValorEnfermeria(enfermeria, 'cirugias', enfermeria.cirugias)")
+
+		.form-group.col-sm-6.col-xs-12(style="margin-top: 20px;")
+			label ¿Ha tenido varicela?
+			label
+				input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="enfermeria.varicela" ng-true-value="1" ng-false-value="0" ng-change="guardarValorEnfermeria(enfermeria, 'varicela', enfermeria.varicela)")
+				span.text.si-no
+
+	.row
+		.form-group.col-sm-12.col-xs-12
+			label(for="enfermeria-medicamento_diario") Medicamentos diarios
+			textarea.form-control(ng-model="enfermeria.medicamento_diario" placeholder="Medicamentos diarios"
+				uib-tooltip="Medicamentos diarios" tooltip-popup-delay="500" style="height: 50px; width: 100%;"
+				ng-change="guardarValorEnfermeria(enfermeria, 'medicamento_diario', enfermeria.medicamento_diario)"
+				ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+	.row
+		.form-group.col-sm-12.col-xs-12
+			h4(style="font-weight: 600!important;") Vacunas que se ha aplicado
+				span(style="font-size: 9pt;")  (
+					span(ng-show="enfermeria.vac_influenza") Influencia,
+					span(ng-show="enfermeria.vac_fiebre_amarilla")  Fiebre amarilla,
+					span(ng-show="enfermeria.vac_tetano")  Tétano,
+					span(ng-show="enfermeria.vac_sarampion")  Sarampión,
+					span(ng-show="enfermeria.vac_hepatitis_b")  Hepatitis B,
+					span(ng-show="enfermeria.vac_otra")  {{ enfermeria.vac_cual }}
+					| )
+
+			.btn-group(style="display: block;")
+				label.btn.btn-primary(ng-model="enfermeria.vac_influenza" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'vac_influenza', enfermeria.vac_influenza)") Influenza
+				label.btn.btn-primary(ng-model="enfermeria.vac_fiebre_amarilla" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'vac_fiebre_amarilla', enfermeria.vac_fiebre_amarilla)") Fiebre amarilla
+				label.btn.btn-primary(ng-model="enfermeria.vac_tetano" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'vac_tetano', enfermeria.vac_tetano)") Tétano
+				label.btn.btn-primary(ng-model="enfermeria.vac_sarampion" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'vac_sarampion', enfermeria.vac_sarampion)") Sarampión
+				label.btn.btn-primary(ng-model="enfermeria.vac_hepatitis_b" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'vac_hepatitis_b', enfermeria.vac_hepatitis_b)") Hepatitis B
+				label.btn.btn-primary(ng-model="enfermeria.vac_otra" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'vac_otra', enfermeria.vac_otra)") Otras
+
+		.form-group.col-sm-12.col-xs-12(ng-show="enfermeria.vac_otra")
+			label(for="enfermeria-vac_cual") ¿Cuáles?
+			input#enfermeria-vac_cual.form-control(type="text" ng-model="enfermeria.vac_cual" placeholder="Escriba cual"
+				ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }"
+				ng-change="guardarValorEnfermeria(enfermeria, 'vac_cual', enfermeria.vac_cual)")
+
+
+	.row
+		.form-group.col-sm-12.col-xs-12
+			h4(style="font-weight: 600!important;") Patologías
+				span(style="font-size: 9pt;")  (
+					span(ng-show="enfermeria.patol_asma") Asma,
+					span(ng-show="enfermeria.patol_bronquis")  Bronquitis,
+					span(ng-show="enfermeria.patol_diabetes")  Diabetes,
+					span(ng-show="enfermeria.patol_anemia")  Anemia,
+					span(ng-show="enfermeria.patol_hipertension")  Hipertensión,
+					span(ng-show="enfermeria.patol_dermatitis")  Dermatitis,
+					span(ng-show="enfermeria.patol_depresion")  Depresión,
+					span(ng-show="enfermeria.patol_otro")  {{ enfermeria.patol_cual }}
+					| )
+
+			.btn-group(style="display: block;")
+				label.btn.btn-primary(ng-model="enfermeria.patol_asma" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'patol_asma', enfermeria.patol_asma)") Asma
+				label.btn.btn-primary(ng-model="enfermeria.patol_bronquis" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'patol_bronquis', enfermeria.patol_bronquis)") Bronquis
+				label.btn.btn-primary(ng-model="enfermeria.patol_diabetes" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'patol_diabetes', enfermeria.patol_diabetes)") Diabetes
+				label.btn.btn-primary(ng-model="enfermeria.patol_anemia" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'patol_anemia', enfermeria.patol_anemia)") Anemia
+				label.btn.btn-primary(ng-model="enfermeria.patol_hipertension" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'patol_hipertension', enfermeria.patol_hipertension)") Hipertensión
+				label.btn.btn-primary(ng-model="enfermeria.patol_dermatitis" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'patol_dermatitis', enfermeria.patol_dermatitis)") Dermatitis
+				label.btn.btn-primary(ng-model="enfermeria.patol_depresion" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'patol_depresion', enfermeria.patol_depresion)") Depresion
+				label.btn.btn-primary(ng-model="enfermeria.patol_otro" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'patol_otro', enfermeria.patol_otro)") Otras
+
+		.form-group.col-sm-12.col-xs-12(ng-show="enfermeria.patol_otro")
+			label(for="enfermeria-patol_cual") ¿Cuál?
+			input#enfermeria-patol_cual.form-control(type="text" ng-model="enfermeria.patol_cual" placeholder="Escriba cual"
+				ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }"
+				ng-change="guardarValorEnfermeria(enfermeria, 'patol_cual', enfermeria.patol_cual)")
+
+
+
+
+	.row
+		.form-group.col-sm-12.col-xs-12
+			h4(style="font-weight: 600!important;") Antecedentes familiares
+				span(style="font-size: 9pt;")  (
+					span(ng-show="enfermeria.fami_hipertension_arterial") Hipertensión arterial,
+					span(ng-show="enfermeria.fami_diabetes")  Diabetes,
+					span(ng-show="enfermeria.fami_diabetes_mellitus")  Diabetes mellitus,
+					span(ng-show="enfermeria.fami_cancer")  Cancer,
+					span(ng-show="enfermeria.fami_artritis")  Artritis,
+					span(ng-show="enfermeria.fami_hipotiroidismo")  Hipotiroidismo,
+					span(ng-show="enfermeria.patol_otro")  {{ enfermeria.fami_cual }}
+					| )
+			.btn-group(style="display: block;")
+				label.btn.btn-primary(ng-model="enfermeria.fami_hipertension_arterial" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'fami_hipertension_arterial', enfermeria.fami_hipertension_arterial)") Hipertension arterial
+				label.btn.btn-primary(ng-model="enfermeria.fami_diabetes" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'fami_diabetes', enfermeria.fami_diabetes)") Diabetes
+				label.btn.btn-primary(ng-model="enfermeria.fami_diabetes_mellitus" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'fami_diabetes_mellitus', enfermeria.fami_diabetes_mellitus)") Diabetes mellitus
+				label.btn.btn-primary(ng-model="enfermeria.fami_cancer" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'fami_cancer', enfermeria.fami_cancer)") Cancer
+				label.btn.btn-primary(ng-model="enfermeria.fami_artritis" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'fami_artritis', enfermeria.fami_artritis)") Artritis
+				label.btn.btn-primary(ng-model="enfermeria.fami_hipotiroidismo" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'fami_hipotiroidismo', enfermeria.fami_hipotiroidismo)") Hipotiroidismo
+				label.btn.btn-primary(ng-model="enfermeria.fami_otro" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'fami_otro', enfermeria.fami_otro)") Otros
+
+		.form-group.col-sm-12.col-xs-12(ng-show="enfermeria.fami_otro")
+			label(for="enfermeria-fami-cual") ¿Cuáles?
+			input#enfermeria-fami-cual.form-control(type="text" ng-model="enfermeria.fami_cual" placeholder="Escriba cual"
+				ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }"
+				ng-change="guardarValorEnfermeria(enfermeria, 'fami_cual', enfermeria.fami_cual)")
+
+
+	.row
+		.form-group.col-sm-12.col-xs-12
+			h4(style="font-weight: 600!important;") Observaciones
+			textarea.form-control(ng-model="enfermeria.observaciones" placeholder="Observaciones"
+				uib-tooltip="Observaciones" tooltip-popup-delay="500" style="height: 50px; width: 100%;"
+				ng-change="guardarValorEnfermeria(enfermeria, 'observaciones', enfermeria.observaciones)"
+				ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+
+	.widget
+		.widget-header.bordered-bottom.bordered-info
+			span.widget-caption Consultas y sucesos importantes
+		.widget-body
+
+			div(ng-show="creando_suceso")
+				h4(style="font-weight: 600!important;") Crear registro de enfermería
+				form.row(ng-submit="guardar_nuevo_suceso(new_suceso)")
+					.form-group.col-lg-3.col-md-4.col-sm-4.col-xs-12(style="margin-bottom: 12px;")
+						label(for="new_suceso-fecha_suceso") Fecha suceso
+
+						.controls()
+							.input-group
+								span.input-group-addon
+									i.fa.fa-calendar
+								input.form-control.active#alumno-fecha_suceso(type="text" uib-datepicker-popup="dd-MMMM-yyyy"
+									ng-model="new_suceso.fecha_suceso" is-open="dato.isOpenSuceso" ng-click="dato.isOpenSuceso = true"
+									max-date="'2025-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy"
+									clear-text="Borrar" placeholder="Fecha suceso")
+
+
+					.form-group.col-lg-3.col-sm-6.col-xs-12
+						div(uib-timepicker ng-model="new_suceso.fecha_suceso")
+
+					.form-group.col-lg-3.col-sm-4.col-xs-12
+						label(for="new_suceso-signo_fc") Frecuencia cardiaca (ppm)
+						input.form-control#new_suceso-signo_fc(ng-model="new_suceso.signo_fc" type="number")
+
+					.form-group.col-lg-3.col-sm-4.col-xs-12
+						label(for="new_suceso-signo_fr") Frecuencia respiratoria (rpm)
+						input.form-control#new_suceso-signo_fr(ng-model="new_suceso.signo_fr" type="number")
+
+					.form-group.col-lg-3.col-sm-4.col-xs-12
+						label(for="new_suceso-signo_t") Temperatura (C)
+						input.form-control#new_suceso-signo_t(ng-model="new_suceso.signo_t" type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.1")
+
+					.form-group.col-lg-3.col-sm-4.col-xs-12
+						label(for="new_suceso-signo_glu") Glucometría (mg/dl)
+						input.form-control#new_suceso-signo_glu(ng-model="new_suceso.signo_glu" type="number")
+
+					.form-group.col-lg-3.col-sm-4.col-xs-12
+						label(for="new_suceso-signo_spo2") SPO2 (%)
+						input.form-control#new_suceso-signo_spo2(ng-model="new_suceso.signo_spo2" type="number")
+
+					.form-group.col-lg-3.col-sm-4.col-xs-12
+						label(for="new_suceso-signo_pa_dia") Presión arterial (mmhg)
+						input.form-control#new_suceso-signo_pa_dia(ng-model="new_suceso.signo_pa_dia" type="number" style="width: 40%; display: inline-block;")
+						label(for="new_suceso-signo_pa_sis") /
+						input.form-control#new_suceso-signo_pa_sis(ng-model="new_suceso.signo_pa_sis" type="number" style="width: 40%; display: inline-block;")
+
+					.form-group.col-lg-3.col-sm-4.col-xs-12
+						label(for="new_suceso-asignatura") Asignatura
+						input.form-control#new_suceso-asignatura(ng-model="new_suceso.asignatura" type="text")
+
+					.form-group.col-lg-3.col-sm-4.col-xs-12
+						label(for="new_suceso-motivo_consulta") Motivo consulta
+						textarea.form-control(ng-model="new_suceso.motivo_consulta" placeholder="Motivo consulta"
+							uib-tooltip="Motivo consulta" tooltip-popup-delay="500" style="height: 50px; width: 100%;"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+					.form-group.col-lg-3.col-sm-4.col-xs-12
+						label(for="new_suceso-descripcion_suceso") descripcion_suceso
+						textarea.form-control(ng-model="new_suceso.descripcion_suceso" placeholder="descripcion_suceso"
+							uib-tooltip="Motivo consulta" tooltip-popup-delay="500" style="height: 50px; width: 100%;"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+					.form-group.col-lg-3.col-sm-4.col-xs-12
+						label(for="new_suceso-tratamiento") tratamiento
+						textarea.form-control(ng-model="new_suceso.tratamiento" placeholder="tratamiento"
+							uib-tooltip="tratamiento" tooltip-popup-delay="500" style="height: 50px; width: 100%;"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+					.form-group.col-lg-3.col-sm-4.col-xs-12
+						label(for="new_suceso-observaciones") observaciones
+						textarea.form-control(ng-model="new_suceso.observaciones" placeholder="observaciones"
+							uib-tooltip="observaciones" tooltip-popup-delay="500" style="height: 50px; width: 100%;"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+					.form-group.col-lg-3.col-sm-4.col-xs-12
+						label(for="new_suceso-insumos_utilizados") insumos_utilizados
+						textarea.form-control(ng-model="new_suceso.insumos_utilizados" placeholder="insumos_utilizados"
+							uib-tooltip="insumos_utilizados" tooltip-popup-delay="500" style="height: 50px; width: 100%;"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+
+					.form-group.col-xs-12(style="text-align: center")
+						input.btn.btn-primary(type="submit" value="Creando")
+
+			button.btn.btn-primary(type="button" ng-click="crear_suceso()")
+				i.fa.fa-plus
+				| Crear consulta
+
+			#grid1.grid(ui-grid="gridOptions" ui-grid-move-columns ui-grid-expandable ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-auto-resize style="height: 400px")

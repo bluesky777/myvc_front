@@ -20,7 +20,7 @@
 								small(ng-show="alumno.estado=='RETI'" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)</i>'")
 								small(ng-hide="alumno.estado=='RETI'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
 
-			.row(ng-show="dato.selected_alumno" style="margin-bottom: 30px;")
+			.row(ng-show="dato.selected_alumno" style="margin-bottom: 30px;" ng-if="false")
 				.col-xs-12(style="text-align: center;")
 					.btn-group
 						button.btn.btn-info.shiny(ng-click="eligirPanelNotas(1)"
@@ -33,36 +33,45 @@
 							i.fa.fa-angle-double-right(style="padding-left:3px;")
 
 
-			.row(ng-show="dato.panel_index==1" style="margin-bottom: 30px;")
-				.col-xs-12(style="margin-bottom: 15px") Aquí aparecen los años y grupos en que tiene por lo menos una nota, aunque no tenga una matrícula válida.
-				.col-sm-3.col-xs-12(ng-repeat="year in years_notas" style="text-align: center;")
-					div(style="border-bottom: 1px solid #888; font-size: 12pt; margin-top: 4px; background-color: #eee; border-radius: 5px;")
-						b {{year.year}}
 
+			.row(ng-show="dato.selected_alumno")
+				.col-xs-12.col-sm-6(style="border: 1px solid #ccc; border-radius: 5px; padding: 10px;")
+					h4(style="text-align: center; font-weight: 700 !important;") Origen
+					p(style="margin-bottom: 15px") Aquí aparecen los años y grupos en que tiene por lo menos una nota, aunque no tenga una matrícula válida.
 					.row
-						.col-lg-12.col-xs-12
+						.col-sm-12.col-xs-12(style="text-align: center;")
+							div(ng-repeat="year in years_notas" style="background-color: #c3ecfa; width: 48%; float: left; margin: 2px; padding-bottom: 4px;")
+								div(style="border-bottom: 1px solid #888; font-size: 12pt; background-color: #eee;")
+									b {{year.year}}
 
-							div(ng-repeat="grupo in year.grupos")
-								div
-									b {{grupo.nombre}}
+								.row
+									.col-lg-12.col-xs-12
 
-								.btn-group
-									button.btn.btn-default(ng-repeat="periodo in grupo.periodos" ng-click="eligirPeriodoNotas(grupo, periodo, year.year, 1, dato.selected_alumno)"
-										ng-class="{'active': dato.periodo_id==periodo.id }") Per{{ periodo.numero }}
+										div(ng-repeat="grupo in year.grupos")
+											div
+												b {{grupo.nombre}}
+
+											.btn-group
+												button.btn.btn-default(ng-repeat="periodo in grupo.periodos" ng-click="eligirPeriodoNotas(grupo, periodo, year.year, 1, dato.selected_alumno)"
+													ng-class="{'active': periodo.seleccionado_origen }") Per{{ periodo.numero }}
 
 
-			.row(ng-show="dato.panel_index==2" style="margin-bottom: 30px;")
-				.col-xs-12(style="margin-bottom: 15px") Aquí aparecen los años en que tiene una matrícula válida.
-				.col-sm-3.col-xs-12(ng-repeat="year in years_dest" style="text-align: center;")
-					div(style="border-bottom: 1px solid #888; font-size: 12pt; margin-top: 4px; background-color: #eee; border-radius: 5px;")
-						b {{year.year}} - {{year.nombre}} - {{year.estado}}
 
+				.col-xs-12.col-sm-6(style="border: 1px solid #ccc; border-radius: 5px; padding: 10px;")
+					h4(style="text-align: center; font-weight: 700 !important;") Destino
+					p(style="margin-bottom: 15px") Aquí aparecen los años en que tiene una matrícula válida.
 					.row
-						.col-lg-12.col-xs-12
+						.col-sm-12.col-xs-12(style="text-align: center;")
+							div(ng-repeat="year in years_dest" style="background-color: #c3ecfa; width: 48%; float: left; margin: 2px; padding-bottom: 4px;")
+								div(style="border-bottom: 1px solid #888; font-size: 12pt; background-color: #eee;")
+									b {{year.year}} - {{year.nombre}} - {{year.estado}}
 
-							.btn-group
-								button.btn.btn-default(ng-repeat="periodo in year.periodos" ng-click="eligirPeriodoNotas(year, periodo, year.year, 2, dato.selected_alumno)"
-									ng-class="{'active': dato.periodo_id==periodo.id }") Per{{ periodo.numero }}
+								.row
+									.col-lg-12.col-xs-12
+
+										.btn-group
+											button.btn.btn-default(ng-repeat="periodo in year.periodos" ng-click="eligirPeriodoNotas(year, periodo, year.year, 2, dato.selected_alumno)"
+												ng-class="{'active': periodo.seleccionado_destino }") Per{{ periodo.numero }}
 
 
 
@@ -184,7 +193,7 @@
 
 
 .row(ng-if="!editarNotasOriginales")
-	.col-xs-12.col-sm-6(style="padding-left: 0px;")
+	.col-xs-12.col-sm-6(style="padding-left: 0px; background-color: #fff; border-radius: 5px;")
 		h2(style="text-align: center; font-weight: bold!important;") ORIGEN
 		h2(ng-show="datos_origen" style="text-align: center; height: 90px;") {{datos_origen.alumno.apellidos + ' ' + datos_origen.alumno.nombres}} - {{datos_origen.grupo.nombre}} - Per{{datos_origen.periodo.numero}} - {{datos_origen.num_year}}
 
@@ -275,7 +284,7 @@
 
 
 
-	.col-xs-12.col-sm-6(style="padding-left: 0px;")
+	.col-xs-12.col-sm-6(style="padding-left: 0px; background-color: #fff; border-radius: 5px;")
 		h2(style="text-align: center; font-weight: bold!important;") DESTINO
 		h2(ng-show="datos_destino" style="text-align: center; height: 90px;") {{datos_destino.alumno.apellidos + ' ' + datos_destino.alumno.nombres}} - {{datos_destino.grupo.nombre}} - Per{{datos_destino.periodo.numero}} - {{datos_destino.num_year}}
 

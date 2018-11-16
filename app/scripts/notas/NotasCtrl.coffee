@@ -67,6 +67,10 @@ angular.module('myvcFrontApp')
 		if localStorage.historial_activado
 			$scope.historial_activado = (localStorage.historial_activado == 'true')
 
+		if localStorage.inmovible_activado
+			$scope.inmovible_activado = (localStorage.inmovible_activado == 'true')
+		else
+			$scope.inmovible_activado = true
 
 
 		for alumno in $scope.alumnos
@@ -161,6 +165,14 @@ angular.module('myvcFrontApp')
 		localStorage.historial_activado 	= $scope.historial_activado
 		if $scope.historial_activado
 			toastr.info 'Ahora dale doble click a la nota que quieres ver'
+
+
+	$scope.toggleInmovible = ()->
+		$scope.inmovible_activado 			  = !$scope.inmovible_activado
+		localStorage.inmovible_activado 	= $scope.inmovible_activado
+		toastr.info 'Mueva horizontalmente con Shift + Scroll'
+		if !$scope.inmovible_activado
+			$('td.fixed-cell').css( {'transform': 'translate(0, 0)'});
 
 
 

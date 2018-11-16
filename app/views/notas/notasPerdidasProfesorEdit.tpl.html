@@ -53,14 +53,14 @@
                     <div uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" class="nombresellipsis">{{alumno.apellidos + ' ' + alumno.nombres}}</div>
                   </td>
                   <td>
-                    <div ng-repeat="nota in alumno.notas | orderBy:['numero_periodo', 'orden_subunidad'] track by $index" ng-style=" !$last &amp;&amp; {'border-bottom': '1px #111 solid' }" style="font-size: 10pt">{{ nota.numero_periodo }}</div>
+                    <div ng-repeat="nota in alumno.notas | orderBy:['numero_periodo', 'orden_subunidad', 'orden_subunidad'] track by $index" ng-style=" !$last &amp;&amp; {'border-bottom': '1px #111 solid' }" style="font-size: 10pt">{{ nota.numero_periodo }}</div>
                   </td>
                   <td>
                     <div ng-repeat="nota in alumno.notas | orderBy:['numero_periodo','orden_unidad','orden_subunidad'] track by $index" ng-style=" !$last &amp;&amp; {'border-bottom': '1px #111 solid' }" style="font-size: 10pt" uib-tooltip="{{::nota.orden_subunidad+1}}. {{nota.defin_subunidad}} - {{nota.defin_unidad}} - {{nota.created_at}}" tooltip-popup-delay="500" tooltip-class="hidden-print" class="ellipsis350 color-defin-perdida{{nota.orden_unidad+1}}">{{::nota.orden_unidad+1}}.{{ ::nota.defin_subunidad }}</div>
                   </td>
                   <td style="width: 20px;">
-                    <div ng-repeat="nota in alumno.notas | orderBy:['numero_periodo', 'orden_subunidad'] track by $index" ng-style=" !$last &amp;&amp; {'border-bottom': '1px #111 solid' }" style="font-size: 10pt" class="text-center"><span ng-if="!hasRoleOrPerm(['admin', 'profesor'])"><span ng-class="{'nota-perdida-bold': nota.nota&lt;USER.nota_minima_aceptada}">{{nota.nota}}</span></span><span ng-class="{'inputnota-perdida': nota.nota &lt; USER.nota_minima_aceptada}" ng-if="hasRoleOrPerm(['admin', 'profesor'])">
-                        <input type="number" min="0" max="100" ng-model="nota.nota" uib-tooltip="{{::nota.orden_subunidad+1}}. {{nota.defin_subunidad}}" tooltip-popup-delay="400" ng-change="cambiaNota(nota)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"></span></div>
+                    <div ng-repeat="nota in alumno.notas | orderBy:['numero_periodo','orden_unidad', 'orden_subunidad'] track by $index" ng-style=" !$last &amp;&amp; {'border-bottom': '1px #111 solid' }" style="font-size: 10pt" class="text-center"><span ng-if="!hasRoleOrPerm(['admin', 'profesor'])"><span ng-class="{'nota-perdida-bold': nota.nota&lt;USER.nota_minima_aceptada}">{{nota.nota}}</span></span><span ng-class="{'inputnota-perdida': nota.nota &lt; USER.nota_minima_aceptada}" ng-if="hasRoleOrPerm(['admin', 'profesor'])">
+                        <input type="number" min="0" max="100" style="height: 19px;" ng-model="nota.nota" uib-tooltip="{{::nota.orden_subunidad+1}}. {{nota.defin_subunidad}}" tooltip-popup-delay="400" ng-change="cambiaNota(nota)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"></span></div>
                   </td>
                 </tr>
               </tbody>

@@ -79,6 +79,24 @@ angular.module('myvcFrontApp', [
 			{ parentesco: 	'Primo(a)' }
 			{ parentesco: 	'Otro' }
 		]
+		opciones_programar: [
+			{ opcion: 	'MATRIC CONDICIONAL' }
+			{ opcion: 	'COMPROM ACADÉMICO' }
+			{ opcion: 	'COMPROM DISCIPLINARIO' }
+			{ opcion: 	'PERDIDA DE CUPO' }
+			{ opcion: 	'CAMBIO INSTITUCIÓN' }
+			{ opcion: 	'OTRO' }
+		]
+		sangres: [
+			{sangre: 'O+'},
+			{sangre: 'O-'},
+			{sangre: 'A+'},
+			{sangre: 'A-'},
+			{sangre: 'B+'},
+			{sangre: 'B-'},
+			{sangre: 'AB+'},
+			{sangre: 'AB-'}
+		]
 		religiones:     ['Adventista', 'Católico', 'Pentecostal', 'Cuadrangular', 'Testigo de Jehová', 'Mormón', 'Otra', 'Ninguna']
 		tipos_sangre:   ['AB+', 'AB-', 'A+', 'A-', 'B+', 'B-', 'O+', 'O-']
 	}

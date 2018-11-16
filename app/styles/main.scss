@@ -1970,3 +1970,10 @@ tr { page-break-inside: avoid }
     display: block;
   }
 }
+.table-striped > tbody > tr:nth-of-type(even) {
+    background-color: #fff;
+}
+.inmovible .nombres-notas .nombresellipsis{
+  width: 200px;
+}
+

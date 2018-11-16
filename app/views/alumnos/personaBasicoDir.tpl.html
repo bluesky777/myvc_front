@@ -66,8 +66,89 @@
   </div>
 </div>
 <div ng-if="hasRoleOrPerm(['admin'])" class="widget">
-  <div class="widget-header bordered-bottom bordered-pink"><span class="widget-caption">Matrícula {{::USER.year}} y prematrícula {{::USER.year+1}}</span></div>
-  <div class="widget-body">
+  <div class="widget-header bordered-bottom bordered-info"><span class="widget-caption"><a href ng-click="toggleMostrarCompromisos()" style="text-decoration: underline;">Disciplina y compromisos ({{cant_compromisos}})</a></span></div>
+  <div ng-show="mostrar_compromisos" class="widget-body">
+    <div class="row">
+      <div class="form-group col-lg-12 col-xs-12">
+        <h4 style="font-weight: 600!important;">Año actual:</h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <label>Aplicar para este año {{ ::USER.year }}:</label>
+        <div><span uib-tooltip="Este año, el estudiante obtiene..." tooltip-popup-delay="400">
+            <ui-select ng-model="dato.efectuar_una" on-select="guardarValor(alumno, 'efectuar_una', dato.efectuar_una.opcion)" theme="select2" style="width: 100%;">
+              <ui-select-match placeholder="Recomendación" allow-clear="true">{{$select.selected.opcion}}</ui-select-match>
+              <ui-select-choices repeat="programar in opciones_programar | filter: $select.search">
+                <div ng-bind-html="programar.opcion | highlight: $select.search"></div>
+              </ui-select-choices>
+            </ui-select></span></div>
+      </div>
+      <div ng-show="dato.efectuar_una" class="form-group col-lg-9 col-sm-6 col-xs-12">
+        <label>Descripción de recomendación</label>
+        <textarea ng-model="alumno.descripcion_efectuada" placeholder="Observaciones" uib-tooltip="Observaciones" tooltip-popup-delay="500" style="height: 50px; width: 100%;" ng-change="guardarValor(alumno, 'descripcion_efectuada', alumno.descripcion_efectuada)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" class="form-control"></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <label>Programar para el {{ ::USER.year + 1 }}</label>
+        <div><span uib-tooltip="Programar o recomendar algo al estudiante o acudiente" tooltip-popup-delay="400">
+            <ui-select ng-model="dato.programar" on-select="guardarValor(alumno, 'programar', dato.programar.opcion)" theme="select2" style="width: 100%;">
+              <ui-select-match placeholder="Recomendación" allow-clear="true">{{$select.selected.opcion}}</ui-select-match>
+              <ui-select-choices repeat="programar in opciones_programar | filter: $select.search">
+                <div ng-bind-html="programar.opcion | highlight: $select.search"></div>
+              </ui-select-choices>
+            </ui-select></span></div>
+      </div>
+      <div ng-show="dato.programar" class="form-group col-lg-9 col-sm-6 col-xs-12">
+        <label>Descripción de recomendación</label>
+        <textarea ng-model="alumno.descripcion_recomendacion" placeholder="Observaciones" uib-tooltip="Observaciones" tooltip-popup-delay="500" style="height: 50px; width: 100%;" ng-change="guardarValor(alumno, 'descripcion_recomendacion', alumno.descripcion_recomendacion)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" class="form-control"></textarea>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="form-group col-lg-12 col-xs-12">
+        <h4 style="font-weight: 600!important;">Siguiente:</h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <label>Aplicar para el año {{ ::USER.year + 1 }}:</label>
+        <div>
+          <ui-select ng-model="dato.efectuar_una_next" on-select="guardarValor(alumno, 'efectuar_una', dato.efectuar_una_next.opcion, alumno.next_year.year_id)" theme="select2" style="width: 100%;">
+            <ui-select-match placeholder="Recomendación" allow-clear="true">{{$select.selected.opcion}}</ui-select-match>
+            <ui-select-choices repeat="programar in opciones_programar | filter: $select.search">
+              <div ng-bind-html="programar.opcion | highlight: $select.search"></div>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+      </div>
+      <div ng-show="dato.efectuar_una_next" class="form-group col-lg-9 col-sm-6 col-xs-12">
+        <label>Descripción de recomendación</label>
+        <textarea ng-model="alumno.next_year.descripcion_efectuada" placeholder="Observaciones" uib-tooltip="Observaciones" tooltip-popup-delay="500" style="height: 50px; width: 100%;" ng-change="guardarValor(alumno, 'descripcion_efectuada', alumno.next_year.descripcion_efectuada, alumno.next_year.year_id)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" class="form-control"></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <label>Programar para el {{ alumno.next_year.year + 1 }}</label>
+        <div><span uib-tooltip="Programar o recomendar algo al estudiante o acudiente" tooltip-popup-delay="400">
+            <ui-select ng-model="dato.programar_next" on-select="guardarValor(alumno, 'programar', dato.programar_next.opcion, alumno.next_year.year_id)" theme="select2" style="width: 100%;">
+              <ui-select-match placeholder="Recomendación" allow-clear="true">{{$select.selected.opcion}}</ui-select-match>
+              <ui-select-choices repeat="programar in opciones_programar | filter: $select.search">
+                <div ng-bind-html="programar.opcion | highlight: $select.search"></div>
+              </ui-select-choices>
+            </ui-select></span></div>
+      </div>
+      <div ng-show="dato.programar_next" class="form-group col-lg-9 col-sm-6 col-xs-12">
+        <label>Descripción de recomendación</label>
+        <textarea ng-model="alumno.next_year.descripcion_recomendacion" placeholder="Observaciones" uib-tooltip="Observaciones" tooltip-popup-delay="500" style="height: 50px; width: 100%;" ng-change="guardarValor(alumno, 'descripcion_recomendacion', alumno.next_year.descripcion_recomendacion, alumno.next_year.year_id)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" class="form-control"></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+<div ng-if="hasRoleOrPerm(['admin'])" class="widget">
+  <div class="widget-header bordered-bottom bordered-pink"><span class="widget-caption"><a href ng-click="toggleMostrarPrematricula()" style="text-decoration: underline;">Matrícula {{::USER.year}} y prematrícula {{::USER.year+1}}</a></span></div>
+  <div ng-show="mostrar_prematricula" class="widget-body">
     <div class="row">
       <div style="padding-right: 0px;" class="form-group col-lg-3 col-md-4 col-sm-4">
         <label for="alumno-estado">Estado</label><span style="padding-left: 2px; padding-top: 4px;" class="btn-group">
@@ -110,7 +191,7 @@
             </ui-select></span></div>
       </div>
       <div style="padding-right: 0px;" class="form-group col-sm-8">
-        <label for="alumno-estado-next">{{ USER.year + 1 }}:</label><span style="padding-left: 2px; padding-top: 4px;" class="btn-group">
+        <label for="alumno-estado-next">{{ ::USER.year + 1 }}:</label><span style="padding-left: 2px; padding-top: 4px;" class="btn-group">
           <label ng-model="alumno.next_year.estado" uib-btn-radio="'FORM'" ng-click="set_estado_next_matricula(alumno)" uib-tooltip="Formulario vendido" class="btn btn-success btn-prematriculas">Formulario</label>
           <label ng-model="alumno.next_year.estado" uib-btn-radio="'PREM'" ng-click="set_estado_next_matricula(alumno)" uib-tooltip="Prematriculado" class="btn btn-success btn-prematriculas">Prematriculado</label>
           <label ng-model="alumno.next_year.estado" uib-btn-radio="'ASIS'" ng-click="set_estado_next_matricula(alumno)" uib-tooltip="Establecer como Asistente" class="btn btn-success btn-prematriculas">Asist</label>

@@ -121,15 +121,22 @@ angular.module("myvcFrontApp")
 		)
 
 
-	$scope.eligirPanelNotas = (panel)->
-		$scope.dato.panel_index = panel
-
-
-
 
 	$scope.eligirPeriodoNotas = (grupo, periodo, num_year, panel_indice, alumno)->
 
 		$scope.dato.periodo_id = periodo.id
+
+		for peri in grupo.periodos
+			if panel_indice == 1
+				peri.seleccionado_origen = false
+			else
+				peri.seleccionado_destino = false
+
+		if panel_indice == 1
+			periodo.seleccionado_origen = true
+		else
+			periodo.seleccionado_destino = true
+
 
 		$http.put("::notas/alumno-periodo-grupo", {alumno_id: $scope.dato.selected_alumno.id, periodo_id: periodo.id, grupo_id: grupo.grupo_id}).then((r)->
 			if panel_indice == 1
@@ -173,7 +180,7 @@ angular.module("myvcFrontApp")
 							toastr.error 'No pudimos guardar la nota ' + asignatura.nota_asignatura, '', {timeOut: 8000}
 					)
 				else
-						$http.put('::definitivas_periodos/update', {alumno_id: $scope.dato.selected_alumno.id, nota: asignatura.nota_asignatura, asignatura_id: asignatura.asignatura_id, num_periodo: $scope.datos_destino.periodo.numero }).then((r)->
+						$http.put('::definitivas_periodos/update', {alumno_id: $scope.dato.selected_alumno.id, nota: asignatura.nota_asignatura, asignatura_id: asignat.asignatura_id, num_periodo: $scope.datos_destino.periodo.numero }).then((r)->
 
 							$scope.evento_definitiva_cambiada(true, asignatura, r.data[0])
 

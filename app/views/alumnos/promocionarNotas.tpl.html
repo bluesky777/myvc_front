@@ -17,7 +17,7 @@
           </div>
         </div>
       </div>
-      <div ng-show="dato.selected_alumno" style="margin-bottom: 30px;" class="row">
+      <div ng-show="dato.selected_alumno" style="margin-bottom: 30px;" ng-if="false" class="row">
         <div style="text-align: center;" class="col-xs-12">
           <div class="btn-group">
             <button ng-click="eligirPanelNotas(1)" ng-class="{'active': dato.panel_index==1 }" uib-tooltip="Panel de ORIGEN" class="btn btn-info shiny"><i class="fa fa-angle-double-left"></i>Cargar en panel izquierdo</button>
@@ -25,30 +25,42 @@
           </div>
         </div>
       </div>
-      <div ng-show="dato.panel_index==1" style="margin-bottom: 30px;" class="row">
-        <div style="margin-bottom: 15px" class="col-xs-12">Aquí aparecen los años y grupos en que tiene por lo menos una nota, aunque no tenga una matrícula válida.</div>
-        <div ng-repeat="year in years_notas" style="text-align: center;" class="col-sm-3 col-xs-12">
-          <div style="border-bottom: 1px solid #888; font-size: 12pt; margin-top: 4px; background-color: #eee; border-radius: 5px;"><b>{{year.year}}</b></div>
+      <div ng-show="dato.selected_alumno" class="row">
+        <div style="border: 1px solid #ccc; border-radius: 5px; padding: 10px;" class="col-xs-12 col-sm-6">
+          <h4 style="text-align: center; font-weight: 700 !important;">Origen</h4>
+          <p style="margin-bottom: 15px">Aquí aparecen los años y grupos en que tiene por lo menos una nota, aunque no tenga una matrícula válida.</p>
           <div class="row">
-            <div class="col-lg-12 col-xs-12">
-              <div ng-repeat="grupo in year.grupos">
-                <div><b>{{grupo.nombre}}</b></div>
-                <div class="btn-group">
-                  <button ng-repeat="periodo in grupo.periodos" ng-click="eligirPeriodoNotas(grupo, periodo, year.year, 1, dato.selected_alumno)" ng-class="{'active': dato.periodo_id==periodo.id }" class="btn btn-default">Per{{ periodo.numero }}</button>
+            <div style="text-align: center;" class="col-sm-12 col-xs-12">
+              <div ng-repeat="year in years_notas" style="background-color: #c3ecfa; width: 48%; float: left; margin: 2px; padding-bottom: 4px;">
+                <div style="border-bottom: 1px solid #888; font-size: 12pt; background-color: #eee;"><b>{{year.year}}</b></div>
+                <div class="row">
+                  <div class="col-lg-12 col-xs-12">
+                    <div ng-repeat="grupo in year.grupos">
+                      <div><b>{{grupo.nombre}}</b></div>
+                      <div class="btn-group">
+                        <button ng-repeat="periodo in grupo.periodos" ng-click="eligirPeriodoNotas(grupo, periodo, year.year, 1, dato.selected_alumno)" ng-class="{'active': periodo.seleccionado_origen }" class="btn btn-default">Per{{ periodo.numero }}</button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div ng-show="dato.panel_index==2" style="margin-bottom: 30px;" class="row">
-        <div style="margin-bottom: 15px" class="col-xs-12">Aquí aparecen los años en que tiene una matrícula válida.</div>
-        <div ng-repeat="year in years_dest" style="text-align: center;" class="col-sm-3 col-xs-12">
-          <div style="border-bottom: 1px solid #888; font-size: 12pt; margin-top: 4px; background-color: #eee; border-radius: 5px;"><b>{{year.year}} - {{year.nombre}} - {{year.estado}}</b></div>
+        <div style="border: 1px solid #ccc; border-radius: 5px; padding: 10px;" class="col-xs-12 col-sm-6">
+          <h4 style="text-align: center; font-weight: 700 !important;">Destino</h4>
+          <p style="margin-bottom: 15px">Aquí aparecen los años en que tiene una matrícula válida.</p>
           <div class="row">
-            <div class="col-lg-12 col-xs-12">
-              <div class="btn-group">
-                <button ng-repeat="periodo in year.periodos" ng-click="eligirPeriodoNotas(year, periodo, year.year, 2, dato.selected_alumno)" ng-class="{'active': dato.periodo_id==periodo.id }" class="btn btn-default">Per{{ periodo.numero }}</button>
+            <div style="text-align: center;" class="col-sm-12 col-xs-12">
+              <div ng-repeat="year in years_dest" style="background-color: #c3ecfa; width: 48%; float: left; margin: 2px; padding-bottom: 4px;">
+                <div style="border-bottom: 1px solid #888; font-size: 12pt; background-color: #eee;"><b>{{year.year}} - {{year.nombre}} - {{year.estado}}</b></div>
+                <div class="row">
+                  <div class="col-lg-12 col-xs-12">
+                    <div class="btn-group">
+                      <button ng-repeat="periodo in year.periodos" ng-click="eligirPeriodoNotas(year, periodo, year.year, 2, dato.selected_alumno)" ng-class="{'active': periodo.seleccionado_destino }" class="btn btn-default">Per{{ periodo.numero }}</button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -126,7 +138,7 @@
   </div>
 </div>
 <div ng-if="!editarNotasOriginales" class="row">
-  <div style="padding-left: 0px;" class="col-xs-12 col-sm-6">
+  <div style="padding-left: 0px; background-color: #fff; border-radius: 5px;" class="col-xs-12 col-sm-6">
     <h2 style="text-align: center; font-weight: bold!important;">ORIGEN</h2>
     <h2 ng-show="datos_origen" style="text-align: center; height: 90px;">{{datos_origen.alumno.apellidos + ' ' + datos_origen.alumno.nombres}} - {{datos_origen.grupo.nombre}} - Per{{datos_origen.periodo.numero}} - {{datos_origen.num_year}}</h2>
     <!-- COMPORTAMIENTO-->
@@ -177,7 +189,7 @@
       </div>
     </div>
   </div>
-  <div style="padding-left: 0px;" class="col-xs-12 col-sm-6">
+  <div style="padding-left: 0px; background-color: #fff; border-radius: 5px;" class="col-xs-12 col-sm-6">
     <h2 style="text-align: center; font-weight: bold!important;">DESTINO</h2>
     <h2 ng-show="datos_destino" style="text-align: center; height: 90px;">{{datos_destino.alumno.apellidos + ' ' + datos_destino.alumno.nombres}} - {{datos_destino.grupo.nombre}} - Per{{datos_destino.periodo.numero}} - {{datos_destino.num_year}}</h2>
     <!-- COMPORTAMIENTO-->

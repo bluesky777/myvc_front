@@ -250,6 +250,9 @@ angular.module('myvcFrontApp')
 	$scope.selectTab = (tab)->
 		$scope.panel_tab_actual = tab
 		localStorage.panel_tab_actual = $scope.panel_tab_actual
+		if tab == 'calendario'
+			$scope.actualizarEventos();
+
 
 
 

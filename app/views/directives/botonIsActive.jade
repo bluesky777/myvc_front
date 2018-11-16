@@ -1,0 +1,10 @@
+div(style="text-align:center; padding-top: 4px")
+
+	a.btn.btn-xs(ng-class="{'btn-primary':row.entity.is_active, 'btn-info':!row.entity.is_active }"
+		ng-click="grid.appScope.toggleActive(row.entity);"
+		uib-tooltip="¿Puede entrar al sistema?" tooltip-placement="left" href=""
+		tooltip-enable="row.entity.is_active")
+
+		span(ng-hide="row.entity.is_active") No
+		span(ng-show="row.entity.is_active") Si
+

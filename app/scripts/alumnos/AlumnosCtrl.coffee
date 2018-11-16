@@ -352,6 +352,26 @@ angular.module("myvcFrontApp")
 
 
 
+	$scope.toggleActive = (fila)->
+		fila.is_active = !fila.is_active
+		if not fila.alumno_id
+			fila.alumno_id = fila.id
+
+		datos =
+			alumno_id: 	fila.alumno_id
+			user_id: 	fila.user_id
+			propiedad: 	'is_active'
+			valor: 		fila.is_active
+
+		$http.put('::alumnos/guardar-valor', datos).then((r)->
+			console.log 'Cambios guardados'
+		, (r2)->
+			fila.is_active = !fila.is_active
+			toastr.error 'Cambio no guardado', 'Error'
+		)
+
+
+
 	$scope.crearUsuario = (row)->
 
 		if row.user_id
@@ -432,6 +452,7 @@ angular.module("myvcFrontApp")
 	btIsNuevo = "==directives/botonIsNuevo.tpl.html"
 	btIsRepitente = "==directives/botonIsRepitente.tpl.html"
 	btIsEgresado = "==directives/botonIsEgresado.tpl.html"
+	btIsActive = "==directives/botonIsActive.tpl.html"
 	btUsuario = "==directives/botonesResetPassword.tpl.html"
 	btCiudadNac = "==directives/botonCiudadNac.tpl.html"
 	btCiudadDoc = "==directives/botonCiudadDoc.tpl.html"
@@ -495,6 +516,7 @@ angular.module("myvcFrontApp")
 			{ field: 'nuevo', displayName: 'Nuevo?', cellTemplate: btIsNuevo, minWidth: 60, enableCellEdit: false }
 			{ field: 'repitente', displayName: 'Repitente?', cellTemplate: btIsRepitente, minWidth: 60, enableCellEdit: false }
 			{ field: 'egresado', displayName: 'Egresado?', cellTemplate: btIsEgresado, minWidth: 60, enableCellEdit: false }
+			{ field: 'is_active', displayName: 'Activo?', cellTemplate: btIsActive, minWidth: 60, enableCellEdit: false }
 			{ field: 'religion', displayName: 'Religión', minWidth: 70, editableCellTemplate: btEditReligion }
 			{ field: 'tipo_doc', displayName: 'Tipo documento', minWidth: 120, cellTemplate: btTipoDoc, enableCellEdit: false }
 			{ field: 'documento', minWidth: 100, cellFilter: 'formatNumberDocumento' }

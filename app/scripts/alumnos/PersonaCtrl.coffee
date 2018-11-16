@@ -22,20 +22,37 @@ angular.module("myvcFrontApp")
 
 
 .controller('PersonaCtrl', ['$scope', '$state', '$http', 'toastr', '$uibModal', 'App', '$rootScope', '$timeout', 'AuthService', ($scope, $state, $http, toastr, $modal, App, $rootScope, $timeout, AuthService)->
-	$scope.data           = {} # Para el popup del Datapicker
-	$scope.alumno         = {}
-	$scope.religiones     = App.religiones
-	$scope.tipos_sangre   = App.tipos_sangre
-	$scope.dato 					= {}
-	$scope.hasRoleOrPerm  = AuthService.hasRoleOrPerm
-	$scope.mostrar_mas    = false
-	$scope.enfermedia_cargada = false
+	$scope.data                 = {} # Para el popup del Datapicker
+	$scope.alumno               = {}
+	$scope.religiones           = App.religiones
+	$scope.tipos_sangre         = App.tipos_sangre
+	$scope.dato 					      = {}
+	$scope.hasRoleOrPerm        = AuthService.hasRoleOrPerm
+	$scope.enfermedia_cargada   = false
+	$scope.opciones_programar   = App.opciones_programar
+	$scope.sangres              = App.sangres
+	$scope.mostrar_mas          = false
+	$scope.mostrar_compromisos  = false
+	$scope.mostrar_prematricula = false
+	$scope.new_suceso           = {
+		fecha_suceso:   new Date()
+		signo_fc:       60
+		signo_fr:       12
+		signo_t:        35.5
+	}
 
-	$scope.sangres = [{sangre: 'O+'},{sangre: 'O-'}, {sangre: 'A+'}, {sangre: 'A-'}, {sangre: 'B+'}, {sangre: 'B-'}, {sangre: 'AB+'}, {sangre: 'AB-'}]
+	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
+
 
 
 	if localStorage.mostrar_mas_deta_alum
 		$scope.mostrar_mas = if localStorage.mostrar_mas_deta_alum == 'true' then true else false
+
+	if localStorage.mostrar_compromisos
+		$scope.mostrar_compromisos = if localStorage.mostrar_compromisos == 'true' then true else false
+
+	if localStorage.mostrar_prematricula
+		$scope.mostrar_prematricula = if localStorage.mostrar_prematricula == 'true' then true else false
 
 
 
@@ -61,6 +78,24 @@ angular.module("myvcFrontApp")
 
 			$scope.alumno.llevo_formulario 	= if $scope.alumno.llevo_formulario then new Date($scope.alumno.llevo_formulario) else $scope.alumno.llevo_formulario
 			$scope.alumno.llevo_formulario_bool 	= if $scope.alumno.llevo_formulario then 'Si' else 'No'
+
+
+			$scope.cant_compromisos = 0;
+
+			for opcion in $scope.opciones_programar
+				if $scope.alumno.programar == opcion.opcion
+					$scope.dato.programar = opcion
+					$scope.cant_compromisos++
+
+				if $scope.alumno.efectuar_una == opcion.opcion
+					$scope.dato.efectuar_una = opcion
+					$scope.cant_compromisos++
+
+				if $scope.alumno.next_year.programar == opcion.opcion
+					$scope.dato.programar_next = opcion
+
+				if $scope.alumno.next_year.efectuar_una == opcion.opcion
+					$scope.dato.efectuar_una_next = opcion
 
 
 			if $scope.alumno.next_year
@@ -141,16 +176,116 @@ angular.module("myvcFrontApp")
 
 
 
+	btGrid1 = '<a uib-tooltip="Editar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
+	#btGrid2 = ''
+	btGrid2 = '<a uib-tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-trash "></i></a>'
+	bt2 	= '<span style="padding-left: 2px; padding-top: 4px;" class="btn-group">' + btGrid1 + btGrid2 + '</span>'
+	btMatricular = "==directives/botonesMatricularMas.tpl.html"
+	btEditReligion = "==alumnos/botonEditReligion.tpl.html"
+	btPazysalvo = "==directives/botonPazysalvo.tpl.html"
+	btIsNuevo = "==directives/botonIsNuevo.tpl.html"
+	btIsRepitente = "==directives/botonIsRepitente.tpl.html"
+	btIsEgresado = "==directives/botonIsEgresado.tpl.html"
+	btIsActive = "==directives/botonIsActive.tpl.html"
+	btUsuario = "==directives/botonesResetPassword.tpl.html"
+	btCiudadNac = "==directives/botonCiudadNac.tpl.html"
+	btCiudadDoc = "==directives/botonCiudadDoc.tpl.html"
+	btCiudadResid = "==directives/botonCiudadResid.tpl.html"
+	btTipoDoc = "==directives/botonTipoDoc.tpl.html"
+	btEditUsername = "==alumnos/botonEditUsername.tpl.html"
+	btEditEPS = "==alumnos/botonEditEps.tpl.html"
+
+	appendPopover1 = "'==alumnos/popoverAlumnoGrid.tpl.html'"
+	appendPopover2 = "'mouseenter'"
+	append3 = "' '"
+	appendPopover = 'uib-popover-template="views+' + appendPopover1 + '" popover-trigger="'+appendPopover2+'" popover-title="{{ row.entity.nombres + ' + append3 + ' + row.entity.apellidos }}" popover-popup-delay="500" popover-append-to-body="true"'
+	gridFooterCartera = "==alumnos/gridFooterCartera.tpl.html"
+
+
+	$scope.gridOptions =
+		showGridFooter: true,
+		showColumnFooter: true,
+		showFooter: true,
+		enableSorting: true,
+		enableFiltering: true,
+		enableGridMenu: true,
+		enebleGridColumnMenu: false,
+		enableCellEditOnFocus: true,
+		columnDefs: [
+			{ field: 'no', pinnedLeft:true, cellTemplate: '<div class="ui-grid-cell-contents">{{grid.renderContainers.body.visibleRowCache.indexOf(row) + 1}}</div>', width: 40, enableCellEdit: false }
+			{ name: 'edicion', displayName:'Edit', width: 54, enableSorting: false, enableFiltering: false, cellTemplate: bt2, enableCellEdit: false, enableColumnMenu: true}
+			{ field: 'sexo', displayName: 'Sex', width: 40 }
+			{ field: 'grupo_id', displayName: 'Matrícula', enableCellEdit: false, cellTemplate: btMatricular, minWidth: 230, enableFiltering: false }
+			{ field: 'fecha_matricula', displayName: 'Fecha matrícula', cellFilter: "date:mediumDate", type: 'date', minWidth: 100 }
+			{ field: 'no_matricula', displayName: '# matrícula', minWidth: 80, enableColumnMenu: true }
+			{ field: 'pazysalvo', displayName: 'A paz?', cellTemplate: btPazysalvo, minWidth: 60, enableCellEdit: false }
+			{ field: 'nuevo', displayName: 'Nuevo?', cellTemplate: btIsNuevo, minWidth: 60, enableCellEdit: false }
+			{ field: 'repitente', displayName: 'Repitente?', cellTemplate: btIsRepitente, minWidth: 60, enableCellEdit: false }
+			{ field: 'egresado', displayName: 'Egresado?', cellTemplate: btIsEgresado, minWidth: 60, enableCellEdit: false }
+			{ field: 'is_active', displayName: 'Activo?', cellTemplate: btIsActive, minWidth: 60, enableCellEdit: false }
+			{ field: 'religion', displayName: 'Religión', minWidth: 70, editableCellTemplate: btEditReligion }
+			{ field: 'tipo_doc', displayName: 'Tipo documento', minWidth: 120, cellTemplate: btTipoDoc, enableCellEdit: false }
+			{ field: 'documento', minWidth: 100, cellFilter: 'formatNumberDocumento' }
+			{ field: 'ciudad_doc', displayName: 'Ciud Docu', minWidth: 120, cellTemplate: btCiudadDoc, enableCellEdit: false }
+			{ field: 'estrato', minWidth: 70, type: 'number' }
+			{ field: 'fecha_nac', displayName:'Nacimiento', cellFilter: "date:mediumDate", type: 'date', minWidth: 100}
+		],
+		multiSelect: false,
+		onRegisterApi: ( gridApi ) ->
+			$scope.gridApi = gridApi
+			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
+
+				if newValue != oldValue
+					if colDef.field == "sexo"
+						newValue = newValue.toUpperCase()
+						if !(newValue == 'M' or newValue == 'F')
+							toastr.warning 'Debe usar M o F'
+							rowEntity.sexo = oldValue
+							return
+
+
+					$http.put('::enfermeria/guardar-valor', {alumno_id: rowEntity.alumno_id, propiedad: colDef.field, valor: newValue, user_id: user_id_temp } ).then((r)->
+						toastr.success 'Alumno(a) actualizado con éxito'
+					, (r2)->
+						rowEntity[colDef.field] = oldValue
+						toastr.error 'Cambio no guardado', 'Error'
+					)
+				$scope.$apply()
+			)
+
+
 
 	$scope.crear_alumno = ()->
 		$rootScope.grupos_siguientes = $scope.grupos_siguientes
 		$state.go('panel.persona.nuevo')
 
 
+	$scope.crear_suceso = ()->
+		$scope.creando_suceso = true
+
 	$scope.cargarEnfermeria = ()->
 		$http.put('::enfermeria/datos', {alumno_id: $scope.alumno.alumno_id}).then((r)->
-			$scope.enfermeria = r.data.enfermeria
-			$scope.enfermedia_cargada = true
+
+			for sangre in $scope.sangres
+				if $scope.alumno.tipo_sangre == sangre.sangre
+					$scope.dato.tipo_sangre = sangre
+
+			for regi in r.data.registros_enfermeria
+				regi.fecha_suceso = new Date(regi.fecha_suceso)
+
+			$scope.enfermeria 					= r.data.antecedentes
+			$scope.gridOptions.data 		= r.data.registros_enfermeria
+			$scope.enfermedia_cargada 	= true
+		)
+
+	$scope.guardar_nuevo_suceso = (new_suceso)->
+		console.log(new_suceso)
+		$scope.guardando_suceso = true
+		$http.put('::enfermeria/datos', {alumno_id: $scope.alumno.alumno_id}).then((r)->
+			$scope.guardando_suceso = false
+		, ()->
+			toastr.error('Error creando suceso')
+			$scope.guardando_suceso = false
 		)
 
 
@@ -158,6 +293,17 @@ angular.module("myvcFrontApp")
 		$scope.paises = r.data
 	)
 
+
+	$scope.toggleMostrarCompromisos = ()->
+		$scope.mostrar_compromisos          = !$scope.mostrar_compromisos
+		localStorage.mostrar_compromisos    = $scope.mostrar_compromisos
+		# Debería traer datos disciplinarios...
+
+
+	$scope.toggleMostrarPrematricula = ()->
+		$scope.mostrar_prematricula         = !$scope.mostrar_prematricula
+		localStorage.mostrar_prematricula   = $scope.mostrar_prematricula
+		# Debería traer datos disciplinarios...
 
 
 	$scope.religionSelected = (row, evento)->
@@ -666,8 +812,26 @@ angular.module("myvcFrontApp")
 
 		$http.put('::alumnos/guardar-valor', datos ).then((r)->
 			toastr.success 'Alumno(a) actualizado con éxito'
+			if colDef == "tipo_sangre"
+				$scope.alumno.tipo_sangre = newValue
 		, (r2)->
 			rowEntity[colDef] = $scope.alum_copy[colDef]
+			toastr.error 'Cambio no guardado', 'Error'
+		)
+
+
+	$scope.guardarValorEnfermeria = (enferm, propiedad, newValue)->
+		datos = {}
+		console.log(enferm);
+		datos.antec_id    = enferm.id
+		datos.propiedad   = propiedad
+		datos.valor 		  = newValue
+
+
+		$http.put('::enfermeria/guardar-valor', datos ).then((r)->
+			toastr.success 'Enfermería actualizada'
+		, (r2)->
+			#rowEntity[colDef] = $scope.alum_copy[colDef]
 			toastr.error 'Cambio no guardado', 'Error'
 		)
 
