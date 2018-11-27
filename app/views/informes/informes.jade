@@ -30,8 +30,8 @@
 				.row(style="padding-bottom: 20px;")
 					.col-lg-12()
 						.btn-group
-							button.btn.btn-sm.btn-default.shiny(ng-click="calcularPeriodo(periodo)" ng-repeat="periodo in periodos_grupos" uib-tooltip="No es necesario a menos que veas alguna definitiva desactualizada.")
-								| Calcular periodo {{periodo.numero}} completo
+							button.btn.btn-sm.btn-default.shiny(ng-click="calcularPeriodo(periodo)" ng-repeat="periodo in periodos_grupos" uib-tooltip="No es necesario a menos que veas alguna nota definitiva desactualizada.")
+								| Calcular definitivas per{{periodo.numero}}
 						uib-progressbar.progress-xlg.progress-striped.active(value="porcentaje" ng-show="porcentaje > -1")
 							b {{porcentaje}}% Completado
 
@@ -58,6 +58,14 @@
 						hr.wide
 
 						span(ng-show="tipo_boletin")
+							.row(ng-show="tipo_boletin==4")
+								.col-lg-12.col-xs-12
+									.form-group
+										label Generar boletin final de preescolar
+										label
+											input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.generar_bol_final_prees")
+											span.text.si-no
+
 							.row
 								.col-lg-12.col-xs-12
 									.form-group

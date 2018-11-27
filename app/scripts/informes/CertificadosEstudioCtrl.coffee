@@ -5,6 +5,8 @@ angular.module("myvcFrontApp")
 	$scope.grupo          = alumnos[0]
 	$scope.year           = alumnos[1]
 	$scope.alumnos        = alumnos[2]
+	$scope.escalas_val    = alumnos[3]
+	console.log(alumnos[3])
 
 	$scope.$stateParams 	= $stateParams
 

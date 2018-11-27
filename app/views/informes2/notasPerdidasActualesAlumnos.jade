@@ -41,7 +41,7 @@ div(ng-repeat="alumnoBig in alumnos")
 
 
 								.col-lg-12.col-xs-12.no-padding
-									.materia-item(ng-repeat="asignatura in ::alumno.asignaturas track by $index" ng-show="::asignatura.cant_perdidas > 0")
+									.materia-item(ng-repeat="asignatura in ::alumno.asignaturas track by $index" ng-hide="::asignatura.cant_perdidas == 0 || (asignatura.manual==1 && asignatura.nota_asignatura > USER.nota_minima_aceptada) || year.si_recupera_materia_recup_indicador")
 										.row.materia-title
 											.col-lg-9.col-xs-9(uib-popover-template="::views+'informes/infoDocentePop.tpl.html'"
 													popover-popup-delay="500" popover-title="{{::asignatura.nombres_profesor}} {{::asignatura.apellidos_profesor}}" popover-animation="true"
@@ -57,6 +57,7 @@ div(ng-repeat="alumnoBig in alumnos")
 											.col-lg-1.col-xs-1
 												div(ng-class="{'nota-perdida-bold': asignatura.nota_asignatura<USER.nota_minima_aceptada}")
 													| {{ ::asignatura.nota_asignatura }}
+													span(ng-show="::asignatura.manual")  M
 										.row.unidades-list
 											.col-lg-12.col-xs-12
 												.row.unidades-item(ng-repeat="unidad in ::asignatura.unidades track by $index" ng-show="::unidad.cant_perdidas > 0")
@@ -69,7 +70,7 @@ div(ng-repeat="alumnoBig in alumnos")
 															.col-lg-1.col-xs-1.unidad-nota
 																| {{::unidad.nota_unidad }}
 
-														.row.subunidades-list(ng-repeat="subunidad in ::unidad.subunidades" ng-show="::subunidad.nota < USER.nota_minima_aceptada")
+														.row.subunidades-list(ng-repeat="subunidad in ::unidad.subunidades" ng-hide="::subunidad.nota > USER.nota_minima_aceptada")
 															.col-lg-12.col-xs-12
 																.row
 																	.col-lg-9.col-xs-9.subunidad-definicion

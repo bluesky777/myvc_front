@@ -175,8 +175,11 @@ angular.module('myvcFrontApp')
 	$scope.actualizarUnidad = (unidad)->
 
 		datos =
-			definicion: unidad.definicion
-			porcentaje: unidad.porcentaje
+			definicion: 		unidad.definicion
+			porcentaje: 		unidad.porcentaje
+			asignatura_id: 	unidad.asignatura_id
+			periodo_id: 		$scope.USER.periodo_id
+			num_periodo: 		$scope.USER.numero_periodo
 
 		$http.put('::unidades/update/' + unidad.id, datos).then((r)->
 
@@ -201,6 +204,8 @@ angular.module('myvcFrontApp')
 			resolve:
 				unidad: ()->
 					unidad
+				USER: ()->
+					$scope.USER
 		})
 		modalInstance.result.then( (unidad)->
 			$scope.unidades = $filter('filter')($scope.unidades, {id: '!'+unidad.id})
@@ -372,13 +377,16 @@ angular.module('myvcFrontApp')
 	$scope.ir_a_notas = (datos)->
 		$state.go 'panel.notas', datos
 
-	$scope.actualizarSubunidad = (subunidad)->
+	$scope.actualizarSubunidad = (subunidad, unidad)->
 
 		datos =
 			definicion: subunidad.definicion
 			porcentaje: subunidad.porcentaje
 			nota_default: subunidad.nota_default
 			orden: subunidad.orden
+			asignatura_id: 	unidad.asignatura_id
+			periodo_id: 		$scope.USER.periodo_id
+			num_periodo: 		$scope.USER.numero_periodo
 
 		$http.put('::subunidades/update/' + subunidad.id, datos).then((r)->
 
@@ -402,6 +410,10 @@ angular.module('myvcFrontApp')
 			resolve:
 				subunidad: ()->
 					subunidad
+				unidad: ()->
+					unidad
+				USER: ()->
+					$scope.USER
 		})
 		modalInstance.result.then( (unid)->
 			unidad.subunidades = $filter('filter')(unidad.subunidades, {id: '!'+subunidad.id})
@@ -415,12 +427,18 @@ angular.module('myvcFrontApp')
 
 ])
 
-.controller('RemoveUnidadCtrl', ['$scope', '$uibModalInstance', 'unidad', '$http', 'toastr', ($scope, $modalInstance, unidad, $http, toastr)->
+.controller('RemoveUnidadCtrl', ['$scope', '$uibModalInstance', 'unidad', '$http', 'toastr', 'USER', ($scope, $modalInstance, unidad, $http, toastr, USER)->
 	$scope.unidad = unidad
 
 	$scope.ok = ()->
 
-		$http.delete('::unidades/destroy/'+unidad.id).then((r)->
+		datos =
+			asignatura_id: 	unidad.asignatura_id
+			periodo_id: 		USER.periodo_id
+			num_periodo: 		USER.numero_periodo
+
+
+		$http.delete('::unidades/destroy/'+unidad.id, {params: datos}).then((r)->
 			toastr.success 'Unidad eliminada con éxito.', 'Eliminada'
 		, (r2)->
 			toastr.warning 'No se pudo eliminar la unidad.', 'Problema'
@@ -432,12 +450,17 @@ angular.module('myvcFrontApp')
 
 ])
 
-.controller('RemoveSubunidadCtrl', ['$scope', '$uibModalInstance', 'subunidad', '$http', 'toastr', ($scope, $modalInstance, subunidad, $http, toastr)->
+.controller('RemoveSubunidadCtrl', ['$scope', '$uibModalInstance', 'subunidad', 'unidad', 'USER', '$http', 'toastr', ($scope, $modalInstance, subunidad, unidad, USER, $http, toastr)->
 	$scope.subunidad = subunidad
 
 	$scope.ok = ()->
 
-		$http.delete('::subunidades/destroy/'+subunidad.id).then((r)->
+		datos =
+			asignatura_id: 	unidad.asignatura_id
+			periodo_id: 		USER.periodo_id
+			num_periodo: 		USER.numero_periodo
+
+		$http.delete('::subunidades/destroy/'+subunidad.id, {params: datos}).then((r)->
 			toastr.success 'Subunidad eliminada con éxito.', 'Eliminada'
 		, (r2)->
 			toastr.warning 'No se pudo eliminar la subunidad.', 'Problema'

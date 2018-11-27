@@ -100,6 +100,54 @@ angular.module('myvcFrontApp')
 
 
 
+	$scope.cambiaNotaRecuFinal = (alumno, nota, rf_id)->
+		if nota > $scope.escala_maxima.porc_final or nota == 'undefined' or nota == undefined
+			toastr.error 'No puede ser mayor de ' + $scope.escala_maxima.porc_final, 'NO guardada', {timeOut: 8000}
+			return
+
+		if alumno.promedio_automatico > nota
+			toastr.error 'Debe ser mayor que la definitiva.', 'No guardado'
+
+		if rf_id
+			$http.put('::definitivas_periodos/update-recuperacion', { rf_id: rf_id, nota: nota }).then((r)->
+				toastr.success 'Cambiada: ' + nota
+			, (r2)->
+				if r2.status == 400
+					toastr.warning 'Parece que no tienes permisos', 'Lo sentimos'
+				else
+					toastr.error 'No pudimos guardar la nota ' + nota, '', {timeOut: 8000}
+			)
+
+		else
+			$http.put('::definitivas_periodos/update-recuperacion', {alumno_id: alumno.alumno_id, nota: nota, asignatura_id: $scope.dato.asignatura.asignatura_id }).then((r)->
+				toastr.success 'Creada: ' + nota
+				r = r.data
+				alumno['recu_id']           = r.id
+				alumno['recu_year']         = r.year
+				alumno['recu_nota']         = r.nota
+			, (r2)->
+				if r2.status == 400
+					toastr.warning 'Parece que no tienes permisos', 'Lo sentimos'
+				else
+					toastr.error 'No pudimos guardar la nota ' + nota, '', {timeOut: 8000}
+			)
+
+
+	$scope.eliminarRecuperacion = (alumno, rf_id)->
+		res = confirm('¿Seguro que desea eliminar nota?')
+		if res
+			$http.put('::definitivas_periodos/eliminar-recuperada', { rf_id: rf_id }).then((r)->
+				toastr.success 'Eliminada. Puede volver a crearla cuando quiera'
+				alumno['recu_id']           = undefined
+				alumno['recu_year']         = undefined
+				alumno['recu_nota']         = undefined
+			, (r2)->
+				if r2.status == 400
+					toastr.warning 'Parece que no tienes permisos', 'Lo sentimos'
+				else
+					toastr.error 'No pudimos eliminar nota ' + nota
+			)
+
 
 	$scope.toggleNotaRecuperada = (alumno, recuperada, nf_id, num_periodo)->
 		$http.put('::definitivas_periodos/toggle-recuperada', {nf_id: nf_id, recuperada: recuperada, num_periodo: num_periodo}).then((r)->

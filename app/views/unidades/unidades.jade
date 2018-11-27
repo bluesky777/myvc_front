@@ -166,7 +166,7 @@
 									.row(ng-show="subunidad.editando")
 										.ticket-user.col-md-10.col-sm-12.no-padding-xs(ng-show="subunidad.editando" style="overflow: visible")
 
-											form.form-inline(role="form" ng-submit="actualizarSubunidad(subunidad)")
+											form.form-inline(role="form" ng-submit="actualizarSubunidad(subunidad, unidad)")
 												.form-group.unidaddefinicion.col-md-8.col-sm-8.col-xs-12(style="padding: 0;")
 													label.sr-only Edite la definición
 													textarea.form-control.textarea-altura-xs(required ng-model="subunidad.definicion" placeholder="Edite la definición" uib-tooltip="Definición" style="height: 35px;")
@@ -180,7 +180,7 @@
 										.ticket-type.col-md-2.col-xs-12(style="padding-left: 0px; padding-right: 0px; text-align: center;")
 											.btn-group
 												button.btn.btn-default.btn-sm(type="button" ng-click="subunidad.editando=false") Cancelar
-												button.btn.btn-primary.btn-sm(type="button" ng-click="actualizarSubunidad(subunidad)") Guardar
+												button.btn.btn-primary.btn-sm(type="button" ng-click="actualizarSubunidad(subunidad, unidad)") Guardar
 
 
 

@@ -49,10 +49,19 @@
 					span(ng-hide="alumno.egresado") No
 					span(ng-show="alumno.egresado") Si
 
+			div(style="padding-top: 4px")
+				label ¿Activo?
+				a.btn.btn-xs(ng-class="{'btn-primary':alumno.is_active, 'btn-danger':!alumno.is_active }"
+					ng-click="toggleActive(alumno);"
+					uib-tooltip="¿Puede ingresar al sistema?" href=""
+					tooltip-enable="alumno.is_active")
+
+					span(ng-hide="alumno.is_active") No
+					span(ng-show="alumno.is_active") Si
 
 
 
 .modal-footer
+	button.btn.btn-yellow(ng-click="cancel()") Cancelar
 	button.btn.btn-labeled.btn-primary(ng-click="ok()") Matricular
 		i.btn-label.fa.fa-save
-	button.btn.btn-yellow(ng-click="cancel()") Cancelar

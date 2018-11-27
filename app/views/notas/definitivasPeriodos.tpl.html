@@ -19,164 +19,166 @@
             <div ng-show="dato.asignatura.alumnos.per_desact['per4']" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px" class="alert alert-info fade in radius-bordered"><i class="fa-fw fa fa-info"></i>Periodo 4 acaba de ser calculado</div>
           </div>
         </div>
-        <table ng-class="{'ocultando-ausencias': ocultando_ausencias }" class="table table-hover table-condensed table-striped tablenot100">
-          <thead>
-            <tr>
-              <th rowspan="2" style="width: 20px; line-height: 3;">
-                <div>No</div>
-              </th>
-              <th rowspan="2" style="min-width: 50px; line-height: 3;" class="text-center">
-                <div>Nombres</div>
-              </th>
-              <th colspan="4" class="border-right-dddd">
-                <div uib-tooltip="Periodo 1" tooltip-popup-delay="500" class="text-center nombresellipsis">Per1</div>
-              </th>
-              <th colspan="4" class="border-right-dddd">
-                <div uib-tooltip="Periodo 2" tooltip-popup-delay="500" class="text-center nombresellipsis">Per2</div>
-              </th>
-              <th colspan="4" class="border-right-dddd">
-                <div uib-tooltip="Periodo 3" tooltip-popup-delay="500" class="text-center nombresellipsis">Per3</div>
-              </th>
-              <th colspan="4" class="border-right-dddd">
-                <div uib-tooltip="Periodo 4" tooltip-popup-delay="500" class="text-center nombresellipsis">Per4</div>
-              </th>
-              <th rowspan="2" style="line-height: 3;">
-                <div uib-tooltip="Promedio de las notas automáticas">PromAuto</div>
-              </th>
-              <th rowspan="2" style="line-height: 3;">
-                <div uib-tooltip="Promedio real que aparecerá en los boletines">Definitiva</div>
-              </th>
-              <th rowspan="2" style="line-height: 3;">
-                <div uib-tooltip="Valor que le falta para pasar">Falta</div>
-              </th>
-            </tr>
-            <tr>
-              <th>
-                <div uib-tooltip="Automática: calculada por el sistema" tooltip-popup-delay="500" class="text-center nombresellipsis">Auto</div>
-              </th>
-              <th>
-                <div uib-tooltip="Así se verá en los informes" tooltip-popup-delay="500" class="text-center nombresellipsis">Final</div>
-              </th>
-              <th style="padding-left: 0px; padding-right: 0px; font-size: 8pt;">
-                <div uib-tooltip="Indica si la definitiva será calculada automáticamente o manualmente" class="text-center nombresellipsis">Manual</div>
-              </th>
-              <th class="border-right-dddd">
-                <div uib-tooltip="Establecer si la nota es recuperada o normal" tooltip-popup-delay="500" class="text-center nombresellipsis">Rec</div>
-              </th>
-              <th>
-                <div uib-tooltip="Automática: calculada por el sistema" tooltip-popup-delay="500" class="text-center nombresellipsis">Auto</div>
-              </th>
-              <th>
-                <div uib-tooltip="Así se verá en los informes" tooltip-popup-delay="500" class="text-center nombresellipsis">Final</div>
-              </th>
-              <th style="padding-left: 0px; padding-right: 0px; font-size: 8pt;">
-                <div uib-tooltip="Indica si la definitiva será calculada automáticamente o manualmente" class="text-center nombresellipsis">Manual</div>
-              </th>
-              <th class="border-right-dddd">
-                <div uib-tooltip="Establecer si la nota es recuperada o normal" tooltip-popup-delay="500" class="text-center nombresellipsis">Rec</div>
-              </th>
-              <th>
-                <div uib-tooltip="Automática: calculada por el sistema" tooltip-popup-delay="500" class="text-center nombresellipsis">Auto</div>
-              </th>
-              <th>
-                <div uib-tooltip="Así se verá en los informes" tooltip-popup-delay="500" class="text-center nombresellipsis">Final</div>
-              </th>
-              <th style="padding-left: 0px; padding-right: 0px; font-size: 8pt;">
-                <div uib-tooltip="Indica si la definitiva será calculada automáticamente o manualmente" class="text-center nombresellipsis">Manual</div>
-              </th>
-              <th class="border-right-dddd">
-                <div uib-tooltip="Establecer si la nota es recuperada o normal" tooltip-popup-delay="500" class="text-center nombresellipsis">Rec</div>
-              </th>
-              <th>
-                <div uib-tooltip="Automática: calculada por el sistema" tooltip-popup-delay="500" class="text-center nombresellipsis">Auto</div>
-              </th>
-              <th>
-                <div uib-tooltip="Así se verá en los informes" tooltip-popup-delay="500" class="text-center nombresellipsis">Final</div>
-              </th>
-              <th style="padding-left: 0px; padding-right: 0px; font-size: 8pt;">
-                <div uib-tooltip="Indica si la definitiva será calculada automáticamente o manualmente" class="text-center nombresellipsis">Manual</div>
-              </th>
-              <th class="border-right-dddd">
-                <div uib-tooltip="Establecer si la nota es recuperada o normal" tooltip-popup-delay="500" class="text-center nombresellipsis">Rec</div>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="alumno in dato.asignatura.alumnos.alumnos | filter:searchAlum" ng-class="{'danger': promedioTotal(alumno.alumno_id) &lt; nota_minima_aceptada}">
-              <td>
-                <div>{{$index+1}}</div>
-              </td>
-              <td style="padding: 0 5px;">
-                <div uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" class="nombresellipsis"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 30px; height: 30px;">{{alumno.apellidos + ' ' + alumno.nombres}}<span ng-show="alumno.estado=='ASIS'" style="font-size: 8pt">(Asis)</span></div>
-              </td>
-              <td>
-                <div>{{alumno.def_materia_auto_1 }}</div>
-              </td>
-              <td>
-                <div ng-class="{'inputnota-perdida': alumno.nota_final_per1 &lt; nota_minima_aceptada, 'inputnota-superior': alumno.nota_final_per1 &gt;= escala_maxima.porc_inicial }" class="text-center">
-                  <input type="number" min="0" max="{{::escala_maxima.porc_final}}" ng-model="alumno.nota_final_per1" ng-change="cambiaNotaDef(alumno, alumno.nota_final_per1, alumno.nf_id_1, 1, dato.asignatura.alumnos.alumnos)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])" ng-disabled="periodos[0].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="input-nota">
-                </div>
-              </td>
-              <td>
-                <input type="checkbox" ng-model="alumno.manual_1" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaManual(alumno, alumno.manual_1, alumno.nf_id_1, 1)" style="opacity: 1; position: unset;" ng-disabled="periodos[0].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('admin')" class="no-margin-top">
-              </td>
-              <td class="border-right-dddd">
-                <input type="checkbox" ng-model="alumno.recuperada_1" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_1, alumno.nf_id_1, 1)" style="opacity: 1; position: unset;" ng-disabled="periodos[0].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('admin')" class="no-margin-top">
-              </td>
-              <td>
-                <div>{{alumno.def_materia_auto_2 }}</div>
-              </td>
-              <td>
-                <div ng-class="{'inputnota-perdida': alumno.nota_final_per2 &lt; nota_minima_aceptada, 'inputnota-superior': alumno.nota_final_per2 &gt;= escala_maxima.porc_inicial }" class="text-center">
-                  <input type="number" min="0" max="{{::escala_maxima.porc_final}}" ng-model="alumno.nota_final_per2" ng-change="cambiaNotaDef(alumno, alumno.nota_final_per2, alumno.nf_id_2, 2)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])" ng-disabled="periodos[1].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="input-nota">
-                </div>
-              </td>
-              <td>
-                <input type="checkbox" ng-model="alumno.manual_2" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaManual(alumno, alumno.manual_2, alumno.nf_id_2, 2)" style="opacity: 1; position: unset;" ng-disabled="periodos[1].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="no-margin-top">
-              </td>
-              <td class="border-right-dddd">
-                <input type="checkbox" ng-model="alumno.recuperada_2" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_2, alumno.nf_id_2, 2)" style="opacity: 1; position: unset;" ng-disabled="periodos[1].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="no-margin-top">
-              </td>
-              <td>
-                <div>{{alumno.def_materia_auto_3 }}</div>
-              </td>
-              <td>
-                <div ng-class="{'inputnota-perdida': alumno.nota_final_per3 &lt; nota_minima_aceptada, 'inputnota-superior': alumno.nota_final_per3 &gt;= escala_maxima.porc_inicial }" class="text-center">
-                  <input type="number" min="0" max="{{::escala_maxima.porc_final}}" ng-model="alumno.nota_final_per3" ng-change="cambiaNotaDef(alumno, alumno.nota_final_per3, alumno.nf_id_3, 3)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])" ng-disabled="periodos[2].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="input-nota">
-                </div>
-              </td>
-              <td>
-                <input type="checkbox" ng-model="alumno.manual_3" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaManual(alumno, alumno.manual_3, alumno.nf_id_3, 3)" style="opacity: 1; position: unset;" ng-disabled="periodos[2].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="no-margin-top">
-              </td>
-              <td class="border-right-dddd">
-                <input type="checkbox" ng-model="alumno.recuperada_3" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_3, alumno.nf_id_3, 3)" style="opacity: 1; position: unset;" ng-disabled="periodos[2].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="no-margin-top">
-              </td>
-              <td>
-                <div>{{alumno.def_materia_auto_4 }}</div>
-              </td>
-              <td>
-                <div ng-class="{'inputnota-perdida': alumno.nota_final_per4 &lt; nota_minima_aceptada, 'inputnota-superior': alumno.nota_final_per4 &gt;= escala_maxima.porc_inicial }" class="text-center">
-                  <input type="number" min="0" max="{{::escala_maxima.porc_final}}" ng-model="alumno.nota_final_per4" ng-change="cambiaNotaDef(alumno, alumno.nota_final_per4, alumno.nf_id_4, 4)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])" ng-disabled="periodos[3].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="input-nota">
-                </div>
-              </td>
-              <td>
-                <input type="checkbox" ng-model="alumno.manual_4" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaManual(alumno, alumno.manual_4, alumno.nf_id_4, 4)" style="opacity: 1; position: unset;" ng-disabled="periodos[3].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="no-margin-top">
-              </td>
-              <td class="border-right-dddd">
-                <input type="checkbox" ng-model="alumno.recuperada_4" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_4, alumno.nf_id_4, 4)" style="opacity: 1; position: unset;" ng-disabled="periodos[3].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="no-margin-top">
-              </td>
-              <td>
-                <div class="text-center">{{ ::alumno.promedio_automatico}}</div>
-              </td>
-              <td>
-                <div ng-bind-html="promedioTotalDef(alumno)" ng-class="{'nota-perdida': alumno.total_definit &lt; nota_minima_aceptada, 'nota-superior': alumno.total_definit &gt;= escala_maxima.porc_inicial }" class="text-center"></div>
-              </td>
-              <td>
-                <div ng-bind-html="alumno.nota_requerida" class="text-center"></div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div fixed-column-table fixed-columns="2" class="table-responsive">
+          <table class="table table-hover table-condensed table-striped tablenot100 inmovible">
+            <thead>
+              <tr>
+                <th rowspan="2" style="width: 20px; line-height: 3;" class="cross">
+                  <div>No</div>
+                </th>
+                <th rowspan="2" style="min-width: 50px; line-height: 3;" class="cross text-center">
+                  <div>Nombres</div>
+                </th>
+                <th colspan="4" class="border-right-dddd">
+                  <div uib-tooltip="Periodo 1" tooltip-popup-delay="500" class="text-center nombresellipsis">Per1</div>
+                </th>
+                <th colspan="4" class="border-right-dddd">
+                  <div uib-tooltip="Periodo 2" tooltip-popup-delay="500" class="text-center nombresellipsis">Per2</div>
+                </th>
+                <th colspan="4" class="border-right-dddd">
+                  <div uib-tooltip="Periodo 3" tooltip-popup-delay="500" class="text-center nombresellipsis">Per3</div>
+                </th>
+                <th colspan="4" class="border-right-dddd">
+                  <div uib-tooltip="Periodo 4" tooltip-popup-delay="500" class="text-center nombresellipsis">Per4</div>
+                </th>
+                <th rowspan="2" style="line-height: 3;">
+                  <div uib-tooltip="Promedio de las notas automáticas">Definitiva</div>
+                </th>
+                <th rowspan="2" style="line-height: 3;">
+                  <div uib-tooltip="Nota de recuperación">Recuperación</div>
+                </th>
+                <th rowspan="2" style="line-height: 3;">
+                  <div uib-tooltip="Valor que le falta para pasar">Falta</div>
+                </th>
+              </tr>
+              <tr>
+                <th>
+                  <div uib-tooltip="Automática: calculada por el sistema" tooltip-popup-delay="500" class="text-center nombresellipsis">Auto</div>
+                </th>
+                <th>
+                  <div uib-tooltip="Así se verá en los informes" tooltip-popup-delay="500" class="text-center nombresellipsis">Final</div>
+                </th>
+                <th style="padding-left: 0px; padding-right: 0px; font-size: 8pt;">
+                  <div uib-tooltip="Indica si la definitiva será calculada automáticamente o manualmente" class="text-center nombresellipsis">Manual</div>
+                </th>
+                <th class="border-right-dddd">
+                  <div uib-tooltip="Establecer si la nota es recuperada o normal" tooltip-popup-delay="500" class="text-center nombresellipsis">Rec</div>
+                </th>
+                <th>
+                  <div uib-tooltip="Automática: calculada por el sistema" tooltip-popup-delay="500" class="text-center nombresellipsis">Auto</div>
+                </th>
+                <th>
+                  <div uib-tooltip="Así se verá en los informes" tooltip-popup-delay="500" class="text-center nombresellipsis">Final</div>
+                </th>
+                <th style="padding-left: 0px; padding-right: 0px; font-size: 8pt;">
+                  <div uib-tooltip="Indica si la definitiva será calculada automáticamente o manualmente" class="text-center nombresellipsis">Manual</div>
+                </th>
+                <th class="border-right-dddd">
+                  <div uib-tooltip="Establecer si la nota es recuperada o normal" tooltip-popup-delay="500" class="text-center nombresellipsis">Rec</div>
+                </th>
+                <th>
+                  <div uib-tooltip="Automática: calculada por el sistema" tooltip-popup-delay="500" class="text-center nombresellipsis">Auto</div>
+                </th>
+                <th>
+                  <div uib-tooltip="Así se verá en los informes" tooltip-popup-delay="500" class="text-center nombresellipsis">Final</div>
+                </th>
+                <th style="padding-left: 0px; padding-right: 0px; font-size: 8pt;">
+                  <div uib-tooltip="Indica si la definitiva será calculada automáticamente o manualmente" class="text-center nombresellipsis">Manual</div>
+                </th>
+                <th class="border-right-dddd">
+                  <div uib-tooltip="Establecer si la nota es recuperada o normal" tooltip-popup-delay="500" class="text-center nombresellipsis">Rec</div>
+                </th>
+                <th>
+                  <div uib-tooltip="Automática: calculada por el sistema" tooltip-popup-delay="500" class="text-center nombresellipsis">Auto</div>
+                </th>
+                <th>
+                  <div uib-tooltip="Así se verá en los informes" tooltip-popup-delay="500" class="text-center nombresellipsis">Final</div>
+                </th>
+                <th style="padding-left: 0px; padding-right: 0px; font-size: 8pt;">
+                  <div uib-tooltip="Indica si la definitiva será calculada automáticamente o manualmente" class="text-center nombresellipsis">Manual</div>
+                </th>
+                <th class="border-right-dddd">
+                  <div uib-tooltip="Establecer si la nota es recuperada o normal" tooltip-popup-delay="500" class="text-center nombresellipsis">Rec</div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="alumno in dato.asignatura.alumnos.alumnos | filter:searchAlum" ng-class="{'danger': promedioTotal(alumno.alumno_id) &lt; nota_minima_aceptada}">
+                <td class="fixed-cell">
+                  <div>{{$index+1}}</div>
+                </td>
+                <td style="padding: 0 5px;" class="fixed-cell">
+                  <div uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" class="nombresellipsis"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 30px; height: 30px;">{{alumno.apellidos + ' ' + alumno.nombres}}<span ng-show="alumno.estado=='ASIS'" style="font-size: 8pt">(Asis)</span></div>
+                </td>
+                <td>
+                  <div>{{alumno.def_materia_auto_1 }}</div>
+                </td>
+                <td>
+                  <div ng-class="{'inputnota-perdida': alumno.nota_final_per1 &lt; nota_minima_aceptada, 'inputnota-superior': alumno.nota_final_per1 &gt;= escala_maxima.porc_inicial }" class="text-center">
+                    <input type="number" min="0" max="{{::escala_maxima.porc_final}}" ng-model="alumno.nota_final_per1" ng-change="cambiaNotaDef(alumno, alumno.nota_final_per1, alumno.nf_id_1, 1, dato.asignatura.alumnos.alumnos)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])" ng-disabled="periodos[0].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="input-nota">
+                  </div>
+                </td>
+                <td>
+                  <input type="checkbox" ng-model="alumno.manual_1" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaManual(alumno, alumno.manual_1, alumno.nf_id_1, 1)" style="opacity: 1; position: unset;" ng-disabled="periodos[0].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('admin')" class="no-margin-top">
+                </td>
+                <td class="border-right-dddd">
+                  <input type="checkbox" ng-model="alumno.recuperada_1" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_1, alumno.nf_id_1, 1)" style="opacity: 1; position: unset;" ng-disabled="periodos[0].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('admin')" class="no-margin-top">
+                </td>
+                <td>
+                  <div>{{alumno.def_materia_auto_2 }}</div>
+                </td>
+                <td>
+                  <div ng-class="{'inputnota-perdida': alumno.nota_final_per2 &lt; nota_minima_aceptada, 'inputnota-superior': alumno.nota_final_per2 &gt;= escala_maxima.porc_inicial }" class="text-center">
+                    <input type="number" min="0" max="{{::escala_maxima.porc_final}}" ng-model="alumno.nota_final_per2" ng-change="cambiaNotaDef(alumno, alumno.nota_final_per2, alumno.nf_id_2, 2)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])" ng-disabled="periodos[1].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="input-nota">
+                  </div>
+                </td>
+                <td>
+                  <input type="checkbox" ng-model="alumno.manual_2" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaManual(alumno, alumno.manual_2, alumno.nf_id_2, 2)" style="opacity: 1; position: unset;" ng-disabled="periodos[1].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="no-margin-top">
+                </td>
+                <td class="border-right-dddd">
+                  <input type="checkbox" ng-model="alumno.recuperada_2" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_2, alumno.nf_id_2, 2)" style="opacity: 1; position: unset;" ng-disabled="periodos[1].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="no-margin-top">
+                </td>
+                <td>
+                  <div>{{alumno.def_materia_auto_3 }}</div>
+                </td>
+                <td>
+                  <div ng-class="{'inputnota-perdida': alumno.nota_final_per3 &lt; nota_minima_aceptada, 'inputnota-superior': alumno.nota_final_per3 &gt;= escala_maxima.porc_inicial }" class="text-center">
+                    <input type="number" min="0" max="{{::escala_maxima.porc_final}}" ng-model="alumno.nota_final_per3" ng-change="cambiaNotaDef(alumno, alumno.nota_final_per3, alumno.nf_id_3, 3)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])" ng-disabled="periodos[2].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="input-nota">
+                  </div>
+                </td>
+                <td>
+                  <input type="checkbox" ng-model="alumno.manual_3" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaManual(alumno, alumno.manual_3, alumno.nf_id_3, 3)" style="opacity: 1; position: unset;" ng-disabled="periodos[2].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="no-margin-top">
+                </td>
+                <td class="border-right-dddd">
+                  <input type="checkbox" ng-model="alumno.recuperada_3" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_3, alumno.nf_id_3, 3)" style="opacity: 1; position: unset;" ng-disabled="periodos[2].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="no-margin-top">
+                </td>
+                <td>
+                  <div>{{alumno.def_materia_auto_4 }}</div>
+                </td>
+                <td>
+                  <div ng-class="{'inputnota-perdida': alumno.nota_final_per4 &lt; nota_minima_aceptada, 'inputnota-superior': alumno.nota_final_per4 &gt;= escala_maxima.porc_inicial }" class="text-center">
+                    <input type="number" min="0" max="{{::escala_maxima.porc_final}}" ng-model="alumno.nota_final_per4" ng-change="cambiaNotaDef(alumno, alumno.nota_final_per4, alumno.nf_id_4, 4)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-click="verifClickNotaRapida(subunidad.notas[$parent.$index])" ng-disabled="periodos[3].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="input-nota">
+                  </div>
+                </td>
+                <td>
+                  <input type="checkbox" ng-model="alumno.manual_4" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaManual(alumno, alumno.manual_4, alumno.nf_id_4, 4)" style="opacity: 1; position: unset;" ng-disabled="periodos[3].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="no-margin-top">
+                </td>
+                <td class="border-right-dddd">
+                  <input type="checkbox" ng-model="alumno.recuperada_4" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaRecuperada(alumno, alumno.recuperada_4, alumno.nf_id_4, 4)" style="opacity: 1; position: unset;" ng-disabled="periodos[3].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="no-margin-top">
+                </td>
+                <td>
+                  <div ng-bind-html="promedioTotalDef(alumno)" ng-class="{'nota-perdida': alumno.total_definit &lt; nota_minima_aceptada, 'nota-superior': alumno.total_definit &gt;= escala_maxima.porc_inicial }" uib-tooltip="{{alumno.promedio_automatico}}" class="text-center"></div>
+                </td>
+                <td><span ng-class="{'inputnota-superior': alumno.recu_nota &gt;= escala_maxima.porc_inicial }" class="text-center">
+                    <input type="number" min="0" max="{{::escala_maxima.porc_final}}" ng-model="alumno.recu_nota" ng-change="cambiaNotaRecuFinal(alumno, alumno.recu_nota, alumno.recu_id)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-disabled="periodos[1].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" class="input-nota">
+                    <button uib-tooltip="Borrar nota de recuperación" ng-show="alumno.recu_nota" style="margin-top: -3px;" ng-click="eliminarRecuperacion(alumno, alumno.recu_id)" class="btn btn-danger btn-xs"><i class="fa fa-times"></i></button></span></td>
+                <td>
+                  <div ng-bind-html="alumno.nota_requerida" class="text-center"></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>

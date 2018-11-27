@@ -1,4 +1,4 @@
-<a uib-popover-template="'views/alumnos/popoverPersonaInfo.tpl.html'" popover-title="{{match.model.nombres + ' ' + match.model.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="200" popover-append-to-body="true" style="cursor: pointer"><img ng-src="{{match.model.perfilPath + match.model.foto_nombre}}" width="20">
+<a uib-popover-template="'views/alumnos/popoverPersonaInfo.tpl.html'" popover-title="{{match.model.nombres + ' ' + match.model.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="100" popover-append-to-body="true" style="cursor: pointer"><img ng-src="{{match.model.perfilPath + match.model.foto_nombre}}" width="20">
   <!--span(ng-bind-html="match.model.nombres + ' ' + match.model.apellidos + '-' + match.model.abrev | uibTypeaheadHighlight:query")--><span ng-bind-html="match.model.nombres + ' ' + match.model.apellidos | uibTypeaheadHighlight:query"></span></a>
 <!--.custom-popup-wrapper(ng-style="{top: position().top+'px', left: position().left+'px'}"
 style="display: block;"

@@ -5,7 +5,9 @@ angular.module("myvcFrontApp")
 .controller('FileManagerCtrl', ['$scope', 'Upload', '$timeout', '$filter', 'App', '$http', 'Perfil', '$uibModal', 'resolved_user', 'toastr', 'AuthService', 'ProfesoresServ', ($scope, $upload, $timeout, $filter, App, $http, Perfil, $modal, resolved_user, toastr, AuthService, ProfesoresServ)->
 
 	$scope.USER 			= resolved_user
-	$scope.subir_intacta 	= {}
+	$scope.subir_intacta 	= {
+		intacta: 'Normal'
+	}
 	$scope.hasRoleOrPerm 	= AuthService.hasRoleOrPerm
 	$scope.cantUp 			= 10 # cantidad de imágenes que pueden subir
 	$scope.tabFileManager 	= 'mis_img' # 'mis_img' 'imgs_usus'
@@ -131,7 +133,10 @@ angular.module("myvcFrontApp")
 
 	uploadUsing$upload = (file)->
 
-		intactaUrl = if $scope.subir_intacta.intacta then '-intacta' else ''
+		intactaUrl = if $scope.subir_intacta.intacta == 'Intacta' then '-intacta' else ''
+
+		if $scope.subir_intacta.intacta == 'Firma'
+			intactaUrl = '-firma'
 
 		if file.size > 10000000
 			$scope.errorMsg = 'Archivo excede los 10MB permitidos.'
@@ -146,10 +151,22 @@ angular.module("myvcFrontApp")
 			file.porcentaje = progressPercentage
 			#console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name, evt.config)
 		).success( (data, status, headers, config)->
-			if $scope.subir_intacta.intacta
+
+			if $scope.subir_intacta.intacta == 'Intacta'
 				$scope.imagenes_publicas.push data
+			else if $scope.subir_intacta.intacta == 'Firma'
+
+				toastr.success 'Ahora elige el docente...'
+				$scope.imagenes_privadas.push data
+				$scope.selectTab('imgs_usus')
+				$scope.dato.tipo_a_cambiar = 'profesor'
+				for ima in $scope.imagenes_privadas
+					if ima.id == data.id
+						$scope.dato.selectedImg = ima
+
 			else
 				$scope.imagenes_privadas.push data
+
 		).error((r2)->
 			console.log 'Falla uploading: ', r2
 		).xhr((xhr)->

@@ -340,6 +340,25 @@ angular.module("myvcFrontApp")
 		)
 
 
+	$scope.toggleActive = (fila)->
+		fila.is_active = !fila.is_active
+		if not fila.alumno_id
+			fila.alumno_id = fila.id
+
+		datos =
+			alumno_id: 	fila.alumno_id
+			user_id:    fila.user_id
+			propiedad: 	'is_active'
+			valor:      fila.is_active
+
+		$http.put('::alumnos/guardar-valor', datos).then((r)->
+			console.log 'Cambios guardados'
+		, (r2)->
+			fila.is_active = !fila.is_active
+			toastr.error 'Cambio no guardado', 'Error'
+		)
+
+
 
 
 	$scope.cancel = ()->

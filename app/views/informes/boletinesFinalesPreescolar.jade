@@ -1,0 +1,17 @@
+.row.hidden-print(style="margin-bottom: 20px")
+	.col-xs-12(ng-repeat="asignatura in alumnos[0].asignaturas")
+
+		label {{asignatura.materia}}
+
+		button.btn.btn-primary(type="button" ng-show="asignatura.frases.length==0" ng-click="crear_frase(asignatura)") Crear frase
+
+		textarea(ng-model="asignatura.frases[0].definicion" ng-model-options="{ updateOn: 'blur' }"
+			style="width: 70%; height: 100px; " ng-change="guardar_frase(asignatura.frases[0].definicion, asignatura)"
+			ng-show="asignatura.frases.length>0")
+
+		hr
+	br
+
+
+div(ng-repeat="alumno in alumnos")
+	div.boletin-alumno(boletin-final-alumno-preescolar-dir alumno="alumno" grupo="grupo" year="year" config="config")

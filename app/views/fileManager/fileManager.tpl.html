@@ -5,11 +5,21 @@
       <div ngf-drop="uploadFiles($files)" ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-pattern="'image/*'" class="drop-box drop-box">
         <div class="form-title">Subir imagen</div>
         <div class="row">
-          <div class="col-lg-2 col-xs-12"><span uib-tooltip="NO subas imágenes intactas a menos que sean Logos o firmas. (Públicas por defecto)" ng-if="hasRoleOrPerm(['profesor', 'admin'])">
-              <label>Intactas</label>
-              <label>
-                <input type="checkbox" ng-model="subir_intacta.intacta" class="checkbox-slider slider-icon colored-blue ocultar-input"><span class="text si-no"></span>
-              </label></span>
+          <div class="col-lg-2 col-xs-12">
+            <!--span(uib-tooltip="NO subas imágenes intactas a menos que sean Logos o firmas. (Públicas por defecto)" ng-if="hasRoleOrPerm(['profesor', 'admin'])")
+            label
+            	| Intactas
+            label
+            	input.checkbox-slider.slider-icon.colored-blue.ocultar-input(type="checkbox"
+            		ng-model="subir_intacta.intacta")
+            	span.text.si-no
+            
+            -->
+            <div ng-if="hasRoleOrPerm(['profesor', 'admin'])" class="btn-group">
+              <label ng-model="subir_intacta.intacta" uib-btn-radio="'Normal'" uncheckable uib-tooltip="Se recorta la imagen y se sube PRIVADA." class="btn btn-default">Normal</label>
+              <label ng-model="subir_intacta.intacta" uib-btn-radio="'Intacta'" uncheckable uib-tooltip="No modifica la imagen y se sube PÚBLICA." class="btn btn-default">Intacta</label>
+              <label ng-model="subir_intacta.intacta" uib-btn-radio="'Firma'" uncheckable uib-tooltip="No modifica la imagen y se sube PRIVADA." tooltip-append-to-body="true" class="btn btn-default">Firma</label>
+            </div>
             <div ngf-select="uploadFiles($files)" ngf-multiple="true" ngf-pattern="'image/*'" ngf-accept="'image/*'" class="btn btn-success"><i class="fa fa-upload"></i>Subir imágenes
               <!--  ngf-max-size="7MB"-->
               

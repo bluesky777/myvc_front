@@ -642,6 +642,55 @@ angular.module('myvcFrontApp')
 
 
 
+		.state 'panel.informes.boletines_finales_preescolar',
+			url: '/boletines_finales_preescolar/:grupo_id'
+			params:
+				grupo_id:       {value: null}
+			views:
+				'report_content':
+					templateUrl: "==informes/boletinesFinalesPreescolar.tpl.html"
+					controller: 'BoletinesFinalesPreescolarCtrl'  # En el archivo BoletinesFinalesCtrl.coffee
+					resolve:
+						alumnosDat: ['$http', '$stateParams', '$q', '$cookies', ($http, $stateParams, $q, $cookies)->
+
+							d = $q.defer()
+
+
+							requested_alumnos = $cookies.getObject 'requested_alumnos'
+							requested_alumno = $cookies.getObject 'requested_alumno'
+
+							if requested_alumnos
+
+								#console.log 'Pidiendo por varios alumnos: ', requested_alumnos
+								$http.put('::bolfinales-preescolar/detailed-notas-year/'+$stateParams.grupo_id, {requested_alumnos: requested_alumnos}).then((r)->
+									d.resolve r.data
+								, (r2)->
+									d.reject r2.data
+								)
+							else if requested_alumno
+								$http.put('::bolfinales-preescolar/detailed-notas-year/'+requested_alumno[0].grupo_id, {requested_alumnos: requested_alumno}).then((r)->
+									d.resolve r.data
+								, (r2)->
+									d.reject r2.data
+								)
+							else
+								#console.log 'Pidiendo por grupo:', $stateParams.grupo_id
+								$http.put('::bolfinales-preescolar/detailed-notas-year-group/'+$stateParams.grupo_id).then((r)->
+									d.resolve r.data
+								, (r2)->
+									d.reject r2.data
+								)
+
+
+							return d.promise
+						]
+			data:
+				displayName: 'Boletines finales preescolar'
+				pageTitle: 'Boletines finales preescolar - MyVc'
+
+
+
+
 
 
 		.state 'panel.informes.certificados_estudio',

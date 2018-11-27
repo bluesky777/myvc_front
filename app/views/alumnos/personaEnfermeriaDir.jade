@@ -206,39 +206,149 @@ span(ng-show="enfermedia_cargada")
 					.form-group.col-lg-3.col-sm-4.col-xs-12
 						label(for="new_suceso-motivo_consulta") Motivo consulta
 						textarea.form-control(ng-model="new_suceso.motivo_consulta" placeholder="Motivo consulta"
+							uib-tooltip="Motivo consulta" tooltip-popup-delay="500" style="height: 50px; width: 100%;")
+
+					.form-group.col-lg-3.col-sm-4.col-xs-12
+						label(for="new_suceso-descripcion_suceso") Descripción suceso
+						textarea.form-control(ng-model="new_suceso.descripcion_suceso" placeholder="Descripción suceso"
 							uib-tooltip="Motivo consulta" tooltip-popup-delay="500" style="height: 50px; width: 100%;"
 							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
 
 					.form-group.col-lg-3.col-sm-4.col-xs-12
-						label(for="new_suceso-descripcion_suceso") descripcion_suceso
-						textarea.form-control(ng-model="new_suceso.descripcion_suceso" placeholder="descripcion_suceso"
-							uib-tooltip="Motivo consulta" tooltip-popup-delay="500" style="height: 50px; width: 100%;"
+						label(for="new_suceso-tratamiento") Tratamiento
+						textarea.form-control(ng-model="new_suceso.tratamiento" placeholder="Tratamiento"
+							uib-tooltip="Describa el procedimiento realizado con el estudiante" tooltip-popup-delay="500" style="height: 50px; width: 100%;"
 							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
 
 					.form-group.col-lg-3.col-sm-4.col-xs-12
-						label(for="new_suceso-tratamiento") tratamiento
-						textarea.form-control(ng-model="new_suceso.tratamiento" placeholder="tratamiento"
-							uib-tooltip="tratamiento" tooltip-popup-delay="500" style="height: 50px; width: 100%;"
+						label(for="new_suceso-observaciones") Observaciones
+						textarea.form-control(ng-model="new_suceso.observaciones" placeholder="Observaciones"
+							uib-tooltip="Observaciones" tooltip-popup-delay="500" style="height: 50px; width: 100%;"
 							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
 
 					.form-group.col-lg-3.col-sm-4.col-xs-12
-						label(for="new_suceso-observaciones") observaciones
-						textarea.form-control(ng-model="new_suceso.observaciones" placeholder="observaciones"
-							uib-tooltip="observaciones" tooltip-popup-delay="500" style="height: 50px; width: 100%;"
-							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
-
-					.form-group.col-lg-3.col-sm-4.col-xs-12
-						label(for="new_suceso-insumos_utilizados") insumos_utilizados
-						textarea.form-control(ng-model="new_suceso.insumos_utilizados" placeholder="insumos_utilizados"
-							uib-tooltip="insumos_utilizados" tooltip-popup-delay="500" style="height: 50px; width: 100%;"
+						label(for="new_suceso-insumos_utilizados") Insumos utilizados
+						textarea.form-control(ng-model="new_suceso.insumos_utilizados" placeholder="Insumos utilizados"
+							uib-tooltip="Insumos utilizados" tooltip-popup-delay="500" style="height: 50px; width: 100%;"
 							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
 
 
 					.form-group.col-xs-12(style="text-align: center")
-						input.btn.btn-primary(type="submit" value="Creando")
+						button.btn.btn-info(type="button" ng-click="creando_suceso=!creando_suceso")
+							| Cerrar
+						button.btn.btn-primary(type="submit")
+							i.fa.fa-save
+							| Crear
+
+
+
+
+			div(ng-show="editando_suceso")
+				h4(style="font-weight: 600!important;") Crear registro de enfermería
+				form.row(ng-submit="cerrarEdicionSuceso()")
+					.form-group.col-lg-3.col-md-4.col-sm-4.col-xs-12(style="margin-bottom: 12px;")
+						label(for="act_suceso-fecha_suceso") Fecha suceso
+
+						.controls()
+							.input-group
+								span.input-group-addon
+									i.fa.fa-calendar
+								input.form-control.active#act_suceso-fecha_suceso(type="text" uib-datepicker-popup="dd-MMMM-yyyy"
+									ng-model="act_suceso.fecha_suceso" is-open="dato.isOpenSuceso" ng-click="dato.isOpenSuceso = true"
+									max-date="'2025-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy"
+									clear-text="Borrar" placeholder="Fecha suceso")
+
+					.form-group.col-lg-3.col-sm-6.col-xs-12
+						div(uib-timepicker ng-model="act_suceso.fecha_suceso")
+
+					.form-group.col-lg-3.col-sm-4.col-xs-12
+						label(for="act_suceso-signo_fc") Frecuencia cardiaca (ppm)
+						input.form-control#act_suceso-signo_fc(ng-model="act_suceso.signo_fc" type="number"
+							ng-change="guardar_valor_suceso(act_suceso, 'signo_fc', act_suceso.signo_fc)"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+					.form-group.col-lg-3.col-sm-4.col-xs-12
+						label(for="act_suceso-signo_fr") Frecuencia respiratoria (rpm)
+						input.form-control#act_suceso-signo_fr(ng-model="act_suceso.signo_fr" type="number"
+							ng-change="guardar_valor_suceso(act_suceso, 'signo_fr', act_suceso.signo_fr)"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+					.form-group.col-lg-3.col-sm-4.col-xs-12
+						label(for="act_suceso-signo_t") Temperatura (C)
+						input.form-control#act_suceso-signo_t(ng-model="act_suceso.signo_t" type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.1"
+							ng-change="guardar_valor_suceso(act_suceso, 'signo_t', act_suceso.signo_t)"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+					.form-group.col-lg-3.col-sm-4.col-xs-12
+						label(for="act_suceso-signo_glu") Glucometría (mg/dl)
+						input.form-control#act_suceso-signo_glu(ng-model="act_suceso.signo_glu" type="number"
+							ng-change="guardar_valor_suceso(act_suceso, 'signo_glu', act_suceso.signo_glu)"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+					.form-group.col-lg-3.col-sm-4.col-xs-12
+						label(for="act_suceso-signo_spo2") SPO2 (%)
+						input.form-control#act_suceso-signo_spo2(ng-model="act_suceso.signo_spo2" type="number"
+							ng-change="guardar_valor_suceso(act_suceso, 'signo_fc', act_suceso.signo_fc)"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+					.form-group.col-lg-3.col-sm-4.col-xs-12
+						label(for="act_suceso-signo_pa_dia") Presión arterial (mmhg)
+						input.form-control#act_suceso-signo_pa_dia(ng-model="act_suceso.signo_pa_dia" type="number" style="width: 40%; display: inline-block;"
+							ng-change="guardar_valor_suceso(act_suceso, 'signo_pa_dia', act_suceso.signo_pa_dia)"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+						label(for="act_suceso-signo_pa_sis") /
+						input.form-control#act_suceso-signo_pa_sis(ng-model="act_suceso.signo_pa_sis" type="number" style="width: 40%; display: inline-block;"
+							ng-change="guardar_valor_suceso(act_suceso, 'signo_pa_sis', act_suceso.signo_pa_sis)"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+					.form-group.col-lg-3.col-sm-4.col-xs-12
+						label(for="act_suceso-asignatura") Asignatura
+						input.form-control#act_suceso-asignatura(ng-model="act_suceso.asignatura" type="text"
+							ng-change="guardar_valor_suceso(act_suceso, 'asignatura', act_suceso.asignatura)"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+					.form-group.col-lg-3.col-sm-4.col-xs-12
+						label(for="act_suceso-motivo_consulta") Motivo consulta
+						textarea.form-control(ng-model="act_suceso.motivo_consulta" placeholder="Motivo consulta"
+							uib-tooltip="Motivo consulta" tooltip-popup-delay="500" style="height: 50px; width: 100%;"
+							ng-change="guardar_valor_suceso(act_suceso, 'motivo_consulta', act_suceso.motivo_consulta)"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+					.form-group.col-lg-3.col-sm-4.col-xs-12
+						label(for="act_suceso-descripcion_suceso") Descripción suceso
+						textarea.form-control(ng-model="act_suceso.descripcion_suceso" placeholder="Descripción suceso"
+							uib-tooltip="Motivo consulta" tooltip-popup-delay="500" style="height: 50px; width: 100%;"
+							ng-change="guardar_valor_suceso(act_suceso, 'descripcion_suceso', act_suceso.descripcion_suceso)"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+					.form-group.col-lg-3.col-sm-4.col-xs-12
+						label(for="act_suceso-tratamiento") Tratamiento
+						textarea.form-control(ng-model="act_suceso.tratamiento" placeholder="Tratamiento"
+							uib-tooltip="Describa el procedimiento realizado con el estudiante" tooltip-popup-delay="500" style="height: 50px; width: 100%;"
+							ng-change="guardar_valor_suceso(act_suceso, 'tratamiento', act_suceso.tratamiento)"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+					.form-group.col-lg-3.col-sm-4.col-xs-12
+						label(for="act_suceso-observaciones") Observaciones
+						textarea.form-control(ng-model="act_suceso.observaciones" placeholder="Observaciones"
+							uib-tooltip="Observaciones" tooltip-popup-delay="500" style="height: 50px; width: 100%;"
+							ng-change="guardar_valor_suceso(act_suceso, 'observaciones', act_suceso.observaciones)"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+					.form-group.col-lg-3.col-sm-4.col-xs-12
+						label(for="act_suceso-insumos_utilizados") Insumos utilizados
+						textarea.form-control(ng-model="act_suceso.insumos_utilizados" placeholder="Insumos utilizados"
+							uib-tooltip="Insumos utilizados" tooltip-popup-delay="500" style="height: 50px; width: 100%;"
+							ng-change="guardar_valor_suceso(act_suceso, 'insumos_utilizados', act_suceso.insumos_utilizados)"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+
+					.form-group.col-xs-12(style="text-align: center")
+						button.btn.btn-info(type="submit")
+							| Cerrar
 
 			button.btn.btn-primary(type="button" ng-click="crear_suceso()")
 				i.fa.fa-plus
 				| Crear consulta
 
-			#grid1.grid(ui-grid="gridOptions" ui-grid-move-columns ui-grid-expandable ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-auto-resize style="height: 400px")
+			div(ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-auto-resize style="height: 300px")

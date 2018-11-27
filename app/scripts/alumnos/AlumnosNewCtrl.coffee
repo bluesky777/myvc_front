@@ -50,6 +50,37 @@ angular.module("myvcFrontApp")
 		$scope.tipos_doc = r.data
 
 
+	$scope.persona_buscar 		= ''
+	$scope.templateTypeahead  = '==alumnos/personaTemplateTypeahead.tpl.html'
+	$scope.templateTypeDoc    = '==alumnos/documentoTemplateTypeahead.tpl.html'
+
+	$scope.personaCheck = (texto)->
+		$scope.verificandoPersona = true
+		return $http.put('::alumnos/personas-check', {texto: texto, todos_anios: $scope.dato.todos_anios }).then((r)->
+			$scope.personas_match 		= r.data.personas
+			$scope.personas_match.map((perso)->
+				perso.perfilPath = $scope.perfilPath
+			)
+			$scope.verificandoPersona 	= false
+			return $scope.personas_match
+		)
+
+
+	$scope.documentoCheck = (texto)->
+		$scope.verificandoDoc = true
+		return $http.put('::alumnos/documento-check', {texto: texto }).then((r)->
+			$scope.personas_match 		= r.data.personas
+			$scope.personas_match.map((perso)->
+				perso.perfilPath = $scope.perfilPath
+			)
+			$scope.verificandoDoc 	= false
+			return $scope.personas_match
+		)
+
+
+	$scope.seleccionarPersona = ($item, $model, $label)->
+		toastr.info('Esta persona ya existe, búscala en Alumnos - Todos', 'No crear')
+
 
 	$scope.mostarMasDetalleNew = ()->
 		$scope.mostrar_mas_new = !$scope.mostrar_mas_new
@@ -77,6 +108,10 @@ angular.module("myvcFrontApp")
 	$scope.crear = (alumno, proceso)->
 
 		console.log(alumno)
+
+		alumno.nombres    = $.trim(alumno.nombres)
+		alumno.apellidos  = $.trim(alumno.apellidos)
+		alumno.documento  = $.trim(alumno.documento)
 
 		$scope.guardando = true
 

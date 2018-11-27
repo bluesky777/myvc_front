@@ -29,10 +29,13 @@
       <div style="padding-top: 4px">
         <label>¿Es Egresado de la institución?</label><a ng-class="{'btn-primary':alumno.egresado, 'btn-info':!alumno.egresado }" ng-click="toggleEgresado(alumno);" uib-tooltip="Es Egresado de la institución" href="" tooltip-enable="alumno.egresado" class="btn btn-xs"><span ng-hide="alumno.egresado">No</span><span ng-show="alumno.egresado">Si</span></a>
       </div>
+      <div style="padding-top: 4px">
+        <label>¿Activo?</label><a ng-class="{'btn-primary':alumno.is_active, 'btn-danger':!alumno.is_active }" ng-click="toggleActive(alumno);" uib-tooltip="¿Puede ingresar al sistema?" href="" tooltip-enable="alumno.is_active" class="btn btn-xs"><span ng-hide="alumno.is_active">No</span><span ng-show="alumno.is_active">Si</span></a>
+      </div>
     </div>
   </div>
 </div>
 <div class="modal-footer">
-  <button ng-click="ok()" class="btn btn-labeled btn-primary">Matricular<i class="btn-label fa fa-save"></i></button>
   <button ng-click="cancel()" class="btn btn-yellow">Cancelar</button>
+  <button ng-click="ok()" class="btn btn-labeled btn-primary">Matricular<i class="btn-label fa fa-save"></i></button>
 </div>

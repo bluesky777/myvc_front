@@ -131,43 +131,6 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 
 
 
-			.row.resumen-perdidas
-				// Tabla de perdidas de este año
-				.col-lg-6.col-xs-6.no-padding(ng-if="::alumno.notas_perdidas_year > 0")
-
-					.row.resumen-head
-						.col-lg-12.col-xs-12.resumen-title
-							span Notas pendientes del año {{::USER.year}}
-					.row.resumen-body
-						.col-lg-10.col-xs-10.resumen-tabla
-							table.table-bordered.table-bordered2.table-striped.table-striped2
-								tr(style="background-color: #A7C7EB!important; font-weight: bold;")
-									td No
-									td.text-center Asignaturas
-									td(ng-repeat="periodo in ::year.periodos track by $index")
-										| Per{{::periodo.numero}}
-									td Total
-
-								tr(ng-repeat="asignatura_perdida in ::alumno.asignaturas_perdidas")
-									td {{$index + 1}}
-									td
-										div.nombresellipsis.camel(style="width: 140px;") {{::asignatura_perdida.materia.toLowerCase()}}
-									td.text-center(ng-repeat="periodo in ::year.periodos track by $index")
-										div {{ ::asignatura_perdida.detalle_periodos['cant_perdidas_' + ($index+1) ] }}
-
-									td.text-center
-										b {{::asignatura_perdida.detalle_periodos.cant_perdidas_year}}
-
-								tr
-									td(colspan="2")
-										| Total
-									td.text-center(ng-repeat="periodo in ::year.periodos track by $index")
-										| {{::alumno['notas_perdidas_per' + ($index+1) ]}}
-									td.text-center
-										b {{::alumno.notas_perdidas_year}}
-
-
-
 
 
 			.row.footer-boletin(ng-if="USER.tipo!='Profesor'")

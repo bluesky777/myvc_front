@@ -17,7 +17,7 @@
         <div style="padding-bottom: 20px;" class="row">
           <div class="col-lg-12">
             <div class="btn-group">
-              <button ng-click="calcularPeriodo(periodo)" ng-repeat="periodo in periodos_grupos" uib-tooltip="No es necesario a menos que veas alguna definitiva desactualizada." class="btn btn-sm btn-default shiny">Calcular periodo {{periodo.numero}} completo</button>
+              <button ng-click="calcularPeriodo(periodo)" ng-repeat="periodo in periodos_grupos" uib-tooltip="No es necesario a menos que veas alguna nota definitiva desactualizada." class="btn btn-sm btn-default shiny">Calcular definitivas per{{periodo.numero}}</button>
             </div>
             <uib-progressbar value="porcentaje" ng-show="porcentaje &gt; -1" class="progress-xlg progress-striped active"><b>{{porcentaje}}% Completado</b></uib-progressbar>
           </div>
@@ -43,6 +43,16 @@
               </div>
             </div>
             <hr class="wide"><span ng-show="tipo_boletin">
+              <div ng-show="tipo_boletin==4" class="row">
+                <div class="col-lg-12 col-xs-12">
+                  <div class="form-group">
+                    <label>Generar boletin final de preescolar</label>
+                    <label>
+                      <input type="checkbox" ng-model="config.generar_bol_final_prees" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
               <div class="row">
                 <div class="col-lg-12 col-xs-12">
                   <div class="form-group">

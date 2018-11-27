@@ -31,13 +31,13 @@
               <div class="row">
                 <div style="font-size: 13pt; font-weight: bold;" class="col-xs-12 text-center">-------- PERIODO {{ alumno.numero }} --------</div>
                 <div class="col-lg-12 col-xs-12 no-padding">
-                  <div ng-repeat="asignatura in ::alumno.asignaturas track by $index" ng-show="::asignatura.cant_perdidas &gt; 0" class="materia-item">
+                  <div ng-repeat="asignatura in ::alumno.asignaturas track by $index" ng-hide="::asignatura.cant_perdidas == 0 || (asignatura.manual==1 &amp;&amp; asignatura.nota_asignatura &gt; USER.nota_minima_aceptada) || year.si_recupera_materia_recup_indicador" class="materia-item">
                     <div class="row materia-title">
                       <div uib-popover-template="::views+'informes/infoDocentePop.tpl.html'" popover-popup-delay="500" popover-title="{{::asignatura.nombres_profesor}} {{::asignatura.apellidos_profesor}}" popover-animation="true" popover-trigger="'mouseenter'" popover-append-to-body="true" class="col-lg-9 col-xs-9"><span class="materia-name">{{::asignatura.materia}}</span><span class="materia-profesor camel">  - Prof. {{::asignatura.nombres_profesor.toLowerCase()}} {{ ::asignatura.apellidos_profesor.toLowerCase()}}</span></div>
                       <div style="padding: 0px" class="col-lg-1 col-xs-1"><i class="fa fa-clock-o icon-tardanza"></i><span class="text-tardanza">A:{{::asignatura.total_ausencias}} / T:{{::asignatura.total_tardanzas}}</span></div>
                       <div ng-class="{'nota-perdida': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}" style="padding: 0px; text-align: center;" class="col-lg-1 col-xs-1">{{ ::asignatura.desempenio }}</div>
                       <div class="col-lg-1 col-xs-1">
-                        <div ng-class="{'nota-perdida-bold': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada}">{{ ::asignatura.nota_asignatura }}</div>
+                        <div ng-class="{'nota-perdida-bold': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada}">{{ ::asignatura.nota_asignatura }}<span ng-show="::asignatura.manual"> M</span></div>
                       </div>
                     </div>
                     <div class="row unidades-list">
@@ -49,7 +49,7 @@
                               <div class="col-lg-1 col-xs-1 unidad-porc">{{::unidad.porcentaje_unidad}}%</div>
                               <div class="col-lg-1 col-xs-1 unidad-nota">{{::unidad.nota_unidad }}</div>
                             </div>
-                            <div ng-repeat="subunidad in ::unidad.subunidades" ng-show="::subunidad.nota &lt; USER.nota_minima_aceptada" class="row subunidades-list">
+                            <div ng-repeat="subunidad in ::unidad.subunidades" ng-hide="::subunidad.nota &gt; USER.nota_minima_aceptada" class="row subunidades-list">
                               <div class="col-lg-12 col-xs-12">
                                 <div class="row">
                                   <div class="col-lg-9 col-xs-9 subunidad-definicion">{{::$index+1}}. {{::subunidad.definicion_subunidad}}</div>

@@ -10,13 +10,22 @@
 				.row
 					.col-lg-2.col-xs-12
 
-						span(uib-tooltip="NO subas imágenes intactas a menos que sean Logos o firmas. (Públicas por defecto)" ng-if="hasRoleOrPerm(['profesor', 'admin'])")
+						//span(uib-tooltip="NO subas imágenes intactas a menos que sean Logos o firmas. (Públicas por defecto)" ng-if="hasRoleOrPerm(['profesor', 'admin'])")
 							label
 								| Intactas
 							label
 								input.checkbox-slider.slider-icon.colored-blue.ocultar-input(type="checkbox"
 									ng-model="subir_intacta.intacta")
 								span.text.si-no
+
+						.btn-group(ng-if="hasRoleOrPerm(['profesor', 'admin'])")
+							label.btn.btn-default(ng-model="subir_intacta.intacta" uib-btn-radio="'Normal'" uncheckable uib-tooltip="Se recorta la imagen y se sube PRIVADA.")
+								| Normal
+							label.btn.btn-default(ng-model="subir_intacta.intacta" uib-btn-radio="'Intacta'" uncheckable uib-tooltip="No modifica la imagen y se sube PÚBLICA.")
+								| Intacta
+							label.btn.btn-default(ng-model="subir_intacta.intacta" uib-btn-radio="'Firma'" uncheckable uib-tooltip="No modifica la imagen y se sube PRIVADA." tooltip-append-to-body="true")
+								| Firma
+
 
 
 						.btn.btn-success(ngf-select="uploadFiles($files)" ngf-multiple="true" ngf-pattern="'image/*'"

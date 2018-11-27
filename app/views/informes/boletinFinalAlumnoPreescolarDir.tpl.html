@@ -1,0 +1,125 @@
+
+<div ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $parent.$last==false }" style="position: relative; overflow: hidden; min-height: 27cm">
+  <div style="position: absolute; margin-bottom: 0; margin-left: -10px; border-bottom: none;" ng-show="$parent.config.imagen_fondo" ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical' } "><img ng-src="{{ perfilPath + $parent.config.imagen_fondo.nombre }}" ng-repeat="cant in $parent.range(config.cant_imagenes) track by $index" class="img-fondo-boletin"></div>
+  <div class="row">
+    <div class="col-lg-12 col-xs-12">
+      <div class="row encabezado-boletin">
+        <div style="padding: 0;" class="col-lg-12 col-xs-12">
+          <div class="row">
+            <div class="col-lg-2 col-xs-2"><img ng-src="{{perfilPath + year.logo}}" class="img-responsive logo-colegio"></div>
+            <div style="padding: 0;" class="col-lg-8 col-xs-8 title-encabezado-boletin">
+              <div class="nombre-colegio">{{year.nombre_colegio + ' - ' + year.abrev_colegio}}</div>
+              <div class="resolucion-colegio"><span ng-bind-html="::year.encabezado_certificado" ng-if="::year.encabezado_certificado!=null &amp;&amp; year.encabezado_certificado!='' "></span><span ng-hide="::year.encabezado_certificado!=null &amp;&amp; year.encabezado_certificado!=''">{{::year.resolucion}}</span></div>
+              <div class="title-descripcion">Boletin FINAL {{USER.year}}</div>
+            </div>
+            <div style="padding: 0;" class="col-lg-2 col-xs-2"><img ng-src="{{perfilPath + alumno.foto_nombre}}" ng-show="config.mostrar_foto &amp;&amp; alumno.foto_id" class="img-responsive foto-alumno"></div>
+          </div>
+          <div class="row descripcion-encabezado">
+            <div class="col-lg-6 col-xs-6">
+              <div class="grupo-alumno">Grupo:<b class="camel">  {{grupo.nombre_grupo.toLowerCase()}}</b></div>
+              <div uib-popover-html="'&lt;img src=&quot;{{perfilPath + grupo.foto_nombre}}&quot; style=&quot;width: 150px; height: 150px;&quot;&gt;'" popover-popup-delay="1000" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true" popover-trigger="mouseenter" popover-append-to-body="true" class="titular-grupo">Titular:<span class="camel">  {{grupo.nombres_profesor.toLowerCase() + ' ' + grupo.apellidos_profesor.toLowerCase()}}</span></div>
+            </div>
+            <div class="col-lg-6 col-xs-6">
+              <h5 class="nombre-alumno">{{alumno.nombres + ' ' + alumno.apellidos}}</h5>
+              <div class="promedio-alumno">Puntaje: {{alumno.promedio | setDecimal:1 }}% - Puesto: {{alumno.puesto}}/{{grupo.cantidad_alumnos}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top: 10px; margin-bottom: 10px; " class="row body-boletin">
+        <div class="col-lg-12 col-xs-12">
+          <table style="margin: 0 auto; width: 100%" class="table-bordered table-bordered2 table-striped table-striped2">
+            <tr style="background-color: #99caed !important;">
+              <td class="text-center"><b>No</b></td>
+              <td class="text-center"><b>Asignatura / Área</b></td>
+              <td class="text-center"><b>IH</b></td>
+              <td style="width: 40px;" class="text-center"><i class="fa fa-clock-o icon-tardanza"></i><span>A/T</span></td>
+            </tr>
+            <tr ng-repeat="asignatura in ::alumno.asignaturas">
+              <td class="text-center">{{ asignatura.indice }}</td>
+              <td><span style="font-weight: bold;" uib-popover-template="::views+'informes/infoDocentePop.tpl.html'" popover-popup-delay="500" popover-title="{{::asignatura.nombres_profesor}} {{::asignatura.apellidos_profesor}}" popover-animation="true" popover-trigger="'mouseenter'" popover-append-to-body="true">{{ ::asignatura.materia }}</span>
+                <div style="font-size: 9pt; margin: 0px; padding-left: 23px;">
+                  <div ng-repeat="frase in ::asignatura.frases">{{::frase.definicion}}<span class="hidden-print">
+                      <button ng-click="eliminar_frase(frase)" uib-tooltip="Eliminar frase" class="btn btn-danger btn-xs"><i class="fa fa-times"></i></button></span></div>
+                </div>
+              </td>
+              <td style="font-style: italic; font-size: 9pt;" class="text-center"> {{ ::asignatura.creditos }}</td>
+              <td class="text-center"><span class="text-tardanza">{{::asignatura.ausencias.cantidad_ausencia}} / {{::asignatura.tardanzas.cantidad_tardanzas}}</span></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="row comportamiento-boletin">
+        <div class="col-lg-12 col-xs-12"><span dynamic="::alumno.encabezado_comportamiento"></span>
+          <div class="row comportamiento-body">
+            <div class="col-lg-12 col-xs-12 comportamiento-frases">
+              <!--div(style="border-bottom: 1px solid #666; text-align: center; padding-bottom: 3px; margin-bottom: 3px;")
+              .row
+              	.col-lg-3.col-xs-3
+              		b Llegadas tarde
+              		|   a la institución: {{ ::alumno.ausencias_total.cant_tardanzas_entrada }}.
+              	.col-lg-3.col-xs-3
+              		b Ausencias
+              		|   en la entrada: {{ ::alumno.ausencias_total.cant_ausencias_entrada }}.
+              	.col-lg-3.col-xs-3
+              		b Tardanzas
+              		|   a clases: {{ ::alumno.ausencias_total.cant_tardanzas_clases }}.
+              	.col-lg-3.col-xs-3
+              		b Ausencias
+              		|   a clases: {{ ::alumno.ausencias_total.cant_ausencias_clases }}
+              
+              
+              
+              
+              
+              -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-xs-12">
+          <h4 style="text-align:center; font-weight: bold"><span ng-switch on="alumno.sexo"><span ng-switch-when="F">La alumna</span><span ng-switch-default>El alumno</span></span><span>  ha sido</span><span ng-switch on="alumno.sexo"><span ng-switch-when="F">  promovida.</span><span ng-switch-default>  promovido.</span></span></h4>
+        </div>
+        <div style="text-align: center; margin-top: -10px;" class="col-lg-12 col-xs-12">
+          <div style="border-bottom: 1px solid #000; height: 40px; width: 90%; display: inline-block; text-align: left;">Observaciones:</div>
+          <div style="border-bottom: 1px solid #000; height: 40px; width: 90%; display: inline-block;"></div>
+        </div>
+      </div>
+      <div class="row footer-boletin">
+        <div class="col-lg-12 col-xs-12">
+          <div class="row">
+            <div class="col-lg-6 col-xs-6 rector-firma"><img ng-show="config.show_firma_rector" ng-src="{{perfilPath + year.rector_firma}}"></div>
+            <div ng-show="$parent.tipo_boletin_final==1" class="col-lg-6 col-xs-6 titular-firma"><img ng-show="config.show_firma_titular" ng-src="{{perfilPath + grupo.firma_titular_nombre}}"></div>
+            <div ng-show="$parent.tipo_boletin_final==2 || $parent.tipo_boletin_final==3" class="col-lg-6 col-xs-6 titular-firma"><img ng-show="config.show_firma_titular" ng-src="{{perfilPath + year.secre_firma}}"></div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 col-xs-6 nombre-rector-firma">{{year.nombres_rector}} {{year.apellidos_rector}}</div>
+            <div ng-show="$parent.tipo_boletin_final==2 || $parent.tipo_boletin_final==3" class="col-lg-6 col-xs-6 nombre-titular-firma">{{year.nombres_secretario}} {{year.apellidos_secretario}}</div>
+            <div ng-show="$parent.tipo_boletin_final==1" class="col-lg-6 col-xs-6 nombre-titular-firma">{{::grupo.nombres_profesor}} {{::grupo.apellidos_profesor}}</div>
+          </div>
+          <div class="row">
+            <div ng-show="::year.sexo_rector=='M'" class="col-lg-6 col-xs-6">Rector</div>
+            <div ng-show="::year.sexo_rector=='F'" class="col-lg-6 col-xs-6">Rectora</div><span ng-show="$parent.tipo_boletin_final==2 || $parent.tipo_boletin_final==3">
+              <div ng-show="year.sexo_secretario=='M'" class="col-lg-6 col-xs-6">Secretario</div>
+              <div ng-show="year.sexo_secretario=='F'" class="col-lg-6 col-xs-6">Secretaria</div></span>
+            <div ng-show="$parent.tipo_boletin_final==1" class="col-lg-6 col-xs-6">Titular</div>
+          </div>
+          <div class="row">
+            <div class="col-xs-1"></div>
+            <div class="col-xs-10">
+              <div style="border: 1px solid #888; padding: 4px; font-size: 8pt; margin-top: 20px;">
+                <div><i class="fa fa-clock-o icon-tardanza"></i><span style="font-weight: bold; font-style: italic;">A:</span> Ausencias.<span ng-show="$parent.year.si_recupera_materia_recup_indicador==0">  Los números en paréntesis son indicadores pendientes.</span></div>
+                <div><span style="font-weight: bold; font-style: italic;">IH:</span> Intensidad horaria semanal. {{ $parent.year.minu_hora_clase }} minutos de clase. 40 semanas escolares al año.</div>
+                <div><span style="font-weight: bold; font-style: italic;">Valoración:</span> Según la escala nacional. Calificativo adquirido, siendo {{USER.nota_minima_aceptada}} la nota mínima aprobatoria.</div>
+                <div><span ng-repeat="escala in $parent.escalas_val" style="width: 150px; display: inline-block;"><span style="font-weight: bold; font-style: italic;">D. {{escala.desempenio}}:</span> de {{escala.porc_inicial}} a {{escala.porc_final}}
+                    <!--span(ng-show="!$first") .9--></span></div>
+              </div>
+            </div>
+            <div class="col-xs-1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -43,7 +43,8 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 								|  {{alumno.nombres + ' ' + alumno.apellidos}}
 
 						td(ng-repeat="asignatura in alumno.asignaturas | orderBy:['orden_area', 'orden_materia', 'orden_asignatura']" ng-class="{'nota-perdida-puestos': asignatura.nota_asignatura < USER.nota_minima_aceptada }"
-							ng-click="add_alum_materia(asignatura, alumno)" ng-mouseenter="asignatura.sobre=true; alumno.sobre=true" ng-mouseleave="asignatura.sobre=false; alumno.sobre=false")
+							ng-click="add_alum_materia(asignatura, alumno)" ng-mouseenter="asignatura.sobre=true; alumno.sobre=true" ng-mouseleave="asignatura.sobre=false; alumno.sobre=false"
+							uib-tooltip="{{asignatura.materia}}" tooltip-popup-delay="300" tooltip-append-to-body="true")
 
 							span
 								| {{::asignatura.nota_asignatura }}

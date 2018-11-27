@@ -16,6 +16,7 @@ angular.module('myvcFrontApp')
 		show_firma_titular: true
 		show_datos: true
 		periodo_a_calcular: $scope.USER.numero_periodo
+		generar_bol_final_prees: false
 	}
 
 	$scope.filtered_alumnos = alumnos
@@ -168,6 +169,13 @@ angular.module('myvcFrontApp')
 
 
 	$scope.verBoletinesGrupo = (tipo)->
+		console.log($scope.config.generar_bol_final_prees)
+
+		if $scope.config.generar_bol_final_prees
+			$scope.config.orientacion = 'vertical'
+			$state.go 'panel.informes.boletines_finales_preescolar', {grupo_id: $scope.datos.grupo.id}, {reload: true}
+			return
+
 		if $scope.periodos_desactualizados
 			found = false
 			grupo = {}
@@ -194,6 +202,7 @@ angular.module('myvcFrontApp')
 
 		else
 			$scope.verBoletinesGrupoCargar(tipo)
+
 
 	$scope.verBoletinesGrupoCargar = (tipo)->
 		if tipo == '1' or tipo == 1

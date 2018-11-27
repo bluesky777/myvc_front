@@ -88,7 +88,7 @@
                   <!-- Formulario para EDITAR SUBUNIDAD-->
                   <div ng-show="subunidad.editando" class="row">
                     <div ng-show="subunidad.editando" style="overflow: visible" class="ticket-user col-md-10 col-sm-12 no-padding-xs">
-                      <form role="form" ng-submit="actualizarSubunidad(subunidad)" class="form-inline">
+                      <form role="form" ng-submit="actualizarSubunidad(subunidad, unidad)" class="form-inline">
                         <div style="padding: 0;" class="form-group unidaddefinicion col-md-8 col-sm-8 col-xs-12">
                           <label class="sr-only">Edite la definición</label>
                           <textarea required ng-model="subunidad.definicion" placeholder="Edite la definición" uib-tooltip="Definición" style="height: 35px;" class="form-control textarea-altura-xs"></textarea>
@@ -105,7 +105,7 @@
                     <div style="padding-left: 0px; padding-right: 0px; text-align: center;" class="ticket-type col-md-2 col-xs-12">
                       <div class="btn-group">
                         <button type="button" ng-click="subunidad.editando=false" class="btn btn-default btn-sm">Cancelar</button>
-                        <button type="button" ng-click="actualizarSubunidad(subunidad)" class="btn btn-primary btn-sm">Guardar</button>
+                        <button type="button" ng-click="actualizarSubunidad(subunidad, unidad)" class="btn btn-primary btn-sm">Guardar</button>
                       </div>
                     </div>
                   </div>

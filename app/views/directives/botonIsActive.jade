@@ -1,6 +1,6 @@
 div(style="text-align:center; padding-top: 4px")
 
-	a.btn.btn-xs(ng-class="{'btn-primary':row.entity.is_active, 'btn-info':!row.entity.is_active }"
+	a.btn.btn-xs(ng-class="{'btn-primary':row.entity.is_active, 'btn-danger':!row.entity.is_active }"
 		ng-click="grid.appScope.toggleActive(row.entity);"
 		uib-tooltip="¿Puede entrar al sistema?" tooltip-placement="left" href=""
 		tooltip-enable="row.entity.is_active")

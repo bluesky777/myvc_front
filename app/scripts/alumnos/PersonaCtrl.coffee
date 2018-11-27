@@ -33,15 +33,13 @@ angular.module("myvcFrontApp")
 	$scope.sangres              = App.sangres
 	$scope.mostrar_mas          = false
 	$scope.mostrar_compromisos  = false
-	$scope.mostrar_prematricula = false
+	$scope.mostrar_prematricula = true
 	$scope.new_suceso           = {
 		fecha_suceso:   new Date()
 		signo_fc:       60
 		signo_fr:       12
 		signo_t:        35.5
 	}
-
-	$scope.gridScope = $scope # Para getExternalScopes de ui-Grid
 
 
 
@@ -143,7 +141,7 @@ angular.module("myvcFrontApp")
 					$scope.alumno.ciudad_resid 			= r2.ciudad
 			else
 				$scope.alumno.pais_resid = {id: 1, pais: 'COLOMBIA', abrev: 'CO'}
-				$scope.paisResidSeleccionado($scope.alumno.pais_resid, $scope.alumno.pais_resid)
+				$scope.paisResidSelecionado($scope.alumno.pais_resid, $scope.alumno.pais_resid)
 
 
 			if $scope.alumno.tipo_doc
@@ -174,32 +172,31 @@ angular.module("myvcFrontApp")
 			toastr.error 'Cambio no guardado', 'Error'
 		)
 
+	$scope.cerrarEdicionSuceso = ()->
+		$scope.editando_suceso = false
 
+	$scope.editarSuceso = (suceso)->
+		$scope.act_suceso       = suceso
+		$scope.editando_suceso  = true
 
-	btGrid1 = '<a uib-tooltip="Editar" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
-	#btGrid2 = ''
-	btGrid2 = '<a uib-tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-trash "></i></a>'
+	$scope.eliminarSuceso = (suceso)->
+		modalInstance = $modal.open({
+			templateUrl: '==alumnos/removeSuceso.tpl.html'
+			controller: 'RemoveSucesoCtrl'
+			resolve:
+				elemento: ()->
+					suceso
+		})
+		modalInstance.result.then( (alum)->
+			$scope.gridOptions.data = $filter('filter')($scope.gridOptions.data, {alumno_id: '!'+alum.alumno_id})
+		, ()->
+			# nada
+		)
+
+	btGrid1 = '<a uib-tooltip="Editar" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editarSuceso(row.entity)"><i class="fa fa-edit "></i></a>'
+	btGrid2 = '<a uib-tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminarSuceso(row.entity)"><i class="fa fa-trash "></i></a>'
 	bt2 	= '<span style="padding-left: 2px; padding-top: 4px;" class="btn-group">' + btGrid1 + btGrid2 + '</span>'
-	btMatricular = "==directives/botonesMatricularMas.tpl.html"
-	btEditReligion = "==alumnos/botonEditReligion.tpl.html"
-	btPazysalvo = "==directives/botonPazysalvo.tpl.html"
-	btIsNuevo = "==directives/botonIsNuevo.tpl.html"
-	btIsRepitente = "==directives/botonIsRepitente.tpl.html"
-	btIsEgresado = "==directives/botonIsEgresado.tpl.html"
-	btIsActive = "==directives/botonIsActive.tpl.html"
-	btUsuario = "==directives/botonesResetPassword.tpl.html"
-	btCiudadNac = "==directives/botonCiudadNac.tpl.html"
-	btCiudadDoc = "==directives/botonCiudadDoc.tpl.html"
-	btCiudadResid = "==directives/botonCiudadResid.tpl.html"
-	btTipoDoc = "==directives/botonTipoDoc.tpl.html"
-	btEditUsername = "==alumnos/botonEditUsername.tpl.html"
-	btEditEPS = "==alumnos/botonEditEps.tpl.html"
-
-	appendPopover1 = "'==alumnos/popoverAlumnoGrid.tpl.html'"
-	appendPopover2 = "'mouseenter'"
-	append3 = "' '"
-	appendPopover = 'uib-popover-template="views+' + appendPopover1 + '" popover-trigger="'+appendPopover2+'" popover-title="{{ row.entity.nombres + ' + append3 + ' + row.entity.apellidos }}" popover-popup-delay="500" popover-append-to-body="true"'
-	gridFooterCartera = "==alumnos/gridFooterCartera.tpl.html"
+	btPresion = "==directives/botonPresionArterial.tpl.html"
 
 
 	$scope.gridOptions =
@@ -212,47 +209,46 @@ angular.module("myvcFrontApp")
 		enebleGridColumnMenu: false,
 		enableCellEditOnFocus: true,
 		columnDefs: [
-			{ field: 'no', pinnedLeft:true, cellTemplate: '<div class="ui-grid-cell-contents">{{grid.renderContainers.body.visibleRowCache.indexOf(row) + 1}}</div>', width: 40, enableCellEdit: false }
-			{ name: 'edicion', displayName:'Edit', width: 54, enableSorting: false, enableFiltering: false, cellTemplate: bt2, enableCellEdit: false, enableColumnMenu: true}
-			{ field: 'sexo', displayName: 'Sex', width: 40 }
-			{ field: 'grupo_id', displayName: 'Matrícula', enableCellEdit: false, cellTemplate: btMatricular, minWidth: 230, enableFiltering: false }
-			{ field: 'fecha_matricula', displayName: 'Fecha matrícula', cellFilter: "date:mediumDate", type: 'date', minWidth: 100 }
-			{ field: 'no_matricula', displayName: '# matrícula', minWidth: 80, enableColumnMenu: true }
-			{ field: 'pazysalvo', displayName: 'A paz?', cellTemplate: btPazysalvo, minWidth: 60, enableCellEdit: false }
-			{ field: 'nuevo', displayName: 'Nuevo?', cellTemplate: btIsNuevo, minWidth: 60, enableCellEdit: false }
-			{ field: 'repitente', displayName: 'Repitente?', cellTemplate: btIsRepitente, minWidth: 60, enableCellEdit: false }
-			{ field: 'egresado', displayName: 'Egresado?', cellTemplate: btIsEgresado, minWidth: 60, enableCellEdit: false }
-			{ field: 'is_active', displayName: 'Activo?', cellTemplate: btIsActive, minWidth: 60, enableCellEdit: false }
-			{ field: 'religion', displayName: 'Religión', minWidth: 70, editableCellTemplate: btEditReligion }
-			{ field: 'tipo_doc', displayName: 'Tipo documento', minWidth: 120, cellTemplate: btTipoDoc, enableCellEdit: false }
-			{ field: 'documento', minWidth: 100, cellFilter: 'formatNumberDocumento' }
-			{ field: 'ciudad_doc', displayName: 'Ciud Docu', minWidth: 120, cellTemplate: btCiudadDoc, enableCellEdit: false }
-			{ field: 'estrato', minWidth: 70, type: 'number' }
-			{ field: 'fecha_nac', displayName:'Nacimiento', cellFilter: "date:mediumDate", type: 'date', minWidth: 100}
+			{ field: 'no', cellTemplate: '<div class="ui-grid-cell-contents">{{grid.renderContainers.body.visibleRowCache.indexOf(row) + 1}}</div>', width: 40, enableCellEdit: false }
+			{ name: 'edicion', displayName:'Edit', width: 55, enableSorting: false, enableFiltering: false, cellTemplate: bt2, enableCellEdit: false, enableColumnMenu: true}
+			{ field: 'fecha_suceso', displayName: 'Fecha matrícula', cellFilter: "date:mediumDate", type: 'date', minWidth: 100 }
+			{ field: 'signo_fc', displayName: 'Frec cardiaca', minWidth: 60, enableColumnMenu: true, type: 'number' }
+			{ field: 'signo_fr', displayName: 'Frec respiratoria', minWidth: 60, type: 'number' }
+			{ field: 'signo_t', displayName: 'Temperatura', minWidth: 60, type: 'number' }
+			{ field: 'signo_glu', displayName: 'Glucometría', minWidth: 60, type: 'number' }
+			{ field: 'signo_spo2', displayName: 'SPO2', minWidth: 60, type: 'number' }
+			{ field: 'signo_pa_dia', displayName: 'Presión arterial', cellTemplate: btPresion, minWidth: 60, enableCellEdit: false }
+			{ field: 'asignatura', displayName: 'Asignatura', minWidth: 70 }
+			{ field: 'motivo_consulta', displayName: 'Motivo consulta', minWidth: 120 }
+			{ field: 'descripcion_suceso', displayName: 'Descripción suceso', minWidth: 120 }
+			{ field: 'tratamiento', displayName: 'Tratamiento', minWidth: 120 }
+			{ field: 'observaciones', displayName: 'Observaciones', minWidth: 120 }
+			{ field: 'insumos_utilizados', displayName: 'insumos_utilizados', minWidth: 120 }
+			{ field: 'created_by_name', displayName: 'Creado por', minWidth: 90 }
+			{ field: 'updated_by_name', displayName: 'Actualizado por', minWidth: 90 }
 		],
 		multiSelect: false,
 		onRegisterApi: ( gridApi ) ->
 			$scope.gridApi = gridApi
 			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
-
 				if newValue != oldValue
-					if colDef.field == "sexo"
-						newValue = newValue.toUpperCase()
-						if !(newValue == 'M' or newValue == 'F')
-							toastr.warning 'Debe usar M o F'
-							rowEntity.sexo = oldValue
-							return
-
-
-					$http.put('::enfermeria/guardar-valor', {alumno_id: rowEntity.alumno_id, propiedad: colDef.field, valor: newValue, user_id: user_id_temp } ).then((r)->
-						toastr.success 'Alumno(a) actualizado con éxito'
+					$http.put('::enfermeria/guardar-valor-suceso', {suceso_id: rowEntity.id, propiedad: colDef.field, valor: newValue } ).then((r)->
+						toastr.success 'Suceso actualizado'
 					, (r2)->
 						rowEntity[colDef.field] = oldValue
 						toastr.error 'Cambio no guardado', 'Error'
 					)
-				$scope.$apply()
+					$scope.$apply()
 			)
 
+
+	$scope.guardar_valor_suceso = (rowEntity, col, newValue)->
+
+		$http.put('::enfermeria/guardar-valor-suceso', {suceso_id: rowEntity.id, propiedad: col, valor: newValue } ).then((r)->
+			toastr.success 'Suceso actualizado'
+		, (r2)->
+			toastr.error 'Cambio no guardado', 'Error'
+		)
 
 
 	$scope.crear_alumno = ()->
@@ -272,6 +268,7 @@ angular.module("myvcFrontApp")
 
 			for regi in r.data.registros_enfermeria
 				regi.fecha_suceso = new Date(regi.fecha_suceso)
+				regi.signo_t = parseFloat(regi.signo_t)
 
 			$scope.enfermeria 					= r.data.antecedentes
 			$scope.gridOptions.data 		= r.data.registros_enfermeria
@@ -279,10 +276,11 @@ angular.module("myvcFrontApp")
 		)
 
 	$scope.guardar_nuevo_suceso = (new_suceso)->
-		console.log(new_suceso)
 		$scope.guardando_suceso = true
-		$http.put('::enfermeria/datos', {alumno_id: $scope.alumno.alumno_id}).then((r)->
+		new_suceso.alumno_id = $scope.alumno.alumno_id
+		$http.post('::enfermeria/crear-suceso', new_suceso ).then((r)->
 			$scope.guardando_suceso = false
+			$scope.gridOptions.data.push(r.data)
 		, ()->
 			toastr.error('Error creando suceso')
 			$scope.guardando_suceso = false
@@ -837,4 +835,23 @@ angular.module("myvcFrontApp")
 
 
 	return
+])
+
+
+.controller('RemoveSucesoCtrl', ['$scope', '$uibModalInstance', 'elemento', '$http', 'toastr', 'App', ($scope, $modalInstance, elemento, $http, toastr, App)->
+	$scope.elemento 		= elemento
+	#$scope.perfilPath 	= App.images+'perfil/'
+
+	$scope.ok = ()->
+
+		$http.delete('::enfermeria/destroy/'+elemento.id).then((r)->
+			toastr.success 'Suceso eliminado.', 'Eliminado'
+		, (r2)->
+			toastr.warning 'No se pudo eliminar.', 'Problema'
+		)
+		$modalInstance.close(alumno)
+
+	$scope.cancel = ()->
+		$modalInstance.dismiss('cancel')
+
 ])

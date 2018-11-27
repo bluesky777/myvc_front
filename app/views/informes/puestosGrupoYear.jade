@@ -45,7 +45,8 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 
 						td.puntero(ng-repeat="asignatura in alumno.notas_asig | orderBy:['orden_area', 'orden_materia', 'orden_asignatura'] "
 							ng-class="{'nota-perdida-puestos': asignatura.nota_final_year < USER.nota_minima_aceptada, 'nota-sobre':(asignatura.sobre) && (alumno.sobre) }"
-							ng-click="add_alum_materia(asignatura, alumno)" ng-mouseenter="asignatura.sobre=true; alumno.sobre=true" ng-mouseleave="asignatura.sobre=false; alumno.sobre=false")
+							ng-click="add_alum_materia(asignatura, alumno)" ng-mouseenter="asignatura.sobre=true; alumno.sobre=true" ng-mouseleave="asignatura.sobre=false; alumno.sobre=false"
+							uib-tooltip="{{asignatura.materia}}" tooltip-popup-delay="300" tooltip-append-to-body="true")
 
 							span(ng-hide="mostrar_faltante") {{asignatura.nota_final_year}}
 							span(ng-show="mostrar_faltante" style="color: blue") {{asignatura.nota_faltante}}

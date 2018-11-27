@@ -95,41 +95,6 @@
           </div>
         </div>
       </div>
-      <div class="row resumen-perdidas">
-        <!-- Tabla de perdidas de este año-->
-        <div ng-if="::alumno.notas_perdidas_year &gt; 0" class="col-lg-6 col-xs-6 no-padding">
-          <div class="row resumen-head">
-            <div class="col-lg-12 col-xs-12 resumen-title"><span>Notas pendientes del año {{::USER.year}}</span></div>
-          </div>
-          <div class="row resumen-body">
-            <div class="col-lg-10 col-xs-10 resumen-tabla">
-              <table class="table-bordered table-bordered2 table-striped table-striped2">
-                <tr style="background-color: #A7C7EB!important; font-weight: bold;">
-                  <td>No</td>
-                  <td class="text-center">Asignaturas</td>
-                  <td ng-repeat="periodo in ::year.periodos track by $index">Per{{::periodo.numero}}</td>
-                  <td>Total</td>
-                </tr>
-                <tr ng-repeat="asignatura_perdida in ::alumno.asignaturas_perdidas">
-                  <td>{{$index + 1}}</td>
-                  <td>
-                    <div style="width: 140px;" class="nombresellipsis camel">{{::asignatura_perdida.materia.toLowerCase()}}</div>
-                  </td>
-                  <td ng-repeat="periodo in ::year.periodos track by $index" class="text-center">
-                    <div>{{ ::asignatura_perdida.detalle_periodos['cant_perdidas_' + ($index+1) ] }}</div>
-                  </td>
-                  <td class="text-center"><b>{{::asignatura_perdida.detalle_periodos.cant_perdidas_year}}</b></td>
-                </tr>
-                <tr>
-                  <td colspan="2">Total</td>
-                  <td ng-repeat="periodo in ::year.periodos track by $index" class="text-center">{{::alumno['notas_perdidas_per' + ($index+1) ]}}</td>
-                  <td class="text-center"><b>{{::alumno.notas_perdidas_year}}</b></td>
-                </tr>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
       <div ng-if="USER.tipo!='Profesor'" class="row footer-boletin">
         <div class="col-lg-12 col-xs-12">
           <div class="row">

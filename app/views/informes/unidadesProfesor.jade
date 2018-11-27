@@ -65,7 +65,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 
 											.row(ng-repeat-end ng-show="subunidad.editando")
 												.col-xs-12
-													form(ng-submit="guardarCambiosSubunidad(subunidad)")
+													form(ng-submit="guardarCambiosSubunidad(subunidad, unidad)")
 														input.form-control(type="text" ng-model="subunidad.definicion" uib-tooltip="Definición")
 														input.form-control(type="number" min="0" max="100" ng-model="subunidad.porcentaje" uib-tooltip="Porcentaje" style="width: 100px; display: inline-block;")
 

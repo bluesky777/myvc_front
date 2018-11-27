@@ -1,0 +1,12 @@
+
+<div style="margin-bottom: 20px" class="row hidden-print">
+  <div ng-repeat="asignatura in alumnos[0].asignaturas" class="col-xs-12">
+    <label>{{asignatura.materia}}</label>
+    <button type="button" ng-show="asignatura.frases.length==0" ng-click="crear_frase(asignatura)" class="btn btn-primary">Crear frase</button>
+    <textarea ng-model="asignatura.frases[0].definicion" ng-model-options="{ updateOn: 'blur' }" style="width: 70%; height: 100px; " ng-change="guardar_frase(asignatura.frases[0].definicion, asignatura)" ng-show="asignatura.frases.length&gt;0"></textarea>
+    <hr>
+  </div><br>
+</div>
+<div ng-repeat="alumno in alumnos">
+  <div boletin-final-alumno-preescolar-dir alumno="alumno" grupo="grupo" year="year" config="config" class="boletin-alumno"></div>
+</div>

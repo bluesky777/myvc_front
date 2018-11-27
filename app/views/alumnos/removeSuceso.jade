@@ -1,0 +1,14 @@
+.modal-header
+	h3.modal-title ¿Seguro que deseas eliminar?
+.modal-body
+	div(style="padding-bottom: 10px;")
+		h3(style="display: inline;") {{ elemento.requisito }}
+		h5 Id: {{elemento.id}}
+		h5 Motivo consulta
+		p {{ elemento.motivo_consulta }}
+
+
+.modal-footer
+	button.btn.btn-labeled.btn-danger(ng-click="ok()") Eliminar
+		i.btn-label.fa.fa-times
+	button.btn.btn-yellow(ng-click="cancel()") Cancelar

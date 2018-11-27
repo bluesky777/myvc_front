@@ -17,6 +17,10 @@ angular.module('myvcFrontApp')
 		unidad.editando = false
 
 	$scope.guardarCambiosUnidad = (unidad)->
+
+		unidad.periodo_id = 		$scope.USER.periodo_id
+		unidad.num_periodo = 		$scope.USER.numero_periodo
+
 		$http.put('::unidades/update/'+unidad.id, unidad).then((r)->
 			toastr.success 'Cambios guardados'
 			unidad.editando = false
@@ -33,7 +37,12 @@ angular.module('myvcFrontApp')
 	$scope.cancelarEditSubunidad = (subunidad)->
 		subunidad.editando = false
 
-	$scope.guardarCambiosSubunidad = (subunidad)->
+	$scope.guardarCambiosSubunidad = (subunidad, unidad)->
+
+		subunidad.asignatura_id =   unidad.asignatura_id
+		subunidad.periodo_id =      $scope.USER.periodo_id
+		subunidad.num_periodo =     $scope.USER.numero_periodo
+
 		$http.put('::subunidades/update/'+subunidad.id, subunidad).then((r)->
 			toastr.success 'Cambios guardados'
 			subunidad.editando = false

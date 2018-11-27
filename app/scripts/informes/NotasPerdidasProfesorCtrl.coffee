@@ -169,17 +169,17 @@ angular.module('myvcFrontApp')
 	for grup in $scope.grupos_acud
 		grup.alumnos_temp = grup.alumnos
 
-		if grup.alumnos_temp.length < 24
+		if grup.alumnos_temp.length < 31
 			grup.alumnos1 = grup.alumnos_temp
 
-		else if grup.alumnos_temp.length < 50
-			grup.alumnos1 = grup.alumnos_temp.splice(0, 23)
-			grup.alumnos2 = grup.alumnos_temp.splice(0, 27)
+		else if grup.alumnos_temp.length < 61
+			grup.alumnos1 = grup.alumnos_temp.splice(0, 30)
+			grup.alumnos2 = grup.alumnos_temp.splice(0, 30)
 
-		else if asign.alumnos_temp.length < 75
-			grup.alumnos1 = grup.alumnos_temp.splice(0, 23)
-			grup.alumnos2 = grup.alumnos_temp.splice(0, 27)
-			grup.alumnos3 = grup.alumnos_temp.splice(0, 27)
+		else if asign.alumnos_temp.length < 91
+			grup.alumnos1 = grup.alumnos_temp.splice(0, 30)
+			grup.alumnos2 = grup.alumnos_temp.splice(0, 30)
+			grup.alumnos3 = grup.alumnos_temp.splice(0, 30)
 
 
 

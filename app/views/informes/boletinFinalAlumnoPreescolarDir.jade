@@ -39,164 +39,76 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 
 			.row.body-boletin(style="margin-top: 10px; margin-bottom: 10px; ")
 				.col-lg-12.col-xs-12
-					table.table-bordered.table-bordered2.table-striped.table-striped2(style="margin: 0 auto; width: 100%; font-size: 9pt;")
-
+					table.table-bordered.table-bordered2.table-striped.table-striped2(style="margin: 0 auto; width: 100%")
 						tr(style="background-color: #99caed !important;")
-							td.text-center No
-							td.txtcentro(style="width: 310px")
-								b Área / Asignatura
-							td.text-center(style="width: 40px")
+							td.text-center
+								b No
+							td.text-center
+								b Asignatura / Área
+							td.text-center
+								b IH
+							td.text-center(style="width: 40px;")
 								i.fa.fa-clock-o.icon-tardanza
-								span A
-							td.txtcentro(style="width: 45px") IH
-							td.txtcentro(ng-repeat="periodo in year.periodos") Per{{periodo.numero}}
-							td.txtcentro Desempeño
-							td.txtcentro(style="border-left: 2px solid !important;") Nota
+								span A/T
 
-
-						tr(ng-if="::area.asignaturas.length>1" ng-repeat-start="area in ::alumno.areas | orderBy:'orden' track by $index")
-							td.text-center
-								span(ng-show="area.asignaturas.length>1") {{ $index + 1 }}
-							td
-								b {{ ::area.area_nombre }}
-
-							td
-							td
-							td
-							td
-							td
-							td
-							td.text-center.italic(ng-class="{'nota-perdida-bold': area.area_nota<USER.nota_minima_aceptada}" style="font-weight: bold;")
-								| {{ ::area.area_desempenio }}
-							td.text-center.italic(ng-class="{'nota-perdida-bold': area.area_nota<USER.nota_minima_aceptada}" style="font-weight: bold;")
-								| {{ ::area.area_nota }}
-
-
-
-						tr(ng-repeat-end ng-repeat="asignatura in ::area.asignaturas")
-							//td.text-center {{ asignatura.indice }}
-							td.text-center
-								span(ng-show="area.asignaturas.length==1") {{ $parent.$index + 1 }}
+						tr(ng-repeat="asignatura in ::alumno.asignaturas")
+							td.text-center {{ asignatura.indice }}
 							td
 
-								div(style="font-weight: bold;" ng-class="{'asig-padding-left-20': area.asignaturas.length>1 }"
+								span(style="font-weight: bold;"
 									uib-popover-template="::views+'informes/infoDocentePop.tpl.html'"
 									popover-popup-delay="500" popover-title="{{::asignatura.nombres_profesor}} {{::asignatura.apellidos_profesor}}" popover-animation="true"
 									popover-trigger="'mouseenter'"  popover-append-to-body="true")
 									| {{ ::asignatura.materia }}
 
-							td.text-center(style="font-style: italic; font-size: 8pt;")
-								span(ng-show="::asignatura.ausencias>0") {{ ::asignatura.ausencias }}
-							td.txtcentro
-								| {{ ::asignatura.creditos }}
-							td.txtcentro(ng-repeat="definitiva in asignatura.definitivas" ng-class="{'nota-perdida-puestos': ((definitiva.DefMateria | number:0 )*1) < (USER.nota_minima_aceptada*1) }"
-								uib-tooltip="Definitiva per {{definitiva.periodo}}" tooltip-append-to-body="true")
-								| {{ definitiva.DefMateria | number:0 }}
-								span.cant-unidades-perdidas(ng-show="definitiva.notas_perdidas > 0 && $parent.year.si_recupera_materia_recup_indicador==0")
-									| ({{definitiva.notas_perdidas}})
-							td.text-center(ng-class="{'nota-perdida-bold': ((asignatura.promedio | number:0 )*1)<USER.nota_minima_aceptada*1}")
-								| {{ ::asignatura.desempenio }}
-							td.txtcentro.puntero(ng-class="{'nota-perdida-puestos': ((asignatura.promedio | number:0 )*1) < (USER.nota_minima_aceptada*1) }")
-								| {{asignatura.promedio | number:0}}
-								span.cant-unidades-perdidas(ng-show="asignatura.notas_perdidas > 0 && $parent.year.si_recupera_materia_recup_indicador==0")
-									| ({{asignatura.notas_perdidas}})
+								div(style="font-size: 9pt; margin: 0px; padding-left: 23px;")
+									div(ng-repeat="frase in ::asignatura.frases")
+										| {{::frase.definicion}}
+										span.hidden-print
+											button.btn.btn-danger.btn-xs(ng-click="eliminar_frase(frase)" uib-tooltip="Eliminar frase")
+												i.fa.fa-times
 
 
-						tr(ng-show="$parent.year.mostrar_nota_comport_boletin")
-							td
-							td
-								i Comportamiento
-									span(style="font-size: 7pt;")  (no computa con lo académico)
-							td
-							td
-							td.txtcentro(ng-repeat="periodo in $parent.year.periodos" ng-class="{'nota-perdida-puestos': (alumno.notas_comportamiento[$index].nota_comportamiento < USER.nota_minima_aceptada && alumno.notas_comportamiento[$index].nota_comportamiento != null) }")
-								i {{ alumno.notas_comportamiento[$index].nota_comportamiento }}
-							td.txtcentro
-								i {{ alumno.nota_comportamiento_year_desempenio }}
-							td.txtcentro
-								i {{alumno.nota_comportamiento_year}}
-
-
-						tr(style="border-top: 2px solid;")
-							td
-							td Total
-
-							td.txtcentro {{ alumno.ausencias }}
-							td.txtcentro {{ alumno.total_creditos }}
-
-							td.txtcentro(ng-repeat="periodo in year.periodos") {{ alumno.asignaturas | promedioPeriodo:periodo.id | decimales:0 }}
-
-							td
-
-							td.txtcentro(style="font-weight: bold; border-left: 2px solid !important;")
-								| {{alumno.promedio | decimales:0 }}
-								span.cant-unidades-perdidas(ng-show="alumno.notas_perdidas > 0 && $parent.year.si_recupera_materia_recup_indicador==0")
-									| ({{alumno.notas_perdidas}})
+							td.text-center(style="font-style: italic; font-size: 9pt;")  {{ ::asignatura.creditos }}
+							td.text-center
+								span.text-tardanza {{::asignatura.ausencias.cantidad_ausencia}} / {{::asignatura.tardanzas.cantidad_tardanzas}}
 
 
 
-			//.row.body-boletin
+			.row.comportamiento-boletin
 				.col-lg-12.col-xs-12
-					span(ng-repeat="asignatura in alumno.asignaturas_perdidas")
 
-						span(ng-repeat="periodo in asignatura.periodos | orderBy:'-numero'")
-							| {{ asignatura.alias_materia }} - Per{{ periodo.numero }}: {{periodo.cantNotasPerdidas}}.
+					span(dynamic="::alumno.encabezado_comportamiento")
+
+					.row.comportamiento-body
+						.col-lg-12.col-xs-12.comportamiento-frases
+							//div(style="border-bottom: 1px solid #666; text-align: center; padding-bottom: 3px; margin-bottom: 3px;")
+								.row
+									.col-lg-3.col-xs-3
+										b Llegadas tarde
+										|   a la institución: {{ ::alumno.ausencias_total.cant_tardanzas_entrada }}.
+									.col-lg-3.col-xs-3
+										b Ausencias
+										|   en la entrada: {{ ::alumno.ausencias_total.cant_ausencias_entrada }}.
+									.col-lg-3.col-xs-3
+										b Tardanzas
+										|   a clases: {{ ::alumno.ausencias_total.cant_tardanzas_clases }}.
+									.col-lg-3.col-xs-3
+										b Ausencias
+										|   a clases: {{ ::alumno.ausencias_total.cant_ausencias_clases }}
+
+
 
 
 
 			.row
 				.col-lg-12.col-xs-12
-					h4(style="text-align:center; font-weight: bold" ng-if="alumno.cant_lost_areas > 0 && alumno.cant_lost_areas < $parent.year.cant_areas_pierde_year")
+					h4(style="text-align:center; font-weight: bold")
 						span(ng-switch on="alumno.sexo")
 							span(ng-switch-when="F") La alumna
 							span(ng-switch-default) El alumno
 
 						span   ha sido
-
-
-						span(ng-switch on="alumno.sexo")
-							span(ng-switch-when="F")   promovida
-							span(ng-switch-default)   promovido
-
-						span   con áreas pendientes.
-
-					h4(style="text-align:center; font-weight: bold" ng-if="$parent.year.cant_areas_pierde_year > 0 && alumno.cant_lost_areas == 0")
-						span(ng-switch on="alumno.sexo")
-							span(ng-switch-when="F") La alumna
-							span(ng-switch-default) El alumno
-
-						span   ha sido
-						span(ng-switch on="alumno.sexo")
-							span(ng-switch-when="F")   promovida.
-							span(ng-switch-default)   promovido.
-
-
-					h4(style="text-align:center; font-weight: bold" ng-if="$parent.year.cant_areas_pierde_year > 0 && alumno.cant_lost_areas >= $parent.year.cant_areas_pierde_year ")
-						span(ng-switch on="alumno.sexo")
-							span(ng-switch-when="F") La alumna
-							span(ng-switch-default) El alumno
-						span(style="font-weight:bold")   NO
-						span   ha sido
-						span(ng-switch on="alumno.sexo")
-							span(ng-switch-when="F")   promovida.
-							span(ng-switch-default)   promovido.
-
-
-
-					h4(style="text-align:center; font-weight: bold" ng-show="alumno.cant_lost_asig > 0 && alumno.cant_lost_asig < $parent.year.cant_asignatura_pierde_year")
-						span Promoción pendiente.
-
-					h4(style="text-align:center; font-weight: bold; margin-top: 0px;" ng-show="$parent.year.cant_asignatura_pierde_year > 0 && (alumno.cant_lost_asig == 0 || alumno.cant_lost_asig >= $parent.year.cant_asignatura_pierde_year)")
-						span(ng-switch on="alumno.sexo")
-							span(ng-switch-when="F") La alumna
-							span(ng-switch-default) El alumno
-
-						span(ng-show="alumno.cant_lost_asig >= $parent.year.cant_asignatura_pierde_year")
-							span(style="font-weight:bold")   NO
-							|   ha sido
-
-						span(ng-show="alumno.cant_lost_asig == 0")
-							|   ha sido
 
 						span(ng-switch on="alumno.sexo")
 							span(ng-switch-when="F")   promovida.
