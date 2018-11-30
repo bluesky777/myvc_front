@@ -211,6 +211,29 @@ angular.module('myvcFrontApp')
 					needed_permissions: [PERMISSIONS.can_work_like_teacher, PERMISSIONS.can_work_like_admin, PERMISSIONS.can_edit_alumnos]
 
 
+			.state 'panel.persona.ver_todos_los_certificados',
+				url: '/todos_los_certificados'
+				params:
+					alumno_id: {value: null}
+				views:
+					'report_content':
+						templateUrl: "#{App.views}persona/certificadoEstudioPersona.tpl.html"
+						controller: 'VerTodosLosCertificadosCtrl'
+					'headerContent':
+						templateUrl: "#{App.views}panel/panelHeader.tpl.html"
+						controller: 'PanelHeaderCtrl'
+						resolve:
+							titulo: [->
+								'Ver todos los certificados'
+							]
+				data:
+					displayName: 'Todos los certificados'
+					icon_fa: 'fa fa-print'
+					pageTitle: 'Todos los certificados - MyVc'
+					needed_permissions: [PERMISSIONS.can_work_like_teacher, PERMISSIONS.can_work_like_admin, PERMISSIONS.can_edit_alumnos]
+
+
+
 			.state 'panel.matriculas.detalles',
 				url: '^/matriculas/detalles/:alumno_id'
 				param:

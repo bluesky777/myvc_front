@@ -297,6 +297,7 @@ angular.module("myvcFrontApp")
 
 		$http.put('::alumnos/guardar-valor', datos).then((r)->
 			console.log 'Cambios guardados'
+			$modalInstance.close($scope.alumno)
 		, (r2)->
 			fila.nuevo = !fila.nuevo
 			toastr.error 'Cambio no guardado', 'Error'
@@ -315,6 +316,7 @@ angular.module("myvcFrontApp")
 
 		$http.put('::alumnos/guardar-valor', datos).then((r)->
 			console.log 'Cambios guardados'
+			$modalInstance.close($scope.alumno)
 		, (r2)->
 			fila.repitente = !fila.repitente
 			toastr.error 'Cambio no guardado', 'Error'
@@ -334,6 +336,7 @@ angular.module("myvcFrontApp")
 
 		$http.put('::alumnos/guardar-valor', datos).then((r)->
 			console.log 'Cambios guardados'
+			$modalInstance.close($scope.alumno)
 		, (r2)->
 			fila.egresado = !fila.egresado
 			toastr.error 'Cambio no guardado', 'Error'
@@ -353,6 +356,7 @@ angular.module("myvcFrontApp")
 
 		$http.put('::alumnos/guardar-valor', datos).then((r)->
 			console.log 'Cambios guardados'
+			$modalInstance.close($scope.alumno)
 		, (r2)->
 			fila.is_active = !fila.is_active
 			toastr.error 'Cambio no guardado', 'Error'

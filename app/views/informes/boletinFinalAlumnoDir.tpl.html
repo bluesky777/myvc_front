@@ -47,8 +47,8 @@
               <td></td>
               <td></td>
               <td></td>
-              <td ng-class="{'nota-perdida-bold': area.area_nota&lt;USER.nota_minima_aceptada}" style="font-weight: bold;" class="text-center italic">{{ ::area.area_desempenio }}</td>
-              <td ng-class="{'nota-perdida-bold': area.area_nota&lt;USER.nota_minima_aceptada}" style="font-weight: bold;" class="text-center italic">{{ ::area.area_nota }}</td>
+              <td ng-class="{'nota-perdida-puestos': area.area_nota&lt;USER.nota_minima_aceptada}" style="font-weight: bold;" class="text-center italic">{{ ::area.area_desempenio }}</td>
+              <td ng-class="{'nota-perdida-puestos': area.area_nota&lt;USER.nota_minima_aceptada}" style="font-weight: bold;" class="text-center italic">{{ ::area.area_nota }}</td>
             </tr>
             <tr ng-repeat-end ng-repeat="asignatura in ::area.asignaturas">
               <!--td.text-center {{ asignatura.indice }}-->
@@ -59,7 +59,7 @@
               <td style="font-style: italic; font-size: 8pt;" class="text-center"><span ng-show="::asignatura.ausencias&gt;0">{{ ::asignatura.ausencias }}</span></td>
               <td class="txtcentro">{{ ::asignatura.creditos }}</td>
               <td ng-repeat="definitiva in asignatura.definitivas" ng-class="{'nota-perdida-puestos': ((definitiva.DefMateria | number:0 )*1) &lt; (USER.nota_minima_aceptada*1) }" uib-tooltip="Definitiva per {{definitiva.periodo}}" tooltip-append-to-body="true" class="txtcentro">{{ definitiva.DefMateria | number:0 }}<span ng-show="definitiva.notas_perdidas &gt; 0 &amp;&amp; $parent.year.si_recupera_materia_recup_indicador==0" class="cant-unidades-perdidas">({{definitiva.notas_perdidas}})</span></td>
-              <td ng-class="{'nota-perdida-bold': ((asignatura.promedio | number:0 )*1)&lt;USER.nota_minima_aceptada*1}" class="text-center">{{ ::asignatura.desempenio }}</td>
+              <td ng-class="{'nota-perdida-puestos': ((asignatura.promedio | number:0 )*1)&lt;USER.nota_minima_aceptada*1}" class="text-center">{{ ::asignatura.desempenio }}</td>
               <td ng-class="{'nota-perdida-puestos': ((asignatura.promedio | number:0 )*1) &lt; (USER.nota_minima_aceptada*1) }" class="txtcentro puntero">{{asignatura.promedio | number:0}}<span ng-show="asignatura.notas_perdidas &gt; 0 &amp;&amp; $parent.year.si_recupera_materia_recup_indicador==0" class="cant-unidades-perdidas">({{asignatura.notas_perdidas}})</span></td>
             </tr>
             <tr ng-show="$parent.year.mostrar_nota_comport_boletin">
@@ -83,23 +83,27 @@
           </table>
         </div>
       </div>
-      <!--.row.body-boletin
-      .col-lg-12.col-xs-12
-      	span(ng-repeat="asignatura in alumno.asignaturas_perdidas")
-      
-      		span(ng-repeat="periodo in asignatura.periodos | orderBy:'-numero'")
-      			| {{ asignatura.alias_materia }} - Per{{ periodo.numero }}: {{periodo.cantNotasPerdidas}}.
-      
-      
-      
-      -->
       <div class="row">
         <div class="col-lg-12 col-xs-12">
-          <h4 style="text-align:center; font-weight: bold" ng-if="alumno.cant_lost_areas &gt; 0 &amp;&amp; alumno.cant_lost_areas &lt; $parent.year.cant_areas_pierde_year"><span ng-switch on="alumno.sexo"><span ng-switch-when="F">La alumna</span><span ng-switch-default>El alumno</span></span><span>  ha sido</span><span ng-switch on="alumno.sexo"><span ng-switch-when="F">  promovida</span><span ng-switch-default>  promovido</span></span><span>  con áreas pendientes.</span></h4>
-          <h4 style="text-align:center; font-weight: bold" ng-if="$parent.year.cant_areas_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_areas == 0"><span ng-switch on="alumno.sexo"><span ng-switch-when="F">La alumna</span><span ng-switch-default>El alumno</span></span><span>  ha sido</span><span ng-switch on="alumno.sexo"><span ng-switch-when="F">  promovida.</span><span ng-switch-default>  promovido.</span></span></h4>
-          <h4 style="text-align:center; font-weight: bold" ng-if="$parent.year.cant_areas_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_areas &gt;= $parent.year.cant_areas_pierde_year "><span ng-switch on="alumno.sexo"><span ng-switch-when="F">La alumna</span><span ng-switch-default>El alumno</span></span><span style="font-weight:bold">  NO</span><span>  ha sido</span><span ng-switch on="alumno.sexo"><span ng-switch-when="F">  promovida.</span><span ng-switch-default>  promovido.</span></span></h4>
-          <h4 style="text-align:center; font-weight: bold" ng-show="alumno.cant_lost_asig &gt; 0 &amp;&amp; alumno.cant_lost_asig &lt; $parent.year.cant_asignatura_pierde_year"><span>Promoción pendiente.</span></h4>
-          <h4 style="text-align:center; font-weight: bold; margin-top: 0px;" ng-show="$parent.year.cant_asignatura_pierde_year &gt; 0 &amp;&amp; (alumno.cant_lost_asig == 0 || alumno.cant_lost_asig &gt;= $parent.year.cant_asignatura_pierde_year)"><span ng-switch on="alumno.sexo"><span ng-switch-when="F">La alumna</span><span ng-switch-default>El alumno</span></span><span ng-show="alumno.cant_lost_asig &gt;= $parent.year.cant_asignatura_pierde_year"><span style="font-weight:bold">  NO</span>  ha sido</span><span ng-show="alumno.cant_lost_asig == 0">  ha sido</span><span ng-switch on="alumno.sexo"><span ng-switch-when="F">  promovida.</span><span ng-switch-default>  promovido.</span></span></h4>
+          <h4 style="text-align:center; font-weight: bold!important" ng-if="$parent.year.cant_areas_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_areas &gt; 0  &amp;&amp; alumno.cant_lost_areas &lt; $parent.year.cant_areas_pierde_year"><span ng-switch on="alumno.sexo"><span ng-switch-when="F">La alumna ha sido promovida con áreas pendientes.</span><span ng-switch-default>El alumno ha sido promovido con áreas pendientes.</span></span></h4>
+          <h4 style="text-align:center; font-weight: bold!important" ng-if="$parent.year.cant_areas_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_areas == 0"><span ng-switch on="alumno.sexo"><span ng-switch-when="F">La alumna ha sido promovida.</span><span ng-switch-default>El alumno ha sido promovido.</span></span></h4>
+          <h4 style="text-align:center; font-weight: bold!important" ng-if="$parent.year.cant_areas_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_areas &gt;= $parent.year.cant_areas_pierde_year "><span ng-switch on="alumno.sexo"><span ng-switch-when="F">La alumna no ha sido promovida.</span><span ng-switch-default>El alumno no ha sido promovido.</span></span></h4>
+          <h4 style="text-align:center; font-weight: bold!important" ng-show="alumno.cant_lost_asig &gt; 0 &amp;&amp; alumno.cant_lost_asig &lt; $parent.year.cant_asignatura_pierde_year &amp;&amp; $parent.year.cant_asignatura_pierde_year &gt; 0"><span>Promoción pendiente.</span></h4>
+          <h4 style="text-align:center; font-weight: bold!important; margin-top: 0px;" ng-show="$parent.year.cant_asignatura_pierde_year &gt; 0 &amp;&amp; (alumno.cant_lost_asig == 0 || alumno.cant_lost_asig &gt;= $parent.year.cant_asignatura_pierde_year)"><span ng-show="alumno.cant_lost_asig == 0"><span ng-switch on="alumno.sexo"><span ng-switch-when="F">Promovida.</span><span ng-switch-default>Promovido.</span></span></span><span ng-show="alumno.cant_lost_asig &gt;= $parent.year.cant_asignatura_pierde_year"><span ng-switch on="alumno.sexo"><span ng-switch-when="F">No promovida.</span><span ng-switch-default>No promovido.</span></span></span>
+            <div ng-show="$parent.year.abrev_colegio=='LAL' &amp;&amp; alumno.cant_lost_asig &gt;= $parent.year.cant_asignatura_pierde_year" style="font-size: 11pt; margin: 20px 30px; font-weight: bold;">
+              Debido a los estandares del LAL, el estudiante no es promovido, pero se deja en manos de la institución
+               a la cual aspira ingresar y de acuerdo a sus políticas en cuanto a las materias que allí
+               manejan el ingreso o no al siguiente nivel escolar.
+            </div>
+          </h4>
+        </div>
+        <div style="margin-bottom: 20px; font-size: 11pt;" ng-if="alumno.recuperaciones.length&gt;0" class="col-lg-12 col-xs-12">
+          <div ng-repeat="recuperacion in alumno.recuperaciones" class="row">
+            <div class="col-lg-1 col-xs-1"></div>
+            <div class="col-lg-4 col-xs-4">Su calificación en la nivelación de</div>
+            <div style="padding: 0" class="col-lg-5 col-xs-5"><b> {{ recuperacion.materia }}</b><span>  es</span></div>
+            <div class="col-lg-2 col-xs-2"><b> {{ recuperacion.nota }}</b></div>
+          </div>
         </div>
         <div style="text-align: center; margin-top: -10px;" class="col-lg-12 col-xs-12">
           <div style="border-bottom: 1px solid #000; height: 40px; width: 90%; display: inline-block; text-align: left;">Observaciones:</div>

@@ -54,6 +54,7 @@ angular.module("myvcFrontApp")
 		cant_cupo   = 0
 		faltan      = 0
 		formus      = 0
+		matris      = 0
 
 		for grup in $scope.grupos
 			cant_matr   += grup.cantidad
@@ -61,6 +62,7 @@ angular.module("myvcFrontApp")
 			cant_cupo   += grup.cupo
 			faltan      += grup.cant_faltantes
 			formus      += grup.cant_formularios
+			matris      += grup.cant_matriculados
 
 			grup.active = false
 
@@ -69,6 +71,7 @@ angular.module("myvcFrontApp")
 		$scope.total_cupo             = cant_cupo
 		$scope.total_taltantes        = faltan
 		$scope.total_formularios      = formus
+		$scope.total_matriculados     = matris
 
 		#$scope.$parent.bigLoader 	= false
 	)

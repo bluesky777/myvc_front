@@ -3,9 +3,9 @@
   <div class="widget-body">
     <uib-accordion close-others="false">
       <div uib-accordion-group is-open="$first" ng-repeat="matricula in matriculas" class="panel-default margin-padding-lados-xs panel-acordeon">
-        <uib-accordion-heading>Año {{matricula.year}}<span ng-show="matricula.grupo_nombre"> - {{matricula.grupo_nombre}}</span></uib-accordion-heading>
-        <h4 style="font-weight: 600!important;">Requisitos</h4>
-        <form role="form" ng-show="::USER.profes_pueden_editar_notas || hasRoleOrPerm('Admin')" ng-repeat="requisito in matricula.requisitos" style="border: 1px solid #ccc; border-radius: 5px; margin: 4px 0; padding: 4px 0;" ng-class="{'requisito-falta': requisito.estado=='falta'}" class="form-inline row">
+        <uib-accordion-heading><span style="font-weight: bold;">Año {{matricula.year}}<span ng-show="matricula.grupo_nombre"> - {{matricula.grupo_nombre}}</span></span></uib-accordion-heading>
+        <h4 style="font-weight: 600!important;" ng-show="::matricula.requisitos.length &gt; 0">Requisitos para matricular en {{matricula.year}}</h4>
+        <form role="form" ng-show="::USER.profes_pueden_editar_notas || hasRoleOrPerm('Admin')" ng-repeat="requisito in matricula.requisitos | orderBy:'orden' " style="border: 1px solid #ccc; border-radius: 5px; margin: 4px 0; padding: 4px 0;" ng-class="{'requisito-falta': requisito.estado=='falta'}" class="form-inline row">
           <div style="padding-right: 0px; min-height: 50px;" uib-tooltip="{{requisito.descripcion_titulo}}" tooltip-popup-delay="500" class="form-group col-md-3 col-sm-4 col-xs-12 si-padding-left-xs">
             <label>{{requisito.requisito}}</label>
           </div>
@@ -18,6 +18,75 @@
             <textarea required ng-model="requisito.descripcion" placeholder="Descripción (opcional)" uib-tooltip="Descripción (opcional)" tooltip-popup-delay="500" style="height: 50px; width: 100%;" ng-change="guardarCambioRequisito(requisito)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" class="form-control"></textarea>
           </div>
         </form>
+        <hr>
+        <h4 style="font-weight: 600!important; margin-top: 40px">Compromisos {{matricula.year}}</h4>
+        <div class="row">
+          <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <label>Aplicar para este año {{ ::matricula.year }}:</label>
+            <div><span uib-tooltip="Este año, el estudiante obtiene..." tooltip-popup-delay="400">
+                <ui-select ng-model="matricula.efectuar_una" on-select="guardarValor(matricula, 'efectuar_una', matricula.efectuar_una.opcion)" theme="select2" style="width: 100%;">
+                  <ui-select-match placeholder="Recomendación" allow-clear="true">{{$select.selected.opcion}}</ui-select-match>
+                  <ui-select-choices repeat="programar in opciones_programar | filter: $select.search">
+                    <div ng-bind-html="programar.opcion | highlight: $select.search"></div>
+                  </ui-select-choices>
+                </ui-select></span></div>
+          </div>
+          <div ng-show="matricula.efectuar_una" class="form-group col-lg-9 col-sm-6 col-xs-12">
+            <label>Descripción de recomendación</label>
+            <textarea ng-model="matricula.descripcion_efectuada" placeholder="Observaciones" uib-tooltip="Observaciones" tooltip-popup-delay="500" style="height: 50px; width: 100%;" ng-change="guardarValor(matricula, 'descripcion_efectuada', matricula.descripcion_efectuada)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" class="form-control"></textarea>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <label>Programar para el {{ ::matricula.year + 1 }}:</label>
+            <p><i> Durante el {{ ::matricula.year }} se decide que el estudiante entrará con compromiso en el próximo año {{ ::matricula.year + 1 }}</i></p>
+            <div><span uib-tooltip="Programar o recomendar algo al estudiante o acudiente" tooltip-popup-delay="400">
+                <ui-select ng-model="matricula.programar" on-select="guardarValor(matricula, 'programar', matricula.programar.opcion)" theme="select2" style="width: 100%;">
+                  <ui-select-match placeholder="Recomendación" allow-clear="true">{{$select.selected.opcion}}</ui-select-match>
+                  <ui-select-choices repeat="programar in opciones_programar | filter: $select.search">
+                    <div ng-bind-html="programar.opcion | highlight: $select.search"></div>
+                  </ui-select-choices>
+                </ui-select></span></div>
+          </div>
+          <div ng-show="matricula.programar" style="margin-top: 53px;" class="form-group col-lg-9 col-sm-6 col-xs-12">
+            <label>Descripción de recomendación</label>
+            <textarea ng-model="matricula.descripcion_recomendacion" placeholder="Observaciones" uib-tooltip="Observaciones" tooltip-popup-delay="500" style="height: 50px; width: 100%;" ng-change="guardarValor(matricula, 'descripcion_recomendacion', matricula.descripcion_recomendacion)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" class="form-control"></textarea>
+          </div>
+        </div>
+        <div ng-if="hasRoleOrPerm(['admin'])" class="widget">
+          <div class="widget-header bordered-bottom bordered-pink"><span class="widget-caption"><a href ng-click="toggleMostrarPrematricula()" style="text-decoration: underline; font-size: 12pt;">Matrícula {{::matricula.year}}</a></span></div>
+          <div ng-show="mostrar_prematricula" class="widget-body">
+            <div class="row">
+              <div style="padding-right: 0px;" class="form-group col-sm-8">
+                <label for="alumno-estado-next" style="font-size: 15pt; margin-bottom: 23px;">Estado {{ ::matricula.year }}:</label><span style="padding-left: 2px; padding-top: 4px;" class="btn-group">
+                  <label ng-model="matricula.estado" uib-btn-radio="'FORM'" ng-click="set_estado_next_matricula(alumno)" uib-tooltip="Formulario vendido" class="btn btn-success btn-prematriculas">Formulario</label>
+                  <label ng-model="matricula.estado" uib-btn-radio="'PREM'" ng-click="set_estado_next_matricula(alumno)" uib-tooltip="Prematriculado" class="btn btn-success btn-prematriculas">Prematriculado</label>
+                  <label ng-model="matricula.estado" uib-btn-radio="'ASIS'" ng-click="set_estado_next_matricula(alumno)" uib-tooltip="Establecer como Asistente" class="btn btn-success btn-prematriculas">Asist</label>
+                  <label ng-model="matricula.estado" uib-btn-radio="'MATR'" ng-click="set_estado_next_matricula(alumno)" uib-tooltip="Matricular" class="btn btn-success btn-prematriculas">Matr</label></span>
+              </div><span ng-show="matricula.year">
+                <div uib-tooltip="¿Es nuevo en {{ matricula.year }} en la institución?" tooltip-popup-delay="400" style="margin-top: 20px;" class="form-group col-lg-2 col-sm-3 col-xs-12">
+                  <label>Es nuevo</label>
+                  <label>
+                    <input type="checkbox" ng-model="matricula.nuevo" ng-true-value="1" ng-false-value="0" ng-change="toggleNuevoRepite(alumno, 'nuevo')" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                  </label>
+                </div>
+                <div uib-tooltip="¿Va a repetir el año en {{ matricula.year }}?" tooltip-popup-delay="400" style="margin-top: 20px;" class="form-group col-lg-2 col-sm-3 col-xs-12">
+                  <label>Es repitente</label>
+                  <label>
+                    <input type="checkbox" ng-model="matricula.repitente" ng-true-value="1" ng-false-value="0" ng-change="toggleNuevoRepite(alumno, 'repitente')" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                  </label>
+                </div></span>
+              <div ng-show="matricula.estado=='PREM'" style="margin-bottom: 12px;" uib-tooltip="Fecha en que se prematriculó" class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <label for="alumno-fecha_prematriculado">Fecha prematriculado</label>
+                <div class="controls">
+                  <div class="input-group"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input id="alumno-fecha_prematriculado" type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="matricula.prematriculado" is-open="matricula.isOpenPrema" ng-click="matricula.isOpenPrema = true" max-date="'2025-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha prematrícula" ng-change="guardarValor(matricula, 'prematriculado', matricula.prematriculado, matricula.year_id)" class="form-control active">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </uib-accordion>
   </div>

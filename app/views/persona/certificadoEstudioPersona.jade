@@ -1,0 +1,194 @@
+div(ng-repeat="alumno in certificados")
+	.boletin-alumno
+
+		div(style="display: table; min-height: 28cm ; position: relative; " ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $parent.$last==false }")
+			span(ng-if="year_actual.config_certificado_estudio_id")
+				img.encabezado-membrete(ng-src="{{perfilPath + year_actual.config_certificado.encabezado_nombre}}"
+					style="width: 22cm; position: absolute; margin-left: -10px;" ng-if="year.config_certificado.encabezado_nombre")
+			.row
+				div(ng-style="{ 'margin-top' : year_actual.config_certificado.encabezado_margin_top+'px', 'margin-left' : year_actual.config_certificado.encabezado_margin_left+'px' }")
+					.col-lg-12.col-xs-12
+						.row.encabezado-boletin(style="padding-bottom: 0px;")
+							.col-lg-12.col-xs-12(style="padding: 0;")
+								.row
+									.col-lg-2.col-xs-2
+										img.img-responsive.logo-colegio(ng-if="!year_actual.config_certificado_estudio_id" ng-src="{{perfilPath + year_actual.logo}}")
+									.col-lg-8.col-xs-8.title-encabezado-boletin
+										.dane-certificado(ng-show="config.show_datos")
+											| {{ year_actual.codigo_dane }}
+										.nombre-colegio
+											span(ng-show="year_actual.sexo_rector=='M'") EL RECTOR DEL
+											span(ng-show="year.sexo_rector=='F'") LA RECTORA DEL
+											|    {{ year_actual.nombre_colegio }}
+										.resolucion-colegio(ng-if="config.show_datos")
+											|   {{year_actual.resolucion}}
+										.nombre-colegio
+											|   CERTIFICA
+									.col-lg-2.col-xs-2(style="padding: 0; margin-top: -15px;")
+										img.img-responsive.foto-alumno(ng-src="{{perfilPath + alumno.foto_nombre}}" ng-show="config.mostrar_foto && alumno.foto_id")
+
+
+								.row.descripcion-encabezado(style="margin-top: 4px; ")
+									.col-lg-12.col-xs-12
+
+										.grupo-alumno(ng-if=" !$parent.$state.is('panel.informes.certificados_estudio_periodo')")
+											|   Que,
+											b   {{alumno.nombres + ' ' + alumno.apellidos}},
+
+											span(ng-show="alumno.cant_lost_areas > 0 && year.cant_areas_pierde_year > 0 && alumno.cant_lost_areas<year.cant_areas_pierde_year")
+												|   cursó y aprobó, quedando con áreas pendientes, el grado
+
+											span(ng-hide="(alumno.cant_lost_areas >= year.cant_areas_pierde_year && year.cant_areas_pierde_year > 0) && (alumno.cant_lost_asig >= year.cant_asignatura_pierde_year && year.cant_asignatura_pierde_year > 0)")
+												|   NO aprobó en este plantel educativo las áreas correspondientes al grado
+
+											span(ng-hide="(alumno.cant_lost_areas >= year.cant_areas_pierde_year && year.cant_areas_pierde_year > 0) && (alumno.cant_lost_asig >= year.cant_asignatura_pierde_year && year.cant_asignatura_pierde_year > 0)")
+												|   cursó aprobó con  en este plantel educativo las áreas correspondientes al grado
+
+
+
+											b.camel   {{grupo.nombre_grupo.toLowerCase()}}
+											|   de la {{grupo.nivel_educativo}}
+											|   académica durante el año
+											b  {{USER.year}},
+											|  obteniendo los siguientes resultados:
+
+										// Esto no se verá en la impresión
+										.titular-grupo.hidden-print(uib-popover-template="views+'informes/infoTitularPop.tpl.html'"
+												popover-popup-delay="500" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true"
+												popover-trigger="'mouseenter'" style="float: right" popover-append-to-body="true")
+											| Titular:
+											span.camel   {{grupo.nombres_profesor.toLowerCase() + ' ' + grupo.apellidos_profesor.toLowerCase()}}
+
+						.row.body-boletin(style="margin-top: 10px; margin-bottom: 10px; ")
+							.col-lg-11.col-xs-11(style="padding-left: 50px;")
+								table.table-bordered.table-bordered2.table-striped.table-striped2(style="margin: 0 auto; width: 100%; font-size: 8pt;")
+
+										tr(style="background-color: #99caed !important;")
+											td.txtcentro No
+											td.txtcentro(style="width: 310px") Área / Asignatura
+											td.txtcentro(style="width: 65px") IH
+											td.txtcentro(style="width: 35px")
+												i.fa.fa-clock-o.icon-tardanza
+												| A
+											//th(ng-repeat="periodo in year.periodos") Per{{periodo.numero}}
+											td.txtcentro(style="width: 140px") Valoración
+											td.txtcentro(style="width: 65px; border-left: 2px solid !important;") Nota
+
+
+										tr(ng-if="::area.asignaturas.length>1" ng-repeat-start="area in ::alumno.areas | orderBy:'orden' track by $index")
+											td.text-center
+												span(ng-show="area.asignaturas.length>1") {{ $index + 1 }}
+											td
+												b {{ ::area.area_nombre }}
+
+											td
+											td
+											td.text-center.italic(ng-class="{'nota-perdida-bold': area.area_nota<USER.nota_minima_aceptada}" style="font-weight: bold;") {{ ::area.area_desempenio }}
+											td.text-center.italic(ng-class="{'nota-perdida-bold': area.area_nota<USER.nota_minima_aceptada}" style="font-weight: bold;") {{ ::area.area_nota }}
+
+
+
+										tr(ng-repeat-end ng-repeat="asignatura in ::area.asignaturas")
+											td.text-center
+												span(ng-show="area.asignaturas.length==1") {{ $parent.$index + 1 }}
+											td
+
+												div(style="font-weight: bold;" ng-class="{'asig-padding-left-20': area.asignaturas.length>1 }"
+													uib-popover-template="::views+'informes/infoDocentePop.tpl.html'"
+													popover-popup-delay="500" popover-title="{{::asignatura.nombres_profesor}} {{::asignatura.apellidos_profesor}}" popover-animation="true"
+													popover-trigger="'mouseenter'"  popover-append-to-body="true")
+													| {{ ::asignatura.materia }}
+
+											td.txtcentro
+												| {{ asignatura.creditos }}
+											td.txtcentro
+												span(ng-show="asignatura.ausencias > 0") {{asignatura.ausencias}}
+											td.txtcentro
+												| {{ asignatura.desempenio }}
+											td.puntero.txtcentro(ng-class="{'nota-perdida-puestos': ((asignatura.promedio | number:0 )*1) < (USER.nota_minima_aceptada*1) }")
+												| {{asignatura.promedio | number:0}}
+												span.cant-unidades-perdidas(ng-show="{{asignatura.notas_perdidas > 0}}")
+													| ({{asignatura.notas_perdidas}})
+
+										tr(ng-show="$parent.year.mostrar_nota_comport_boletin")
+											td
+											td
+												i Comportamiento
+													span(style="font-size: 7pt;")  (no computa con lo académico)
+											td
+											td
+											td.txtcentro
+												| {{ alumno.nota_comportamiento_year_desempenio }}
+											td.txtcentro
+												i {{alumno.nota_comportamiento_year}}
+
+
+										tr(style="border-top: 2px solid;")
+											td
+											td() Total
+
+											td.txtcentro {{ alumno.total_creditos }}
+											td.txtcentro {{ alumno.ausencias }}
+											td.txtcentro {{ alumno.desempenio }}
+
+											td.txtcentro(style="font-weight: bold; border-left: 2px solid !important;")
+												| {{alumno.promedio | decimales:0 }}
+												span.cant-unidades-perdidas(ng-show="{{alumno.notas_perdidas > 0}}")
+													| ({{alumno.notas_perdidas}})
+
+
+
+
+
+
+
+
+						.row
+							.col-lg-12.col-xs-12
+								div(style="margin-top: 20px; margin-left: 15px;")
+									| Dado en {{year.ciudad}} ({{year.departamento}}) a los {{fecha_dia}} días del mes de {{fecha_mes}} de {{fecha_year}}.
+
+
+
+						.row.footer-boletin
+							.col-lg-4.col-xs-4.no-pad-rigth(style="text-align: left")
+								.row
+									.col-lg-12.col-xs-12.rector-firma.no-pad-rigth
+										img(ng-show="config.show_firma_rector" ng-src="{{perfilPath + year.rector_firma}}")
+								.row
+									.col-lg-12.col-xs-12.nombre-rector-firma
+										| {{year.nombres_rector}} {{year.apellidos_rector}}
+
+								.row
+									.col-lg-12.col-xs-12.no-pad-rigth(ng-show="year.sexo_rector=='M'")
+										| Rector
+									.col-lg-12.col-xs-12.no-pad-rigth(ng-show="year.sexo_rector=='F'")
+										| Rectora
+
+							.col-lg-8.col-xs-8(style="text-align: left")
+								div(style="border: 1px solid #888; padding: 4px; font-size: 8pt; margin-top: 30px;")
+									div
+										i.fa.fa-clock-o.icon-tardanza
+										span(style="font-weight: bold; font-style: italic;") A:
+										|  Ausencias. Los números en paréntesis son indicadores pendientes.
+									div
+										span(style="font-weight: bold; font-style: italic;") IH:
+										|  Intensidad horaria semanal. 50 minutos de clase. 40 semanas escolares al año.
+									div
+										span(style="font-weight: bold; font-style: italic;") Valoración:
+										|  Calificativo adquirido, siendo {{USER.nota_minima_aceptada}} la nota mínima aprobatoria.
+									div
+										span(ng-repeat="escala in $parent.escalas_val" style="width: 150px; display: inline-block;")
+											span(style="font-weight: bold; font-style: italic;") {{escala.desempenio}}:
+											|  de {{escala.porc_inicial}} a {{escala.porc_final}}
+											span(ng-show="!$first") .9
+
+
+
+			//span(ng-if="year.config_certificado_estudio_id" style="display: table-row; vertical-align: bottom; height: {{year.config_certificado.piepagina_height}}px;")
+				img.footer-membrete(ng-if="year.config_certificado.piepagina_nombre" ng-src="{{perfilPath + year.config_certificado.piepagina_nombre}}"
+					style="width: 22cm; position: absolute; margin-left: -10px;")
+
+
+
+

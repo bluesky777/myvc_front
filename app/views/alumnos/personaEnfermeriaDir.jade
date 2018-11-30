@@ -95,7 +95,7 @@ span(ng-show="enfermedia_cargada")
 
 			.btn-group(style="display: block;")
 				label.btn.btn-primary(ng-model="enfermeria.patol_asma" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'patol_asma', enfermeria.patol_asma)") Asma
-				label.btn.btn-primary(ng-model="enfermeria.patol_bronquis" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'patol_bronquis', enfermeria.patol_bronquis)") Bronquis
+				label.btn.btn-primary(ng-model="enfermeria.patol_bronquis" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'patol_bronquis', enfermeria.patol_bronquis)") Bronquitis
 				label.btn.btn-primary(ng-model="enfermeria.patol_diabetes" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'patol_diabetes', enfermeria.patol_diabetes)") Diabetes
 				label.btn.btn-primary(ng-model="enfermeria.patol_anemia" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'patol_anemia', enfermeria.patol_anemia)") Anemia
 				label.btn.btn-primary(ng-model="enfermeria.patol_hipertension" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'patol_hipertension', enfermeria.patol_hipertension)") Hipertensión
@@ -153,6 +153,8 @@ span(ng-show="enfermedia_cargada")
 		.widget-header.bordered-bottom.bordered-info
 			span.widget-caption Consultas y sucesos importantes
 		.widget-body
+
+			p Aquí podrás registrar los sucesos que le ocurran a este estudiante, como accidentes, sintomás, etc.
 
 			div(ng-show="creando_suceso")
 				h4(style="font-weight: 600!important;") Crear registro de enfermería

@@ -5,7 +5,7 @@
 		.col-lg-12.col-xs-12
 			h5 Id: {{alumno.alumno_id}}
 			div Nombre:
-			h4(style="text-overflow: ellipsis") {{alumno.nombres}} {{alumno.apellidos}}
+			h4(style="text-overflow: ellipsis; font-weight: bold") {{alumno.nombres}} {{alumno.apellidos}}
 
 			form.form.form-inline(role="form")
 
@@ -62,6 +62,6 @@
 
 
 .modal-footer
-	button.btn.btn-yellow(ng-click="cancel()") Cancelar
+	button.btn.btn-yellow(ng-click="cancel()") Cerrar
 	button.btn.btn-labeled.btn-primary(ng-click="ok()") Matricular
 		i.btn-label.fa.fa-save

@@ -261,8 +261,8 @@
                 <input id="alumno-email2-new" type="email" ng-model="alumno.email2" placeholder="Correo electrónico" class="form-control">
               </div>
             </uib-tab>
-          </uib-tabset><br><span style="float: right;">
-            <button type="submit" ng-disabled="guardando" class="btn btn-primary btn-lg shiny"><i class="fa fa-save"></i>Crear</button><span ng-show="$state.includes('panel.persona')"><a type="button" ui-sref="panel.persona" class="btn btn-danger btn-lg shiny">Cerrar</a></span><span ng-show="$state.includes('panel.prematriculas')"><a type="button" ui-sref="panel.prematriculas" class="btn btn-danger btn-lg shiny">Cerrar</a></span><span ng-show="$state.includes('panel.alumnos')"><a type="button" ui-sref="panel.alumnos" class="btn btn-danger btn-lg shiny">Cerrar</a></span></span>
+          </uib-tabset><br><span style="float: right;"><span ng-show="$state.includes('panel.persona')"><a type="button" ui-sref="panel.persona" class="btn btn-warning btn-lg shiny">Cerrar</a></span><span ng-show="$state.includes('panel.prematriculas')"><a type="button" ui-sref="panel.prematriculas" class="btn btn-warning btn-lg shiny">Cerrar</a></span><span ng-show="$state.includes('panel.alumnos')"><a type="button" ui-sref="panel.alumnos" class="btn btn-warning btn-lg shiny">Cerrar</a></span>
+            <button type="submit" ng-disabled="guardando" class="btn btn-primary btn-lg shiny"><i class="fa fa-save"></i>Crear</button></span>
         </form>
       </div>
     </div>

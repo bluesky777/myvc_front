@@ -66,9 +66,9 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 							td
 							td
 							td
-							td.text-center.italic(ng-class="{'nota-perdida-bold': area.area_nota<USER.nota_minima_aceptada}" style="font-weight: bold;")
+							td.text-center.italic(ng-class="{'nota-perdida-puestos': area.area_nota<USER.nota_minima_aceptada}" style="font-weight: bold;")
 								| {{ ::area.area_desempenio }}
-							td.text-center.italic(ng-class="{'nota-perdida-bold': area.area_nota<USER.nota_minima_aceptada}" style="font-weight: bold;")
+							td.text-center.italic(ng-class="{'nota-perdida-puestos': area.area_nota<USER.nota_minima_aceptada}" style="font-weight: bold;")
 								| {{ ::area.area_nota }}
 
 
@@ -94,7 +94,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 								| {{ definitiva.DefMateria | number:0 }}
 								span.cant-unidades-perdidas(ng-show="definitiva.notas_perdidas > 0 && $parent.year.si_recupera_materia_recup_indicador==0")
 									| ({{definitiva.notas_perdidas}})
-							td.text-center(ng-class="{'nota-perdida-bold': ((asignatura.promedio | number:0 )*1)<USER.nota_minima_aceptada*1}")
+							td.text-center(ng-class="{'nota-perdida-puestos': ((asignatura.promedio | number:0 )*1)<USER.nota_minima_aceptada*1}")
 								| {{ ::asignatura.desempenio }}
 							td.txtcentro.puntero(ng-class="{'nota-perdida-puestos': ((asignatura.promedio | number:0 )*1) < (USER.nota_minima_aceptada*1) }")
 								| {{asignatura.promedio | number:0}}
@@ -135,72 +135,62 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 
 
 
-			//.row.body-boletin
-				.col-lg-12.col-xs-12
-					span(ng-repeat="asignatura in alumno.asignaturas_perdidas")
-
-						span(ng-repeat="periodo in asignatura.periodos | orderBy:'-numero'")
-							| {{ asignatura.alias_materia }} - Per{{ periodo.numero }}: {{periodo.cantNotasPerdidas}}.
-
-
-
 			.row
 				.col-lg-12.col-xs-12
-					h4(style="text-align:center; font-weight: bold" ng-if="alumno.cant_lost_areas > 0 && alumno.cant_lost_areas < $parent.year.cant_areas_pierde_year")
+					h4(style="text-align:center; font-weight: bold!important" ng-if="$parent.year.cant_areas_pierde_year > 0 && alumno.cant_lost_areas > 0  && alumno.cant_lost_areas < $parent.year.cant_areas_pierde_year")
 						span(ng-switch on="alumno.sexo")
-							span(ng-switch-when="F") La alumna
-							span(ng-switch-default) El alumno
-
-						span   ha sido
+							span(ng-switch-when="F") La alumna ha sido promovida con áreas pendientes.
+							span(ng-switch-default) El alumno ha sido promovido con áreas pendientes.
 
 
+
+					h4(style="text-align:center; font-weight: bold!important" ng-if="$parent.year.cant_areas_pierde_year > 0 && alumno.cant_lost_areas == 0")
 						span(ng-switch on="alumno.sexo")
-							span(ng-switch-when="F")   promovida
-							span(ng-switch-default)   promovido
+							span(ng-switch-when="F") La alumna ha sido promovida.
+							span(ng-switch-default) El alumno ha sido promovido.
 
-						span   con áreas pendientes.
 
-					h4(style="text-align:center; font-weight: bold" ng-if="$parent.year.cant_areas_pierde_year > 0 && alumno.cant_lost_areas == 0")
+					h4(style="text-align:center; font-weight: bold!important" ng-if="$parent.year.cant_areas_pierde_year > 0 && alumno.cant_lost_areas >= $parent.year.cant_areas_pierde_year ")
 						span(ng-switch on="alumno.sexo")
-							span(ng-switch-when="F") La alumna
-							span(ng-switch-default) El alumno
-
-						span   ha sido
-						span(ng-switch on="alumno.sexo")
-							span(ng-switch-when="F")   promovida.
-							span(ng-switch-default)   promovido.
-
-
-					h4(style="text-align:center; font-weight: bold" ng-if="$parent.year.cant_areas_pierde_year > 0 && alumno.cant_lost_areas >= $parent.year.cant_areas_pierde_year ")
-						span(ng-switch on="alumno.sexo")
-							span(ng-switch-when="F") La alumna
-							span(ng-switch-default) El alumno
-						span(style="font-weight:bold")   NO
-						span   ha sido
-						span(ng-switch on="alumno.sexo")
-							span(ng-switch-when="F")   promovida.
-							span(ng-switch-default)   promovido.
+							span(ng-switch-when="F") La alumna no ha sido promovida.
+							span(ng-switch-default) El alumno no ha sido promovido.
 
 
 
-					h4(style="text-align:center; font-weight: bold" ng-show="alumno.cant_lost_asig > 0 && alumno.cant_lost_asig < $parent.year.cant_asignatura_pierde_year")
+					h4(style="text-align:center; font-weight: bold!important" ng-show="alumno.cant_lost_asig > 0 && alumno.cant_lost_asig < $parent.year.cant_asignatura_pierde_year && $parent.year.cant_asignatura_pierde_year > 0")
 						span Promoción pendiente.
 
-					h4(style="text-align:center; font-weight: bold; margin-top: 0px;" ng-show="$parent.year.cant_asignatura_pierde_year > 0 && (alumno.cant_lost_asig == 0 || alumno.cant_lost_asig >= $parent.year.cant_asignatura_pierde_year)")
-						span(ng-switch on="alumno.sexo")
-							span(ng-switch-when="F") La alumna
-							span(ng-switch-default) El alumno
-
-						span(ng-show="alumno.cant_lost_asig >= $parent.year.cant_asignatura_pierde_year")
-							span(style="font-weight:bold")   NO
-							|   ha sido
+					h4(style="text-align:center; font-weight: bold!important; margin-top: 0px;" ng-show="$parent.year.cant_asignatura_pierde_year > 0 && (alumno.cant_lost_asig == 0 || alumno.cant_lost_asig >= $parent.year.cant_asignatura_pierde_year)")
 
 						span(ng-show="alumno.cant_lost_asig == 0")
-							|   ha sido
+							span(ng-switch on="alumno.sexo")
+								span(ng-switch-when="F") Promovida.
+								span(ng-switch-default) Promovido.
 
-						span(ng-switch on="alumno.sexo")
-							span(ng-switch-when="F")   promovida.
-							span(ng-switch-default)   promovido.
+						span(ng-show="alumno.cant_lost_asig >= $parent.year.cant_asignatura_pierde_year")
+							span(ng-switch on="alumno.sexo")
+								span(ng-switch-when="F") No promovida.
+								span(ng-switch-default) No promovido.
+
+						div(ng-show="$parent.year.abrev_colegio=='LAL' && alumno.cant_lost_asig >= $parent.year.cant_asignatura_pierde_year"
+							style="font-size: 11pt; margin: 20px 30px; font-weight: bold;")
+							| Debido a los estandares del LAL, el estudiante no es promovido, pero se deja en manos de la institución
+							|  a la cual aspira ingresar y de acuerdo a sus políticas en cuanto a las materias que allí
+							|  manejan el ingreso o no al siguiente nivel escolar.
+
+
+				.col-lg-12.col-xs-12(style="margin-bottom: 20px; font-size: 11pt;" ng-if="alumno.recuperaciones.length>0")
+					.row(ng-repeat="recuperacion in alumno.recuperaciones")
+						.col-lg-1.col-xs-1
+						.col-lg-4.col-xs-4
+							| Su calificación en la nivelación de
+						.col-lg-5.col-xs-5(style="padding: 0")
+							b  {{ recuperacion.materia }}
+							span   es
+						.col-lg-2.col-xs-2
+							b  {{ recuperacion.nota }}
+
+
 
 
 				.col-lg-12.col-xs-12(style="text-align: center; margin-top: -10px;")

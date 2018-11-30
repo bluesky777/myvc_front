@@ -83,7 +83,8 @@ angular.module('myvcFrontApp', [
 			{ opcion: 	'MATRIC CONDICIONAL' }
 			{ opcion: 	'COMPROM ACADÉMICO' }
 			{ opcion: 	'COMPROM DISCIPLINARIO' }
-			{ opcion: 	'PERDIDA DE CUPO' }
+			{ opcion: 	'COMPROM ACADÉMICO Y DISCIPLINARIO' }
+			{ opcion: 	'PÉRDIDA DE CUPO' }
 			{ opcion: 	'CAMBIO INSTITUCIÓN' }
 			{ opcion: 	'OTRO' }
 		]

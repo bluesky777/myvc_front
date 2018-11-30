@@ -81,6 +81,15 @@ angular.module("myvcFrontApp")
 			$scope.cant_compromisos = 0;
 
 			for opcion in $scope.opciones_programar
+
+				for matricu in $scope.matriculas
+					if matricu.programar == opcion.opcion
+						matricu.programar = opcion
+
+					if matricu.efectuar_una == opcion.opcion
+						matricu.efectuar_una = opcion
+
+
 				if $scope.alumno.programar == opcion.opcion
 					$scope.dato.programar = opcion
 					$scope.cant_compromisos++
@@ -150,14 +159,19 @@ angular.module("myvcFrontApp")
 						$scope.alumno.tipo_doc = tipo_doc
 
 
+	$scope.openDatePicker = (data, elem)->
+		data[elem] = true
+
 
 	$scope.mostarMasDetalle = ()->
 		$scope.mostrar_mas = !$scope.mostrar_mas
 		localStorage.mostrar_mas_deta_alum = $scope.mostrar_mas
 
 
-	$scope.toggleNuevoRepite = (fila, campo)->
-		#fila.nuevo = !fila.nuevo
+	$scope.toggleNuevoRepite = (fila, campo, year_id)->
+
+		if !year_id
+			year_id = fila.next_year.year_id
 
 		datos =
 			alumno_id: 	    fila.alumno_id
@@ -666,8 +680,8 @@ angular.module("myvcFrontApp")
 				res = confirm('A este estudiante aún le falta por cumplir ' + frase + ' ¿Desea matricular de todos modos?')
 				if res
 					console.log($scope.alumno.next_year.estado, $scope.alumno.next_year.estado_ant)
-					$scope.alumno.next_year.estado = $scope.alumno.next_year.estado_ant
 				else
+					$scope.alumno.next_year.estado = $scope.alumno.next_year.estado_ant
 					return
 
 		$scope.matriculando = true
@@ -761,9 +775,10 @@ angular.module("myvcFrontApp")
 
 		if colDef == 'email'
 			datos.user_id = rowEntity.user_id
-			if !window.validateEmail(newValue)
-				toastr.warning 'No es un correo válido'
-				return
+			if newValue.length > 0
+				if !window.validateEmail(newValue)
+					toastr.warning 'No es un correo válido'
+					return
 
 		if not rowEntity.alumno_id
 			rowEntity.alumno_id = fila.id
@@ -776,9 +791,10 @@ angular.module("myvcFrontApp")
 				rowEntity.sexo = $scope.alum_copy['sexo']
 				return
 
+		###
 		if colDef == "fecha_matricula"
 			return $scope.cambiarFechaMatricula(rowEntity)
-
+		###
 
 		if colDef == "tipo_sangre"
 			newValue = newValue.toUpperCase()
@@ -804,6 +820,7 @@ angular.module("myvcFrontApp")
 		datos.alumno_id = rowEntity.alumno_id
 		datos.propiedad = colDef
 		datos.valor 		= newValue
+		datos.year_id 	= rowEntity.year_id
 
 		if year_id
 			datos.year_id = year_id
@@ -820,7 +837,6 @@ angular.module("myvcFrontApp")
 
 	$scope.guardarValorEnfermeria = (enferm, propiedad, newValue)->
 		datos = {}
-		console.log(enferm);
 		datos.antec_id    = enferm.id
 		datos.propiedad   = propiedad
 		datos.valor 		  = newValue
@@ -832,6 +848,11 @@ angular.module("myvcFrontApp")
 			#rowEntity[colDef] = $scope.alum_copy[colDef]
 			toastr.error 'Cambio no guardado', 'Error'
 		)
+
+
+	$scope.verTodosLosCertificados = ()->
+		$state.go 'panel.persona.ver_todos_los_certificados', {alumno_id: $scope.alumno.alumno_id}, {reload: true}
+
 
 
 	return

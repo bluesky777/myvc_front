@@ -255,15 +255,16 @@
 
 					br
 					span(style="float: right;")
+
+						span(ng-show="$state.includes('panel.persona')")
+							a.btn.btn-warning.btn-lg.shiny(type="button" ui-sref="panel.persona") Cerrar
+						span(ng-show="$state.includes('panel.prematriculas')")
+							a.btn.btn-warning.btn-lg.shiny(type="button" ui-sref="panel.prematriculas") Cerrar
+						span(ng-show="$state.includes('panel.alumnos')")
+							a.btn.btn-warning.btn-lg.shiny(type="button" ui-sref="panel.alumnos") Cerrar
+
 						button.btn.btn-primary.btn-lg.shiny(type="submit" ng-disabled="guardando")
 							i.fa.fa-save
 							| Crear
-
-						span(ng-show="$state.includes('panel.persona')")
-							a.btn.btn-danger.btn-lg.shiny(type="button" ui-sref="panel.persona") Cerrar
-						span(ng-show="$state.includes('panel.prematriculas')")
-							a.btn.btn-danger.btn-lg.shiny(type="button" ui-sref="panel.prematriculas") Cerrar
-						span(ng-show="$state.includes('panel.alumnos')")
-							a.btn.btn-danger.btn-lg.shiny(type="button" ui-sref="panel.alumnos") Cerrar
 
 

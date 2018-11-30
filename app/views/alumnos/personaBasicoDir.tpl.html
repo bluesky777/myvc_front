@@ -2,8 +2,7 @@
 <div class="widget">
   <div class="widget-body">
     <div class="row">
-      <div uib-tooltip="Foto oficial" class="col-sm-4 col-xs-12"><img style="width: 200px" ng-src="{{perfilPath + alumno.foto_nombre}}"></div>
-      <div uib-tooltip="Imagen de usuario (no importante)" class="col-sm-4 col-xs-12"><img style="width: 200px" ng-src="{{perfilPath + alumno.imagen_nombre}}"></div>
+      <div class="col-sm-8 col-xs-12"><img style="width: 200px" ng-src="{{perfilPath + alumno.foto_nombre}}" uib-tooltip="Foto oficial"><img style="width: 200px" ng-src="{{perfilPath + alumno.imagen_nombre}}" uib-tooltip="Imagen de usuario (no importante)"></div>
       <div style="text-align: center" ng-show="alumno.grupo_nombre" class="col-md-4 col-sm-4 col-xs-12">
         <button style="font-size: 20pt; font-weight: bold;" type="button" ng-click="cambiarGrupo()" uib-tooltip="Cambiar grupo" class="btn btn-primary shiny">{{ alumno.grupo_nombre}}</button>
         <div ng-click="cambiarGrupo()" ng-class="{'etiqueta-repitente': alumno.repitente }" class="etiqueta-alumno">Repitente:<span ng-show="alumno.repitente"> Si</span><span ng-show="!alumno.repitente"> No</span></div>
@@ -45,7 +44,11 @@
         <input id="alumno-celular" type="text" ng-model="alumno.celular" placeholder="Celular" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }" ng-change="guardarValor(alumno, 'celular', alumno.celular)" class="form-control">
       </div>
       <div class="form-group col-lg-3 col-sm-3 col-xs-12">
-        <div ng-click="cambiarGrupo()" ng-class="{'etiqueta-repitente': !alumno.is_active }" uib-tooltip="¿Puede ingresar al sistema?" tooltip-popup-delay="300" style="margin: 20px 0px;" class="etiqueta-alumno"><span ng-show="alumno.is_active"> Activo</span><span ng-show="!alumno.is_active"> Desactivado</span></div>
+        <div ng-click="cambiarGrupo()" ng-class="{'etiqueta-repitente': !alumno.is_active }" uib-tooltip="Si coloca desactivado, el estudiante no podrá ingresar al sistema con su usuario y contraseña." tooltip-popup-delay="100" style="margin: 20px 0px;" class="etiqueta-alumno"><span ng-show="alumno.is_active"> Activo</span><span ng-show="!alumno.is_active"> Desactivado</span></div>
+      </div>
+      <div class="form-group col-lg-3 col-md-4 col-sm-3 col-xs-12">
+        <label for="alumno-no-matr">Número Matrícula</label>
+        <input id="alumno-no-matr" type="text" ng-model="alumno.no_matricula" placeholder="Número de matrícula" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }" ng-change="guardarValor(alumno, 'no_matricula', alumno.no_matricula)" class="form-control">
       </div>
     </div>
     <hr>
@@ -61,7 +64,7 @@
         <label for="alumno-fecha_pension">Fecha de pensión</label>
         <div class="controls">
           <div class="input-group"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-            <input id="alumno-fecha_pension" type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="alumno.fecha_pension" is-open="data.isOpenPens" ng-click="data.isOpenPens = true" max-date="'2025-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha pension" ng-change="guardarValor(alumno, 'fecha_pension', alumno.fecha_pension)" class="form-control active">
+            <input id="alumno-fecha_pension" type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="alumno.fecha_pension" is-open="data.isOpenPens" ng-click="data.isOpenPens = true" max-date="'2025-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha pensión" ng-change="guardarValor(alumno, 'fecha_pension', alumno.fecha_pension)" class="form-control active">
           </div>
         </div>
       </div>
@@ -69,99 +72,17 @@
   </div>
 </div>
 <div ng-if="hasRoleOrPerm(['admin'])" class="widget">
-  <div class="widget-header bordered-bottom bordered-info"><span class="widget-caption"><a href ng-click="toggleMostrarCompromisos()" style="text-decoration: underline; font-size: 12pt;">Disciplina y compromisos ({{cant_compromisos}})</a></span></div>
-  <div ng-show="mostrar_compromisos" class="widget-body"><span ng-show="alumno.matricula_id">
-      <div class="row">
-        <div class="form-group col-lg-12 col-xs-12">
-          <h4 style="font-weight: 600!important;">Año actual:</h4>
-        </div>
-      </div>
-      <div class="row">
-        <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
-          <label>Aplicar para este año {{ ::USER.year }}:</label>
-          <div><span uib-tooltip="Este año, el estudiante obtiene..." tooltip-popup-delay="400">
-              <ui-select ng-model="dato.efectuar_una" on-select="guardarValor(alumno, 'efectuar_una', dato.efectuar_una.opcion)" theme="select2" style="width: 100%;">
-                <ui-select-match placeholder="Recomendación" allow-clear="true">{{$select.selected.opcion}}</ui-select-match>
-                <ui-select-choices repeat="programar in opciones_programar | filter: $select.search">
-                  <div ng-bind-html="programar.opcion | highlight: $select.search"></div>
-                </ui-select-choices>
-              </ui-select></span></div>
-        </div>
-        <div ng-show="dato.efectuar_una" class="form-group col-lg-9 col-sm-6 col-xs-12">
-          <label>Descripción de recomendación</label>
-          <textarea ng-model="alumno.descripcion_efectuada" placeholder="Observaciones" uib-tooltip="Observaciones" tooltip-popup-delay="500" style="height: 50px; width: 100%;" ng-change="guardarValor(alumno, 'descripcion_efectuada', alumno.descripcion_efectuada)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" class="form-control"></textarea>
-        </div>
-      </div>
-      <div class="row">
-        <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
-          <label>Programar para el {{ ::USER.year + 1 }}<i>  (en {{ ::USER.year }} se toma una decisicón que se ejecutará el próximo año {{ ::USER.year + 1 }})</i></label>
-          <div><span uib-tooltip="Programar o recomendar algo al estudiante o acudiente" tooltip-popup-delay="400">
-              <ui-select ng-model="dato.programar" on-select="guardarValor(alumno, 'programar', dato.programar.opcion)" theme="select2" style="width: 100%;">
-                <ui-select-match placeholder="Recomendación" allow-clear="true">{{$select.selected.opcion}}</ui-select-match>
-                <ui-select-choices repeat="programar in opciones_programar | filter: $select.search">
-                  <div ng-bind-html="programar.opcion | highlight: $select.search"></div>
-                </ui-select-choices>
-              </ui-select></span></div>
-        </div>
-        <div ng-show="dato.programar" class="form-group col-lg-9 col-sm-6 col-xs-12">
-          <label>Descripción de recomendación</label>
-          <textarea ng-model="alumno.descripcion_recomendacion" placeholder="Observaciones" uib-tooltip="Observaciones" tooltip-popup-delay="500" style="height: 50px; width: 100%;" ng-change="guardarValor(alumno, 'descripcion_recomendacion', alumno.descripcion_recomendacion)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" class="form-control"></textarea>
-        </div>
-      </div>
-      <hr></span><span ng-show="alumno.next_year">
-      <div class="row">
-        <div class="form-group col-lg-12 col-xs-12">
-          <h4 style="font-weight: 600!important;">Siguiente año:</h4>
-        </div>
-      </div>
-      <div class="row">
-        <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
-          <label>Aplicar para el año {{ ::USER.year + 1 }}:</label>
-          <div>
-            <ui-select ng-model="dato.efectuar_una_next" on-select="guardarValor(alumno, 'efectuar_una', dato.efectuar_una_next.opcion, alumno.next_year.year_id)" theme="select2" style="width: 100%;">
-              <ui-select-match placeholder="Recomendación" allow-clear="true">{{$select.selected.opcion}}</ui-select-match>
-              <ui-select-choices repeat="programar in opciones_programar | filter: $select.search">
-                <div ng-bind-html="programar.opcion | highlight: $select.search"></div>
-              </ui-select-choices>
-            </ui-select>
-          </div>
-        </div>
-        <div ng-show="dato.efectuar_una_next" class="form-group col-lg-9 col-sm-6 col-xs-12">
-          <label>Descripción de recomendación</label>
-          <textarea ng-model="alumno.next_year.descripcion_efectuada" placeholder="Observaciones" uib-tooltip="Observaciones" tooltip-popup-delay="500" style="height: 50px; width: 100%;" ng-change="guardarValor(alumno, 'descripcion_efectuada', alumno.next_year.descripcion_efectuada, alumno.next_year.year_id)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" class="form-control"></textarea>
-        </div>
-      </div>
-      <div class="row">
-        <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
-          <label>Programar para el {{ alumno.next_year.year + 1 }}<i>  (en {{ ::USER.year + 1 }} se toma una decisicón que se ejecutará el {{ ::USER.year + 2 }})</i></label>
-          <div><span uib-tooltip="Programar o recomendar algo al estudiante o acudiente" tooltip-popup-delay="400">
-              <ui-select ng-model="dato.programar_next" on-select="guardarValor(alumno, 'programar', dato.programar_next.opcion, alumno.next_year.year_id)" theme="select2" style="width: 100%;">
-                <ui-select-match placeholder="Recomendación" allow-clear="true">{{$select.selected.opcion}}</ui-select-match>
-                <ui-select-choices repeat="programar in opciones_programar | filter: $select.search">
-                  <div ng-bind-html="programar.opcion | highlight: $select.search"></div>
-                </ui-select-choices>
-              </ui-select></span></div>
-        </div>
-        <div ng-show="dato.programar_next" class="form-group col-lg-9 col-sm-6 col-xs-12">
-          <label>Descripción de recomendación</label>
-          <textarea ng-model="alumno.next_year.descripcion_recomendacion" placeholder="Observaciones" uib-tooltip="Observaciones" tooltip-popup-delay="500" style="height: 50px; width: 100%;" ng-change="guardarValor(alumno, 'descripcion_recomendacion', alumno.next_year.descripcion_recomendacion, alumno.next_year.year_id)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" class="form-control"></textarea>
-        </div>
-      </div></span></div>
-</div>
-<div ng-if="hasRoleOrPerm(['admin'])" class="widget">
   <div class="widget-header bordered-bottom bordered-pink"><span class="widget-caption"><a href ng-click="toggleMostrarPrematricula()" style="text-decoration: underline; font-size: 12pt;">Matrícula {{::USER.year}} y Prematrícula {{::USER.year+1}}</a></span></div>
   <div ng-show="mostrar_prematricula" class="widget-body">
     <div ng-show="alumno.matricula_id" class="row">
-      <div style="padding-right: 0px; margin-bottom: 23px;" class="form-group col-lg-3 col-md-4 col-sm-4">
+      <div style="padding-right: 0px; margin-bottom: 23px;" class="form-group col-lg-3 col-md-4 col-sm-5">
         <label for="alumno-estado" style="font-size: 15pt;">Estado {{::USER.year}}</label><span style="padding-left: 2px; padding-top: 4px;" class="btn-group">
+          <!--label.btn.btn-primary.btn-prematriculas(ng-model="alumno.estado" uib-btn-radio="'FORM'" ng-click="reMatricularUno(alumno)" uib-tooltip="Formulario") Formul-->
+          <!--label.btn.btn-primary.btn-prematriculas(ng-model="alumno.estado" uib-btn-radio="'PREM'" ng-click="reMatricularUno(alumno)" uib-tooltip="Prematricular") Prem-->
           <label ng-model="alumno.estado" uib-btn-radio="'MATR'" ng-click="reMatricularUno(alumno)" uib-tooltip="Matricular" class="btn btn-primary btn-prematriculas">Matr</label>
           <label ng-model="alumno.estado" uib-btn-radio="'ASIS'" ng-click="setAsistente(alumno)" uib-tooltip="Establecer como Asistente" class="btn btn-primary btn-prematriculas">Asis</label>
           <label ng-model="alumno.estado" uib-btn-radio="'RETI'" ng-click="retirar(alumno)" uib-tooltip="Retirar" class="btn btn-primary btn-prematriculas">Reti</label>
           <label ng-model="alumno.estado" uib-btn-radio="'DESE'" ng-click="desertar(alumno)" uib-tooltip="Desertor" class="btn btn-primary btn-prematriculas">Dese</label></span>
-      </div>
-      <div class="form-group col-lg-3 col-md-4 col-sm-4 col-xs-12">
-        <label for="alumno-no-matr">Número Matrícula</label>
-        <input id="alumno-no-matr" type="text" ng-model="alumno.no_matricula" placeholder="Número de matrícula" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }" ng-change="guardarValor(alumno, 'no_matricula', alumno.no_matricula)" class="form-control">
       </div>
       <div style="margin-bottom: 12px;" ng-if="alumno.estado == 'RETI' || alumno.estado == 'DESE' " class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
         <label for="alumno-fecha_retiro">Fecha de retiro</label>
@@ -214,8 +135,18 @@
       <div ng-show="alumno.next_year.estado=='PREM'" style="margin-bottom: 12px;" uib-tooltip="Fecha en que se prematriculó" class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
         <label for="alumno-fecha_prematriculado">Fecha prematriculado</label>
         <div class="controls">
-          <div class="input-group"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-            <input id="alumno-fecha_prematriculado" type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="alumno.next_year.prematriculado" is-open="data.isOpenPrema" ng-click="data.isOpenPrema = true" max-date="'2025-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha prematrícula" ng-change="guardarValor(alumno, 'prematriculado', alumno.next_year.prematriculado, alumno.next_year.year_id)" class="form-control active">
+          <div class="input-group"><span class="input-group-btn">
+              <button type="button" ng-click="openDatePicker(data, 'isOpenPrema')" class="btn btn-default"><i class="fa fa-calendar"></i></button></span>
+            <input id="alumno-fecha_prematriculado" type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="alumno.next_year.prematriculado" is-open="data.isOpenPrema" ng-click="openDatePicker(data, 'isOpenPrema')" max-date="'2025-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha prematrícula" ng-change="guardarValor(alumno, 'prematriculado', alumno.next_year.prematriculado, alumno.next_year.year_id)" class="form-control active">
+          </div>
+        </div>
+      </div>
+      <div ng-show="alumno.next_year.estado=='MATR'" style="margin-bottom: 12px;" uib-tooltip="Fecha en que se matriculó" class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
+        <label for="alumno-fecha_matriculado-next">Fecha matrícula</label>
+        <div class="controls">
+          <div class="input-group"><span class="input-group-btn">
+              <button type="button" ng-click="openDatePicker(data, 'isOpenMatrNext')" class="btn btn-default"><i class="fa fa-calendar"></i></button></span>
+            <input id="alumno-fecha_matriculado-next" type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="alumno.next_year.fecha_matricula" is-open="data.isOpenMatrNext" ng-click="openDatePicker(data, 'isOpenMatrNext')" max-date="'2025-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha prematrícula" ng-change="guardarValor(alumno, 'fecha_matricula', alumno.next_year.fecha_matricula, alumno.next_year.year_id)" class="form-control active">
           </div>
         </div>
       </div>

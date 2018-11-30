@@ -17,7 +17,7 @@
             </div>
             <div style="margin-top: 4px; " class="row descripcion-encabezado">
               <div class="col-lg-12 col-xs-12">
-                <div ng-if="$parent.$state.is('panel.informes.certificados_estudio_periodo')" class="grupo-alumno">  Que,<b>  {{ alumno.nombres + ' ' + alumno.apellidos }},</b><span>   ha cursado en éste plantel educativo las áreas correspondientes al grado</span><b class="camel">  {{ grupo.nombre_grupo.toLowerCase() }}</b>  de la {{ grupo.nivel_educativo}}
+                <div ng-if="$parent.$state.is('panel.informes.certificados_estudio_periodo')" class="grupo-alumno">  Que,<b>  {{ alumno.nombres + ' ' + alumno.apellidos }},</b><span>   ha cursado en este plantel educativo las áreas correspondientes al grado</span><b class="camel">  {{ grupo.nombre_grupo.toLowerCase() }}</b>  de la {{ grupo.nivel_educativo}}
                     académica<i> hasta el periodo</i><b> {{ config.periodo_a_calcular }} de {{ USER.year }}</b> obteniendo los siguientes resultados:
                 </div>
                 <div ng-if=" !$parent.$state.is('panel.informes.certificados_estudio_periodo')" class="grupo-alumno">  Que,<b>  {{alumno.nombres + ' ' + alumno.apellidos}},</b><span ng-show="alumno.cant_lost_asig &gt; 1" style="font-weight:bold">  NO aprobó</span><span ng-hide="alumno.cant_lost_asig &gt; 1">   cursó y aprobó</span>  en éste plantel educativo las áreas correspondientes al grado<b class="camel">  {{grupo.nombre_grupo.toLowerCase()}}</b>  de la {{grupo.nivel_educativo}}

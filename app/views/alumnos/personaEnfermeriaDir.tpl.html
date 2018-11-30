@@ -58,7 +58,7 @@
       <h4 style="font-weight: 600!important;">Patologías<span style="font-size: 9pt;"> (<span ng-show="enfermeria.patol_asma">Asma,</span><span ng-show="enfermeria.patol_bronquis"> Bronquitis,</span><span ng-show="enfermeria.patol_diabetes"> Diabetes,</span><span ng-show="enfermeria.patol_anemia"> Anemia,</span><span ng-show="enfermeria.patol_hipertension"> Hipertensión,</span><span ng-show="enfermeria.patol_dermatitis"> Dermatitis,</span><span ng-show="enfermeria.patol_depresion"> Depresión,</span><span ng-show="enfermeria.patol_otro"> {{ enfermeria.patol_cual }}</span>)</span></h4>
       <div style="display: block;" class="btn-group">
         <label ng-model="enfermeria.patol_asma" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'patol_asma', enfermeria.patol_asma)" class="btn btn-primary">Asma</label>
-        <label ng-model="enfermeria.patol_bronquis" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'patol_bronquis', enfermeria.patol_bronquis)" class="btn btn-primary">Bronquis</label>
+        <label ng-model="enfermeria.patol_bronquis" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'patol_bronquis', enfermeria.patol_bronquis)" class="btn btn-primary">Bronquitis</label>
         <label ng-model="enfermeria.patol_diabetes" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'patol_diabetes', enfermeria.patol_diabetes)" class="btn btn-primary">Diabetes</label>
         <label ng-model="enfermeria.patol_anemia" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'patol_anemia', enfermeria.patol_anemia)" class="btn btn-primary">Anemia</label>
         <label ng-model="enfermeria.patol_hipertension" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox ng-click="guardarValorEnfermeria(enfermeria, 'patol_hipertension', enfermeria.patol_hipertension)" class="btn btn-primary">Hipertensión</label>
@@ -99,6 +99,7 @@
   <div class="widget">
     <div class="widget-header bordered-bottom bordered-info"><span class="widget-caption">Consultas y sucesos importantes</span></div>
     <div class="widget-body">
+      <p>Aquí podrás registrar los sucesos que le ocurran a este estudiante, como accidentes, sintomás, etc.</p>
       <div ng-show="creando_suceso">
         <h4 style="font-weight: 600!important;">Crear registro de enfermería</h4>
         <form ng-submit="guardar_nuevo_suceso(new_suceso)" class="row">

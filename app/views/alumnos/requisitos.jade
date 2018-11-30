@@ -77,16 +77,24 @@
 								th.txtcentro No
 								th.txtcentro(style="min-width: 150px;") Requisito
 								th(style="min-width: 20%") Descripción
-								th.txtcentro Modificado por
+								th.txtcentro(uib-tooltip="Profesor que revisa este requisito a los estudiantes y lo edita" tooltip-append-to-body="true")
+									| Quién aprueba
+								th.txtcentro Orden
 								th.txtcentro Fecha modifi
 								th.txtcentro(style="width: 60px;") Edit
 
 						tbody
-							tr(ng-repeat="requisito in year.requisitos" ng-class="{ active: requisito.active, info: requisito.active }")
+							tr(ng-repeat="requisito in year.requisitos | orderBy:'orden' " ng-class="{ active: requisito.active, info: requisito.active }")
 								td(ng-class="{info: requisito.active}") {{ $index+1 }}
 								td(ng-class="{info: requisito.active}" ng-click="selectRequisito(requisito)") {{ requisito.requisito }}
 								td(ng-class="{info: requisito.active}" ng-click="selectRequisito(requisito)") {{ requisito.descripcion }}
-								td.txtcentro(ng-class="{info: requisito.active}") {{ requisito.updated_by }}
+								td(ng-class="{info: requisito.active}")
+									ui-select(ng-model="requisito.editable_por_profe" on-select="guardar_cambios(requisito)" theme="select2" style="width: 100%;")
+										ui-select-match(placeholder="Recomendación" allow-clear="true") {{$select.selected.opcion}}
+										ui-select-choices(repeat="profesor in profesores | filter: $select.search")
+											div(ng-bind-html="profesor.nombres + ' ' + profesor.apellidos | highlight: $select.search")
+
+								td.txtcentro(ng-class="{info: requisito.active}") {{ requisito.orden }}
 								td.txtcentro(ng-class="{info: requisito.active}") {{ requisito.created_at }}
 								td
 									a.btn.btn-default.btn-xs.icon-only.info(uib-tooltip="Editar" ng-click="editar(requisito, year)")

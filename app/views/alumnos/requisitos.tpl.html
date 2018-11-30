@@ -54,17 +54,26 @@
                 <th class="txtcentro">No</th>
                 <th style="min-width: 150px;" class="txtcentro">Requisito</th>
                 <th style="min-width: 20%">Descripción</th>
-                <th class="txtcentro">Modificado por</th>
+                <th uib-tooltip="Profesor que revisa este requisito a los estudiantes y lo edita" tooltip-append-to-body="true" class="txtcentro">Quién aprueba</th>
+                <th class="txtcentro">Orden</th>
                 <th class="txtcentro">Fecha modifi</th>
                 <th style="width: 60px;" class="txtcentro">Edit</th>
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="requisito in year.requisitos" ng-class="{ active: requisito.active, info: requisito.active }">
+              <tr ng-repeat="requisito in year.requisitos | orderBy:'orden' " ng-class="{ active: requisito.active, info: requisito.active }">
                 <td ng-class="{info: requisito.active}">{{ $index+1 }}</td>
                 <td ng-class="{info: requisito.active}" ng-click="selectRequisito(requisito)">{{ requisito.requisito }}</td>
                 <td ng-class="{info: requisito.active}" ng-click="selectRequisito(requisito)">{{ requisito.descripcion }}</td>
-                <td ng-class="{info: requisito.active}" class="txtcentro">{{ requisito.updated_by }}</td>
+                <td ng-class="{info: requisito.active}">
+                  <ui-select ng-model="requisito.editable_por_profe" on-select="guardar_cambios(requisito)" theme="select2" style="width: 100%;">
+                    <ui-select-match placeholder="Recomendación" allow-clear="true">{{$select.selected.opcion}}</ui-select-match>
+                    <ui-select-choices repeat="profesor in profesores | filter: $select.search">
+                      <div ng-bind-html="profesor.nombres + ' ' + profesor.apellidos | highlight: $select.search"></div>
+                    </ui-select-choices>
+                  </ui-select>
+                </td>
+                <td ng-class="{info: requisito.active}" class="txtcentro">{{ requisito.orden }}</td>
                 <td ng-class="{info: requisito.active}" class="txtcentro">{{ requisito.created_at }}</td>
                 <td><a uib-tooltip="Editar" ng-click="editar(requisito, year)" class="btn btn-default btn-xs icon-only info"><i class="fa fa-edit"></i></a><a uib-tooltip="Eliminar" ng-click="eliminar(requisito)" class="btn btn-danger btn-xs icon-only"><i class="fa fa-times"></i></a></td>
               </tr>

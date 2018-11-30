@@ -7,7 +7,7 @@
     <div class="col-lg-12 col-xs-12">
       <h5>Id: {{alumno.alumno_id}}</h5>
       <div>Nombre:</div>
-      <h4 style="text-overflow: ellipsis">{{alumno.nombres}} {{alumno.apellidos}}</h4>
+      <h4 style="text-overflow: ellipsis; font-weight: bold">{{alumno.nombres}} {{alumno.apellidos}}</h4>
       <form role="form" class="form form-inline">
         <div class="form-group">
           <label>Grupo en el cual matricular</label>
@@ -36,6 +36,6 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button ng-click="cancel()" class="btn btn-yellow">Cancelar</button>
+  <button ng-click="cancel()" class="btn btn-yellow">Cerrar</button>
   <button ng-click="ok()" class="btn btn-labeled btn-primary">Matricular<i class="btn-label fa fa-save"></i></button>
 </div>

@@ -28,6 +28,8 @@
 								th.txtcentro
 									span(uib-tooltip="Prematriculados" tooltip-append-to-body="true") Prematr
 								th.txtcentro
+									span(uib-tooltip="Matriculados totalmente" tooltip-append-to-body="true") Matricu
+								th.txtcentro
 									span(uib-tooltip="Sin prematricular del año pasado" tooltip-append-to-body="true") Sin prematr
 								th.txtcentro
 									span(uib-tooltip="Edite valor en 'Editar grupos'" tooltip-append-to-body="true") Cupo
@@ -39,7 +41,10 @@
 								td(ng-class="{info: grupo.active}") {{ $index+1 }}
 								td(ng-class="{info: grupo.active}") {{ grupo.nombre }}
 								td.txtcentro(ng-class="{info: grupo.active}") {{ grupo.cant_formularios }}
-								td.txtcentro(ng-class="{info: grupo.active}") {{ grupo.cantidad }}
+								td.txtcentro(ng-class="{info: grupo.active}")
+									| {{ grupo.cantidad }}
+								td.txtcentro(ng-class="{info: grupo.active}" uib-tooltip="Matriculados totalmente" tooltip-append-to-body="true")
+									| {{ grupo.cant_matriculados }}
 								td.txtcentro(ng-class="{info: grupo.active}" uib-tooltip="Sin prematricular del año pasado"
 									tooltip-append-to-body="true" tooltip-popup-delay="400") {{ grupo.sin_matricular }}
 								td.txtcentro(ng-class="{info: grupo.active}" uib-tooltip="Edite valor en 'Editar grupos' {{USER.year+1}}"
@@ -57,6 +62,8 @@
 									.bold {{ total_formularios }}
 								td.txtcentro
 									.bold {{ total_prematriculados }}
+								td.txtcentro
+									.bold {{ total_matriculados }}
 								td.txtcentro
 									.bold {{ total_sin_prematric }}
 								td.txtcentro

@@ -7,12 +7,12 @@
 				ng-repeat="matricula in matriculas")
 
 				uib-accordion-heading
-					| Año {{matricula.year}}
-					span(ng-show="matricula.grupo_nombre")  - {{matricula.grupo_nombre}}
+					span(style="font-weight: bold;") Año {{matricula.year}}
+						span(ng-show="matricula.grupo_nombre")  - {{matricula.grupo_nombre}}
 
-				h4(style="font-weight: 600!important;") Requisitos
+				h4(style="font-weight: 600!important;" ng-show="::matricula.requisitos.length > 0") Requisitos para matricular en {{matricula.year}}
 				form.form-inline.row(role="form" ng-show="::USER.profes_pueden_editar_notas || hasRoleOrPerm('Admin')"
-					ng-repeat="requisito in matricula.requisitos" style="border: 1px solid #ccc; border-radius: 5px; margin: 4px 0; padding: 4px 0;"
+					ng-repeat="requisito in matricula.requisitos | orderBy:'orden' " style="border: 1px solid #ccc; border-radius: 5px; margin: 4px 0; padding: 4px 0;"
 					ng-class="{'requisito-falta': requisito.estado=='falta'}")
 
 					.form-group.col-md-3.col-sm-4.col-xs-12.si-padding-left-xs(style="padding-right: 0px; min-height: 50px;" uib-tooltip="{{requisito.descripcion_titulo}}" tooltip-popup-delay="500")
@@ -31,4 +31,97 @@
 							uib-tooltip="Descripción (opcional)" tooltip-popup-delay="500" style="height: 50px; width: 100%;"
 							ng-change="guardarCambioRequisito(requisito)"
 							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+
+				hr
+
+				h4(style="font-weight: 600!important; margin-top: 40px") Compromisos {{matricula.year}}
+				.row
+					.form-group.col-lg-3.col-md-3.col-sm-6.col-xs-12()
+						label Aplicar para este año {{ ::matricula.year }}:
+						div
+							span(uib-tooltip="Este año, el estudiante obtiene..." tooltip-popup-delay="400")
+								ui-select(ng-model="matricula.efectuar_una" on-select="guardarValor(matricula, 'efectuar_una', matricula.efectuar_una.opcion)" theme="select2" style="width: 100%;")
+									ui-select-match(placeholder="Recomendación" allow-clear="true") {{$select.selected.opcion}}
+									ui-select-choices(repeat="programar in opciones_programar | filter: $select.search")
+										div(ng-bind-html="programar.opcion | highlight: $select.search")
+
+					.form-group.col-lg-9.col-sm-6.col-xs-12(ng-show="matricula.efectuar_una")
+						label Descripción de recomendación
+						textarea.form-control(ng-model="matricula.descripcion_efectuada" placeholder="Observaciones"
+							uib-tooltip="Observaciones" tooltip-popup-delay="500" style="height: 50px; width: 100%;"
+							ng-change="guardarValor(matricula, 'descripcion_efectuada', matricula.descripcion_efectuada)"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+				.row
+					.form-group.col-lg-3.col-md-3.col-sm-6.col-xs-12()
+						label Programar para el {{ ::matricula.year + 1 }}:
+						p
+							i  Durante el {{ ::matricula.year }} se decide que el estudiante entrará con compromiso en el próximo año {{ ::matricula.year + 1 }}
+						div
+							span(uib-tooltip="Programar o recomendar algo al estudiante o acudiente" tooltip-popup-delay="400")
+								ui-select(ng-model="matricula.programar" on-select="guardarValor(matricula, 'programar', matricula.programar.opcion)" theme="select2" style="width: 100%;")
+									ui-select-match(placeholder="Recomendación" allow-clear="true") {{$select.selected.opcion}}
+									ui-select-choices(repeat="programar in opciones_programar | filter: $select.search")
+										div(ng-bind-html="programar.opcion | highlight: $select.search")
+
+					.form-group.col-lg-9.col-sm-6.col-xs-12(ng-show="matricula.programar" style="margin-top: 53px;")
+						label Descripción de recomendación
+						textarea.form-control(ng-model="matricula.descripcion_recomendacion" placeholder="Observaciones"
+							uib-tooltip="Observaciones" tooltip-popup-delay="500" style="height: 50px; width: 100%;"
+							ng-change="guardarValor(matricula, 'descripcion_recomendacion', matricula.descripcion_recomendacion)"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+
+
+
+
+				.widget(ng-if="hasRoleOrPerm(['admin'])")
+					.widget-header.bordered-bottom.bordered-pink
+						span.widget-caption
+							a(href ng-click="toggleMostrarPrematricula()" style="text-decoration: underline; font-size: 12pt;")
+								| Matrícula {{::matricula.year}}
+					.widget-body(ng-show="mostrar_prematricula")
+
+
+						.row
+
+							.form-group.col-sm-8(style="padding-right: 0px;")
+								label(for="alumno-estado-next" style="font-size: 15pt; margin-bottom: 23px;")
+									| Estado {{ ::matricula.year }}:
+								span.btn-group(style="padding-left: 2px; padding-top: 4px;")
+									label.btn.btn-success.btn-prematriculas(ng-model="matricula.estado" uib-btn-radio="'FORM'" ng-click="set_estado_next_matricula(alumno)" uib-tooltip="Formulario vendido") Formulario
+									label.btn.btn-success.btn-prematriculas(ng-model="matricula.estado" uib-btn-radio="'PREM'" ng-click="set_estado_next_matricula(alumno)" uib-tooltip="Prematriculado") Prematriculado
+									label.btn.btn-success.btn-prematriculas(ng-model="matricula.estado" uib-btn-radio="'ASIS'" ng-click="set_estado_next_matricula(alumno)" uib-tooltip="Establecer como Asistente") Asist
+									label.btn.btn-success.btn-prematriculas(ng-model="matricula.estado" uib-btn-radio="'MATR'" ng-click="set_estado_next_matricula(alumno)" uib-tooltip="Matricular") Matr
+
+							span(ng-show="matricula.year")
+								.form-group.col-lg-2.col-sm-3.col-xs-12(uib-tooltip="¿Es nuevo en {{ matricula.year }} en la institución?" tooltip-popup-delay="400" style="margin-top: 20px;")
+									label Es nuevo
+									label
+										input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="matricula.nuevo" ng-true-value="1" ng-false-value="0" ng-change="toggleNuevoRepite(alumno, 'nuevo')")
+										span.text.si-no
+
+								.form-group.col-lg-2.col-sm-3.col-xs-12(uib-tooltip="¿Va a repetir el año en {{ matricula.year }}?" tooltip-popup-delay="400" style="margin-top: 20px;")
+									label Es repitente
+									label
+										input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="matricula.repitente" ng-true-value="1" ng-false-value="0" ng-change="toggleNuevoRepite(alumno, 'repitente')")
+										span.text.si-no
+
+
+
+
+							.form-group.col-lg-4.col-md-4.col-sm-4.col-xs-12(ng-show="matricula.estado=='PREM'" style="margin-bottom: 12px;" uib-tooltip="Fecha en que se prematriculó")
+								label(for="alumno-fecha_prematriculado") Fecha prematriculado
+
+								.controls()
+									.input-group
+										span.input-group-addon
+											i.fa.fa-calendar
+										input.form-control.active#alumno-fecha_prematriculado(type="text" uib-datepicker-popup="dd-MMMM-yyyy"
+											ng-model="matricula.prematriculado" is-open="matricula.isOpenPrema" ng-click="matricula.isOpenPrema = true"
+											max-date="'2025-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy"
+											clear-text="Borrar" placeholder="Fecha prematrícula"
+											ng-change="guardarValor(matricula, 'prematriculado', matricula.prematriculado, matricula.year_id)")
+
 
