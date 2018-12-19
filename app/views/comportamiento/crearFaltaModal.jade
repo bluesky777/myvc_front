@@ -1,0 +1,369 @@
+.modal-header
+	h3.modal-title Detalle de falta
+.modal-body
+	div(style="padding-bottom: 10px;")
+		img(ng-src="{{ perfilPath + alumno.foto_nombre }}" style="width: 70px")
+		h3(style="display: inline;") {{ alumno.nombres }} {{ alumno.apellidos }}
+		h5 Id: {{alumno.alumno_id}}
+
+
+		uib-accordion(close-others="false")
+			.panel-default(uib-accordion-group ng-repeat="periodo in periodos" is-open="periodo.activo")
+				uib-accordion-heading Periodo {{ periodo.numero }}
+
+				.row(ng-show="!periodo.creando && !periodo.editando")
+					.col-lg-12.margin-padding-lados-xs
+
+
+						.title-faltas.align-center(style="margin-top: 30px;") {{ config.faltas_tipo1_displayname }}
+						.title-faltas.align-center(ng-show="(alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 1}).length == 0" style="margin-top: 30px;") No tiene {{ config.faltas_tipo1_displayname }}
+
+						div.table-responsive(ng-show="(alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 1}).length > 0")
+							table.table.table-hover.table-condensed.table-striped.table-bordered
+								thead
+									tr
+										th.th-moradito
+											div No
+										th.th-moradito.text-center.border-right-dddd
+											div Descripción
+										th.th-moradito.text-center
+											div Fecha
+										th.th-moradito.text-center
+											div Docente
+										th.th-moradito.text-center
+											div Descargo
+										th.th-moradito.text-center
+											div Testigos
+										th.th-moradito.text-center
+											div Creador
+										th.th-moradito.text-center(style="min-width: 65px;")
+											div
+
+								tbody
+									tr(ng-repeat="falta in alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 1}")
+										td
+											div {{$index+1}}
+										td(style="padding: 0 5px;")
+											| {{ falta.descripcion }}
+										td
+											| {{ falta.fecha_hora_aprox }}
+										td(style="font-size: 9pt;")
+											| {{ falta.profesor_nombre }}
+										td
+											| {{ falta.descargo }}
+										td
+											| {{ falta.testigos }}
+										td(uib-tooltip="Usuario que registró esta falta en el sistema. Fecha: {{falta.created_at}}" tooltip-append-to-body="true")
+											| {{ falta.added_by_nombre }}
+										td(style="padding: 0;")
+											button.btn.btn-default.btn-xs(ng-click="editarFalta(periodo, falta)" uib-tooltip="Editar")
+												i.fa.fa-pencil
+											button.btn.btn-danger.btn-xs(ng-click="eliminarFalta(alumno['periodo'+periodo.numero], falta)" uib-tooltip="Eliminar" ng-disabled="eliminando")
+												i.fa.fa-trash
+
+
+						.title-faltas.align-center(style="margin-top: 30px;") {{ config.faltas_tipo2_displayname }}
+						.title-faltas.align-center(ng-show="(alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 2}).length == 0" style="margin-top: 30px;") No tiene {{ config.faltas_tipo2_displayname }}
+
+						div.table-responsive
+							table.table.table-hover.table-condensed.table-striped.table-bordered
+								thead
+									tr
+										th.th-moradito
+											div No
+										th.th-moradito.text-center.border-right-dddd
+											div Descripción
+										th.th-moradito.text-center
+											div Fecha
+										th.th-moradito.text-center
+											div Docente
+										th.th-moradito.text-center
+											div Descargo
+										th.th-moradito.text-center
+											div Testigos
+										th.th-moradito.text-center
+											div Creador
+										th.th-moradito.text-center(style="min-width: 65px;")
+											div
+
+								tbody
+									tr(ng-repeat="falta in alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 2}")
+										td
+											div {{$index+1}}
+										td(style="padding: 0 5px;")
+											| {{ falta.descripcion }}
+										td
+											| {{ falta.fecha_hora_aprox }}
+										td(style="font-size: 9pt;")
+											| {{ falta.profesor_nombre }}
+										td
+											| {{ falta.descargo }}
+										td
+											| {{ falta.testigos }}
+										td(uib-tooltip="Usuario que registró esta falta en el sistema. Fecha: {{falta.created_at}}" tooltip-append-to-body="true")
+											| {{ falta.added_by_nombre }}
+										td(style="padding: 0;")
+											button.btn.btn-default.btn-xs(ng-click="editarFalta(periodo, falta)" uib-tooltip="Editar")
+												i.fa.fa-pencil
+											button.btn.btn-danger.btn-xs(ng-click="eliminarFalta(alumno['periodo'+periodo.numero], falta)" uib-tooltip="Eliminar")
+												i.fa.fa-trash
+
+
+
+						.title-faltas.align-center(style="margin-top: 30px;") {{ config.faltas_tipo3_displayname }}
+						.title-faltas.align-center(ng-show="(alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 3}).length == 0" style="margin-top: 30px;") No tiene {{ config.faltas_tipo3_displayname }}
+
+						div.table-responsive
+							table.table.table-hover.table-condensed.table-striped.table-bordered
+								thead
+									tr
+										th.th-moradito
+											div No
+										th.th-moradito.text-center.border-right-dddd
+											div Descripción
+										th.th-moradito.text-center
+											div Fecha
+										th.th-moradito.text-center
+											div Docente
+										th.th-moradito.text-center
+											div Descargo
+										th.th-moradito.text-center
+											div Testigos
+										th.th-moradito.text-center
+											div Creador
+										th.th-moradito.text-center(style="min-width: 65px;")
+											div
+
+								tbody
+									tr(ng-repeat="falta in alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 3}")
+										td
+											div {{$index+1}}
+										td(style="padding: 0 5px;")
+											| {{ falta.descripcion }}
+										td
+											| {{ falta.fecha_hora_aprox }}
+										td(style="font-size: 9pt;")
+											| {{ falta.profesor_nombre }}
+										td
+											| {{ falta.descargo }}
+										td
+											| {{ falta.testigos }}
+										td(uib-tooltip="Usuario que registró esta falta en el sistema. Fecha: {{falta.created_at}}" tooltip-append-to-body="true")
+											| {{ falta.added_by_nombre }}
+										td(style="padding: 0;")
+											button.btn.btn-default.btn-xs(ng-click="editarFalta(periodo, falta)" uib-tooltip="Editar")
+												i.fa.fa-pencil
+											button.btn.btn-danger.btn-xs(ng-click="eliminarFalta(alumno.periodo1, falta)" uib-tooltip="Eliminar")
+												i.fa.fa-trash
+
+
+
+				// ***************************************
+				// NUEVA FALTA Y EDITAR
+
+				div(ng-show="!periodo.creando && !periodo.editando" style="text-align: right; margin-top: 20px;")
+					button.btn.btn-primary.btn-lg.shiny(ng-click="toggleVerCrear(periodo, true)")
+						i.fa.fa-plus
+						| Crear nueva
+
+
+				.row(ng-show="periodo.creando")
+					.col-lg-12.margin-padding-lados-xs
+						.well.with-header.with-footer.animated.bounceIn
+							.header.bordered-blue
+								span(style="font-size: 12pt") Crear nueva falta
+
+
+							form(role='form' ng-submit="crear_falta(periodo)")
+								.row
+									.col-sm-12
+										.btn-group
+											label.btn.btn-primary(ng-model="falta_new.tipo_situacion" uib-btn-radio="1") Tipo 1
+											label.btn.btn-primary(ng-model="falta_new.tipo_situacion" uib-btn-radio="2") Tipo 2
+											label.btn.btn-primary(ng-model="falta_new.tipo_situacion" uib-btn-radio="3") Tipo 3
+
+								span(ng-show="falta_new.tipo_situacion")
+									.row
+										.col-sm-12
+											.form-group
+												label(for='falta-new-periodo{{periodo.numero}}') Descripción
+												span.input-icon.icon-right
+													input.form-control(type='text' placeholder='Descripción de la falta' ng-model="falta_new.descripcion" id="falta-new-periodo{{periodo.numero}}")
+
+										.col-sm-12
+											.form-group
+												label(for='falta-new-fecha_hora_aprox{{periodo.numero}}') Fecha
+												span.input-icon.icon-right
+													input.form-control(type='date' placeholder='Fecha' ng-model="falta_new.fecha_hora_aprox" id="falta-new-fecha_hora_aprox{{periodo.numero}}")
+
+									.row
+										.col-sm-12
+											.form-group
+												label(for='falta-new-testigos{{periodo.numero}}') Testigo(s)
+												span.input-icon.icon-right
+													input.form-control(type='text' placeholder='Escriba nombre de testigo(s)' ng-model="falta_new.testigos" id="falta-new-testigos{{periodo.numero}}")
+
+										.col-sm-12
+											.form-group
+												label(for='falta-new-descargo{{periodo.numero}}') Descargo
+												span.input-icon.icon-right
+													input.form-control(type='text' placeholder='Escriba la justificación del estudiante.' ng-model="falta_new.descargo" id="falta-new-descargo{{periodo.numero}}")
+
+										.col-sm-12
+											.form-group
+												label Deriva de:
+												.btn-group(ng-show="falta_new.tipo_situacion==1")
+													label.btn.btn-sucess.shiny(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo1" uib-btn-checkbox
+														uib-tooltip="{{situac.descripcion}}" style="width: 90px; overflow: hidden;")
+														| t1: {{ situac.descripcion }}
+												.btn-group(ng-show="falta_new.tipo_situacion==2")
+													label.btn.btn-sucess.shiny(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo2" uib-btn-checkbox
+														uib-tooltip="{{situac.descripcion}}" style="width: 90px; overflow: hidden;")
+														| t2: {{ situac.descripcion }}
+												.btn-group(ng-show="falta_new.tipo_situacion==3")
+													label.btn.btn-sucess.shiny(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo3" uib-btn-checkbox
+														uib-tooltip="{{situac.descripcion}}" style="width: 90px; overflow: hidden;")
+														| t3: {{ situac.descripcion }}
+												.btn-group(ng-show="falta_new.tipo_situacion==4")
+													label.btn.btn-sucess.shiny(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo4" uib-btn-checkbox
+														uib-tooltip="{{situac.descripcion}}" style="width: 90px; overflow: hidden;")
+														| t4: {{ situac.descripcion }}
+												div(ng-show="alumno.periodo1.length==0 && alumno.periodo2.length==0 && alumno.periodo3.length==0 && alumno.periodo4.length==0")
+													| No tiene faltas actualmente
+
+
+										.col-sm-12(uib-tooltip="No es obligatorio")
+											.form-group
+												label Profesor
+												ui-select(ng-model="falta_new.profesor" style="width: 300px; display: inline-block;")
+													ui-select-match(placeholder="Elige un profesor" allow-clear="true")
+														img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;")
+														| {{$select.selected.nombres + ' ' + $select.selected.apellidos}}
+													ui-select-choices(repeat="profe in profesores | filter: $select.search")
+														img(ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;")
+														small(ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
+
+
+										.col-sm-12(uib-tooltip="Elija ordinales en que incurrió el estudiante")
+											.form-group
+												label Ordinales en que incurrió
+												ui-select(ng-model="falta_new.selected_ordinales" multiple style="width: 100%;")
+													ui-select-match(placeholder="Elija los ordinales" allow-clear="true")
+														div(style="overflow: hidden; height: 30px;" uib-tooltip="{{$item.tipo}}. {{$item.descripcion}}")
+															| {{$item.tipo}}. {{$item.descripcion}}
+													ui-select-choices(repeat="ordinal in ordinales | filter: $select.search")
+														span(ng-bind-html="ordinal.tipo + '. ' + ordinal.descripcion | highlight: $select.search")
+
+
+								.col-sm-12(style="text-align: center;")
+									button.btn.btn-warning(ng-click="toggleVerCrear(periodo, false)" type="button")
+										| Cancelar
+
+									button.btn.btn-primary(type="submit" ng-disabled="guardando_new")
+										i.fa.fa-save
+										| Crear
+
+
+
+
+				.row(ng-show="periodo.editando")
+					.col-lg-12.margin-padding-lados-xs
+						.well.with-header.with-footer.animated.bounceIn
+							.header.bordered-success
+								span(style="font-size: 12pt") Editar falta
+
+
+							form(role='form' ng-submit="guardar_falta(periodo)")
+								.row
+									.col-sm-12
+										.btn-group
+											label.btn.btn-primary(ng-model="falta_edit.tipo_situacion" uib-btn-radio="1") Tipo 1
+											label.btn.btn-primary(ng-model="falta_edit.tipo_situacion" uib-btn-radio="2") Tipo 2
+											label.btn.btn-primary(ng-model="falta_edit.tipo_situacion" uib-btn-radio="3") Tipo 3
+
+								span
+									.row
+										.col-sm-12
+											.form-group
+												label(for='falta-edit-descripcion{{periodo.numero}}') Descripción
+												span.input-icon.icon-right
+													input.form-control(type='text' placeholder='Descripción de la falta' ng-model="falta_edit.descripcion" id="falta-edit-descripcion{{periodo.numero}}")
+
+										.col-sm-12
+											.form-group
+												label(for='falta-new-fecha_hora_aprox{{periodo.numero}}') Fecha
+												span.input-icon.icon-right
+													input.form-control(type='date' placeholder='Fecha' ng-model="falta_new.fecha_hora_aprox" id="falta-new-fecha_hora_aprox{{periodo.numero}}")
+
+									.row
+										.col-sm-12
+											.form-group
+												label(for='falta-edit-testigos{{periodo.numero}}') Testigo(s)
+												span.input-icon.icon-right
+													input.form-control(type='text' placeholder='Escriba nombre de testigo(s)' ng-model="falta_edit.testigos" id="falta-edit-testigos{{periodo.numero}}")
+
+										.col-sm-12
+											.form-group
+												label(for='falta-edit-descargo{{periodo.numero}}') Descargo
+												span.input-icon.icon-right
+													input.form-control(type='text' placeholder='Escriba la justificación del estudiante.' ng-model="falta_edit.descargo" id="falta-edit-descargo{{periodo.numero}}")
+
+										.col-sm-12
+											.form-group
+												.faltas-deriva-edit(ng-show="(config.reinicia_por_periodo==1 || (config.reinicia_por_periodo==0 && periodo.numero==1)) && alumno.periodo1.length > 0")
+
+													label Deriva de las siguientes faltas (PERIODO 1):
+
+													.btn-group(ng-show="falta_edit.tipo_situacion==1")
+														label.btn.btn-sucess.shiny(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo1" uib-btn-checkbox
+															style="width: 90px; overflow: hidden;")
+															| t1: {{ situac.descripcion }}
+													.btn-group(ng-show="falta_edit.tipo_situacion==2")
+														label.btn.btn-sucess.shiny(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo1" uib-btn-checkbox
+															style="width: 90px; overflow: hidden;")
+															| t2: {{ situac.descripcion }}
+													.btn-group(ng-show="falta_edit.tipo_situacion==3")
+														label.btn.btn-sucess.shiny(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo1" uib-btn-checkbox
+															style="width: 90px; overflow: hidden;")
+															| t3: {{ situac.descripcion }}
+
+												div(ng-show="alumno.periodo1.length==0 && alumno.periodo2.length==0 && alumno.periodo3.length==0 && alumno.periodo4.length==0")
+													| No tiene faltas actualmente
+
+
+										.col-sm-12(uib-tooltip="No es obligatorio")
+											.form-group
+												label Profesor
+												ui-select(ng-model="falta_edit.profesor" style="width: 300px; display: inline-block;")
+													ui-select-match(placeholder="Elige un profesor" allow-clear="true")
+														img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;")
+														| {{$select.selected.nombres + ' ' + $select.selected.apellidos}}
+													ui-select-choices(repeat="profe in profesores | filter: $select.search")
+														img(ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;")
+														small(ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
+
+
+										.col-sm-12(uib-tooltip="Elija ordinales en que incurrió el estudiante")
+											.form-group
+												label Ordinales en que incurrió
+												ui-select(ng-model="falta_edit.selected_ordinales" multiple style="width: 100%;"
+													on-select="seleccionandoOrdinal($item, $model)" on-remove="quitandoOrdinal($item, $model)")
+													ui-select-match(placeholder="Elija los ordinales" allow-clear="true")
+														div(style="overflow: hidden; height: 30px;" uib-tooltip="{{$item.tipo}}. {{$item.descripcion}}")
+															| {{$item.tipo}}. {{$item.descripcion}}
+													ui-select-choices(repeat="ordinal in ordinales | filter: $select.search")
+														span(ng-bind-html="ordinal.tipo + '. ' + ordinal.descripcion | highlight: $select.search")
+
+
+								.col-sm-12(style="text-align: center;")
+									button.btn.btn-warning(ng-click="cancelarEditarFalta(periodo)" type="button")
+										| Cancelar
+
+									button.btn.btn-primary(type="submit" ng-disabled="guardando_edit")
+										i.fa.fa-save
+										| Guardar cambios
+
+
+.modal-footer
+	button.btn.btn-labeled.btn-default(ng-click="ok()") Aceptar
+		i.btn-label.fa.fa-plus

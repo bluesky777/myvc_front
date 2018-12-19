@@ -112,13 +112,13 @@
 
 
 							.form-group.col-lg-4.col-md-4.col-sm-4.col-xs-12(ng-show="matricula.estado=='PREM'" style="margin-bottom: 12px;" uib-tooltip="Fecha en que se prematriculó")
-								label(for="alumno-fecha_prematriculado") Fecha prematriculado
+								label(for="alumno-fecha_prematriculado{{matricula.id}}") Fecha prematriculado
 
 								.controls()
 									.input-group
 										span.input-group-addon
 											i.fa.fa-calendar
-										input.form-control.active#alumno-fecha_prematriculado(type="text" uib-datepicker-popup="dd-MMMM-yyyy"
+										input.form-control.active(type="text" id="alumno-fecha_prematriculado{{matricula.id}}" uib-datepicker-popup="dd-MMMM-yyyy"
 											ng-model="matricula.prematriculado" is-open="matricula.isOpenPrema" ng-click="matricula.isOpenPrema = true"
 											max-date="'2025-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy"
 											clear-text="Borrar" placeholder="Fecha prematrícula"

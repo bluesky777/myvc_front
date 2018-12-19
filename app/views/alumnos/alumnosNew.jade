@@ -93,14 +93,16 @@
 											i.fa.fa-refresh(ng-show="loadingDocumentos" style="font-size: 7pt")
 
 									.row
-										.form-group.col-lg-6.col-sm-8.col-xs-12(style="margin-top: 22px;")
+										.form-group.col-lg-8.col-sm-8.col-xs-12(style="margin-top: 22px;")
 											.btn-group(style="display: block;")
-												label.btn.btn-primary(ng-model="data.proceso" name="proceso_matr" uib-btn-radio="'matriculando'" style="width: 30%;")
+												label.btn.btn-primary(ng-model="data.proceso" name="proceso_matr" uib-btn-radio="'matriculando'" style="width: 25%;")
 													| Matricular {{USER.year}}
-												label.btn.btn-success(ng-model="data.proceso" name="proceso_matr" uib-btn-radio="'prematriculando'" style="width: 40%;")
-													| Prematricular {{USER.year+1}}
-												label.btn.btn-success(ng-model="data.proceso" name="proceso_matr" uib-btn-radio="'formulario'" style="width: 30%;")
+												label.btn.btn-success(ng-model="data.proceso" name="proceso_matr" uib-btn-radio="'prematriculando'" style="width: 25%;")
+													| Prematric {{USER.year+1}}
+												label.btn.btn-success(ng-model="data.proceso" name="proceso_matr" uib-btn-radio="'formulario'" style="width: 25%;")
 													| Formulario {{USER.year+1}}
+												label.btn.btn-success(ng-model="data.proceso" name="proceso_matr" uib-btn-radio="'matriculando_next'" style="width: 25%;")
+													| Matricular {{USER.year+1}}
 
 										.form-group.col-lg-4.col-sm-4.col-xs-12(ng-show="data.proceso=='matriculando' ")
 											label Matricular en grupo
@@ -109,10 +111,11 @@
 												ui-select-choices(repeat="grupo in grupos | filter: $select.search")
 													div(ng-bind-html="grupo.nombre | highlight: $select.search")
 
-										.form-group.col-lg-4.col-sm-4.col-xs-12(ng-show="data.proceso=='prematriculando' || data.proceso=='formulario' ")
+										.form-group.col-lg-4.col-sm-4.col-xs-12(ng-show="data.proceso=='prematriculando' || data.proceso=='formulario' || data.proceso=='matriculando_next' ")
 											label Grupos {{USER.year+1}}
 												span(ng-show="data.proceso=='prematriculando'")  - Prematricular
 												span(ng-show="data.proceso=='formulario'")  - Lleva formulario
+												span(ng-show="data.proceso=='matriculando_next'")  - Grupo al que va
 											ui-select(ng-model="alumno.grupo_sig" style="width: 100%;")
 												ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}}
 												ui-select-choices(repeat="grupo in grupos_siguientes | filter: $select.search")

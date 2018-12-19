@@ -260,6 +260,14 @@
 				i.menu-icon.fa.fa-align-justify
 				span.menu-text  Bitácora
 
+
+		<!-- Disciplina-->
+		li(ui-sref-active="active" ng-if="hasRoleOrPerm(['admin']) || hasRoleOrPerm(['profesor'])" )
+			a(ui-sref="panel.disciplina")
+				i.menu-icon.fa.fa-user
+				span.menu-text Disciplina
+
+
 		<!-- Informes-->
 		li(ui-sref-active="active" ng-if="hasRoleOrPerm(['admin']) || hasRoleOrPerm(['profesor'])" )
 			a(ng-click="ir_a_informes()" href="")

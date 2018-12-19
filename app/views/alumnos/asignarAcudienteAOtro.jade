@@ -1,0 +1,79 @@
+.modal-header
+	h3.modal-title Selecciona alumno
+.modal-body
+	div(style="padding-bottom: 10px;")
+		img(ng-src="{{ perfilPath + acudiente.foto_nombre }}" style="width: 70px")
+		h3(style="display: inline;") {{ acudiente.nombres }} {{ acudiente.apellidos }}
+			|  - COD:
+			b  {{ acudiente.id }}
+
+
+	.row
+
+		.form-group.col-lg-4.col-sm-4.col-xs-12
+			label Parentesco
+			ui-select(ng-model="acudiente.parentesco" on-select="parentescoSelect($item, $model)" style="width: 100%;")
+				ui-select-match(placeholder="Parentesco" allow-clear="true") {{$select.selected.parentesco}}
+				ui-select-choices(repeat="parentesc in parentescos | filter: $select.search")
+					div(ng-bind-html="parentesc.parentesco | highlight: $select.search")
+
+		.form-group.col-lg-4.col-sm-6
+			span
+				label(for="new-alumno-nombres") Alumno
+				input.form-control#new-alumno-nombres(type="text" ng-model="alumno.nombres" placeholder="Nombres"
+					typeahead-min-length="2"
+					typeahead-on-select="seleccionarPersona($item, $model, $label)"
+					uib-typeahead="persona_check as persona_check.nombres for persona_check in personaCheck($viewValue)"
+					typeahead-loading="loadingPersonasNombres" typeahead-no-results="noResults"
+					typeahead-wait-ms="300" typeahead-template-url="==alumnos/personaTemplateTypeahead.tpl.html")
+
+				i.fa.fa-refresh(ng-show="loadingPersonasNombres" style="font-size: 7pt")
+
+
+	.row(ng-show="alumno.alumno_id")
+		.col-lg-12.col-sm-12
+			h3(ng-show="acudientes.length > 0") Acudientes actuales de
+				b   {{alumno.nombres}} {{alumno.apellidos}}
+				img(ng-src="{{ perfilPath + alumno.foto_nombre }}" style="width: 40px")
+			h3(ng-show="acudientes.length == 0")
+				b {{alumno.nombres}} {{alumno.apellidos}}
+				|  no tiene acudientes aún.
+
+			table.table.table-condensed.table-striped.table-hover
+				thead
+					tr
+						th ID
+						th Editar
+						th Nombres y apellidos
+						th Documento
+						th Sexo
+						th Creado
+				tbody
+					tr(ng-repeat="pariente in acudientes")
+						td
+							b {{ pariente.id }}
+						td
+							.btn-group
+								a.btn.btn-default.btn-xs.shiny(uib-tooltip="Quitar para que {{ pariente.nombres }} ya no sea acudiente de {{ alumno.nombres }}" tooltip-append-to-body="true"
+									ng-click="quitarAcudiente(alumno, pariente)")
+
+									i.fa.fa-times
+									| Quitar
+						td
+							img(ng-src="{{ perfilPath + pariente.foto_nombre }}" style="width: 40px")
+							|  {{ pariente.nombres }} {{ pariente.apellidos }}
+						td
+							| {{ pariente.documento | formatNumberDocumento }}
+						td
+							| {{ pariente.sexo }}
+						td(style="font-size: 8pt;")
+							| {{ pariente.created_at }}
+
+
+
+
+.modal-footer
+	button.btn.btn-yellow(ng-click="cancel()") Cancelar
+	button.btn.btn-labeled.btn-primary(ng-click="seleccionarAcudiente()" ng-disabled="repetido")
+		| Asignar
+		i.btn-label.fa.fa-check

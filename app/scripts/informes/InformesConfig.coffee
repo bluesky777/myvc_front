@@ -769,19 +769,19 @@ angular.module('myvcFrontApp')
 							if requested_alumnos
 
 								#console.log 'Pidiendo por varios alumnos: ', requested_alumnos
-								$http.put('::bolfinales/detailed-notas-year/'+$stateParams.grupo_id, {requested_alumnos: requested_alumnos, periodo_a_calcular: $stateParams.periodo_a_calcular }).then((r)->
+								$http.put('::bolfinales/detailed-notas-year/'+$stateParams.grupo_id, {requested_alumnos: requested_alumnos, periodo_a_calcular: $stateParams.periodo_a_calcular, aumentar_contador: true }).then((r)->
 									d.resolve r.data
 								, (r2)->
 									d.reject r2.data
 								)
 							else if requested_alumno
-								$http.put('::bolfinales/detailed-notas-year/'+requested_alumno[0].grupo_id, {requested_alumnos: requested_alumno, periodo_a_calcular: $stateParams.periodo_a_calcular }).then((r)->
+								$http.put('::bolfinales/detailed-notas-year/'+requested_alumno[0].grupo_id, {requested_alumnos: requested_alumno, periodo_a_calcular: $stateParams.periodo_a_calcular, aumentar_contador: true }).then((r)->
 									d.resolve r.data
 								, (r2)->
 									d.reject r2.data
 								)
 							else
-								$http.put('::bolfinales/detailed-notas-year/'+$stateParams.grupo_id, { periodo_a_calcular: $stateParams.periodo_a_calcular } ).then((r)->
+								$http.put('::bolfinales/detailed-notas-year/'+$stateParams.grupo_id, { periodo_a_calcular: $stateParams.periodo_a_calcular, aumentar_contador: true } ).then((r)->
 									d.resolve r.data
 								, (r2)->
 									d.reject r2.data

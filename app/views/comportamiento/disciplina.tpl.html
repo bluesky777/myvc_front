@@ -1,0 +1,145 @@
+
+<div class="row">
+  <div class="col-lg-12 margin-padding-lados-xs">
+    <div class="well with-header with-footer animated bounceIn">
+      <div class="header bordered-yellow"><span style="font-size: 12pt" ng-show="dato.grupo.nombre">{{dato.grupo.nombre + ' - ' + dato.grupo.abrev}}</span><span style="font-size: 12pt" ng-show="!dato.grupo.nombre">Seleccione grupo</span><a ui-sref="panel.ordinales" uib-tooltip="Ordinales del manual de convivencia" style="float: right;" class="btn btn-default shiny"><i class="fa fa-file"></i><span class="hidden-xs">  Ordinales</span></a></div>
+      <div class="form-group flipInY animated">
+        <selector-grupo-dir></selector-grupo-dir>
+      </div>
+      <div style="overflow: auto" class="row">
+        <div class="col-xs-12">
+          <div ng-show="datos.grupo.nombre" fixed-column-table fixed-columns="2" class="table-responsive">
+            <table class="table table-hover table-condensed table-striped tablenot100 inmovible">
+              <thead>
+                <tr>
+                  <th style="width: 20px;" class="cross">
+                    <div>No</div>
+                  </th>
+                  <th style="min-width: 50px;" class="cross text-center border-right-dddd">
+                    <div>Nombres</div>
+                  </th>
+                  <th style="min-width: 180px;" class="border-right-dddd">
+                    <div uib-tooltip="Periodo 1" tooltip-popup-delay="500" tooltip-append-to-body="true" class="text-center nombresellipsis">Periodo 1</div>
+                  </th>
+                  <th style="min-width: 180px;" class="border-right-dddd">
+                    <div uib-tooltip="Periodo 2" tooltip-popup-delay="500" tooltip-append-to-body="true" class="text-center nombresellipsis">Periodo 2</div>
+                  </th>
+                  <th style="min-width: 180px;" class="border-right-dddd">
+                    <div uib-tooltip="Periodo 3" tooltip-popup-delay="500" tooltip-append-to-body="true" class="text-center nombresellipsis">Periodo 3</div>
+                  </th>
+                  <th style="min-width: 180px;" class="border-right-dddd">
+                    <div uib-tooltip="Periodo 4" tooltip-popup-delay="500" tooltip-append-to-body="true" class="text-center nombresellipsis">Periodo 4</div>
+                  </th>
+                  <th>
+                    <div uib-tooltip="Promedio de las notas automáticas">Definitiva</div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="alumno in alumnos | filter:searchAlum | orderBy:['apellidos', 'nombres']">
+                  <td class="fixed-cell">
+                    <div>{{$index+1}}</div>
+                  </td>
+                  <td style="padding: 0 5px;" class="fixed-cell border-right-dddd">
+                    <div uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true" ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" class="nombresellipsis"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 30px; height: 30px;">{{alumno.apellidos + ' ' + alumno.nombres}}<span ng-show="alumno.estado=='ASIS'" style="font-size: 8pt">(Asis)</span></div>
+                  </td>
+                  <td class="border-right-dddd">
+                    <div class="btn-group posi-unset">
+                      <button uib-tooltip="Llegadas tarde a la institución" class="btn btn-warning posi-unset padding-lr-6"><i class="fa fa-clock-o"></i>{{ alumno.tardanzas_per1.length }}</button>
+                      <button ng-click="toggleMostrarDetalle(alumno, 'mostrando_per1_t1')" uib-tooltip="{{ config.faltas_tipo1_displayname }}" class="btn btn-default posi-unset padding-lr-6">{{ alumno.per1_cant_t1 }}</button>
+                      <button ng-click="toggleMostrarDetalle(alumno, 'mostrando_per1_t2')" uib-tooltip="{{ config.faltas_tipo2_displayname }}" class="btn btn-default posi-unset padding-lr-6">{{ alumno.per1_cant_t2 }}</button>
+                      <button ng-click="toggleMostrarDetalle(alumno, 'mostrando_per1_t3')" uib-tooltip="{{ config.faltas_tipo3_displayname }}" class="btn btn-default posi-unset padding-lr-6">{{ alumno.per1_cant_t3 }}</button>
+                    </div>
+                    <button uib-tooltip="Crear falta" style="margin-top: -3px;" ng-click="crearFalta(alumno, alumno.periodo1, 1)" class="btn btn-success posi-unset btn-xs shiny"><i class="fa fa-plus"></i></button>
+                    <!-- FATAS DETALLADAS PER 1-->
+                    <div ng-if="alumno.mostrando_per1_t1" ng-click="verFaltasModal(alumno, alumno.periodo1, 1, 1)" class="faltas-detalle-box">
+                      <div class="title-faltas">{{ config.faltas_tipo1_displayname }}</div>
+                      <div ng-repeat="falta in alumno.periodo1 | filter:{'tipo_situacion': 1}" style="border-bottom: 1px solid #aaa;"><span style="font-weight: bold">{{ falta.fecha_corta }}:</span> {{ falta.descripcion }}</div>
+                    </div>
+                    <div ng-if="alumno.mostrando_per1_t2" ng-click="verFaltasModal(alumno, alumno.periodo1, 1, 2)" class="faltas-detalle-box">
+                      <div class="title-faltas">{{ config.faltas_tipo2_displayname }}</div>
+                      <div ng-repeat="falta in alumno.periodo1 | filter:{'tipo_situacion': 2}" style="border-bottom: 1px solid #aaa;"><span style="font-weight: bold">{{ falta.fecha_corta }}:</span> {{ falta.descripcion }}</div>
+                    </div>
+                    <div ng-if="alumno.mostrando_per1_t3" ng-click="verFaltasModal(alumno, alumno.periodo1, 1, 3)" class="faltas-detalle-box">
+                      <div class="title-faltas">{{ config.faltas_tipo3_displayname }}</div>
+                      <div ng-repeat="falta in alumno.periodo1 | filter:{'tipo_situacion': 3}" style="border-bottom: 1px solid #aaa;"><span style="font-weight: bold">{{ falta.fecha_corta }}:</span> {{ falta.descripcion }}</div>
+                    </div>
+                  </td>
+                  <td class="border-right-dddd">
+                    <div class="btn-group posi-unset">
+                      <button class="btn btn-warning posi-unset padding-lr-6"><i class="fa fa-clock-o"></i>{{ alumno.tardanzas_per2.length }}</button>
+                      <button ng-click="toggleMostrarDetalle(alumno, 'mostrando_per2_t1')" uib-tooltip="{{ config.faltas_tipo1_displayname }}" class="btn btn-default posi-unset padding-lr-6">{{ alumno.per2_cant_t1 }}</button>
+                      <button ng-click="toggleMostrarDetalle(alumno, 'mostrando_per2_t2')" uib-tooltip="{{ config.faltas_tipo2_displayname }}" class="btn btn-default posi-unset padding-lr-6">{{ alumno.per2_cant_t2 }}</button>
+                      <button ng-click="toggleMostrarDetalle(alumno, 'mostrando_per2_t3')" uib-tooltip="{{ config.faltas_tipo3_displayname }}" class="btn btn-default posi-unset padding-lr-6">{{ alumno.per2_cant_t3 }}</button>
+                    </div>
+                    <button uib-tooltip="Crear falta" style="margin-top: -3px" ng-click="crearFalta(alumno, alumno.periodo2, 2)" class="btn btn-success posi-unset btn-xs shiny"><i class="fa fa-plus"></i></button>
+                    <!-- FATAS DETALLADAS PER 2-->
+                    <div ng-if="alumno.mostrando_per2_t1" ng-click="verFaltasModal(alumno, alumno.periodo2, 2, 1)" class="faltas-detalle-box">
+                      <div class="title-faltas">{{ config.faltas_tipo1_displayname }}</div>
+                      <div ng-repeat="falta in alumno.periodo2 | filter:{'tipo_situacion': 1}" style="border-bottom: 1px solid #aaa;"><span style="font-weight: bold">{{ falta.fecha_corta }}:</span> {{ falta.descripcion }}</div>
+                    </div>
+                    <div ng-if="alumno.mostrando_per2_t2" ng-click="verFaltasModal(alumno, alumno.periodo2, 2, 2)" class="faltas-detalle-box">
+                      <div class="title-faltas">{{ config.faltas_tipo2_displayname }}</div>
+                      <div ng-repeat="falta in alumno.periodo2 | filter:{'tipo_situacion': 2}" style="border-bottom: 1px solid #aaa;"><span style="font-weight: bold">{{ falta.fecha_corta }}:</span> {{ falta.descripcion }}</div>
+                    </div>
+                    <div ng-if="alumno.mostrando_per2_t3" ng-click="verFaltasModal(alumno, alumno.periodo2, 2, 3)" class="faltas-detalle-box">
+                      <div class="title-faltas">{{ config.faltas_tipo3_displayname }}</div>
+                      <div ng-repeat="falta in alumno.periodo2 | filter:{'tipo_situacion': 3}" style="border-bottom: 1px solid #aaa;"><span style="font-weight: bold">{{ falta.fecha_corta }}:</span> {{ falta.descripcion }}</div>
+                    </div>
+                  </td>
+                  <td class="border-right-dddd">
+                    <div class="btn-group posi-unset">
+                      <button class="btn btn-warning posi-unset padding-lr-6"><i class="fa fa-clock-o"></i>{{ alumno.tardanzas_per3.length }}</button>
+                      <button ng-click="toggleMostrarDetalle(alumno, 'mostrando_per3_t1')" uib-tooltip="{{ config.faltas_tipo1_displayname }}" class="btn btn-default posi-unset padding-lr-6">{{ alumno.per3_cant_t1 }}</button>
+                      <button ng-click="toggleMostrarDetalle(alumno, 'mostrando_per3_t2')" uib-tooltip="{{ config.faltas_tipo2_displayname }}" class="btn btn-default posi-unset padding-lr-6">{{ alumno.per3_cant_t2 }}</button>
+                      <button ng-click="toggleMostrarDetalle(alumno, 'mostrando_per3_t3')" uib-tooltip="{{ config.faltas_tipo3_displayname }}" class="btn btn-default posi-unset padding-lr-6">{{ alumno.per3_cant_t3 }}</button>
+                    </div>
+                    <button uib-tooltip="Crear falta" style="margin-top: -3px" ng-click="crearFalta(alumno, alumno.periodo3, 3)" class="btn btn-success posi-unset btn-xs shiny"><i class="fa fa-plus"></i></button>
+                    <!-- FATAS DETALLADAS PER 3-->
+                    <div ng-if="alumno.mostrando_per3_t1" ng-click="verFaltasModal(alumno, alumno.periodo3, 3, 1)" class="faltas-detalle-box">
+                      <div class="title-faltas">{{ config.faltas_tipo1_displayname }}</div>
+                      <div ng-repeat="falta in alumno.periodo3 | filter:{'tipo_situacion': 1}" style="border-bottom: 1px solid #aaa;"><span style="font-weight: bold">{{ falta.fecha_corta }}:</span> {{ falta.descripcion }}</div>
+                    </div>
+                    <div ng-if="alumno.mostrando_per3_t2" ng-click="verFaltasModal(alumno, alumno.periodo3, 3, 2)" class="faltas-detalle-box">
+                      <div class="title-faltas">{{ config.faltas_tipo2_displayname }}</div>
+                      <div ng-repeat="falta in alumno.periodo3 | filter:{'tipo_situacion': 2}" style="border-bottom: 1px solid #aaa;"><span style="font-weight: bold">{{ falta.fecha_corta }}:</span> {{ falta.descripcion }}</div>
+                    </div>
+                    <div ng-if="alumno.mostrando_per3_t3" ng-click="verFaltasModal(alumno, alumno.periodo3, 3, 3)" class="faltas-detalle-box">
+                      <div class="title-faltas">{{ config.faltas_tipo3_displayname }}</div>
+                      <div ng-repeat="falta in alumno.periodo3 | filter:{'tipo_situacion': 3}" style="border-bottom: 1px solid #aaa;"><span style="font-weight: bold">{{ falta.fecha_corta }}:</span> {{ falta.descripcion }}</div>
+                    </div>
+                  </td>
+                  <td class="border-right-dddd">
+                    <div class="btn-group posi-unset">
+                      <button class="btn btn-warning posi-unset padding-lr-6"><i class="fa fa-clock-o"></i>{{ alumno.tardanzas_per4.length }}</button>
+                      <button ng-click="toggleMostrarDetalle(alumno, 'mostrando_per4_t1')" uib-tooltip="{{ config.faltas_tipo1_displayname }}" class="btn btn-default posi-unset padding-lr-6">{{ alumno.per4_cant_t1 }}</button>
+                      <button ng-click="toggleMostrarDetalle(alumno, 'mostrando_per4_t2')" uib-tooltip="{{ config.faltas_tipo2_displayname }}" class="btn btn-default posi-unset padding-lr-6">{{ alumno.per4_cant_t2 }}</button>
+                      <button ng-click="toggleMostrarDetalle(alumno, 'mostrando_per4_t3')" uib-tooltip="{{ config.faltas_tipo3_displayname }}" class="btn btn-default posi-unset padding-lr-6">{{ alumno.per4_cant_t3 }}</button>
+                    </div>
+                    <button uib-tooltip="Crear falta" style="margin-top: -3px" ng-click="crearFalta(alumno, alumno.periodo4, 4)" class="btn btn-success posi-unset btn-xs shiny"><i class="fa fa-plus"></i></button>
+                    <!-- FATAS DETALLADAS PER 4-->
+                    <div ng-if="alumno.mostrando_per3_t1" ng-click="verFaltasModal(alumno, alumno.periodo3, 3, 1)" class="faltas-detalle-box">
+                      <div class="title-faltas">{{ config.faltas_tipo1_displayname }}</div>
+                      <div ng-repeat="falta in alumno.periodo3 | filter:{'tipo_situacion': 1}" style="border-bottom: 1px solid #aaa;"><span style="font-weight: bold">{{ falta.fecha_corta }}:</span> {{ falta.descripcion }}</div>
+                    </div>
+                    <div ng-if="alumno.mostrando_per3_t2" ng-click="verFaltasModal(alumno, alumno.periodo3, 3, 2)" class="faltas-detalle-box">
+                      <div class="title-faltas">{{ config.faltas_tipo2_displayname }}</div>
+                      <div ng-repeat="falta in alumno.periodo3 | filter:{'tipo_situacion': 2}" style="border-bottom: 1px solid #aaa;"><span style="font-weight: bold">{{ falta.fecha_corta }}:</span> {{ falta.descripcion }}</div>
+                    </div>
+                    <div ng-if="alumno.mostrando_per3_t3" ng-click="verFaltasModal(alumno, alumno.periodo3, 3, 3)" class="faltas-detalle-box">
+                      <div class="title-faltas">{{ config.faltas_tipo3_displayname }}</div>
+                      <div ng-repeat="falta in alumno.periodo3 | filter:{'tipo_situacion': 3}" style="border-bottom: 1px solid #aaa;"><span style="font-weight: bold">{{ falta.fecha_corta }}:</span> {{ falta.descripcion }}</div>
+                    </div>
+                  </td>
+                  <td class="border-right-dddd">
+                    <div class="text-center">No sé</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

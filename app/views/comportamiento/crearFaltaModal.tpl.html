@@ -1,0 +1,355 @@
+
+<div class="modal-header">
+  <h3 class="modal-title">Detalle de falta</h3>
+</div>
+<div class="modal-body">
+  <div style="padding-bottom: 10px;"><img ng-src="{{ perfilPath + alumno.foto_nombre }}" style="width: 70px">
+    <h3 style="display: inline;">{{ alumno.nombres }} {{ alumno.apellidos }}</h3>
+    <h5>Id: {{alumno.alumno_id}}</h5>
+    <uib-accordion close-others="false">
+      <div uib-accordion-group ng-repeat="periodo in periodos" is-open="periodo.activo" class="panel-default">
+        <uib-accordion-heading>Periodo {{ periodo.numero }}</uib-accordion-heading>
+        <div ng-show="!periodo.creando &amp;&amp; !periodo.editando" class="row">
+          <div class="col-lg-12 margin-padding-lados-xs">
+            <div style="margin-top: 30px;" class="title-faltas align-center">{{ config.faltas_tipo1_displayname }}</div>
+            <div ng-show="(alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 1}).length == 0" style="margin-top: 30px;" class="title-faltas align-center">No tiene {{ config.faltas_tipo1_displayname }}</div>
+            <div ng-show="(alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 1}).length &gt; 0" class="table-responsive">
+              <table class="table table-hover table-condensed table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th class="th-moradito">
+                      <div>No</div>
+                    </th>
+                    <th class="th-moradito text-center border-right-dddd">
+                      <div>Descripción</div>
+                    </th>
+                    <th class="th-moradito text-center">
+                      <div>Fecha</div>
+                    </th>
+                    <th class="th-moradito text-center">
+                      <div>Docente</div>
+                    </th>
+                    <th class="th-moradito text-center">
+                      <div>Descargo</div>
+                    </th>
+                    <th class="th-moradito text-center">
+                      <div>Testigos</div>
+                    </th>
+                    <th class="th-moradito text-center">
+                      <div>Creador</div>
+                    </th>
+                    <th style="min-width: 65px;" class="th-moradito text-center">
+                      <div></div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="falta in alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 1}">
+                    <td>
+                      <div>{{$index+1}}</div>
+                    </td>
+                    <td style="padding: 0 5px;">{{ falta.descripcion }}</td>
+                    <td>{{ falta.fecha_hora_aprox }}</td>
+                    <td style="font-size: 9pt;">{{ falta.profesor_nombre }}</td>
+                    <td>{{ falta.descargo }}</td>
+                    <td>{{ falta.testigos }}</td>
+                    <td uib-tooltip="Usuario que registró esta falta en el sistema. Fecha: {{falta.created_at}}" tooltip-append-to-body="true">{{ falta.added_by_nombre }}</td>
+                    <td style="padding: 0;">
+                      <button ng-click="editarFalta(periodo, falta)" uib-tooltip="Editar" class="btn btn-default btn-xs"><i class="fa fa-pencil"></i></button>
+                      <button ng-click="eliminarFalta(alumno['periodo'+periodo.numero], falta)" uib-tooltip="Eliminar" ng-disabled="eliminando" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="margin-top: 30px;" class="title-faltas align-center">{{ config.faltas_tipo2_displayname }}</div>
+            <div ng-show="(alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 2}).length == 0" style="margin-top: 30px;" class="title-faltas align-center">No tiene {{ config.faltas_tipo2_displayname }}</div>
+            <div class="table-responsive">
+              <table class="table table-hover table-condensed table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th class="th-moradito">
+                      <div>No</div>
+                    </th>
+                    <th class="th-moradito text-center border-right-dddd">
+                      <div>Descripción</div>
+                    </th>
+                    <th class="th-moradito text-center">
+                      <div>Fecha</div>
+                    </th>
+                    <th class="th-moradito text-center">
+                      <div>Docente</div>
+                    </th>
+                    <th class="th-moradito text-center">
+                      <div>Descargo</div>
+                    </th>
+                    <th class="th-moradito text-center">
+                      <div>Testigos</div>
+                    </th>
+                    <th class="th-moradito text-center">
+                      <div>Creador</div>
+                    </th>
+                    <th style="min-width: 65px;" class="th-moradito text-center">
+                      <div></div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="falta in alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 2}">
+                    <td>
+                      <div>{{$index+1}}</div>
+                    </td>
+                    <td style="padding: 0 5px;">{{ falta.descripcion }}</td>
+                    <td>{{ falta.fecha_hora_aprox }}</td>
+                    <td style="font-size: 9pt;">{{ falta.profesor_nombre }}</td>
+                    <td>{{ falta.descargo }}</td>
+                    <td>{{ falta.testigos }}</td>
+                    <td uib-tooltip="Usuario que registró esta falta en el sistema. Fecha: {{falta.created_at}}" tooltip-append-to-body="true">{{ falta.added_by_nombre }}</td>
+                    <td style="padding: 0;">
+                      <button ng-click="editarFalta(periodo, falta)" uib-tooltip="Editar" class="btn btn-default btn-xs"><i class="fa fa-pencil"></i></button>
+                      <button ng-click="eliminarFalta(alumno['periodo'+periodo.numero], falta)" uib-tooltip="Eliminar" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="margin-top: 30px;" class="title-faltas align-center">{{ config.faltas_tipo3_displayname }}</div>
+            <div ng-show="(alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 3}).length == 0" style="margin-top: 30px;" class="title-faltas align-center">No tiene {{ config.faltas_tipo3_displayname }}</div>
+            <div class="table-responsive">
+              <table class="table table-hover table-condensed table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th class="th-moradito">
+                      <div>No</div>
+                    </th>
+                    <th class="th-moradito text-center border-right-dddd">
+                      <div>Descripción</div>
+                    </th>
+                    <th class="th-moradito text-center">
+                      <div>Fecha</div>
+                    </th>
+                    <th class="th-moradito text-center">
+                      <div>Docente</div>
+                    </th>
+                    <th class="th-moradito text-center">
+                      <div>Descargo</div>
+                    </th>
+                    <th class="th-moradito text-center">
+                      <div>Testigos</div>
+                    </th>
+                    <th class="th-moradito text-center">
+                      <div>Creador</div>
+                    </th>
+                    <th style="min-width: 65px;" class="th-moradito text-center">
+                      <div></div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="falta in alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 3}">
+                    <td>
+                      <div>{{$index+1}}</div>
+                    </td>
+                    <td style="padding: 0 5px;">{{ falta.descripcion }}</td>
+                    <td>{{ falta.fecha_hora_aprox }}</td>
+                    <td style="font-size: 9pt;">{{ falta.profesor_nombre }}</td>
+                    <td>{{ falta.descargo }}</td>
+                    <td>{{ falta.testigos }}</td>
+                    <td uib-tooltip="Usuario que registró esta falta en el sistema. Fecha: {{falta.created_at}}" tooltip-append-to-body="true">{{ falta.added_by_nombre }}</td>
+                    <td style="padding: 0;">
+                      <button ng-click="editarFalta(periodo, falta)" uib-tooltip="Editar" class="btn btn-default btn-xs"><i class="fa fa-pencil"></i></button>
+                      <button ng-click="eliminarFalta(alumno.periodo1, falta)" uib-tooltip="Eliminar" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- ***************************************-->
+        <!-- NUEVA FALTA Y EDITAR-->
+        <div ng-show="!periodo.creando &amp;&amp; !periodo.editando" style="text-align: right; margin-top: 20px;">
+          <button ng-click="toggleVerCrear(periodo, true)" class="btn btn-primary btn-lg shiny"><i class="fa fa-plus"></i>Crear nueva</button>
+        </div>
+        <div ng-show="periodo.creando" class="row">
+          <div class="col-lg-12 margin-padding-lados-xs">
+            <div class="well with-header with-footer animated bounceIn">
+              <div class="header bordered-blue"><span style="font-size: 12pt">Crear nueva falta</span></div>
+              <form role="form" ng-submit="crear_falta(periodo)">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="btn-group">
+                      <label ng-model="falta_new.tipo_situacion" uib-btn-radio="1" class="btn btn-primary">Tipo 1</label>
+                      <label ng-model="falta_new.tipo_situacion" uib-btn-radio="2" class="btn btn-primary">Tipo 2</label>
+                      <label ng-model="falta_new.tipo_situacion" uib-btn-radio="3" class="btn btn-primary">Tipo 3</label>
+                    </div>
+                  </div>
+                </div><span ng-show="falta_new.tipo_situacion">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label for="falta-new-periodo{{periodo.numero}}">Descripción</label><span class="input-icon icon-right">
+                          <input type="text" placeholder="Descripción de la falta" ng-model="falta_new.descripcion" id="falta-new-periodo{{periodo.numero}}" class="form-control"></span>
+                      </div>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label for="falta-new-fecha_hora_aprox{{periodo.numero}}">Fecha</label><span class="input-icon icon-right">
+                          <input type="date" placeholder="Fecha" ng-model="falta_new.fecha_hora_aprox" id="falta-new-fecha_hora_aprox{{periodo.numero}}" class="form-control"></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label for="falta-new-testigos{{periodo.numero}}">Testigo(s)</label><span class="input-icon icon-right">
+                          <input type="text" placeholder="Escriba nombre de testigo(s)" ng-model="falta_new.testigos" id="falta-new-testigos{{periodo.numero}}" class="form-control"></span>
+                      </div>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label for="falta-new-descargo{{periodo.numero}}">Descargo</label><span class="input-icon icon-right">
+                          <input type="text" placeholder="Escriba la justificación del estudiante." ng-model="falta_new.descargo" id="falta-new-descargo{{periodo.numero}}" class="form-control"></span>
+                      </div>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label>Deriva de:</label>
+                        <div ng-show="falta_new.tipo_situacion==1" class="btn-group">
+                          <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo1" uib-btn-checkbox uib-tooltip="{{situac.descripcion}}" style="width: 90px; overflow: hidden;" class="btn btn-sucess shiny">t1: {{ situac.descripcion }}</label>
+                        </div>
+                        <div ng-show="falta_new.tipo_situacion==2" class="btn-group">
+                          <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo2" uib-btn-checkbox uib-tooltip="{{situac.descripcion}}" style="width: 90px; overflow: hidden;" class="btn btn-sucess shiny">t2: {{ situac.descripcion }}</label>
+                        </div>
+                        <div ng-show="falta_new.tipo_situacion==3" class="btn-group">
+                          <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo3" uib-btn-checkbox uib-tooltip="{{situac.descripcion}}" style="width: 90px; overflow: hidden;" class="btn btn-sucess shiny">t3: {{ situac.descripcion }}</label>
+                        </div>
+                        <div ng-show="falta_new.tipo_situacion==4" class="btn-group">
+                          <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo4" uib-btn-checkbox uib-tooltip="{{situac.descripcion}}" style="width: 90px; overflow: hidden;" class="btn btn-sucess shiny">t4: {{ situac.descripcion }}</label>
+                        </div>
+                        <div ng-show="alumno.periodo1.length==0 &amp;&amp; alumno.periodo2.length==0 &amp;&amp; alumno.periodo3.length==0 &amp;&amp; alumno.periodo4.length==0">No tiene faltas actualmente</div>
+                      </div>
+                    </div>
+                    <div uib-tooltip="No es obligatorio" class="col-sm-12">
+                      <div class="form-group">
+                        <label>Profesor</label>
+                        <ui-select ng-model="falta_new.profesor" style="width: 300px; display: inline-block;">
+                          <ui-select-match placeholder="Elige un profesor" allow-clear="true"><img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;">{{$select.selected.nombres + ' ' + $select.selected.apellidos}}</ui-select-match>
+                          <ui-select-choices repeat="profe in profesores | filter: $select.search"><img ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search"></small></ui-select-choices>
+                        </ui-select>
+                      </div>
+                    </div>
+                    <div uib-tooltip="Elija ordinales en que incurrió el estudiante" class="col-sm-12">
+                      <div class="form-group">
+                        <label>Ordinales en que incurrió</label>
+                        <ui-select ng-model="falta_new.selected_ordinales" multiple style="width: 100%;">
+                          <ui-select-match placeholder="Elija los ordinales" allow-clear="true">
+                            <div style="overflow: hidden; height: 30px;" uib-tooltip="{{$item.tipo}}. {{$item.descripcion}}">{{$item.tipo}}. {{$item.descripcion}}</div>
+                          </ui-select-match>
+                          <ui-select-choices repeat="ordinal in ordinales | filter: $select.search"><span ng-bind-html="ordinal.tipo + '. ' + ordinal.descripcion | highlight: $select.search"></span></ui-select-choices>
+                        </ui-select>
+                      </div>
+                    </div>
+                  </div></span>
+                <div style="text-align: center;" class="col-sm-12">
+                  <button ng-click="toggleVerCrear(periodo, false)" type="button" class="btn btn-warning">Cancelar</button>
+                  <button type="submit" ng-disabled="guardando_new" class="btn btn-primary"><i class="fa fa-save"></i>Crear</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div ng-show="periodo.editando" class="row">
+          <div class="col-lg-12 margin-padding-lados-xs">
+            <div class="well with-header with-footer animated bounceIn">
+              <div class="header bordered-success"><span style="font-size: 12pt">Editar falta</span></div>
+              <form role="form" ng-submit="guardar_falta(periodo)">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="btn-group">
+                      <label ng-model="falta_edit.tipo_situacion" uib-btn-radio="1" class="btn btn-primary">Tipo 1</label>
+                      <label ng-model="falta_edit.tipo_situacion" uib-btn-radio="2" class="btn btn-primary">Tipo 2</label>
+                      <label ng-model="falta_edit.tipo_situacion" uib-btn-radio="3" class="btn btn-primary">Tipo 3</label>
+                    </div>
+                  </div>
+                </div><span>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label for="falta-edit-descripcion{{periodo.numero}}">Descripción</label><span class="input-icon icon-right">
+                          <input type="text" placeholder="Descripción de la falta" ng-model="falta_edit.descripcion" id="falta-edit-descripcion{{periodo.numero}}" class="form-control"></span>
+                      </div>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label for="falta-new-fecha_hora_aprox{{periodo.numero}}">Fecha</label><span class="input-icon icon-right">
+                          <input type="date" placeholder="Fecha" ng-model="falta_new.fecha_hora_aprox" id="falta-new-fecha_hora_aprox{{periodo.numero}}" class="form-control"></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label for="falta-edit-testigos{{periodo.numero}}">Testigo(s)</label><span class="input-icon icon-right">
+                          <input type="text" placeholder="Escriba nombre de testigo(s)" ng-model="falta_edit.testigos" id="falta-edit-testigos{{periodo.numero}}" class="form-control"></span>
+                      </div>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label for="falta-edit-descargo{{periodo.numero}}">Descargo</label><span class="input-icon icon-right">
+                          <input type="text" placeholder="Escriba la justificación del estudiante." ng-model="falta_edit.descargo" id="falta-edit-descargo{{periodo.numero}}" class="form-control"></span>
+                      </div>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <div ng-show="(config.reinicia_por_periodo==1 || (config.reinicia_por_periodo==0 &amp;&amp; periodo.numero==1)) &amp;&amp; alumno.periodo1.length &gt; 0" class="faltas-deriva-edit">
+                          <label>Deriva de las siguientes faltas (PERIODO 1):</label>
+                          <div ng-show="falta_edit.tipo_situacion==1" class="btn-group">
+                            <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo1" uib-btn-checkbox style="width: 90px; overflow: hidden;" class="btn btn-sucess shiny">t1: {{ situac.descripcion }}</label>
+                          </div>
+                          <div ng-show="falta_edit.tipo_situacion==2" class="btn-group">
+                            <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo1" uib-btn-checkbox style="width: 90px; overflow: hidden;" class="btn btn-sucess shiny">t2: {{ situac.descripcion }}</label>
+                          </div>
+                          <div ng-show="falta_edit.tipo_situacion==3" class="btn-group">
+                            <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo1" uib-btn-checkbox style="width: 90px; overflow: hidden;" class="btn btn-sucess shiny">t3: {{ situac.descripcion }}</label>
+                          </div>
+                        </div>
+                        <div ng-show="alumno.periodo1.length==0 &amp;&amp; alumno.periodo2.length==0 &amp;&amp; alumno.periodo3.length==0 &amp;&amp; alumno.periodo4.length==0">No tiene faltas actualmente</div>
+                      </div>
+                    </div>
+                    <div uib-tooltip="No es obligatorio" class="col-sm-12">
+                      <div class="form-group">
+                        <label>Profesor</label>
+                        <ui-select ng-model="falta_edit.profesor" style="width: 300px; display: inline-block;">
+                          <ui-select-match placeholder="Elige un profesor" allow-clear="true"><img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;">{{$select.selected.nombres + ' ' + $select.selected.apellidos}}</ui-select-match>
+                          <ui-select-choices repeat="profe in profesores | filter: $select.search"><img ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search"></small></ui-select-choices>
+                        </ui-select>
+                      </div>
+                    </div>
+                    <div uib-tooltip="Elija ordinales en que incurrió el estudiante" class="col-sm-12">
+                      <div class="form-group">
+                        <label>Ordinales en que incurrió</label>
+                        <ui-select ng-model="falta_edit.selected_ordinales" multiple style="width: 100%;" on-select="seleccionandoOrdinal($item, $model)" on-remove="quitandoOrdinal($item, $model)">
+                          <ui-select-match placeholder="Elija los ordinales" allow-clear="true">
+                            <div style="overflow: hidden; height: 30px;" uib-tooltip="{{$item.tipo}}. {{$item.descripcion}}">{{$item.tipo}}. {{$item.descripcion}}</div>
+                          </ui-select-match>
+                          <ui-select-choices repeat="ordinal in ordinales | filter: $select.search"><span ng-bind-html="ordinal.tipo + '. ' + ordinal.descripcion | highlight: $select.search"></span></ui-select-choices>
+                        </ui-select>
+                      </div>
+                    </div>
+                  </div></span>
+                <div style="text-align: center;" class="col-sm-12">
+                  <button ng-click="cancelarEditarFalta(periodo)" type="button" class="btn btn-warning">Cancelar</button>
+                  <button type="submit" ng-disabled="guardando_edit" class="btn btn-primary"><i class="fa fa-save"></i>Guardar cambios</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </uib-accordion>
+  </div>
+</div>
+<div class="modal-footer">
+  <button ng-click="ok()" class="btn btn-labeled btn-default">Aceptar<i class="btn-label fa fa-plus"></i></button>
+</div>

@@ -19,22 +19,31 @@ angular.module("myvcFrontApp")
 	restrict: 'E'
 	templateUrl: "#{App.views}alumnos/personaEnfermeriaDir.tpl.html"
 ])
+.directive('personaAcudientesDir',['App', (App)->
+	restrict: 'E'
+	templateUrl: "#{App.views}alumnos/personaAcudientesDir.tpl.html"
+])
 
 
 .controller('PersonaCtrl', ['$scope', '$state', '$http', 'toastr', '$uibModal', 'App', '$rootScope', '$timeout', 'AuthService', ($scope, $state, $http, toastr, $modal, App, $rootScope, $timeout, AuthService)->
-	$scope.data                 = {} # Para el popup del Datapicker
-	$scope.alumno               = {}
-	$scope.religiones           = App.religiones
-	$scope.tipos_sangre         = App.tipos_sangre
-	$scope.dato 					      = {}
-	$scope.hasRoleOrPerm        = AuthService.hasRoleOrPerm
-	$scope.enfermedia_cargada   = false
-	$scope.opciones_programar   = App.opciones_programar
-	$scope.sangres              = App.sangres
-	$scope.mostrar_mas          = false
-	$scope.mostrar_compromisos  = false
-	$scope.mostrar_prematricula = true
-	$scope.new_suceso           = {
+	$scope.data                   = {} # Para el popup del Datapicker
+	$scope.alumno                 = {}
+	$scope.religiones             = App.religiones
+	$scope.tipos_sangre           = App.tipos_sangre
+	$scope.dato 					        = {}
+	$scope.hasRoleOrPerm          = AuthService.hasRoleOrPerm
+	$scope.enfermedia_cargada     = false
+	$scope.opciones_programar     = App.opciones_programar
+	$scope.sangres                = App.sangres
+	$scope.mostrar_mas            = false
+	$scope.mostrar_compromisos    = false
+	$scope.mostrar_prematricula   = true
+	$scope.gridScope 					    = $scope
+	$scope.gridOptions            = {}
+	$scope.gridOptionsAcudientes  = {}
+	$scope.parentescos 			      = App.parentescos
+
+	$scope.new_suceso             = {
 		fecha_suceso:   new Date()
 		signo_fc:       60
 		signo_fr:       12
@@ -256,6 +265,82 @@ angular.module("myvcFrontApp")
 			)
 
 
+
+	$scope.asignarAOtro = (acudiente)->
+		modalInstance = $modal.open({
+			templateUrl: '==alumnos/asignarAcudienteAOtro.tpl.html'
+			controller: 'AsignarAcudienteAOtroModalCtrl'
+			resolve:
+				elemento: ()->
+					acudiente
+		})
+		modalInstance.result.then( (alum)->
+			toastr.success('Asignado.')
+		)
+
+
+
+	$btGrid1 = '<a uib-tooltip="Cambiar" ng-show="row.entity.nombres" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.cambiarAcudiente(row.entity, row.entity)" tooltip-append-to-body="true"><i class="fa fa-edit "></i></a>';
+	$btGrid2 = '<a uib-tooltip="Quitar parentesco" ng-show="row.entity.nombres" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.quitarAcudiente(row.entity, row.entity)" tooltip-append-to-body="true"><i class="fa fa-trash "></i></a>';
+	$btGrid3 = '<a uib-tooltip="Asignar también a otro alumno" class="btn btn-default btn-xs shiny" ng-click="grid.appScope.asignarAOtro(row.entity)" tooltip-append-to-body="true" style="height: 24px;">Compartir con...</a>';
+	$btEdit = '<span style="padding-left: 2px; padding-top: 4px;" class="btn-group">' + $btGrid1 + $btGrid2 + $btGrid3 + '</span>';
+
+
+	$scope.gridOptionsAcudientes =
+		enableSorting: true,
+		enableFiltering: true,
+		enableGridMenu: true,
+		enebleGridColumnMenu: false,
+		enableCellEditOnFocus: true,
+		columnDefs: [
+			{ name: 'edicion', displayName: 'Edición', width: 170, enableSorting: false, enableFiltering: false, cellTemplate: $btEdit, enableCellEdit: false }
+			{ name: "Id", field: "id", 'minWidth': 60, enableCellEdit: false }
+			{ name: "Nombres", field: "nombres", minWidth: 120 }
+			{ name: "Apellidos", field: "apellidos", minWidth: 100 }
+			{ name: "Sex", field: "sexo", minWidth: 40 }
+			{ name: "Parentesco", field: "parentesco", minWidth: 90 }
+			{ name: "Usuario", field: "username", minWidth: 135, cellTemplate: "==directives/botonesResetPassword.tpl.html", editableCellTemplate: "==alumnos/botonEditUsername.tpl.html" }
+			{ name: "Documento", field: "documento", minWidth: 100, cellFilter: 'formatNumberDocumento' }
+			{ name: "Teléfono", field: "telefono", minWidth: 90 }
+			{ name: "Celular", field: "celular", minWidth: 90 }
+			{ name: "Ocupación", field: "ocupacion", minWidth: 100 }
+			{ name: "Fecha nac", field: "fecha_nac", cellFilter: "date:mediumDate", type: 'date', minWidth: 120 }
+		],
+		multiSelect: false,
+		onRegisterApi: ( gridApi ) ->
+			$scope.gridApi = gridApi
+			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
+				if newValue != oldValue
+					if colDef.field == "sexo"
+						newValue = newValue.toUpperCase()
+						if !(newValue == 'M' or newValue == 'F')
+							toastr.warning 'Debe usar M o F'
+							rowEntity.sexo = oldValue
+							return
+
+					if colDef.field == 'email'
+						re = /\S+@\S+\.\S+/
+						if !re.test(newValue)
+							toastr.warning 'Email no válido'
+							rowEntity.email = oldValue
+							return
+
+					$http.put('::acudientes/guardar-valor', {parentesco_id: rowEntity.parentesco_id, acudiente_id: rowEntity.id, user_id: rowEntity.user_id, propiedad: colDef.field, valor: newValue } ).then((r)->
+						toastr.success 'Acudiente actualizado con éxito'
+					, (r2)->
+						rowEntity[colDef.field] = oldValue
+						toastr.error 'Cambio no guardado', 'Error'
+					)
+					$scope.$apply()
+			)
+
+
+
+
+	$scope.$on 'alumnoguardado', (data, alum)->
+		$state.go('panel.persona', {persona_id: alum.id, tipo: 'alumno' })
+
+
 	$scope.guardar_valor_suceso = (rowEntity, col, newValue)->
 
 		$http.put('::enfermeria/guardar-valor-suceso', {suceso_id: rowEntity.id, propiedad: col, valor: newValue } ).then((r)->
@@ -268,6 +353,18 @@ angular.module("myvcFrontApp")
 	$scope.crear_alumno = ()->
 		$rootScope.grupos_siguientes = $scope.grupos_siguientes
 		$state.go('panel.persona.nuevo')
+
+
+	$scope.cargarAcudientes = ()->
+		$http.put('::acudientes/de-persona', {alumno_id: $scope.alumno.alumno_id}).then((r)->
+
+			for pariente in r.data.acudientes
+				pariente.fecha_nac_ant 	= pariente.fecha_nac
+				pariente.fecha_nac 		= if pariente.fecha_nac then new Date(pariente.fecha_nac.replace(/-/g, '\/')) else pariente.fecha_nac
+
+			$scope.gridOptionsAcudientes.data 		= r.data.acudientes
+			$scope.acudientes_cargado 						= true
+		)
 
 
 	$scope.crear_suceso = ()->
@@ -852,6 +949,82 @@ angular.module("myvcFrontApp")
 
 	$scope.verTodosLosCertificados = ()->
 		$state.go 'panel.persona.ver_todos_los_certificados', {alumno_id: $scope.alumno.alumno_id}, {reload: true}
+
+
+
+
+	$scope.agregarAcudiente = ()->
+		delete $rootScope.acudiente_cambiar
+
+		$scope.alumno.parientes = $scope.gridOptionsAcudientes.data
+
+		modalInstance = $modal.open({
+			templateUrl: '==alumnos/newAcudienteModal.tpl.html'
+			controller: 'NewAcudienteModalCtrl'
+			resolve:
+				alumno: ()->
+					$scope.alumno
+				paises: ()->
+					$scope.paises
+				tipos_doc: ()->
+					$scope.tipos_doc
+				parentescos: ()->
+					$scope.parentescos
+		})
+		modalInstance.result.then( (acud)->
+			$scope.gridOptionsAcudientes.data.splice($scope.alumno.parientes.length-1, 0, acud)
+		, ()->
+			# nada
+		)
+
+
+	$scope.cambiarAcudiente = (acudiente)->
+		$rootScope.acudiente_cambiar = acudiente
+
+		modalInstance = $modal.open({
+			templateUrl: '==alumnos/newAcudienteModal.tpl.html'
+			controller: 'NewAcudienteModalCtrl'
+			resolve:
+				alumno: ()->
+					$scope.alumno
+				paises: ()->
+					$scope.paises
+				tipos_doc: ()->
+					$scope.tipos_doc
+				parentescos: ()->
+					$scope.parentescos
+		})
+		modalInstance.result.then( (acud)->
+			for pariente, indice in $scope.gridOptionsAcudientes.data
+				if pariente
+					if pariente.id == acudiente.id
+						$scope.gridOptionsAcudientes.data.splice(indice, 1, acud)
+		, ()->
+			# nada
+		)
+
+
+	$scope.quitarAcudiente = (acudiente)->
+
+		modalInstance = $modal.open({
+			templateUrl: '==alumnos/quitarAcudienteModalConfirm.tpl.html'
+			controller: 'QuitarAcudienteModalConfirmCtrl'
+			resolve:
+				alumno: ()->
+					$scope.alumno
+				acudiente: ()->
+					acudiente
+		})
+		modalInstance.result.then( (acud)->
+			for pariente, indice in $scope.gridOptionsAcudientes.data
+				if pariente
+					if pariente.id == acud.acudiente_id
+						$scope.gridOptionsAcudientes.data.splice(indice, 1)
+		, ()->
+			# nada
+		)
+
+
 
 
 

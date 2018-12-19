@@ -18,7 +18,7 @@ angular.module('myvcFrontApp')
 
 	btGrid1 = '<a uib-tooltip="Editar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.editar(row.entity)"><i class="fa fa-edit "></i></a>'
 	btGrid2 = '<a uib-tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-times "></i></a>'
-	$scope.gridOptions = 
+	$scope.gridOptions =
 		showGridFooter: true,
 		enableSorting: true,
 		enableFiltering: true,
@@ -34,9 +34,9 @@ angular.module('myvcFrontApp')
 		onRegisterApi: ( gridApi ) ->
 			$scope.gridApi = gridApi
 			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
-				
+
 				if newValue != oldValue
-					$http.put('::niveles_educativos/'+rowEntity.id, rowEntity).then((r)->
+					$http.put('::niveles_educativos/update/'+rowEntity.id, rowEntity).then((r)->
 						toastr.success 'Nivel actualizado', 'Actualizado'
 					, (r2)->
 						toastr.error 'Cambio no guardado', 'Error'
@@ -44,7 +44,7 @@ angular.module('myvcFrontApp')
 				$scope.$apply()
 			)
 
-	
+
 
 	$http.get('::niveles_educativos').then((data)->
 		$scope.niveles = data.data

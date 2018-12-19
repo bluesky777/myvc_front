@@ -77,10 +77,10 @@
                   </label>
                 </div></span>
               <div ng-show="matricula.estado=='PREM'" style="margin-bottom: 12px;" uib-tooltip="Fecha en que se prematriculó" class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <label for="alumno-fecha_prematriculado">Fecha prematriculado</label>
+                <label for="alumno-fecha_prematriculado{{matricula.id}}">Fecha prematriculado</label>
                 <div class="controls">
                   <div class="input-group"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                    <input id="alumno-fecha_prematriculado" type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="matricula.prematriculado" is-open="matricula.isOpenPrema" ng-click="matricula.isOpenPrema = true" max-date="'2025-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha prematrícula" ng-change="guardarValor(matricula, 'prematriculado', matricula.prematriculado, matricula.year_id)" class="form-control active">
+                    <input type="text" id="alumno-fecha_prematriculado{{matricula.id}}" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="matricula.prematriculado" is-open="matricula.isOpenPrema" ng-click="matricula.isOpenPrema = true" max-date="'2025-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha prematrícula" ng-change="guardarValor(matricula, 'prematriculado', matricula.prematriculado, matricula.year_id)" class="form-control active">
                   </div>
                 </div>
               </div>

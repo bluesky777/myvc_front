@@ -19,7 +19,7 @@
 					h4 Acudientes
 					.form-group.col-lg-8.col-sm-8.col-xs-12(style="padding: 2px;")
 						label(uib-tooltip="Entre paréntesis, la cantidad de acudidos que tiene cada acudiente. A la derecha el código del acudiente.") Seleccione
-						ui-select(ng-model="datos.acudiente" autofocus="true" style="width: 100%;")
+						ui-select#select-acudiente-agregar(ng-model="datos.acudiente" autofocus="true" style="width: 100%;" on-select="selecAcudOption(datos.acudiente)")
 							ui-select-match(placeholder="Escribe mínimo 1 letra" allow-clear="true") {{$select.selected.nombres}} {{$select.selected.apellidos}}
 							ui-select-choices(repeat="acudiente in acudientes track by $index" refresh="refreshAcudientes($select.search)" refresh-delay="1" )
 								small(style="float: right; font-size: 75%;") {{ acudiente.id }}
@@ -59,9 +59,9 @@
 				.form-group.col-lg-4.col-sm-12.col-xs-12(style="margin-bottom: 5px;")
 					label(style="display: block") Sexo: {{ acudiente.sexo == 'M' ? 'Masculino' : 'Femenino' }}
 					.btn-group
-						label(style="padding: 1px" tooltip="Masculino" class="btn btn-default" ng-model="acudiente.sexo" uib-btn-radio="'M'")
+						label(style="padding: 1px" ng-click="selecAcudOption(acudiente)" tooltip="Masculino" class="btn btn-default" ng-model="acudiente.sexo" uib-btn-radio="'M'")
 							img(style="width: 60px" tooltip="Masculino" ng-src="{{perfilPath}}default_male.png")
-						label(style="padding: 1px" tooltip="Femenino" class="btn btn-default" ng-model="acudiente.sexo" uib-btn-radio="'F'")
+						label(style="padding: 1px" ng-click="selecAcudOption(acudiente)" tooltip="Femenino" class="btn btn-default" ng-model="acudiente.sexo" uib-btn-radio="'F'")
 							img(style="width: 60px" tooltip="Femenino" ng-src="{{perfilPath}}default_female.png")
 				.form-group.col-lg-4.col-sm-6.col-xs-12
 					label Parentesco

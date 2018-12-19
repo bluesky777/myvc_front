@@ -2011,5 +2011,39 @@ tr { page-break-inside: avoid }
 .no-pad-rigth{
   padding-right: 0px;
 }
-
-
+.margin-espacio-cert{
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.posi-unset{
+  position: unset!important;
+}
+.padding-lr-6{
+  padding-left: 6px;
+  padding-right: 6px;
+}
+.title-faltas{
+  font-weight: bold;
+  font-size: 12pt;
+}
+.faltas-detalle-box{
+  margin-top: 4px;
+  width: 220px;
+  padding: 4px;
+  border: 1px solid #ccc;
+  background-color: #ffdefb;
+  border-radius: 4px;
+}
+.table .th-moradito{
+  background-color: #fadafd!important;
+}
+.faltas-deriva-edit{
+  padding: 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #a1dfff;
+}
+.faltas-detalle-box .title-faltas{
+  text-align: center;
+  margin-bottom: 4px;
+}

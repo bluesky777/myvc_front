@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('CarteraCtrl', ['$scope', 'App', '$state', '$uibModal', '$filter', 'AuthService', 'toastr', '$http', 'uiGridConstants', 'Upload', '$timeout', ($scope, App, $state, $modal, $filter, AuthService, toastr, $http, uiGridConstants, Upload, $timeout)->
+.controller('CarteraCtrl', ['$scope', 'App', '$state', '$uibModal', '$filter', 'AuthService', 'toastr', '$http', 'uiGridConstants', 'Upload', '$timeout', 'Acentos', ($scope, App, $state, $modal, $filter, AuthService, toastr, $http, uiGridConstants, Upload, $timeout, Acentos)->
 
 	AuthService.verificar_acceso()
 
@@ -108,15 +108,13 @@ angular.module("myvcFrontApp")
 			{ field: 'foto_nombre', displayName:'Foto', cellTemplate: "<img width=\"35px\" ng-src=\"{{grid.appScope.perfilPath + grid.getCellValue(row, col)}}\">", width: 40}
 			{ field: 'nombres', minWidth: 80,
 			filter: {
-				condition: (searchTerm, cellValue, row)->
-					entidad = row.entity
-					return (entidad.nombres.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1)
+				condition: Acentos.buscarEnGrid
 			}
 			enableHiding: false }
-			{ field: 'apellidos', minWidth: 80, filter: { condition: uiGridConstants.filter.CONTAINS }}
+			{ field: 'apellidos', minWidth: 80, filter: { condition: Acentos.buscarEnGrid }}
 			{ field: 'sexo', width: 60 }
 			{ field: 'nombre_grupo', displayName:'Grupo' }
-			{ field: 'username', filter: { condition: uiGridConstants.filter.CONTAINS }, displayName: 'Usuario', cellTemplate: btUsuario, minWidth: 150 }
+			{ field: 'username', filter: { condition: Acentos.buscarEnGrid }, displayName: 'Usuario', cellTemplate: btUsuario, minWidth: 150 }
 			# { field: 'fecha_nac', displayName:'Nacimiento', cellFilter: "date:mediumDate", type: 'date'}
 			{ field: 'deuda', displayName: 'Deuda', cellTemplate: btPazysalvo, minWidth: 150, aggregationType: uiGridConstants.aggregationTypes.sum, footerCellTemplate: '<div class="ui-grid-cell-contents" >Total: {{col.getAggregationValue() | currency:"$":0 }}</div>' }
 			{ field: 'fecha_pension', displayName: 'Fecha hasta', minWidth: 150, cellFilter: "date:mediumDate", type: 'date' }

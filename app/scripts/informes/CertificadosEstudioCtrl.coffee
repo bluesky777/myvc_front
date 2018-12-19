@@ -1,6 +1,6 @@
 angular.module("myvcFrontApp")
 
-.controller('CertificadosEstudioCtrl', ['$scope', '$state', 'alumnosDat', 'escalas', '$cookies', '$stateParams', ($scope, $state, alumnos, escalas, $cookies, $stateParams)->
+.controller('CertificadosEstudioCtrl', ['$scope', '$state', 'alumnosDat', 'escalas', '$cookies', '$stateParams', '$http', 'toastr', ($scope, $state, alumnos, escalas, $cookies, $stateParams, $http, toastr)->
 
 	$scope.grupo          = alumnos[0]
 	$scope.year           = alumnos[1]
@@ -19,6 +19,14 @@ angular.module("myvcFrontApp")
 
 	$scope.$on 'change_config', ()->
 		$scope.config = $cookies.getObject 'config'
+
+	$scope.cambia_contador_certificados = (contador, year_id, col)->
+		console.log(contador, year_id)
+		$http.put('::bolfinales/cambiar-'+col, {contador: contador, year_id: year_id} ).then((r)->
+			toastr.success 'Contador guardado'
+		, (r2)->
+			toastr.error 'Cambio no guardado', 'Error'
+		)
 
 
 	if $scope.requested_alumnos

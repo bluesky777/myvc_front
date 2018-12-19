@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('AlumnosCtrl', ['$scope', 'App', '$rootScope', '$state', '$interval', 'uiGridConstants', 'uiGridEditConstants', '$uibModal', '$filter', 'AuthService', 'toastr', '$http', 'DownloadServ', 'Upload', ($scope, App, $rootScope, $state, $interval, uiGridConstants, uiGridEditConstants, $modal, $filter, AuthService, toastr, $http, DownloadServ, Upload)->
+.controller('AlumnosCtrl', ['$scope', 'App', '$rootScope', '$state', '$interval', 'uiGridConstants', 'uiGridEditConstants', '$uibModal', '$filter', 'AuthService', 'toastr', '$http', 'DownloadServ', 'Upload', 'Acentos', ($scope, App, $rootScope, $state, $interval, uiGridConstants, uiGridEditConstants, $modal, $filter, AuthService, toastr, $http, DownloadServ, Upload, Acentos)->
 
 	AuthService.verificar_acceso()
 
@@ -245,9 +245,10 @@ angular.module("myvcFrontApp")
 					acudiente
 		})
 		modalInstance.result.then( (acud)->
+			console.log(rowAlum.subGridOptions.data, acud)
 			for pariente, indice in rowAlum.subGridOptions.data
 				if pariente
-					if pariente.id == acud.id
+					if pariente.id == acud.acudiente_id
 						rowAlum.subGridOptions.data.splice(indice, 1)
 		, ()->
 			# nada
@@ -429,6 +430,19 @@ angular.module("myvcFrontApp")
 
 
 
+	$scope.asignarAOtro = (acudiente)->
+		modalInstance = $modal.open({
+			templateUrl: '==alumnos/asignarAcudienteAOtro.tpl.html'
+			controller: 'AsignarAcudienteAOtroModalCtrl'
+			resolve:
+				elemento: ()->
+					acudiente
+		})
+		modalInstance.result.then( (alum)->
+			toastr.success('Asignado.')
+		)
+
+
 
 
 
@@ -490,6 +504,7 @@ angular.module("myvcFrontApp")
 			agregarAcudiente: 		$scope.agregarAcudiente
 			quitarAcudiente: 			$scope.quitarAcudiente
 			cambiarAcudiente: 		$scope.cambiarAcudiente
+			asignarAOtro: 				$scope.asignarAOtro
 			crearUsuario: 				$scope.crearUsuario
 			resetPass: 						$scope.resetPass
 			cambiarCiudad: 				$scope.cambiarCiudad
@@ -499,18 +514,16 @@ angular.module("myvcFrontApp")
 			{ field: 'no', pinnedLeft:true, cellTemplate: '<div class="ui-grid-cell-contents">{{grid.renderContainers.body.visibleRowCache.indexOf(row) + 1}}</div>', width: 40, enableCellEdit: false }
 			{ field: 'nombres', minWidth: 130, pinnedLeft:true,
 			filter: {
-				condition: (searchTerm, cellValue, row)->
-					entidad = row.entity
-					return (entidad.nombres.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1)
+				condition: Acentos.buscarEnGrid
 			}
 			enableHiding: false, cellTemplate: '<div class="ui-grid-cell-contents" style="padding: 0px;" ' + appendPopover + '><img ng-src="{{grid.appScope.perfilPath + row.entity.foto_nombre}}" style="width: 35px" />{{row.entity.nombres}}</div>' }
-			{ field: 'apellidos', minWidth: 110, filter: { condition: uiGridConstants.filter.CONTAINS }}
+			{ field: 'apellidos', minWidth: 110, filter: { condition: Acentos.buscarEnGrid }}
 			{ name: 'edicion', displayName:'Edit', width: 54, enableSorting: false, enableFiltering: false, cellTemplate: bt2, enableCellEdit: false, enableColumnMenu: true}
 			{ field: 'sexo', displayName: 'Sex', width: 40 }
 			{ field: 'grupo_id', displayName: 'Matrícula', enableCellEdit: false, cellTemplate: btMatricular, minWidth: 230, enableFiltering: false }
 			{ field: 'fecha_matricula', displayName: 'Fecha matrícula', cellFilter: "date:mediumDate", type: 'date', minWidth: 100 }
 			{ field: 'no_matricula', displayName: '# matrícula', minWidth: 80, enableColumnMenu: true }
-			{ field: 'username', filter: { condition: uiGridConstants.filter.CONTAINS }, displayName: 'Usuario', cellTemplate: btUsuario, editableCellTemplate: btEditUsername, minWidth: 135 }
+			{ field: 'username', filter: { condition: Acentos.buscarEnGrid }, displayName: 'Usuario', cellTemplate: btUsuario, editableCellTemplate: btEditUsername, minWidth: 135 }
 			{ field: 'deuda', displayName: 'Deuda', type: 'number', cellFilter: 'currency:"$":0', minWidth: 85, aggregationType: uiGridConstants.aggregationTypes.sum, aggregationHideLabel: true, footerCellTemplate: '<div class="ui-grid-cell-contents" >{{col.getAggregationValue() | currency:"$":0 }}</div>' }
 			{ field: 'pazysalvo', displayName: 'A paz?', cellTemplate: btPazysalvo, minWidth: 60, enableCellEdit: false }
 			{ field: 'nuevo', displayName: 'Nuevo?', cellTemplate: btIsNuevo, minWidth: 60, enableCellEdit: false }
@@ -621,6 +634,7 @@ angular.module("myvcFrontApp")
 				if !(colDef.field == "religion")
 					$scope.$apply()
 			)
+
 
 
 
@@ -899,6 +913,7 @@ angular.module("myvcFrontApp")
 
 	$scope.$on 'alumnoguardado', (data, alum)->
 		$scope.gridOptions.data.push alum
+		$state.go('panel.alumnos')
 
 	return
 ])

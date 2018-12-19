@@ -142,6 +142,17 @@ angular.module('myvcFrontApp')
 
 		return d.promise
 
+	comportamientos.proceso = (grupo_id)->
+		d = $q.defer();
+
+		$http.get('::comportamiento/proceso/'+grupo_id).then((r)->
+			d.resolve r.data
+		, (r2)->
+			d.reject r2
+		)
+
+		return d.promise
+
 	return comportamientos
 
 ])

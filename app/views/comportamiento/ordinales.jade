@@ -1,0 +1,252 @@
+.row
+	.col-lg-12.margin-padding-lados-xs
+		.well.with-header.with-footer.animated.bounceIn
+			.header.bordered-blue
+				span Ordinales del manual de convivencia
+
+				a.btn.btn-default.btn-xs.shiny(href="" ng-click="configurar()" style="float: right;")
+					i.fa.fa-arrow-down
+					span.hidden-xs
+						|   Configurar comportamiento
+
+
+			.row(ng-show="creando")
+				.col-xs-12.col-md-12
+					form.well.with-header.with-footer.form(role="form" ng-submit="crear(ordinal_new)")
+						.header.bordered-yellow Nuevo ordinal
+						.row
+							.col-sm-6.col-md-4
+								.form-group
+									label(for="ordinal_new-nombres") Ordinal*
+									input.form-control#ordinal_new-nombres(type="text" ng-model="ordinal_new.ordinal" placeholder="Ordinal")
+
+							.col-sm-6.col-md-4
+								.form-group
+									label(for="ordinal_new-pagina") Página / Párrafo
+									input.form-control#ordinal_new-pagina(type="text" ng-model="ordinal_new.pagina" placeholder="Página")
+
+							.col-sm-6.col-md-4
+								.form-group
+									label(for="ordinal_new-tipo") Tipo
+									input.form-control#ordinal_new-tipo(type="text"
+										ng-model="ordinal_new.tipo" placeholder="Página"
+										uib-typeahead="tipo as tipo.tipo for tipo in tipos | filter:$viewValue | limitTo:8"
+										typeahead-min-length="0" typeahead-template-url="==comportamiento/typeaheadSimple.tpl.html")
+
+							.col-sm-12.col-md-4
+								.form-group
+									label(for="ordinal_new-descripcion") Descripción*
+									textarea.form-control.textarea-altura-xs#ordinal_new-descripcion(required
+										ng-model="ordinal_new.descripcion" placeholder="Descripción" uib-tooltip="Descripción"
+										tooltip-popup-delay="500" style="height: 50px;")
+
+
+
+						.footer
+							input.btn.btn-primary(type="submit" value="Crear" ng-disabled="guardando")
+							a.btn.btn-warning(ng-click="cancelarCrear()") Ocultar
+
+
+
+
+
+			.row(ng-show="editando")
+				.col-xs-12.col-md-12
+					form.well.with-header.with-footer.form(role="form" ng-submit="guardar_cambios(ordinal_edit)")
+						.header.bordered-yellow Editar ordinal
+						.row
+							.col-sm-6.col-md-4
+								.form-group
+									label(for="ordinal_edit-nombres") Ordinal*
+									input.form-control#ordinal_edit-nombres(type="text" ng-model="ordinal_edit.ordinal" placeholder="Ordinal")
+
+							.col-sm-6.col-md-4
+								.form-group
+									label(for="ordinal_edit-pagina") Página / Párrafo
+									input.form-control#ordinal_edit-pagina(type="text" ng-model="ordinal_edit.pagina" placeholder="Página")
+
+							.col-sm-6.col-md-4
+								.form-group
+									label(for="ordinal_edit-tipo") Tipo
+									input.form-control#ordinal_edit-tipo(type="text"
+										ng-model="ordinal_edit.tipo" placeholder="Página"
+										uib-typeahead="tipo as tipo.tipo for tipo in tipos | filter:$viewValue | limitTo:8"
+										typeahead-min-length="0" typeahead-template-url="==comportamiento/typeaheadSimple.tpl.html")
+
+							.col-sm-12.col-md-4
+								.form-group
+									label(for="ordinal_edit-descripcion") Descripción*
+									textarea.form-control.textarea-altura-xs#ordinal_edit-descripcion(required
+										ng-model="ordinal_edit.descripcion" placeholder="Descripción" uib-tooltip="Descripción"
+										tooltip-popup-delay="500" style="height: 50px;")
+
+
+
+						.footer
+							input.btn.btn-primary(type="submit" value="Guardar" ng-disabled="guardando")
+							a.btn.btn-warning(ng-click="cancelarEditar()") Ocultar
+
+
+
+
+			.row(style="overflow: auto")
+				.col-xs-12(style="margin-bottom: 15px;")
+					button.btn.btn-success(ui-sref="panel.disciplina")
+						i.fa.fa-arrow-left
+						| Volver a disciplina
+					button.btn.btn-primary(ng-click="verCrear()" ng-show="!creando")
+						i.fa.fa-plus
+						| Crear ordinal
+
+
+				.col-xs-12(style="margin-bottom: 10px;")
+					label Seleccione el año
+					ui-select(ng-model="datos.year" on-select="selectYear($item)" style="width: 300px; display: inline-block;")
+						ui-select-match(placeholder="Año" allow-clear="true") {{$select.selected.year}}
+						ui-select-choices(repeat="year in $parent.years | filter: $select.search")
+							div(ng-bind-html="year.year | highlight: $select.search")
+
+
+
+				.col-xs-12
+					#grid1.grid(ui-grid="gridOptions" ui-grid-move-columns ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-auto-resize ui-grid-pinning style="height: 600px")
+
+
+
+
+.row#configurar-convivencia(style="margin-top: 30px;")
+	.col-xs-12
+
+
+		form.well.with-header.with-footer
+			.header.bordered-blue Configuración de coordinación de convivencia (COMPORTAMIENTO)
+			.row
+				.col-sm-6.col-md-6
+					.form-group
+						label(uib-tooltip="Reinicia cada periodo") Reinicia cada periodo
+						label
+							input.checkbox-slider.slider-icon.colored-blue(type="checkbox"
+								ng-change="guardarValorConfig(config, 'reinicia_por_periodo', config.reinicia_por_periodo)" ng-true-value="1" ng-false-value="0"
+								ng-model="config.reinicia_por_periodo")
+							span.text.si-no
+
+			.row
+				.col-sm-5.col-md-4
+					.form-group(uib-tooltip="¿Cómo se llamarán las faltas tipo uno? Ej: Ficha, Tipo 1, etc.")
+						label(for="configuracion-convi-falta_tipo1_displayname") Falta tipo 1
+						input.form-control#configuracion-convi-falta_tipo1_displayname(type="text" ng-model="config.falta_tipo1_displayname" placeholder="Falta tipo 1"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
+							ng-change="guardarValorConfig(config, 'falta_tipo1_displayname', config.falta_tipo1_displayname)")
+
+				.col-sm-5.col-md-4
+					.form-group(uib-tooltip="Plural de las faltas tipo 1")
+						label(for="configuracion-convi-faltas_tipo1_displayname") Plural faltas tipo 1
+						input.form-control#configuracion-convi-faltas_tipo1_displayname(type="text" ng-model="config.faltas_tipo1_displayname" placeholder="Faltas tipo 1"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
+							ng-change="guardarValorConfig(config, 'faltas_tipo1_displayname', config.faltas_tipo1_displayname)")
+
+				.col-sm-2.col-md-2
+					.form-group(uib-tooltip="Género faltas tipo 1")
+						label(for="configuracion-convi-gener_falta_tipo1") Género 1
+						input.form-control#configuracion-convi-gener_falta_tipo1(type="text" ng-model="config.genero_falta_t1" placeholder="Género faltas tipo 1"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
+							ng-change="guardarValorConfig(config, 'genero_falta_t1', config.genero_falta_t1)")
+
+
+				.col-sm-5.col-md-4
+					.form-group(uib-tooltip="¿Cómo se llamarán las faltas tipo dos? Ej: Reporte, Tipo 2, etc.")
+						label(for="configuracion-convi-falta_tipo2_displayname") Falta tipo 2
+						input.form-control#configuracion-convi-falta_tipo2_displayname(type="text" ng-model="config.falta_tipo2_displayname" placeholder="Falta tipo 2"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
+							ng-change="guardarValorConfig(config, 'falta_tipo2_displayname', config.falta_tipo2_displayname)")
+
+				.col-sm-5.col-md-4
+					.form-group(uib-tooltip="Plural de las faltas tipo 2")
+						label(for="configuracion-convi-faltas_tipo2_displayname") Plural faltas tipo 2
+						input.form-control#configuracion-convi-faltas_tipo2_displayname(type="text" ng-model="config.faltas_tipo2_displayname" placeholder="Faltas tipo 2"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
+							ng-change="guardarValorConfig(config, 'faltas_tipo2_displayname', config.faltas_tipo2_displayname)")
+
+				.col-sm-2.col-md-2
+					.form-group(uib-tooltip="Género faltas tipo 2")
+						label(for="configuracion-convi-gener_falta_tipo2") Género 2
+						input.form-control#configuracion-convi-gener_falta_tipo2(type="text" ng-model="config.genero_falta_t2" placeholder="Género faltas tipo 2"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
+							ng-change="guardarValorConfig(config, 'genero_falta_t2', config.genero_falta_t2)")
+
+
+
+				.col-sm-5.col-md-4
+					.form-group(uib-tooltip="¿Cómo se llamarán las faltas tipo tres? Ej: Falta gravísima, Tipo 3, etc.")
+						label(for="configuracion-convi-falta_tipo3_displayname") Falta tipo 3
+						input.form-control#configuracion-convi-falta_tipo3_displayname(type="text" ng-model="config.falta_tipo3_displayname" placeholder="Falta tipo 3"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
+							ng-change="guardarValorConfig(config, 'falta_tipo3_displayname', config.falta_tipo3_displayname)")
+
+				.col-sm-5.col-md-4
+					.form-group(uib-tooltip="Plural de las faltas tipo 3")
+						label(for="configuracion-convi-faltas_tipo3_displayname") Plural faltas tipo 3
+						input.form-control#configuracion-convi-faltas_tipo3_displayname(type="text" ng-model="config.faltas_tipo3_displayname" placeholder="Faltas tipo 3"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
+							ng-change="guardarValorConfig(config, 'faltas_tipo3_displayname', config.faltas_tipo3_displayname)")
+
+				.col-sm-2.col-md-2
+					.form-group(uib-tooltip="Género faltas tipo 3")
+						label(for="configuracion-convi-gener_falta_tipo3") Género 3
+						input.form-control#configuracion-convi-gener_falta_tipo3(type="text" ng-model="config.genero_falta_t3" placeholder="Género faltas tipo 3"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
+							ng-change="guardarValorConfig(config, 'genero_falta_t3', config.genero_falta_t3)")
+
+			hr
+			.row
+				.col-sm-4.col-md-4
+					.form-group(uib-tooltip="¿Con cuántas tardanzas se llega a {{config.falta_tipo1_displayname}}?")
+						label(for="configuracion-convi-cant_tard_to_ft1") Tardanzas para tipo 1
+						input.form-control#configuracion-convi-cant_tard_to_ft1(type="number" min="0" ng-model="config.cant_tard_to_ft1" placeholder="Tardanzas para tipo 1"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
+							ng-change="guardarValorConfig(config, 'cant_tard_to_ft1', config.cant_tard_to_ft1)")
+
+				.col-sm-4.col-md-4
+					.form-group(uib-tooltip="¿Con cuántas {{config.faltas_tipo1_displayname}} se llega a {{config.falta_tipo2_displayname}}?")
+						label(for="configuracion-convi-cant_ft1_to_ft2") Para tipo 2
+						input.form-control#configuracion-convi-cant_ft1_to_ft2(type="number" min="0" ng-model="config.cant_ft1_to_ft2" placeholder="Para tipo 2"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
+							ng-change="guardarValorConfig(config, 'cant_ft1_to_ft2', config.cant_ft1_to_ft2)")
+
+				.col-sm-4.col-md-4
+					.form-group(uib-tooltip="¿Con cuántas {{config.faltas_tipo2_displayname}} se llega a {{config.falta_tipo3_displayname}}?")
+						label(for="configuracion-convi-cant_ft2_to_ft3") Para tipo 2
+						input.form-control#configuracion-convi-cant_ft2_to_ft3(type="number" min="0" ng-model="config.cant_ft2_to_ft3" placeholder="Para tipo 3"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
+							ng-change="guardarValorConfig(config, 'cant_ft2_to_ft3', config.cant_ft2_to_ft3)")
+
+
+			hr
+			.row
+				.col-sm-12.col-md-12(style="margin: 20px 0;")
+					| Las siguientes son las columnas que aparecerán en el libro rojo y en las que cada titular podrá escribir:
+
+				.col-sm-12.col-md-4
+					.form-group(uib-tooltip="Nombre de la primera columna")
+						label(for="configuracion-convi-nombre_col1") Primera columna
+						input.form-control#configuracion-convi-nombre_col1(type="text" min="0" ng-model="config.nombre_col1" placeholder="Primera columna"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
+							ng-change="guardarValorConfig(config, 'nombre_col1', config.nombre_col1)")
+
+				.col-sm-12.col-md-4
+					.form-group(uib-tooltip="Nombre de la segunda columna")
+						label(for="configuracion-convi-nombre_col2") Segunda columna
+						input.form-control#configuracion-convi-nombre_col2(type="text" min="0" ng-model="config.nombre_col2" placeholder="Segunda columna"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
+							ng-change="guardarValorConfig(config, 'nombre_col2', config.nombre_col2)")
+
+				.col-sm-12.col-md-4
+					.form-group(uib-tooltip="Nombre de la tercera columna")
+						label(for="configuracion-convi-nombre_col3") Tercera columna
+						input.form-control#configuracion-convi-nombre_col2(type="text" min="0" ng-model="config.nombre_col3" placeholder="Tercera columna"
+							ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
+							ng-change="guardarValorConfig(config, 'nombre_col3', config.nombre_col3)")
+
+
+
+

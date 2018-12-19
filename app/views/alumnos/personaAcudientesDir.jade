@@ -1,0 +1,19 @@
+
+div(ng-show="!acudientes_cargado" style="text-align: center;")
+	i.fa.fa-spinner.fa-spin(style="font-size: 20pt")
+
+span(ng-show="acudientes_cargado")
+
+
+	.widget
+		.widget-header.bordered-bottom.bordered-info
+			span.widget-caption Consultas y sucesos importantes
+		.widget-body
+
+			p Aquí podrás registrar acudientes y verificar que sean los mismos de sus hermanos.
+
+			button.btn.btn-primary(type="button" ng-click="agregarAcudiente()")
+				i.fa.fa-plus
+				| Agregar acudiente
+
+			div(ui-grid="gridOptionsAcudientes" ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-auto-resize style="height: 300px")

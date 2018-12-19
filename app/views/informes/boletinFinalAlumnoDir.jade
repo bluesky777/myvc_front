@@ -30,7 +30,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 								b.camel   {{grupo.nombre_grupo.toLowerCase()}}
 							.titular-grupo(uib-popover-html="'<img src=\"{{perfilPath + grupo.foto_nombre}}\" style=\"width: 150px; height: 150px;\">'"
 									popover-popup-delay="1000" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true"
-									popover-trigger="mouseenter" popover-append-to-body="true")
+									popover-trigger="'mouseenter'" popover-append-to-body="true")
 								| Titular:
 								span.camel   {{grupo.nombres_profesor.toLowerCase() + ' ' + grupo.apellidos_profesor.toLowerCase()}}
 						.col-lg-6.col-xs-6
@@ -41,7 +41,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 				.col-lg-12.col-xs-12
 					table.table-bordered.table-bordered2.table-striped.table-striped2(style="margin: 0 auto; width: 100%; font-size: 9pt;")
 
-						tr(style="background-color: #99caed !important;")
+						tr(style="background-color: #99caed !important; font-weight: bold;")
 							td.text-center No
 							td.txtcentro(style="width: 310px")
 								b Área / Asignatura
@@ -50,8 +50,20 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 								span A
 							td.txtcentro(style="width: 45px") IH
 							td.txtcentro(ng-repeat="periodo in year.periodos") Per{{periodo.numero}}
-							td.txtcentro Desempeño
-							td.txtcentro(style="border-left: 2px solid !important;") Nota
+
+							td.txtcentro
+								// por ahora igual a ver si Francisco me pide cambiarlo
+								span(ng-show="::year.cant_areas_pierde_year > 0")
+									| Escala valorativa
+								span(ng-show="::year.cant_asignatura_pierde_year > 0")
+									| Escala valorativa
+
+							td.txtcentro(style="border-left: 2px solid !important;")
+								// por ahora igual a ver si Francisco me pide cambiarlo
+								span(ng-show="::year.cant_areas_pierde_year > 0")
+									| Escala nacional
+								span(ng-show="::year.cant_asignatura_pierde_year > 0")
+									| Escala nacional
 
 
 						tr(ng-if="::area.asignaturas.length>1" ng-repeat-start="area in ::alumno.areas | orderBy:'orden' track by $index")
@@ -73,10 +85,10 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 
 
 
-						tr(ng-repeat-end ng-repeat="asignatura in ::area.asignaturas")
+						tr(ng-repeat-end ng-repeat="asignatura in ::area.asignaturas" ng-if="::(year.cant_areas_pierde_year>0 && area.asignaturas.length==1) || (year.cant_asignatura_pierde_year>0)")
 							//td.text-center {{ asignatura.indice }}
 							td.text-center
-								span(ng-show="area.asignaturas.length==1") {{ $parent.$index + 1 }}
+								span(ng-show="area.asignaturas.length==1") {{ $parent.$parent.$index + 1 }}
 							td
 
 								div(style="font-weight: bold;" ng-class="{'asig-padding-left-20': area.asignaturas.length>1 }"
@@ -179,7 +191,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 							|  manejan el ingreso o no al siguiente nivel escolar.
 
 
-				.col-lg-12.col-xs-12(style="margin-bottom: 20px; font-size: 11pt;" ng-if="alumno.recuperaciones.length>0")
+				.col-lg-12.col-xs-12(style="margin-bottom: 20px; font-size: 11pt;" ng-if="alumno.recuperaciones.length>0 && year.cant_asignatura_pierde_year>0")
 					.row(ng-repeat="recuperacion in alumno.recuperaciones")
 						.col-lg-1.col-xs-1
 						.col-lg-4.col-xs-4

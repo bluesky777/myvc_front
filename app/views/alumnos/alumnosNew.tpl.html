@@ -75,11 +75,12 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div style="margin-top: 22px;" class="form-group col-lg-6 col-sm-8 col-xs-12">
+                    <div style="margin-top: 22px;" class="form-group col-lg-8 col-sm-8 col-xs-12">
                       <div style="display: block;" class="btn-group">
-                        <label ng-model="data.proceso" name="proceso_matr" uib-btn-radio="'matriculando'" style="width: 30%;" class="btn btn-primary">Matricular {{USER.year}}</label>
-                        <label ng-model="data.proceso" name="proceso_matr" uib-btn-radio="'prematriculando'" style="width: 40%;" class="btn btn-success">Prematricular {{USER.year+1}}</label>
-                        <label ng-model="data.proceso" name="proceso_matr" uib-btn-radio="'formulario'" style="width: 30%;" class="btn btn-success">Formulario {{USER.year+1}}</label>
+                        <label ng-model="data.proceso" name="proceso_matr" uib-btn-radio="'matriculando'" style="width: 25%;" class="btn btn-primary">Matricular {{USER.year}}</label>
+                        <label ng-model="data.proceso" name="proceso_matr" uib-btn-radio="'prematriculando'" style="width: 25%;" class="btn btn-success">Prematric {{USER.year+1}}</label>
+                        <label ng-model="data.proceso" name="proceso_matr" uib-btn-radio="'formulario'" style="width: 25%;" class="btn btn-success">Formulario {{USER.year+1}}</label>
+                        <label ng-model="data.proceso" name="proceso_matr" uib-btn-radio="'matriculando_next'" style="width: 25%;" class="btn btn-success">Matricular {{USER.year+1}}</label>
                       </div>
                     </div>
                     <div ng-show="data.proceso=='matriculando' " class="form-group col-lg-4 col-sm-4 col-xs-12">
@@ -91,8 +92,8 @@
                         </ui-select-choices>
                       </ui-select>
                     </div>
-                    <div ng-show="data.proceso=='prematriculando' || data.proceso=='formulario' " class="form-group col-lg-4 col-sm-4 col-xs-12">
-                      <label>Grupos {{USER.year+1}}<span ng-show="data.proceso=='prematriculando'"> - Prematricular</span><span ng-show="data.proceso=='formulario'"> - Lleva formulario</span></label>
+                    <div ng-show="data.proceso=='prematriculando' || data.proceso=='formulario' || data.proceso=='matriculando_next' " class="form-group col-lg-4 col-sm-4 col-xs-12">
+                      <label>Grupos {{USER.year+1}}<span ng-show="data.proceso=='prematriculando'"> - Prematricular</span><span ng-show="data.proceso=='formulario'"> - Lleva formulario</span><span ng-show="data.proceso=='matriculando_next'"> - Grupo al que va</span></label>
                       <ui-select ng-model="alumno.grupo_sig" style="width: 100%;">
                         <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
                         <ui-select-choices repeat="grupo in grupos_siguientes | filter: $select.search">

@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('AcudientesCtrl', ['$scope', 'App', '$state', '$interval', '$uibModal', '$filter', 'AuthService', 'toastr', '$http', 'uiGridConstants', 'DownloadServ', ($scope, App, $state, $interval, $modal, $filter, AuthService, toastr, $http, uiGridConstants, DownloadServ)->
+.controller('AcudientesCtrl', ['$scope', 'App', '$state', '$interval', '$uibModal', '$filter', 'AuthService', 'toastr', '$http', 'uiGridConstants', 'DownloadServ', 'Acentos', ($scope, App, $state, $interval, $modal, $filter, AuthService, toastr, $http, uiGridConstants, DownloadServ, Acentos)->
 
 		AuthService.verificar_acceso()
 
@@ -100,14 +100,12 @@ angular.module("myvcFrontApp")
 						{ field: 'foto_nombre', displayName:'Foto', cellTemplate: "<img width=\"35px\" ng-src=\"{{grid.appScope.perfilPath + grid.getCellValue(row, col)}}\">", width: 40}
 						{ field: 'nombres', minWidth: 100,
 						filter: {
-								condition: (searchTerm, cellValue, row)->
-										entidad = row.entity
-										return (entidad.nombres.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1)
+								condition: Acentos.buscarEnGrid
 						}
 						enableHiding: false }
-						{ field: 'apellidos', minWidth: 100, filter: { condition: uiGridConstants.filter.CONTAINS }}
+						{ field: 'apellidos', minWidth: 100, filter: { condition: Acentos.buscarEnGrid }}
 						{ field: 'sexo', width: 60 }
-						{ field: 'username', filter: { condition: uiGridConstants.filter.CONTAINS }, displayName: 'Usuario', cellTemplate: btUsuario, minWidth: 150 }
+						{ field: 'username', filter: { condition: Acentos.buscarEnGrid }, displayName: 'Usuario', cellTemplate: btUsuario, minWidth: 150 }
 						{ field: 'documento', displayName: 'Documento', minWidth: 100, cellFilter: 'formatNumberDocumento' }
 						{ field: 'direccion', displayName: 'Dirección', minWidth: 90 }
 						{ field: 'barrio', minWidth: 80 }

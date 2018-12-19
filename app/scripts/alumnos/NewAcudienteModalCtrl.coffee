@@ -3,16 +3,18 @@
 angular.module("myvcFrontApp")
 
 
-.controller('NewAcudienteModalCtrl', ['$scope', 'App', '$uibModalInstance', 'alumno', 'paises', 'tipos_doc', 'parentescos', '$http', 'toastr', '$filter', '$rootScope', ($scope, App, $modalInstance, alumno, paises, tipos_doc, parentescos, $http, toastr, $filter, $rootScope)->
-	$scope.alumno 				= alumno
-	$scope.paises 				= paises
-	$scope.parentescos 			= parentescos
-	$scope.datos 				= {}
-	$scope.tipos_doc 			= tipos_doc
+.controller('NewAcudienteModalCtrl', ['$scope', 'App', '$uibModalInstance', 'alumno', 'paises', 'tipos_doc', 'parentescos', '$http', 'toastr', '$filter', '$rootScope', '$timeout', ($scope, App, $modalInstance, alumno, paises, tipos_doc, parentescos, $http, toastr, $filter, $rootScope, $timeout)->
+	$scope.alumno 				    = alumno
+	$scope.paises 				    = paises
+	$scope.parentescos 			  = parentescos
+	$scope.datos 				      = {}
+	$scope.tipos_doc 			    = tipos_doc
 	$scope.crearTabSelected 	= false
 	$scope.selectTabSelected 	= true
-	$scope.perfilPath 			= App.images+'perfil/'
-	$scope.acudiente_cambiar = $rootScope.acudiente_cambiar
+	$scope.perfilPath 			  = App.images+'perfil/'
+	$scope.acudiente_cambiar  = $rootScope.acudiente_cambiar
+
+
 	$scope.acudiente 	= {
 		sexo:			'M'
 		parentesco: 	$scope.parentescos[0]
@@ -28,6 +30,8 @@ angular.module("myvcFrontApp")
 				if paren.parentesco.toLowerCase() == $scope.acudiente_cambiar.parentesco.toLowerCase()
 					$scope.acudiente.parentesco = paren
 
+
+
 	$scope.selectCrearTab = ()->
 		$scope.crearTabSelected 	= true
 		$scope.selectTabSelected 	= false
@@ -36,6 +40,13 @@ angular.module("myvcFrontApp")
 		$scope.crearTabSelected 	= false
 		$scope.selectTabSelected 	= true
 
+
+	$scope.selecAcudOption = (acudiente)->
+		for parentesc in $scope.parentescos
+			if parentesc.parentesco == 'Madre' and acudiente.sexo == 'F'
+				$scope.acudiente.parentesco = parentesc
+			if parentesc.parentesco == 'Padre' and acudiente.sexo == 'M'
+				$scope.acudiente.parentesco = parentesc
 
 
 	$scope.cancel = ()->
@@ -70,7 +81,9 @@ angular.module("myvcFrontApp")
 		res = []
 		for acudi in respuesta
 			$scope.existe = false
-			for pariente in alumno.subGridOptions.data
+
+			parientes = if alumno.subGridOptions then alumno.subGridOptions.data else alumno.parientes
+			for pariente in parientes
 				if pariente.id == acudi.id
 					$scope.existe = true
 

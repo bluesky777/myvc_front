@@ -1,0 +1,10 @@
+
+<div ng-show="!acudientes_cargado" style="text-align: center;"><i style="font-size: 20pt" class="fa fa-spinner fa-spin"></i></div><span ng-show="acudientes_cargado">
+  <div class="widget">
+    <div class="widget-header bordered-bottom bordered-info"><span class="widget-caption">Consultas y sucesos importantes</span></div>
+    <div class="widget-body">
+      <p>Aquí podrás registrar acudientes y verificar que sean los mismos de sus hermanos.</p>
+      <button type="button" ng-click="agregarAcudiente()" class="btn btn-primary"><i class="fa fa-plus"></i>Agregar acudiente</button>
+      <div ui-grid="gridOptionsAcudientes" ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-auto-resize style="height: 300px"></div>
+    </div>
+  </div></span>

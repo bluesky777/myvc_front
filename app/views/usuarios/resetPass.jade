@@ -4,18 +4,20 @@
 	.row
 		.col-lg-12.col-xs-12
 			h5 Id: {{usuario.user_id}}
-			div Nombres: 
+			div Nombres:
 			h4(style="text-overflow: ellipsis") {{usuario.nombres}} {{usuario.apellidos}}
-			div Nombre de usuario: 
+			div Nombre de usuario:
 			h4(style="text-overflow: ellipsis") {{usuario.username}}
-			
-			form.form.form-inline(role="form")
+
+			form.form.form-inline(role="form" ng-submit="ok()")
 				.form-group
 					label Contraseña
-					input.form-control(ng-attr-type="{{ showPassword ? 'text' : 'password' }}" ng-model="newpassword" 
+					input.form-control(ng-attr-type="{{ showPassword ? 'text' : 'password' }}" ng-model="newpassword"
 						placeholder="Puede dejar vacío" ng-dblclick="showPassword=!showPassword")
 
+					input(type="submit" ng-show="false" value="Cambiar")
+
 .modal-footer
+	button.btn.btn-yellow(ng-click="cancel()") Cancelar
 	button.btn.btn-labeled.btn-primary(ng-click="ok()") Cambiar contraseña
 		i.btn-label.fa.fa-save
-	button.btn.btn-yellow(ng-click="cancel()") Cancelar
