@@ -1,0 +1,83 @@
+.modal-header
+	h3.modal-title.flipInY Tardanzas / Ausencias
+.modal-body
+	div(style="padding-bottom: 10px;")
+		h3(style="display: inline;")
+			img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 50px; height: 50px;")
+			| {{ alumno.nombres }} {{ alumno.apellidos }}
+
+
+	.row
+		.col-lg-12.col-xs-12
+
+			.row.animated.bounceIn(ng-repeat="falla in alumno.tardanzas" style="border: 1px solid #bbb;")
+				.col-sm-1.col-xs-1.no-padding-xs
+					| {{ falla.id }}
+				.col-sm-3.col-xs-5.no-padding-xs
+					.btn-group
+						label.btn.btn-success.btn-sm(ng-model="falla.tipo" ng-click="cambiarTipo(falla, 'tardanza')" uib-btn-radio="'tardanza'") Tarda
+						label.btn.btn-success.btn-sm(ng-model="falla.tipo" ng-click="cambiarTipo(falla, 'ausencia')" uib-btn-radio="'ausencia'") Ausen
+				.col-sm-3.col-xs-2.visible-xs
+					button.btn.btn-danger.btn-sm(ng-click="eliminarAusencia(falla, alumno)"
+						style="margin-top: 10px")
+						i.fa.fa-times
+
+				.col-sm-3.col-xs-6.no-padding
+					.controls(style="margin-top: 28px;")
+						.input-group
+							span.input-group-addon(ng-click="falla.isOpen = true")
+								i.fa.fa-calendar
+							input.form-control.active(type="text" uib-datepicker-popup="dd-MM-yyyy" ng-model="falla.fecha_hora"
+								is-open="falla.isOpen" alt-input-formats="['M!/d!/yyyy', 'yyyy-M!-d!', 'M!-d!-yyyy', 'yyyy/M!/d!']"
+								ng-click="falla.isOpen = true" close-text="Aceptar" current-text="Hoy" clear-text="Borrar"
+								ng-change="guardarValor(alumno, 'fecha_pension', alumno.fecha_pension)"
+								placeholder="Escribe 'MM-dd-yyyy' o 'yyyy-dd-MM'" style="padding: 6px 2px;")
+				.col-sm-3.col-xs-6.no-padding
+						div(uib-timepicker ng-model="falla.fecha_hora" ng-change="changed()" )
+
+				.col-sm-1.col-xs-2.hidden-xs
+						button.btn.btn-danger.btn-sm(ng-click="eliminarAusencia(falla, alumno)"
+							style="margin-top: 10px")
+							i.fa.fa-times
+
+
+
+			.row.animated.bounceIn(ng-repeat="falla in alumno.ausencias" style="border: 1px solid #bbb;")
+				.col-sm-1.col-xs-2.no-padding-xs
+					| {{ falla.id }}
+				.col-sm-3.col-xs-5.no-padding-xs
+					.btn-group
+						label.btn.btn-success.btn-sm(ng-model="falla.tipo" ng-click="cambiarTipo(falla, 'tardanza')" uib-btn-radio="'tardanza'") Tarda
+						label.btn.btn-success.btn-sm(ng-model="falla.tipo" ng-click="cambiarTipo(falla, 'ausencia')" uib-btn-radio="'ausencia'") Ausen
+				.col-sm-3.col-xs-2.visible-xs
+					button.btn.btn-danger.btn-sm.visible-xs(ng-click="eliminarAusencia(falla, alumno)"
+						style="margin-top: 10px")
+						i.fa.fa-times
+
+				.col-sm-3.col-xs-6.no-padding
+					.controls(style="margin-top: 28px;")
+						.input-group
+							span.input-group-addon(ng-click="falla.isOpen = true")
+								i.fa.fa-calendar
+							input.form-control.active(type="text" uib-datepicker-popup="dd-MM-yyyy" ng-model="falla.fecha_hora"
+								is-open="falla.isOpen" alt-input-formats="['M!/d!/yyyy', 'yyyy-M!-d!', 'M!-d!-yyyy', 'yyyy/M!/d!']"
+								ng-click="falla.isOpen = true" close-text="Aceptar" current-text="Hoy" clear-text="Borrar"
+								ng-change="guardarValor(alumno, 'fecha_pension', alumno.fecha_pension)"
+								placeholder="Escribe 'MM-dd-yyyy' o 'yyyy-dd-MM'" style="padding: 6px 2px;")
+				.col-sm-3.col-xs-6.no-padding
+					div(uib-timepicker ng-model="falla.fecha_hora" ng-change="changed()" )
+
+				.col-sm-1.col-xs-2.hidden-xs
+					button.btn.btn-danger.btn-sm(ng-click="eliminarAusencia(falla, alumno)"
+						style="margin-top: 10px")
+						i.fa.fa-times
+
+
+
+
+
+
+.modal-footer
+	button.btn.btn-labeled.btn-default(ng-click="ok()") Cerrar
+		i.btn-label.fa.fa-check
+

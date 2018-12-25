@@ -1,0 +1,24 @@
+
+<div class="modal-header">
+  <h3 class="modal-title flipInY">{{ subunidad.definicion }}</h3>
+</div>
+<div class="modal-body">
+  <div style="padding-bottom: 10px;">
+    <h3 style="display: inline;"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 50px; height: 50px;">{{ alumno.nombres }} {{ alumno.apellidos }} =<span style="font-weight: bold;"> {{ nota.nota }}</span></h3>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 col-xs-12">
+      <table class="table table-hover table-condensed table-striped">
+        <tr ng-repeat="escala in escalas" uib-tooltip="{{escala.desempenio}}" tooltip-append-to-body="true">
+          <td>{{escala.valoracion}}</td>
+          <td>
+            <div class="btn-group"><a ng-repeat="n in [] | range:escala.porc_inicial:escala.porc_final" ng-class="escala.perdido ? 'btn-danger':'btn-default'" ng-click="cambiaNota(n)" class="btn btn-sm">{{n}}</a></div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button ng-click="ok()" class="btn btn-labeled btn-default">Cerrar<i class="btn-label fa fa-check"></i></button>
+</div>

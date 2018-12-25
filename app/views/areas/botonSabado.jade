@@ -1,0 +1,9 @@
+div(style="text-align:center; padding-top: 4px")
+
+	a.btn.btn-xs(ng-class="{'btn-primary':row.entity.sabado, 'btn-default':!row.entity.sabado }"
+		ng-click="grid.appScope.toggleDia(row.entity, 'sabado');"
+		tooltip-enable="row.entity.sabado")
+
+		span(ng-hide="row.entity.sabado") No
+		span(ng-show="row.entity.sabado") Si
+

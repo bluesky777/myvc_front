@@ -146,3 +146,19 @@ angular.module('myvcFrontApp', [
 window.validateEmail = (email)->
 	re = /\S+@\S+\.\S+/;
 	return re.test(email);
+
+window.fixHora = (ti)->
+	hora 	= ti.getHours();
+	if (hora<10)
+		hora = '0' + hora;
+	min 	= ti.getMinutes();
+	if (min<10)
+		min = '0' + min;
+	sec 	= ti.getSeconds();
+	if (sec<10)
+		sec = '0' + sec;
+
+	time 	= hora + ':' + min + ':' + sec;
+
+	return time;
+

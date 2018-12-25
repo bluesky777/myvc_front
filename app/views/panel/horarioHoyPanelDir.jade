@@ -1,0 +1,199 @@
+.well.with-header.animated.bounceIn(ng-if="USER.tipo=='Profesor'" style="padding-top: 60px !important;")
+	.header.bordered-blue
+		span(ng-show="!pasandoNotas")
+			span(ng-show="mostrandoHoy") Clases de hoy
+				a(ng-click="mostrarClasesDeManana()" href="" style="float: right;") Mañana >>
+
+			span(ng-show="!mostrandoHoy")
+				a(ng-click="mostrarClasesDeHoy()" href="") << Hoy
+				span(style="float: right;") Clases de mañana
+
+		span(ng-show="pasandoNotas" style="font-weight: bold;")
+			| {{ asignatura_actual.abrev_grupo }}. {{ asignatura_actual.materia }}
+
+	.row
+		.col-xs-12(ng-hide="pasandoNotas")
+			span(ng-if="mostrandoHoy")
+				div(ng-repeat="asignatura in changes_asked.horario_hoy")
+					button.btn.btn-default.btn-block(ng-click="seleccionarAsignatura(asignatura)")
+						span(style="background-color: #9aecff; padding: 0px 8px; float: left; font-weight: bold; font-size: 14pt;"
+							uib-tooltip="{{ asignatura.nombre_grupo }}")
+							| {{ asignatura.abrev_grupo }}
+						span  {{ asignatura.materia }}
+
+					div.no-padding-xs(ng-show="asignatura.seleccionada" style="padding: 4px 15px;")
+
+						div(style="text-align: center;")
+							a.btn.btn-primary.shiny(href="" ui-sref="panel.unidades({asignatura_id: asignatura.asignatura_id})" style="margin-top: 5px;")
+								| Ir a {{UNIDADES}}
+
+						// UNIDADES
+						div(ng-repeat="unidad in asignatura.unidades" style="border: 1px solid #aaa; padding: 2px; margin-bottom: 10px; margin-top: 5px; border-radius: 4px; background-color: aliceblue;")
+							div(style="max-height: 50px; overflow: hidden;")
+								| {{$index+1}}. {{ unidad.definicion }}
+
+
+							// Subunidades
+							div(ng-repeat="subunidad in unidad.subunidades" style="margin-left: 20px;")
+								button.btn.btn-default.btn-block.subunidad-horario(ng-click="cargarAlumnosSubunidad(subunidad, asignatura, asignatura.grupo_id, asignatura.asignatura_id)")
+									| {{$index+1}}. {{ subunidad.definicion }}
+
+							div(style="text-align: right")
+								a(ng-click="crearSubunidad()" href=""
+									ng-hide="::USER.profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')")
+									| Crear {{SUBUNIDAD}}
+
+			span(ng-if="!mostrandoHoy")
+				div(ng-repeat="asignatura in changes_asked.horario_manana")
+					button.btn.btn-default.btn-block(ng-click="seleccionarAsignatura(asignatura)")
+						span(style="background-color: #9aecff; padding: 0px 8px; float: left; font-weight: bold; font-size: 14pt;"
+							uib-tooltip="{{ asignatura.nombre_grupo }}")
+							| {{ asignatura.abrev_grupo }}
+						span  {{ asignatura.materia }}
+
+					div.no-padding-xs(ng-show="asignatura.seleccionada" style="padding: 4px 15px;")
+
+						div(style="text-align: center;")
+							a.btn.btn-primary.shiny(href="" ui-sref="panel.unidades({asignatura_id: asignatura.asignatura_id})" style="margin-top: 5px;")
+								| Ir a {{UNIDADES}}
+
+						// UNIDADES
+						div(ng-repeat="unidad in asignatura.unidades" style="border: 1px solid #aaa; padding: 2px; margin-bottom: 10px; margin-top: 5px; border-radius: 4px; background-color: aliceblue;")
+							div(style="max-height: 50px; overflow: hidden;")
+								| {{$index+1}}. {{ unidad.definicion }}
+
+
+							// Subunidades
+							div(ng-repeat="subunidad in unidad.subunidades" style="margin-left: 20px;")
+								button.btn.btn-default.btn-block.subunidad-horario(ng-click="cargarAlumnosSubunidad(subunidad, asignatura, asignatura.grupo_id, asignatura.asignatura_id)")
+									| {{$index+1}}. {{ subunidad.definicion }}
+
+							div(style="text-align: right")
+								a(ng-click="crearSubunidad()" href=""
+									ng-hide="::USER.profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')")
+									| Crear {{SUBUNIDAD}}
+
+
+
+		.col-xs-12.animated.rotateIn(ng-show="pasandoNotas")
+			a(href="" ng-click="volverClases()") << Volver
+			h4(style="font-weigth: bold; margin-top: 5px") {{ subunidad_actual.definicion }}
+
+			div(ng-repeat="alumno in alumnos_subunidad")
+				.row(style="padding: 4px; border: 1px solid #ccc; transition: all 0.5s" ng-class="{ 'alum-mostrando-ausencias': alumno.mostrandoFallas }")
+					.col-xs-12.col-sm-7
+						span {{::$index+1}}.
+						span.nombresellipsis(uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'"
+							popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}"
+							popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true")
+							img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 30px; height: 30px;")
+							| {{ alumno.apellidos }} {{ alumno.nombres }}
+
+					.col-xs-12.col-sm-5
+							button.btn.btn-default(ng-click="cambiarNota(alumno, alumno.nota)" uib-tooltip="Nota" tooltip-popup-delay="100"
+								ng-class="{'inputnota-perdida': alumno.nota.nota < nota_minima_aceptada, 'inputnota-superior': alumno.nota.nota >= escala_maxima.porc_inicial }")
+									| {{ alumno.nota.nota }}
+
+							button.btn.btn-default(ng-click="verTardanzasAusencias(alumno)"
+								ng-class="{'btn-warning': alumno.falla_hoy=='tardanza', 'btn-danger': alumno.falla_hoy=='ausencia' }"
+								style="padding-left: 2px; padding-right: 4px;" uib-tooltip="Ausencias: {{ alumno.ausencias_count }} - Tardanzas: {{ alumno.ausencias_count }}")
+									i.fa.fa-clock-o
+									| A: {{ alumno.ausencias_count }}
+									|  - T: {{ alumno.tardanzas_count }}
+
+							// Agregar
+							button.btn.btn-danger(ng-click="agregarAusencia(alumno)" style="padding-right: 9px;"
+								uib-tooltip="Agregar ausencia")
+								i.fa.fa-plus
+
+							button.btn.btn-warning(ng-click="agregarTardanza(alumno)" style="padding-right: 9px;"
+								uib-tooltip="Agregar tardanza")
+								i.fa.fa-plus
+
+							// Eliminar
+							button.btn.btn-danger(ng-click="quitarAusenciaHoy(alumno, 'ausencia')" style="padding-right: 9px;"
+								uib-tooltip="Quitar ausencias de hoy" ng-show="alumno.falla_hoy=='ausencia'")
+								i.fa.fa-minus-circle
+
+							button.btn.btn-warning(ng-click="quitarAusenciaHoy(alumno, 'tardanza')" style="padding-right: 9px;"
+								uib-tooltip="Quitar tardanzas de hoy" ng-show="alumno.falla_hoy=='tardanza'")
+								i.fa.fa-minus-circle
+
+
+
+
+				// TARDANZAS - AUSENCIAS
+				.row(ng-show="alumno.mostrandoFallas")
+					.col-lg-12.col-xs-12(style="border-left: 5px solid #0085ff; border-right: 5px solid #0085ff")
+
+						.row.animated.bounceIn(ng-show="alumno.tardanzas_count == 0 && alumno.ausencias_count == 0" style="border: 1px solid #bbb;")
+							.col-sm-1.col-xs-2.no-padding-xs(style="font-style: italic")
+								| No tiene ausencias / tardanzas
+
+						.row.animated.bounceIn(ng-repeat="falla in alumno.tardanzas" style="border: 1px solid #bbb;")
+							.col-sm-1.col-xs-2.no-padding-xs
+								.margin-top-33-noxs {{ falla.id }}
+							.col-sm-3.col-xs-8.no-padding-xs
+								.btn-group.margin-top-33-noxs
+									label.btn.btn-success.btn-sm(ng-model="falla.tipo" ng-click="cambiarTipo(falla, 'tardanza', alumno)" uib-btn-radio="'tardanza'") Tarda
+									label.btn.btn-success.btn-sm(ng-model="falla.tipo" ng-click="cambiarTipo(falla, 'ausencia', alumno)" uib-btn-radio="'ausencia'") Ausen
+							.col-sm-3.col-xs-2.visible-xs
+								button.btn.btn-danger.btn-sm(ng-click="eliminarAusencia(falla, alumno)")
+									i.fa.fa-times
+
+							.col-sm-3.col-xs-6.no-padding
+								.controls(style="margin-top: 28px;")
+									.input-group
+										span.input-group-addon(ng-click="falla.isOpen = true")
+											i.fa.fa-calendar
+										input.form-control.active(type="text" uib-datepicker-popup="dd-MM-yyyy" ng-model="falla.fecha_hora"
+											is-open="falla.isOpen" alt-input-formats="['M!/d!/yyyy', 'yyyy-M!-d!', 'M!-d!-yyyy', 'yyyy/M!/d!']"
+											ng-click="falla.isOpen = true" close-text="Aceptar" current-text="Hoy" clear-text="Borrar"
+											ng-change="guardarValorAusencia(falla, 'fecha_hora', falla.fecha_hora, alumno)"
+											placeholder="Escribe 'MM-dd-yyyy' o 'yyyy-dd-MM'" style="padding: 6px 2px;"
+											datepicker-append-to-body="true")
+							.col-sm-3.col-xs-6.no-padding
+								div(uib-timepicker ng-model="falla.fecha_hora" ng-change="guardarValorAusencia(falla, 'fecha_hora', falla.fecha_hora, alumno)" meridians="['AM', 'PM']")
+
+							.col-sm-1.col-xs-2.hidden-xs
+								button.btn.btn-danger.btn-sm(ng-click="eliminarAusencia(falla, alumno)"
+									style="margin-top: 33px")
+									i.fa.fa-times
+
+
+
+						.row.animated.bounceIn(ng-repeat="falla in alumno.ausencias" style="border: 1px solid #bbb;")
+							.col-sm-1.col-xs-2.no-padding-xs
+								.margin-top-33-noxs {{ falla.id }}
+							.col-sm-3.col-xs-8.no-padding-xs
+								.btn-group.margin-top-33-noxs
+									label.btn.btn-success.btn-sm(ng-model="falla.tipo" ng-click="cambiarTipo(falla, 'tardanza', alumno)" uib-btn-radio="'tardanza'") Tarda
+									label.btn.btn-success.btn-sm(ng-model="falla.tipo" ng-click="cambiarTipo(falla, 'ausencia', alumno)" uib-btn-radio="'ausencia'") Ausen
+							.col-sm-3.col-xs-2.visible-xs
+								button.btn.btn-danger.btn-sm.visible-xs(ng-click="eliminarAusencia(falla, alumno)")
+									i.fa.fa-times
+
+							.col-sm-3.col-xs-6.no-padding
+								.controls(style="margin-top: 28px;")
+									.input-group
+										span.input-group-addon(ng-click="falla.isOpen = true")
+											i.fa.fa-calendar
+										input.form-control.active(type="text" uib-datepicker-popup="dd-MM-yyyy" ng-model="falla.fecha_hora"
+											is-open="falla.isOpen" alt-input-formats="['M!/d!/yyyy', 'yyyy-M!-d!', 'M!-d!-yyyy', 'yyyy/M!/d!']"
+											ng-click="falla.isOpen = true" close-text="Aceptar" current-text="Hoy" clear-text="Borrar"
+											ng-change="guardarValorAusencia(falla, 'fecha_hora', falla.fecha_hora, alumno)"
+											placeholder="Escribe 'MM-dd-yyyy' o 'yyyy-dd-MM'" style="padding: 6px 2px;"
+											datepicker-append-to-body="true")
+							.col-sm-3.col-xs-6.no-padding
+								div(uib-timepicker ng-model="falla.fecha_hora" ng-change="guardarValorAusencia(falla, 'fecha_hora', falla.fecha_hora, alumno)" meridians="['AM', 'PM']")
+
+							.col-sm-1.col-xs-2.hidden-xs
+								button.btn.btn-danger.btn-sm(ng-click="eliminarAusencia(falla, alumno)"
+									style="margin-top: 33px")
+									i.fa.fa-times
+
+
+
+
+
+

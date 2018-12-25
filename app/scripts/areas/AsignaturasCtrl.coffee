@@ -98,6 +98,23 @@ angular.module("myvcFrontApp")
 		)
 
 
+	$scope.toggleDia = (fila, dia)->
+		fila[dia] = !fila[dia]
+
+		datos =
+			asignatura_id: 	fila.id
+			dia: 	          dia
+			valor:          fila[dia]
+
+		$http.put('::asignaturas/toggle-dia', datos).then((r)->
+			console.log 'Cambios guardados'
+		, (r2)->
+			fila[dia] = !fila[dia]
+			toastr.error 'Cambio no guardado', 'Error'
+		)
+
+
+
 
 	$scope.crear = ()->
 		$http.post('::asignaturas', $scope.currentasignatura).then((r)->
@@ -161,7 +178,7 @@ angular.module("myvcFrontApp")
 					actual 			= $filter('filter')(foundMaterias, {id: cellValue}, true)
 					return actual.length > 0;
 			}
-			editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'id', editDropdownValueLabel: 'materia', enableCellEditOnFocus: true }
+			editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'id', editDropdownValueLabel: 'materia', enableCellEditOnFocus: true, minWidth: 120 }
 
 			{ field: 'grupo_id',	displayName: 'Grupos',		editDropdownOptionsArray: datosAsignaturas.grupos,		cellFilter: 'mapGrupos:grid.appScope.grupos',
 			filter: {
@@ -170,7 +187,7 @@ angular.module("myvcFrontApp")
 					actual 			= $filter('filter')(foundG, {id: cellValue}, true)
 					return actual.length > 0;
 			}
-			editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'id', editDropdownValueLabel: 'nombre', enableCellEditOnFocus: true }
+			editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'id', editDropdownValueLabel: 'nombre', enableCellEditOnFocus: true, minWidth: 70 }
 
 			{ field: 'profesor_id',	displayName: 'Profesor',	editDropdownOptionsArray: datosAsignaturas.profesores,	cellFilter: 'mapProfesores:grid.appScope.profesores', #  cellTemplate: '<div>{{row.entity.nombres + " " + row.entity.apellidos}}</div>',
 			filter: {
@@ -183,9 +200,14 @@ angular.module("myvcFrontApp")
 					)
 					return foundP.length > 0;
 			}
-			editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'profesor_id', editDropdownValueLabel: 'nombre_completo', enableCellEditOnFocus: true }
+			editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'profesor_id', editDropdownValueLabel: 'nombre_completo', enableCellEditOnFocus: true, minWidth: 120 }
 
-			{ field: 'creditos', displayName:'Créditos', type: 'number', maxWidth: 50 }
+			{ field: 'creditos', displayName:'IH', type: 'number', minWidth: 50 }
+			{ field: 'lunes', displayName:'Lunes', minWidth: 50, cellTemplate: "==areas/botonLunes.tpl.html", enableCellEdit: false }
+			{ field: 'martes', displayName:'Martes', minWidth: 50, cellTemplate: "==areas/botonMartes.tpl.html", enableCellEdit: false }
+			{ field: 'miercoles', displayName:'Miércoles', minWidth: 50, cellTemplate: "==areas/botonMiercoles.tpl.html", enableCellEdit: false }
+			{ field: 'jueves', displayName:'Jueves', minWidth: 50, cellTemplate: "==areas/botonJueves.tpl.html", enableCellEdit: false }
+			{ field: 'viernes', displayName:'Viernes', minWidth: 50, cellTemplate: "==areas/botonViernes.tpl.html", enableCellEdit: false }
 			{ name: 'nn', displayName: '', width: 10, enableSorting: false, enableFiltering: false, enableColumnMenu: false }
 		],
 		multiSelect: false,

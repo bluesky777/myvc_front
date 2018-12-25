@@ -1,7 +1,7 @@
 angular.module('myvcFrontApp')
 
 
-.controller('AnunciosDirCtrl', ['$scope', '$uibModal', 'AuthService', '$http', 'toastr', '$filter', 'App', '$timeout', 'Upload', '$sce', 'uiCalendarConfig', '$compile', ($scope, $modal, AuthService, $http, toastr, $filter, App, $timeout, $upload, $sce, uiCalendarConfig, $compile)->
+.controller('AnunciosDirCtrl', ['$scope', '$uibModal', 'AuthService', '$http', 'toastr', '$filter', 'App', '$timeout', 'Upload', '$sce', 'uiCalendarConfig', '$compile', 'EscalasValorativasServ', ($scope, $modal, AuthService, $http, toastr, $filter, App, $timeout, $upload, $sce, uiCalendarConfig, $compile, EscalasValorativasServ)->
 
 	$scope.hasRoleOrPerm          = AuthService.hasRoleOrPerm
 	$scope.perfilPath             = App.images+'perfil/'
@@ -255,8 +255,263 @@ angular.module('myvcFrontApp')
 
 
 
+	# **************************************
+	# HORARIO
+	$scope.UNIDAD 			  = $scope.USER.unidad_displayname
+	$scope.GENERO_UNI 		= $scope.USER.genero_unidad
+	$scope.SUBUNIDAD 		  = $scope.USER.subunidad_displayname
+	$scope.GENERO_SUB 		= $scope.USER.genero_subunidad
+	$scope.UNIDADES 		  = $scope.USER.unidades_displayname
+	$scope.SUBUNIDADES 		= $scope.USER.subunidades_displayname
+	$scope.nota_minima_aceptada = parseInt($scope.USER.nota_minima_aceptada)
 
 
+	EscalasValorativasServ.escalas().then((r)->
+		$scope.escalas = r
+		$scope.escala_maxima = EscalasValorativasServ.escala_maxima()
+	, (r2)->
+		console.log 'No se trajeron las escalas valorativas', r2
+	)
+
+
+
+
+	$scope.mostrarClasesDeHoy = ()->
+		$scope.mostrandoHoy = true
+
+	$scope.mostrarClasesDeManana = ()->
+		$scope.mostrandoHoy = false
+
+	$scope.seleccionarAsignatura = (asignatura)->
+		if asignatura.unidades.length == 0
+
+			$http.put('::unidades/de-asignatura-periodo/'+asignatura.asignatura_id+'/'+$scope.USER.periodo_id).then((r)->
+				if r.data.length > 0
+					asignatura.unidades = r.data
+			,() ->
+				toastr.error('Error comprobando notas de asignatura')
+			)
+		asignatura.seleccionada = !asignatura.seleccionada;
+
+
+	$scope.verificarFallaHoy = (alumno)->
+		d = new Date()
+		alumno.falla_hoy = ''
+
+		for tardanza in alumno.tardanzas
+			if tardanza.fecha_hora
+				if tardanza.fecha_hora.replace
+					tardanza.fecha_hora   = new Date(tardanza.fecha_hora.replace(/-/g, '\/'))
+
+				if d.toDateString() == tardanza.fecha_hora.toDateString()
+					alumno.falla_hoy = 'tardanza'
+
+		for ausencia in alumno.ausencias
+			if ausencia.fecha_hora
+				if ausencia.fecha_hora.replace
+					ausencia.fecha_hora   = new Date(ausencia.fecha_hora.replace(/-/g, '\/'))
+
+				if d.toDateString() == ausencia.fecha_hora.toDateString()
+					alumno.falla_hoy = 'ausencia'
+
+
+	$scope.cargarAlumnosSubunidad = (subunidad, asignatura, grupo_id, asignatura_id)->
+		$scope.subunidad_actual   = subunidad
+		$scope.asignatura_actual  = asignatura
+
+		$http.put('::notas/subunidad', { subunidad: subunidad, grupo_id: grupo_id, asignatura_id: asignatura_id }).then((r)->
+			$scope.alumnos_subunidad  = r.data.alumnos
+			$scope.pasandoNotas       = true
+
+			for alumno in $scope.alumnos_subunidad
+				$scope.verificarFallaHoy(alumno)
+
+		,() ->
+			toastr.error('Error trayendo notas')
+		)
+
+	$scope.cambiarNota = (alumno, nota)->
+		modalInstance = $modal.open({
+			templateUrl: '==panel/cambiarNotaModal.tpl.html'
+			controller: 'CambiarNotaModalCtrl'
+			animation: false
+			resolve:
+				alumno: ()->
+					alumno
+				subunidad: ()->
+					$scope.subunidad_actual
+				nota: ()->
+					nota
+		})
+		modalInstance.result.then( (r)->
+			console.log(r)
+		, ()->
+			# nada
+		)
+
+	$scope.quitarAusenciaHoy = (alumno, tipo)->
+		if alumno.quitandoAusenciaHoy
+			return
+		alumno.quitandoAusenciaHoy = true
+		d = new Date()
+		d = d.toDateString()
+
+		for ausencia in alumno.tardanzas
+			if d == ausencia.fecha_hora.toDateString()
+				$scope.eliminarAusencia(ausencia, alumno, true);
+
+		for ausencia in alumno.ausencias
+			if d == ausencia.fecha_hora.toDateString()
+				$scope.eliminarAusencia(ausencia, alumno, true);
+
+		$timeout(()->
+			alumno.quitandoAusenciaHoy = false
+			$scope.verificarFallaHoy(alumno)
+		, 500)
+
+
+
+	$scope.verTardanzasAusencias = (alumno)->
+		alumno.mostrandoFallas = !alumno.mostrandoFallas
+		return
+
+
+
+	$scope.volverClases = ()->
+		$scope.pasandoNotas = false
+
+
+	$scope.agregarTardanza = (alumno)->
+		if alumno.guardando_falla
+			return
+
+		alumno.guardando_falla = true
+
+		d = new Date();
+		now = d.yyyymmdd() + ' ' + window.fixHora(d);
+
+		$http.post('::ausencias/agregar-tardanza', { now: now, alumno_id: alumno.alumno_id, asignatura_id: $scope.asignatura_actual.asignatura_id }).then((r)->
+			alumno.falla_hoy = 'tardanza'
+			alumno.guardando_falla = false
+			r.data.fecha_hora = new Date(r.data.fecha_hora.date.replace(/-/g, '\/'))
+			alumno.tardanzas.push(r.data)
+			alumno.tardanzas_count++
+		,() ->
+			toastr.error('Error agregando tardanza')
+			alumno.guardando_falla = false
+		)
+
+
+	$scope.agregarAusencia = (alumno)->
+		if alumno.guardando_falla
+			return
+
+		alumno.guardando_falla = true
+
+		d = new Date();
+		now = d.yyyymmdd() + ' ' + window.fixHora(d);
+
+		$http.post('::ausencias/agregar-ausencia', { now: now, alumno_id: alumno.alumno_id, asignatura_id: $scope.asignatura_actual.asignatura_id }).then((r)->
+			alumno.falla_hoy = 'ausencia'
+			alumno.guardando_falla = false
+			r.data.fecha_hora   = new Date(r.data.fecha_hora.date.replace(/-/g, '\/'))
+			alumno.ausencias.push(r.data)
+			alumno.ausencias_count++
+		,() ->
+			toastr.error('Error agregando ausencia')
+			alumno.guardando_falla = false
+		)
+
+
+
+	$scope.cambiarTipo = (ausencia, new_tipo, alumno)->
+
+		datos =
+			ausencia_id: ausencia.id
+			new_tipo: new_tipo
+
+		$http.put('::ausencias/cambiar-tipo-ausencia', datos).then((r)->
+
+			if new_tipo == 'tardanza'
+				ausencia.tipo = 'tardanza'
+				ausencia.cantidad_ausencia = ausencia.cantidad_tardanza
+				ausencia.tardanzas_count++
+				ausencia.ausencias_count--
+				alumno.tardanzas.push(ausencia)
+				alumno.ausencias = $filter('filter')(alumno.ausencias, { id: '!'+ausencia.id })
+
+				d = new Date()
+				if d.toDateString() == ausencia.fecha_hora.toDateString()
+					alumno.falla_hoy = 'tardanza'
+
+			if new_tipo == 'ausencia'
+				ausencia.tipo = 'ausencia'
+				ausencia.cantidad_tardanza = ausencia.cantidad_ausencia
+				ausencia.tardanzas_count--
+				ausencia.ausencias_count++
+				alumno.ausencias.push(ausencia)
+				alumno.tardanzas = $filter('filter')(alumno.tardanzas, { id: '!'+ausencia.id })
+
+
+				d = new Date()
+				if d.toDateString() == ausencia.fecha_hora.toDateString()
+					alumno.falla_hoy = 'ausencia'
+
+		, (r2)->
+			toastr.warning 'No se pudo cambiar el tipo.', 'Problema'
+		)
+
+
+	$scope.guardarValorAusencia = (ausencia, propiedad, valor, alumno)->
+
+		datos =
+			ausencia_id: ausencia.id
+			fecha_hora: $filter('date')(ausencia.fecha_hora, 'yyyy-MM-dd HH:mm:ss')
+
+		$http.put('::ausencias/guardar-cambios-ausencia', datos).then((r)->
+			$scope.verificarFallaHoy(alumno);
+		, (r2)->
+			toastr.warning 'No se pudo cambiar.', 'Problema'
+		)
+
+
+
+	$scope.eliminarAusencia = (ausencia, alumno, omitir_preg)->
+		if ausencia.eliminando
+			return
+		ausencia.eliminando = true
+
+		res = true
+		if !omitir_preg
+			res = confirm('¿Seguro que quiere eliminar?')
+
+		if res
+			$http.delete('::ausencias/destroy/' + ausencia.id).then((r)->
+				r 		= r.data
+				if ausencia.tipo == 'tardanza'
+					alumno.tardanzas = $filter('filter')(alumno.tardanzas, { id: '!'+r.id })
+					alumno.tardanzas_count--
+
+				if ausencia.tipo == 'ausencia'
+					alumno.ausencias = $filter('filter')(alumno.ausencias, { id: '!'+r.id })
+					alumno.ausencias_count--
+
+				if !omitir_preg
+					$timeout(()->
+						$scope.verificarFallaHoy(alumno)
+					, 100)
+				ausencia.isOpen = false
+			, (r2)->
+				toastr.warning 'No se pudo quitar ausencia.', 'Problema'
+			)
+		else
+			ausencia.eliminando = false
+
+
+
+
+
+	# ****************************************************
 	# PUBLICACIONES
 	$scope.editarPublicacion = (publicacion)->
 		if publicacion.para_todos

@@ -115,6 +115,9 @@
 
 
 
+horario-hoy-panel-dir
+
+
 publicaciones-panel-dir
 
 
@@ -122,7 +125,8 @@ publicaciones-panel-dir
 
 
 // Gráfico de docentes
-.row.comportamiento-boletin(style="padding-top: 5px; padding-bottom: 40px; height: 310px" ng-if="hasRoleOrPerm(['admin', 'profesor', 'alumno'])")
+.row.comportamiento-boletin(style="padding-top: 5px; padding-bottom: 40px; height: 310px"
+	ng-if="hasRoleOrPerm(['admin', 'profesor', 'alumno']) && anchoWindow > 500")
 	.col-lg-12.col-xs-12(style="height: 140px;")
 		.row
 			.col-lg-12.col-xs-12(style="text-align: center; ")

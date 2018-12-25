@@ -114,6 +114,7 @@ angular.module('myvcFrontApp')
 		$http.post('::disciplina/store', $scope.falta_new).then((r)->
 			toastr.success 'Falta creada.'
 			$scope.guardando_new  = false
+			periodo.creando       = false
 			$scope.reemplazarAlumno(r.data)
 
 			if creando

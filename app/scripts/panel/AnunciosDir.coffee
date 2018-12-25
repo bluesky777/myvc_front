@@ -1,6 +1,6 @@
 angular.module('myvcFrontApp')
 
-.directive('anunciosDir',['App', '$http', 'toastr', '$uibModal', '$state', 'AuthService', '$sce', '$timeout', (App, $http, toastr, $modal, $state, AuthService, $sce, $timeout)->
+.directive('anunciosDir',['App', '$http', 'toastr', '$uibModal', '$state', 'AuthService', '$sce', '$timeout', '$window', (App, $http, toastr, $modal, $state, AuthService, $sce, $timeout, $window)->
 
 	restrict: 'E'
 	templateUrl: "#{App.views}panel/anunciosDir.tpl.html"
@@ -10,10 +10,12 @@ angular.module('myvcFrontApp')
 
 		scope.perfilPath      = App.images+'perfil/'
 		scope.views 		      = App.views
+		scope.anchoWindow     = $window.innerWidth
+		scope.mostrandoHoy    = true
 
 
 		if $state.is 'panel'
-			$http.get('::ChangesAsked/to-me').then((r)->
+			$http.get('::ChangesAsked/to-me', {params: {anchoWindow: scope.anchoWindow }}).then((r)->
 				scope.changes_asked = r.data
 
 				# Calendario
@@ -53,56 +55,58 @@ angular.module('myvcFrontApp')
 						scope.publicacion_actual = scope.changes_asked.publicaciones[0]
 
 
+
 				# Gráfico del trabajo de profesores
-				if AuthService.hasRoleOrPerm(['admin', 'profesor', 'alumno'])
+				if scope.anchoWindow > 500
+					if AuthService.hasRoleOrPerm(['admin', 'profesor', 'alumno'])
 
-					scope.options = {
-						chart: {
-							type: 'discreteBarChart',
-							height: 180,
-							margin : {
-								top: 20,
-								right: 20,
-								bottom: 60,
-								left: 55
-							},
-							useInteractiveGuideline: true,
-							x: (d)-> return d.label;
-							y: (d)-> return d.value;
-							showValues: true,
-							valueFormat: (d)-> d3.format(',.0f')(d);
-							transitionDuration: 500
-							xAxis: {
-								axisLabel: "X Axis",
-								rotateLabels: 30,
-								showMaxMin: false
+						scope.options = {
+							chart: {
+								type: 'discreteBarChart',
+								height: 180,
+								margin : {
+									top: 20,
+									right: 20,
+									bottom: 60,
+									left: 55
+								},
+								useInteractiveGuideline: true,
+								x: (d)-> return d.label;
+								y: (d)-> return d.value;
+								showValues: true,
+								valueFormat: (d)-> d3.format(',.0f')(d);
+								transitionDuration: 500
+								xAxis: {
+									axisLabel: "X Axis",
+									rotateLabels: 30,
+									showMaxMin: false
+								}
+								zoom: {
+									enabled: true,
+									scaleExtent: [1,10],
+									useFixedDomain: false,
+									useNiceScale: false,
+									horizontalOff: false,
+									verticalOff: true,
+									unzoomEventType: "dblclick.zoom"
+								}
 							}
-							zoom: {
-								enabled: true,
-								scaleExtent: [1,10],
-								useFixedDomain: false,
-								useNiceScale: false,
-								horizontalOff: false,
-								verticalOff: true,
-								unzoomEventType: "dblclick.zoom"
+							title: {
+								enable: false,
+								text: 'Asignaturas correctas'
 							}
-						}
-						title: {
-							enable: false,
-							text: 'Asignaturas correctas'
-						}
-					};
+						};
 
 
-					valores = []
-					for profe in scope.changes_asked.profes_actuales
-						valores.push { label: profe.nombres + ' ' + profe.apellidos.substr(0,1) + '.', value: profe.porcentaje }
+						valores = []
+						for profe in scope.changes_asked.profes_actuales
+							valores.push { label: profe.nombres + ' ' + profe.apellidos.substr(0,1) + '.', value: profe.porcentaje }
 
 
-					scope.data = [{
-						key: "Asignaturas correctas",
-						values: valores
-					}];
+						scope.data = [{
+							key: "Asignaturas correctas",
+							values: valores
+						}];
 				# fin de IF AuthService
 
 
@@ -122,6 +126,14 @@ angular.module('myvcFrontApp')
 
 	restrict: 'E'
 	templateUrl: "#{App.views}panel/publicacionesPanelDir.tpl.html"
+
+])
+
+
+.directive('horarioHoyPanelDir',['App', (App)->
+
+	restrict: 'E'
+	templateUrl: "#{App.views}panel/horarioHoyPanelDir.tpl.html"
 
 ])
 

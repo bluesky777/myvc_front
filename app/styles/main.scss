@@ -1562,6 +1562,11 @@ tr { page-break-inside: avoid }
 	animation-name: bounceInLeft;
 }
 
+@media only screen and (min-width: 760px) {
+  .margin-top-33-noxs{
+    margin-top: 33px;
+  }
+}
 
 @media only screen and (max-width: 760px) {
 	.si-padding-left-xs {
@@ -1592,7 +1597,7 @@ tr { page-break-inside: avoid }
 	}
 	.no-padding-xs{
 		padding: 0px !important;
-	}
+  }
 	.textarea-altura-xs{
 		height: 55px !important;
 	}
@@ -2046,4 +2051,32 @@ tr { page-break-inside: avoid }
 .faltas-detalle-box .title-faltas{
   text-align: center;
   margin-bottom: 4px;
+}
+.subunidad-horario{
+  max-height: 50px;
+  overflow: hidden;
+  border-bottom: 1px solid #999;
+}
+
+button.inputnota-perdida{
+  border-color: #E61900;
+  color: #F11A00;
+  box-shadow: none;
+  font-weight: bold;
+  background-color: rgb(230, 224, 224);
+}
+button.inputnota-superior{
+	border-color: #a4d3fe;
+	color: #57b5e3;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	background-color: #f9fcff;
+}
+body.modal-open .datepicker {
+  z-index: 1200 !important;
+}
+.alum-mostrando-ausencias{
+  background-color: #cce7ff;
+  font-weight: bold;
 }

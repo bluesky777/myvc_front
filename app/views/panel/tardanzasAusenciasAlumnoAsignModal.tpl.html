@@ -1,0 +1,66 @@
+
+<div class="modal-header">
+  <h3 class="modal-title flipInY">Tardanzas / Ausencias</h3>
+</div>
+<div class="modal-body">
+  <div style="padding-bottom: 10px;">
+    <h3 style="display: inline;"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 50px; height: 50px;">{{ alumno.nombres }} {{ alumno.apellidos }}</h3>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 col-xs-12">
+      <div ng-repeat="falla in alumno.tardanzas" style="border: 1px solid #bbb;" class="row animated bounceIn">
+        <div class="col-sm-1 col-xs-1 no-padding-xs">{{ falla.id }}</div>
+        <div class="col-sm-3 col-xs-5 no-padding-xs">
+          <div class="btn-group">
+            <label ng-model="falla.tipo" ng-click="cambiarTipo(falla, 'tardanza')" uib-btn-radio="'tardanza'" class="btn btn-success btn-sm">Tarda</label>
+            <label ng-model="falla.tipo" ng-click="cambiarTipo(falla, 'ausencia')" uib-btn-radio="'ausencia'" class="btn btn-success btn-sm">Ausen</label>
+          </div>
+        </div>
+        <div class="col-sm-3 col-xs-2 visible-xs">
+          <button ng-click="eliminarAusencia(falla, alumno)" style="margin-top: 10px" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button>
+        </div>
+        <div class="col-sm-3 col-xs-6 no-padding">
+          <div style="margin-top: 28px;" class="controls">
+            <div class="input-group"><span ng-click="falla.isOpen = true" class="input-group-addon"><i class="fa fa-calendar"></i></span>
+              <input type="text" uib-datepicker-popup="dd-MM-yyyy" ng-model="falla.fecha_hora" is-open="falla.isOpen" alt-input-formats="['M!/d!/yyyy', 'yyyy-M!-d!', 'M!-d!-yyyy', 'yyyy/M!/d!']" ng-click="falla.isOpen = true" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" ng-change="guardarValor(alumno, 'fecha_pension', alumno.fecha_pension)" placeholder="Escribe 'MM-dd-yyyy' o 'yyyy-dd-MM'" style="padding: 6px 2px;" class="form-control active">
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3 col-xs-6 no-padding">
+          <div uib-timepicker ng-model="falla.fecha_hora" ng-change="changed()"></div>
+        </div>
+        <div class="col-sm-1 col-xs-2 hidden-xs">
+          <button ng-click="eliminarAusencia(falla, alumno)" style="margin-top: 10px" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button>
+        </div>
+      </div>
+      <div ng-repeat="falla in alumno.ausencias" style="border: 1px solid #bbb;" class="row animated bounceIn">
+        <div class="col-sm-1 col-xs-2 no-padding-xs">{{ falla.id }}</div>
+        <div class="col-sm-3 col-xs-5 no-padding-xs">
+          <div class="btn-group">
+            <label ng-model="falla.tipo" ng-click="cambiarTipo(falla, 'tardanza')" uib-btn-radio="'tardanza'" class="btn btn-success btn-sm">Tarda</label>
+            <label ng-model="falla.tipo" ng-click="cambiarTipo(falla, 'ausencia')" uib-btn-radio="'ausencia'" class="btn btn-success btn-sm">Ausen</label>
+          </div>
+        </div>
+        <div class="col-sm-3 col-xs-2 visible-xs">
+          <button ng-click="eliminarAusencia(falla, alumno)" style="margin-top: 10px" class="btn btn-danger btn-sm visible-xs"><i class="fa fa-times"></i></button>
+        </div>
+        <div class="col-sm-3 col-xs-6 no-padding">
+          <div style="margin-top: 28px;" class="controls">
+            <div class="input-group"><span ng-click="falla.isOpen = true" class="input-group-addon"><i class="fa fa-calendar"></i></span>
+              <input type="text" uib-datepicker-popup="dd-MM-yyyy" ng-model="falla.fecha_hora" is-open="falla.isOpen" alt-input-formats="['M!/d!/yyyy', 'yyyy-M!-d!', 'M!-d!-yyyy', 'yyyy/M!/d!']" ng-click="falla.isOpen = true" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" ng-change="guardarValor(alumno, 'fecha_pension', alumno.fecha_pension)" placeholder="Escribe 'MM-dd-yyyy' o 'yyyy-dd-MM'" style="padding: 6px 2px;" class="form-control active">
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3 col-xs-6 no-padding">
+          <div uib-timepicker ng-model="falla.fecha_hora" ng-change="changed()"></div>
+        </div>
+        <div class="col-sm-1 col-xs-2 hidden-xs">
+          <button ng-click="eliminarAusencia(falla, alumno)" style="margin-top: 10px" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button ng-click="ok()" class="btn btn-labeled btn-default">Cerrar<i class="btn-label fa fa-check"></i></button>
+</div>
