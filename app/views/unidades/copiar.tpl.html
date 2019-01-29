@@ -6,7 +6,7 @@
         <div class="row">
           <div class="col-xs-12 col-md-6 col-lg-6">
             <div class="well with-header with-footer">
-              <div class="header bordered-yellow">Elige de lo que deseas copiar</div>
+              <div class="header bordered-yellow">Elige de lo que deseas copiar<span style="font-weight: bold; font-size: 12pt">  - ORIGEN</span></div>
               <form class="form-horizontal">
                 <div class="row">
                   <div class="col-lg-12">
@@ -78,7 +78,7 @@
                                 <input type="checkbox" ng-model="unidad.seleccionada"><span class="text"></span>
                               </label>
                             </div>
-                            <div style="width: 90%!important; left: 40px;" class="item-sender"><a href="" popover-template="urlTplSubunidades" popover-trigger="mouseenter" popover-title="{{USER.subunidades_displayname}}" class="col-name">{{unidad.definicion}}</a></div>
+                            <div style="width: 90%!important; left: 40px;" class="item-sender"><a href="" uib-popover-template="views + 'unidades/popoverInfoUnidadCopiada.tpl.html'" popover-title="{{SUBUNIDADES}}" popover-trigger="'mouseenter'" class="col-name">{{unidad.definicion}}</a></div>
                           </li>
                         </ul>
                       </div>
@@ -111,7 +111,7 @@
           </div>
           <div class="col-xs-12 col-md-6 col-lg-6">
             <div class="well with-header with-footer">
-              <div class="header bordered-yellow">Elige a donde deseas copiar</div>
+              <div class="header bordered-yellow">Elige a donde deseas copiar<span style="font-weight: bold; font-size: 12pt">  - DESTINO</span></div>
               <form class="form-horizontal">
                 <div class="row">
                   <div class="col-lg-12">
@@ -176,7 +176,7 @@
                       <div style="margin-left: 0px; overflow: visible" class="mail-body">
                         <ul class="mail-list">
                           <li ng-repeat="unidad in unidades_to.items track by $index" class="list-item">
-                            <div style="width: 100%!important; left: 10px;" class="item-sender"><a href="" popover-template="urlTplSubunidades" popover-trigger="mouseenter" popover-title="Subunidades" class="col-name">{{unidad.definicion}}</a></div>
+                            <div style="width: 100%!important; left: 10px;" class="item-sender"><a href="" uib-popover-template="views + 'unidades/popoverInfoUnidadCopiada.tpl.html'" popover-title="{{SUBUNIDADES}}" popover-trigger="'mouseenter'" class="col-name">{{unidad.definicion}}</a></div>
                           </li>
                         </ul>
                       </div>

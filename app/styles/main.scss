@@ -2080,3 +2080,24 @@ body.modal-open .datepicker {
   background-color: #cce7ff;
   font-weight: bold;
 }
+
+.label-falta-deriva{
+  width: 150px;
+  overflow: hidden;
+  text-align: left;
+  padding-left: 2px;
+  padding-right: 0px;
+}
+
+@media only screen  {
+  .caja-observaciones-requisitos{
+    max-height: 600px;
+    overflow: auto;
+    border: 1px solid #666;
+  }
+}
+@media only print  {
+  .caja-observaciones-requisitos{
+    border: none;
+  }
+}

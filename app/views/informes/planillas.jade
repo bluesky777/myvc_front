@@ -59,6 +59,8 @@ div(ng-repeat="asignatura in ::asignaturas")
 												| {{::alumno.apellidos}} {{::alumno.nombres}}
 												span(ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;")
 													| (Asis)
+												span(ng-show="alumno.estado=='PREM'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;")
+													| (Prema)
 										td.text-center
 											.def-per-planilla
 												span(ng-show="::alumno.periodos[0].nota_asignatura") {{ ::alumno.periodos[0].nota_asignatura }}

@@ -78,66 +78,99 @@
             </tbody>
           </table>
         </div>
+      </div><br><a href="" ng-click="verObservacionesRequisitos()">Ver observaciones hechas en los requisitos de matrículas.</a>
+      <div ng-show="viendo_requisitos" class="caja-observaciones-requisitos"><span class="hidden-print">Elija el requisito:</span><br>
+        <button ng-click="requisitoSeleccionado(requisito)" ng-repeat="requisito in requisitos" class="btn btn-default btn-sm hidden-print">{{ requisito.requisito }}</button>
+        <!--| Observaciones que se han hecho:
+        button.btn.btn-default.btn-sm(ng-click="observacionSeleccionada(observacion)" ng-repeat="observacion in observaciones_requisitos")
+        	| {{ observacion.descripcion }}
+        
+        -->
+        <table ng-show="viendo_observaciones_requisitos" class="table table-condensed table-striped table-hover table-responsive">
+          <thead>
+            <tr>
+              <th class="txtcentro">No</th>
+              <th style="min-width: min-width: 150px;" class="txtcentro">Alumno</th>
+              <th class="txtcentro">Celular</th>
+              <th class="txtcentro">Grupo
+                <input type="text" ng-model="filtrar_abrev_grupo" style="width: 40px;" class="hidden-print">
+              </th>
+              <th class="txtcentro">Observación
+                <input type="text" ng-model="filtrar_observacion" class="hidden-print">
+              </th>
+            </tr>
+          </thead>
+          <tbody class="filasestrechas">
+            <tr ng-repeat="alumno in alumnos_observaciones | filter:{abrev_grupo: filtrar_abrev_grupo, descripcion: filtrar_observacion}">
+              <td>{{ $index+1 }}</td>
+              <td>{{ alumno.apellidos }} {{ alumno.nombres }}</td>
+              <td>{{ alumno.celular }}</td>
+              <td class="txtcentro bold">{{ alumno.abrev_grupo }}</td>
+              <td><span class="visible-print">{{ alumno.descripcion }}</span><span class="hidden-print">
+                  <textarea required ng-model="alumno.descripcion" placeholder="Descripción (opcional)" uib-tooltip="Descripción (opcional)" tooltip-popup-delay="500" style="height: 50px; width: 100%;" ng-change="guardarCambioRequisito(alumno)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" class="form-control"></textarea></span></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <hr><br><br>
-      <p>Mueva las columnas para mayor comodidad y oculte las que desee:</p>
-      <div id="grid1" ui-grid="gridOptions" ui-grid-exporter ui-grid-move-columns ui-grid-expandable ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-auto-resize ui-grid-pinning style="height: 600px" class="grid"></div>
-      <hr class="wide">
-      <h4 style="margin-top: 15px; color: #115a98;">Alumnos de este año {{ USER.year }}:<a href="" ng-click="mostrar_pasado=!mostrar_pasado" style="margin-left: 20px"><i class="fa fa-eye"></i></a></h4>
-      <div ng-if="mostrar_pasado">
-        <div id="grid1" ui-grid="gridOptionsSinMatricula" ui-grid-resize-columns ui-grid-selection ui-grid-auto-resize style="height: 400px" class="grid"></div>
-      </div>
-      <hr class="wide">
-      <div class="row">
-        <div class="col-sm-6 col-xs-12">
-          <form ng-submit="buscar_por('nombre')">
-            <div>Buscar en todo el sistema(retirados, de otros años, etc.):
-              <div class="input-group">
-                <input type="text" name="buscar" placeholder="Buscar..." ng-model="texto_a_buscar" class="form-control">
-                <div class="input-group-btn">
-                  <button type="submit" class="btn btn-default">Por nombre</button>
-                  <button type="button" ng-click="buscar_por('apellido')" class="btn btn-default">Por Apellido</button>
+      <hr><br><br><span class="hidden-print">
+        <p>Mueva las columnas para mayor comodidad y oculte las que desee:</p>
+        <div id="grid1" ui-grid="gridOptions" ui-grid-exporter ui-grid-move-columns ui-grid-expandable ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-auto-resize ui-grid-pinning style="height: 600px" class="grid"></div>
+        <hr class="wide">
+        <h4 style="margin-top: 15px; color: #115a98;">Alumnos de este año {{ USER.year }}:<a href="" ng-click="mostrar_pasado=!mostrar_pasado" style="margin-left: 20px"><i class="fa fa-eye"></i></a></h4>
+        <div ng-if="mostrar_pasado">
+          <div id="grid1" ui-grid="gridOptionsSinMatricula" ui-grid-resize-columns ui-grid-selection ui-grid-auto-resize style="height: 400px" class="grid"></div>
+        </div>
+        <hr class="wide">
+        <div class="row">
+          <div class="col-sm-6 col-xs-12">
+            <form ng-submit="buscar_por('nombre')">
+              <div>Buscar en todo el sistema(retirados, de otros años, etc.):
+                <div class="input-group">
+                  <input type="text" name="buscar" placeholder="Buscar..." ng-model="texto_a_buscar" class="form-control">
+                  <div class="input-group-btn">
+                    <button type="submit" class="btn btn-default">Por nombre</button>
+                    <button type="button" ng-click="buscar_por('apellido')" class="btn btn-default">Por Apellido</button>
+                  </div>
                 </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
-      </div>
-      <table ng-show="alumnos_encontrados.length&gt;0" style="max-height: 700px; overflow-y: scroll; display: block;" class="table table-striped">
-        <thead>
-          <tr>
-            <th style="max-width: 25px">No</th>
-            <th style="min-width: 170px" class="text-center">Matrícula</th>
-            <th class="text-center">Apellidos</th>
-            <th class="text-center">Nombres</th>
-            <th style="max-width: 20px; padding: 0px 0px 8px;" class="text-center"><i style="font-weight: bold;" class="fa fa-venus-mars"></i></th>
-            <th uib-tooltip="Grupo en este año" tooltip-append-to-body="true" class="text-center">Gru</th>
-            <th style="min-width: 120px; text-align: center;" class="text-center">Creado en</th>
-            <th class="text-center">Modificado</th>
-            <th class="text-center">Eliminado</th>
-          </tr>
-        </thead>
-        <tbody class="filasestrechas">
-          <tr ng-repeat="alumno in alumnos_encontrados track by $index" ng-class="{'filagris': alumno.grupo_id!=dato_f.grupo.id, 'filawarning': alumno.estado=='ASIS' }">
-            <td>{{ $index+1 }}</td>
-            <td class="text-center">
-              <div class="btn-group"><a ui-sref="panel.prematriculas.matricula_detalles({alumno_id: alumno.alumno_id})" uib-tooltip="Ver matrículas" tooltip-append-to-body="true" class="btn btn-default btn-xs"><i class="fa fa-pencil"></i></a><a ng-click="matricularUno(alumno)" uib-tooltip="Matricular en {{dato.grupo.abrev}}" tooltip-append-to-body="true" tooltip- class="btn btn-default btn-xs">Matri en {{dato.grupo.abrev}}</a><a ng-click="matricularEn(alumno)" uib-tooltip="Matricular en..." tooltip-append-to-body="true" tooltip- class="btn btn-default btn-xs">Matri en...</a></div>
-            </td>
-            <td>
-              <div uib-popover-template="views+'alumnos/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 20px; height: 20px; margin-top: -3px;">{{ alumno.apellidos }}</div>
-            </td>
-            <td>{{ alumno.nombres }}</td>
-            <td>{{ alumno.sexo }}</td>
-            <td style="background-color: #a8cbea!important;" uib-tooltip="{{alumno.estado}} - {{alumno.nombre_grupo}}" tooltip-append-to-body="true" class="text-center">{{ alumno.abrev_grupo }}</td>
-            <td style="font-size: 7pt" class="text-center">{{ alumno.created_at }}</td>
-            <td style="font-size: 7pt" class="text-center">{{ alumno.updated_at }}</td>
-            <td style="font-size: 7pt" ng-class="{danger: alumno.deleted_at}" class="text-center">{{ alumno.deleted_at }}
-              <button uib-tooltip="Sacar de papelera" ng-click="restaurar(alumno)" ng-show="alumno.deleted_at" class="btn btn-default btn-xs"><i class="fa fa-refresh"></i></button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="footer">Prematriculas optimizadas para eficiencia superior.</div>
+        <table ng-show="alumnos_encontrados.length&gt;0" style="max-height: 700px; overflow-y: scroll; display: block;" class="table table-striped">
+          <thead>
+            <tr>
+              <th style="max-width: 25px">No</th>
+              <th style="min-width: 170px" class="text-center">Matrícula</th>
+              <th class="text-center">Apellidos</th>
+              <th class="text-center">Nombres</th>
+              <th style="max-width: 20px; padding: 0px 0px 8px;" class="text-center"><i style="font-weight: bold;" class="fa fa-venus-mars"></i></th>
+              <th uib-tooltip="Grupo en este año" tooltip-append-to-body="true" class="text-center">Gru</th>
+              <th style="min-width: 120px; text-align: center;" class="text-center">Creado en</th>
+              <th class="text-center">Modificado</th>
+              <th class="text-center">Eliminado</th>
+            </tr>
+          </thead>
+          <tbody class="filasestrechas">
+            <tr ng-repeat="alumno in alumnos_encontrados track by $index" ng-class="{'filagris': alumno.grupo_id!=dato_f.grupo.id, 'filawarning': alumno.estado=='ASIS' }">
+              <td>{{ $index+1 }}</td>
+              <td class="text-center">
+                <div class="btn-group"><a ui-sref="panel.prematriculas.matricula_detalles({alumno_id: alumno.alumno_id})" uib-tooltip="Ver matrículas" tooltip-append-to-body="true" class="btn btn-default btn-xs"><i class="fa fa-pencil"></i></a><a ng-click="matricularUno(alumno)" uib-tooltip="Matricular en {{dato.grupo.abrev}}" tooltip-append-to-body="true" tooltip- class="btn btn-default btn-xs">Matri en {{dato.grupo.abrev}}</a><a ng-click="matricularEn(alumno)" uib-tooltip="Matricular en..." tooltip-append-to-body="true" tooltip- class="btn btn-default btn-xs">Matri en...</a></div>
+              </td>
+              <td>
+                <div uib-popover-template="views+'alumnos/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 20px; height: 20px; margin-top: -3px;">{{ alumno.apellidos }}</div>
+              </td>
+              <td>{{ alumno.nombres }}</td>
+              <td>{{ alumno.sexo }}</td>
+              <td style="background-color: #a8cbea!important;" uib-tooltip="{{alumno.estado}} - {{alumno.nombre_grupo}}" tooltip-append-to-body="true" class="text-center">{{ alumno.abrev_grupo }}</td>
+              <td style="font-size: 7pt" class="text-center">{{ alumno.created_at }}</td>
+              <td style="font-size: 7pt" class="text-center">{{ alumno.updated_at }}</td>
+              <td style="font-size: 7pt" ng-class="{danger: alumno.deleted_at}" class="text-center">{{ alumno.deleted_at }}
+                <button uib-tooltip="Sacar de papelera" ng-click="restaurar(alumno)" ng-show="alumno.deleted_at" class="btn btn-default btn-xs"><i class="fa fa-refresh"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="footer">Prematriculas optimizadas para eficiencia superior.</div></span>
     </div>
   </div>
 </div>

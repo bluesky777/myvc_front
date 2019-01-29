@@ -12,8 +12,10 @@ span(ng-show="acudientes_cargado")
 
 			p Aquí podrás registrar acudientes y verificar que sean los mismos de sus hermanos.
 
-			button.btn.btn-primary(type="button" ng-click="agregarAcudiente()")
+			button.btn.btn-primary(type="button" ng-click="agregarAcudiente()" ng-if="::!hasRoleOrPerm(['psicólogo', 'enfermero'])")
 				i.fa.fa-plus
 				| Agregar acudiente
 
-			div(ui-grid="gridOptionsAcudientes" ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-auto-resize style="height: 300px")
+			div(ui-grid="gridOptionsAcudientes" ng-if="::!hasRoleOrPerm(['psicólogo', 'enfermero'])" ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-auto-resize style="height: 300px")
+
+			div(ui-grid="gridOptionsAcudientes" ng-if="::hasRoleOrPerm(['psicólogo', 'enfermero'])" ui-grid-resize-columns ui-grid-cellnav ui-grid-auto-resize style="height: 300px")

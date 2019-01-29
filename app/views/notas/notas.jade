@@ -41,7 +41,7 @@
 
 
 						button.btn.btn-default(ng-class="{'active': ocultando_ausencias==false}" ng-click="toggleAusencias()" uib-tooltip="Editar Ausencias y Tardanzas")
-							span(style="padding-right: 3px") Ausencias
+							span(style="padding-right: 3px") Asistencias
 							i.fa.fa-clock-o
 						button.btn.btn-default(ng-class="{'active': historial_activado==true}" ng-click="toggleHistorial()" uib-tooltip="Ver historial de la nota al darle doble click.")
 							span(style="padding-right: 3px") Ver historial
@@ -106,6 +106,7 @@
 										img(ng-src="{{perfilPath + alumno.userData.foto_nombre}}" style="width: 30px; height: 30px;")
 										| {{alumno.apellidos + ' ' + alumno.nombres}}
 										span(ng-show="alumno.estado=='ASIS'" style="font-size: 8pt") (Asis)
+										span(ng-show="alumno.estado=='PREM'" style="font-size: 8pt") (Prem)
 
 								// Ausencias
 								td.td-ausencia

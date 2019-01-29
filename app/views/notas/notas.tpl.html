@@ -21,7 +21,7 @@
               <button ng-click="setTabVertically()" uib-tooltip="Pasar Verticalmente al usar la tecla Tab y Shift+Tab" ng-class="{'active': tab_horiz_or_verti=='vertical'}" style="z-index: 0;" class="btn btn-default"><span style="padding-right: 3px">Verticalmente</span><i class="fa fa-arrows-v"></i></button>
               <button ng-click="setTabHorizontally()" uib-tooltip="Pasar Horizontalmente al usar la tecla Tab y Shift+Tab" ng-class="{'active': tab_horiz_or_verti=='horizontal'}" style="z-index: 0;" class="btn btn-default"><span style="padding-right: 3px">Horizontalmente</span><i class="fa fa-arrows-h"></i></button>
             </div>
-            <button ng-class="{'active': ocultando_ausencias==false}" ng-click="toggleAusencias()" uib-tooltip="Editar Ausencias y Tardanzas" class="btn btn-default"><span style="padding-right: 3px">Ausencias</span><i class="fa fa-clock-o"></i></button>
+            <button ng-class="{'active': ocultando_ausencias==false}" ng-click="toggleAusencias()" uib-tooltip="Editar Ausencias y Tardanzas" class="btn btn-default"><span style="padding-right: 3px">Asistencias</span><i class="fa fa-clock-o"></i></button>
             <button ng-class="{'active': historial_activado==true}" ng-click="toggleHistorial()" uib-tooltip="Ver historial de la nota al darle doble click." class="btn btn-default"><span style="padding-right: 3px">Ver historial</span><i class="fa fa-history"></i></button>
             <button ng-class="{'active': inmovible_activado==true}" ng-click="toggleInmovible()" uib-tooltip="Ver la columna nombre siempre. (el diseño aún está en construcción pero ya es funcional)" class="btn btn-default"><span style="padding-right: 3px">Nombre inmovible</span><i class="fa fa-map-marker"></i></button>
           </div>
@@ -80,7 +80,7 @@
                   <div>{{::$index+1}}</div>
                 </td>
                 <td ng-click="filaNotaRapida(alumno, $index)" style="padding: 0 5px;" class="fixed-cell nombres-notas">
-                  <div uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true" ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" class="nombresellipsis"><img ng-src="{{perfilPath + alumno.userData.foto_nombre}}" style="width: 30px; height: 30px;">{{alumno.apellidos + ' ' + alumno.nombres}}<span ng-show="alumno.estado=='ASIS'" style="font-size: 8pt">(Asis)</span></div>
+                  <div uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true" ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" class="nombresellipsis"><img ng-src="{{perfilPath + alumno.userData.foto_nombre}}" style="width: 30px; height: 30px;">{{alumno.apellidos + ' ' + alumno.nombres}}<span ng-show="alumno.estado=='ASIS'" style="font-size: 8pt">(Asis)</span><span ng-show="alumno.estado=='PREM'" style="font-size: 8pt">(Prem)</span></div>
                 </td>
                 <!-- Ausencias-->
                 <td class="td-ausencia">

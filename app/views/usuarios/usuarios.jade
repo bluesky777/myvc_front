@@ -10,6 +10,14 @@
 					button.btn.btn-info.shiny(type="submit" uib-tooltip="Crea un usuario administrador, que edite notas, colegio, etc."
 						ng-disabled="creando") Nuevo administrador
 
+				form(ng-submit="crearUsuarioPsicologo()" style="display: inline-block;")
+					button.btn.btn-info.shiny(type="submit" uib-tooltip="Crea un usuario psicólogo, que vea datos sin poder modificar."
+						ng-disabled="creando") Nuevo psicólogo
+
+				form(ng-submit="crearUsuarioEnfermero()" style="display: inline-block;")
+					button.btn.btn-info.shiny(type="submit" uib-tooltip="Crea un usuario enfermero, que manipule consultas, accidentes, etc."
+						ng-disabled="creando") Nuevo enfermero
+
 
 			#grid1.grid(ui-grid="gridOptions" ui-grid-auto-resize ui-grid-edit ui-grid-resize-columns style="height: 600px" ui-grid-cellnav)
 

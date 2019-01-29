@@ -1,0 +1,6 @@
+div(style="max-height: 150px; max-width: 400px; overflow: auto;")
+	| {{ unidad.definicion }}
+ol(style="margin-bottom: 4px")
+	li(ng-repeat="subunidad in unidad.subunidades | orderBy:'orden' " style="font-size: 11px;")
+		| {{subunidad.definicion}}
+		span(style="font-weight: bold; font-size: 13px;") ({{subunidad.cantNotas}} notas)

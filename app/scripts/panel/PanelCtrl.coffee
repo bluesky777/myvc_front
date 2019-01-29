@@ -27,7 +27,14 @@ angular.module('myvcFrontApp')
 			$scope.logoPath = $scope.logoPathDefault # set default image
 		)
 
-		$rootScope.menucompacto = if localStorage.menucompacto == 'true' then true else false
+
+		if localStorage.menucompacto
+			$rootScope.menucompacto = if localStorage.menucompacto == 'true' then true else false
+		else
+			if $window.innerWidth < 600
+				$rootScope.menucompacto     = true
+				localStorage.menucompacto   = $rootScope.menucompacto
+
 
 		# Para evitar una supuesta espera infinita
 		cfpLoadingBar.complete()

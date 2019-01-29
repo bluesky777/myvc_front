@@ -53,10 +53,10 @@
             <tr ng-repeat="alumno in grupo.alumnos track by $index">
               <td>{{ $index + 1 }}</td>
               <td style="width: 190px">
-                <div uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true" ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" class="nombresellipsis ellipsis250">{{ alumno.apellidos }} {{ alumno.nombres }}</div>
+                <div uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true" ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative; vertical-align: middle;" class="nombresellipsis ellipsis250">{{ alumno.apellidos }} {{ alumno.nombres }}<span ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;">(Asis)</span><span ng-show="alumno.estado=='PREM'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;">(Prem)</span></div>
               </td>
               <td ng-show="show_documento">{{ alumno.documento | formatNumberDocumento }}</td>
-              <td ng-repeat="i in columnasArray track by $index"></td>
+              <td ng-repeat="i in columnasArray track by $index" style="min-width: 50px"></td>
             </tr>
           </tbody>
         </table>

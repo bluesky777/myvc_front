@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-	.config ['$stateProvider', 'App', 'PERMISSIONS', ($state, App, PERMISSIONS) ->
+	.config ['$stateProvider', 'App', 'PERMISSIONS', 'USER_ROLES', ($state, App, PERMISSIONS, USER_ROLES) ->
 
 		$state
 
@@ -425,7 +425,7 @@ angular.module('myvcFrontApp')
 					displayName: 'Persona'
 					icon_fa: 'fa fa-users'
 					pageTitle: 'Persona - MyVc'
-					needed_permissions: [PERMISSIONS.can_work_like_teacher]
+					needed_roles: [USER_ROLES.admin, USER_ROLES.psicologo, USER_ROLES.enfermero, USER_ROLES.acudiente, USER_ROLES.alumno, USER_ROLES.coord_academico, USER_ROLES.coord_disciplinario]
 
 
 

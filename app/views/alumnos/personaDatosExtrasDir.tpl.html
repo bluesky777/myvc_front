@@ -19,7 +19,7 @@
     <div class="row">
       <div class="form-group col-lg-4 col-sm-6 col-xs-12">
         <label>Tipo</label>
-        <ui-select ng-model="alumno.tipo_doc" style="width: 100%;">
+        <ui-select ng-model="alumno.tipo_doc" on-select="guardarValor(alumno, 'tipo_doc', alumno.tipo_doc.id)" style="width: 100%;">
           <ui-select-match placeholder="Tipo de documento" allow-clear="true">{{$select.selected.tipo}}{{ ' ('+$select.selected.abrev+')'}}</ui-select-match>
           <ui-select-choices repeat="tipo_doc in tipos_doc">
             <div ng-bind-html="tipo_doc.tipo | highlight: $select.search"></div><small>{{ tipo_doc.abrev}}</small>
@@ -60,8 +60,8 @@
     </div>
   </div>
 </div>
-<div class="widget">
-  <div class="widget-header bordered-bottom bordered-pink"><span class="widget-caption">Usuario</span></div>
+<div ng-if="::hasRoleOrPerm(['admin', 'secretario'])" class="widget">
+  <div class="widget-header bordered-bottom bordered-pink"><span style="font-weight: bold" class="widget-caption">Usuario</span></div>
   <div class="widget-body">
     <div class="form-group">
       <label for="alumno-username">Nombre de usuario</label>

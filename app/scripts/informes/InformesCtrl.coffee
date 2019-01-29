@@ -6,6 +6,7 @@ angular.module('myvcFrontApp')
 	#alumnos 		= alumnos.data
 	$scope.$state 	      = $state
 	$scope.$stateParams 	= $stateParams
+	$scope.hasRoleOrPerm  = AuthService.hasRoleOrPerm
 	$scope.config 	= {
 		periodos_a_calcular: 1  # de_usuario, de_colegio, todos
 		mostrar_foto: true

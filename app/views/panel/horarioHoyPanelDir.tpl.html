@@ -1,12 +1,14 @@
 
 <div ng-if="USER.tipo=='Profesor'" style="padding-top: 60px !important;" class="well with-header animated bounceIn">
-  <div class="header bordered-blue"><span ng-show="!pasandoNotas"><span ng-show="mostrandoHoy">Clases de hoy<a ng-click="mostrarClasesDeManana()" href="" style="float: right;">Mañana >></a></span><span ng-show="!mostrandoHoy"><a ng-click="mostrarClasesDeHoy()" href=""><< Hoy</a><span style="float: right;">Clases de mañana</span></span></span><span ng-show="pasandoNotas" style="font-weight: bold;">{{ asignatura_actual.abrev_grupo }}. {{ asignatura_actual.materia }}</span></div>
+  <div class="header bordered-blue"><span ng-show="!pasandoNotas"><span ng-show="mostrandoHoy">Clases de hoy<a ng-click="mostrarClasesDeManana()" href="" style="float: right;">Mañana...</a></span><span ng-show="!mostrandoHoy"><a ng-click="mostrarClasesDeHoy()" href=""> ...Hoy</a><span style="float: right;">Clases de mañana</span></span></span><span ng-show="pasandoNotas" style="font-weight: bold;">{{ asignatura_actual.abrev_grupo }}. {{ asignatura_actual.materia }}</span></div>
   <div class="row">
     <div ng-hide="pasandoNotas" class="col-xs-12"><span ng-if="mostrandoHoy">
         <div ng-repeat="asignatura in changes_asked.horario_hoy">
           <button ng-click="seleccionarAsignatura(asignatura)" class="btn btn-default btn-block"><span style="background-color: #9aecff; padding: 0px 8px; float: left; font-weight: bold; font-size: 14pt;" uib-tooltip="{{ asignatura.nombre_grupo }}">{{ asignatura.abrev_grupo }}</span><span> {{ asignatura.materia }}</span></button>
           <div ng-show="asignatura.seleccionada" style="padding: 4px 15px;" class="no-padding-xs">
-            <div style="text-align: center;"><a href="" ui-sref="panel.unidades({asignatura_id: asignatura.asignatura_id})" style="margin-top: 5px;" class="btn btn-primary shiny">Ir a {{UNIDADES}}</a></div>
+            <div style="text-align: center;">
+              <div class="btn-group"><a href="" ng-click="cargarAlumnosAsistencia(asignatura, asignatura.grupo_id, asignatura.asignatura_id)" style="margin-top: 5px;" class="btn btn-success shiny">Asistencia</a><a href="" ui-sref="panel.unidades({asignatura_id: asignatura.asignatura_id})" style="margin-top: 5px;" class="btn btn-primary shiny">Ir a {{UNIDADES}}</a></div>
+            </div>
             <!-- UNIDADES-->
             <div ng-repeat="unidad in asignatura.unidades" style="border: 1px solid #aaa; padding: 2px; margin-bottom: 10px; margin-top: 5px; border-radius: 4px; background-color: aliceblue;">
               <div style="max-height: 50px; overflow: hidden;">{{$index+1}}. {{ unidad.definicion }}</div>
@@ -21,7 +23,9 @@
         <div ng-repeat="asignatura in changes_asked.horario_manana">
           <button ng-click="seleccionarAsignatura(asignatura)" class="btn btn-default btn-block"><span style="background-color: #9aecff; padding: 0px 8px; float: left; font-weight: bold; font-size: 14pt;" uib-tooltip="{{ asignatura.nombre_grupo }}">{{ asignatura.abrev_grupo }}</span><span> {{ asignatura.materia }}</span></button>
           <div ng-show="asignatura.seleccionada" style="padding: 4px 15px;" class="no-padding-xs">
-            <div style="text-align: center;"><a href="" ui-sref="panel.unidades({asignatura_id: asignatura.asignatura_id})" style="margin-top: 5px;" class="btn btn-primary shiny">Ir a {{UNIDADES}}</a></div>
+            <div style="text-align: center;">
+              <div class="btn-group"><a href="" ng-click="cargarAlumnosAsistencia(asignatura, asignatura.grupo_id, asignatura.asignatura_id)" style="margin-top: 5px;" class="btn btn-success shiny">Asistencia</a><a href="" ui-sref="panel.unidades({asignatura_id: asignatura.asignatura_id})" style="margin-top: 5px;" class="btn btn-primary shiny">Ir a {{UNIDADES}}</a></div>
+            </div>
             <!-- UNIDADES-->
             <div ng-repeat="unidad in asignatura.unidades" style="border: 1px solid #aaa; padding: 2px; margin-bottom: 10px; margin-top: 5px; border-radius: 4px; background-color: aliceblue;">
               <div style="max-height: 50px; overflow: hidden;">{{$index+1}}. {{ unidad.definicion }}</div>
@@ -33,13 +37,13 @@
             </div>
           </div>
         </div></span></div>
-    <div ng-show="pasandoNotas" class="col-xs-12 animated rotateIn"><a href="" ng-click="volverClases()"><< Volver</a>
+    <div ng-show="pasandoNotas" class="col-xs-12 animated rotateIn"><a href="" ng-click="volverClases()" class="btn btn-info shiny btn-lg"><i class="fa fa-arrow-left"></i> Volver</a>
       <h4 style="font-weigth: bold; margin-top: 5px">{{ subunidad_actual.definicion }}</h4>
       <div ng-repeat="alumno in alumnos_subunidad">
         <div style="padding: 4px; border: 1px solid #ccc; transition: all 0.5s" ng-class="{ 'alum-mostrando-ausencias': alumno.mostrandoFallas }" class="row">
           <div class="col-xs-12 col-sm-7"><span>{{::$index+1}}.</span><span uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true" class="nombresellipsis"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 30px; height: 30px;">{{ alumno.apellidos }} {{ alumno.nombres }}</span></div>
           <div class="col-xs-12 col-sm-5">
-            <button ng-click="cambiarNota(alumno, alumno.nota)" uib-tooltip="Nota" tooltip-popup-delay="100" ng-class="{'inputnota-perdida': alumno.nota.nota &lt; nota_minima_aceptada, 'inputnota-superior': alumno.nota.nota &gt;= escala_maxima.porc_inicial }" class="btn btn-default">{{ alumno.nota.nota }}</button>
+            <button ng-click="cambiarNota(alumno, alumno.nota)" uib-tooltip="Nota" tooltip-popup-delay="100" ng-if="subunidad_actual" ng-class="{'inputnota-perdida': alumno.nota.nota &lt; nota_minima_aceptada, 'inputnota-superior': alumno.nota.nota &gt;= escala_maxima.porc_inicial }" class="btn btn-default">{{ alumno.nota.nota }}</button>
             <button ng-click="verTardanzasAusencias(alumno)" ng-class="{'btn-warning': alumno.falla_hoy=='tardanza', 'btn-danger': alumno.falla_hoy=='ausencia' }" style="padding-left: 2px; padding-right: 4px;" uib-tooltip="Ausencias: {{ alumno.ausencias_count }} - Tardanzas: {{ alumno.ausencias_count }}" class="btn btn-default"><i class="fa fa-clock-o"></i>A: {{ alumno.ausencias_count }}
                - T: {{ alumno.tardanzas_count }}
             </button>

@@ -10,10 +10,38 @@ angular.module('myvcFrontApp')
 
 
 	$scope.crearUsuarioAdmin = ()->
-		res = confirm('¿Seguro que desea crear un usuario administrador?')
+		res = confirm('¿Seguro que desea crear un usuario Administrador?')
 		if res
 			$scope.creando = true
 			$http.post('::users/crear-administrador').then((r)->
+				toastr.success('Creado con éxito')
+				$scope.gridOptions.data.unshift(r.data.usuario);
+				$scope.creando = false
+			, ()->
+				toastr.error('No se pudo crear')
+				$scope.creando = false
+			)
+
+
+	$scope.crearUsuarioPsicologo = ()->
+		res = confirm('¿Seguro que desea crear un usuario Psicólogo?')
+		if res
+			$scope.creando = true
+			$http.post('::users/crear-psicologo').then((r)->
+				toastr.success('Creado con éxito')
+				$scope.gridOptions.data.unshift(r.data.usuario);
+				$scope.creando = false
+			, ()->
+				toastr.error('No se pudo crear')
+				$scope.creando = false
+			)
+
+
+	$scope.crearUsuarioEnfermero = ()->
+		res = confirm('¿Seguro que desea crear un usuario Enfermero?')
+		if res
+			$scope.creando = true
+			$http.post('::users/crear-enfermero').then((r)->
 				toastr.success('Creado con éxito')
 				$scope.gridOptions.data.unshift(r.data.usuario);
 				$scope.creando = false

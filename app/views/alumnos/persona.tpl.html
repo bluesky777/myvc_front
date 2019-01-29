@@ -16,7 +16,7 @@
         <div ng-show="noResults" style="font-size: 7pt"><i class="fa fa-check"></i>No encontrado.</div>
       </div>
     </form>
-    <div class="row">
+    <div ng-if="::hasRoleOrPerm(['admin', 'secretario', 'rector'])" class="row">
       <div class="form-group col-lg-4 col-md-6 col-sm-6"><a href="" ng-click="crear_alumno()" uib-tooltip="Ingresa datos de un nuevo alumno" class="btn btn-info shiny"><i class="fa fa-plus"></i>  Crear alumno</a></div>
     </div>
   </div>

@@ -11,8 +11,8 @@
       <div class="row encabezado-boletin">
         <div class="col-lg-12 col-xs-12">
           <div class="row">
-            <div ng-if="USER.tipo!='Profesor'" class="col-lg-2 col-xs-2"><img ng-src="{{ ::perfilPath }}{{ ::year.logo }}" class="img-responsive logo-colegio"></div>
-            <div ng-if="USER.tipo!='Profesor'" class="col-lg-8 col-xs-8 title-encabezado-boletin">
+            <div ng-if="::!$parent.hasRoleOrPerm(['psicólogo', 'profesor'])" class="col-lg-2 col-xs-2"><img ng-src="{{ ::perfilPath }}{{ ::year.logo }}" class="img-responsive logo-colegio"></div>
+            <div ng-if="::!$parent.hasRoleOrPerm(['psicólogo', 'profesor'])" class="col-lg-8 col-xs-8 title-encabezado-boletin">
               <div class="nombre-colegio">{{ ::year.nombre_colegio }} - {{ ::year.abrev_colegio }}</div>
               <div class="resolucion-colegio"><span ng-bind-html="::year.encabezado_certificado" ng-if="::year.encabezado_certificado!=null &amp;&amp; year.encabezado_certificado!='' "></span><span ng-hide="::year.encabezado_certificado!=null &amp;&amp; year.encabezado_certificado!=''">{{::year.resolucion}}</span></div>
               <div class="title-descripcion">Boletin periodo {{ ::USER.numero_periodo }} - {{ ::USER.year }}</div>
@@ -230,7 +230,7 @@
           </div>
         </div>
       </div>
-      <div ng-if="USER.tipo!='Profesor'" class="row footer-boletin">
+      <div ng-if="::!$parent.hasRoleOrPerm(['psicólogo', 'profesor'])" class="row footer-boletin">
         <div class="col-lg-12 col-xs-12">
           <div class="row">
             <div class="col-lg-6 col-xs-6 rector-firma"><img ng-show="config.show_firma_rector &amp;&amp; year.rector_firma_id" ng-src="{{::perfilPath}}{{::year.rector_firma}}"></div>

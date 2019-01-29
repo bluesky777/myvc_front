@@ -71,6 +71,17 @@
 					ng-change="guardarValor(alumno, 'no_matricula', alumno.no_matricula)")
 
 
+
+			.col-lg-3.col-md-4.col-sm-6.col-xs-12(style="margin-top: 24px;" ng-if="::hasRoleOrPerm(['admin', 'secretario', 'rector'])")
+				button.btn.btn-danger.shiny(type="button" ng-click="eliminarAlumno()" ng-hide="alumno.deleted_at" ng-disabled="eliminando" uib-tooltip="Eliminar junto con notas")
+					| Eliminiar alumno
+				button.btn.btn-success.shiny(type="button" ng-click="restaurarAlumno()" ng-show="alumno.deleted_at" ng-disabled="restaurando")
+					| Restaurar alumno
+
+				div(style="color: red; font-weight: bold; font-size: 20pt" ng-show="alumno.deleted_at")
+					| Alumno eliminado
+
+
 		hr
 		.row
 			.form-group.col-lg-3.col-sm-3(style="margin-top: 15px;")
@@ -125,8 +136,8 @@
 				label(for="alumno-estado" style="font-size: 15pt;")
 					| Estado {{::USER.year}}
 				span.btn-group(style="padding-left: 2px; padding-top: 4px;")
-					//label.btn.btn-primary.btn-prematriculas(ng-model="alumno.estado" uib-btn-radio="'FORM'" ng-click="reMatricularUno(alumno)" uib-tooltip="Formulario") Formul
-					//label.btn.btn-primary.btn-prematriculas(ng-model="alumno.estado" uib-btn-radio="'PREM'" ng-click="reMatricularUno(alumno)" uib-tooltip="Prematricular") Prem
+					//label.btn.btn-default.btn-prematriculas(ng-model="alumno.estado" uib-btn-radio="'FORM'" ng-click="reMatricularUno(alumno)" uib-tooltip="Formulario") Formul
+					//label.btn.btn-default.btn-prematriculas(ng-model="alumno.estado" uib-btn-radio="'PREM'" ng-click="reMatricularUno(alumno)" uib-tooltip="Prematricular") Prem
 					label.btn.btn-primary.btn-prematriculas(ng-model="alumno.estado" uib-btn-radio="'MATR'" ng-click="reMatricularUno(alumno)" uib-tooltip="Matricular") Matr
 					label.btn.btn-primary.btn-prematriculas(ng-model="alumno.estado" uib-btn-radio="'ASIS'" ng-click="setAsistente(alumno)" uib-tooltip="Establecer como Asistente") Asis
 					label.btn.btn-primary.btn-prematriculas(ng-model="alumno.estado" uib-btn-radio="'RETI'" ng-click="retirar(alumno)" uib-tooltip="Retirar") Reti
@@ -225,8 +236,9 @@
 						input.form-control.active#alumno-fecha_matriculado-next(type="text" uib-datepicker-popup="dd-MMMM-yyyy"
 							ng-model="alumno.next_year.fecha_matricula" is-open="data.isOpenMatrNext" ng-click="openDatePicker(data, 'isOpenMatrNext')"
 							max-date="'2025-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy"
-							clear-text="Borrar" placeholder="Fecha prematrícula"
+							clear-text="Borrar" placeholder="Fecha matrícula"
 							ng-change="guardarValor(alumno, 'fecha_matricula', alumno.next_year.fecha_matricula, alumno.next_year.year_id)")
+
 
 
 

@@ -1,10 +1,11 @@
 angular.module("myvcFrontApp")
 
-.controller('BoletinesPeriodoCtrl', ['$scope', 'alumnosDat', 'escalas', '$uibModal', '$cookies', '$state', ($scope, alumnos, escalas, $modal, $cookies, $state)->
+.controller('BoletinesPeriodoCtrl', ['$scope', 'alumnosDat', 'escalas', '$uibModal', '$cookies', '$state', 'AuthService', ($scope, alumnos, escalas, $modal, $cookies, $state, AuthService)->
 
 	$scope.grupo    = alumnos[0]
 	$scope.year     = alumnos[1]
 	$scope.alumnos  = alumnos[2]
+	$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
 
 	$scope.escalas  = escalas
 

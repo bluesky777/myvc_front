@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('ProfesoresNewCtrl', ['$scope', '$http', 'toastr', '$filter', ($scope, $http, toastr, $filter)->
+.controller('ProfesoresNewCtrl', ['$scope', '$http', 'toastr', '$filter', '$state', ($scope, $http, toastr, $filter, $state)->
 
 	$scope.profesor =
 		'sexo'			: 'M'
@@ -25,6 +25,7 @@ angular.module("myvcFrontApp")
 		$http.post('::profesores/store', $scope.profesor).then((r)->
 			toastr.success 'Profesor creado'
 			$scope.$emit 'profesorcreado', r.data
+			$state.go('panel.profesores')
 		, (r2)->
 			toastr.error 'Profesor NO creado', 'Problema'
 		)

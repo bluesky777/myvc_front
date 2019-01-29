@@ -18,7 +18,8 @@ div(style="display: table; min-height: 28cm ; position: relative; " ng-class="{'
 									span(ng-show="year.sexo_rector=='F'") LA SUSCRITA RECTORA DEL
 									|    {{ year.nombre_colegio }}
 								.nombre-colegio(style="margin-top: 20px;")
-									| CONSTANCIA DE DESEMPEÑO No {{ year.contador_certificados }}
+									| CONSTANCIA DE DESEMPEÑO
+									span(ng-class="{'hidden-print': year.contador_certificados.length == 0}")  No {{ year.contador_certificados }}
 									span.hidden-print
 										input(ng-model="year.contador_certificados" uib-tooltip="Cambie el contador de certificados"
 											ng-change="$parent.cambia_contador_certificados(year.contador_certificados, year.year_id, 'contador-certificados')"
@@ -28,7 +29,7 @@ div(style="display: table; min-height: 28cm ; position: relative; " ng-class="{'
 								.resolucion-colegio(ng-if="config.show_datos")
 									|   {{year.resolucion}}
 
-							.col-lg-2.col-xs-2(style="padding: 0; margin-top: -15px;")
+							.col-lg-2.col-xs-2(style="padding: 0; margin-top: -35px;")
 								img.img-responsive.foto-alumno(ng-src="{{perfilPath + alumno.foto_nombre}}" ng-show="config.mostrar_foto && alumno.foto_id")
 
 
@@ -65,17 +66,25 @@ div(style="display: table; min-height: 28cm ; position: relative; " ng-class="{'
 									b   {{ year.nombre_colegio }}
 									|   , de carácter {{ year.caracter }}, calendario {{ year.calendario }}, jornada {{ year.jornada }}.
 
-									br
-									div.text-center(style="font-size: 11pt;")
+									span(ng-if="::alumno.asignaturas.length>16")
+										|   Hacen constar
+
+									div.text-center(style="font-size: 11pt;" ng-if="::alumno.asignaturas.length<=16")
 										b   HACEN CONSTAR
 
-									div(ng-class="{'margin-espacio-cert': year.cant_areas_pierde_year>0}")
+
+									span(ng-class="{'margin-espacio-cert': year.cant_areas_pierde_year>0}")
 										|   Que,
 										b   {{alumno.nombres + ' ' + alumno.apellidos}}
 										| , identificado con {{ alumno.tipo_doc_abrev }}
 										b   {{ alumno.documento | formatNumberDocumento }},
 										span(ng-hide="(year.cant_areas_pierde_year > 0 && alumno.cant_lost_areas == 0) || (year.cant_asignatura_pierde_year > 0 && alumno.cant_lost_asig == 0)" style="font-weight:bold")
-											|   NO aprobó o está pendiente
+
+											span(ng-show="(year.cant_areas_pierde_year > 0 && alumno.cant_lost_areas > 0 && year.cant_areas_pierde_year > alumno.cant_lost_areas) || (year.cant_asignatura_pierde_year > 0 && alumno.cant_lost_asig > 0 && year.cant_asignatura_pierde_year > alumno.cant_lost_asig)")
+												|   aprobó con áreas pendientes
+											span(ng-show="(year.cant_areas_pierde_year > 0 && alumno.cant_lost_areas == year.cant_areas_pierde_year) || (year.cant_asignatura_pierde_year > 0 && alumno.cant_lost_asig == year.cant_asignatura_pierde_year)")
+												|   NO aprobó
+
 										span(ng-show="(year.cant_areas_pierde_year > 0 && alumno.cant_lost_areas == 0) || (year.cant_asignatura_pierde_year > 0 && alumno.cant_lost_asig == 0)")
 											|    cursó y aprobó
 										|   en éste plantel educativo las áreas correspondientes al grado
@@ -85,16 +94,21 @@ div(style="display: table; min-height: 28cm ; position: relative; " ng-class="{'
 										b  {{USER.year}},
 										|  obteniendo los siguientes resultados:
 
+										span(ng-if="::alumno.asignaturas.length>16 && year.contador_folios.length == 0" style="position: absolute; right: 20px; font-weight: bold;")
+											| No Matrícula:
+											span(ng-show="alumno.no_matricula")   {{ alumno.no_matricula }}
+											span(ng-hide="alumno.no_matricula")   {{ alumno.documento | formatNumberDocumento }}
+
 				.row(uib-popover-template="views+'informes/infoTitularPop.tpl.html'"
 					popover-popup-delay="400" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true"
 					popover-trigger="'mouseenter'" style="font-weight: bold;" popover-append-to-body="true")
 
-					.col-lg-6.col-xs-6(style="font-size: 10pt;")
+					.col-lg-6.col-xs-6(style="font-size: 10pt;" ng-if="::alumno.asignaturas.length<=16 || year.contador_folios.length > 0")
 						| No Matrícula:
 						span(ng-show="alumno.no_matricula")   {{ alumno.no_matricula }}
 						span(ng-hide="alumno.no_matricula")   {{ alumno.documento | formatNumberDocumento }}
 
-					.col-lg-6.col-xs-6
+					.col-lg-6.col-xs-6(ng-class="{'hidden-print': year.contador_folios.length == 0}")
 						| Folio: {{ year.contador_folios }}
 						//span(style="border: 1px solid #000; padding: 8px 50px; margin-left: 4px;")
 						span.hidden-print
@@ -110,7 +124,7 @@ div(style="display: table; min-height: 28cm ; position: relative; " ng-class="{'
 						table.table-bordered.table-bordered2.table-striped.table-striped2(style="margin: 0 auto; width: 100%; font-size: 8pt;")
 
 								tr(style="background-color: #99caed !important; font-weight: bold;")
-									td.txtcentro NO
+									td.txtcentro(style="width: 30px;") NO
 									td.txtcentro(style="width: 310px")
 										span(ng-show="::year.cant_areas_pierde_year > 0")
 											| ÁREAS
@@ -219,7 +233,7 @@ div(style="display: table; min-height: 28cm ; position: relative; " ng-class="{'
 					.col-lg-12.col-xs-12
 						div(ng-if="::year.frase_final_certificado" ng-class="{'margin-espacio-cert': year.cant_areas_pierde_year>0}")
 							| {{ ::year.frase_final_certificado }}
-						div(style="margin-top: 20px;")
+						div(style="margin-top: 5px;")
 							| Dado en {{year.ciudad}} ({{year.departamento}}) a los {{fecha_dia}} días del mes de {{fecha_mes}} de {{fecha_year}}.
 
 
@@ -243,22 +257,22 @@ div(style="display: table; min-height: 28cm ; position: relative; " ng-class="{'
 
 
 					.row
-						.col-lg-6.col-xs-6(ng-show="::year.sexo_rector=='M'")
+						.col-lg-6.col-xs-6(ng-show="::year.sexo_rector=='M'" style="margin-top: -5px;")
 							| Rector
-						.col-lg-6.col-xs-6(ng-show="::year.sexo_rector=='F'")
+						.col-lg-6.col-xs-6(ng-show="::year.sexo_rector=='F'" style="margin-top: -5px;")
 							| Rectora
 
 						span
-							.col-lg-6.col-xs-6(ng-show="year.sexo_secretario=='M'")
+							.col-lg-6.col-xs-6(ng-show="year.sexo_secretario=='M'" style="margin-top: -5px;")
 								| Secretario
-							.col-lg-6.col-xs-6(ng-show="year.sexo_secretario=='F'")
+							.col-lg-6.col-xs-6(ng-show="year.sexo_secretario=='F'" style="margin-top: -5px;")
 								| Secretaria
 
 					.row
 						.col-xs-1
 
 						.col-xs-10
-							div(style="border: 1px solid #888; padding: 4px; font-size: 8pt; margin-top: 20px;")
+							div(style="border: 1px solid #888; padding: 4px; font-size: 8pt; margin-top: 5px;")
 
 								div
 									span(style="font-weight: bold; font-style: italic;") IH:

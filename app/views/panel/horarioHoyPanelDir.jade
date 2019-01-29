@@ -2,10 +2,10 @@
 	.header.bordered-blue
 		span(ng-show="!pasandoNotas")
 			span(ng-show="mostrandoHoy") Clases de hoy
-				a(ng-click="mostrarClasesDeManana()" href="" style="float: right;") Mañana >>
+				a(ng-click="mostrarClasesDeManana()" href="" style="float: right;") Mañana...
 
 			span(ng-show="!mostrandoHoy")
-				a(ng-click="mostrarClasesDeHoy()" href="") << Hoy
+				a(ng-click="mostrarClasesDeHoy()" href="")  ...Hoy
 				span(style="float: right;") Clases de mañana
 
 		span(ng-show="pasandoNotas" style="font-weight: bold;")
@@ -24,8 +24,12 @@
 					div.no-padding-xs(ng-show="asignatura.seleccionada" style="padding: 4px 15px;")
 
 						div(style="text-align: center;")
-							a.btn.btn-primary.shiny(href="" ui-sref="panel.unidades({asignatura_id: asignatura.asignatura_id})" style="margin-top: 5px;")
-								| Ir a {{UNIDADES}}
+
+							.btn-group
+								a.btn.btn-success.shiny(href="" ng-click="cargarAlumnosAsistencia(asignatura, asignatura.grupo_id, asignatura.asignatura_id)" style="margin-top: 5px;")
+									| Asistencia
+								a.btn.btn-primary.shiny(href="" ui-sref="panel.unidades({asignatura_id: asignatura.asignatura_id})" style="margin-top: 5px;")
+									| Ir a {{UNIDADES}}
 
 						// UNIDADES
 						div(ng-repeat="unidad in asignatura.unidades" style="border: 1px solid #aaa; padding: 2px; margin-bottom: 10px; margin-top: 5px; border-radius: 4px; background-color: aliceblue;")
@@ -54,8 +58,12 @@
 					div.no-padding-xs(ng-show="asignatura.seleccionada" style="padding: 4px 15px;")
 
 						div(style="text-align: center;")
-							a.btn.btn-primary.shiny(href="" ui-sref="panel.unidades({asignatura_id: asignatura.asignatura_id})" style="margin-top: 5px;")
-								| Ir a {{UNIDADES}}
+
+							.btn-group
+								a.btn.btn-success.shiny(href="" ng-click="cargarAlumnosAsistencia(asignatura, asignatura.grupo_id, asignatura.asignatura_id)" style="margin-top: 5px;")
+									| Asistencia
+								a.btn.btn-primary.shiny(href="" ui-sref="panel.unidades({asignatura_id: asignatura.asignatura_id})" style="margin-top: 5px;")
+									| Ir a {{UNIDADES}}
 
 						// UNIDADES
 						div(ng-repeat="unidad in asignatura.unidades" style="border: 1px solid #aaa; padding: 2px; margin-bottom: 10px; margin-top: 5px; border-radius: 4px; background-color: aliceblue;")
@@ -76,7 +84,9 @@
 
 
 		.col-xs-12.animated.rotateIn(ng-show="pasandoNotas")
-			a(href="" ng-click="volverClases()") << Volver
+			a.btn.btn-info.shiny.btn-lg(href="" ng-click="volverClases()")
+				i.fa.fa-arrow-left
+				|  Volver
 			h4(style="font-weigth: bold; margin-top: 5px") {{ subunidad_actual.definicion }}
 
 			div(ng-repeat="alumno in alumnos_subunidad")
@@ -91,6 +101,7 @@
 
 					.col-xs-12.col-sm-5
 							button.btn.btn-default(ng-click="cambiarNota(alumno, alumno.nota)" uib-tooltip="Nota" tooltip-popup-delay="100"
+								ng-if="subunidad_actual"
 								ng-class="{'inputnota-perdida': alumno.nota.nota < nota_minima_aceptada, 'inputnota-superior': alumno.nota.nota >= escala_maxima.porc_inicial }")
 									| {{ alumno.nota.nota }}
 

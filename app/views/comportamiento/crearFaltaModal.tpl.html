@@ -12,7 +12,7 @@
         <div ng-show="!periodo.creando &amp;&amp; !periodo.editando" class="row">
           <div class="col-lg-12 margin-padding-lados-xs">
             <div style="margin-top: 30px;" class="title-faltas align-center">{{ config.faltas_tipo1_displayname }}</div>
-            <div ng-show="(alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 1}).length == 0" style="margin-top: 30px;" class="title-faltas align-center">No tiene {{ config.faltas_tipo1_displayname }}</div>
+            <div ng-show="(alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 1}).length == 0" class="title-faltas align-center italic">No tiene {{ config.faltas_tipo1_displayname }}</div>
             <div ng-show="(alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 1}).length &gt; 0" class="table-responsive">
               <table class="table table-hover table-condensed table-striped table-bordered">
                 <thead>
@@ -63,8 +63,8 @@
               </table>
             </div>
             <div style="margin-top: 30px;" class="title-faltas align-center">{{ config.faltas_tipo2_displayname }}</div>
-            <div ng-show="(alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 2}).length == 0" style="margin-top: 30px;" class="title-faltas align-center">No tiene {{ config.faltas_tipo2_displayname }}</div>
-            <div class="table-responsive">
+            <div ng-show="(alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 2}).length == 0" class="title-faltas align-center italic">No tiene {{ config.faltas_tipo2_displayname }}</div>
+            <div ng-hide="(alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 2}).length == 0" class="table-responsive">
               <table class="table table-hover table-condensed table-striped table-bordered">
                 <thead>
                   <tr>
@@ -114,8 +114,8 @@
               </table>
             </div>
             <div style="margin-top: 30px;" class="title-faltas align-center">{{ config.faltas_tipo3_displayname }}</div>
-            <div ng-show="(alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 3}).length == 0" style="margin-top: 30px;" class="title-faltas align-center">No tiene {{ config.faltas_tipo3_displayname }}</div>
-            <div class="table-responsive">
+            <div ng-show="(alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 3}).length == 0" class="title-faltas align-center italic">No tiene {{ config.faltas_tipo3_displayname }}</div>
+            <div ng-hide="(alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 3}).length == 0" class="table-responsive">
               <table class="table table-hover table-condensed table-striped table-bordered">
                 <thead>
                   <tr>
@@ -171,17 +171,18 @@
         <div ng-show="!periodo.creando &amp;&amp; !periodo.editando" style="text-align: right; margin-top: 20px;">
           <button ng-click="toggleVerCrear(periodo, true)" class="btn btn-primary btn-lg shiny"><i class="fa fa-plus"></i>Crear nueva</button>
         </div>
-        <div ng-show="periodo.creando" class="row">
+        <div ng-if="periodo.creando" class="row">
           <div class="col-lg-12 margin-padding-lados-xs">
             <div class="well with-header with-footer animated bounceIn">
               <div class="header bordered-blue"><span style="font-size: 12pt">Crear nueva falta</span></div>
               <form role="form" ng-submit="crear_falta(periodo)">
                 <div class="row">
                   <div class="col-sm-12">
+                    <div>Elija el tipo de falta que va a crear.</div>
                     <div class="btn-group">
-                      <label ng-model="falta_new.tipo_situacion" uib-btn-radio="1" class="btn btn-primary">Tipo 1</label>
-                      <label ng-model="falta_new.tipo_situacion" uib-btn-radio="2" class="btn btn-primary">Tipo 2</label>
-                      <label ng-model="falta_new.tipo_situacion" uib-btn-radio="3" class="btn btn-primary">Tipo 3</label>
+                      <label ng-model="falta_new.tipo_situacion" uib-btn-radio="1" class="btn btn-primary">{{ config.falta_tipo1_displayname }}</label>
+                      <label ng-model="falta_new.tipo_situacion" uib-btn-radio="2" class="btn btn-primary">{{ config.falta_tipo2_displayname }}</label>
+                      <label ng-model="falta_new.tipo_situacion" uib-btn-radio="3" class="btn btn-primary">{{ config.falta_tipo3_displayname }}</label>
                     </div>
                   </div>
                 </div><span ng-show="falta_new.tipo_situacion">
@@ -189,7 +190,8 @@
                     <div class="col-sm-12">
                       <div class="form-group">
                         <label for="falta-new-periodo{{periodo.numero}}">Descripción</label><span class="input-icon icon-right">
-                          <input type="text" placeholder="Descripción de la falta" ng-model="falta_new.descripcion" id="falta-new-periodo{{periodo.numero}}" class="form-control"></span>
+                          <!--input.form-control(type='text' placeholder='Descripción de la falta' ng-model="falta_new.descripcion")-->
+                          <textarea required ng-model="falta_new.descripcion" placeholder="Descripción de la falta" style="height: 35px;" id="falta-new-periodo{{periodo.numero}}" uib-typeahead="descripcion.descripcion for descripcion in descripciones_typeahead | filter:$viewValue | limitTo:8" class="form-control textarea-altura-xs"></textarea></span>
                       </div>
                     </div>
                     <div class="col-sm-12">
@@ -213,22 +215,7 @@
                       </div>
                     </div>
                     <div class="col-sm-12">
-                      <div class="form-group">
-                        <label>Deriva de:</label>
-                        <div ng-show="falta_new.tipo_situacion==1" class="btn-group">
-                          <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo1" uib-btn-checkbox uib-tooltip="{{situac.descripcion}}" style="width: 90px; overflow: hidden;" class="btn btn-sucess shiny">t1: {{ situac.descripcion }}</label>
-                        </div>
-                        <div ng-show="falta_new.tipo_situacion==2" class="btn-group">
-                          <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo2" uib-btn-checkbox uib-tooltip="{{situac.descripcion}}" style="width: 90px; overflow: hidden;" class="btn btn-sucess shiny">t2: {{ situac.descripcion }}</label>
-                        </div>
-                        <div ng-show="falta_new.tipo_situacion==3" class="btn-group">
-                          <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo3" uib-btn-checkbox uib-tooltip="{{situac.descripcion}}" style="width: 90px; overflow: hidden;" class="btn btn-sucess shiny">t3: {{ situac.descripcion }}</label>
-                        </div>
-                        <div ng-show="falta_new.tipo_situacion==4" class="btn-group">
-                          <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo4" uib-btn-checkbox uib-tooltip="{{situac.descripcion}}" style="width: 90px; overflow: hidden;" class="btn btn-sucess shiny">t4: {{ situac.descripcion }}</label>
-                        </div>
-                        <div ng-show="alumno.periodo1.length==0 &amp;&amp; alumno.periodo2.length==0 &amp;&amp; alumno.periodo3.length==0 &amp;&amp; alumno.periodo4.length==0">No tiene faltas actualmente</div>
-                      </div>
+                      <faltas-de-las-que-deriva-nuevo-dir falta="falta_edit"></faltas-de-las-que-deriva-nuevo-dir>
                     </div>
                     <div uib-tooltip="No es obligatorio" class="col-sm-12">
                       <div class="form-group">
@@ -251,7 +238,7 @@
                       </div>
                     </div>
                   </div></span>
-                <div style="text-align: center;" class="col-sm-12">
+                <div style="text-align: center; margin-top: 20px;" class="col-sm-12">
                   <button ng-click="toggleVerCrear(periodo, false)" type="button" class="btn btn-warning">Cancelar</button>
                   <button type="submit" ng-disabled="guardando_new" class="btn btn-primary"><i class="fa fa-save"></i>Crear</button>
                 </div>
@@ -259,17 +246,20 @@
             </div>
           </div>
         </div>
-        <div ng-show="periodo.editando" class="row">
+        <!-- **************************************************************-->
+        <!-- EDITAR-->
+        <div ng-if="periodo.editando" class="row">
           <div class="col-lg-12 margin-padding-lados-xs">
             <div class="well with-header with-footer animated bounceIn">
               <div class="header bordered-success"><span style="font-size: 12pt">Editar falta</span></div>
               <form role="form" ng-submit="guardar_falta(periodo)">
                 <div class="row">
                   <div class="col-sm-12">
+                    <div>Elija el tipo de falta que va a crear.</div>
                     <div class="btn-group">
-                      <label ng-model="falta_edit.tipo_situacion" uib-btn-radio="1" class="btn btn-primary">Tipo 1</label>
-                      <label ng-model="falta_edit.tipo_situacion" uib-btn-radio="2" class="btn btn-primary">Tipo 2</label>
-                      <label ng-model="falta_edit.tipo_situacion" uib-btn-radio="3" class="btn btn-primary">Tipo 3</label>
+                      <label ng-model="falta_edit.tipo_situacion" uib-btn-radio="1" class="btn btn-primary">{{ config.falta_tipo1_displayname }}</label>
+                      <label ng-model="falta_edit.tipo_situacion" uib-btn-radio="2" class="btn btn-primary">{{ config.falta_tipo2_displayname }}</label>
+                      <label ng-model="falta_edit.tipo_situacion" uib-btn-radio="3" class="btn btn-primary">{{ config.falta_tipo3_displayname }}</label>
                     </div>
                   </div>
                 </div><span>
@@ -277,7 +267,8 @@
                     <div class="col-sm-12">
                       <div class="form-group">
                         <label for="falta-edit-descripcion{{periodo.numero}}">Descripción</label><span class="input-icon icon-right">
-                          <input type="text" placeholder="Descripción de la falta" ng-model="falta_edit.descripcion" id="falta-edit-descripcion{{periodo.numero}}" class="form-control"></span>
+                          <!--input.form-control(type='text' placeholder='Descripción de la falta' ng-model="falta_edit.descripcion" id="falta-edit-descripcion{{periodo.numero}}")-->
+                          <textarea required ng-model="falta_edit.descripcion" placeholder="Descripción de la falta" style="height: 35px;" id="falta-new-periodo{{periodo.numero}}" uib-typeahead="descripcion.descripcion for descripcion in descripciones_typeahead | filter:$viewValue | limitTo:8" class="form-control textarea-altura-xs"></textarea></span>
                       </div>
                     </div>
                     <div class="col-sm-12">
@@ -301,21 +292,7 @@
                       </div>
                     </div>
                     <div class="col-sm-12">
-                      <div class="form-group">
-                        <div ng-show="(config.reinicia_por_periodo==1 || (config.reinicia_por_periodo==0 &amp;&amp; periodo.numero==1)) &amp;&amp; alumno.periodo1.length &gt; 0" class="faltas-deriva-edit">
-                          <label>Deriva de las siguientes faltas (PERIODO 1):</label>
-                          <div ng-show="falta_edit.tipo_situacion==1" class="btn-group">
-                            <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo1" uib-btn-checkbox style="width: 90px; overflow: hidden;" class="btn btn-sucess shiny">t1: {{ situac.descripcion }}</label>
-                          </div>
-                          <div ng-show="falta_edit.tipo_situacion==2" class="btn-group">
-                            <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo1" uib-btn-checkbox style="width: 90px; overflow: hidden;" class="btn btn-sucess shiny">t2: {{ situac.descripcion }}</label>
-                          </div>
-                          <div ng-show="falta_edit.tipo_situacion==3" class="btn-group">
-                            <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo1" uib-btn-checkbox style="width: 90px; overflow: hidden;" class="btn btn-sucess shiny">t3: {{ situac.descripcion }}</label>
-                          </div>
-                        </div>
-                        <div ng-show="alumno.periodo1.length==0 &amp;&amp; alumno.periodo2.length==0 &amp;&amp; alumno.periodo3.length==0 &amp;&amp; alumno.periodo4.length==0">No tiene faltas actualmente</div>
-                      </div>
+                      <faltas-de-las-que-deriva-dir falta="falta_edit"></faltas-de-las-que-deriva-dir>
                     </div>
                     <div uib-tooltip="No es obligatorio" class="col-sm-12">
                       <div class="form-group">
@@ -338,7 +315,7 @@
                       </div>
                     </div>
                   </div></span>
-                <div style="text-align: center;" class="col-sm-12">
+                <div style="text-align: center; margin-top: 20px;" class="col-sm-12">
                   <button ng-click="cancelarEditarFalta(periodo)" type="button" class="btn btn-warning">Cancelar</button>
                   <button type="submit" ng-disabled="guardando_edit" class="btn btn-primary"><i class="fa fa-save"></i>Guardar cambios</button>
                 </div>
@@ -351,5 +328,5 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button ng-click="ok()" class="btn btn-labeled btn-default">Aceptar<i class="btn-label fa fa-plus"></i></button>
+  <button ng-click="ok()" class="btn btn-labeled btn-default">Aceptar<i class="btn-label fa fa-check"></i></button>
 </div>

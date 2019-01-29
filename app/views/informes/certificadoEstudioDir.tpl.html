@@ -14,30 +14,28 @@
                 span(ng-show="year.sexo_rector=='F'") LA SUSCRITA RECTORA DEL
                 |    {{ year.nombre_colegio }}
                 -->
-                <div style="margin-top: 20px;" class="nombre-colegio">CONSTANCIA DE DESEMPEÑO No {{ year.contador_certificados }}<span class="hidden-print">
+                <div style="margin-top: 20px;" class="nombre-colegio">CONSTANCIA DE DESEMPEÑO<span ng-class="{'hidden-print': year.contador_certificados.length == 0}"> No {{ year.contador_certificados }}</span><span class="hidden-print">
                     <input ng-model="year.contador_certificados" uib-tooltip="Cambie el contador de certificados" ng-change="$parent.cambia_contador_certificados(year.contador_certificados, year.year_id, 'contador-certificados')" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" style="width: 60px!important; font-size: 10pt; font-weight: 300;"></span></div>
                 <div ng-if="config.show_datos" class="resolucion-colegio">  {{year.resolucion}}</div>
               </div>
-              <div style="padding: 0; margin-top: -15px;" class="col-lg-2 col-xs-2"><img ng-src="{{perfilPath + alumno.foto_nombre}}" ng-show="config.mostrar_foto &amp;&amp; alumno.foto_id" class="img-responsive foto-alumno"></div>
+              <div style="padding: 0; margin-top: -35px;" class="col-lg-2 col-xs-2"><img ng-src="{{perfilPath + alumno.foto_nombre}}" ng-show="config.mostrar_foto &amp;&amp; alumno.foto_id" class="img-responsive foto-alumno"></div>
             </div>
             <div style="margin-top: 4px; " class="row descripcion-encabezado">
               <div class="col-lg-12 col-xs-12">
                 <div ng-if="$parent.$state.is('panel.informes.certificados_estudio_periodo')" class="grupo-alumno"><span ng-show="year.sexo_rector=='M'">El suscrito recto del</span><span ng-show="year.sexo_rector=='F'">La suscrita rectora del</span><b>   {{ year.nombre_colegio }}</b>  que,<b>  {{alumno.nombres + ' ' + alumno.apellidos}}</b>, identificado con {{ alumno.tipo_doc_abrev }}<b>  {{ alumno.documento | formatNumberDocumento }},</b><span>   ha cursado en este plantel educativo las áreas correspondientes al grado</span><b class="camel">  {{ grupo.nombre_grupo.toLowerCase() }}</b>  de la {{ grupo.nivel_educativo}}
                     académica<i> hasta el periodo</i><b> {{ config.periodo_a_calcular }} de {{ USER.year }}</b> obteniendo los siguientes resultados:
                 </div>
-                <div ng-if=" !$parent.$state.is('panel.informes.certificados_estudio_periodo')" class="grupo-alumno"><span ng-show="year.sexo_rector=='M'">Los suscritos rector y</span><span ng-show="year.sexo_rector=='F'">Los suscritos rectora y</span><span ng-show="year.sexo_secretario=='M'"> secretario del</span><span ng-show="year.sexo_secretario=='F'"> secretaria del</span><b>  {{ year.nombre_colegio }}</b>  , de carácter {{ year.caracter }}, calendario {{ year.calendario }}, jornada {{ year.jornada }}.<br>
-                  <div style="font-size: 11pt;" class="text-center"><b>  HACEN CONSTAR</b></div>
-                  <div ng-class="{'margin-espacio-cert': year.cant_areas_pierde_year&gt;0}">  Que,<b>  {{alumno.nombres + ' ' + alumno.apellidos}}</b>, identificado con {{ alumno.tipo_doc_abrev }}<b>  {{ alumno.documento | formatNumberDocumento }},</b><span ng-hide="(year.cant_areas_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_areas == 0) || (year.cant_asignatura_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_asig == 0)" style="font-weight:bold">  NO aprobó o está pendiente</span><span ng-show="(year.cant_areas_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_areas == 0) || (year.cant_asignatura_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_asig == 0)">   cursó y aprobó</span>  en éste plantel educativo las áreas correspondientes al grado<b class="camel">  {{grupo.nombre_grupo.toLowerCase()}}</b>  de la {{grupo.nivel_educativo}}
-                      académica durante el año<b> {{USER.year}},</b> obteniendo los siguientes resultados:
-                  </div>
+                <div ng-if=" !$parent.$state.is('panel.informes.certificados_estudio_periodo')" class="grupo-alumno"><span ng-show="year.sexo_rector=='M'">Los suscritos rector y</span><span ng-show="year.sexo_rector=='F'">Los suscritos rectora y</span><span ng-show="year.sexo_secretario=='M'"> secretario del</span><span ng-show="year.sexo_secretario=='F'"> secretaria del</span><b>  {{ year.nombre_colegio }}</b>  , de carácter {{ year.caracter }}, calendario {{ year.calendario }}, jornada {{ year.jornada }}.<span ng-if="::alumno.asignaturas.length&gt;16">  Hacen constar</span>
+                  <div style="font-size: 11pt;" ng-if="::alumno.asignaturas.length&lt;=16" class="text-center"><b>  HACEN CONSTAR</b></div><span ng-class="{'margin-espacio-cert': year.cant_areas_pierde_year&gt;0}">  Que,<b>  {{alumno.nombres + ' ' + alumno.apellidos}}</b>, identificado con {{ alumno.tipo_doc_abrev }}<b>  {{ alumno.documento | formatNumberDocumento }},</b><span ng-hide="(year.cant_areas_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_areas == 0) || (year.cant_asignatura_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_asig == 0)" style="font-weight:bold"><span ng-show="(year.cant_areas_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_areas &gt; 0 &amp;&amp; year.cant_areas_pierde_year &gt; alumno.cant_lost_areas) || (year.cant_asignatura_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_asig &gt; 0 &amp;&amp; year.cant_asignatura_pierde_year &gt; alumno.cant_lost_asig)">  aprobó con áreas pendientes</span><span ng-show="(year.cant_areas_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_areas == year.cant_areas_pierde_year) || (year.cant_asignatura_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_asig == year.cant_asignatura_pierde_year)">  NO aprobó</span></span><span ng-show="(year.cant_areas_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_areas == 0) || (year.cant_asignatura_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_asig == 0)">   cursó y aprobó</span>  en éste plantel educativo las áreas correspondientes al grado<b class="camel">  {{grupo.nombre_grupo.toLowerCase()}}</b>  de la {{grupo.nivel_educativo}}
+                      académica durante el año<b> {{USER.year}},</b> obteniendo los siguientes resultados:<span ng-if="::alumno.asignaturas.length&gt;16 &amp;&amp; year.contador_folios.length == 0" style="position: absolute; right: 20px; font-weight: bold;">No Matrícula:<span ng-show="alumno.no_matricula">  {{ alumno.no_matricula }}</span><span ng-hide="alumno.no_matricula">  {{ alumno.documento | formatNumberDocumento }}</span></span></span>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div uib-popover-template="views+'informes/infoTitularPop.tpl.html'" popover-popup-delay="400" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true" popover-trigger="'mouseenter'" style="font-weight: bold;" popover-append-to-body="true" class="row">
-          <div style="font-size: 10pt;" class="col-lg-6 col-xs-6">No Matrícula:<span ng-show="alumno.no_matricula">  {{ alumno.no_matricula }}</span><span ng-hide="alumno.no_matricula">  {{ alumno.documento | formatNumberDocumento }}</span></div>
-          <div class="col-lg-6 col-xs-6">Folio: {{ year.contador_folios }}
+          <div style="font-size: 10pt;" ng-if="::alumno.asignaturas.length&lt;=16 || year.contador_folios.length &gt; 0" class="col-lg-6 col-xs-6">No Matrícula:<span ng-show="alumno.no_matricula">  {{ alumno.no_matricula }}</span><span ng-hide="alumno.no_matricula">  {{ alumno.documento | formatNumberDocumento }}</span></div>
+          <div ng-class="{'hidden-print': year.contador_folios.length == 0}" class="col-lg-6 col-xs-6">Folio: {{ year.contador_folios }}
             <!--span(style="border: 1px solid #000; padding: 8px 50px; margin-left: 4px;")--><span class="hidden-print">
               <input ng-model="year.contador_folios" uib-tooltip="Cambie el contador de folios" ng-change="$parent.cambia_contador_certificados(year.contador_folios, year.year_id, 'contador-folios')" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" style="width: 60px!important; font-weight: 300;"></span>
           </div>
@@ -46,7 +44,7 @@
           <div style="padding-left: 50px;" class="col-lg-11 col-xs-11">
             <table style="margin: 0 auto; width: 100%; font-size: 8pt;" class="table-bordered table-bordered2 table-striped table-striped2">
               <tr style="background-color: #99caed !important; font-weight: bold;">
-                <td class="txtcentro">NO</td>
+                <td style="width: 30px;" class="txtcentro">NO</td>
                 <td style="width: 310px" class="txtcentro"><span ng-show="::year.cant_areas_pierde_year &gt; 0">ÁREAS</span><span ng-show="::year.cant_asignatura_pierde_year &gt; 0">ÁREAS / ASIGNATURAS</span></td>
                 <td style="width: 65px" class="txtcentro">IH</td>
                 <td style="width: 140px" class="txtcentro">
@@ -121,7 +119,7 @@
           </div>
           <div class="col-lg-12 col-xs-12">
             <div ng-if="::year.frase_final_certificado" ng-class="{'margin-espacio-cert': year.cant_areas_pierde_year&gt;0}">{{ ::year.frase_final_certificado }}</div>
-            <div style="margin-top: 20px;">Dado en {{year.ciudad}} ({{year.departamento}}) a los {{fecha_dia}} días del mes de {{fecha_mes}} de {{fecha_year}}.</div>
+            <div style="margin-top: 5px;">Dado en {{year.ciudad}} ({{year.departamento}}) a los {{fecha_dia}} días del mes de {{fecha_mes}} de {{fecha_year}}.</div>
           </div>
         </div>
         <div class="row footer-boletin">
@@ -135,15 +133,15 @@
             <div class="col-lg-6 col-xs-6 nombre-titular-firma">{{year.nombres_secretario}} {{year.apellidos_secretario}}</div>
           </div>
           <div class="row">
-            <div ng-show="::year.sexo_rector=='M'" class="col-lg-6 col-xs-6">Rector</div>
-            <div ng-show="::year.sexo_rector=='F'" class="col-lg-6 col-xs-6">Rectora</div><span>
-              <div ng-show="year.sexo_secretario=='M'" class="col-lg-6 col-xs-6">Secretario</div>
-              <div ng-show="year.sexo_secretario=='F'" class="col-lg-6 col-xs-6">Secretaria</div></span>
+            <div ng-show="::year.sexo_rector=='M'" style="margin-top: -5px;" class="col-lg-6 col-xs-6">Rector</div>
+            <div ng-show="::year.sexo_rector=='F'" style="margin-top: -5px;" class="col-lg-6 col-xs-6">Rectora</div><span>
+              <div ng-show="year.sexo_secretario=='M'" style="margin-top: -5px;" class="col-lg-6 col-xs-6">Secretario</div>
+              <div ng-show="year.sexo_secretario=='F'" style="margin-top: -5px;" class="col-lg-6 col-xs-6">Secretaria</div></span>
           </div>
           <div class="row">
             <div class="col-xs-1"></div>
             <div class="col-xs-10">
-              <div style="border: 1px solid #888; padding: 4px; font-size: 8pt; margin-top: 20px;">
+              <div style="border: 1px solid #888; padding: 4px; font-size: 8pt; margin-top: 5px;">
                 <div><span style="font-weight: bold; font-style: italic;">IH:</span> Intensidad horaria semanal. {{ year.minu_hora_clase }} minutos de clase. 40 semanas escolares al año.<b> {{USER.nota_minima_aceptada}}</b> es la nota mínima aprobatoria.</div>
                 <div><span ng-repeat="escala in $parent.escalas_val" style="width: 150px; display: inline-block;"><span style="font-weight: bold; font-style: italic;">D. {{escala.desempenio}}:</span> de {{escala.porc_inicial}} a {{escala.porc_final}}
                     <!--span(ng-show="!$first") .9--></span></div>

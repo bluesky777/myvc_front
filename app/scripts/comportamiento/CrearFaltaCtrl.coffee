@@ -1,5 +1,14 @@
 angular.module('myvcFrontApp')
 
+.directive('faltasDeLasQueDerivaDir',['App', (App)->
+	restrict: 'E'
+	templateUrl: "#{App.views}comportamiento/faltasDeLasQueDerivaDir.tpl.html"
+])
+.directive('faltasDeLasQueDerivaNuevoDir',['App', (App)->
+	restrict: 'E'
+	templateUrl: "#{App.views}comportamiento/faltasDeLasQueDerivaNuevoDir.tpl.html"
+])
+
 .controller('CrearFaltaCtrl', ['$scope', '$uibModalInstance', 'alumno', 'per_num', 'periodos', 'config', 'ordinales', 'profesores', 'creando', '$http', 'toastr', 'App', ($scope, $modalInstance, alumno, per_num, periodos, config, ordinales, profesores, creando, $http, toastr, App)->
 	$scope.alumno 		  = alumno
 	$scope.datos        = {}
@@ -37,7 +46,7 @@ angular.module('myvcFrontApp')
 			$http.put('::disciplina/destroy', {proceso_id: falta.id, alumno_id: alumno.alumno_id}).then((r)->
 				toastr.success 'Falta eliminada.'
 				$scope.eliminando = false
-				$scope.reemplazarAlumno(r.data)
+				$scope.reemplazarAlumno(r.data, falta.descripcion, true)
 			, (r2)->
 				toastr.error 'No se pudo eliminar.', 'Problema'
 				$scope.eliminando = false
@@ -46,7 +55,8 @@ angular.module('myvcFrontApp')
 
 	$scope.editarFalta = (periodo, falta)->
 		if falta.fecha_hora_aprox
-			falta.fecha_hora_aprox = new Date(falta.fecha_hora_aprox.replace(/-/g, '\/'))
+			if falta.fecha_hora_aprox.replace
+				falta.fecha_hora_aprox = new Date(falta.fecha_hora_aprox.replace(/-/g, '\/'))
 
 		$scope.falta_edit = falta
 
@@ -83,7 +93,7 @@ angular.module('myvcFrontApp')
 		)
 
 
-	$scope.reemplazarAlumno = (alumno)->
+	$scope.reemplazarAlumno = (alumno, descripcion, eliminado)->
 		$scope.alumno = alumno
 
 		for original, index in $scope.alumnos
@@ -92,6 +102,20 @@ angular.module('myvcFrontApp')
 					$scope.alumnos.splice(index, 1)
 
 		$scope.alumnos.push(alumno)
+
+
+		if descripcion
+			found = false
+			for descrip, indice in $scope.descripciones_typeahead
+				if descrip.descripcion==descripcion and eliminado!=true
+					found = indice
+
+			if found
+				if eliminado
+					$scope.descripciones_typeahead.splice(found, 1)
+				else
+					$scope.descripciones_typeahead.push({descripcion: descripcion})
+
 
 
 
@@ -115,7 +139,7 @@ angular.module('myvcFrontApp')
 			toastr.success 'Falta creada.'
 			$scope.guardando_new  = false
 			periodo.creando       = false
-			$scope.reemplazarAlumno(r.data)
+			$scope.reemplazarAlumno(r.data, $scope.falta_new.descripcion)
 
 			if creando
 				$modalInstance.close(r.data)
@@ -142,7 +166,7 @@ angular.module('myvcFrontApp')
 			toastr.success 'Cambios guardados.'
 			$scope.guardando_edit  	= false
 			periodo.editando  			= false
-			$scope.reemplazarAlumno(r.data)
+			$scope.reemplazarAlumno(r.data, $scope.falta_edit.descripcion)
 		, (r2)->
 			$scope.guardando_edit  = false
 			toastr.error 'No se pudo guardar.', 'Problema'

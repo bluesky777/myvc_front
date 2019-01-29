@@ -3,6 +3,16 @@ angular.module('myvcFrontApp')
 	($scope, $modal, $http, $filter, $rootScope, AuthService, toastr, App, YearsServ) ->
 
 		AuthService.verificar_acceso()
+
+		$scope.UNIDAD = $scope.USER.unidad_displayname
+		$scope.GENERO_UNI = $scope.USER.genero_unidad
+		$scope.SUBUNIDAD = $scope.USER.subunidad_displayname
+		$scope.GENERO_SUB = $scope.USER.genero_subunidad
+		$scope.UNIDADES = $scope.USER.unidades_displayname
+		$scope.SUBUNIDADES = $scope.USER.subunidades_displayname
+
+		$scope.views = App.views
+
 		$scope.hasRoleOrPerm = AuthService.hasRoleOrPerm
 
 		$scope.configuracion = {copiar_subunidades: true, copiar_notas: true}
@@ -42,6 +52,7 @@ angular.module('myvcFrontApp')
 
 		$http.get('::profesores/conyears').then((r)->
 			$scope.profesores       = r.data
+
 			if localStorage.asignatura_a_copiar
 				$scope.asignatura_a_copiar = JSON.parse(localStorage.asignatura_a_copiar)
 
@@ -64,18 +75,23 @@ angular.module('myvcFrontApp')
 							$scope.yearToSelect(profe.years[profe.years.length-1])
 
 				else
-					# Para el año destino
-					for profe in $scope.profesores
-						if profe.id == profe_id
-							$scope.years_copy_to          = profe.years
-							$scope.configuracion.year_to  = profe.years[profe.years.length-1]
-							$scope.yearToSelect(profe.years[profe.years.length-1])
+					$scope.set_year_copy_to()
+
+			else
+				$scope.set_year_copy_to()
 
 
 		,(r)->
 			toastr.error 'No se pudo traer los profes con años', r
 		)
 
+		$scope.set_year_copy_to = ()->
+			# Para el año destino
+			for profe in $scope.profesores
+				if profe.id == profe_id
+					$scope.years_copy_to          = profe.years
+					$scope.configuracion.year_to  = profe.years[profe.years.length-1]
+					$scope.yearToSelect(profe.years[profe.years.length-1])
 
 		# ORIGEN
 		$scope.profesorSelect = ($item, $model)->
@@ -200,13 +216,13 @@ angular.module('myvcFrontApp')
 
 			datos =
 				copiar_subunidades: 	$scope.configuracion.copiar_subunidades
-				copiar_notas:			$scope.configuracion.copiar_notas
-				asignatura_to_id:		$scope.configuracion.asignatura_to.asignatura_id
-				periodo_from_id: 		$scope.configuracion.periodo_from.id
-				periodo_to_id: 			$scope.configuracion.periodo_to.id
-				unidades_ids: 			unidades_ids
-				grupo_from_id:			$scope.configuracion.asignatura_from.grupo_id
-				grupo_to_id:			$scope.configuracion.asignatura_to.grupo_id
+				copiar_notas:					$scope.configuracion.copiar_notas
+				asignatura_to_id:			$scope.configuracion.asignatura_to.asignatura_id
+				periodo_from_id: 			$scope.configuracion.periodo_from.id
+				periodo_to_id: 				$scope.configuracion.periodo_to.id
+				unidades_ids: 				unidades_ids
+				grupo_from_id:				$scope.configuracion.asignatura_from.grupo_id
+				grupo_to_id:					$scope.configuracion.asignatura_to.grupo_id
 
 
 
@@ -218,10 +234,13 @@ angular.module('myvcFrontApp')
 									' - Subunidades copiadas: ' + r.subunidades_copiadas +
 									' - Notas copidas: ' + r.notas_copiadas
 
+				"""
 				$scope.unidades_to.items.push unidad_a_copiar for unidad_a_copiar in unidades_a_copiar
 
 				if $scope.configuracion.asignatura_from.asignatura_id == $scope.configuracion.asignatura_to.asignatura_id and $scope.configuracion.periodo_from.id==$scope.configuracion.periodo_to.id
 					$scope.unidades.items.push unidad_a_copiar for unidad_a_copiar in unidades_a_copiar
+				"""
+				$scope.unidades_to.items = r.unidades
 
 			, (r2)->
 				toastr.error 'No se pudieron copiar los datos'

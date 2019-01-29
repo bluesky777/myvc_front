@@ -15,13 +15,18 @@
 				selector-grupo-dir
 
 
+			button.btn.btn-default(ng-class="{'active': inmovible_activado==true}" ng-click="toggleInmovible()" uib-tooltip="Ver la columna nombre siempre. (el diseño aún está en construcción pero ya es funcional)")
+				span(style="padding-right: 3px") Nombre inmovible
+				i.fa.fa-map-marker
+
+
 			.row(style="overflow: auto")
 				.col-xs-12
 
 
 					div.table-responsive(ng-show="datos.grupo.nombre" fixed-column-table fixed-columns="2")
 
-						table.table.table-hover.table-condensed.table-striped.tablenot100.inmovible
+						table.table.table-hover.table-condensed.table-striped.tablenot100(ng-class="{ inmovible: inmovible_activado }")
 							thead
 								tr
 									th.cross(style="width: 20px;")
@@ -60,7 +65,7 @@
 
 									td.border-right-dddd
 										.btn-group.posi-unset
-											button.btn.btn-warning.posi-unset.padding-lr-6(uib-tooltip="Llegadas tarde a la institución")
+											button.btn.btn-warning.posi-unset.padding-lr-6(ng-click="toggleMostrarDetalle(alumno, 'mostrando_per1_tard')" uib-tooltip="Llegadas tarde a la institución")
 												i.fa.fa-clock-o
 												| {{ alumno.tardanzas_per1.length }}
 											button.btn.btn-default.posi-unset.padding-lr-6(ng-click="toggleMostrarDetalle(alumno, 'mostrando_per1_t1')" uib-tooltip="{{ config.faltas_tipo1_displayname }}")
@@ -75,6 +80,19 @@
 											i.fa.fa-plus
 
 										// FATAS DETALLADAS PER 1
+										.faltas-detalle-box(ng-if="alumno.mostrando_per1_tard" style="background-color: #ffe586")
+											.title-faltas Tardanzas
+											button.btn.btn-xs(ng-repeat="tardanza in alumno.tardanzas_per1"
+												ng-click="clickTardanzaObject(tardanza, alumno)"
+												uib-popover-template="views+'notas/popoverTardanzaObject.tpl.html'"
+												popover-title="Editar tardanza" style="width: 55px" popover-append-to-body="true"
+												popover-trigger="'outsideClick'" popover-is-open="tardanza.isOpen" ng-disabled="::USER.profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')")
+
+												span(ng-hide="tardanza.fecha_hora")
+													i.fa.fa-clock-o
+												span(ng-show="tardanza.fecha_hora") {{ tardanza.fecha_hora | date:'d MMM' }}
+
+
 										.faltas-detalle-box(ng-if="alumno.mostrando_per1_t1" ng-click="verFaltasModal(alumno, alumno.periodo1, 1, 1)")
 											.title-faltas {{ config.faltas_tipo1_displayname }}
 											div(ng-repeat="falta in alumno.periodo1 | filter:{'tipo_situacion': 1}" style="border-bottom: 1px solid #aaa;")
@@ -96,7 +114,7 @@
 
 									td.border-right-dddd
 										.btn-group.posi-unset
-											button.btn.btn-warning.posi-unset.padding-lr-6
+											button.btn.btn-warning.posi-unset.padding-lr-6(ng-click="toggleMostrarDetalle(alumno, 'mostrando_per2_tard')" uib-tooltip="Llegadas tarde a la institución")
 												i.fa.fa-clock-o
 												| {{ alumno.tardanzas_per2.length }}
 											button.btn.btn-default.posi-unset.padding-lr-6(ng-click="toggleMostrarDetalle(alumno, 'mostrando_per2_t1')" uib-tooltip="{{ config.faltas_tipo1_displayname }}")
@@ -113,6 +131,19 @@
 
 
 										// FATAS DETALLADAS PER 2
+										.faltas-detalle-box(ng-if="alumno.mostrando_per2_tard" style="background-color: #ffe586")
+											.title-faltas Tardanzas
+											button.btn.btn-xs(ng-repeat="tardanza in alumno.tardanzas_per2"
+												ng-click="clickTardanzaObject(tardanza, alumno)"
+												uib-popover-template="views+'notas/popoverTardanzaObject.tpl.html'"
+												popover-title="Editar tardanza" style="width: 55px" popover-append-to-body="true"
+												popover-trigger="'outsideClick'" popover-is-open="tardanza.isOpen" ng-disabled="::USER.profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')")
+
+												span(ng-hide="tardanza.fecha_hora")
+													i.fa.fa-clock-o
+												span(ng-show="tardanza.fecha_hora") {{ tardanza.fecha_hora | date:'d MMM' }}
+
+
 										.faltas-detalle-box(ng-if="alumno.mostrando_per2_t1" ng-click="verFaltasModal(alumno, alumno.periodo2, 2, 1)")
 											.title-faltas {{ config.faltas_tipo1_displayname }}
 											div(ng-repeat="falta in alumno.periodo2 | filter:{'tipo_situacion': 1}" style="border-bottom: 1px solid #aaa;")
@@ -135,7 +166,7 @@
 
 									td.border-right-dddd
 										.btn-group.posi-unset
-											button.btn.btn-warning.posi-unset.padding-lr-6
+											button.btn.btn-warning.posi-unset.padding-lr-6(ng-click="toggleMostrarDetalle(alumno, 'mostrando_per3_tard')" uib-tooltip="Llegadas tarde a la institución")
 												i.fa.fa-clock-o
 												| {{ alumno.tardanzas_per3.length }}
 											button.btn.btn-default.posi-unset.padding-lr-6(ng-click="toggleMostrarDetalle(alumno, 'mostrando_per3_t1')" uib-tooltip="{{ config.faltas_tipo1_displayname }}")
@@ -152,6 +183,19 @@
 
 
 										// FATAS DETALLADAS PER 3
+										.faltas-detalle-box(ng-if="alumno.mostrando_per3_tard" style="background-color: #ffe586")
+											.title-faltas Tardanzas
+											button.btn.btn-xs(ng-repeat="tardanza in alumno.tardanzas_per3"
+												ng-click="clickTardanzaObject(tardanza, alumno)"
+												uib-popover-template="views+'notas/popoverTardanzaObject.tpl.html'"
+												popover-title="Editar tardanza" style="width: 55px" popover-append-to-body="true"
+												popover-trigger="'outsideClick'" popover-is-open="tardanza.isOpen" ng-disabled="::USER.profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')")
+
+												span(ng-hide="tardanza.fecha_hora")
+													i.fa.fa-clock-o
+												span(ng-show="tardanza.fecha_hora") {{ tardanza.fecha_hora | date:'d MMM' }}
+
+
 										.faltas-detalle-box(ng-if="alumno.mostrando_per3_t1" ng-click="verFaltasModal(alumno, alumno.periodo3, 3, 1)")
 											.title-faltas {{ config.faltas_tipo1_displayname }}
 											div(ng-repeat="falta in alumno.periodo3 | filter:{'tipo_situacion': 1}" style="border-bottom: 1px solid #aaa;")
@@ -174,7 +218,7 @@
 
 									td.border-right-dddd
 										.btn-group.posi-unset
-											button.btn.btn-warning.posi-unset.padding-lr-6
+											button.btn.btn-warning.posi-unset.padding-lr-6(ng-click="toggleMostrarDetalle(alumno, 'mostrando_per4_tard')" uib-tooltip="Llegadas tarde a la institución")
 												i.fa.fa-clock-o
 												| {{ alumno.tardanzas_per4.length }}
 											button.btn.btn-default.posi-unset.padding-lr-6(ng-click="toggleMostrarDetalle(alumno, 'mostrando_per4_t1')" uib-tooltip="{{ config.faltas_tipo1_displayname }}")
@@ -191,21 +235,34 @@
 
 
 										// FATAS DETALLADAS PER 4
-										.faltas-detalle-box(ng-if="alumno.mostrando_per3_t1" ng-click="verFaltasModal(alumno, alumno.periodo3, 3, 1)")
+										.faltas-detalle-box(ng-if="alumno.mostrando_per4_tard" style="background-color: #ffe586")
+											.title-faltas Tardanzas
+											button.btn.btn-xs(ng-repeat="tardanza in alumno.tardanzas_per4"
+												ng-click="clickTardanzaObject(tardanza, alumno)"
+												uib-popover-template="views+'notas/popoverTardanzaObject.tpl.html'"
+												popover-title="Editar tardanza" style="width: 55px" popover-append-to-body="true"
+												popover-trigger="'outsideClick'" popover-is-open="tardanza.isOpen" ng-disabled="::USER.profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')")
+
+												span(ng-hide="tardanza.fecha_hora")
+													i.fa.fa-clock-o
+												span(ng-show="tardanza.fecha_hora") {{ tardanza.fecha_hora | date:'d MMM' }}
+
+
+										.faltas-detalle-box(ng-if="alumno.mostrando_per4_t1" ng-click="verFaltasModal(alumno, alumno.periodo4, 4, 1)")
 											.title-faltas {{ config.faltas_tipo1_displayname }}
-											div(ng-repeat="falta in alumno.periodo3 | filter:{'tipo_situacion': 1}" style="border-bottom: 1px solid #aaa;")
+											div(ng-repeat="falta in alumno.periodo4 | filter:{'tipo_situacion': 1}" style="border-bottom: 1px solid #aaa;")
 												span(style="font-weight: bold") {{ falta.fecha_corta }}:
 												|  {{ falta.descripcion }}
 
-										.faltas-detalle-box(ng-if="alumno.mostrando_per3_t2" ng-click="verFaltasModal(alumno, alumno.periodo3, 3, 2)")
+										.faltas-detalle-box(ng-if="alumno.mostrando_per4_t2" ng-click="verFaltasModal(alumno, alumno.periodo4, 4, 2)")
 											.title-faltas {{ config.faltas_tipo2_displayname }}
-											div(ng-repeat="falta in alumno.periodo3 | filter:{'tipo_situacion': 2}" style="border-bottom: 1px solid #aaa;")
+											div(ng-repeat="falta in alumno.periodo4 | filter:{'tipo_situacion': 2}" style="border-bottom: 1px solid #aaa;")
 												span(style="font-weight: bold") {{ falta.fecha_corta }}:
 												|  {{ falta.descripcion }}
 
-										.faltas-detalle-box(ng-if="alumno.mostrando_per3_t3" ng-click="verFaltasModal(alumno, alumno.periodo3, 3, 3)")
+										.faltas-detalle-box(ng-if="alumno.mostrando_per4_t3" ng-click="verFaltasModal(alumno, alumno.periodo4, 4, 3)")
 											.title-faltas {{ config.faltas_tipo3_displayname }}
-											div(ng-repeat="falta in alumno.periodo3 | filter:{'tipo_situacion': 3}" style="border-bottom: 1px solid #aaa;")
+											div(ng-repeat="falta in alumno.periodo4 | filter:{'tipo_situacion': 3}" style="border-bottom: 1px solid #aaa;")
 												span(style="font-weight: bold") {{ falta.fecha_corta }}:
 												|  {{ falta.descripcion }}
 

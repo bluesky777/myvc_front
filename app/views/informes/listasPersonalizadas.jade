@@ -67,14 +67,18 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 								.nombresellipsis.ellipsis250( uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'"
 									popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}"
 									popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true"
-									ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}")
+									ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative; vertical-align: middle;")
 
 									| {{ alumno.apellidos }} {{ alumno.nombres }}
+									span(ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;")
+										| (Asis)
+									span(ng-show="alumno.estado=='PREM'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;")
+										| (Prem)
 
 							td(ng-show="show_documento")
 								| {{ alumno.documento | formatNumberDocumento }}
 
-							td(ng-repeat="i in columnasArray track by $index")
+							td(ng-repeat="i in columnasArray track by $index" style="min-width: 50px")
 
 
 

@@ -7,6 +7,12 @@
         <form ng-submit="crearUsuarioAdmin()" style="display: inline-block;">
           <button type="submit" uib-tooltip="Crea un usuario administrador, que edite notas, colegio, etc." ng-disabled="creando" class="btn btn-info shiny">Nuevo administrador</button>
         </form>
+        <form ng-submit="crearUsuarioPsicologo()" style="display: inline-block;">
+          <button type="submit" uib-tooltip="Crea un usuario psicólogo, que vea datos sin poder modificar." ng-disabled="creando" class="btn btn-info shiny">Nuevo psicólogo</button>
+        </form>
+        <form ng-submit="crearUsuarioEnfermero()" style="display: inline-block;">
+          <button type="submit" uib-tooltip="Crea un usuario enfermero, que manipule consultas, accidentes, etc." ng-disabled="creando" class="btn btn-info shiny">Nuevo enfermero</button>
+        </form>
       </div>
       <div id="grid1" ui-grid="gridOptions" ui-grid-auto-resize ui-grid-edit ui-grid-resize-columns style="height: 600px" ui-grid-cellnav class="grid"></div>
     </div>

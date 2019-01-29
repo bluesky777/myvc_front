@@ -170,7 +170,6 @@ angular.module('myvcFrontApp')
 	$scope.toggleInmovible = ()->
 		$scope.inmovible_activado 			  = !$scope.inmovible_activado
 		localStorage.inmovible_activado 	= $scope.inmovible_activado
-		toastr.info 'Mueva horizontalmente con Shift + Scroll'
 		if !$scope.inmovible_activado
 			$('td.fixed-cell').css( {'transform': 'translate(0, 0)'});
 

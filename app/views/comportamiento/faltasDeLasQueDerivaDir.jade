@@ -1,0 +1,170 @@
+.form-group(uib-tooltip="Seleccione si esta falta se pondrá por haber llegado muchas veces tarde al colegio.")
+	label Deriva de tardanzas
+	label
+		input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="cambiarValorFalla(falta_edit, 'deriva_de_tardanzas', falta_edit.deriva_de_tardanzas)" ng-true-value="1" ng-false-value="0" ng-model="falta_edit.deriva_de_tardanzas")
+		span.text.si-no
+
+.form-group(ng-if="falta_edit.tipo_situacion > 1")
+
+	.faltas-deriva-edit(ng-show="config.reinicia_por_periodo==0")
+
+		// Las del primer periodo siempre salen en cualquier periodo
+		div Deriva de las siguientes faltas (PERIODO 1):
+
+		// Si es tipo 2 o 3, siempre mostramos las tipo 1
+		.btn-group(ng-show="falta_edit.tipo_situacion==2")
+			label.btn.btn-sucess.shiny.label-falta-deriva(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo1 | filter:{ 'tipo_situacion': 1 }" uib-btn-checkbox
+				uib-tooltip="Per1 - t{{situac.tipo_situacion}}: {{situac.descripcion}}")
+				| t1: {{ situac.descripcion }}
+
+		.btn-group(ng-show="falta_edit.tipo_situacion==3")
+			label.btn.btn-sucess.shiny.label-falta-deriva(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo1 | filter:{'tipo_situacion': 2 }" uib-btn-checkbox
+				uib-tooltip="Per1 - t{{situac.tipo_situacion}}: {{situac.descripcion}}")
+				| t2: {{ situac.descripcion }}
+
+		.italic(ng-show="alumno.periodo1.length==0")
+			| No tiene faltas en el periodo 1
+
+
+		// Las faltas del periodo 2 aparecerán en el periodo 2, 3 y 4
+		div(ng-if="periodo.numero>1")
+			div Deriva de las siguientes faltas (PERIODO 2):
+
+			// Si es tipo 2 o 3, siempre mostramos las tipo 1
+			.btn-group(ng-show="falta_edit.tipo_situacion==2")
+				label.btn.btn-sucess.shiny.label-falta-deriva(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo2 | filter:{ 'tipo_situacion': 1 }" uib-btn-checkbox
+					uib-tooltip="Per2 - t1: {{situac.descripcion}}")
+					| t1: {{ situac.descripcion }}
+
+			.btn-group(ng-show="falta_edit.tipo_situacion==3")
+				label.btn.btn-sucess.shiny.label-falta-deriva(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo2 | filter:{'tipo_situacion': 2 }" uib-btn-checkbox
+					uib-tooltip="Per2 - t2: {{situac.descripcion}}")
+					| t2: {{ situac.descripcion }}
+
+
+			div(ng-show="alumno.periodo2.length==0")
+				| No tiene faltas en el periodo 2
+
+
+		// Las faltas del periodo 3 aparecerán en el periodo 3 y 4
+		div(ng-if="periodo.numero>2")
+			div Deriva de las siguientes faltas (PERIODO 3):
+
+			// Si es tipo 2 o 3, siempre mostramos las tipo 1
+			.btn-group(ng-show="falta_edit.tipo_situacion==2")
+				label.btn.btn-sucess.shiny.label-falta-deriva(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo3 | filter:{ 'tipo_situacion': 1 }" uib-btn-checkbox
+					uib-tooltip="Per3 - t1: {{situac.descripcion}}")
+					| t1: {{ situac.descripcion }}
+
+			.btn-group(ng-show="falta_edit.tipo_situacion==3")
+				label.btn.btn-sucess.shiny.label-falta-deriva(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo3 | filter:{'tipo_situacion': 2 }" uib-btn-checkbox
+					uib-tooltip="Per3 - t2: {{situac.descripcion}}")
+					| t2: {{ situac.descripcion }}
+
+
+			div(ng-show="alumno.periodo3.length==0")
+				| No tiene faltas en el periodo 3
+
+
+		// Las faltas del periodo 4 solo aparecerán en el periodo 4
+		div(ng-if="periodo.numero==4")
+			div Deriva de las siguientes faltas (PERIODO 4):
+
+			// Si es tipo 2 o 3, siempre mostramos las tipo 1
+			.btn-group(ng-show="falta_edit.tipo_situacion==2")
+				label.btn.btn-sucess.shiny.label-falta-deriva(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo4 | filter:{ 'tipo_situacion': 1 }" uib-btn-checkbox
+					uib-tooltip="Per4 - t1: {{situac.descripcion}}")
+					| t1: {{ situac.descripcion }}
+
+			.btn-group(ng-show="falta_edit.tipo_situacion==3")
+				label.btn.btn-sucess.shiny.label-falta-deriva(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo4 | filter:{'tipo_situacion': 2 }" uib-btn-checkbox
+					uib-tooltip="Per4 - t2: {{situac.descripcion}}")
+					| t2: {{ situac.descripcion }}
+
+
+			div(ng-show="alumno.periodo4.length==0")
+				| No tiene faltas en el periodo 4
+
+
+
+
+	.faltas-deriva-edit(ng-show="config.reinicia_por_periodo==1")
+
+		div(ng-if="periodo.numero==1")
+			div Deriva de las siguientes faltas (PERIODO 1):
+
+			// Si es tipo 2 o 3, siempre mostramos las tipo 1
+			.btn-group(ng-show="falta_edit.tipo_situacion==2")
+				label.btn.btn-sucess.shiny.label-falta-deriva(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo1 | filter:{ 'tipo_situacion': 1 }" uib-btn-checkbox
+					uib-tooltip="Per1 - t1: {{situac.descripcion}}")
+					| t1: {{ situac.descripcion }}
+
+			.btn-group(ng-show="falta_edit.tipo_situacion==3")
+				label.btn.btn-sucess.shiny.label-falta-deriva(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo1 | filter:{ 'tipo_situacion': 2 }" uib-btn-checkbox
+					uib-tooltip="Per1 - t2: {{situac.descripcion}}")
+					| t2: {{ situac.descripcion }}
+
+
+			div(ng-show="alumno.periodo1.length==0")
+				| No tiene faltas en el periodo 1
+
+
+
+		div(ng-if="periodo.numero==2")
+			div Deriva de las siguientes faltas (PERIODO 2):
+
+			// Si es tipo 2 o 3, siempre mostramos las tipo 1
+			.btn-group(ng-show="falta_edit.tipo_situacion==2")
+				label.btn.btn-sucess.shiny.label-falta-deriva(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo2 | filter:{ 'tipo_situacion': 1 }" uib-btn-checkbox
+					uib-tooltip="Per2 - t1: {{situac.descripcion}}")
+					| t1: {{ situac.descripcion }}
+
+			.btn-group(ng-show="falta_edit.tipo_situacion==3")
+				label.btn.btn-sucess.shiny.label-falta-deriva(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo2 | filter:{ 'tipo_situacion': 2 }" uib-btn-checkbox
+					uib-tooltip="Per2 - t2: {{situac.descripcion}}")
+					| t2: {{ situac.descripcion }}
+
+
+			div(ng-show="alumno.periodo2.length==0")
+				| No tiene faltas en el periodo 2
+
+
+
+		div(ng-if="periodo.numero==3")
+			div Deriva de las siguientes faltas (PERIODO 3):
+
+			// Si es tipo 2 o 3, siempre mostramos las tipo 1
+			.btn-group
+				label.btn.btn-sucess.shiny.label-falta-deriva(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo3 | filter:{ 'tipo_situacion': 1 }" uib-btn-checkbox
+					uib-tooltip="Per3 - t1: {{situac.descripcion}}")
+					| t1: {{ situac.descripcion }}
+
+			.btn-group(ng-show="falta_edit.tipo_situacion==3")
+				label.btn.btn-sucess.shiny.label-falta-deriva(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo3 | filter:{ 'tipo_situacion': 2 }" uib-btn-checkbox
+					uib-tooltip="Per3 - t2: {{situac.descripcion}}")
+					| t2: {{ situac.descripcion }}
+
+
+			div(ng-show="alumno.periodo3.length==0")
+				| No tiene faltas en el periodo 3
+
+
+
+		div(ng-if="periodo.numero==4")
+			div Deriva de las siguientes faltas (PERIODO 3):
+
+			// Si es tipo 2 o 3, siempre mostramos las tipo 1
+			.btn-group
+				label.btn.btn-sucess.shiny.label-falta-deriva(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo4 | filter:{ 'tipo_situacion': 1 }" uib-btn-checkbox
+					uib-tooltip="Per4 - t1: {{situac.descripcion}}")
+					| t1: {{ situac.descripcion }}
+
+			.btn-group(ng-show="falta_edit.tipo_situacion==3")
+				label.btn.btn-sucess.shiny.label-falta-deriva(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo4 | filter:{ 'tipo_situacion': 2 }" uib-btn-checkbox
+					uib-tooltip="Per4 - t2: {{situac.descripcion}}")
+					| t2: {{ situac.descripcion }}
+
+
+			div(ng-show="alumno.periodo4.length==0")
+				| No tiene faltas en el periodo 4
+

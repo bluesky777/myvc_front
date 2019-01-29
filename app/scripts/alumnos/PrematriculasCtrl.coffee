@@ -877,6 +877,32 @@ angular.module("myvcFrontApp")
 
 
 
+	$scope.verObservacionesRequisitos = ()->
+		$scope.viendo_requisitos = !$scope.viendo_requisitos
+
+		if $scope.viendo_requisitos
+			$http.put('::requisitos/listado-observaciones').then((r)->
+				$scope.requisitos   							= r.data.requisitos
+			, ()->
+				toastr.error('Error trayendo observaciones de requisitos')
+			)
+		else
+			$scope.viendo_observaciones_requisitos = false
+
+
+	$scope.requisitoSeleccionado = (requisito)->
+		$scope.viendo_observaciones_requisitos = true
+		$scope.alumnos_observaciones = requisito.alumnos_observaciones
+
+	$scope.guardarCambioRequisito = (alumno)->
+		$http.post('::requisitos/alumno', alumno ).then((r)->
+			toastr.success 'Requisito actualizado'
+		, (r2)->
+			toastr.error 'Cambio no guardado', 'Error'
+		)
+
+
+
 
 
 

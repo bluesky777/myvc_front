@@ -261,18 +261,25 @@
 				span.menu-text  Bitácora
 
 
+		<!-- NOTAS DE UN ALUMNO POR PSICÓLOGO -->
+		li(ui-sref-active="active" ng-if="hasRoleOrPerm(['Psicólogo'])" )
+			a(ui-sref="panel.notas_alumno" stop-event="click")
+				i.menu-icon.fa.fa-apple
+				span.menu-text Notas de alumno
+
 		<!-- Disciplina-->
-		li(ui-sref-active="active" ng-if="hasRoleOrPerm(['admin']) || hasRoleOrPerm(['profesor'])" )
+		li(ui-sref-active="active" ng-if="hasRoleOrPerm(['admin']) || hasRoleOrPerm(['profesor', 'psicólogo', 'Coord disciplinario'])" )
 			a(ui-sref="panel.disciplina")
 				i.menu-icon.fa.fa-user
 				span.menu-text Disciplina
 
 
-		<!-- Informes-->
-		li(ui-sref-active="active" ng-if="hasRoleOrPerm(['admin']) || hasRoleOrPerm(['profesor'])" )
+		<!-- Informes -->
+		li(ui-sref-active="active" ng-if="hasRoleOrPerm(['admin']) || hasRoleOrPerm(['profesor']) || hasRoleOrPerm(['Psicólogo'])" )
 			a(ng-click="ir_a_informes()" href="")
 				i.menu-icon.fa.fa-print
 				span.menu-text Informes
+
 
 		//li(sub-menu ng-show="hasRoleOrPerm('admin')" ng-click="toggleOpen()" menu-is-open="false" ng-class="{active:$state.includes('panel.informes')}")
 			a.menu-dropdown(href="")

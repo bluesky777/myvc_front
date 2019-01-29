@@ -29,31 +29,40 @@ angular.module('myvcFrontApp')
 		return d.promise
 
 
+
+
 	authService.verificar_acceso = ()->
 		if !Perfil.User().user_id
 			$state.go 'login'
 
 		next = $state.current
+		autorizado_perms = false
+		autorizado_roles = false
 
 		if next.data.needed_permissions
 			needed_permissions = next.data.needed_permissions
 
 			if (!authService.isAuthorized(needed_permissions))
-				#event.preventDefault()
-				#console.log 'No tiene permisos, y... '
+				autorizado_perms = true
 
-				$rootScope.lastState = next.name
-				if (authService.isAuthenticated())
-					# user is not allowed
-					$rootScope.$broadcast(AUTH_EVENTS.notAuthorized)
-					#console.log '...está Autenticado.'
-				else
-					# user is not logged in
-					#$rootScope.$broadcast(AUTH_EVENTS.notAuthenticated)
-					#console.log '...NO está Autenticado.'
-					$state.transitionTo 'login'
-		else
+
+		if next.data.needed_roles
+			needed_roles = next.data.needed_roles
+
+			if (!authService.isAuthorized(false, needed_roles))
+				autorizado_roles = true
+
+		if autorizado_perms and autorizado_roles
+			$rootScope.lastState = next.name
+			if (authService.isAuthenticated())
+				# user is not allowed
+				$rootScope.$broadcast(AUTH_EVENTS.notAuthorized)
+			else
+				$state.transitionTo 'login'
+
+		if !next.data.needed_roles and !next.data.needed_permissions
 			return true
+
 
 
 
@@ -159,27 +168,48 @@ angular.module('myvcFrontApp')
 	authService.isAuthenticated = ()->
 		return !!Perfil.User().user_id;
 
-	authService.isAuthorized = (neededPermissions)->
-
+	authService.isAuthorized = (neededPermissions, neededRoles)->
 		user = Perfil.User()
 		if user.is_superuser
 			return true
 
-		if (!angular.isArray(neededPermissions))
-			neededPermissions = [neededPermissions]
-
-		if (!angular.isArray(user.perms))
-			if neededPermissions.length > 0
-				return false; # Hay permisos requeridos pero el usuario no tiene ninguno
-			else
-				return true; # El usuarios no tiene permisos pero no se requiere ninguno
-
 		newArr = []
-		angular.forEach(neededPermissions, (elem)->
-			if (user.perms.indexOf(elem)) != -1
-				newArr.push elem
-		)
+
+		if neededPermissions
+			if (!angular.isArray(neededPermissions))
+				neededPermissions = [neededPermissions]
+
+			if (!angular.isArray(user.perms))
+				if neededPermissions.length > 0
+					return false; # Hay permisos requeridos pero el usuario no tiene ninguno
+				else
+					return true; # El usuarios no tiene permisos pero no se requiere ninguno
+
+
+			angular.forEach(neededPermissions, (elem)->
+				if (user.perms.indexOf(elem)) != -1
+					newArr.push elem
+			)
+
+		if neededRoles
+			if (!angular.isArray(neededRoles))
+				neededRoles = [neededRoles]
+
+			if (!angular.isArray(user.roles))
+				if neededRoles.length > 0
+					return false; # Hay permisos requeridos pero el usuario no tiene ninguno
+				else
+					return true; # El usuarios no tiene permisos pero no se requiere ninguno
+
+
+			angular.forEach(neededRoles, (elem)->
+				for rol in user.roles
+					if rol.name.toLocaleLowerCase() == elem.toLocaleLowerCase()
+						newArr.push elem
+			)
+
 		return (authService.isAuthenticated() and (newArr.length > 0))
+
 
 
 	authService.hasRoleOrPerm = (ReqRoles, RedPermis)->

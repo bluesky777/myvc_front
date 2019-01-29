@@ -13,7 +13,7 @@
 			.widget-body(ng-class="{'ng-hide':minimized}")
 
 
-				.row(ng-show="::periodos_desactualizados" style="padding-bottom: 20px;")
+				.row(ng-show="::periodos_desactualizados" style="padding-bottom: 20px;" ng-if="::!hasRoleOrPerm(['psicólogo'])")
 
 					.col-lg-12(ng-repeat="periodo in ::periodos_desactualizados")
 
@@ -27,7 +27,7 @@
 
 						button.btn.btn-primary(ng-click="calcularPeriodo(periodo)") Calcular periodo {{::periodo.numero}}
 
-				.row(style="padding-bottom: 20px;")
+				.row(style="padding-bottom: 20px;" ng-if="::!hasRoleOrPerm(['psicólogo'])")
 					.col-lg-12()
 						.btn-group
 							button.btn.btn-sm.btn-default.shiny(ng-click="calcularPeriodo(periodo)" ng-repeat="periodo in periodos_grupos" uib-tooltip="No es necesario a menos que veas alguna nota definitiva desactualizada.")
@@ -47,6 +47,9 @@
 						br
 
 						.row(style="margin-bottom: 30px;")
+							.col-xs-12(ng-if="::!hasRoleOrPerm(['psicólogo'])")
+								a.btn.btn-default(href="" ng-click="verSimat()") SIMAT {{USER.year}}
+
 							.col-lg-12.col-xs-12
 								| Tipo de boletín
 								.btn-group
@@ -111,13 +114,13 @@
 										label
 											input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.mostrar_foto")
 											span.text.si-no
-								.col-lg-2.col-sm-4.col-xs-12
+								.col-lg-2.col-sm-4.col-xs-12(ng-if="::!hasRoleOrPerm(['psicólogo'])")
 									.form-group
 										label Firma rector
 										label
 											input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.show_firma_rector")
 											span.text.si-no
-								.col-lg-2.col-sm-4.col-xs-12
+								.col-lg-2.col-sm-4.col-xs-12(ng-if="::!hasRoleOrPerm(['psicólogo'])")
 									.form-group
 										label Firma titular
 										label
@@ -143,7 +146,7 @@
 											span.text.si-no
 
 
-							.row
+							.row(ng-if="::!hasRoleOrPerm(['psicólogo'])")
 								.col-lg-12.col-xs-12
 									.form-group
 										label Imagen de fondo
@@ -163,7 +166,7 @@
 						button.btn.btn-default(ng-click="pdfMaker()" ng-show="false")
 							|Prueba pdf
 
-					uib-tab(heading="Puestos" index="'puestos'" select="selectTab('puestos')")
+					uib-tab(heading="Puestos" index="'puestos'" select="selectTab('puestos')" ng-if="::!hasRoleOrPerm(['psicólogo'])")
 						.row
 							.col-lg-7.col-sm-12.col-xs-12
 								.form-group
@@ -187,7 +190,7 @@
 									a.btn.btn-success(href="" ng-click="verTodosPuestosYear()") Todos del año
 
 
-					uib-tab(heading="Planillas" index="'planillas'" select="selectTab('planillas')")
+					uib-tab(heading="Planillas" index="'planillas'" select="selectTab('planillas')" ng-if="::!hasRoleOrPerm(['psicólogo'])")
 						.row
 							.col-lg-7.col-sm-12.col-xs-12
 								.form-group
@@ -278,14 +281,14 @@
 
 
 
-					uib-tab(heading="Finales" index="'finales'" select="selectTab('finales')")
+					uib-tab(heading="Finales" index="'finales'" select="selectTab('finales')" ng-if="::!hasRoleOrPerm(['psicólogo'])")
 						span(ng-include="'views/informes/tabFinales.tpl.html'")
 
 
 
 
 
-					uib-tab(heading="Varios" index="'varios'" select="selectTab('varios')")
+					uib-tab(heading="Varios" index="'varios'" select="selectTab('varios')" ng-if="::!hasRoleOrPerm(['psicólogo'])")
 
 						.row
 							.col-lg-12.col-xs-12

@@ -17,7 +17,7 @@ angular.module('myvcFrontApp')
 	$scope.mostrando_edit_evento  = false
 	$scope.actualizando_cumples   = false
 	$scope.IS_PROF_ADMIN 		      = $scope.hasRoleOrPerm(['admin', 'profesor']);
-	$scope.IS_ALUM_ACUD 		      = $scope.hasRoleOrPerm(['alumno', 'acudiente']) || $scope.USER.tipo == 'Acudiente';
+	$scope.IS_ALUM_ACUD 		      = $scope.hasRoleOrPerm(['alumno', 'acudiente', 'psicólogo', 'enfermero']) || $scope.USER.tipo == 'Acudiente';
 
 
 	$scope.new_publicacion  = {
@@ -282,16 +282,33 @@ angular.module('myvcFrontApp')
 	$scope.mostrarClasesDeManana = ()->
 		$scope.mostrandoHoy = false
 
-	$scope.seleccionarAsignatura = (asignatura)->
-		if asignatura.unidades.length == 0
 
-			$http.put('::unidades/de-asignatura-periodo/'+asignatura.asignatura_id+'/'+$scope.USER.periodo_id).then((r)->
+	$scope.seleccionarAsignatura = (asignatura)->
+		if asignatura.unidades.length == 0 and !asignatura.seleccionada
+
+			$http.get('::unidades/de-asignatura-periodo/'+asignatura.asignatura_id+'/'+$scope.USER.periodo_id).then((r)->
 				if r.data.length > 0
 					asignatura.unidades = r.data
 			,() ->
 				toastr.error('Error comprobando notas de asignatura')
 			)
 		asignatura.seleccionada = !asignatura.seleccionada;
+
+
+	$scope.cargarAlumnosAsistencia = (asignatura, grupo_id, asignatura_id)->
+		$scope.subunidad_actual   = false
+		$scope.asignatura_actual  = asignatura
+
+		$http.put('::notas/subunidad', { grupo_id: grupo_id, asignatura_id: asignatura_id }).then((r)->
+			$scope.alumnos_subunidad  = r.data.alumnos
+			$scope.pasandoNotas       = true
+
+			for alumno in $scope.alumnos_subunidad
+				$scope.verificarFallaHoy(alumno)
+
+		,() ->
+			toastr.error('Error trayendo notas')
+		)
 
 
 	$scope.verificarFallaHoy = (alumno)->

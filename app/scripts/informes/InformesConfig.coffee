@@ -34,6 +34,7 @@ angular.module('myvcFrontApp')
 				icon_fa: 'fa fa-print'
 				pageTitle: 'Informes - MyVc'
 				needed_permissions: [PERMISSIONS.can_work_like_teacher, PERMISSIONS.can_work_like_admin]
+				needed_roles: [USER_ROLES.admin, USER_ROLES.psicologo, USER_ROLES.coord_academico, USER_ROLES.coord_disciplinario]
 		})
 
 		.state 'panel.informes.boletines_periodo',

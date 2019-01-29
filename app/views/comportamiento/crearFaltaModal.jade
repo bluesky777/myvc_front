@@ -16,7 +16,8 @@
 
 
 						.title-faltas.align-center(style="margin-top: 30px;") {{ config.faltas_tipo1_displayname }}
-						.title-faltas.align-center(ng-show="(alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 1}).length == 0" style="margin-top: 30px;") No tiene {{ config.faltas_tipo1_displayname }}
+						.title-faltas.align-center.italic(ng-show="(alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 1}).length == 0")
+							| No tiene {{ config.faltas_tipo1_displayname }}
 
 						div.table-responsive(ng-show="(alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 1}).length > 0")
 							table.table.table-hover.table-condensed.table-striped.table-bordered
@@ -63,9 +64,10 @@
 
 
 						.title-faltas.align-center(style="margin-top: 30px;") {{ config.faltas_tipo2_displayname }}
-						.title-faltas.align-center(ng-show="(alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 2}).length == 0" style="margin-top: 30px;") No tiene {{ config.faltas_tipo2_displayname }}
+						.title-faltas.align-center.italic(ng-show="(alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 2}).length == 0")
+							| No tiene {{ config.faltas_tipo2_displayname }}
 
-						div.table-responsive
+						div.table-responsive(ng-hide="(alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 2}).length == 0")
 							table.table.table-hover.table-condensed.table-striped.table-bordered
 								thead
 									tr
@@ -111,9 +113,10 @@
 
 
 						.title-faltas.align-center(style="margin-top: 30px;") {{ config.faltas_tipo3_displayname }}
-						.title-faltas.align-center(ng-show="(alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 3}).length == 0" style="margin-top: 30px;") No tiene {{ config.faltas_tipo3_displayname }}
+						.title-faltas.align-center.italic(ng-show="(alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 3}).length == 0")
+							| No tiene {{ config.faltas_tipo3_displayname }}
 
-						div.table-responsive
+						div.table-responsive(ng-hide="(alumno['periodo'+periodo.numero] | filter:{'tipo_situacion': 3}).length == 0")
 							table.table.table-hover.table-condensed.table-striped.table-bordered
 								thead
 									tr
@@ -167,7 +170,7 @@
 						| Crear nueva
 
 
-				.row(ng-show="periodo.creando")
+				.row(ng-if="periodo.creando")
 					.col-lg-12.margin-padding-lados-xs
 						.well.with-header.with-footer.animated.bounceIn
 							.header.bordered-blue
@@ -177,10 +180,11 @@
 							form(role='form' ng-submit="crear_falta(periodo)")
 								.row
 									.col-sm-12
+										div Elija el tipo de falta que va a crear.
 										.btn-group
-											label.btn.btn-primary(ng-model="falta_new.tipo_situacion" uib-btn-radio="1") Tipo 1
-											label.btn.btn-primary(ng-model="falta_new.tipo_situacion" uib-btn-radio="2") Tipo 2
-											label.btn.btn-primary(ng-model="falta_new.tipo_situacion" uib-btn-radio="3") Tipo 3
+											label.btn.btn-primary(ng-model="falta_new.tipo_situacion" uib-btn-radio="1") {{ config.falta_tipo1_displayname }}
+											label.btn.btn-primary(ng-model="falta_new.tipo_situacion" uib-btn-radio="2") {{ config.falta_tipo2_displayname }}
+											label.btn.btn-primary(ng-model="falta_new.tipo_situacion" uib-btn-radio="3") {{ config.falta_tipo3_displayname }}
 
 								span(ng-show="falta_new.tipo_situacion")
 									.row
@@ -188,7 +192,9 @@
 											.form-group
 												label(for='falta-new-periodo{{periodo.numero}}') Descripción
 												span.input-icon.icon-right
-													input.form-control(type='text' placeholder='Descripción de la falta' ng-model="falta_new.descripcion" id="falta-new-periodo{{periodo.numero}}")
+													//input.form-control(type='text' placeholder='Descripción de la falta' ng-model="falta_new.descripcion")
+													textarea.form-control.textarea-altura-xs(required ng-model="falta_new.descripcion" placeholder="Descripción de la falta" style="height: 35px;"
+														id="falta-new-periodo{{periodo.numero}}" uib-typeahead="descripcion.descripcion for descripcion in descripciones_typeahead | filter:$viewValue | limitTo:8")
 
 										.col-sm-12
 											.form-group
@@ -210,26 +216,7 @@
 													input.form-control(type='text' placeholder='Escriba la justificación del estudiante.' ng-model="falta_new.descargo" id="falta-new-descargo{{periodo.numero}}")
 
 										.col-sm-12
-											.form-group
-												label Deriva de:
-												.btn-group(ng-show="falta_new.tipo_situacion==1")
-													label.btn.btn-sucess.shiny(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo1" uib-btn-checkbox
-														uib-tooltip="{{situac.descripcion}}" style="width: 90px; overflow: hidden;")
-														| t1: {{ situac.descripcion }}
-												.btn-group(ng-show="falta_new.tipo_situacion==2")
-													label.btn.btn-sucess.shiny(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo2" uib-btn-checkbox
-														uib-tooltip="{{situac.descripcion}}" style="width: 90px; overflow: hidden;")
-														| t2: {{ situac.descripcion }}
-												.btn-group(ng-show="falta_new.tipo_situacion==3")
-													label.btn.btn-sucess.shiny(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo3" uib-btn-checkbox
-														uib-tooltip="{{situac.descripcion}}" style="width: 90px; overflow: hidden;")
-														| t3: {{ situac.descripcion }}
-												.btn-group(ng-show="falta_new.tipo_situacion==4")
-													label.btn.btn-sucess.shiny(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo4" uib-btn-checkbox
-														uib-tooltip="{{situac.descripcion}}" style="width: 90px; overflow: hidden;")
-														| t4: {{ situac.descripcion }}
-												div(ng-show="alumno.periodo1.length==0 && alumno.periodo2.length==0 && alumno.periodo3.length==0 && alumno.periodo4.length==0")
-													| No tiene faltas actualmente
+											faltas-de-las-que-deriva-nuevo-dir(falta="falta_edit")
 
 
 										.col-sm-12(uib-tooltip="No es obligatorio")
@@ -255,7 +242,7 @@
 														span(ng-bind-html="ordinal.tipo + '. ' + ordinal.descripcion | highlight: $select.search")
 
 
-								.col-sm-12(style="text-align: center;")
+								.col-sm-12(style="text-align: center; margin-top: 20px;")
 									button.btn.btn-warning(ng-click="toggleVerCrear(periodo, false)" type="button")
 										| Cancelar
 
@@ -265,8 +252,9 @@
 
 
 
-
-				.row(ng-show="periodo.editando")
+				// **************************************************************
+				// EDITAR
+				.row(ng-if="periodo.editando")
 					.col-lg-12.margin-padding-lados-xs
 						.well.with-header.with-footer.animated.bounceIn
 							.header.bordered-success
@@ -276,10 +264,11 @@
 							form(role='form' ng-submit="guardar_falta(periodo)")
 								.row
 									.col-sm-12
+										div Elija el tipo de falta que va a crear.
 										.btn-group
-											label.btn.btn-primary(ng-model="falta_edit.tipo_situacion" uib-btn-radio="1") Tipo 1
-											label.btn.btn-primary(ng-model="falta_edit.tipo_situacion" uib-btn-radio="2") Tipo 2
-											label.btn.btn-primary(ng-model="falta_edit.tipo_situacion" uib-btn-radio="3") Tipo 3
+											label.btn.btn-primary(ng-model="falta_edit.tipo_situacion" uib-btn-radio="1") {{ config.falta_tipo1_displayname }}
+											label.btn.btn-primary(ng-model="falta_edit.tipo_situacion" uib-btn-radio="2") {{ config.falta_tipo2_displayname }}
+											label.btn.btn-primary(ng-model="falta_edit.tipo_situacion" uib-btn-radio="3") {{ config.falta_tipo3_displayname }}
 
 								span
 									.row
@@ -287,7 +276,9 @@
 											.form-group
 												label(for='falta-edit-descripcion{{periodo.numero}}') Descripción
 												span.input-icon.icon-right
-													input.form-control(type='text' placeholder='Descripción de la falta' ng-model="falta_edit.descripcion" id="falta-edit-descripcion{{periodo.numero}}")
+													//input.form-control(type='text' placeholder='Descripción de la falta' ng-model="falta_edit.descripcion" id="falta-edit-descripcion{{periodo.numero}}")
+													textarea.form-control.textarea-altura-xs(required ng-model="falta_edit.descripcion" placeholder="Descripción de la falta" style="height: 35px;"
+														id="falta-new-periodo{{periodo.numero}}" uib-typeahead="descripcion.descripcion for descripcion in descripciones_typeahead | filter:$viewValue | limitTo:8")
 
 										.col-sm-12
 											.form-group
@@ -308,27 +299,9 @@
 												span.input-icon.icon-right
 													input.form-control(type='text' placeholder='Escriba la justificación del estudiante.' ng-model="falta_edit.descargo" id="falta-edit-descargo{{periodo.numero}}")
 
+
 										.col-sm-12
-											.form-group
-												.faltas-deriva-edit(ng-show="(config.reinicia_por_periodo==1 || (config.reinicia_por_periodo==0 && periodo.numero==1)) && alumno.periodo1.length > 0")
-
-													label Deriva de las siguientes faltas (PERIODO 1):
-
-													.btn-group(ng-show="falta_edit.tipo_situacion==1")
-														label.btn.btn-sucess.shiny(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo1" uib-btn-checkbox
-															style="width: 90px; overflow: hidden;")
-															| t1: {{ situac.descripcion }}
-													.btn-group(ng-show="falta_edit.tipo_situacion==2")
-														label.btn.btn-sucess.shiny(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo1" uib-btn-checkbox
-															style="width: 90px; overflow: hidden;")
-															| t2: {{ situac.descripcion }}
-													.btn-group(ng-show="falta_edit.tipo_situacion==3")
-														label.btn.btn-sucess.shiny(ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo1" uib-btn-checkbox
-															style="width: 90px; overflow: hidden;")
-															| t3: {{ situac.descripcion }}
-
-												div(ng-show="alumno.periodo1.length==0 && alumno.periodo2.length==0 && alumno.periodo3.length==0 && alumno.periodo4.length==0")
-													| No tiene faltas actualmente
+											faltas-de-las-que-deriva-dir(falta="falta_edit")
 
 
 										.col-sm-12(uib-tooltip="No es obligatorio")
@@ -355,7 +328,7 @@
 														span(ng-bind-html="ordinal.tipo + '. ' + ordinal.descripcion | highlight: $select.search")
 
 
-								.col-sm-12(style="text-align: center;")
+								.col-sm-12(style="text-align: center; margin-top: 20px;")
 									button.btn.btn-warning(ng-click="cancelarEditarFalta(periodo)" type="button")
 										| Cancelar
 
@@ -366,4 +339,4 @@
 
 .modal-footer
 	button.btn.btn-labeled.btn-default(ng-click="ok()") Aceptar
-		i.btn-label.fa.fa-plus
+		i.btn-label.fa.fa-check

@@ -16,6 +16,13 @@ angular.module('myvcFrontApp')
 	}
 
 
+
+	if localStorage.inmovible_activado
+		$scope.inmovible_activado = (localStorage.inmovible_activado == 'true')
+	else
+		$scope.inmovible_activado = true
+
+
 	$scope.toggleMostrarDetalle = (alumno, prop)->
 		alumno[prop] = !alumno[prop]
 
@@ -62,6 +69,7 @@ angular.module('myvcFrontApp')
 
 
 	$scope.verFaltasModal = (alumno, periodo, per_num, tipo_falta_num)->
+		periodo.editando = false
 
 		modalInstance = $modal.open({
 			templateUrl: '==comportamiento/crearFaltaModal.tpl.html'
@@ -92,6 +100,13 @@ angular.module('myvcFrontApp')
 
 
 
+	$scope.toggleInmovible = ()->
+		$scope.inmovible_activado 			  = !$scope.inmovible_activado
+		localStorage.inmovible_activado 	= $scope.inmovible_activado
+		if !$scope.inmovible_activado
+			$('td.fixed-cell').css( {'transform': 'translate(0, 0)'});
+
+
 
 	$http.put('::grupos/con-disciplina').then((r)->
 
@@ -100,9 +115,10 @@ angular.module('myvcFrontApp')
 		if localStorage.matr_grupo
 			matr_grupo = parseInt(localStorage.matr_grupo)
 
-		$scope.grupos 		= r.data.grupos
-		$scope.config 		= r.data.config
-		$scope.ordinales 	= r.data.ordinales
+		$scope.grupos 		              = r.data.grupos
+		$scope.config 		              = r.data.config
+		$scope.ordinales 	              = r.data.ordinales
+		$scope.descripciones_typeahead 	= r.data.descripciones_typeahead
 
 		for grupo in $scope.grupos
 			if grupo.id == matr_grupo

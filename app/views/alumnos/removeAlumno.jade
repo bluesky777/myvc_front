@@ -1,10 +1,11 @@
 .modal-header
-	h3.modal-title ¿Seguro que deseas eliminar?
+	h3.modal-title ¿Seguro que deseas eliminar junto con sus notas?
 .modal-body
 	div(style="padding-bottom: 10px;")
 		img(ng-src="{{ perfilPath + alumno.foto_nombre }}" style="width: 70px")
 		h3(style="display: inline;") {{ alumno.nombres }} {{ alumno.apellidos }}
 		h5 Id: {{alumno.alumno_id}}
+		h2(style="color: red; font-weight: 900!important; text-align: center; margin: 0;") ¡PELIGRO!
 
 
 .modal-footer

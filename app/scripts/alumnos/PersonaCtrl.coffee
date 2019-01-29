@@ -265,6 +265,33 @@ angular.module("myvcFrontApp")
 			)
 
 
+	$scope.eliminarAlumno = ()->
+		$scope.eliminando = true
+		modalInstance = $modal.open({
+			templateUrl: '==alumnos/removeAlumno.tpl.html'
+			controller: 'RemoveAlumnoCtrl'
+			resolve:
+				alumno: ()->
+					$scope.alumno
+		})
+		modalInstance.result.then( (alum)->
+			$state.reload();
+			$scope.eliminando = false
+		, ()->
+			$scope.eliminando = false
+		)
+
+
+	$scope.restaurarAlumno = ()->
+		$scope.restaurando = true
+		$http.put('::alumnos/restore/' + $scope.alumno.alumno_id).then((r)->
+			$state.reload();
+		, (r2)->
+			toastr.error 'Alumno no restaurado', 'Error'
+			$scope.restaurando = false
+		)
+
+
 
 	$scope.asignarAOtro = (acudiente)->
 		modalInstance = $modal.open({
@@ -278,6 +305,15 @@ angular.module("myvcFrontApp")
 			toastr.success('Asignado.')
 		)
 
+	columna_editable  = {name: 'edicion'}
+	columna_usu       = {name: 'usuario'}
+	editable          = !AuthService.hasRoleOrPerm(['psicólogo', 'enfermero']);
+
+	if editable
+		columna_editable  = { name: 'edicion', displayName: 'Edición', width: 170, enableSorting: false, enableFiltering: false, cellTemplate: $btEdit, enableCellEdit: false }
+
+	if editable
+		columna_usu       = { name: "Usuario", field: "username", minWidth: 135, cellTemplate: "==directives/botonesResetPassword.tpl.html", editableCellTemplate: "==alumnos/botonEditUsername.tpl.html" }
 
 
 	$btGrid1 = '<a uib-tooltip="Cambiar" ng-show="row.entity.nombres" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.cambiarAcudiente(row.entity, row.entity)" tooltip-append-to-body="true"><i class="fa fa-edit "></i></a>';
@@ -291,15 +327,15 @@ angular.module("myvcFrontApp")
 		enableFiltering: true,
 		enableGridMenu: true,
 		enebleGridColumnMenu: false,
-		enableCellEditOnFocus: true,
+		enableCellEditOnFocus: editable,
 		columnDefs: [
-			{ name: 'edicion', displayName: 'Edición', width: 170, enableSorting: false, enableFiltering: false, cellTemplate: $btEdit, enableCellEdit: false }
+			columna_editable,
 			{ name: "Id", field: "id", 'minWidth': 60, enableCellEdit: false }
 			{ name: "Nombres", field: "nombres", minWidth: 120 }
 			{ name: "Apellidos", field: "apellidos", minWidth: 100 }
 			{ name: "Sex", field: "sexo", minWidth: 40 }
 			{ name: "Parentesco", field: "parentesco", minWidth: 90 }
-			{ name: "Usuario", field: "username", minWidth: 135, cellTemplate: "==directives/botonesResetPassword.tpl.html", editableCellTemplate: "==alumnos/botonEditUsername.tpl.html" }
+			columna_usu,
 			{ name: "Documento", field: "documento", minWidth: 100, cellFilter: 'formatNumberDocumento' }
 			{ name: "Teléfono", field: "telefono", minWidth: 90 }
 			{ name: "Celular", field: "celular", minWidth: 90 }
@@ -309,30 +345,31 @@ angular.module("myvcFrontApp")
 		multiSelect: false,
 		onRegisterApi: ( gridApi ) ->
 			$scope.gridApi = gridApi
-			gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
-				if newValue != oldValue
-					if colDef.field == "sexo"
-						newValue = newValue.toUpperCase()
-						if !(newValue == 'M' or newValue == 'F')
-							toastr.warning 'Debe usar M o F'
-							rowEntity.sexo = oldValue
-							return
+			if editable
+				gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
+					if newValue != oldValue
+						if colDef.field == "sexo"
+							newValue = newValue.toUpperCase()
+							if !(newValue == 'M' or newValue == 'F')
+								toastr.warning 'Debe usar M o F'
+								rowEntity.sexo = oldValue
+								return
 
-					if colDef.field == 'email'
-						re = /\S+@\S+\.\S+/
-						if !re.test(newValue)
-							toastr.warning 'Email no válido'
-							rowEntity.email = oldValue
-							return
+						if colDef.field == 'email'
+							re = /\S+@\S+\.\S+/
+							if !re.test(newValue)
+								toastr.warning 'Email no válido'
+								rowEntity.email = oldValue
+								return
 
-					$http.put('::acudientes/guardar-valor', {parentesco_id: rowEntity.parentesco_id, acudiente_id: rowEntity.id, user_id: rowEntity.user_id, propiedad: colDef.field, valor: newValue } ).then((r)->
-						toastr.success 'Acudiente actualizado con éxito'
-					, (r2)->
-						rowEntity[colDef.field] = oldValue
-						toastr.error 'Cambio no guardado', 'Error'
-					)
-					$scope.$apply()
-			)
+						$http.put('::acudientes/guardar-valor', {parentesco_id: rowEntity.parentesco_id, acudiente_id: rowEntity.id, user_id: rowEntity.user_id, propiedad: colDef.field, valor: newValue } ).then((r)->
+							toastr.success 'Acudiente actualizado con éxito'
+						, (r2)->
+							rowEntity[colDef.field] = oldValue
+							toastr.error 'Cambio no guardado', 'Error'
+						)
+						$scope.$apply()
+				)
 
 
 
@@ -364,6 +401,28 @@ angular.module("myvcFrontApp")
 
 			$scope.gridOptionsAcudientes.data 		= r.data.acudientes
 			$scope.acudientes_cargado 						= true
+		)
+
+
+
+	$scope.crearUsuario = (row)->
+
+		if row.user_id
+			toastr.warning 'Ya tiene usuario'
+			return
+
+		if !row.id
+			toastr.info 'Sólo con acudientes creados'
+			return
+
+		$http.post('::acudientes/crear-usuario', {acudiente: row}).then((r)->
+			$scope.usuario_creado = true
+			row.user_id 	= r.data.id
+			row.username 	= r.data.username
+			toastr.success 'Usuario creado'
+
+		, ()->
+			toastr.error 'No se pudo crear el usuario'
 		)
 
 
@@ -505,27 +564,29 @@ angular.module("myvcFrontApp")
 
 
 	$scope.cambiarGrupo = ()->
-		if $scope.USER.tipo == 'Acudiente' or $scope.USER.tipo == 'Alumno'
+		if $scope.hasRoleOrPerm(['admin', 'secretario', 'rector'])
+
+			modalInstance = $modal.open({
+				templateUrl: '==alumnos/matricularEn.tpl.html'
+				controller: 'MatricularEnCtrl'
+				resolve:
+					alumno: ()->
+						$scope.alumno
+					grupos: ()->
+						$scope.grupos
+					USER: ()->
+						$scope.USER
+			})
+			modalInstance.result.then( (alum)->
+
+				for grupo in $scope.grupos
+					if grupo.id == alum.grupo_id
+						$scope.alumno.grupo_nombre  = grupo.nombre
+						$scope.alumno.grupo_id      = grupo.id
+			)
+
+		else
 			return
-
-		modalInstance = $modal.open({
-			templateUrl: '==alumnos/matricularEn.tpl.html'
-			controller: 'MatricularEnCtrl'
-			resolve:
-				alumno: ()->
-					$scope.alumno
-				grupos: ()->
-					$scope.grupos
-				USER: ()->
-					$scope.USER
-		})
-		modalInstance.result.then( (alum)->
-
-			for grupo in $scope.grupos
-				if grupo.id == alum.grupo_id
-					$scope.alumno.grupo_nombre  = grupo.nombre
-					$scope.alumno.grupo_id      = grupo.id
-		)
 
 
 
@@ -832,21 +893,22 @@ angular.module("myvcFrontApp")
 
 
 	$scope.cambiarPazysalvo = (fila)->
-		fila.pazysalvo = !fila.pazysalvo
-		if not fila.alumno_id
-			fila.alumno_id = fila.id
-
-		datos =
-			alumno_id: 	fila.alumno_id
-			propiedad: 	'pazysalvo'
-			valor: 		fila.pazysalvo
-
-		$http.put('::alumnos/guardar-valor', datos).then((r)->
-			console.log 'Cambios guardados'
-		, (r2)->
+		if $scope.hasRoleOrPerm(['admin', 'secretario', 'rector'])
 			fila.pazysalvo = !fila.pazysalvo
-			toastr.error 'Cambio no guardado', 'Error'
-		)
+			if not fila.alumno_id
+				fila.alumno_id = fila.id
+
+			datos =
+				alumno_id: 	fila.alumno_id
+				propiedad: 	'pazysalvo'
+				valor: 		fila.pazysalvo
+
+			$http.put('::alumnos/guardar-valor', datos).then((r)->
+				console.log 'Cambios guardados'
+			, (r2)->
+				fila.pazysalvo = !fila.pazysalvo
+				toastr.error 'Cambio no guardado', 'Error'
+			)
 
 
 
@@ -878,7 +940,7 @@ angular.module("myvcFrontApp")
 					return
 
 		if not rowEntity.alumno_id
-			rowEntity.alumno_id = fila.id
+			rowEntity.alumno_id = rowEntity.id
 
 
 		if colDef == "sexo"

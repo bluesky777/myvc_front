@@ -6,6 +6,7 @@
 					.col-xs-12.col-md-6.col-lg-6
 						.well.with-header.with-footer
 							.header.bordered-yellow Elige de lo que deseas copiar
+								span(style="font-weight: bold; font-size: 12pt")   - ORIGEN
 							form.form-horizontal
 								.row
 									.col-lg-12
@@ -61,7 +62,9 @@
 																input(type="checkbox" ng-model="unidad.seleccionada" )
 																span.text
 														.item-sender(style="width: 90%!important; left: 40px;")
-															a.col-name(href="" popover-template="urlTplSubunidades" popover-trigger="mouseenter" popover-title="{{USER.subunidades_displayname}}") {{unidad.definicion}}
+															a.col-name(href="" uib-popover-template="views + 'unidades/popoverInfoUnidadCopiada.tpl.html'" popover-title="{{SUBUNIDADES}}"
+																popover-trigger="'mouseenter'")
+																| {{unidad.definicion}}
 
 
 								.row(ng-show="!unidades.items.length")
@@ -88,6 +91,7 @@
 					.col-xs-12.col-md-6.col-lg-6
 						.well.with-header.with-footer
 							.header.bordered-yellow Elige a donde deseas copiar
+								span(style="font-weight: bold; font-size: 12pt")   - DESTINO
 							form.form-horizontal
 								.row
 									.col-lg-12
@@ -137,7 +141,9 @@
 												ul.mail-list
 													li.list-item(ng-repeat="unidad in unidades_to.items track by $index")
 														.item-sender(style="width: 100%!important; left: 10px;")
-															a.col-name(href="" popover-template="urlTplSubunidades" popover-trigger="mouseenter" popover-title="Subunidades") {{unidad.definicion}}
+															a.col-name(href="" uib-popover-template="views + 'unidades/popoverInfoUnidadCopiada.tpl.html'" popover-title="{{SUBUNIDADES}}"
+																popover-trigger="'mouseenter'")
+																| {{unidad.definicion}}
 
 
 								.row(ng-show="!unidades_to.items.length")

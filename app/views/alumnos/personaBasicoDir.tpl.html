@@ -50,6 +50,11 @@
         <label for="alumno-no-matr">Número Matrícula</label>
         <input id="alumno-no-matr" type="text" ng-model="alumno.no_matricula" placeholder="Número de matrícula" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }" ng-change="guardarValor(alumno, 'no_matricula', alumno.no_matricula)" class="form-control">
       </div>
+      <div style="margin-top: 24px;" ng-if="::hasRoleOrPerm(['admin', 'secretario', 'rector'])" class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+        <button type="button" ng-click="eliminarAlumno()" ng-hide="alumno.deleted_at" ng-disabled="eliminando" uib-tooltip="Eliminar junto con notas" class="btn btn-danger shiny">Eliminiar alumno</button>
+        <button type="button" ng-click="restaurarAlumno()" ng-show="alumno.deleted_at" ng-disabled="restaurando" class="btn btn-success shiny">Restaurar alumno</button>
+        <div style="color: red; font-weight: bold; font-size: 20pt" ng-show="alumno.deleted_at">Alumno eliminado</div>
+      </div>
     </div>
     <hr>
     <div class="row">
@@ -77,8 +82,8 @@
     <div ng-show="alumno.matricula_id" class="row">
       <div style="padding-right: 0px; margin-bottom: 23px;" class="form-group col-lg-3 col-md-4 col-sm-5">
         <label for="alumno-estado" style="font-size: 15pt;">Estado {{::USER.year}}</label><span style="padding-left: 2px; padding-top: 4px;" class="btn-group">
-          <!--label.btn.btn-primary.btn-prematriculas(ng-model="alumno.estado" uib-btn-radio="'FORM'" ng-click="reMatricularUno(alumno)" uib-tooltip="Formulario") Formul-->
-          <!--label.btn.btn-primary.btn-prematriculas(ng-model="alumno.estado" uib-btn-radio="'PREM'" ng-click="reMatricularUno(alumno)" uib-tooltip="Prematricular") Prem-->
+          <!--label.btn.btn-default.btn-prematriculas(ng-model="alumno.estado" uib-btn-radio="'FORM'" ng-click="reMatricularUno(alumno)" uib-tooltip="Formulario") Formul-->
+          <!--label.btn.btn-default.btn-prematriculas(ng-model="alumno.estado" uib-btn-radio="'PREM'" ng-click="reMatricularUno(alumno)" uib-tooltip="Prematricular") Prem-->
           <label ng-model="alumno.estado" uib-btn-radio="'MATR'" ng-click="reMatricularUno(alumno)" uib-tooltip="Matricular" class="btn btn-primary btn-prematriculas">Matr</label>
           <label ng-model="alumno.estado" uib-btn-radio="'ASIS'" ng-click="setAsistente(alumno)" uib-tooltip="Establecer como Asistente" class="btn btn-primary btn-prematriculas">Asis</label>
           <label ng-model="alumno.estado" uib-btn-radio="'RETI'" ng-click="retirar(alumno)" uib-tooltip="Retirar" class="btn btn-primary btn-prematriculas">Reti</label>
@@ -146,7 +151,7 @@
         <div class="controls">
           <div class="input-group"><span class="input-group-btn">
               <button type="button" ng-click="openDatePicker(data, 'isOpenMatrNext')" class="btn btn-default"><i class="fa fa-calendar"></i></button></span>
-            <input id="alumno-fecha_matriculado-next" type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="alumno.next_year.fecha_matricula" is-open="data.isOpenMatrNext" ng-click="openDatePicker(data, 'isOpenMatrNext')" max-date="'2025-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha prematrícula" ng-change="guardarValor(alumno, 'fecha_matricula', alumno.next_year.fecha_matricula, alumno.next_year.year_id)" class="form-control active">
+            <input id="alumno-fecha_matriculado-next" type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="alumno.next_year.fecha_matricula" is-open="data.isOpenMatrNext" ng-click="openDatePicker(data, 'isOpenMatrNext')" max-date="'2025-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha matrícula" ng-change="guardarValor(alumno, 'fecha_matricula', alumno.next_year.fecha_matricula, alumno.next_year.year_id)" class="form-control active">
           </div>
         </div>
       </div>

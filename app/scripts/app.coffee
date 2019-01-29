@@ -117,6 +117,11 @@ angular.module('myvcFrontApp', [
 	acudiente: 'acudiente'
 	profesor: 'profesor'
 	guest: 'guest'
+	rector: 'rector'
+	enfermero: 'enfermero'
+	psicologo: 'psicólogo'
+	coord_academico: 'Coord académico'
+	coord_disciplinario: 'Coord disciplinario'
 })
 .constant('PERMISSIONS', {
 	can_work_like_admin:		'can_work_like_admin'

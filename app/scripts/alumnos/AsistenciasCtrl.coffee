@@ -49,14 +49,16 @@ angular.module('myvcFrontApp')
 				for ausencia in alumno.ausencias
 					ausencia.backup 		= ausencia.fecha_hora
 					if ausencia.fecha_hora
-						ausencia.fecha_hora 	= new Date(ausencia.fecha_hora)
+						if ausencia.fecha_hora.replace
+							ausencia.fecha_hora 	= new Date(ausencia.fecha_hora.replace(/-/g, '\/'))
 					else
 						ausencia.fecha_hora 	= new Date()
 
 				for tarda in alumno.tardanzas
 					tarda.backup 		= tarda.fecha_hora
 					if tarda.fecha_hora
-						tarda.fecha_hora 	= new Date(tarda.fecha_hora)
+						if tarda.fecha_hora.replace
+							tarda.fecha_hora 	= new Date(tarda.fecha_hora.replace(/-/g, '\/'))
 					else
 						tarda.fecha_hora 	= new Date()
 
@@ -162,7 +164,8 @@ angular.module('myvcFrontApp')
 	$scope.clickAusenciaObject = (ausencia, alumno)->
 		ausencia.backup 		= ausencia.fecha_hora
 		if ausencia.fecha_hora
-			ausencia.fecha_hora 	= new Date(ausencia.fecha_hora)
+			if ausencia.fecha_hora.replace
+				ausencia.fecha_hora 	= new Date(ausencia.fecha_hora.replace(/-/g, '\/'))
 		else
 			ausencia.fecha_hora 	= new Date()
 		$scope.ausencia_edit 	  = ausencia
@@ -173,7 +176,8 @@ angular.module('myvcFrontApp')
 	$scope.clickTardanzaObject = (tardanza, alumno)->
 		tardanza.backup 		= tardanza.fecha_hora
 		if tardanza.fecha_hora
-			tardanza.fecha_hora 	= new Date(tardanza.fecha_hora)
+			if tardanza.fecha_hora.replace
+				tardanza.fecha_hora 	= new Date(tardanza.fecha_hora.replace(/-/g, '\/'))
 		else
 			tardanza.fecha_hora 	= new Date()
 		$scope.tardanza_edit 	= tardanza
@@ -190,7 +194,7 @@ angular.module('myvcFrontApp')
 		$http.put('::ausencias/guardar-cambios-ausencia', datos).then((r)->
 			r 		= r.data
 			#r.fecha_hora = new Date(r.fecha_hora)
-			alumno.tardanzas.push r
+			#alumno.tardanzas.push r
 			$scope.ausencia_edit.isOpen = false
 			$scope.tardanza_edit.isOpen = false
 		, (r2)->
