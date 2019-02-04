@@ -107,8 +107,6 @@ angular.module("myvcFrontApp")
 
 	$scope.crear = (alumno, proceso)->
 
-		console.log(alumno)
-
 		alumno.nombres    = $.trim(alumno.nombres)
 		alumno.apellidos  = $.trim(alumno.apellidos)
 		alumno.documento  = $.trim(alumno.documento)

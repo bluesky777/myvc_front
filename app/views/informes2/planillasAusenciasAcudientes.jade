@@ -61,6 +61,8 @@ div(ng-repeat="grupo in ::grupos_acud")
 												| {{::alumno.apellidos}} {{::alumno.nombres}}
 												span(ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 4px; position: absolute; background-color: white; top: -2px;")
 													| (Asis)
+												span(ng-show="alumno.estado=='PREM'" style="font-size: 8pt; right: 4px; position: absolute; background-color: white; top: -2px;")
+													| (Prem)
 										td
 											div(ng-repeat="acud in ::alumno.acudientes" style="font-size: 8pt;") {{ ::acud.parentesco }}:  {{ ::acud.nombres }} {{ ::acud.apellidos }}
 												i.fa.fa-check(ng-show="::acud.is_acudiente" style="padding-left: 2px; font-size: 6pt;")

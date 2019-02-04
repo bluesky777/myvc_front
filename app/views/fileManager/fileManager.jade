@@ -165,7 +165,7 @@
 														a.btn.btn-default.btn-xs(ng-click="rotarImagen(imagen)" uib-tooltip="Rotar imagen")
 															i.fa.fa-rotate-right
 
-														a.btn.btn-default.btn-xs(ng-click="cambiarLogoColegio(imagen)" uib-tooltip="Establecer como logo de la institución" ng-show="hasRoleOrPerm('admin')")
+														a.btn.btn-default.btn-xs(ng-click="cambiarLogoColegio(imagen)" uib-tooltip="Establecer como logo de la institución" tooltip-append-to-body="true" ng-show="hasRoleOrPerm('admin')")
 															i.fa.fa-institution
 
 														a.btn.btn-default.btn-xs(ng-click="privatizarImagen(imagen)" uib-tooltip="Privatizar" tooltip-placement="right")

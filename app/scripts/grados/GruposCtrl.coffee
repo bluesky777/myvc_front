@@ -40,7 +40,7 @@ angular.module('myvcFrontApp')
 		enebleGridColumnMenu: false,
 		enableCellEditOnFocus: true,
 		columnDefs: [
-			{ field: 'orden', type: 'number', width: 40, enableCellEdit: false }
+			{ field: 'orden', type: 'number', width: 40 }
 			{ name: 'edicion', displayName:'Edición', width: 80, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2 + btGrid3, enableCellEdit: false}
 			{ field: 'nombre', enableHiding: false, minWidth: 100 }
 			{ field: 'abrev', displayName:'Abrev', minWidth: 30 }
@@ -98,7 +98,6 @@ angular.module('myvcFrontApp')
 		for grup in $scope.grupos
 			grup.caritas = if grup.caritas then true else false
 		$scope.gridOptions.data = $scope.grupos;
-		console.log $scope.gridOptions.data
 	)
 
 	$scope.$on 'grupocreado', (ev, grupo)->

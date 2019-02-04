@@ -28,6 +28,8 @@
 								th.txtcentro
 									span(uib-tooltip="Prematriculados" tooltip-append-to-body="true") Prematr
 								th.txtcentro
+									span(uib-tooltip="Asistentes" tooltip-append-to-body="true") Asis
+								th.txtcentro
 									span(uib-tooltip="Matriculados totalmente" tooltip-append-to-body="true") Matricu
 								th.txtcentro
 									span(uib-tooltip="Sin prematricular del año pasado" tooltip-append-to-body="true") Sin prematr
@@ -43,6 +45,8 @@
 								td.txtcentro(ng-class="{info: grupo.active}") {{ grupo.cant_formularios }}
 								td.txtcentro(ng-class="{info: grupo.active}")
 									| {{ grupo.cantidad }}
+								td.txtcentro(ng-class="{info: grupo.active}" uib-tooltip="Asistentes" tooltip-append-to-body="true")
+									| {{ grupo.cant_asistentes }}
 								td.txtcentro(ng-class="{info: grupo.active}" uib-tooltip="Matriculados totalmente" tooltip-append-to-body="true")
 									| {{ grupo.cant_matriculados }}
 								td.txtcentro(ng-class="{info: grupo.active}" uib-tooltip="Sin prematricular del año pasado"
@@ -62,6 +66,8 @@
 									.bold {{ total_formularios }}
 								td.txtcentro
 									.bold {{ total_prematriculados }}
+								td.txtcentro
+									.bold {{ total_asistentes }}
 								td.txtcentro
 									.bold {{ total_matriculados }}
 								td.txtcentro

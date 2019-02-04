@@ -1105,7 +1105,7 @@ angular.module("myvcFrontApp")
 		, (r2)->
 			toastr.warning 'No se pudo eliminar.', 'Problema'
 		)
-		$modalInstance.close(alumno)
+		$modalInstance.close(elemento)
 
 	$scope.cancel = ()->
 		$modalInstance.dismiss('cancel')

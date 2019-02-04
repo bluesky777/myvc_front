@@ -13,6 +13,7 @@
                 <th style="min-width: min-width: 150px;" class="txtcentro">Grupo</th>
                 <th class="txtcentro"><span uib-tooltip="Alumnos que llevaron formulario" tooltip-append-to-body="true">Formul</span></th>
                 <th class="txtcentro"><span uib-tooltip="Prematriculados" tooltip-append-to-body="true">Prematr</span></th>
+                <th class="txtcentro"><span uib-tooltip="Asistentes" tooltip-append-to-body="true">Asis</span></th>
                 <th class="txtcentro"><span uib-tooltip="Matriculados totalmente" tooltip-append-to-body="true">Matricu</span></th>
                 <th class="txtcentro"><span uib-tooltip="Sin prematricular del año pasado" tooltip-append-to-body="true">Sin prematr</span></th>
                 <th class="txtcentro"><span uib-tooltip="Edite valor en 'Editar grupos'" tooltip-append-to-body="true">Cupo</span></th>
@@ -25,6 +26,7 @@
                 <td ng-class="{info: grupo.active}">{{ grupo.nombre }}</td>
                 <td ng-class="{info: grupo.active}" class="txtcentro">{{ grupo.cant_formularios }}</td>
                 <td ng-class="{info: grupo.active}" class="txtcentro">{{ grupo.cantidad }}</td>
+                <td ng-class="{info: grupo.active}" uib-tooltip="Asistentes" tooltip-append-to-body="true" class="txtcentro">{{ grupo.cant_asistentes }}</td>
                 <td ng-class="{info: grupo.active}" uib-tooltip="Matriculados totalmente" tooltip-append-to-body="true" class="txtcentro">{{ grupo.cant_matriculados }}</td>
                 <td ng-class="{info: grupo.active}" uib-tooltip="Sin prematricular del año pasado" tooltip-append-to-body="true" tooltip-popup-delay="400" class="txtcentro">{{ grupo.sin_matricular }}</td>
                 <td ng-class="{info: grupo.active}" uib-tooltip="Edite valor en 'Editar grupos' {{USER.year+1}}" tooltip-append-to-body="true" tooltip-popup-delay="400" class="txtcentro">{{ grupo.cupo }}</td>
@@ -42,6 +44,9 @@
                 </td>
                 <td class="txtcentro">
                   <div class="bold">{{ total_prematriculados }}</div>
+                </td>
+                <td class="txtcentro">
+                  <div class="bold">{{ total_asistentes }}</div>
                 </td>
                 <td class="txtcentro">
                   <div class="bold">{{ total_matriculados }}</div>

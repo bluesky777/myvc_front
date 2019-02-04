@@ -46,7 +46,7 @@
                   <tr ng-repeat="alumno in ::grupo.alumnos1" class="altura-tr-firma">
                     <td>{{$index + 1}}</td>
                     <td>
-                      <div ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative; vertical-align: middle; width: 100%;" class="ellipsis250 alumno-planilla">{{::alumno.apellidos}} {{::alumno.nombres}}<span ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 4px; position: absolute; background-color: white; top: -2px;">(Asis)</span></div>
+                      <div ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative; vertical-align: middle; width: 100%;" class="ellipsis250 alumno-planilla">{{::alumno.apellidos}} {{::alumno.nombres}}<span ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 4px; position: absolute; background-color: white; top: -2px;">(Asis)</span><span ng-show="alumno.estado=='PREM'" style="font-size: 8pt; right: 4px; position: absolute; background-color: white; top: -2px;">(Prem)</span></div>
                     </td>
                     <td>
                       <div ng-repeat="acud in ::alumno.acudientes" style="font-size: 8pt;">{{ ::acud.parentesco }}:  {{ ::acud.nombres }} {{ ::acud.apellidos }}<i ng-show="::acud.is_acudiente" style="padding-left: 2px; font-size: 6pt;" class="fa fa-check"></i></div>

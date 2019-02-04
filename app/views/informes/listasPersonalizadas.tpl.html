@@ -8,7 +8,7 @@
       <label style="margin-right: 9px;">Grupo</label>
       <ui-select ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;">
         <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
-        <ui-select-choices repeat="grupo in grupos | filter: $select.search">
+        <ui-select-choices repeat="grupo in grupos_simat | filter: $select.search">
           <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
         </ui-select-choices>
       </ui-select><a href ng-click="todos()">Todos</a></span><br>

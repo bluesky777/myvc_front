@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('AlumnosCtrl', ['$scope', 'App', '$rootScope', '$state', '$interval', 'uiGridConstants', 'uiGridEditConstants', '$uibModal', '$filter', 'AuthService', 'toastr', '$http', 'DownloadServ', 'Upload', 'Acentos', ($scope, App, $rootScope, $state, $interval, uiGridConstants, uiGridEditConstants, $modal, $filter, AuthService, toastr, $http, DownloadServ, Upload, Acentos)->
+.controller('AlumnosCtrl', ['$scope', 'App', '$rootScope', '$state', '$interval', 'uiGridConstants', 'uiGridEditConstants', '$uibModal', '$filter', 'AuthService', 'toastr', '$http', 'DownloadServ', 'Upload', 'Acentos', '$timeout', ($scope, App, $rootScope, $state, $interval, uiGridConstants, uiGridEditConstants, $modal, $filter, AuthService, toastr, $http, DownloadServ, Upload, Acentos, $timeout)->
 
 	AuthService.verificar_acceso()
 
@@ -683,10 +683,11 @@ angular.module("myvcFrontApp")
 			enableHiding: false, cellTemplate: '<div class="ui-grid-cell-contents" style="padding: 0px;" ' + appendPopover + '><img ng-src="{{grid.appScope.perfilPath + row.entity.foto_nombre}}" style="width: 35px" />{{row.entity.nombres}}</div>' }
 			{ field: 'apellidos', minWidth: 80, filter: { condition: uiGridConstants.filter.CONTAINS }}
 			{ field: 'sexo', displayName: 'Sex', width: 40 }
-			{ field: 'grupo_id', displayName: 'Matrícula', cellTemplate: btMatrCom, minWidth: 180, enableFiltering: false }
+			{ field: 'grupo_id', displayName: 'Matrícula', cellTemplate: btMatrCom, minWidth: 200, enableFiltering: false }
 			{ field: 'fecha_matricula', displayName: 'Fecha matrícula', cellFilter: "date:mediumDate", type: 'date', minWidth: 100 }
 			{ field: 'no_matricula', displayName: '# matrícula', minWidth: 80, enableColumnMenu: true }
-			{ field: 'fecha_nac', displayName:'Nacimiento', cellFilter: "date:mediumDate", type: 'date', minWidth: 100}
+			#{ field: 'fecha_nac', displayName:'Nacimiento', cellFilter: "date:mediumDate", type: 'date', minWidth: 100}
+			{ field: 'abrev_grupo', displayName:'Grupo '+($scope.USER.year-1), minWidth: 80}
 			{ field: 'telefono', displayName: 'Teléfono', minWidth: 70 }
 		],
 		multiSelect: true,
