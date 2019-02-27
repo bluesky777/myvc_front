@@ -29,22 +29,76 @@
       <div class="widget-header bordered-bottom bordered-themesecondary"><i class="widget-icon fa fa-tags themesecondary"></i><span class="widget-caption themesecondary">Disciplina</span></div>
       <div class="widget-body">
         <div class="widget-main no-padding">
-          <div style="text-align: center" class="row">
-            <div class="col-xs-12 col-sm-3">Tardanzas a la institución: {{ changes_asked.ausencias_periodo.cant_tardanzas_entrada }}</div>
-            <div class="col-xs-12 col-sm-3">Ausencias a la institución: {{ changes_asked.ausencias_periodo.cant_ausencias_entrada }}</div>
-            <div class="col-xs-12 col-sm-3">Tardanzas a las clases: {{ changes_asked.ausencias_periodo.cant_tardanzas_clases }}</div>
-            <div class="col-xs-12 col-sm-3">Ausencias a las clases: {{ changes_asked.ausencias_periodo.cant_ausencias_clases }}</div>
-          </div>
-          <hr>
-          <div style="text-align: center" class="row">
-            <div class="col-xs-12"><b>Nota de comportamiento: {{ changes_asked.comportamiento.nota }}</b></div>
+          <div class="row">
+            <div class="col-sm-12">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Tardanzas a la institución</th>
+                    <th>Ausencias a la institución</th>
+                    <th>Tardanzas a las clases</th>
+                    <th>Ausencias a las clases</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="periodo in changes_asked.ausencias_periodo">
+                    <td><span style="font-weight: bold">Per{{periodo.numero}}</span></td>
+                    <td class="text-center">{{ periodo.asistencia.cant_tardanzas_entrada }}</td>
+                    <td class="text-center">{{ periodo.asistencia.cant_ausencias_entrada }}</td>
+                    <td class="text-center">{{ periodo.asistencia.cant_tardanzas_clases }}</td>
+                    <td class="text-center">{{ periodo.asistencia.cant_ausencias_clases }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
           <hr>
           <div class="row">
-            <div class="col-xs-12">
-              <ul>
-                <li ng-repeat="definicion in ::changes_asked.comportamiento.definiciones">{{definicion.frase}}</li>
-              </ul>
+            <div class="col-sm-12">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th class="text-center">Frases</th>
+                    <th>Juicio</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="periodo in ::changes_asked.comportamiento">
+                    <td><span style="font-weight: bold">Per{{periodo.numero}}</span></td>
+                    <td>
+                      <ul>
+                        <li ng-repeat="definicion in ::periodo.definiciones">{{definicion.frase}}</li>
+                      </ul>
+                    </td>
+                    <td>{{ periodo.nota.nota }} {{ periodo.nota.juicio }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <hr>
+          <div ng-if="::changes_asked.situaciones.length&gt;0" class="row">
+            <div class="col-sm-12">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th class="text-center">Situaciones</th>
+                    <th>Ordinales</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="situacion in ::changes_asked.situaciones | orderBy:['periodo','tipo']">
+                    <td><span class="bold">Per{{situacion.numero}}</span></td>
+                    <td>
+                      <div uib-tooltip="{{situacion.nombres_profesor + ' ' + situacion.apellidos_profesor}}"><span class="bold danger">Situación tipo {{situacion.tipo_situacion}}:</span><span> {{situacion.descripcion}}</span></div>
+                    </td>
+                    <td><span uib-tooltip="{{situacion.descrip_ord}} - pag. {{situacion.pagina}}">{{ situacion.ordinal }}</span></td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -53,7 +107,7 @@
   </div>
 </div>
 <div ng-if="USER.tipo=='Acudiente'" class="row hidden-print">
-  <div ng-repeat="alumno in mis_acudidos" class="col-xs-12 col-md-12">
+  <div ng-repeat="alumno in ::changes_asked.alumnos" class="col-xs-12 col-md-12">
     <div class="widget">
       <div class="widget-header bordered-bottom bordered-themeprimary"><i class="widget-icon fa fa-money themeprimary"></i><span class="widget-caption themeprimary">Tesorería {{alumno.nombres}} {{alumno.apellidos}}</span></div>
       <div class="widget-body">
@@ -75,28 +129,79 @@
       </div>
     </div>
     <div class="widget">
-      <div class="widget-header bordered-bottom bordered-themesecondary"><i class="widget-icon fa fa-tags themesecondary"></i><span uib-tooltip="" class="widget-caption themesecondary">{{alumno.nombre_grupo}} - Disciplina</span></div>
+      <div class="widget-header bordered-bottom bordered-themesecondary"><i class="widget-icon fa fa-tags themesecondary"></i><span uib-tooltip="" class="widget-caption themesecondary">{{alumno.nombre_grupo}} - {{alumno.nombres}} {{alumno.apellidos}} - Disciplina</span></div>
       <div class="widget-body">
         <div class="widget-main no-padding">
-          <div style="text-align: center" class="row">
-            <div class="col-xs-12 col-sm-12"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 70px; height: 70px; margin-top: -20px;">
-              <h2 style="display: inline-block;">{{alumno.nombres}} {{alumno.apellidos}}</h2>
+          <div class="row">
+            <div class="col-sm-12">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Tardanzas a la institución</th>
+                    <th>Ausencias a la institución</th>
+                    <th>Tardanzas a las clases</th>
+                    <th>Ausencias a las clases</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="periodo in ::alumno.ausencias_periodo">
+                    <td><span class="bold">Per{{periodo.numero}}</span></td>
+                    <td class="text-center">{{ periodo.asistencia.cant_tardanzas_entrada }}</td>
+                    <td class="text-center">{{ periodo.asistencia.cant_ausencias_entrada }}</td>
+                    <td class="text-center">{{ periodo.asistencia.cant_tardanzas_clases }}</td>
+                    <td class="text-center">{{ periodo.asistencia.cant_ausencias_clases }}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            <div class="col-xs-12 col-sm-3">Tardanzas a la institución: {{ alumno.ausencias_periodo.cant_tardanzas_entrada }}</div>
-            <div class="col-xs-12 col-sm-3">Ausencias a la institución: {{ alumno.ausencias_periodo.cant_ausencias_entrada }}</div>
-            <div class="col-xs-12 col-sm-3">Tardanzas a las clases: {{ alumno.ausencias_periodo.cant_tardanzas_clases }}</div>
-            <div class="col-xs-12 col-sm-3">Ausencias a las clases: {{ alumno.ausencias_periodo.cant_ausencias_clases }}</div>
-          </div>
-          <hr>
-          <div style="text-align: center" class="row">
-            <div class="col-xs-12"><b>Nota de comportamiento: {{ alumno.comportamiento.nota }}</b></div>
           </div>
           <hr>
           <div class="row">
-            <div class="col-xs-12">
-              <ul>
-                <li ng-repeat="definicion in ::changes_asked.comportamiento.definiciones">{{definicion.frase}}</li>
-              </ul>
+            <div class="col-sm-12">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th class="text-center">Frases</th>
+                    <th>Juicio</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="periodo in ::alumno.comportamiento">
+                    <td><span class="bold">Per{{periodo.numero}}</span></td>
+                    <td>
+                      <ul>
+                        <li ng-repeat="definicion in ::periodo.definiciones">{{definicion.frase}}</li>
+                      </ul>
+                    </td>
+                    <td>{{ periodo.nota.nota }} {{ periodo.nota.juicio }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <hr>
+          <div ng-if="::alumno.situaciones.length&gt;0" class="row">
+            <div class="col-sm-12">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th class="text-center">Situaciones</th>
+                    <th>Ordinales</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="situacion in ::alumno.situaciones | orderBy:['periodo','tipo']">
+                    <td><span class="bold">Per{{situacion.numero}}</span></td>
+                    <td>
+                      <div uib-tooltip="{{situacion.nombres_profesor + ' ' + situacion.apellidos_profesor}}"><span class="bold danger">Situación tipo {{situacion.tipo_situacion}}:</span><span> {{situacion.descripcion}}</span></div>
+                    </td>
+                    <td><span uib-tooltip="{{situacion.descrip_ord}} - pag. {{situacion.pagina}}">{{ situacion.ordinal }}</span></td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

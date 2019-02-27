@@ -325,7 +325,7 @@
 														div(style="overflow: hidden; height: 30px;" uib-tooltip="{{$item.tipo}}. {{$item.descripcion}}")
 															| {{$item.tipo}}. {{$item.descripcion}}
 													ui-select-choices(repeat="ordinal in ordinales | filter: $select.search")
-														span(ng-bind-html="ordinal.tipo + '. ' + ordinal.descripcion | highlight: $select.search")
+														span(ng-bind-html="ordinal.tipo + ' - ' + ordinal.ordinal + '. ' + ordinal.descripcion | highlight: $select.search")
 
 
 								.col-sm-12(style="text-align: center; margin-top: 20px;")

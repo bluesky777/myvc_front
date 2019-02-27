@@ -1,6 +1,6 @@
 
 <div style="bbackground-color: #fbfbfb;" class="mail-container">
-  <div class="mail-sidebar">
+  <div class="mail-sidebar hidden-print">
     <ul style="max-height: 360px; overflow: scroll;" class="mail-menu">
       <li ng-repeat="grupo in grupos" ng-class="{ 'active': grupo.id == grupo_id }"><a href="" ui-sref="panel.actividades({grupo_id: grupo.id})">{{grupo.nombre}}</a></li>
     </ul>

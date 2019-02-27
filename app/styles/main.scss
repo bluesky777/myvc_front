@@ -262,8 +262,6 @@ body {
 
 
 
-
-
 		@page cartahorizontal{
 				-webkit-transform: rotate(-90deg);
 				-moz-transform:rotate(-90deg);
@@ -2100,4 +2098,8 @@ body.modal-open .datepicker {
   .caja-observaciones-requisitos{
     border: none;
   }
+  .mail-body{
+    margin-left: 0px!important;
+  }
 }
+

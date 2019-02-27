@@ -92,6 +92,9 @@
                   <div class="col-lg-3 col-xs-3"><b>Ausencias</b>  a clases: {{ ::alumno.ausencias_total.cant_ausencias_clases }}</div>
                 </div>
               </div>
+              <div ng-repeat="situacion in alumno.situaciones" class="row">
+                <div class="col-lg-12 col-xs-12"><span class="bold">Per{{situacion.numero}}</span><span uib-tooltip="{{situacion.nombres_profesor + ' ' + situacion.apellidos_profesor}}"><span class="bold"> Situación tipo {{situacion.tipo_situacion}}:</span><span> {{situacion.descripcion}}</span></span></div>
+              </div>
               <div ng-repeat="definicion in alumno.comportamiento.definiciones" class="row">
                 <div class="col-lg-12 col-xs-12">{{::definicion.frase}}</div>
               </div>

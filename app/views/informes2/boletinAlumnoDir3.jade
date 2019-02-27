@@ -140,6 +140,13 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 										b Ausencias
 										|   a clases: {{ ::alumno.ausencias_total.cant_ausencias_clases }}
 
+							.row(ng-repeat="situacion in alumno.situaciones")
+								.col-lg-12.col-xs-12
+									span.bold Per{{situacion.numero}}
+									span(uib-tooltip="{{situacion.nombres_profesor + ' ' + situacion.apellidos_profesor}}")
+										span.bold  Situación tipo {{situacion.tipo_situacion}}:
+										span  {{situacion.descripcion}}
+
 							.row(ng-repeat="definicion in alumno.comportamiento.definiciones")
 								.col-lg-12.col-xs-12
 									| {{::definicion.frase}}

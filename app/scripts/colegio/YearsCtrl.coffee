@@ -1,8 +1,8 @@
 'use strict'
 
 angular.module('myvcFrontApp')
-.controller('YearsCtrl', ['App', '$scope', '$http', '$uibModal', '$state', 'ProfesoresServ', '$cookies', '$rootScope', '$filter', 'toastr',
-	(App, $scope, $http, $modal, $state, ProfesoresServ, $cookies, $rootScope, $filter, toastr) ->
+.controller('YearsCtrl', ['App', '$scope', '$http', '$uibModal', '$state', 'ProfesoresServ', '$cookies', '$rootScope', '$filter', 'toastr', '$timeout',
+	(App, $scope, $http, $modal, $state, ProfesoresServ, $cookies, $rootScope, $filter, toastr, $timeout) ->
 
 		#$scope.config = {alumnos_can_see_notas: $scope.USER.alumnos_can_see_notas}
 		$scope.perfilPath = App.images + 'perfil/'
@@ -15,6 +15,7 @@ angular.module('myvcFrontApp')
 
 			for anio in r.years
 				for perio in anio.periodos
+					console.log(perio)
 					perio.fecha_inicio 	= new Date(perio.fecha_inicio)
 					perio.fecha_fin 	= new Date(perio.fecha_fin)
 					perio.fecha_plazo 	= new Date(perio.fecha_plazo)
@@ -32,6 +33,9 @@ angular.module('myvcFrontApp')
 				toastr.error 'No se pudo traer los profesores'
 			)
 
+			$timeout(()->
+				$scope.cargado = true;
+			, 100)
 
 		, (r)->
 			toastr.error 'No se trajeron los años'

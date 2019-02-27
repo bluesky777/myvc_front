@@ -75,13 +75,13 @@ angular.module('myvcFrontApp')
 		#toastr.error 'Datos incorrecto.', 'No se pudo loguear'
 		#console.log 'Evento loginFailed: ', ev
 
-		
+
 
 	$rootScope.$on AUTH_EVENTS.notAuthenticated, (ev)->
 		toastr.warning 'No está autorizado.', 'Acceso exclusivo'
 		console.log 'Evento notAuthenticated: ', ev
 		$state.transitionTo 'login'
-		
+
 
 
 	$rootScope.$on AUTH_EVENTS.notAuthorized, (ev)->

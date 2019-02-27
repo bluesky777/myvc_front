@@ -47,7 +47,7 @@
 						br
 
 						.row(style="margin-bottom: 30px;")
-							.col-xs-12(ng-if="::!hasRoleOrPerm(['psicólogo'])")
+							.col-xs-12(ng-if="::hasRoleOrPerm(['psicólogo'])")
 								a.btn.btn-default(href="" ng-click="verSimat()") SIMAT {{USER.year}}
 
 							.col-lg-12.col-xs-12

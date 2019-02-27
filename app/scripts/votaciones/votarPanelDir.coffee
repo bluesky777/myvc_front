@@ -41,7 +41,7 @@ angular.module('myvcFrontApp')
 
 		$scope.mostrarImagen = (candidato)->
 			candidato.iluminado = true
-			$scope.currentImg = candidato.imagen_nombre
+			$scope.currentImg = candidato.foto_nombre
 
 		$scope.ocultarImagen = (candidato)->
 			candidato.iluminado = false

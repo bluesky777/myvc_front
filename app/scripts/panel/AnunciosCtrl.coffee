@@ -45,7 +45,6 @@ angular.module('myvcFrontApp')
 
 
 	$scope.guardarEvento = (evento)->
-		console.log evento
 		if evento.title.length==0 or !evento.start
 			toastr.warning 'Escribe título y fecha inicio'
 			return

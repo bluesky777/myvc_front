@@ -178,6 +178,10 @@
 						img(ng-src="{{perfilPath + profe.foto_nombre}}")
 						span.menu-text.nombresellipsis {{::profe.nombres}} {{::profe.apellidos}}
 					button.btn.btn-default.btn-sm(ng-click="irDefinitivas(profe.profesor_id)" stop-event="click" style="position: absolute") Defini
+				li(ui-sref-active="active")
+					a(ui-sref="panel.actividades.votaciones" stop-event="click")
+						span.menu-text Votaciones
+						i.menu-icon.fa.fa-soccer-ball-o
 				li(ng-if="::profesores.length==0")
 					a(ui-sref="panel.profesores" stop-event="click" uib-tooltip="Profesores no contratados" tooltip-popup-delay="1500" tooltip-placement="right")
 						div.menu-text.nombresellipsis No hay Profes contratados

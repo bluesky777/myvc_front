@@ -33,7 +33,7 @@
               </div>
             </div><br>
             <div style="margin-bottom: 30px;" class="row">
-              <div ng-if="::!hasRoleOrPerm(['psicólogo'])" class="col-xs-12"><a href="" ng-click="verSimat()" class="btn btn-default">SIMAT {{USER.year}}</a></div>
+              <div ng-if="::hasRoleOrPerm(['psicólogo'])" class="col-xs-12"><a href="" ng-click="verSimat()" class="btn btn-default">SIMAT {{USER.year}}</a></div>
               <div class="col-lg-12 col-xs-12">Tipo de boletín
                 <div class="btn-group">
                   <button ng-click="eligirTipo(1)" ng-class="{'active': tipo_boletin==1 }" uib-tooltip="Boletín muy detallado del periodo" class="btn btn-default">Tipo 1</button>
