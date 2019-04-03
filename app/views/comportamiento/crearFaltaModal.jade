@@ -59,7 +59,8 @@
 										td(style="padding: 0;")
 											button.btn.btn-default.btn-xs(ng-click="editarFalta(periodo, falta)" uib-tooltip="Editar")
 												i.fa.fa-pencil
-											button.btn.btn-danger.btn-xs(ng-click="eliminarFalta(alumno['periodo'+periodo.numero], falta)" uib-tooltip="Eliminar" ng-disabled="eliminando")
+											button.btn.btn-danger.btn-xs(ng-click="eliminarFalta(alumno['periodo'+periodo.numero], falta)" uib-tooltip="Eliminar" ng-disabled="eliminando"
+												ng-if="hasRoleOrPerm(['Coord disciplinario', 'Admin', 'Coord académico'])")
 												i.fa.fa-trash
 
 

@@ -5,7 +5,7 @@
       <div ngf-drop="uploadFiles($files)" ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-pattern="'image/*'" class="drop-box drop-box">
         <div class="form-title">Subir imagen</div>
         <div class="row">
-          <div class="col-lg-2 col-xs-12">
+          <div class="col-lg-3 col-xs-12">
             <!--span(uib-tooltip="NO subas imágenes intactas a menos que sean Logos o firmas. (Públicas por defecto)" ng-if="hasRoleOrPerm(['profesor', 'admin'])")
             label
             	| Intactas
@@ -27,7 +27,7 @@
             </div>
             <div ng-file-select ng-file-change="upload($files)" ng-multiple="true" ng-accept="'image/*'" ng-if="false" class="btn btn-success"><i class="fa fa-upload"></i>Subir imágenes</div><br>
           </div>
-          <div class="col-lg-10 col-xs-12">
+          <div class="col-lg-9 col-xs-12">
             <div class="tickets-container">
               <ul class="tickets-list">
                 <li ng-show="imgFiles.length==0">No has seleccionado ningún archivo</li>

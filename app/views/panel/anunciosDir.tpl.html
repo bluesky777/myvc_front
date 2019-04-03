@@ -79,7 +79,7 @@
             </div>
           </div>
           <hr>
-          <div ng-if="::changes_asked.situaciones.length&gt;0" class="row">
+          <div ng-if="changes_asked.situaciones.length&gt;0" class="row">
             <div class="col-sm-12">
               <table class="table">
                 <thead>
@@ -93,7 +93,7 @@
                   <tr ng-repeat="situacion in ::changes_asked.situaciones | orderBy:['periodo','tipo']">
                     <td><span class="bold">Per{{situacion.numero}}</span></td>
                     <td>
-                      <div uib-tooltip="{{situacion.nombres_profesor + ' ' + situacion.apellidos_profesor}}"><span class="bold danger">Situación tipo {{situacion.tipo_situacion}}:</span><span> {{situacion.descripcion}}</span></div>
+                      <div uib-tooltip="Profesor: {{situacion.nombres_profesor + ' ' + situacion.apellidos_profesor}}"><span class="bold danger">Situación tipo {{situacion.tipo_situacion}}:</span><span> {{situacion.descripcion}}</span></div>
                     </td>
                     <td><span uib-tooltip="{{situacion.descrip_ord}} - pag. {{situacion.pagina}}">{{ situacion.ordinal }}</span></td>
                   </tr>
@@ -107,7 +107,7 @@
   </div>
 </div>
 <div ng-if="USER.tipo=='Acudiente'" class="row hidden-print">
-  <div ng-repeat="alumno in ::changes_asked.alumnos" class="col-xs-12 col-md-12">
+  <div ng-repeat="alumno in changes_asked.alumnos" class="col-xs-12 col-md-12">
     <div class="widget">
       <div class="widget-header bordered-bottom bordered-themeprimary"><i class="widget-icon fa fa-money themeprimary"></i><span class="widget-caption themeprimary">Tesorería {{alumno.nombres}} {{alumno.apellidos}}</span></div>
       <div class="widget-body">
@@ -182,7 +182,7 @@
             </div>
           </div>
           <hr>
-          <div ng-if="::alumno.situaciones.length&gt;0" class="row">
+          <div ng-if="alumno.situaciones.length&gt;0" class="row">
             <div class="col-sm-12">
               <table class="table">
                 <thead>
@@ -196,7 +196,7 @@
                   <tr ng-repeat="situacion in ::alumno.situaciones | orderBy:['periodo','tipo']">
                     <td><span class="bold">Per{{situacion.numero}}</span></td>
                     <td>
-                      <div uib-tooltip="{{situacion.nombres_profesor + ' ' + situacion.apellidos_profesor}}"><span class="bold danger">Situación tipo {{situacion.tipo_situacion}}:</span><span> {{situacion.descripcion}}</span></div>
+                      <div uib-tooltip="Profesor: {{situacion.nombres_profesor + ' ' + situacion.apellidos_profesor}}"><span class="bold danger">Situación tipo {{situacion.tipo_situacion}}:</span><span> {{situacion.descripcion}}</span></div>
                     </td>
                     <td><span uib-tooltip="{{situacion.descrip_ord}} - pag. {{situacion.pagina}}">{{ situacion.ordinal }}</span></td>
                   </tr>

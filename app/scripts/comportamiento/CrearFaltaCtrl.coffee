@@ -9,16 +9,17 @@ angular.module('myvcFrontApp')
 	templateUrl: "#{App.views}comportamiento/faltasDeLasQueDerivaNuevoDir.tpl.html"
 ])
 
-.controller('CrearFaltaCtrl', ['$scope', '$uibModalInstance', 'alumno', 'per_num', 'periodos', 'config', 'ordinales', 'profesores', 'creando', '$http', 'toastr', 'App', ($scope, $modalInstance, alumno, per_num, periodos, config, ordinales, profesores, creando, $http, toastr, App)->
-	$scope.alumno 		  = alumno
-	$scope.datos        = {}
-	$scope.config       = config
-	$scope.periodos 		= periodos
-	$scope.profesores 	= profesores
-	$scope.ordinales 	  = ordinales
-	$scope.perfilPath 	= App.images+'perfil/'
-	$scope.falta_new    = {}
-	$scope.eliminando 	= false
+.controller('CrearFaltaCtrl', ['$scope', '$uibModalInstance', 'alumno', 'per_num', 'periodos', 'config', 'ordinales', 'profesores', 'creando', '$http', 'toastr', 'App', 'AuthService', ($scope, $modalInstance, alumno, per_num, periodos, config, ordinales, profesores, creando, $http, toastr, App, AuthService)->
+	$scope.alumno 		    = alumno
+	$scope.datos          = {}
+	$scope.config         = config
+	$scope.periodos 		  = periodos
+	$scope.profesores 	  = profesores
+	$scope.ordinales 	    = ordinales
+	$scope.perfilPath 	  = App.images+'perfil/'
+	$scope.falta_new      = {}
+	$scope.eliminando 	  = false
+	$scope.hasRoleOrPerm  = AuthService.hasRoleOrPerm
 
 
 	for peri in $scope.periodos

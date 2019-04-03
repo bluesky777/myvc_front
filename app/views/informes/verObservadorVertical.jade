@@ -1,6 +1,15 @@
+div.hidden-print(style="background-color: #fff;")
+
+	.col-lg-12.col-xs-12
+		.btn-group
+			button.btn.btn-default(ng-click="eligirTamanio('carta')" ng-class="{'active': tamanio_hoja=='carta' }") Tamaño carta
+			button.btn.btn-default(ng-click="eligirTamanio('oficio')" ng-class="{'active': tamanio_hoja=='oficio' }") Tamaño oficio
+
+
+
 div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }")
 
-  div(ng-bind-html="grupos_observador" compile)
+	div(ng-bind-html="grupos_observador" compile)
 
 
 

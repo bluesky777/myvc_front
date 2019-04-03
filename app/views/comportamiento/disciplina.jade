@@ -43,7 +43,7 @@
 									th.border-right-dddd(style="min-width: 180px;")
 										div.text-center.nombresellipsis(uib-tooltip="Periodo 4" tooltip-popup-delay="500" tooltip-append-to-body="true") Periodo 4
 
-									th()
+									th(ng-if="false")
 										div(uib-tooltip="Promedio de las notas automáticas") Definitiva
 
 
@@ -270,6 +270,6 @@
 
 
 
-									td.border-right-dddd
+									td.border-right-dddd(ng-if="false")
 										div.text-center No sé
 

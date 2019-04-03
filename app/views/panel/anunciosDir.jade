@@ -74,7 +74,7 @@
 										td {{ periodo.nota.nota }} {{ periodo.nota.juicio }}
 
 					hr
-					.row(ng-if="::changes_asked.situaciones.length>0")
+					.row(ng-if="changes_asked.situaciones.length>0")
 						.col-sm-12
 
 							table.table
@@ -88,7 +88,7 @@
 										td
 											span.bold Per{{situacion.numero}}
 										td
-											div(uib-tooltip="{{situacion.nombres_profesor + ' ' + situacion.apellidos_profesor}}")
+											div(uib-tooltip="Profesor: {{situacion.nombres_profesor + ' ' + situacion.apellidos_profesor}}")
 												span.bold.danger Situación tipo {{situacion.tipo_situacion}}:
 												span  {{situacion.descripcion}}
 
@@ -100,7 +100,7 @@
 
 
 .row.hidden-print(ng-if="USER.tipo=='Acudiente'")
-	.col-xs-12.col-md-12(ng-repeat="alumno in ::changes_asked.alumnos")
+	.col-xs-12.col-md-12(ng-repeat="alumno in changes_asked.alumnos")
 
 
 		.widget
@@ -177,7 +177,7 @@
 
 
 					hr
-					.row(ng-if="::alumno.situaciones.length>0")
+					.row(ng-if="alumno.situaciones.length>0")
 						.col-sm-12
 
 							table.table
@@ -191,7 +191,7 @@
 										td
 											span.bold Per{{situacion.numero}}
 										td
-											div(uib-tooltip="{{situacion.nombres_profesor + ' ' + situacion.apellidos_profesor}}")
+											div(uib-tooltip="Profesor: {{situacion.nombres_profesor + ' ' + situacion.apellidos_profesor}}")
 												span.bold.danger Situación tipo {{situacion.tipo_situacion}}:
 												span  {{situacion.descripcion}}
 

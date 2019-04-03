@@ -454,7 +454,7 @@ angular.module('myvcFrontApp')
 					controller: 'VerObservadorVerticalCtrl' # En NotasPerdidasProfesorCtrl.coffee
 					resolve:
 						grupos_observador: ['$http', '$stateParams', ($http, $stateParams)->
-							$http.get('::observador/vertical/'+$stateParams.grupo_id)
+							$http.get('::observador/vertical/'+$stateParams.grupo_id + '/oficio')
 						]
 			data:
 				displayName: 'Observador'

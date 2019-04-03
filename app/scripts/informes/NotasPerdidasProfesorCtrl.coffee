@@ -117,13 +117,23 @@ angular.module('myvcFrontApp')
 
 
 
-.controller('VerObservadorVerticalCtrl',['$scope', 'App', 'Perfil', 'grupos_observador', '$state', ($scope, App, Perfil, grupos_observador, $state)->
+.controller('VerObservadorVerticalCtrl',['$scope', 'App', 'Perfil', 'grupos_observador', '$state', '$http', '$stateParams', ($scope, App, Perfil, grupos_observador, $state, $http, $stateParams)->
 	$scope.grupos_observador = grupos_observador.data
 
 	$scope.editor_options =
 		allowedContent: true,
 		entities: false
 
+	$scope.tamanio_hoja = 'oficio'
+
+
+	$scope.eligirTamanio = (tamanio)->
+		$scope.tamanio_hoja = tamanio
+		$http.get('::observador/vertical/'+$stateParams.grupo_id + '/' + tamanio).then((r)->
+			$scope.grupos_observador = r.data
+		()->
+			toast.error('No se pudo traer el observador')
+		)
 
 	$scope.onEditorReady = ()->
 		console.log 'Editor listo'

@@ -56,7 +56,7 @@
                     <td uib-tooltip="Usuario que registró esta falta en el sistema. Fecha: {{falta.created_at}}" tooltip-append-to-body="true">{{ falta.added_by_nombre }}</td>
                     <td style="padding: 0;">
                       <button ng-click="editarFalta(periodo, falta)" uib-tooltip="Editar" class="btn btn-default btn-xs"><i class="fa fa-pencil"></i></button>
-                      <button ng-click="eliminarFalta(alumno['periodo'+periodo.numero], falta)" uib-tooltip="Eliminar" ng-disabled="eliminando" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>
+                      <button ng-click="eliminarFalta(alumno['periodo'+periodo.numero], falta)" uib-tooltip="Eliminar" ng-disabled="eliminando" ng-if="hasRoleOrPerm(['Coord disciplinario', 'Admin', 'Coord académico'])" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></button>
                     </td>
                   </tr>
                 </tbody>

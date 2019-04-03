@@ -31,7 +31,7 @@
                   <th style="min-width: 180px;" class="border-right-dddd">
                     <div uib-tooltip="Periodo 4" tooltip-popup-delay="500" tooltip-append-to-body="true" class="text-center nombresellipsis">Periodo 4</div>
                   </th>
-                  <th>
+                  <th ng-if="false">
                     <div uib-tooltip="Promedio de las notas automáticas">Definitiva</div>
                   </th>
                 </tr>
@@ -148,7 +148,7 @@
                       <div ng-repeat="falta in alumno.periodo4 | filter:{'tipo_situacion': 3}" style="border-bottom: 1px solid #aaa;"><span style="font-weight: bold">{{ falta.fecha_corta }}:</span> {{ falta.descripcion }}</div>
                     </div>
                   </td>
-                  <td class="border-right-dddd">
+                  <td ng-if="false" class="border-right-dddd">
                     <div class="text-center">No sé</div>
                   </td>
                 </tr>
