@@ -14,7 +14,7 @@ angular.module('myvcFrontApp')
 	$scope.USER 			      = Perfil.User()
 	$scope.USER.nota_minima_aceptada = parseInt($scope.USER.nota_minima_aceptada)
 	$scope.escalas 			    = escalas
-	$scope.config 			    = {solo_notas_perdidas: true}
+	$scope.config 			    = {solo_notas_perdidas: 'todas'}
 
 
 	if !$scope.hasRoleOrPerm(['alumno', 'acudiente'])

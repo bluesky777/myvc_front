@@ -1,360 +1,382 @@
-.col-sm-12
-	uib-tabset(active="tabFileManager")
+.row
+	.col-sm-12
+		uib-tabset(active="tabFileManager")
 
-		uib-tab(heading="Mis imágenes" index="'mis_img'" select="selectTab('mis_img')")
+			uib-tab(heading="Mis imágenes" index="'mis_img'" select="selectTab('mis_img')")
 
-			.drop-box(ngf-drop="uploadFiles($files)" class="drop-box"
-				ngf-drag-over-class="'dragover'" ngf-multiple="true"
-				ngf-pattern="'image/*'")
-				.form-title Subir imagen
-				.row
-					.col-lg-3.col-xs-12
+				.drop-box(ngf-drop="uploadFiles($files)" class="drop-box"
+					ngf-drag-over-class="'dragover'" ngf-multiple="true"
+					ngf-pattern="'image/*'")
+					.form-title Subir imagen
+					.row
+						.col-lg-3.col-xs-12
 
-						//span(uib-tooltip="NO subas imágenes intactas a menos que sean Logos o firmas. (Públicas por defecto)" ng-if="hasRoleOrPerm(['profesor', 'admin'])")
-							label
-								| Intactas
-							label
-								input.checkbox-slider.slider-icon.colored-blue.ocultar-input(type="checkbox"
-									ng-model="subir_intacta.intacta")
-								span.text.si-no
+							//span(uib-tooltip="NO subas imágenes intactas a menos que sean Logos o firmas. (Públicas por defecto)" ng-if="hasRoleOrPerm(['profesor', 'admin'])")
+								label
+									| Intactas
+								label
+									input.checkbox-slider.slider-icon.colored-blue.ocultar-input(type="checkbox"
+										ng-model="subir_intacta.intacta")
+									span.text.si-no
 
-						.btn-group(ng-if="hasRoleOrPerm(['profesor', 'admin'])")
-							label.btn.btn-default(ng-model="subir_intacta.intacta" uib-btn-radio="'Normal'" uncheckable uib-tooltip="Se recorta la imagen y se sube PRIVADA.")
-								| Normal
-							label.btn.btn-default(ng-model="subir_intacta.intacta" uib-btn-radio="'Intacta'" uncheckable uib-tooltip="No modifica la imagen y se sube PÚBLICA.")
-								| Intacta
-							label.btn.btn-default(ng-model="subir_intacta.intacta" uib-btn-radio="'Firma'" uncheckable uib-tooltip="No modifica la imagen y se sube PRIVADA." tooltip-append-to-body="true")
-								| Firma
-
-
-
-						.btn.btn-success(ngf-select="uploadFiles($files)" ngf-multiple="true" ngf-pattern="'image/*'"
-							ngf-accept="'image/*'" )
-							i.fa.fa-upload
-							| Subir imágenes
-							//  ngf-max-size="7MB"
+							.btn-group(ng-if="hasRoleOrPerm(['profesor', 'admin'])")
+								label.btn.btn-default(ng-model="subir_intacta.intacta" uib-btn-radio="'Normal'" uncheckable uib-tooltip="Se recorta la imagen y se sube PRIVADA.")
+									| Normal
+								label.btn.btn-default(ng-model="subir_intacta.intacta" uib-btn-radio="'Intacta'" uncheckable uib-tooltip="No modifica la imagen y se sube PÚBLICA.")
+									| Intacta
+								label.btn.btn-default(ng-model="subir_intacta.intacta" uib-btn-radio="'Firma'" uncheckable uib-tooltip="No modifica la imagen y se sube PRIVADA." tooltip-append-to-body="true")
+									| Firma
 
 
 
-						.btn.btn-success(ng-file-select ng-file-change="upload($files)"
-							ng-multiple="true" ng-accept="'image/*'" ng-if="false")
-							i.fa.fa-upload
-							| Subir imágenes
-						br
+							.btn.btn-success(ngf-select="uploadFiles($files)" ngf-multiple="true" ngf-pattern="'image/*'"
+								ngf-accept="'image/*'" )
+								i.fa.fa-upload
+								| Subir imágenes
+								//  ngf-max-size="7MB"
 
 
-					.col-lg-9.col-xs-12
-						.tickets-container
-							ul.tickets-list
-								li(ng-show="imgFiles.length==0") No has seleccionado ningún archivo
-								li(ng-show="errorMsg!=''") {{errorMsg}}
-								li.ticket-item(ng-repeat="file in imgFiles")
+
+							.btn.btn-success(ng-file-select ng-file-change="upload($files)"
+								ng-multiple="true" ng-accept="'image/*'" ng-if="false")
+								i.fa.fa-upload
+								| Subir imágenes
+							br
+
+
+						.col-lg-9.col-xs-12
+							.tickets-container
+								ul.tickets-list
+									li(ng-show="imgFiles.length==0") No has seleccionado ningún archivo
+									li(ng-show="errorMsg!=''") {{errorMsg}}
+									li.ticket-item(ng-repeat="file in imgFiles")
+										.row
+											.ticket-user.col-lg-5.col-sm-12
+												img.user-avatar(ng-src="{{file.dataUrl}}")
+												span.user-name {{file.name}}
+												span.user-company - {{(file.size / 1000000) | number:2 }}MB
+											.ticket-time.col-lg-5.col-sm-6.col-xs-12
+												.divider.hidden-md.hidden-sm.hidden-xs
+												uib-progressbar.progress-xlg.progress-striped.active( value="file.porcentaje")
+													b {{file.porcentaje}}% Completado
+
+											.ticket-type.col-lg-2.col-sm-6.col-xs-1
+												span.divider.hidden-xs
+												span.type(ng-show="file.porcentaje==100") Completado
+												span.type(ng-show="file.porcentaje<100") Subiendo...
+												span.type(ng-show="file.porcentaje==undefined") problema.
+											.ticket-state.bg-palegreen(ng-show="file.porcentaje==100")
+												i.fa.fa-check
+											.ticket-state.bg-palegreen(ng-show="file.porcentaje<100")
+												i.fa.fa-cloud-upload
+											.ticket-state.bg-yellow(ng-show="file.porcentaje==undefined")
+												i.fa.fa-info
+
+					hr.wide
+					.row
+						.col-lg-12.col-xs-12
+
+							.row
+								.col-lg-6.col-md-6.col-xs-12
+									label Elija imagen
+									ui-select(ng-model="dato.imgUsuario" on-select="imagenSelect($item, $model)" theme="select2" style="width: 100%;")
+										ui-select-match(placeholder="Imagen usuario")
+											img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
+											small(ng-bind-html="' ' + $select.selected.nombre")
+										ui-select-choices(repeat="imagen in imagenes_privadas | filter: {nombre: $select.search}")
+											img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
+											small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
+
+								.col-lg-6.col-xs-12(style="margin-top: 10px;")
+									label   Establecer como:
+									button.btn.btn-default.shiny(ng-click="pedirCambioUsuario(dato.imgUsuario)" style="width:120px")
+										img(ng-src="{{ imagenPrincipal }}" style="height: 40px")
+										|   Perfil
+
+									span(ng-if="!hasRoleOrPerm('admin')")
+										button.btn.btn-default.shiny(ng-click="pedirCambioOficial(dato.imgUsuario)")
+											img(ng-src="{{ imagenOficial }}" style="height: 40px")
+											|   Foto oficial
+
+									button.btn.btn-default.shiny(ng-click="pedirCambioFirma(dato.imgUsuario)" ng-if="hasRoleOrPerm('profesor')")
+										img(ng-show="USER.firma_id" ng-src="{{ perfilPath + USER.firma_nombre }}" style="height: 40px")
+										|   Firma
+
+									button.btn.btn-default.shiny(ng-click="cambiarLogoColegio(dato.imgUsuario)" ng-if="hasRoleOrPerm('admin')")
+										img(ng-src="{{ perfilPath + logo.logo }}" style="height: 40px")
+										|   Logo institución
+
+
+
+
+
+
+
+					hr.wide
+					.row
+						.col-lg-12.col-xs-12
+
+							.widget
+								.widget-header.bordered-bottom.bordered-blue
+									span.widget-caption Imágenes subidas (privadas)
+									input(ng-model="imageFilter.nombre" placeholder="Filtrar")
+								.widget-body.imagenes-content
 									.row
-										.ticket-user.col-lg-5.col-sm-12
-											img.user-avatar(ng-src="{{file.dataUrl}}")
-											span.user-name {{file.name}}
-											span.user-company - {{(file.size / 1000000) | number:2 }}MB
-										.ticket-time.col-lg-5.col-sm-6.col-xs-12
-											.divider.hidden-md.hidden-sm.hidden-xs
-											uib-progressbar.progress-xlg.progress-striped.active( value="file.porcentaje")
-												b {{file.porcentaje}}% Completado
 
-										.ticket-type.col-lg-2.col-sm-6.col-xs-1
-											span.divider.hidden-xs
-											span.type(ng-show="file.porcentaje==100") Completado
-											span.type(ng-show="file.porcentaje<100") Subiendo...
-											span.type(ng-show="file.porcentaje==undefined") problema.
-										.ticket-state.bg-palegreen(ng-show="file.porcentaje==100")
-											i.fa.fa-check
-										.ticket-state.bg-palegreen(ng-show="file.porcentaje<100")
-											i.fa.fa-cloud-upload
-										.ticket-state.bg-yellow(ng-show="file.porcentaje==undefined")
-											i.fa.fa-info
+										.col-lg-3.col-sm-4.col-xs-12.puntero(ng-repeat="imagen in imagenes_privadas | filter: imageFilter" ng-click="selectImage(imagen)")
+											.databox.databox-graded.radius-bordered.databox-shadowed(uib-popover-template="views+'fileManager/popoverImagenView.tpl.html'"
+												popover-title="{{imagen.nombre}}" popover-append-to-body="true"
+												popover-trigger="'mouseenter'" popover-popup-delay="200")
 
-				hr.wide
+												.databox-left.no-padding
+													img.img-responsive(ng-src="{{perfilPath + imagen.nombre}}" style="width:65px; height:65px;")
+												.databox-right.padding-top-10.bordered-thick.bordered-sky
+													.databox-text.lightcarbon {{imagen.nombre}}
+													.databox-text.darkgray
+														.btn-group
+															a.btn.btn-darkorange.btn-xs(ng-click="borrarImagen(imagen, USER.user_id)" uib-tooltip="Borrar imagen")
+																i.fa.fa-times
+
+															a.btn.btn-default.btn-xs(ng-click="rotarImagen(imagen)" uib-tooltip="Rotar")
+																i.fa.fa-rotate-right
+
+															a.btn.btn-default.btn-xs(ng-click="publicarImagen(imagen)" uib-tooltip="Públicar" tooltip-placement="right")
+																i.fa.fa-upload
+
+
+
+					.row(ng-show="hasRoleOrPerm(['admin', 'profesor'])")
+						.col-lg-12.col-xs-12
+
+							.widget
+								.widget-header.bordered-bottom.bordered-blue
+									span.widget-caption Imágenes públicas
+									input(ng-model="imageFilter.nombre" placeholder="Filtrar")
+								.widget-body.imagenes-content
+									.row
+
+										.col-lg-3.col-sm-4.col-xs-12.puntero(ng-repeat="imagen in imagenes_publicas | filter: imageFilter" ng-click="selectImage(imagen)")
+											.databox.databox-graded.radius-bordered.databox-shadowed(uib-popover-template="views+'fileManager/popoverImagenView.tpl.html'"
+												popover-title="{{imagen.nombre}}" popover-append-to-body="true"
+												popover-trigger="'mouseenter'" popover-popup-delay="200")
+
+												.databox-left.no-padding
+													img.img-responsive(ng-src="{{perfilPath + imagen.nombre}}" style="width:65px; height:65px;")
+												.databox-right.padding-top-10.bordered-thick.bordered-sky
+													.databox-text.lightcarbon {{imagen.nombre}}
+													.databox-text.darkgray
+														.btn-group
+															a.btn.btn-darkorange.btn-xs(ng-click="borrarImagen(imagen, USER.user_id)" ng-show="hasRoleOrPerm('admin') || USER.user_id==imagen.user_id" uib-tooltip="Eliminar")
+																i.fa.fa-times
+
+															a.btn.btn-default.btn-xs(ng-click="rotarImagen(imagen)" uib-tooltip="Rotar imagen")
+																i.fa.fa-rotate-right
+
+															a.btn.btn-default.btn-xs(ng-click="cambiarLogoColegio(imagen)" uib-tooltip="Establecer como logo de la institución" tooltip-append-to-body="true" ng-show="hasRoleOrPerm('admin')")
+																i.fa.fa-institution
+
+															a.btn.btn-default.btn-xs(ng-click="privatizarImagen(imagen)" uib-tooltip="Privatizar" tooltip-placement="right")
+																i.fa.fa-download
+
+
+
+
+			uib-tab(heading="Imágenes de usuarios" index="'imgs_usus'" select="selectTab('imgs_usus')" ng-if="hasRoleOrPerm('admin')")
+
+				.form-title Cambiar imagen a
+					.btn-group
+						label.btn.btn-default(ng-model="dato.tipo_a_cambiar" uib-btn-radio="'alumno'" ng-click="cambiar_tipo_img_a_cambiar('alumno')") Alumno
+						label.btn.btn-default(ng-model="dato.tipo_a_cambiar" uib-btn-radio="'profesor'" ng-click="cambiar_tipo_img_a_cambiar('profesor')") Profesor
+						label.btn.btn-default(ng-model="dato.tipo_a_cambiar" uib-btn-radio="'acudiente'" disabled="disabled" ng-click="cambiar_tipo_img_a_cambiar('acudiente')") Acudiente
+						label.btn.btn-default(ng-model="dato.tipo_a_cambiar" uib-btn-radio="'otro'" disabled="disabled" ng-click="cambiar_tipo_img_a_cambiar('otro')") Otro
+
 				.row
-					.col-lg-12.col-xs-12
+					.col-lg-12.col-xs-12(ng-if="dato.tipo_a_cambiar == 'alumno' ")
 
 						.row
-							.col-lg-6.col-md-6.col-xs-12
-								label Elija imagen
-								ui-select(ng-model="dato.imgUsuario" on-select="imagenSelect($item, $model)" theme="select2" style="width: 100%;")
-									ui-select-match(placeholder="Imagen usuario")
+							.col-md-6
+								label Grupo
+								ui-select(ng-model="dato.grupo" theme="select2" style="width: 100%;" on-select="grupoSelect($item, $model)" )
+									ui-select-match(placeholder="Seleccione grupo") {{$select.selected.nombre}}
+									ui-select-choices(repeat="grupo in grupos | filter: $select.search")
+										div(ng-bind-html="grupo.nombre | highlight: $select.search")
+
+						.row(style="margin-top: 10px;")
+							.col-md-6
+								label Alumno
+									input(type="text" placeholder="Buscar..." ng-model="search_alu")
+
+								div.select-alumn
+									.select-alumn_item(ng-repeat="alumno in alumnos | filterByNomApell:search_alu"
+										uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'"
+										popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}"
+										popover-trigger="'mouseenter'" popover-popup-delay="200"
+										ng-class="{'alu-selected': alumno.selected, italic: alumno.estado=='ASIS' }"
+										ng-click="alumSelect(alumno)")
+
+										img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="")
+										small(ng-bind-html="' ' + (alumno.apellidos + ' ' + alumno.nombres | highlight: search_alu) + ' (' + alumno.username + ')' ")
+
+
+							.col-md-6
+								label Imagen
+									input(type="text" placeholder="Buscar..." ng-model="search_img_cam")
+
+								div.select-alumn
+									.select-alumn_item(ng-repeat="imagen in imagenes_privadas | filter: {nombre: search_img_cam}"
+										uib-popover-template="views+'fileManager/popoverImagenView.tpl.html'"
+										popover-title="{{imagen.nombre}}"
+										popover-trigger="'mouseenter'" popover-popup-delay="200"
+										ng-class="{'alu-selected': imagen.selected, italic: imagen.estado=='ASIS' }"
+										ng-click="select_imagen_item(imagen)")
+
+										img(ng-src="{{perfilPath + imagen.nombre}}" style="")
+										small(ng-bind-html="' ' + imagen.nombre | highlight: search_img_cam")
+
+
+						.row(style="margin-top: 10px;")
+							.col-md-12(ng-show="dato.alumnoElegido")
+
+								label   Establecer como:
+								.btn-group
+									button.btn.btn-default.shiny(ng-click="cambiarImgUnUsuario(dato.alumnoElegido, dato.selectedImg)" style="width:120px"
+										uib-popover-template="views+'fileManager/popoverDatoImagenPerfilView.tpl.html'"
+										popover-title="{{dato.alumnoElegido.imagen_nombre}}"
+										popover-trigger="'mouseenter'" popover-popup-delay="200")
+										img(ng-src="{{ perfilPath + dato.alumnoElegido.imagen_nombre }}" style="height: 40px")
+										|   Perfil
+									button.btn.btn-default.shiny(ng-click="cambiarImgUnUsuario(dato.alumnoElegido)" uib-tooltip="Quitar imagen" style="height: 54px;")
+										i.fa.fa-times
+
+								.btn-group
+									button.btn.btn-default.shiny(ng-click="cambiarFotoUnUsuario(dato.alumnoElegido, dato.selectedImg)"
+										uib-popover-template="views+'fileManager/popoverDatoAlumnoFotoOficialView.tpl.html'"
+										popover-title="{{dato.alumnoElegido.foto_nombre}}"
+										popover-trigger="'mouseenter'" popover-popup-delay="200")
+										img(ng-src="{{ perfilPath + dato.alumnoElegido.foto_nombre }}" style="height: 40px")
+										|   Foto oficial
+									button.btn.btn-default.shiny(ng-click="cambiarFotoUnUsuario(dato.alumnoElegido)" uib-tooltip="Quitar Foto" style="height: 54px;")
+										i.fa.fa-times
+
+
+
+						hr.wide
+
+						.row(style="margin-top: 10px;" ng-show="mostrando_opt_img_de_alum")
+							.col-sm-6
+								label Imagenes que le pertenecen al usuario
+								ui-select(ng-model="dato.selectedImgDelUsuario" on-select="imgDeUsuarioSelect($item, $model)" theme="select2" style="width: 100%;")
+									ui-select-match(placeholder="Seleccione imagen")
+										img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
+										small(ng-bind-html="' ' + $select.selected.nombre")
+									ui-select-choices(repeat="imagen in imagenes_del_usuario | filter: {nombre: $select.search}")
+										img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
+										small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
+
+							.col-sm-6(style="height: 55px; line-height: 5.4;")
+								.btn-group
+									button.btn.btn-danger.shiny(ng-click="borrarImagen(dato.selectedImgDelUsuario, dato.alumnoElegido.user_id, true)") Eliminar
+									button.btn.btn-default.shiny(ng-click="moveImgToMe(dato.selectedImgDelUsuario, dato.alumnoElegido)" uib-tooltip="Quitar de usuario y ponerla en mis imágenes") Mover a mis imágenes
+
+
+
+
+
+					.col-lg-12.col-xs-12(ng-if="dato.tipo_a_cambiar == 'profesor' ")
+
+						.row
+							.col-md-6
+								label Profesor
+								ui-select(ng-model="dato.profeElegido" theme="select2" on-select="profeSelect($item, $model)" style="width: 100%;")
+									ui-select-match(placeholder="Seleccione profesor")
+										img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;")
+										small(ng-bind-html="' ' + $select.selected.nombres")
+									ui-select-choices(repeat="profe in profesores | filter: {nombres: $select.search}")
+										img(ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;")
+										small(ng-bind-html="' ' + profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
+
+							.col-md-6
+								label Imagen
+								ui-select(ng-model="dato.selectedImg" ng-disabled="!dato.profeElegido" on-select="fotoSelect($item, $model)" theme="select2" style="width: 100%;")
+									ui-select-match(placeholder="Seleccione imagen")
 										img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
 										small(ng-bind-html="' ' + $select.selected.nombre")
 									ui-select-choices(repeat="imagen in imagenes_privadas | filter: {nombre: $select.search}")
 										img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
 										small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
 
-							.col-lg-6.col-xs-12(style="margin-top: 10px;")
+
+						.row(style="margin-top: 10px;")
+							.col-md-12(ng-show="dato.profeElegido")
+
 								label   Establecer cómo:
-								button.btn.btn-default.shiny(ng-click="pedirCambioUsuario(dato.imgUsuario)" style="width:120px")
-									img(ng-src="{{ imagenPrincipal }}" style="height: 40px")
-									|   Perfil
+								.btn-group
+									button.btn.btn-default.shiny(ng-click="cambiarImgUnUsuario(dato.profeElegido, dato.selectedImg)" style="width:120px"
+										uib-popover-template="views+'fileManager/popoverDatoProfeImagenPerfilView.tpl.html'"
+										popover-title="{{dato.profeElegido.imagen_nombre}}"
+										popover-trigger="'mouseenter'" popover-popup-delay="200")
+										img(ng-src="{{ perfilPath + dato.profeElegido.imagen_nombre }}" style="height: 40px")
+										|   Perfil
+									button.btn.btn-default.shiny(ng-click="cambiarImgUnUsuario(dato.profeElegido)" uib-tooltip="Quitar imagen" style="height: 54px;")
+										i.fa.fa-times
 
-								span(ng-if="!hasRoleOrPerm('admin')")
-									button.btn.btn-default.shiny(ng-click="pedirCambioOficial(dato.imgUsuario)")
-										img(ng-src="{{ imagenOficial }}" style="height: 40px")
+								.btn-group
+									button.btn.btn-default.shiny(ng-click="cambiarFotoUnUsuario(dato.profeElegido, dato.selectedImg)"
+										uib-popover-template="views+'fileManager/popoverDatoFotoOficialView.tpl.html'"
+										popover-title="{{imagen.nombre}}"
+										popover-trigger="'mouseenter'" popover-popup-delay="200")
+										img(ng-src="{{ perfilPath + dato.profeElegido.foto_nombre }}" style="height: 40px")
 										|   Foto oficial
+									button.btn.btn-default.shiny(ng-click="cambiarFotoUnUsuario(dato.profeElegido)" uib-tooltip="Quitar foto" style="height: 54px;")
+										i.fa.fa-times
 
-								button.btn.btn-default.shiny(ng-click="pedirCambioFirma(dato.imgUsuario)" ng-if="hasRoleOrPerm('profesor')")
-									img(ng-show="USER.firma_id" ng-src="{{ perfilPath + USER.firma_nombre }}" style="height: 40px")
-									|   Firma
+								.btn-group
+									button.btn.btn-default.shiny(ng-click="cambiarFirmaUnProfe(dato.profeElegido, dato.selectedImg)" style="height: 54px;"
+										uib-popover-template="views+'fileManager/popoverDatoFirmaView.tpl.html'"
+										popover-title="{{dato.profeElegido.firma_nombre}}"
+										popover-trigger="'mouseenter'" popover-popup-delay="200")
+										img(ng-src="{{ perfilPath + dato.profeElegido.firma_nombre }}" style="height: 40px" ng-show="dato.profeElegido.firma_nombre")
+										|   Firma
+									button.btn.btn-default.shiny(ng-click="cambiarFirmaUnProfe(dato.profeElegido)" uib-tooltip="Quitar firma" style="height: 54px;")
+										i.fa.fa-times
 
-								button.btn.btn-default.shiny(ng-click="cambiarLogoColegio(dato.imgUsuario)" ng-if="hasRoleOrPerm('admin')")
-									img(ng-src="{{ perfilPath + logo.logo }}" style="height: 40px")
-									|   Logo institución
 
+						hr.wide
 
+						.row(style="margin-top: 10px;" ng-show="mostrando_opt_img_de_prof")
+							.col-sm-6
+								label Imagenes que le pertenecen al usuario
+								ui-select(ng-model="dato.selectedImgDelUsuario" on-select="imgDeUsuarioSelect($item, $model)" theme="select2" style="width: 100%;")
+									ui-select-match(placeholder="Seleccione imagen")
+										img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
+										small(ng-bind-html="' ' + $select.selected.nombre")
+									ui-select-choices(repeat="imagen in imagenes_del_usuario | filter: {nombre: $select.search}")
+										img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
+										small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
 
+							.col-sm-6(style="height: 55px; line-height: 5.4;")
+								.btn-group
+									button.btn.btn-danger.shiny(ng-click="borrarImagen(dato.selectedImgDelUsuario, dato.alumnoElegido.user_id)") Eliminar
+									button.btn.btn-default.shiny(ng-click="moveImgToMe(dato.selectedImgDelUsuario, dato.alumnoElegido)" uib-tooltip="Quitar de usuario y ponerla en mis imágenes") Mover a mis imágenes
 
 
 
 
-				hr.wide
-				.row
-					.col-lg-12.col-xs-12
 
-						.widget
-							.widget-header.bordered-bottom.bordered-blue
-								span.widget-caption Imágenes subidas (privadas)
-								input(ng-model="imageFilter.nombre" placeholder="Filtrar")
-							.widget-body.imagenes-content
-								.row
 
-									.col-lg-3.col-sm-4.col-xs-12.puntero(ng-repeat="imagen in imagenes_privadas | filter: imageFilter" ng-click="selectImage(imagen)")
-										.databox.databox-graded.radius-bordered.databox-shadowed
-											.databox-left.no-padding
-												img.img-responsive(ng-src="{{perfilPath + imagen.nombre}}" style="width:65px; height:65px;")
-											.databox-right.padding-top-10.bordered-thick.bordered-sky
-												.databox-text.lightcarbon {{imagen.nombre}}
-												.databox-text.darkgray
-													.btn-group
-														a.btn.btn-darkorange.btn-xs(ng-click="borrarImagen(imagen, USER.user_id)" uib-tooltip="Borrar imagen")
-															i.fa.fa-times
 
-														a.btn.btn-default.btn-xs(ng-click="rotarImagen(imagen)" uib-tooltip="Rotar")
-															i.fa.fa-rotate-right
 
-														a.btn.btn-default.btn-xs(ng-click="publicarImagen(imagen)" uib-tooltip="Públicar" tooltip-placement="right")
-															i.fa.fa-upload
 
 
 
-				.row(ng-show="hasRoleOrPerm(['admin', 'profesor'])")
-					.col-lg-12.col-xs-12
 
-						.widget
-							.widget-header.bordered-bottom.bordered-blue
-								span.widget-caption Imágenes públicas
-								input(ng-model="imageFilter.nombre" placeholder="Filtrar")
-							.widget-body.imagenes-content
-								.row
 
-									.col-lg-3.col-sm-4.col-xs-12.puntero(ng-repeat="imagen in imagenes_publicas | filter: imageFilter" ng-click="selectImage(imagen)")
-										.databox.databox-graded.radius-bordered.databox-shadowed
-											.databox-left.no-padding
-												img.img-responsive(ng-src="{{perfilPath + imagen.nombre}}" style="width:65px; height:65px;")
-											.databox-right.padding-top-10.bordered-thick.bordered-sky
-												.databox-text.lightcarbon {{imagen.nombre}}
-												.databox-text.darkgray
-													.btn-group
-														a.btn.btn-darkorange.btn-xs(ng-click="borrarImagen(imagen, USER.user_id)" ng-show="hasRoleOrPerm('admin') || USER.user_id==imagen.user_id" uib-tooltip="Eliminar")
-															i.fa.fa-times
 
-														a.btn.btn-default.btn-xs(ng-click="rotarImagen(imagen)" uib-tooltip="Rotar imagen")
-															i.fa.fa-rotate-right
 
-														a.btn.btn-default.btn-xs(ng-click="cambiarLogoColegio(imagen)" uib-tooltip="Establecer como logo de la institución" tooltip-append-to-body="true" ng-show="hasRoleOrPerm('admin')")
-															i.fa.fa-institution
 
-														a.btn.btn-default.btn-xs(ng-click="privatizarImagen(imagen)" uib-tooltip="Privatizar" tooltip-placement="right")
-															i.fa.fa-download
 
 
-
-
-		uib-tab(heading="Imágenes de usuarios" index="'imgs_usus'" select="selectTab('imgs_usus')" ng-if="hasRoleOrPerm('admin')")
-
-			.form-title Cambiar imagen a
-				.btn-group
-					label.btn.btn-default(ng-model="dato.tipo_a_cambiar" uib-btn-radio="'alumno'" ng-click="cambiar_tipo_img_a_cambiar('alumno')") Alumno
-					label.btn.btn-default(ng-model="dato.tipo_a_cambiar" uib-btn-radio="'profesor'" ng-click="cambiar_tipo_img_a_cambiar('profesor')") Profesor
-					label.btn.btn-default(ng-model="dato.tipo_a_cambiar" uib-btn-radio="'acudiente'" disabled="disabled" ng-click="cambiar_tipo_img_a_cambiar('acudiente')") Acudiente
-					label.btn.btn-default(ng-model="dato.tipo_a_cambiar" uib-btn-radio="'otro'" disabled="disabled" ng-click="cambiar_tipo_img_a_cambiar('otro')") Otro
-
-			.row
-				.col-lg-12.col-xs-12(ng-if="dato.tipo_a_cambiar == 'alumno' ")
-
-					.row
-						.col-md-6
-							label Grupo
-							ui-select(ng-model="dato.grupo" theme="select2" style="width: 100%;" on-select="grupoSelect($item, $model)" )
-								ui-select-match(placeholder="Seleccione grupo") {{$select.selected.nombre}}
-								ui-select-choices(repeat="grupo in grupos | filter: $select.search")
-									div(ng-bind-html="grupo.nombre | highlight: $select.search")
-
-					.row(style="margin-top: 10px;")
-						.col-md-6
-							label Alumno
-								input(type="text" placeholder="Buscar..." ng-model="search_alu")
-
-							div.select-alumn
-								.select-alumn_item(ng-repeat="alumno in alumnos | filterByNomApell:search_alu"
-									uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'"
-									popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}"
-									popover-trigger="'mouseenter'" popover-popup-delay="1000"
-									ng-class="{'alu-selected': alumno.selected, italic: alumno.estado=='ASIS' }"
-									ng-click="alumSelect(alumno)")
-
-									img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
-									small(ng-bind-html="' ' + (alumno.apellidos + ' ' + alumno.nombres | highlight: search_alu) + ' (' + alumno.username + ')' ")
-
-
-						.col-md-6
-							label Imagen
-								input(type="text" placeholder="Buscar..." ng-model="search_img_cam")
-
-							div.select-alumn
-								.select-alumn_item(ng-repeat="imagen in imagenes_privadas | filter: {nombre: search_img_cam}"
-									uib-popover-template="views+'fileManager/popoverImagenView.tpl.html'"
-									popover-title="{{imagen.nombre}}"
-									popover-trigger="'mouseenter'" popover-popup-delay="1000"
-									ng-class="{'alu-selected': imagen.selected, italic: imagen.estado=='ASIS' }"
-									ng-click="select_imagen_item(imagen)")
-
-									img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
-									small(ng-bind-html="' ' + imagen.nombre | highlight: search_img_cam")
-
-
-					.row(style="margin-top: 10px;")
-						.col-md-12(ng-show="dato.alumnoElegido")
-
-							label   Establecer cómo:
-							.btn-group
-								button.btn.btn-default.shiny(ng-click="cambiarImgUnUsuario(dato.alumnoElegido, dato.selectedImg)" style="width:120px")
-									img(ng-src="{{ perfilPath + dato.alumnoElegido.imagen_nombre }}" style="height: 40px")
-									|   Perfil
-								button.btn.btn-default.shiny(ng-click="cambiarImgUnUsuario(dato.alumnoElegido)" uib-tooltip="Quitar imagen" style="height: 54px;")
-									i.fa.fa-times
-
-							.btn-group
-								button.btn.btn-default.shiny(ng-click="cambiarFotoUnUsuario(dato.alumnoElegido, dato.selectedImg)")
-									img(ng-src="{{ perfilPath + dato.alumnoElegido.foto_nombre }}" style="height: 40px")
-									|   Foto oficial
-								button.btn.btn-default.shiny(ng-click="cambiarFotoUnUsuario(dato.alumnoElegido)" uib-tooltip="Quitar Foto" style="height: 54px;")
-									i.fa.fa-times
-
-
-
-					hr.wide
-
-					.row(style="margin-top: 10px;" ng-show="mostrando_opt_img_de_alum")
-						.col-sm-6
-							label Imagenes que le pertenecen al usuario
-							ui-select(ng-model="dato.selectedImgDelUsuario" on-select="imgDeUsuarioSelect($item, $model)" theme="select2" style="width: 100%;")
-								ui-select-match(placeholder="Seleccione imagen")
-									img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
-									small(ng-bind-html="' ' + $select.selected.nombre")
-								ui-select-choices(repeat="imagen in imagenes_del_usuario | filter: {nombre: $select.search}")
-									img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
-									small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
-
-						.col-sm-6(style="height: 55px; line-height: 5.4;")
-							.btn-group
-								button.btn.btn-danger.shiny(ng-click="borrarImagen(dato.selectedImgDelUsuario, dato.alumnoElegido.user_id, true)") Eliminar
-								button.btn.btn-default.shiny(ng-click="moveImgToMe(dato.selectedImgDelUsuario, dato.alumnoElegido)" uib-tooltip="Quitar de usuario y ponerla en mis imágenes") Mover a mis imágenes
-
-
-
-
-
-				.col-lg-12.col-xs-12(ng-if="dato.tipo_a_cambiar == 'profesor' ")
-
-					.row
-						.col-md-6
-							label Profesor
-							ui-select(ng-model="dato.profeElegido" theme="select2" on-select="profeSelect($item, $model)" style="width: 100%;")
-								ui-select-match(placeholder="Seleccione profesor")
-									img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;")
-									small(ng-bind-html="' ' + $select.selected.nombres")
-								ui-select-choices(repeat="profe in profesores | filter: {nombres: $select.search}")
-									img(ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;")
-									small(ng-bind-html="' ' + profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
-
-						.col-md-6
-							label Imagen
-							ui-select(ng-model="dato.selectedImg" ng-disabled="!dato.profeElegido" on-select="fotoSelect($item, $model)" theme="select2" style="width: 100%;")
-								ui-select-match(placeholder="Seleccione imagen")
-									img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
-									small(ng-bind-html="' ' + $select.selected.nombre")
-								ui-select-choices(repeat="imagen in imagenes_privadas | filter: {nombre: $select.search}")
-									img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
-									small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
-
-
-					.row(style="margin-top: 10px;")
-						.col-md-12(ng-show="dato.profeElegido")
-
-							label   Establecer cómo:
-							.btn-group
-								button.btn.btn-default.shiny(ng-click="cambiarImgUnUsuario(dato.profeElegido, dato.selectedImg)" style="width:120px")
-									img(ng-src="{{ perfilPath + dato.profeElegido.imagen_nombre }}" style="height: 40px")
-									|   Perfil
-								button.btn.btn-default.shiny(ng-click="cambiarImgUnUsuario(dato.profeElegido)" uib-tooltip="Quitar imagen" style="height: 54px;")
-									i.fa.fa-times
-
-							.btn-group
-								button.btn.btn-default.shiny(ng-click="cambiarFotoUnUsuario(dato.profeElegido, dato.selectedImg)")
-									img(ng-src="{{ perfilPath + dato.profeElegido.foto_nombre }}" style="height: 40px")
-									|   Foto oficial
-								button.btn.btn-default.shiny(ng-click="cambiarFotoUnUsuario(dato.profeElegido)" uib-tooltip="Quitar foto" style="height: 54px;")
-									i.fa.fa-times
-
-							.btn-group
-								button.btn.btn-default.shiny(ng-click="cambiarFirmaUnProfe(dato.profeElegido, dato.selectedImg)" style="height: 54px;")
-									img(ng-src="{{ perfilPath + dato.profeElegido.firma_nombre }}" style="height: 40px" ng-show="dato.profeElegido.firma_nombre")
-									|   Firma
-								button.btn.btn-default.shiny(ng-click="cambiarFirmaUnProfe(dato.profeElegido)" uib-tooltip="Quitar firma" style="height: 54px;")
-									i.fa.fa-times
-
-
-					hr.wide
-
-					.row(style="margin-top: 10px;" ng-show="mostrando_opt_img_de_prof")
-						.col-sm-6
-							label Imagenes que le pertenecen al usuario
-							ui-select(ng-model="dato.selectedImgDelUsuario" on-select="imgDeUsuarioSelect($item, $model)" theme="select2" style="width: 100%;")
-								ui-select-match(placeholder="Seleccione imagen")
-									img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
-									small(ng-bind-html="' ' + $select.selected.nombre")
-								ui-select-choices(repeat="imagen in imagenes_del_usuario | filter: {nombre: $select.search}")
-									img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
-									small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
-
-						.col-sm-6(style="height: 55px; line-height: 5.4;")
-							.btn-group
-								button.btn.btn-danger.shiny(ng-click="borrarImagen(dato.selectedImgDelUsuario, dato.alumnoElegido.user_id)") Eliminar
-								button.btn.btn-default.shiny(ng-click="moveImgToMe(dato.selectedImgDelUsuario, dato.alumnoElegido)" uib-tooltip="Quitar de usuario y ponerla en mis imágenes") Mover a mis imágenes
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-					//input.btn.btn-primary.shiny(type="submit" ng-submit="cambiarImgUnUsuario(dato.usuarioElegido, dato.imgParaUsuario)" value="Establecer imagen")
-					//input.btn.btn-primary.shiny(type="submit" ng-submit="pedirCambioUsuario(dato.alumnoElegido, dato.imgOficialAlumno)" value="Pedir para oficial")
-					//input.btn.btn-primary.shiny(type="button" ng-click="pedirCambioFirma(dato.profeImgFirma, dato.imgFirma)" value="Cambiar firma")
+						//input.btn.btn-primary.shiny(type="submit" ng-submit="cambiarImgUnUsuario(dato.usuarioElegido, dato.imgParaUsuario)" value="Establecer imagen")
+						//input.btn.btn-primary.shiny(type="submit" ng-submit="pedirCambioUsuario(dato.alumnoElegido, dato.imgOficialAlumno)" value="Pedir para oficial")
+						//input.btn.btn-primary.shiny(type="button" ng-click="pedirCambioFirma(dato.profeImgFirma, dato.imgFirma)" value="Cambiar firma")
 

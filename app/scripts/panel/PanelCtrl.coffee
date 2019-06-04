@@ -12,6 +12,15 @@ angular.module('myvcFrontApp')
 		$scope.views 			= App.views
 
 
+		if localStorage.cambia_anio
+			cambia = parseInt(localStorage.cambia_anio)
+
+			modalInstance = $modal.open({
+				templateUrl: '==panel/cuidadoCambiaPeriodoModal.tpl.html'
+				controller: 'PoliticasPrivacidadCtrl'
+				size: 'lg'
+			})
+			delete localStorage.cambia_anio
 
 
 		# Si el colegio quiere que aparezca su imagen en el encabezado, puede hacerlo.
@@ -167,7 +176,7 @@ angular.module('myvcFrontApp')
 	$scope.perfilPath 	= App.images+'perfil/'
 
 	$scope.ok = ()->
-		$modalInstance.close(alumno)
+		$modalInstance.close()
 
 	$scope.cancel = ()->
 		$modalInstance.dismiss('cancel')

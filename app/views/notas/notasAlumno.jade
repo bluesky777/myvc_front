@@ -66,12 +66,14 @@
 								span(ng-show="!alumno.pazysalvo" style="color: red; font-weight: 800;")  NO Está a paz y salvo
 
 			.row
-				.col-lg-2.col-sm-4.col-xs-12
+				.col-sm-6.col-xs-12
 					.form-group
-						label Solo perdidas
-						label
-							input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.solo_notas_perdidas")
-							span.text.si-no
+						.btn-group
+							label.btn.btn-primary(ng-model="config.solo_notas_perdidas" uib-btn-radio="'todas'") Todas las notas
+							label.btn.btn-primary(ng-model="config.solo_notas_perdidas" uib-btn-radio="'perdidas'") Sólo perdidas
+
+
+
 
 					div(ng-if="USER.tipo=='Alumno' ")
 						a(ng-click="verMiBoletin()" href="") Ver mi boletín

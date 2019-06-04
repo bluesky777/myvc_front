@@ -71,6 +71,23 @@ angular.module('myvcFrontApp')
 	$scope.show_documento       = true
 	$scope.columnas             = 2
 
+	$scope.campos   = [
+		{campo: 'ninguno', valor: 'Ninguna'}
+		{campo: 'documento', valor: 'Documento'}
+		{campo: 'telefonos', valor: 'Teléfonos'}
+		{campo: 'ciudad_nac_nombre', valor: 'Ciudad nacimiento'}
+		{campo: 'es_urbana', valor: 'Urbanidad'}
+		{campo: 'direccion', valor: 'Dirección'}
+		{campo: 'email', valor: 'Email'}
+		{campo: 'fecha_nac', valor: 'Fecha nacimiento'}
+		{campo: 'edad', valor: 'Edad'}
+		{campo: 'religion', valor: 'Religión'}
+		{campo: 'sexo', valor: 'Sexo'}
+		{campo: 'eps', valor: 'EPS'}
+	]
+
+	$scope.columnasDatosTd = [$scope.campos[1]]
+
 	$scope.columnasArray = new Array($scope.columnas)
 
 	hay = localStorage.txt_titulo_listado
@@ -85,13 +102,28 @@ angular.module('myvcFrontApp')
 	$scope.cambiaColumnas = (col)->
 		#nuevos = new Array(num)
 		$scope.columnasArray = new Array(col)
-		###
-		for nue in nuevos
-			elem = {texto: '' }
-			columnasArray.push(nue)
-		###
-
 		localStorage.txt_titulo_listado = $scope.titulo_listado.texto
+
+
+	$scope.cambiaColumnasDatos = (cols)->
+		ninguno = false
+		res = []
+
+		for col in cols
+			for campo in $scope.campos
+				if campo.campo == col
+					res.push(campo)
+			if col == 'ninguno'
+				ninguno = true
+
+		if ninguno == true
+			$scope.columnasDatos = []
+		else
+			$scope.columnasDatosTd = res
+
+		console.log($scope.columnasDatosTd)
+
+
 
 	$scope.getNumber = (num)->
 		return new Array(num)

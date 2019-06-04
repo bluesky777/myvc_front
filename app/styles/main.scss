@@ -38,7 +38,15 @@
 	min-height: 300px;
 	max-height: 400px;
 	overflow-y: auto;
-	overflow-x: hidden;
+  overflow-x: hidden;
+  .col-xs-12{
+    padding-right: 5px;
+    padding-left: 8px;
+
+    .databox{
+      margin-bottom: 20px;
+    }
+  }
 }
 html {
 	height: 100%;
@@ -1695,6 +1703,9 @@ tr { page-break-inside: avoid }
 .select-alumn_item{
   padding: 3px;
   cursor: pointer;
+  img{
+    width:30px; height:30px; margin-top: -4px; margin-bottom: -4px;
+  }
 }
 .alu-selected{
   background-color: #2dc3e8!important;

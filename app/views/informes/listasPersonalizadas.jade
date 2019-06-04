@@ -1,29 +1,54 @@
-.row.hidden-print(style="margin-bottom: 20px")
-	.col-xs-12
+.row.hidden-print(style="margin-bottom: 20px; background-color:#fff; padding: 30px;")
+	.col-xs-12.col-sm-3
+		| Título encabezado:
+
+	.col-xs-12.col-sm-9
 
 		textarea(ng-model="titulo_listado.texto" ng-model-options="{ updateOn: 'blur' }"
-			style="width: 70%; height: 100px; " ng-change="cambia_texto_informativo()")
+			style="width: 90%; height: 100px; " ng-change="cambia_texto_informativo()")
+		br
 
-	.col-xs-12
-		input(type="number" ng-model="columnas" ng-change="cambiaColumnas(columnas)" class="form-control" style="width: 140px; display: inline-block;")
+	.col-xs-12.col-sm-3
+		label(style="margin-right: 9px;") Columnas: (selecciona varias columnas usando Ctrl + Click
 
-		span
-			label(style="margin-right: 9px;") Grupo
-			ui-select(ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;")
-				ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}}
-				ui-select-choices(repeat="grupo in grupos_simat | filter: $select.search")
-					div(ng-bind-html="grupo.nombre | highlight: $select.search")
-			a(href ng-click="todos()") Todos
+	.col-xs-12.col-sm-9
+		select(multiple="multiple" ng-model="columnasDatos" ng-change="cambiaColumnasDatos(columnasDatos)" class="form-control"
+			style="width: 90%; display: inline-block;")
+			option(value="{{campo.campo}}" ng-repeat="campo in campos") {{ campo.valor }}
+			// sdc
+				option(value="documento") Documento
+				option(value="telefonos") Teléfonos
+				option(value="ciudad_nac_nombre") Ciudad nacimiento
+				option(value="es_urbano") Urbanidad
+				option(value="direccion") Dirección
+				option(value="email") Email
+				option(value="fecha_nac") Fecha nacimiento
+				option(value="edad") Edad
+				option(value="religion") Religión
+				option(value="sexo") Sexo
+				option(value="eps") EPS
+		br
+		br
+
+	.col-xs-12.col-sm-3
+		label(style="margin-right: 9px;") Columnas vacías:
+	.col-xs-12.col-sm-9
+		input(type="number" ng-model="columnas" min="0" ng-change="cambiaColumnas(columnas)" class="form-control" style="width: 120px; display: inline-block;")
 
 		br
-		.row
-			.col-xs-12
-				label Documento
-				label
-					input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="show_documento")
-					span.text.si-no
-		hr
-		br
+
+	.col-xs-12.col-sm-3
+		label(style="margin-right: 9px;") Grupo:
+	.col-xs-12.col-sm-9
+		ui-select(ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;")
+			ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}}
+			ui-select-choices(repeat="grupo in grupos_simat | filter: $select.search")
+				div(ng-bind-html="grupo.nombre | highlight: $select.search")
+		a(href ng-click="todos()") Todos
+
+
+	hr
+	br
 
 div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }")
 
@@ -51,8 +76,8 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 								| No
 							th.text-center(style="width: 190px")
 								| Nombres
-							th(style="text-align: center; width: 80px;" ng-show="show_documento")
-								| Documento
+							th(ng-repeat="columna in columnasDatosTd" style="text-align: center; width: 30px;")
+								| {{columna.valor}}
 							th.text-center(ng-repeat="i in columnasArray track by $index")
 								input.hidden-print(type="text" ng-model="i.titulo")
 								.show-on-print {{i.titulo}}
@@ -75,8 +100,10 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 									span(ng-show="alumno.estado=='PREM'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;")
 										| (Prem)
 
-							td(ng-show="show_documento")
-								| {{ alumno.documento | formatNumberDocumento }}
+
+							td.text-center(ng-repeat="columna in columnasDatosTd")
+								span(ng-show="columna.campo=='documento'") {{ alumno.documento | formatNumberDocumento }}
+								span(ng-show="columna.campo!='documento'") {{ alumno[columna.campo] }}
 
 							td(ng-repeat="i in columnasArray track by $index" style="min-width: 50px")
 

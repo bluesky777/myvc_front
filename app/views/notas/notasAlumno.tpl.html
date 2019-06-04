@@ -62,12 +62,12 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-lg-2 col-sm-4 col-xs-12">
+        <div class="col-sm-6 col-xs-12">
           <div class="form-group">
-            <label>Solo perdidas</label>
-            <label>
-              <input type="checkbox" ng-model="config.solo_notas_perdidas" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
-            </label>
+            <div class="btn-group">
+              <label ng-model="config.solo_notas_perdidas" uib-btn-radio="'todas'" class="btn btn-primary">Todas las notas</label>
+              <label ng-model="config.solo_notas_perdidas" uib-btn-radio="'perdidas'" class="btn btn-primary">Sólo perdidas</label>
+            </div>
           </div>
           <div ng-if="USER.tipo=='Alumno' "><a ng-click="verMiBoletin()" href="">Ver mi boletín</a></div>
         </div>

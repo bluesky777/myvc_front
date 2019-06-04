@@ -19,7 +19,7 @@ angular.module("myvcFrontApp")
 .filter('soloAsignaturasConPerdidas', ['$filter', ($filter)->
 	(asignaturas, only)->
 
-		if only
+		if only == true or only == 'perdidas'
 
 			@asignaturas_resp = []
 
@@ -28,7 +28,7 @@ angular.module("myvcFrontApp")
 
 				if unidades.length
 					@asignaturas_resp.push asignatura
-				
+
 
 			return @asignaturas_resp
 		else
@@ -38,7 +38,7 @@ angular.module("myvcFrontApp")
 .filter('soloUnidadesConPerdidas', ['$filter', ($filter)->
 	(unidades, only)->
 
-		if only
+		if only == true or only == 'perdidas'
 
 			@unidades_resp = []
 
@@ -47,7 +47,7 @@ angular.module("myvcFrontApp")
 
 				if subunids.length
 					@unidades_resp.push unid
-				
+
 
 			return @unidades_resp
 		else
@@ -57,12 +57,12 @@ angular.module("myvcFrontApp")
 .filter('soloSubunidadesPerdidas', ['Perfil', (Perfil)->
 	(subunidades, only)->
 
-		if only
+		if only == true or only == 'perdidas'
 			@subunidades_resp = []
 
 			angular.forEach subunidades, (subunid)->
 				if subunid.nota
-				
+
 					if subunid.nota.nota < Perfil.User().nota_minima_aceptada
 						@subunidades_resp.push subunid
 

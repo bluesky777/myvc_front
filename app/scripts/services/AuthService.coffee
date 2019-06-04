@@ -78,6 +78,9 @@ angular.module('myvcFrontApp')
 			if respuesta.el_token
 				$cookies.put('xtoken', respuesta.el_token)
 
+				if respuesta.cambia_anio > 0
+					localStorage.cambia_anio = respuesta.cambia_anio
+
 				$http.defaults.headers.common['Authorization'] = 'Bearer ' + $cookies.get('xtoken')
 				localStorage.logueando = 'token_verificado'
 
