@@ -109,7 +109,7 @@
 <div ng-if="USER.tipo=='Acudiente'" class="row hidden-print">
   <div ng-repeat="alumno in changes_asked.alumnos" class="col-xs-12 col-md-12">
     <div class="widget">
-      <div class="widget-header bordered-bottom bordered-themeprimary"><i class="widget-icon fa fa-money themeprimary"></i><span class="widget-caption themeprimary">Tesorería {{alumno.nombres}} {{alumno.apellidos}}</span></div>
+      <div class="widget-header bordered-bottom bordered-themeprimary"><i class="widget-icon fa fa-money themeprimary"></i><span class="widget-caption themeprimary"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="height: 35px;">Tesorería {{alumno.nombres}} {{alumno.apellidos}}</span></div>
       <div class="widget-body">
         <div class="row">
           <div class="col-lg-12 col-xs-12">
@@ -129,7 +129,7 @@
       </div>
     </div>
     <div class="widget">
-      <div class="widget-header bordered-bottom bordered-themesecondary"><i class="widget-icon fa fa-tags themesecondary"></i><span uib-tooltip="" class="widget-caption themesecondary">{{alumno.nombre_grupo}} - {{alumno.nombres}} {{alumno.apellidos}} - Disciplina</span></div>
+      <div class="widget-header bordered-bottom bordered-themesecondary"><i class="widget-icon fa fa-tags themesecondary"></i><span uib-tooltip="" class="widget-caption themesecondary"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="height: 35px;">{{alumno.nombre_grupo}} - {{alumno.nombres}} {{alumno.apellidos}} - Disciplina</span></div>
       <div class="widget-body">
         <div class="widget-main no-padding">
           <div class="row">

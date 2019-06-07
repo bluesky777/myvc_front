@@ -1,12 +1,37 @@
 .modal-header
-	h3.modal-title ¿Seguro que deseas eliminar?
+  h3.modal-title ¿Seguro que deseas eliminar?
 .modal-body
-	.row
-		.col-lg-12.col-xs-12
-			h4 Asignatura: 
-			div(style="text-overflow: ellipsis") {{asignatura.nombre}} - {{asignatura.alias}}
-			h5 Id: {{asignatura.id}}
+  .row
+    .col-lg-12.col-xs-12
+      h5 Id: {{asignatura.id}}
+      h3(style="font-weight: bold!important;") {{asignatura.nombre_asignatura}}
+      h4 Total de notas:
+        span(style="font-weght: bold")  {{cantidad_notas}}
+
+    .col-lg-12.col-xs-12
+      div(ng-hide="unidades" style="font-size: 13pt;")
+        i.fa.fa-circle-o-notch.fa-spin
+        |  Cargando detalle de asignatura...
+
+
+      div(ng-show="unidades" style="height: 200px; border: 1px solid #aaa; overflow-y: auto; padding: 4px;")
+
+        div(ng-repeat="unidad in unidades")
+          div(style="font-weight: bold; font-size: 12pt;") {{unidad.definicion}}
+
+          table.table.table-hover
+            thead
+              th Id
+              th Definición
+              th(style="width: 60px;") Notas
+            tbody
+              tr(ng-repeat="subunidad in unidad.subunidades")
+                td {{subunidad.id}}
+                td {{subunidad.definicion}}
+                td {{subunidad.cantidad}}
+
+
 .modal-footer
-	button.btn.btn-labeled.btn-danger(ng-click="ok()") Eliminar
-		i.btn-label.fa.fa-times
-	button.btn.btn-yellow(ng-click="cancel()") Cancelar
+  button.btn.btn-labeled.btn-danger(ng-click="ok()") Eliminar
+    i.btn-label.fa.fa-times
+  button.btn.btn-yellow(ng-click="cancel()") Cancelar

@@ -107,6 +107,7 @@
 			.widget-header.bordered-bottom.bordered-themeprimary
 				i.widget-icon.fa.fa-money.themeprimary
 				span.widget-caption.themeprimary()
+					img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="height: 35px;")
 					| Tesorería {{alumno.nombres}} {{alumno.apellidos}}
 
 			.widget-body
@@ -129,6 +130,7 @@
 			.widget-header.bordered-bottom.bordered-themesecondary
 				i.widget-icon.fa.fa-tags.themesecondary
 				span.widget-caption.themesecondary(uib-tooltip="")
+					img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="height: 35px;")
 					| {{alumno.nombre_grupo}} - {{alumno.nombres}} {{alumno.apellidos}} - Disciplina
 
 			.widget-body

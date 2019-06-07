@@ -1,452 +1,453 @@
-.col-lg-12.col-sm-12.col-xs-12.margin-padding-lados-xs
-	.row(ng-repeat="year in years")
-		.col-lg-12.col-sm-12.col-xs-12.margin-padding-lados-xs
-			.widget(ng-class="{'maximized':maxi, 'collapsed':year.ocultando}" style="/*min-height: 600px*/")
-				.widget-header(ng-class="{'bg-blue':year.actual, 'bg-gold':!year.actual}")
-					i.widget-icon.fa.fa-institution
-					span.widget-caption Año {{year.year}}
-					.widget-buttons
-						a(href="" data-toggle="config" ng-if="false")
-							i.fa.fa-cog
-						a(href="" ng-click="maxi=!maxi" data-toggle="maximize")
-							i.fa.fa-expand
-						a(href="" data-toggle="collapse" ng-click="year.ocultando = !year.ocultando")
-							i.fa.fa-minus
-						a(href="" data-toggle="dispose" ng-if="false")
-							i.fa.fa-times
+.row
+	.col-lg-12.col-sm-12.col-xs-12.margin-padding-lados-xs
+		.row(ng-repeat="year in years")
+			.col-lg-12.col-sm-12.col-xs-12.margin-padding-lados-xs
+				.widget(ng-class="{'maximized':maxi, 'collapsed':year.ocultando}" style="/*min-height: 600px*/")
+					.widget-header(ng-class="{'bg-blue':year.actual, 'bg-gold':!year.actual}")
+						i.widget-icon.fa.fa-institution
+						span.widget-caption Año {{year.year}}
+						.widget-buttons
+							a(href="" data-toggle="config" ng-if="false")
+								i.fa.fa-cog
+							a(href="" ng-click="maxi=!maxi" data-toggle="maximize")
+								i.fa.fa-expand
+							a(href="" data-toggle="collapse" ng-click="year.ocultando = !year.ocultando")
+								i.fa.fa-minus
+							a(href="" data-toggle="dispose" ng-if="false")
+								i.fa.fa-times
 
-				.widget-body(ng-if="!year.ocultando")
-					uib-accordion(close-others="true")
-						.panel-default(uib-accordion-group is-open="status.open_year")
-							uib-accordion-heading Básico
-								i.pull-right.fa(ng-class="{'fa-chevron-down': status.open_year, 'fa-chevron-right': !status.open_year}")
+					.widget-body(ng-if="!year.ocultando")
+						uib-accordion(close-others="true")
+							.panel-default(uib-accordion-group is-open="status.open_year")
+								uib-accordion-heading Básico
+									i.pull-right.fa(ng-class="{'fa-chevron-down': status.open_year, 'fa-chevron-right': !status.open_year}")
 
-							form(role='form' ng-submit="guardar_cambios(year)")
+								form(role='form' ng-submit="guardar_cambios(year)")
+									.row
+										.col-sm-12
+											.form-group
+												label(uib-tooltip="¿Este es el año actual?") ¿Año actual?
+												label
+													input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleAnioActual(year.id, year.actual)" ng-true-value="1" ng-false-value="0" ng-model="year.actual")
+													span.text.si-no
+
+									.row
+										.col-sm-6
+											.form-group
+												label(for='year{{year.id}}-nombre') Nombre del colegio
+												span.input-icon.icon-right
+													input.form-control(type='text', placeholder='Nombre del colegio' ng-model="year.nombre_colegio" id="year{{year.id}}-nombre")
+													i.fa.fa-user-circle.blue
+										.col-sm-4
+											.form-group
+												label(for='year{{year.id}}-abrev') Alias
+												span.input-icon.icon-right
+													input.form-control(type='text', placeholder='Name' ng-model="year.abrev_colegio" id="year{{year.id}}-abrev")
+													i.fa.fa-user-circle-o.palegreen
+										.col-sm-2
+											.form-group
+												label(for='year{{year.id}}-year') Año
+													.spinner.spinner-horizontal
+														input.spinner-input.form-control(type="text" minlength="4" maxlength="4" ng-model="year.year" id="year{{year.id}}-year" style="padding-right: 2px; padding-left: 50px; min-width: 90px;")
+														.spinner-buttons.btn-group
+															button.btn.spinner-down.blueberry(type="button" ng-click="restarNewYear()")
+																i.fa.fa-minus
+															button.btn.spinner-up.purple(type="button" ng-click="sumarNewYear()")
+																i.fa.fa-plus
+									.row
+										.col-sm-12
+											.form-group
+												label(uib-tooltip="Puedes bloquear el sistema momentaneamente para que los alumnos y acudientes no puedan ver las notas.") Alumnos pueden ver sus notas
+												label
+													input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleBloquearNotas(year.id, year.alumnos_can_see_notas)" ng-true-value="1" ng-false-value="0" ng-model="year.alumnos_can_see_notas")
+													span.text.si-no
+									.row
+										.col-sm-12
+											.form-group
+												label(uib-tooltip="Permitir que los docentes te ayuden a modificar datos de alumnos y sus acudientes.") Docentes pueden editar alumnos de su titularía
+												label
+													input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleBloquearProfesEditAlumnos(year.id, year.profes_can_edit_alumnos)" ng-true-value="1" ng-false-value="0" ng-model="year.profes_can_edit_alumnos")
+													span.text.si-no
+									.row
+										.col-sm-12
+											.form-group
+												label(uib-tooltip="Mostrar puesto comparativo en los boletines.") Mostrar puesto en boletín
+												label
+													input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleMostrarPuestoEnBoletin(year.id, year.mostrar_puesto_boletin)" ng-true-value="1" ng-false-value="0" ng-model="year.mostrar_puesto_boletin")
+													span.text.si-no
+									.row
+										.col-sm-12
+											.form-group
+												label(uib-tooltip="Mostrar nota de comportamiento en boletín.") Mostrar nota comportamiento
+												label
+													input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleMostrarNotaComportamientoEnBoletin(year.id, year.mostrar_nota_comport_boletin)" ng-true-value="1" ng-false-value="0" ng-model="year.mostrar_nota_comport_boletin")
+													span.text.si-no
+									.row
+										.col-sm-12
+											.form-group
+												label(uib-tooltip="Si recupera materia no tendrá que nivelar notas.") Si recupera materia, ignorar notas perdidas
+												label
+													input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleIgnorarNotasPerdidas(year.id, year.si_recupera_materia_recup_indicador)" ng-true-value="1" ng-false-value="0" ng-model="year.si_recupera_materia_recup_indicador")
+													span.text.si-no
+
+									.row
+										.col-sm-12
+											.form-group
+												label(uib-tooltip="Si tiene materias pendientes del año pasado, el boletín va a mostrarlas al final.") Mostrar año pasado en boletines
+												label
+													input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleMostrarAnioPasado(year.id, year.year_pasado_en_bol)" ng-true-value="1" ng-false-value="0" ng-model="year.year_pasado_en_bol")
+													span.text.si-no
+
+									.row
+										.col-sm-12(style="padding: 0px;")
+											.form-group(style="margin-bottom: 40px;")
+												label.col-sm-2.control-label.no-padding-right Rector(a)
+												.col-sm-10
+													ui-select(ng-model="year.rector" theme="select2" style="width: 300px;")
+														ui-select-match(placeholder="Rector(a)" allow-clear="true")
+															img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;")
+															small(ng-bind-html="' ' + $select.selected.nombres + ' ' + $select.selected.apellidos")
+														ui-select-choices(repeat="profe in profesores |  filter:{year_id: year.id}  | filter: $select.search")
+															img(ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;")
+															small(ng-bind-html="' ' + profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
+
+											.form-group
+												label.col-sm-2.control-label.no-padding-right Secretario(a)
+												.col-sm-10
+													ui-select(ng-model="year.secretario" theme="select2" style="width: 300px;")
+														ui-select-match(placeholder="Secretario(a)" allow-clear="true")
+															img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;")
+															small(ng-bind-html="' ' + $select.selected.nombres + ' ' + $select.selected.apellidos")
+														ui-select-choices(repeat="profe in profesores | filter: $select.search")
+															img(ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;")
+															small(ng-bind-html="' ' + profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
+									.row
+										.col-sm-12
+											.form-group
+												label(for='year{{year.id}}-resolucion') Resolución
+												span.input-icon.icon-right
+													input.form-control(type='text', placeholder='Resolución' ng-model="year.resolucion" id="newYear{{year.id}}-resolucion")
+													i.fa.fa-id-card.blue
+									.row
+										.col-sm-5
+											.form-group
+												label(for='year{{year.id}}-dane') Código dane
+												span.input-icon.icon-right
+													input.form-control(type='text', placeholder='Código dane' ng-model="year.codigo_dane" id="newYear{{year.id}}-dane")
+													i.fa.fa-id-card.palegreen
+										.col-sm-4
+											.form-group
+												label(for='year{{year.id}}-telefono') Teléfono
+												span.input-icon.icon-right
+													input.form-control(type='text', placeholder='Teléfono' ng-model="year.telefono" id="newYear{{year.id}}-telefono")
+													i.fa.fa-phone.palegreen
+										.col-sm-3
+											.form-group
+												label(for='year{{year.id}}-celular') Celular
+												span.input-icon.icon-right
+													input.form-control(type='text', placeholder='Celular' ng-model="year.celular" id="newYear{{year.id}}-celular")
+													i.fa.fa-mobile-phone.palegreen
+
+									.row
+										.col-sm-5
+											.form-group
+												label(for='year{{year.id}}-website') Sitio web
+												span.input-icon.icon-right
+													input.form-control(type='text', placeholder='Sitio web' ng-model="year.website" id="year{{year.id}}-website")
+													i.fa.fa-internet-explorer.palegreen
+										.col-sm-4
+											.form-group
+												label(for='year{{year.id}}-websitem' uib-tooltip="Página donde está alojada esta plataforma") Sitio MyVC
+												span.input-icon.icon-right
+													input.form-control(type='text', placeholder='Sitio MyVC' ng-model="year.website_myvc" id="year{{year.id}}-websitem")
+													i.fa.fa-internet-explorer.palegreen
+
+									.row
+										.col-sm-3
+											.form-group
+												label(for='year{{year.id}}-unidad_displayname') Unidad
+												span.input-icon.icon-right
+													input.form-control(type='text', placeholder='Unidad' ng-model="year.unidad_displayname" id="newYear{{year.id}}-unidad_displayname")
+													i.fa.fa-graduation-cap.blue
+										.col-sm-4
+											.form-group
+												label(for='year{{year.id}}-unidades_displayname') Unidades
+												span.input-icon.icon-right
+													input.form-control(type='text', placeholder='Código dane' ng-model="year.unidades_displayname" id="newYear{{year.id}}-unidades_displayname")
+													i.fa.fa-graduation-cap.blue
+
+										.col-sm-5
+											.form-group
+												label Género unidad
+												.row
+													.col-lg-3.col-sm-4.col-xs-6
+														.radio
+															label
+																input.inverted(type="radio" name="genero_unidad" value="M" ng-model="year.genero_unidad")
+																span.text Masculino
+													.col-lg-4.col-sm-4.col-xs-6
+														.radio
+															label
+																input.inverted(type="radio" name="genero_unidad" value="F" ng-model="year.genero_unidad")
+																span.text Femenino
+									.row
+										.col-sm-3
+											.form-group
+												label(for='year{{year.id}}-subunidad_displayname') Subunidad
+												span.input-icon.icon-right
+													input.form-control(type='text', placeholder='Subunidad' ng-model="year.subunidad_displayname" id="year{{year.id}}-subunidad_displayname")
+													i.fa.fa-graduation-cap.palegreen
+										.col-sm-4
+											.form-group
+												label(for='year{{year.id}}-subunidades_displayname') Subunidades
+												span.input-icon.icon-right
+													input.form-control(type='text', placeholder='Subunidades' ng-model="year.subunidades_displayname" id="year{{year.id}}-subunidades_displayname")
+													i.fa.fa-graduation-cap.palegreen
+										.col-sm-5
+											.form-group
+												label Genero subunidad
+												.row
+													.col-lg-3.col-sm-4.col-xs-6
+														.radio
+															label
+																input.inverted(type="radio" name="genero_subunidad" value="M" ng-model="year.genero_subunidad")
+																span.text Masculino
+													.col-lg-4.col-sm-4.col-xs-6
+														.radio
+															label
+																input.inverted(type="radio" name="genero_subunidad" value="F" ng-model="year.genero_subunidad")
+																span.text Femenino
+
+
+
+									div(style="text-align: center")
+										button.btn.btn-primary(type="submit" style="") Guardar cambios
+
+
+
+							.panel-default(uib-accordion-group is-open="status.open_pers")
+								uib-accordion-heading Periodos
+									i.pull-right.fa(ng-class="{'fa-chevron-down': status.open_pers, 'fa-chevron-right': !status.open_pers}")
+
 								.row
 									.col-sm-12
-										.form-group
-											label(uib-tooltip="¿Este es el año actual?") ¿Año actual?
-											label
-												input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleAnioActual(year.id, year.actual)" ng-true-value="1" ng-false-value="0" ng-model="year.actual")
-												span.text.si-no
+										.list-periodos
 
-								.row
-									.col-sm-6
-										.form-group
-											label(for='year{{year.id}}-nombre') Nombre del colegio
-											span.input-icon.icon-right
-												input.form-control(type='text', placeholder='Nombre del colegio' ng-model="year.nombre_colegio" id="year{{year.id}}-nombre")
-												i.fa.fa-user-circle.blue
-									.col-sm-4
-										.form-group
-											label(for='year{{year.id}}-abrev') Alias
-											span.input-icon.icon-right
-												input.form-control(type='text', placeholder='Name' ng-model="year.abrev_colegio" id="year{{year.id}}-abrev")
-												i.fa.fa-user-circle-o.palegreen
-									.col-sm-2
-										.form-group
-											label(for='year{{year.id}}-year') Año
-												.spinner.spinner-horizontal
-													input.spinner-input.form-control(type="text" minlength="4" maxlength="4" ng-model="year.year" id="year{{year.id}}-year" style="padding-right: 2px; padding-left: 50px; min-width: 90px;")
-													.spinner-buttons.btn-group
-														button.btn.spinner-down.blueberry(type="button" ng-click="restarNewYear()")
-															i.fa.fa-minus
-														button.btn.spinner-up.purple(type="button" ng-click="sumarNewYear()")
-															i.fa.fa-plus
-								.row
-									.col-sm-12
-										.form-group
-											label(uib-tooltip="Puedes bloquear el sistema momentaneamente para que los alumnos y acudientes no puedan ver las notas.") Alumnos pueden ver sus notas
-											label
-												input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleBloquearNotas(year.id, year.alumnos_can_see_notas)" ng-true-value="1" ng-false-value="0" ng-model="year.alumnos_can_see_notas")
-												span.text.si-no
-								.row
-									.col-sm-12
-										.form-group
-											label(uib-tooltip="Permitir que los docentes te ayuden a modificar datos de alumnos y sus acudientes.") Docentes pueden editar alumnos de su titularía
-											label
-												input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleBloquearProfesEditAlumnos(year.id, year.profes_can_edit_alumnos)" ng-true-value="1" ng-false-value="0" ng-model="year.profes_can_edit_alumnos")
-												span.text.si-no
-								.row
-									.col-sm-12
-										.form-group
-											label(uib-tooltip="Mostrar puesto comparativo en los boletines.") Mostrar puesto en boletín
-											label
-												input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleMostrarPuestoEnBoletin(year.id, year.mostrar_puesto_boletin)" ng-true-value="1" ng-false-value="0" ng-model="year.mostrar_puesto_boletin")
-												span.text.si-no
-								.row
-									.col-sm-12
-										.form-group
-											label(uib-tooltip="Mostrar nota de comportamiento en boletín.") Mostrar nota comportamiento
-											label
-												input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleMostrarNotaComportamientoEnBoletin(year.id, year.mostrar_nota_comport_boletin)" ng-true-value="1" ng-false-value="0" ng-model="year.mostrar_nota_comport_boletin")
-												span.text.si-no
-								.row
-									.col-sm-12
-										.form-group
-											label(uib-tooltip="Si recupera materia no tendrá que nivelar notas.") Si recupera materia, ignorar notas perdidas
-											label
-												input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleIgnorarNotasPerdidas(year.id, year.si_recupera_materia_recup_indicador)" ng-true-value="1" ng-false-value="0" ng-model="year.si_recupera_materia_recup_indicador")
-												span.text.si-no
+											h4.row-title(ng-repeat="periodo in year.periodos |  orderBy: 'numero' " style="margin: 5px 0" ng-class="{ 'before-success': periodo.actual }")
 
-								.row
-									.col-sm-12
-										.form-group
-											label(uib-tooltip="Si tiene materias pendientes del año pasado, el boletín va a mostrarlas al final.") Mostrar año pasado en boletines
-											label
-												input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleMostrarAnioPasado(year.id, year.year_pasado_en_bol)" ng-true-value="1" ng-false-value="0" ng-model="year.year_pasado_en_bol")
-												span.text.si-no
+												.col-lg-3.col-sm-6.col-xs-12
+													i.fa.fa-ioxhost.blue(ng-class="{ 'green': periodo.actual }")
+													| Periodo
+													span(style="font-weight: bold !important")   {{periodo.numero}}
 
-								.row
-									.col-sm-12(style="padding: 0px;")
-										.form-group(style="margin-bottom: 40px;")
-											label.col-sm-2.control-label.no-padding-right Rector(a)
-											.col-sm-10
-												ui-select(ng-model="year.rector" theme="select2" style="width: 300px;")
-													ui-select-match(placeholder="Rector(a)" allow-clear="true")
-														img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;")
-														small(ng-bind-html="' ' + $select.selected.nombres + ' ' + $select.selected.apellidos")
-													ui-select-choices(repeat="profe in profesores |  filter:{year_id: year.id}  | filter: $select.search")
-														img(ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;")
-														small(ng-bind-html="' ' + profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
+												.form-group.col-lg-3.col-sm-6.col-xs-12(style="margin-bottom: 0px")
+													label(uib-tooltip="¿Los profesores pueden editar notas, indicadores, tardanzas y comportamientos?") ¿Editan notas?
+													label(uib-tooltip="¿Los profesores pueden editar notas, indicadores, tardanzas y comportamientos?")
+														input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleProfesPuedenEditarNotas(periodo, periodo.profes_pueden_editar_notas)" ng-true-value="1" ng-false-value="0" ng-model="periodo.profes_pueden_editar_notas")
+														span.text.si-no
 
-										.form-group
-											label.col-sm-2.control-label.no-padding-right Secretario(a)
-											.col-sm-10
-												ui-select(ng-model="year.secretario" theme="select2" style="width: 300px;")
-													ui-select-match(placeholder="Secretario(a)" allow-clear="true")
-														img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;")
-														small(ng-bind-html="' ' + $select.selected.nombres + ' ' + $select.selected.apellidos")
-													ui-select-choices(repeat="profe in profesores | filter: $select.search")
-														img(ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;")
-														small(ng-bind-html="' ' + profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
-								.row
-									.col-sm-12
-										.form-group
-											label(for='year{{year.id}}-resolucion') Resolución
-											span.input-icon.icon-right
-												input.form-control(type='text', placeholder='Resolución' ng-model="year.resolucion" id="newYear{{year.id}}-resolucion")
-												i.fa.fa-id-card.blue
-								.row
-									.col-sm-5
-										.form-group
-											label(for='year{{year.id}}-dane') Código dane
-											span.input-icon.icon-right
-												input.form-control(type='text', placeholder='Código dane' ng-model="year.codigo_dane" id="newYear{{year.id}}-dane")
-												i.fa.fa-id-card.palegreen
-									.col-sm-4
-										.form-group
-											label(for='year{{year.id}}-telefono') Teléfono
-											span.input-icon.icon-right
-												input.form-control(type='text', placeholder='Teléfono' ng-model="year.telefono" id="newYear{{year.id}}-telefono")
-												i.fa.fa-phone.palegreen
-									.col-sm-3
-										.form-group
-											label(for='year{{year.id}}-celular') Celular
-											span.input-icon.icon-right
-												input.form-control(type='text', placeholder='Celular' ng-model="year.celular" id="newYear{{year.id}}-celular")
-												i.fa.fa-mobile-phone.palegreen
+												.form-group.col-lg-3.col-sm-6.col-xs-12(style="margin-bottom: 0px")
+													label(uib-tooltip="¿Los profesores pueden nivelar o modificar notas finales?") ¿Definitivas?
+													label(uib-tooltip="¿Los profesores pueden nivelar o modificar notas finales?")
+														input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleProfesPuedenNivelar(periodo, periodo.profes_pueden_nivelar)" ng-true-value="1" ng-false-value="0" ng-model="periodo.profes_pueden_nivelar")
+														span.text.si-no
 
-								.row
-									.col-sm-5
-										.form-group
-											label(for='year{{year.id}}-website') Sitio web
-											span.input-icon.icon-right
-												input.form-control(type='text', placeholder='Sitio web' ng-model="year.website" id="year{{year.id}}-website")
-												i.fa.fa-internet-explorer.palegreen
-									.col-sm-4
-										.form-group
-											label(for='year{{year.id}}-websitem' uib-tooltip="Página donde está alojada esta plataforma") Sitio MyVC
-											span.input-icon.icon-right
-												input.form-control(type='text', placeholder='Sitio MyVC' ng-model="year.website_myvc" id="year{{year.id}}-websitem")
-												i.fa.fa-internet-explorer.palegreen
+												span(ng-if="cargado")
+													.form-group.col-lg-3.col-sm-6.col-xs-12(style="margin-bottom: 0px; font-size: 9pt;")
+														label(uib-tooltip="Fecha de inicio") Fecha ini
+														input(type="date" ng-model="periodo.fecha_inicio" ng-change="cambiarFechaInicio(periodo, periodo.fecha_inicio)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
 
-								.row
-									.col-sm-3
-										.form-group
-											label(for='year{{year.id}}-unidad_displayname') Unidad
-											span.input-icon.icon-right
-												input.form-control(type='text', placeholder='Unidad' ng-model="year.unidad_displayname" id="newYear{{year.id}}-unidad_displayname")
-												i.fa.fa-graduation-cap.blue
-									.col-sm-4
-										.form-group
-											label(for='year{{year.id}}-unidades_displayname') Unidades
-											span.input-icon.icon-right
-												input.form-control(type='text', placeholder='Código dane' ng-model="year.unidades_displayname" id="newYear{{year.id}}-unidades_displayname")
-												i.fa.fa-graduation-cap.blue
-
-									.col-sm-5
-										.form-group
-											label Género unidad
-											.row
-												.col-lg-3.col-sm-4.col-xs-6
-													.radio
-														label
-															input.inverted(type="radio" name="genero_unidad" value="M" ng-model="year.genero_unidad")
-															span.text Masculino
-												.col-lg-4.col-sm-4.col-xs-6
-													.radio
-														label
-															input.inverted(type="radio" name="genero_unidad" value="F" ng-model="year.genero_unidad")
-															span.text Femenino
-								.row
-									.col-sm-3
-										.form-group
-											label(for='year{{year.id}}-subunidad_displayname') Subunidad
-											span.input-icon.icon-right
-												input.form-control(type='text', placeholder='Subunidad' ng-model="year.subunidad_displayname" id="year{{year.id}}-subunidad_displayname")
-												i.fa.fa-graduation-cap.palegreen
-									.col-sm-4
-										.form-group
-											label(for='year{{year.id}}-subunidades_displayname') Subunidades
-											span.input-icon.icon-right
-												input.form-control(type='text', placeholder='Subunidades' ng-model="year.subunidades_displayname" id="year{{year.id}}-subunidades_displayname")
-												i.fa.fa-graduation-cap.palegreen
-									.col-sm-5
-										.form-group
-											label Genero subunidad
-											.row
-												.col-lg-3.col-sm-4.col-xs-6
-													.radio
-														label
-															input.inverted(type="radio" name="genero_subunidad" value="M" ng-model="year.genero_subunidad")
-															span.text Masculino
-												.col-lg-4.col-sm-4.col-xs-6
-													.radio
-														label
-															input.inverted(type="radio" name="genero_subunidad" value="F" ng-model="year.genero_subunidad")
-															span.text Femenino
+													.form-group.col-lg-3.col-sm-6.col-xs-12(style="margin-bottom: 0px; font-size: 9pt;")
+														label(uib-tooltip="Fecha en que termina el periodo") Fecha fin
+														input(type="date" ng-model="periodo.fecha_fin" ng-change="cambiarFechaFin(periodo, periodo.fecha_fin)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
 
 
+												.btn-group.btn-group-sm.col-lg-3.col-sm-6.col-xs-12
+													button.btn.btn-danger.btn-sm.shiny(ng-click="removePeriodo(year, periodo)" style="height: 30px;" uib-tooltip="Eliminar periodo")
+														i.fa.fa-times
+													button.btn.btn-default.btn-sm.shiny(ng-show="!periodo.actual" ng-click="actualPeriodo(year, periodo)" uib-tooltip="Establecer periodo como actual") Actual
+													button.btn.btn-success.btn-sm.shiny(ng-show="periodo.actual" disabled="disabled") En curso
+
+										button.btn.btn-success(ng-click="addPeriodo(year)")
+											i.fa.fa-plus
+											| Crear periodo
+
+
+							.panel-default(uib-accordion-group is-open="status.open_certi")
+								uib-accordion-heading Certificados
+									i.pull-right.fa(ng-class="{'fa-chevron-down': status.open_certi, 'fa-chevron-right': !status.open_certi}")
+
+								configuracion-certificados
+
+
+							.panel-default(uib-accordion-group is-open="status.open_escalas")
+								uib-accordion-heading Escalas de valoración
+									i.pull-right.fa(ng-class="{'fa-chevron-down': status.open_escalas, 'fa-chevron-right': !status.open_escalas}")
+
+								configuracion-escalas
+
+
+							.panel-danger(uib-accordion-group is-open="status.open_borrar")
+								uib-accordion-heading Borrar año
+									i.pull-right.fa(ng-class="{'fa-chevron-down': status.open_borrar, 'fa-chevron-right': !status.open_borrar}")
 
 								div(style="text-align: center")
-									button.btn.btn-primary(type="submit" style="") Guardar cambios
+									h4 ¡Operación peligrosa!
+									p Para enviar este año a la papelera de reciclaje, presione el siguiente botón:
+									button.btn.btn-danger(ng-click="deleteYear(year)")
+										i.fa.fa-times
+										| Eliminar año {{year.year}}
 
 
 
-						.panel-default(uib-accordion-group is-open="status.open_pers")
-							uib-accordion-heading Periodos
-								i.pull-right.fa(ng-class="{'fa-chevron-down': status.open_pers, 'fa-chevron-right': !status.open_pers}")
 
-							.row
-								.col-sm-12
-									.list-periodos
-
-										h4.row-title(ng-repeat="periodo in year.periodos |  orderBy: 'numero' " style="margin: 5px 0" ng-class="{ 'before-success': periodo.actual }")
-
-											.col-lg-3.col-sm-6.col-xs-12
-												i.fa.fa-ioxhost.blue(ng-class="{ 'green': periodo.actual }")
-												| Periodo
-												span(style="font-weight: bold !important")   {{periodo.numero}}
-
-											.form-group.col-lg-3.col-sm-6.col-xs-12(style="margin-bottom: 0px")
-												label(uib-tooltip="¿Los profesores pueden editar notas, indicadores, tardanzas y comportamientos?") ¿Editan notas?
-												label(uib-tooltip="¿Los profesores pueden editar notas, indicadores, tardanzas y comportamientos?")
-													input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleProfesPuedenEditarNotas(periodo, periodo.profes_pueden_editar_notas)" ng-true-value="1" ng-false-value="0" ng-model="periodo.profes_pueden_editar_notas")
+		.row
+			.col-lg-12.col-sm-12.col-xs-12.margin-padding-lados-xs
+				.widget(ng-class="{'collapsed':!nonuevo}")
+					.widget-header.bg-success(ng-click="nonuevo = !nonuevo")
+						i.widget-icon.fa.fa-plus
+						span.widget-caption Crear nuevo año
+						.widget-buttons
+							a(href="" data-toggle="dispose" ng-if="false")
+								i.fa.fa-times
+					.widget-body()
+						accordion(close-others="true")
+							accordion-group(heading="Básico" is-open="true")
+								form(role='form' ng-submit="crearNewYear()")
+									.row
+										.col-sm-6
+											.form-group
+												label(for='newYear-nombre') Nombre del colegio
+												span.input-icon.icon-right
+													input#newYear-nombre.form-control(type='text', placeholder='Nombre del colegio' ng-model="newYear.nombre_colegio")
+													i.fa.fa-envelope.blue
+										.col-sm-4
+											.form-group
+												label(for='newYear-abrev') Alias
+												span.input-icon.icon-right
+													input#newYear-abrev.form-control(type='text', placeholder='Name' ng-model="newYear.abrev_colegio")
+													i.fa.fa-user.palegreen
+										.col-sm-2
+											.form-group
+												label(for='newYear-year') Año
+													.spinner.spinner-horizontal
+														input.spinner-input.form-control#newYear-year(type="text" minlength="4" maxlength="4" ng-model="newYear.year" style="padding-right: 2px; padding-left: 50px; min-width: 90px;")
+														.spinner-buttons.btn-group
+															button.btn.spinner-down.blueberry(type="button" ng-click="restarNewYear()")
+																i.fa.fa-minus
+															button.btn.spinner-up.purple(type="button" ng-click="sumarNewYear()")
+																i.fa.fa-plus
+										.col-sm-2
+											.form-group
+												label(for='newYear-nota-min') Nota mínima aceptada
+													.spinner.spinner-horizontal
+														input.spinner-input.form-control#newYear-nota-min(type="text" step="0.1" min="0" ng-model="newYear.nota_minima_aceptada")
+														.spinner-buttons.btn-group
+															button.btn.spinner-down.blueberry(type="button" ng-click="restarNewNota()")
+																i.fa.fa-minus
+															button.btn.spinner-up.purple(type="button" ng-click="sumarNewNota()")
+																i.fa.fa-plus
+									.row
+										.col-sm-12
+											.form-group
+												label ¿Año actual?
+												label
+													input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="newYear.actual")
 													span.text.si-no
 
-											.form-group.col-lg-3.col-sm-6.col-xs-12(style="margin-bottom: 0px")
-												label(uib-tooltip="¿Los profesores pueden nivelar o modificar notas finales?") ¿Definitivas?
-												label(uib-tooltip="¿Los profesores pueden nivelar o modificar notas finales?")
-													input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleProfesPuedenNivelar(periodo, periodo.profes_pueden_nivelar)" ng-true-value="1" ng-false-value="0" ng-model="periodo.profes_pueden_nivelar")
+											.form-group
+												label(uib-tooltip="Puedes bloquear el sistema momentaneamente para que los alumnos y acudientes no puedan ver las notas.") ¿Alumnos pueden ver sus notas?
+												label
+													input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleBloquearNotas()" ng-model="newYear.alumnos_can_see_notas")
 													span.text.si-no
 
-											span(ng-if="cargado")
-												.form-group.col-lg-3.col-sm-6.col-xs-12(style="margin-bottom: 0px; font-size: 9pt;")
-													label(uib-tooltip="Fecha de inicio") Fecha ini
-													input(type="date" ng-model="periodo.fecha_inicio" ng-change="cambiarFechaInicio(periodo, periodo.fecha_inicio)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+									.row
+										.col-sm-12
+											.form-group
+												label(for='newYear-resolucion') Resolución
+												span.input-icon.icon-right
+													input#newYear-resolucion.form-control(type='text', placeholder='Resolución' ng-model="newYear.resolucion")
+													i.fa.fa-envelope.blue
+									.row
+										.col-sm-5
+											.form-group
+												label(for='newYear-dane') Código dane
+												span.input-icon.icon-right
+													input#newYear-dane.form-control(type='text', placeholder='Código dane' ng-model="newYear.codigo_dane")
+													i.fa.fa-user.palegreen
+										.col-sm-4
+											.form-group
+												label(for='newYear-telefono') Teléfono
+												span.input-icon.icon-right
+													input#newYear-telefono.form-control(type='text', placeholder='Teléfono' ng-model="newYear.telefono")
+													i.fa.fa-user.palegreen
+										.col-sm-3
+											.form-group
+												label(for='newYear-celular') Celular
+												span.input-icon.icon-right
+													input#newYear-celular.form-control(type='text', placeholder='Celular' ng-model="newYear.celular")
+													i.fa.fa-user.palegreen
+									.row
+										.col-sm-3
+											.form-group
+												label(for='newYear-unidad_displayname') Unidad
+												span.input-icon.icon-right
+													input#newYear-unidad_displayname.form-control(type='text', placeholder='Unidad' ng-model="newYear.unidad_displayname")
+													i.fa.fa-envelope.blue
+										.col-sm-4
+											.form-group
+												label(for='newYear-unidades_displayname') Unidades
+												span.input-icon.icon-right
+													input#newYear-unidades_displayname.form-control(type='text', placeholder='Código dane' ng-model="newYear.unidades_displayname")
+													i.fa.fa-user.palegreen
 
-												.form-group.col-lg-3.col-sm-6.col-xs-12(style="margin-bottom: 0px; font-size: 9pt;")
-													label(uib-tooltip="Fecha en que termina el periodo") Fecha fin
-													input(type="date" ng-model="periodo.fecha_fin" ng-change="cambiarFechaFin(periodo, periodo.fecha_fin)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
-
-
-											.btn-group.btn-group-sm.col-lg-3.col-sm-6.col-xs-12
-												button.btn.btn-danger.btn-sm.shiny(ng-click="removePeriodo(year, periodo)" style="height: 30px;" uib-tooltip="Eliminar periodo")
-													i.fa.fa-times
-												button.btn.btn-default.btn-sm.shiny(ng-show="!periodo.actual" ng-click="actualPeriodo(year, periodo)" uib-tooltip="Establecer periodo como actual") Actual
-												button.btn.btn-success.btn-sm.shiny(ng-show="periodo.actual" disabled="disabled") En curso
-
-									button.btn.btn-success(ng-click="addPeriodo(year)")
-										i.fa.fa-plus
-										| Crear periodo
-
-
-						.panel-default(uib-accordion-group is-open="status.open_certi")
-							uib-accordion-heading Certificados
-								i.pull-right.fa(ng-class="{'fa-chevron-down': status.open_certi, 'fa-chevron-right': !status.open_certi}")
-
-							configuracion-certificados
-
-
-						.panel-default(uib-accordion-group is-open="status.open_escalas")
-							uib-accordion-heading Escalas de valoración
-								i.pull-right.fa(ng-class="{'fa-chevron-down': status.open_escalas, 'fa-chevron-right': !status.open_escalas}")
-
-							configuracion-escalas
-
-
-						.panel-danger(uib-accordion-group is-open="status.open_borrar")
-							uib-accordion-heading Borrar año
-								i.pull-right.fa(ng-class="{'fa-chevron-down': status.open_borrar, 'fa-chevron-right': !status.open_borrar}")
-
-							div(style="text-align: center")
-								h4 ¡Operación peligrosa!
-								p Para enviar este año a la papelera de reciclaje, presione el siguiente botón:
-								button.btn.btn-danger(ng-click="deleteYear(year)")
-									i.fa.fa-times
-									| Eliminar año {{year.year}}
-
-
-
-
-	.row
-		.col-lg-12.col-sm-12.col-xs-12.margin-padding-lados-xs
-			.widget(ng-class="{'collapsed':!nonuevo}")
-				.widget-header.bg-success(ng-click="nonuevo = !nonuevo")
-					i.widget-icon.fa.fa-plus
-					span.widget-caption Crear nuevo año
-					.widget-buttons
-						a(href="" data-toggle="dispose" ng-if="false")
-							i.fa.fa-times
-				.widget-body()
-					accordion(close-others="true")
-						accordion-group(heading="Básico" is-open="true")
-							form(role='form' ng-submit="crearNewYear()")
-								.row
-									.col-sm-6
-										.form-group
-											label(for='newYear-nombre') Nombre del colegio
-											span.input-icon.icon-right
-												input#newYear-nombre.form-control(type='text', placeholder='Nombre del colegio' ng-model="newYear.nombre_colegio")
-												i.fa.fa-envelope.blue
-									.col-sm-4
-										.form-group
-											label(for='newYear-abrev') Alias
-											span.input-icon.icon-right
-												input#newYear-abrev.form-control(type='text', placeholder='Name' ng-model="newYear.abrev_colegio")
-												i.fa.fa-user.palegreen
-									.col-sm-2
-										.form-group
-											label(for='newYear-year') Año
-												.spinner.spinner-horizontal
-													input.spinner-input.form-control#newYear-year(type="text" minlength="4" maxlength="4" ng-model="newYear.year" style="padding-right: 2px; padding-left: 50px; min-width: 90px;")
-													.spinner-buttons.btn-group
-														button.btn.spinner-down.blueberry(type="button" ng-click="restarNewYear()")
-															i.fa.fa-minus
-														button.btn.spinner-up.purple(type="button" ng-click="sumarNewYear()")
-															i.fa.fa-plus
-									.col-sm-2
-										.form-group
-											label(for='newYear-nota-min') Nota mínima aceptada
-												.spinner.spinner-horizontal
-													input.spinner-input.form-control#newYear-nota-min(type="text" step="0.1" min="0" ng-model="newYear.nota_minima_aceptada")
-													.spinner-buttons.btn-group
-														button.btn.spinner-down.blueberry(type="button" ng-click="restarNewNota()")
-															i.fa.fa-minus
-														button.btn.spinner-up.purple(type="button" ng-click="sumarNewNota()")
-															i.fa.fa-plus
-								.row
-									.col-sm-12
-										.form-group
-											label ¿Año actual?
-											label
-												input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="newYear.actual")
-												span.text.si-no
-
-										.form-group
-											label(uib-tooltip="Puedes bloquear el sistema momentaneamente para que los alumnos y acudientes no puedan ver las notas.") ¿Alumnos pueden ver sus notas?
-											label
-												input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-change="toggleBloquearNotas()" ng-model="newYear.alumnos_can_see_notas")
-												span.text.si-no
-
-								.row
-									.col-sm-12
-										.form-group
-											label(for='newYear-resolucion') Resolución
-											span.input-icon.icon-right
-												input#newYear-resolucion.form-control(type='text', placeholder='Resolución' ng-model="newYear.resolucion")
-												i.fa.fa-envelope.blue
-								.row
-									.col-sm-5
-										.form-group
-											label(for='newYear-dane') Código dane
-											span.input-icon.icon-right
-												input#newYear-dane.form-control(type='text', placeholder='Código dane' ng-model="newYear.codigo_dane")
-												i.fa.fa-user.palegreen
-									.col-sm-4
-										.form-group
-											label(for='newYear-telefono') Teléfono
-											span.input-icon.icon-right
-												input#newYear-telefono.form-control(type='text', placeholder='Teléfono' ng-model="newYear.telefono")
-												i.fa.fa-user.palegreen
-									.col-sm-3
-										.form-group
-											label(for='newYear-celular') Celular
-											span.input-icon.icon-right
-												input#newYear-celular.form-control(type='text', placeholder='Celular' ng-model="newYear.celular")
-												i.fa.fa-user.palegreen
-								.row
-									.col-sm-3
-										.form-group
-											label(for='newYear-unidad_displayname') Unidad
-											span.input-icon.icon-right
-												input#newYear-unidad_displayname.form-control(type='text', placeholder='Unidad' ng-model="newYear.unidad_displayname")
-												i.fa.fa-envelope.blue
-									.col-sm-4
-										.form-group
-											label(for='newYear-unidades_displayname') Unidades
-											span.input-icon.icon-right
-												input#newYear-unidades_displayname.form-control(type='text', placeholder='Código dane' ng-model="newYear.unidades_displayname")
-												i.fa.fa-user.palegreen
-
-									.col-sm-5
-										.form-group
-											label Género unidad
-											.row
-												.col-lg-3.col-sm-4.col-xs-6
-													.radio
-														label
-															input.inverted(type="radio" name="genero_unidad" value="M" ng-model="newYear.genero_unidad")
-															span.text Masculino
-												.col-lg-4.col-sm-4.col-xs-6
-													.radio
-														label
-															input.inverted(type="radio" name="genero_unidad" value="F" ng-model="newYear.genero_unidad")
-															span.text Femenino
-								.row
-									.col-sm-3
-										.form-group
-											label(for='newYear-subunidad_displayname') Subunidad
-											span.input-icon.icon-right
-												input#newYear-subunidad_displayname.form-control(type='text', placeholder='Subunidad' ng-model="newYear.subunidad_displayname")
-												i.fa.fa-user.palegreen
-									.col-sm-4
-										.form-group
-											label(for='newYear-subunidades_displayname') Subunidades
-											span.input-icon.icon-right
-												input#newYear-subunidades_displayname.form-control(type='text', placeholder='Subunidades' ng-model="newYear.subunidades_displayname")
-												i.fa.fa-envelope.blue
-									.col-sm-5
-										.form-group
-											label Genero subunidad
-											.row
-												.col-lg-3.col-sm-4.col-xs-6
-													.radio
-														label
-															input.inverted(type="radio" name="genero_subunidad" value="M" ng-model="newYear.genero_subunidad")
-															span.text Masculino
-												.col-lg-4.col-sm-4.col-xs-6
-													.radio
-														label
-															input.inverted(type="radio" name="genero_subunidad" value="F" ng-model="newYear.genero_subunidad")
-															span.text Femenino
+										.col-sm-5
+											.form-group
+												label Género unidad
+												.row
+													.col-lg-3.col-sm-4.col-xs-6
+														.radio
+															label
+																input.inverted(type="radio" name="genero_unidad" value="M" ng-model="newYear.genero_unidad")
+																span.text Masculino
+													.col-lg-4.col-sm-4.col-xs-6
+														.radio
+															label
+																input.inverted(type="radio" name="genero_unidad" value="F" ng-model="newYear.genero_unidad")
+																span.text Femenino
+									.row
+										.col-sm-3
+											.form-group
+												label(for='newYear-subunidad_displayname') Subunidad
+												span.input-icon.icon-right
+													input#newYear-subunidad_displayname.form-control(type='text', placeholder='Subunidad' ng-model="newYear.subunidad_displayname")
+													i.fa.fa-user.palegreen
+										.col-sm-4
+											.form-group
+												label(for='newYear-subunidades_displayname') Subunidades
+												span.input-icon.icon-right
+													input#newYear-subunidades_displayname.form-control(type='text', placeholder='Subunidades' ng-model="newYear.subunidades_displayname")
+													i.fa.fa-envelope.blue
+										.col-sm-5
+											.form-group
+												label Genero subunidad
+												.row
+													.col-lg-3.col-sm-4.col-xs-6
+														.radio
+															label
+																input.inverted(type="radio" name="genero_subunidad" value="M" ng-model="newYear.genero_subunidad")
+																span.text Masculino
+													.col-lg-4.col-sm-4.col-xs-6
+														.radio
+															label
+																input.inverted(type="radio" name="genero_subunidad" value="F" ng-model="newYear.genero_subunidad")
+																span.text Femenino
 
 
 
-								br
-								button.btn.btn-primary(type="submit")
-									i.fa.fa-save
-									| Crear nuevo año
+									br
+									button.btn.btn-primary(type="submit")
+										i.fa.fa-save
+										| Crear nuevo año
 
 
