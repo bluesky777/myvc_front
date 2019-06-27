@@ -8,7 +8,7 @@ angular.module('myvcFrontApp')
 
 	$scope.frases 	= comportamiento[0]
 	$scope.alumnos 	= comportamiento[1]
-	$scope.grupo 	= comportamiento[2]
+	$scope.grupo 	  = comportamiento[2]
 	$scope.hasRoleOrPerm  = AuthService.hasRoleOrPerm
 	$scope.tipos 	= [
 		{tipo_frase:	'Todas'}
@@ -26,6 +26,16 @@ angular.module('myvcFrontApp')
 		console.log 'No se trajeron las escalas valorativas', r2
 	)
 
+
+	$scope.fraseCheck = (texto)->
+		$scope.verificandoFrase = true
+		return $http.put('::nota_comportamiento/frases-check', {texto: texto}).then((r)->
+			$scope.frases_match 		  = r.data.frases
+			$scope.verificandoFrase 	= false
+			return $scope.frases_match.map((item)->
+				return item.frase
+			)
+		)
 
 
 	$scope.addFrase = (alumno)->
@@ -59,7 +69,7 @@ angular.module('myvcFrontApp')
 		if alumno.newfrase_escrita != ''
 			dato =
 				comportamiento_id:	alumno.nota.id
-				frase:				alumno.newfrase_escrita
+				frase:				      alumno.newfrase_escrita
 
 			$http.post('::definiciones_comportamiento/store-escrita', dato).then((r)->
 				toastr.success 'Frase agregada con éxito'

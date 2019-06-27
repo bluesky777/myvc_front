@@ -106,7 +106,7 @@
       <div class="horizontal-space"></div><a ng-click="mostrarTodas()" class="btn btn-default"><i class="fa fa-refresh"></i>Mostrar todas</a>
       <div class="horizontal-space"></div>
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-sm-6">
           <ui-select ng-model="currentasignatura.grupo" style="width: 100%;" on-select="seleccionaGrupo($item, $model)">
             <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}} - {{$select.selected.abrev}}</ui-select-match>
             <ui-select-choices repeat="grupo in grupos | filter: $select.search">
@@ -115,12 +115,10 @@
           </ui-select>
           <div class="horizontal-space"></div>
         </div>
-        <div class="col-md-6">
+        <div class="col-sm-6">
           <ui-select ng-model="currentasignatura.profesor" style="width: 100%;" on-select="seleccionaProfe($item, $model)">
             <ui-select-match placeholder="Profesor" allow-clear="true">{{$select.selected.nombres}} {{$select.selected.apellidos}}</ui-select-match>
-            <ui-select-choices repeat="profe in profesores | filter: $select.search">
-              <div ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search"></div>
-            </ui-select-choices>
+            <ui-select-choices repeat="profe in profesores | filter: $select.search"><img ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="' ' + profe.nombres + ' ' + profe.apellidos | highlight: $select.search"></small></ui-select-choices>
           </ui-select>
           <div class="horizontal-space"></div>
         </div>

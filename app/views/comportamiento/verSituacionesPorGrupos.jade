@@ -1,0 +1,78 @@
+div(ng-class="{'page-carta-horizontal': config_infor.orientacion=='carta_horizontal', 'page-oficio-horizontal': config_infor.orientacion=='oficio_horizontal','page-vertical': config_infor.orientacion=='vertical', 'salto-pagina': $last==false }")
+
+  .row.encabezado-planilla
+    .col-lg-12
+      .nombre-colegio
+        | {{ $parent.year.nombre_colegio + ' - ' + $parent.year.abrev_colegio}}
+      .descripcion-title
+        h4.center(style="border: 0px; width: 100%; ") Situaciones disciplinarias
+
+
+  .row
+    .col-lg-12.col-xs-12(style="padding: 4px;")
+
+      div(ng-repeat="grupo in grupos_situaciones track by $index")
+
+
+        div.text-center(style="padding-top: 10px; font-size: 12pt;")
+          span(style="font-weight: 600; font-size: 12pt;") {{ grupo.nombre }}
+
+        .text-center(ng-show="grupo.alumnos.length == 0" style="font-style: italic") No hay alumnos con situaciones
+
+        div(ng-repeat="alumno in grupo.alumnos track by $index" style="margin-top: 12px")
+          .text-center(style="font-size: 12pt;"
+            uib-popover-template="views+'alumnos/popoverAlumnoInfo.tpl.html'"
+            popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}"
+            popover-trigger="'mouseenter'" popover-popup-delay="500")
+
+            img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 50px; height: 50px;")
+            | {{ alumno.nombres  + ' ' + alumno.apellidos }} ({{ grupo.nombre }})
+
+          table.table-bordered.table-bordered2(align="center" style="width: 100%")
+            thead
+              tr
+                th.text-center(style="width: 25%")
+                  | Periodo 1
+                th.text-center(style="width: 25%")
+                  | Periodo 2
+                th.text-center(style="width: 25%")
+                  | Periodo 3
+                th.text-center(style="width: 25%")
+                  | Periodo 4
+
+
+
+            tbody(style="font-size: 10pt")
+              tr
+                td
+                  div(ng-repeat="falta in alumno.periodo1" style="border-bottom: 1px solid")
+                    span(style="font-weight: bold") Tipo {{ falta.tipo_situacion }}:
+                    |  {{ falta.descripcion }}
+                    span(ng-show="falta.fecha_corta") ({{ falta.fecha_corta }})
+
+                td(style="width: 190px")
+                  div(ng-repeat="falta in alumno.periodo2" style="border-bottom: 1px solid")
+                    span(style="font-weight: bold") Tipo {{ falta.tipo_situacion }}:
+                    |  {{ falta.descripcion }}
+                    span(ng-show="falta.fecha_corta") ({{ falta.fecha_corta }})
+
+                td.text-center
+                  div(ng-repeat="falta in alumno.periodo3" style="border-bottom: 1px solid")
+                    span(style="font-weight: bold") Tipo {{ falta.tipo_situacion }}:
+                    |  {{ falta.descripcion }}
+                    span(ng-show="falta.fecha_corta") ({{ falta.fecha_corta }})
+
+                td.text-center
+                  div(ng-repeat="falta in alumno.periodo4" style="border-bottom: 1px solid")
+                    span(style="font-weight: bold") Tipo {{ falta.tipo_situacion }}:
+                    |  {{ falta.descripcion }}
+                    span(ng-show="falta.fecha_corta") ({{ falta.fecha_corta }})
+
+
+
+
+
+
+
+
+

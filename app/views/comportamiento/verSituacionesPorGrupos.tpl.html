@@ -1,0 +1,48 @@
+
+<div ng-class="{'page-carta-horizontal': config_infor.orientacion=='carta_horizontal', 'page-oficio-horizontal': config_infor.orientacion=='oficio_horizontal','page-vertical': config_infor.orientacion=='vertical', 'salto-pagina': $last==false }">
+  <div class="row encabezado-planilla">
+    <div class="col-lg-12">
+      <div class="nombre-colegio">{{ $parent.year.nombre_colegio + ' - ' + $parent.year.abrev_colegio}}</div>
+      <div class="descripcion-title">
+        <h4 style="border: 0px; width: 100%; " class="center">Situaciones disciplinarias</h4>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div style="padding: 4px;" class="col-lg-12 col-xs-12">
+      <div ng-repeat="grupo in grupos_situaciones track by $index">
+        <div style="padding-top: 10px; font-size: 12pt;" class="text-center"><span style="font-weight: 600; font-size: 12pt;">{{ grupo.nombre }}</span></div>
+        <div ng-show="grupo.alumnos.length == 0" style="font-style: italic" class="text-center">No hay alumnos con situaciones</div>
+        <div ng-repeat="alumno in grupo.alumnos track by $index" style="margin-top: 12px">
+          <div style="font-size: 12pt;" uib-popover-template="views+'alumnos/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" class="text-center"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 50px; height: 50px;">{{ alumno.nombres  + ' ' + alumno.apellidos }} ({{ grupo.nombre }})</div>
+          <table align="center" style="width: 100%" class="table-bordered table-bordered2">
+            <thead>
+              <tr>
+                <th style="width: 25%" class="text-center">Periodo 1</th>
+                <th style="width: 25%" class="text-center">Periodo 2</th>
+                <th style="width: 25%" class="text-center">Periodo 3</th>
+                <th style="width: 25%" class="text-center">Periodo 4</th>
+              </tr>
+            </thead>
+            <tbody style="font-size: 10pt">
+              <tr>
+                <td>
+                  <div ng-repeat="falta in alumno.periodo1" style="border-bottom: 1px solid"><span style="font-weight: bold">Tipo {{ falta.tipo_situacion }}:</span> {{ falta.descripcion }}<span ng-show="falta.fecha_corta">({{ falta.fecha_corta }})</span></div>
+                </td>
+                <td style="width: 190px">
+                  <div ng-repeat="falta in alumno.periodo2" style="border-bottom: 1px solid"><span style="font-weight: bold">Tipo {{ falta.tipo_situacion }}:</span> {{ falta.descripcion }}<span ng-show="falta.fecha_corta">({{ falta.fecha_corta }})</span></div>
+                </td>
+                <td class="text-center">
+                  <div ng-repeat="falta in alumno.periodo3" style="border-bottom: 1px solid"><span style="font-weight: bold">Tipo {{ falta.tipo_situacion }}:</span> {{ falta.descripcion }}<span ng-show="falta.fecha_corta">({{ falta.fecha_corta }})</span></div>
+                </td>
+                <td class="text-center">
+                  <div ng-repeat="falta in alumno.periodo4" style="border-bottom: 1px solid"><span style="font-weight: bold">Tipo {{ falta.tipo_situacion }}:</span> {{ falta.descripcion }}<span ng-show="falta.fecha_corta">({{ falta.fecha_corta }})</span></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

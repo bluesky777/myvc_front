@@ -1,140 +1,141 @@
 .row(ng-show="creando")
-	.col-xs-12.col-md-12
-		form.well.with-header.with-footer.form(role="form" ng-submit="crear()")
-			.header.bordered-yellow Nueva asignatura
-			.row
-				.col-md-6
-					ui-select(ng-model="currentasignatura.materia" style="width: 100%;")
-						ui-select-match(placeholder="Materia" allow-clear="true") {{$select.selected.materia}} - {{$select.selected.alias}}
-						ui-select-choices(repeat="materia in materias | filter: {materia: $select.search}")
-							div(ng-bind-html="materia.materia + ' - ' + materia.alias | highlight: $select.search")
-					.horizontal-space
-				.col-md-6
-					ui-select(ng-model="currentasignatura.grupo" style="width: 100%;")
-						ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}} - {{$select.selected.abrev}}
-						ui-select-choices(repeat="grupo in grupos | filter: {nombre: $select.search}")
-							div(ng-bind-html="grupo.nombre + ' - ' + grupo.abrev | highlight: $select.search")
-					.horizontal-space
-			.row
-				.col-md-6
-					ui-select(ng-model="currentasignatura.profesor" style="width: 100%;")
-						ui-select-match(placeholder="Profesor" allow-clear="true") {{$select.selected.nombres}} {{$select.selected.apellidos}}
-						ui-select-choices(repeat="profe in profesores | filter: $select.search")
-							div(ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
-					.horizontal-space
-				.col-md-3
-					input.form-control(type="number" min="0" ng-model="currentasignatura.creditos" placeholder="Créditos" style="width: 100%")
-					.horizontal-space
-				.col-md-3
-					input.form-control(type="number" min="0" ng-model="currentasignatura.orden" placeholder="Orden" style="width: 100%")
-					.horizontal-space
-			.footer
-				.btn-group
-					input.btn.btn-primary(type="submit" value="Crear")
-					a.btn.btn-warning(ng-click="cancelarCrear()") Ocultar
+  .col-xs-12.col-md-12
+    form.well.with-header.with-footer.form(role="form" ng-submit="crear()")
+      .header.bordered-yellow Nueva asignatura
+      .row
+        .col-md-6
+          ui-select(ng-model="currentasignatura.materia" style="width: 100%;")
+            ui-select-match(placeholder="Materia" allow-clear="true") {{$select.selected.materia}} - {{$select.selected.alias}}
+            ui-select-choices(repeat="materia in materias | filter: {materia: $select.search}")
+              div(ng-bind-html="materia.materia + ' - ' + materia.alias | highlight: $select.search")
+          .horizontal-space
+        .col-md-6
+          ui-select(ng-model="currentasignatura.grupo" style="width: 100%;")
+            ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}} - {{$select.selected.abrev}}
+            ui-select-choices(repeat="grupo in grupos | filter: {nombre: $select.search}")
+              div(ng-bind-html="grupo.nombre + ' - ' + grupo.abrev | highlight: $select.search")
+          .horizontal-space
+      .row
+        .col-md-6
+          ui-select(ng-model="currentasignatura.profesor" style="width: 100%;")
+            ui-select-match(placeholder="Profesor" allow-clear="true") {{$select.selected.nombres}} {{$select.selected.apellidos}}
+            ui-select-choices(repeat="profe in profesores | filter: $select.search")
+              div(ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
+          .horizontal-space
+        .col-md-3
+          input.form-control(type="number" min="0" ng-model="currentasignatura.creditos" placeholder="Créditos" style="width: 100%")
+          .horizontal-space
+        .col-md-3
+          input.form-control(type="number" min="0" ng-model="currentasignatura.orden" placeholder="Orden" style="width: 100%")
+          .horizontal-space
+      .footer
+        .btn-group
+          input.btn.btn-primary(type="submit" value="Crear")
+          a.btn.btn-warning(ng-click="cancelarCrear()") Ocultar
 
 .row(ng-show="editando")
-	.col-xs-12.col-md-12
-		form.well.with-header.with-footer.form(role="form" ng-submit="guardar()")
-			.header.bordered-yellow Editar asignatura
-			.row
-				.col-md-6
-					ui-select(ng-model="currentasignaturaEdit.materia" style="width: 100%;")
-						ui-select-match(placeholder="Materia" allow-clear="true") {{$select.selected.materia}} - {{$select.selected.alias}}
-						ui-select-choices(repeat="materia in materias | filter: { materia: $select.search }")
-							div(ng-bind-html="materia.materia + ' - ' + materia.alias | highlight: $select.search")
-					.horizontal-space
-				.col-md-6
-					ui-select(ng-model="currentasignaturaEdit.grupo" style="width: 100%;")
-						ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}} - {{$select.selected.abrev}}
-						ui-select-choices(repeat="grupo in grupos | filter: {nombre: $select.search}")
-							div(ng-bind-html="grupo.nombre + ' - ' + grupo.abrev | highlight: $select.search")
-					.horizontal-space
-			.row
-				.col-md-6
-					ui-select(ng-model="currentasignaturaEdit.profesor" style="width: 100%;")
-						ui-select-match(placeholder="Profesor" allow-clear="true") {{$select.selected.nombres}} {{$select.selected.apellidos}}
-						ui-select-choices(repeat="profe in profesores | filter: $select.search")
-							div(ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
-					.horizontal-space
-				.col-md-3
-					input.form-control(type="number" min="0" ng-model="currentasignaturaEdit.creditos" placeholder="Créditos" style="width: 100%;")
-					.horizontal-space
-				.col-md-3
-					input.form-control(type="number" min="0" ng-model="currentasignaturaEdit.orden" placeholder="Orden" style="width: 100%;")
-					.horizontal-space
-			.footer
-				input.btn.btn-primary(type="submit" value="Guardar cambios")
-				a.btn.btn-warning(ng-click="cancelarEdit()") Ocultar
+  .col-xs-12.col-md-12
+    form.well.with-header.with-footer.form(role="form" ng-submit="guardar()")
+      .header.bordered-yellow Editar asignatura
+      .row
+        .col-md-6
+          ui-select(ng-model="currentasignaturaEdit.materia" style="width: 100%;")
+            ui-select-match(placeholder="Materia" allow-clear="true") {{$select.selected.materia}} - {{$select.selected.alias}}
+            ui-select-choices(repeat="materia in materias | filter: { materia: $select.search }")
+              div(ng-bind-html="materia.materia + ' - ' + materia.alias | highlight: $select.search")
+          .horizontal-space
+        .col-md-6
+          ui-select(ng-model="currentasignaturaEdit.grupo" style="width: 100%;")
+            ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}} - {{$select.selected.abrev}}
+            ui-select-choices(repeat="grupo in grupos | filter: {nombre: $select.search}")
+              div(ng-bind-html="grupo.nombre + ' - ' + grupo.abrev | highlight: $select.search")
+          .horizontal-space
+      .row
+        .col-md-6
+          ui-select(ng-model="currentasignaturaEdit.profesor" style="width: 100%;")
+            ui-select-match(placeholder="Profesor" allow-clear="true") {{$select.selected.nombres}} {{$select.selected.apellidos}}
+            ui-select-choices(repeat="profe in profesores | filter: $select.search")
+              div(ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
+          .horizontal-space
+        .col-md-3
+          input.form-control(type="number" min="0" ng-model="currentasignaturaEdit.creditos" placeholder="Créditos" style="width: 100%;")
+          .horizontal-space
+        .col-md-3
+          input.form-control(type="number" min="0" ng-model="currentasignaturaEdit.orden" placeholder="Orden" style="width: 100%;")
+          .horizontal-space
+      .footer
+        input.btn.btn-primary(type="submit" value="Guardar cambios")
+        a.btn.btn-warning(ng-click="cancelarEdit()") Ocultar
 .row
-	.col-xs-12.col-md-12
-		.well.with-header.with-footer
-			.header.bordered-yellow Asignaturas
+  .col-xs-12.col-md-12
+    .well.with-header.with-footer
+      .header.bordered-yellow Asignaturas
 
-			a.btn.btn-primary(ng-click="creando=true") Crear nueva
-			.horizontal-space
+      a.btn.btn-primary(ng-click="creando=true") Crear nueva
+      .horizontal-space
 
-			a.btn.btn-default(ng-click="mostrarTodas()")
-				i.fa.fa-refresh
-				| Mostrar todas
+      a.btn.btn-default(ng-click="mostrarTodas()")
+        i.fa.fa-refresh
+        | Mostrar todas
 
-			.horizontal-space
+      .horizontal-space
 
-			.row
-				.col-md-6
-					ui-select(ng-model="currentasignatura.grupo" style="width: 100%;" on-select="seleccionaGrupo($item, $model)")
-						ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}} - {{$select.selected.abrev}}
-						ui-select-choices(repeat="grupo in grupos | filter: $select.search")
-							div(ng-bind-html="grupo.nombre + ' - ' + grupo.abrev | highlight: $select.search")
-					.horizontal-space
-				.col-md-6
-					ui-select(ng-model="currentasignatura.profesor" style="width: 100%;" on-select="seleccionaProfe($item, $model)")
-						ui-select-match(placeholder="Profesor" allow-clear="true") {{$select.selected.nombres}} {{$select.selected.apellidos}}
-						ui-select-choices(repeat="profe in profesores | filter: $select.search")
-							div(ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
-					.horizontal-space
+      .row
+        .col-sm-6
+          ui-select(ng-model="currentasignatura.grupo" style="width: 100%;" on-select="seleccionaGrupo($item, $model)")
+            ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}} - {{$select.selected.abrev}}
+            ui-select-choices(repeat="grupo in grupos | filter: $select.search")
+              div(ng-bind-html="grupo.nombre + ' - ' + grupo.abrev | highlight: $select.search")
+          .horizontal-space
+        .col-sm-6
+          ui-select(ng-model="currentasignatura.profesor" style="width: 100%;" on-select="seleccionaProfe($item, $model)")
+            ui-select-match(placeholder="Profesor" allow-clear="true") {{$select.selected.nombres}} {{$select.selected.apellidos}}
+            ui-select-choices(repeat="profe in profesores | filter: $select.search")
+              img(ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;")
+              small(ng-bind-html="' ' + profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
+          .horizontal-space
 
-			#grid1.grid(ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns  ui-grid-cellnav ui-grid-auto-resize style="height: 600px")
+      #grid1.grid(ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns  ui-grid-cellnav ui-grid-auto-resize style="height: 600px")
 
-			hr.wide
-			.row
-				.col-md-5
-					ui-select(ng-model="currentasignatura.grupo" style="width: 100%;" on-select="seleccionaGrupo($item, $model)")
-						ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}} - {{$select.selected.abrev}}
-						ui-select-choices(repeat="grupo in grupos | filter: $select.search")
-							div(ng-bind-html="grupo.nombre + ' - ' + grupo.abrev | highlight: $select.search")
-					.horizontal-space
-				.col-md-5
-					ui-select(ng-model="currentasignatura.grupo_destino" style="width: 100%;")
-						ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}} - {{$select.selected.abrev}}
-						ui-select-choices(repeat="grupo in grupos | filter: $select.search")
-							div(ng-bind-html="grupo.nombre + ' - ' + grupo.abrev | highlight: $select.search")
-					.horizontal-space
-				.col-md-2
-					a.btn.btn-primary(ng-click="copiarAsignaturas()" ng-disabled="copiando" uib-tooltip="Copiar todas las asignaturas de un grupo a otro") Copiar asignaturas
+      hr.wide
+      .row
+        .col-md-5
+          ui-select(ng-model="currentasignatura.grupo" style="width: 100%;" on-select="seleccionaGrupo($item, $model)")
+            ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}} - {{$select.selected.abrev}}
+            ui-select-choices(repeat="grupo in grupos | filter: $select.search")
+              div(ng-bind-html="grupo.nombre + ' - ' + grupo.abrev | highlight: $select.search")
+          .horizontal-space
+        .col-md-5
+          ui-select(ng-model="currentasignatura.grupo_destino" style="width: 100%;")
+            ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}} - {{$select.selected.abrev}}
+            ui-select-choices(repeat="grupo in grupos | filter: $select.search")
+              div(ng-bind-html="grupo.nombre + ' - ' + grupo.abrev | highlight: $select.search")
+          .horizontal-space
+        .col-md-2
+          a.btn.btn-primary(ng-click="copiarAsignaturas()" ng-disabled="copiando" uib-tooltip="Copiar todas las asignaturas de un grupo a otro") Copiar asignaturas
 
-			.row(style="margin-top: 30px; ")
-				.col-xs-12.col-md-12
-					a(href="" ng-click="mostrandoPapelera=!mostrandoPapelera" uib-tooltip="Muestra las asignaturas eliminadas de este año") Mostrar papelera
+      .row(style="margin-top: 30px; ")
+        .col-xs-12.col-md-12
+          a(href="" ng-click="mostrandoPapelera=!mostrandoPapelera" uib-tooltip="Muestra las asignaturas eliminadas de este año") Mostrar papelera
 
-			.row(ng-show="mostrandoPapelera")
-				.col-xs-12.col-md-12
+      .row(ng-show="mostrandoPapelera")
+        .col-xs-12.col-md-12
 
-					.row(ng-show="asignaturas_eliminadas.length == 0" style="border-bottom: 1px solid #ccc;")
-						.col-xs-12
-							| No hay asignaturas en la papelera
+          .row(ng-show="asignaturas_eliminadas.length == 0" style="border-bottom: 1px solid #ccc;")
+            .col-xs-12
+              | No hay asignaturas en la papelera
 
-					.row(ng-repeat="asignatura in asignaturas_eliminadas" style="border-bottom: 1px solid #ccc;")
-						.col-xs-1
-							button.btn.btn-default.btn-sm(ng-click="restaurarAsignatura(asignatura)" uib-tooltip="Restaurar asignatura" ng-disabled="asignatura.restaurando")
-								i.fa.fa-undo
-						.col-xs-1
-							| {{asignatura.asignatura_id}}
-						.col-xs-4
-							| {{asignatura.materia}}
-						.col-xs-3
-							| {{asignatura.nombres + ' ' + asignatura.apellidos}}
-						.col-xs-3
-							| {{asignatura.nombre_grupo}}
+          .row(ng-repeat="asignatura in asignaturas_eliminadas" style="border-bottom: 1px solid #ccc;")
+            .col-xs-1
+              button.btn.btn-default.btn-sm(ng-click="restaurarAsignatura(asignatura)" uib-tooltip="Restaurar asignatura" ng-disabled="asignatura.restaurando")
+                i.fa.fa-undo
+            .col-xs-1
+              | {{asignatura.asignatura_id}}
+            .col-xs-4
+              | {{asignatura.materia}}
+            .col-xs-3
+              | {{asignatura.nombres + ' ' + asignatura.apellidos}}
+            .col-xs-3
+              | {{asignatura.nombre_grupo}}
 
 

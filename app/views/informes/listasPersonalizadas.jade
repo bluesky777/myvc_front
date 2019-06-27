@@ -1,111 +1,111 @@
 .row.hidden-print(style="margin-bottom: 20px; background-color:#fff; padding: 30px;")
-	.col-xs-12.col-sm-3
-		| Título encabezado:
+  .col-xs-12.col-sm-3
+    | Título encabezado: (puedes usar código html)
 
-	.col-xs-12.col-sm-9
+  .col-xs-12.col-sm-9
 
-		textarea(ng-model="titulo_listado.texto" ng-model-options="{ updateOn: 'blur' }"
-			style="width: 90%; height: 100px; " ng-change="cambia_texto_informativo()")
-		br
+    textarea(ng-model="titulo_listado.texto" ng-model-options="{ updateOn: 'blur' }"
+      style="width: 90%; height: 100px; " ng-change="cambia_texto_informativo()")
+    br
 
-	.col-xs-12.col-sm-3
-		label(style="margin-right: 9px;") Columnas: (selecciona varias columnas usando Ctrl + Click
+  .col-xs-12.col-sm-3
+    label(style="margin-right: 9px;") Columnas: (selecciona varias columnas usando Ctrl + Click)
 
-	.col-xs-12.col-sm-9
-		select(multiple="multiple" ng-model="columnasDatos" ng-change="cambiaColumnasDatos(columnasDatos)" class="form-control"
-			style="width: 90%; display: inline-block;")
-			option(value="{{campo.campo}}" ng-repeat="campo in campos") {{ campo.valor }}
-			// sdc
-				option(value="documento") Documento
-				option(value="telefonos") Teléfonos
-				option(value="ciudad_nac_nombre") Ciudad nacimiento
-				option(value="es_urbano") Urbanidad
-				option(value="direccion") Dirección
-				option(value="email") Email
-				option(value="fecha_nac") Fecha nacimiento
-				option(value="edad") Edad
-				option(value="religion") Religión
-				option(value="sexo") Sexo
-				option(value="eps") EPS
-		br
-		br
+  .col-xs-12.col-sm-9
+    select(multiple="multiple" ng-model="columnasDatos" ng-change="cambiaColumnasDatos(columnasDatos)" class="form-control"
+      style="width: 90%; display: inline-block;")
+      option(value="{{campo.campo}}" ng-repeat="campo in campos") {{ campo.valor }}
+      // sdc
+        option(value="documento") Documento
+        option(value="telefonos") Teléfonos
+        option(value="ciudad_nac_nombre") Ciudad nacimiento
+        option(value="es_urbano") Urbanidad
+        option(value="direccion") Dirección
+        option(value="email") Email
+        option(value="fecha_nac") Fecha nacimiento
+        option(value="edad") Edad
+        option(value="religion") Religión
+        option(value="sexo") Sexo
+        option(value="eps") EPS
+    br
+    br
 
-	.col-xs-12.col-sm-3
-		label(style="margin-right: 9px;") Columnas vacías:
-	.col-xs-12.col-sm-9
-		input(type="number" ng-model="columnas" min="0" ng-change="cambiaColumnas(columnas)" class="form-control" style="width: 120px; display: inline-block;")
+  .col-xs-12.col-sm-3
+    label(style="margin-right: 9px;") Columnas vacías:
+  .col-xs-12.col-sm-9
+    input(type="number" ng-model="columnas" min="0" ng-change="cambiaColumnas(columnas)" class="form-control" style="width: 120px; display: inline-block;")
 
-		br
+    br
 
-	.col-xs-12.col-sm-3
-		label(style="margin-right: 9px;") Grupo:
-	.col-xs-12.col-sm-9
-		ui-select(ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;")
-			ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}}
-			ui-select-choices(repeat="grupo in grupos_simat | filter: $select.search")
-				div(ng-bind-html="grupo.nombre | highlight: $select.search")
-		a(href ng-click="todos()") Todos
+  .col-xs-12.col-sm-3
+    label(style="margin-right: 9px;") Grupo:
+  .col-xs-12.col-sm-9
+    ui-select(ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;")
+      ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}}
+      ui-select-choices(repeat="grupo in grupos_simat | filter: $select.search")
+        div(ng-bind-html="grupo.nombre | highlight: $select.search")
+    a(href ng-click="todos()") Todos
 
 
-	hr
-	br
+  hr
+  br
 
 div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }")
 
-	.row.encabezado-planilla
-		.col-lg-12
-			//.nombre-colegio
-				| {{::year.nombre_colegio + ' - ' + year.abrev_colegio}}
-			.descripcion-title
-				h4.center(ng-bind-html="titulo_listado.texto" style="border: 0px; width: 100%; ")
+  .row.encabezado-planilla
+    .col-lg-12
+      //.nombre-colegio
+        | {{::year.nombre_colegio + ' - ' + year.abrev_colegio}}
+      .descripcion-title
+        h4.center(ng-bind-html="titulo_listado.texto" style="border: 0px; width: 100%; ")
 
 
-	.row
-		.col-lg-12.col-xs-12(style="padding: 4px;")
+  .row
+    .col-lg-12.col-xs-12(style="padding: 4px;")
 
-			div(ng-repeat="grupo in grupos_simat track by $index")
-
-
-				div.text-center(style="padding-top: 10px; font-size: 12pt;")
-					span(style="font-weight: 600;") {{ grupo.nombre }}
-
-				table.table-bordered.table-bordered2.table-striped.table-striped2(align="center" style="width: 100%")
-					thead
-						tr
-							th(style="width: 20px")
-								| No
-							th.text-center(style="width: 190px")
-								| Nombres
-							th(ng-repeat="columna in columnasDatosTd" style="text-align: center; width: 30px;")
-								| {{columna.valor}}
-							th.text-center(ng-repeat="i in columnasArray track by $index")
-								input.hidden-print(type="text" ng-model="i.titulo")
-								.show-on-print {{i.titulo}}
+      div(ng-repeat="grupo in grupos_simat track by $index")
 
 
+        div.text-center(style="padding-top: 10px; font-size: 12pt;")
+          span(style="font-weight: 600;") {{ grupo.nombre }}
 
-					tbody(style="font-size: 10pt")
-						tr(ng-repeat="alumno in grupo.alumnos track by $index")
-							td
-								| {{ $index + 1 }}
-							td(style="width: 190px")
-								.nombresellipsis.ellipsis250( uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'"
-									popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}"
-									popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true"
-									ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative; vertical-align: middle;")
-
-									| {{ alumno.apellidos }} {{ alumno.nombres }}
-									span(ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;")
-										| (Asis)
-									span(ng-show="alumno.estado=='PREM'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;")
-										| (Prem)
+        table.table-bordered.table-bordered2.table-striped.table-striped2(align="center" style="width: 100%")
+          thead
+            tr
+              th(style="width: 20px")
+                | No
+              th.text-center(style="width: 190px")
+                | Nombres
+              th(ng-repeat="columna in columnasDatosTd" style="text-align: center; width: 30px;")
+                | {{columna.valor}}
+              th.text-center(ng-repeat="i in columnasArray track by $index")
+                input.hidden-print(type="text" ng-model="i.titulo")
+                .show-on-print {{i.titulo}}
 
 
-							td.text-center(ng-repeat="columna in columnasDatosTd")
-								span(ng-show="columna.campo=='documento'") {{ alumno.documento | formatNumberDocumento }}
-								span(ng-show="columna.campo!='documento'") {{ alumno[columna.campo] }}
 
-							td(ng-repeat="i in columnasArray track by $index" style="min-width: 50px")
+          tbody(style="font-size: 10pt")
+            tr(ng-repeat="alumno in grupo.alumnos track by $index")
+              td
+                | {{ $index + 1 }}
+              td(style="width: 190px")
+                .nombresellipsis.ellipsis250( uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'"
+                  popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}"
+                  popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true"
+                  ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative; vertical-align: middle;")
+
+                  | {{ alumno.apellidos }} {{ alumno.nombres }}
+                  span(ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;")
+                    | (Asis)
+                  span(ng-show="alumno.estado=='PREM'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;")
+                    | (Prem)
+
+
+              td.text-center(ng-repeat="columna in columnasDatosTd")
+                span(ng-show="columna.campo=='documento'") {{ alumno.documento | formatNumberDocumento }}
+                span(ng-show="columna.campo!='documento'") {{ alumno[columna.campo] }}
+
+              td(ng-repeat="i in columnasArray track by $index" style="min-width: 50px")
 
 
 

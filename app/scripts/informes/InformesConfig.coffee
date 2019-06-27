@@ -581,6 +581,24 @@ angular.module('myvcFrontApp')
 
 
 
+		.state 'panel.informes.acta_evaluacion_promocion', # En NotasPerdidasProfesorCtrl.coffee
+			url: '/acta_evaluacion_promocion'
+			views:
+				'report_content':
+					templateUrl: "==informes/actaEvaluacionPromocion.tpl.html"
+					controller: 'ActaEvaluacionPromocionCtrl'
+					resolve:
+						datos: ['$http', '$stateParams', ($http, $stateParams)->
+							$http.put('::actas-evaluacion/acta-evaluacion-promocion')
+						]
+			data:
+				displayName: 'Acta de evaluación y promoción'
+				icon_fa: 'fa fa-print'
+				pageTitle: 'Acta de evaluación y promoción - MyVc'
+
+
+
+
 
 
 

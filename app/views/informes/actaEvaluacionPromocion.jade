@@ -1,0 +1,494 @@
+div.salto-pagina(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical' }")
+  .row.encabezado-planilla
+    .col-lg-12.col-xs-12
+      .row
+        .col-lg-2.col-xs-2
+          img.img-responsive.logo-colegio.menos-margin(ng-src="{{::perfilPath + year.logo}}" style="width: 70px;")
+        .col-lg-8.col-xs-8.title-encabezado-planilla
+          .row
+            .col-lg-12
+              .nombre-colegio
+                | {{::year.nombre_colegio + ' - ' + year.abrev_colegio}} {{::USER.year}}
+              .nombre-colegio(style="font-size: 15pt")
+                | COMISIÓN DE EVALUACIÓN Y PROMOCIÓN
+              .descripcion-title
+                | ACTA DE REUNIÓN FINAL
+              .descripcion-title
+                | DEFINICIÓN DE PROMOCIÓN Y REPROBACIÓN AÑO LECTIVO {{::USER.year}}
+
+
+        .col-lg-12.col-xs-12(style="margin-top: 20px")
+          .row.body-boletin
+            .col-lg-12.col-xs-12
+              div(style="text-align: left") Basado en el Sistema de Evaluación y Promoción del
+                | {{::year.nombre_colegio}} de {{::year.ciudad}}, según el MEN la Ley 115 y el decreto 1290 del 23 de Abril del 2009,
+                |  {{::year.resolucion}},
+                |  siendo las
+
+                div.hidden-print(uib-timepicker ng-model="dato.hora_acta" hour-step="1" minute-step="5" show-meridian="true")
+                b {{ dato.hora_acta | date:'HH:mma' }}
+                br.hidden-print
+                b  del día
+                input.hidden-print(type="date" ng-model="dato.dia_acta")
+
+                b {{dato.dia_acta | date:"dd 'de' MMMM"}} del año en curso,
+                |  se reúnen en sus instalaciones la comisión de evaluación y promoción. Dicha comisión analiza cada uno de los resultados académicos de los estudiantes, para tratar las promociones y reprobaciones respectivas. Esta definición se soporta en los procesos establecidos al igual que en los  informes académicos  en pleno conocimiento de los padres y de los distintos representantes y de la comunidad educativa en general.
+
+                br
+                br
+                div(ng-bind-html="dato.texto_acta_eval")
+
+            .col-xs-12.col-sm-9.hidden-print
+              label(style="background-color: aqua; padding: 5px;") Escriba un texto extra (opcional) para agregar al reporte:
+              textarea(ng-model="dato.texto_acta_eval" ng-model-options="{ updateOn: 'blur' }"
+                style="width: 90%; height: 100px; " ng-change="cambia_texto_informativo()")
+              br
+
+            .col-xs-12.col-sm-9.hidden-print
+              button.btn.btn-primary(ng-click="calcularDatos()")
+                | Calcular promedios y porcentajes
+              uib-progressbar.progress-xlg.progress-striped.active(value="porcentaje" ng-show="porcentaje > -1")
+                b {{porcentaje}}% Completado
+
+
+div(ng-repeat="grupo in ::grupos")
+
+  div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }")
+    .row
+
+      .col-xs-12.text-center(style="font-weight: bold !important;")
+        | {{::grupo.nombre + ' - ' + grupo.nombres_titular + ' ' + grupo.apellidos_titular }}
+
+      .col-lg-12.col-xs-12
+        .row.body-boletin
+          .col-lg-12.col-xs-12.materias(style="padding:0px")
+            .materia-item
+              table.table-bordered.table-bordered2.table-striped.table-striped2
+                tr(style="background-color: #99caed !important;")
+                  th(rowspan="2")
+                    | No
+                  th.text-center(rowspan="2")
+                    | Alumnos
+                  th.text-center(rowspan="2" style="font-size: 8pt")
+                    div No
+                    div matrícula
+                  th.text-center(rowspan="2" style="font-size: 8pt")
+                    div Sexo
+                  th.text-center(rowspan="2" style="font-size: 8pt")
+                    div Edad
+                  th.text-center(colspan="3")
+                    div Fechas
+                  th.text-center(rowspan="2" style="font-size: 8pt; min-width: 100px;")
+                    div Causa de retiro
+                  th.text-center(rowspan="2" style="font-size: 8pt")
+                    div Estrato
+                  th.text-center(rowspan="2" style="font-size: 8pt")
+                    div ¿Finalizó
+                    div año?
+                  th.text-center(rowspan="2" style="font-size: 8pt")
+                    div Promedio
+                    div %
+                  th.text-center(rowspan="2" style="font-size: 8pt")
+                    div Promovido
+                  th.text-center(rowspan="2" style="font-size: 8pt")
+                    div Años estadía
+                    div en institución
+                  th.text-center(rowspan="2" style="font-size: 8pt")
+                    div Religión
+
+                tr.text-center(style="height: 25px; background-color: #99caed !important;")
+                  th.text-center(style="width: 65px;")
+                    | Ingreso
+                  th.text-center(style="width: 65px;")
+                    | Retiro
+                  th.text-center
+                    | Deserción
+
+                tbody(style="font-size: 9pt")
+                  tr.altura-22(ng-repeat="alumno in ::grupo.alumnos" ng-click="editarAlumno(alumno)" uib-popover-template="views+'alumnos/popoverAlumnoInfo.tpl.html'"
+                    popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}"
+                    popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true")
+
+                    td
+                      | {{$index + 1}}
+                    td
+                      .ellipsis250.alumno-planilla(ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative; vertical-align: middle;")
+                        | {{::alumno.apellidos}} {{::alumno.nombres}}
+                        span(ng-show="alumno.estado=='PREM'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;")
+                          | (Prema)
+                        span(ng-show="alumno.estado=='DESE'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;")
+                          | (Dese)
+                        span(ng-show="alumno.estado=='RETI'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;")
+                          | (Reti)
+                    td.text-center
+                      span {{ ::alumno.no_matricula }}
+                    td.text-center
+                      span {{ ::alumno.sexo }}
+                    td.text-center
+                      span {{ ::alumno.edad }}
+                    td.text-center
+                      span {{ ::alumno.fecha_matricula }}
+                    td.text-center
+                      span(ng-show="alumno.estado=='RETI'") {{ ::alumno.fecha_retiro }}
+                    td.text-center
+                      span(ng-show="alumno.estado=='DESE'") {{ ::alumno.fecha_retiro }}
+                    td.text-center
+                      span {{ ::alumno.razon_retiro }}
+                    td.text-center
+                      span {{ ::alumno.estrato }}
+                    td.text-center
+                      span(ng-show="alumno.estado=='RETI' || alumno.estado=='DESE'") No
+                      span(ng-show="alumno.estado=='PREM' || alumno.estado=='MATR' ") Si
+                    td.text-center
+                      span(ng-show="::alumno.promedio!=''") {{ ::alumno.promedio }}%
+                    td.text-center
+                      span {{ ::alumno.promovido }}
+                    td.text-center
+                      span {{ ::alumno.anios_in_cole }}
+                    td.text-center
+                      span.camel {{::alumno.religion.toLowerCase()}}
+
+                  tr.altura-22(style="height: 17px;")
+                    td
+                    td
+                    td
+                    td
+                    td
+                    td
+                    td
+                    td
+                    td
+                    td
+                    td
+                    td
+                    td
+                    td
+                    td
+
+
+
+
+  div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }")
+    .row
+
+      .col-xs-12.text-center(style="font-weight: bold !important;")
+        | Movimiento de estudiantes y resultados académicos por grados durante el año escolar {{::grupo.nombre }} - {{::USER.year}}
+
+      .col-lg-12.col-xs-12
+        .row.body-boletin
+          .col-lg-12.col-xs-12.materias(style="padding:0px")
+            .materia-item
+              table.table-bordered.table-bordered2.table-striped.table-striped2
+                tr(style="background-color: #99caed !important;")
+
+                  th.text-center(rowspan="2" style="width: 200px;")
+                    | Concepto
+                  th.text-center(rowspan="2" style="font-size: 8pt")
+                    div Cantidad
+                  th.text-center(colspan="2" style="font-size: 8pt")
+                    div Masculino
+                  th.text-center(colspan="2" style="font-size: 8pt")
+                    div Femenino
+                  th.text-center(rowspan="2" style="font-size: 8pt; width: 200px;")
+                    div Concepto
+                  th.text-center(rowspan="2" style="font-size: 8pt")
+                    div Cantidad
+                  th.text-center(colspan="2" style="font-size: 8pt")
+                    div Masculino
+                  th.text-center(colspan="2" style="font-size: 8pt")
+                    div Femenino
+
+                tr.text-center(style="height: 25px; background-color: #99caed !important;")
+                  th.text-center(style="width: 65px;")
+                    | Cant
+                  th.text-center(style="width: 65px;")
+                    | Porc %
+                  th.text-center(style="width: 65px;")
+                    | Cant
+                  th.text-center(style="width: 65px;")
+                    | Porc %
+                  th.text-center(style="width: 65px;")
+                    | Cant
+                  th.text-center(style="width: 65px;")
+                    | Porc %
+                  th.text-center(style="width: 65px;")
+                    | Cant
+                  th.text-center(style="width: 65px;")
+                    | Porc %
+
+
+                tbody(style="font-size: 9pt")
+                  tr
+
+                    td
+                      | Total estudiantes que iniciaron año escolar
+                    td
+                      | {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td
+                      span Estudiantes promovidos con cero (0) asignaturas pendientes
+                    td
+                      | {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+
+                  tr
+
+                    td
+                      | Estudiantes  que ingresaron durante el año escolar
+                    td
+                      | {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td
+                      span Estudiantes promovidos con una (1) asignatura  pendiente
+                    td
+                      | {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+
+                  tr
+
+                    td
+                      | Estudiantes que terminaron el año escolar
+                    td
+                      | {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td
+                      span Estudiantes no promovidos con dos (2) asignaturas pendientes
+                    td
+                      | {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+
+                  tr
+
+                    td
+                      | Estudiantes desertores durante el año (no retiraron documentación)
+                    td
+                      | {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td
+                      span Estudiantes no promovidos con tres (3) asignaturas pendientes
+                    td
+                      | {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+
+                  tr
+
+                    td
+                      | Estudiantes retirados (retiraron documentación)
+                    td
+                      | {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td
+                      span Estudiantes no promovidos con cuatro (4) o más asignaturas pendientes
+                    td
+                      | {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+
+                  tr
+
+                    td
+                      | {{ }}
+                    td
+                      | {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td
+                      span Total de estudiantes NO promovidos
+                    td
+                      | {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+
+                  tr
+
+                    td
+                      | {{ }}
+                    td
+                      | {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td
+                      span Total estudiantes promovidos
+                    td
+                      | {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+                    td.text-center
+                      span {{  }}
+
+
+
+
+
+
+
+          // Tabla de cantidades por periodos
+          .col-lg-12.col-xs-12.materias(style="padding:0px")
+            .materia-item
+              table.table-bordered.table-bordered2.table-striped.table-striped2
+                tr(style="background-color: #99caed !important;")
+
+                  th.text-center(style="width: 200px;")
+                    | Periodos
+                  th.text-center(style="font-size: 8pt")
+                    div Matriculados
+                  th.text-center(style="font-size: 8pt")
+                    div Retirados
+                  th.text-center(style="font-size: 8pt")
+                    div Desertores
+                  th.text-center(style="font-size: 8pt")
+                    div Total
+
+
+
+                tbody
+                  tr
+                    td.text-center(style="width: 65px;")
+                      | Per 1
+                    td.text-center(style="width: 65px;")
+                      | {{}}
+                    td.text-center(style="width: 65px;")
+                      | {{}}
+                    td.text-center(style="width: 65px;")
+                      | {{}}
+                    td.text-center(style="width: 65px;")
+                      | {{}}
+
+                  tr
+                    td.text-center(style="width: 65px;")
+                      | Per 2
+                    td.text-center(style="width: 65px;")
+                      | {{}}
+                    td.text-center(style="width: 65px;")
+                      | {{}}
+                    td.text-center(style="width: 65px;")
+                      | {{}}
+                    td.text-center(style="width: 65px;")
+                      | {{}}
+
+                  tr
+                    td.text-center(style="width: 65px;")
+                      | Per 3
+                    td.text-center(style="width: 65px;")
+                      | {{}}
+                    td.text-center(style="width: 65px;")
+                      | {{}}
+                    td.text-center(style="width: 65px;")
+                      | {{}}
+                    td.text-center(style="width: 65px;")
+                      | {{}}
+
+                  tr
+                    td.text-center(style="width: 65px;")
+                      | Per 4
+                    td.text-center(style="width: 65px;")
+                      | {{}}
+                    td.text-center(style="width: 65px;")
+                      | {{}}
+                    td.text-center(style="width: 65px;")
+                      | {{}}
+                    td.text-center(style="width: 65px;")
+                      | {{}}
+
+                  tr(style="font-weight: bold;")
+                    td.text-center(style="width: 65px;")
+                      | Total
+                    td.text-center(style="width: 65px;")
+                      | {{}}
+                    td.text-center(style="width: 65px;")
+                      | {{}}
+                    td.text-center(style="width: 65px;")
+                      | {{}}
+                    td.text-center(style="width: 65px;")
+                      | {{}}

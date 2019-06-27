@@ -1,171 +1,173 @@
 
-<div ng-if="!USER.pazysalvo &amp;&amp; hasRoleOrPerm(['alumno'])" class="col-lg-12 margin-padding-lados-xs bounceInLeft animated">
-  <div class="widget">
-    <div class="widget-header bg-red"><i class="widget-icon fa fa-warning"></i>
-      <div class="widget-caption">Notas bloqueadas</div>
-    </div>
-    <div class="widget-body">
-      <div class="row">
-        <div class="col-lg-12 col-xs-12">
-          <p>Lo sentimos, para ver sus notas debe acercarse a hacer arreglos en tesorería.</p>
-        </div>
+<div class="row">
+  <div ng-if="!USER.pazysalvo &amp;&amp; hasRoleOrPerm(['alumno'])" class="col-lg-12 margin-padding-lados-xs bounceInLeft animated">
+    <div class="widget">
+      <div class="widget-header bg-red"><i class="widget-icon fa fa-warning"></i>
+        <div class="widget-caption">Notas bloqueadas</div>
       </div>
-      <div class="row">
-        <div class="col-lg-12 col-xs-12">
-          <p>Su deuda es:<span style="font-weight: bold"> {{USER.deuda | currency:"$":0}}</span></p>
-        </div>
-      </div>
-      <div ng-show="USER.fecha_pension" class="row">
-        <div class="col-lg-12 col-xs-12">
-          <p>Fecha última actualización de pensión:<span style="font-weight: bold"> {{ USER.fecha_pension | date }}</span></p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div ng-if=" (USER.alumnos_can_see_notas &amp;&amp; hasRoleOrPerm(['alumno', 'acudiente']) ) || !hasRoleOrPerm(['alumno', 'acudiente'])" class="col-lg-12 margin-padding-lados-xs bounceInLeft animated">
-  <div class="widget">
-    <div class="widget-header bg-blue"><i class="widget-icon fa fa-bar-chart"></i>
-      <div class="widget-caption"> Alumno</div>
-      <div class="widget-buttons"><a href="" ng-init="minimized = false" ng-click="minimized = !minimized"><i ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimized]" class="fa"></i></a></div>
-    </div>
-    <div ng-class="{'ng-hide':minimized}" class="widget-body">
-      <div ng-if="!hasRoleOrPerm('alumno') &amp;&amp; USER.tipo!='Acudiente'" class="row">
-        <div class="col-lg-12 col-xs-12">
-          <div class="form-group">
-            <label style="margin-right: 9px">Grupo</label>
-            <ui-select ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;">
-              <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
-              <ui-select-choices repeat="grupo in grupos | filter: $select.search">
-                <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
-              </ui-select-choices>
-            </ui-select>
-          </div>
-        </div>
-      </div>
-      <div ng-if="!hasRoleOrPerm('alumno') &amp;&amp; USER.tipo!='Acudiente'" class="row">
-        <div class="col-lg-12 col-xs-12">
-          <div class="form-group">
-            <label>Alumno</label>
-            <ui-select ng-model="datos.selected_alumno" on-select="selectAlumno($item)" style="width: 300px;">
-              <ui-select-match placeholder="Elige un alumno" allow-clear="true"><img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;">{{$select.selected.nombres}} {{$select.selected.apellidos}}</ui-select-match>
-              <ui-select-choices repeat="alumno in filtered_alumnos | filter: $select.search"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search"></small></ui-select-choices>
-            </ui-select><a href="" ng-click="verNotasAlumno()" class="btn btn-default">Ver notas</a>
-          </div>
-        </div>
-      </div>
-      <div ng-if="USER.tipo=='Acudiente'" class="row">
-        <div ng-repeat="alumno in mis_acudidos" class="col-lg-4 col-sm-6 col-xs-12">
-          <div ng-class="{ seleccionado: alumno.seleccionado }" ng-click="seleccionarAcudido(alumno)" class="acudido-item"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 60px; height: 60px;"><span style="display: inline-block; padding-left: 4px;">
-              <div>{{alumno.nombres}} {{alumno.apellidos}}</div>
-              <div>{{alumno.deuda | currency:'$':0}} -<span ng-show="alumno.pazysalvo"> Está a paz y salvo</span><span ng-show="!alumno.pazysalvo" style="color: red; font-weight: 800;"> NO Está a paz y salvo</span></div></span></div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-6 col-xs-12">
-          <div class="form-group">
-            <div class="btn-group">
-              <label ng-model="config.solo_notas_perdidas" uib-btn-radio="'todas'" class="btn btn-primary">Todas las notas</label>
-              <label ng-model="config.solo_notas_perdidas" uib-btn-radio="'perdidas'" class="btn btn-primary">Sólo perdidas</label>
-            </div>
-          </div>
-          <div ng-if="USER.tipo=='Alumno' "><a ng-click="verMiBoletin()" href="">Ver mi boletín</a></div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div ng-show="alumno_traido" class="widget">
-    <div class="widget-header">
-      <div class="widget-caption"> Nota faltante en el cuarto periodo</div>
-      <div class="widget-buttons"><a href="" ng-init="minimized = false" ng-click="minimized = !minimized"><i ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimized]" class="fa"></i></a></div>
-    </div>
-    <div ng-class="{'ng-hide':minimized}" style="text-align: center; overflow: auto;" class="widget-body">
-      <table class="table-bordered table-bordered2 table-striped table-striped2">
-        <tr style="background-color: #A7C7EB!important; font-weight: bold;">
-          <td ng-repeat="asignatura in alumno_traido.notas_tercer_per" style="padding: 4px"><span uib-tooltip="{{asignatura.materia}}">{{asignatura.alias}}</span></td>
-        </tr>
-        <tr>
-          <td ng-repeat="asignatura in alumno_traido.notas_tercer_per" style="padding: 6px" ng-class="{'nota-perdida-bold': asignatura.nota_final_year&lt;USER.nota_minima_aceptada}"><span style="" ng-show="asignatura.nota_faltante" uib-tooltip="Definitiva hasta 3per: {{ asignatura.nota_final_year }}">{{ asignatura.nota_faltante }}</span></td>
-        </tr>
-      </table>
-    </div>
-  </div>
-  <div ng-if="periodos_notas.length &gt; 0 &amp;&amp; USER.tipo=='Acudiente' "><a ng-click="verBoletin()" href="">Ver boletín</a></div>
-  <uib-accordion close-others="true">
-    <div uib-accordion-group is-open="$first" heading="Periodo {{periodo.numero}} ({{periodo.asignaturas | notasPerdidasAsignaturas}})" ng-repeat="periodo in periodos_notas" class="panel-default margin-padding-lados-xs panel-acordeon">
-      <!-- COMPORTAMIENTO-->
-      <div class="materia-item animated fadeInUp margin-padding-lados-xs">
-        <div style="font-size: 10pt; display: flex; align-items: center; border-radius: 5px;" uib-popover-template="views+'informes/infoDocentePop.tpl.html'" popover-popup-delay="500" popover-title="{{periodo.nota_comportamiento.nombres + ' ' + periodo.nota_comportamiento.apellidos}}" popover-animation="true" popover-trigger="'mouseenter'" popover-append-to-body="true" class="row materia-title">
-          <div class="col-lg-9 col-xs-9"><span class="materia-name">COMPORTAMIENTO</span><span class="materia-profesor">  - Prof.<span class="camel">  {{periodo.nota_comportamiento.nombres.toLowerCase()}} {{periodo.nota_comportamiento.apellidos.toLowerCase()}}</span></span></div>
-          <div ng-class="{'nota-perdida': periodo.nota_comportamiento.nota&lt;USER.nota_minima_aceptada}" class="col-sm-1 col-xs-2 no-padding">{{ asignatura.desempenio }}</div>
-          <div ng-if="!hasRoleOrPerm(['admin', 'profesor'])" class="col-lg-1 col-sm-1 col-xs-2 subunidad-nota puntero"><span ng-class="{'nota-perdida-bold': periodo.nota_comportamiento.nota&lt;USER.nota_minima_aceptada}">{{periodo.nota_comportamiento.nota}}</span><span ng-show="!periodo.nota_comportamiento.id &amp;&amp; periodo.nota_comportamiento.nota!=0" uib-tooltip="Aún sin nota" class="nota-perdida"><i class="fa fa-warning"></i></span></div>
-          <div ng-class="{'inputnota-perdida': periodo.nota_comportamiento.nota &lt; USER.nota_minima_aceptada}" ng-if="hasRoleOrPerm(['admin', 'profesor'])" style="padding-left: 0px;" class="col-lg-2 col-sm-3 col-md-3 col-xs-12">
-            <input type="number" min="0" max="{{escala_maxima.porc_final}}" ng-model="periodo.nota_comportamiento.nota" ng-change="cambiaNotaComport(periodo.nota_comportamiento, periodo)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-disabled="(periodo.nota_comportamiento.titular_id!=USER.persona_id &amp;&amp; !hasRoleOrPerm(['admin'])) || (periodos[periodo.numero-1].profes_pueden_editar_notas==0 &amp;&amp; !hasRoleOrPerm('admin')) || hasRoleOrPerm(['profesor', 'alumno', 'acudiente'])" class="input-nota">
-          </div>
-        </div>
-      </div>
-      <!-- ASIGNATURAS-->
-      <div ng-repeat="asignatura in periodo.asignaturas | soloAsignaturasConPerdidas:config.solo_notas_perdidas" class="materia-item animated fadeInUp margin-padding-lados-xs">
-        <div style="font-size: 10pt; display: flex; align-items: center;" uib-popover-template="views+'informes/infoDocentePop.tpl.html'" popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" popover-trigger="'mouseenter'" popover-append-to-body="true" class="row materia-title">
-          <div class="col-lg-9 col-xs-9"><span class="materia-name">{{asignatura.materia}}</span><span ng-if="!hasRoleOrPerm('profesor')" class="materia-profesor">  - Prof.<span class="camel">  {{asignatura.nombres_profesor.toLowerCase()}} {{asignatura.apellidos_profesor.toLowerCase()}}</span></span></div>
-          <div ng-class="{'nota-perdida': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada}" class="col-sm-1 col-xs-2 no-padding">{{ asignatura.desempenio }}</div>
-          <div ng-if="!hasRoleOrPerm(['admin', 'profesor'])" class="col-lg-1 col-sm-1 col-xs-2 subunidad-nota puntero"><span ng-class="{'nota-perdida-bold': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada}">{{asignatura.nota_asignatura}}</span><span ng-show="!asignatura.nf_id &amp;&amp; asignatura.nota_asignatura!=0" uib-tooltip="Aún sin nota" class="nota-perdida"><i class="fa fa-warning"></i></span></div>
-          <div ng-class="{'inputnota-perdida': asignatura.nota_asignatura &lt; USER.nota_minima_aceptada}" ng-if="hasRoleOrPerm(['admin', 'profesor'])" style="padding-left: 0px;" class="col-lg-2 col-sm-3 col-md-3 col-xs-12">
-            <input type="number" min="0" max="{{escala_maxima.porc_final}}" ng-model="asignatura.nota_asignatura" ng-disabled="periodos[periodo.numero-1].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" ng-change="cambiaNotaDef(asignatura, asignatura.nota_asignatura, asignatura.nf_id, periodo.numero)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" class="input-nota">
-            <label for="manual-{{asignatura.asignatura_id}}" uib-tooltip="¿Es manual?" style="margin-bottom: 0px"><span style="font-size: 9pt">M</span>
-              <input id="manual-{{asignatura.asignatura_id}}" type="checkbox" ng-disabled="periodos[periodo.numero-1].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" ng-model="asignatura.manual" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaFinalManual(asignatura, asignatura.manual, asignatura.nf_id)" style="opacity: 1; position: unset;" class="no-margin-top">
-            </label>
-            <label for="recuperada-{{asignatura.asignatura_id}}" uib-tooltip="¿Asignatura recuperada?" style="margin-bottom: 0px"><span style="font-size: 9pt">R</span>
-              <input id="recuperada-{{asignatura.asignatura_id}}" type="checkbox" ng-disabled="periodos[periodo.numero-1].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" ng-model="asignatura.recuperada" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaFinalRecuperada(asignatura, asignatura.recuperada, asignatura.nf_id)" style="opacity: 1; position: unset;" class="no-margin-top">
-            </label>
-          </div>
-        </div>
-        <div class="row unidades-list">
+      <div class="widget-body">
+        <div class="row">
           <div class="col-lg-12 col-xs-12">
-            <div class="row">
-              <div style="padding: 0px; text-align: center; margin-bottom: 5px;" class="col-lg-12 col-xs-12"><i class="fa fa-clock-o icon-tardanza"></i><span class="text-tardanza">Ausencias: {{::asignatura.total_ausencias}} / Tardanzas: {{::asignatura.total_tardanzas}}</span></div>
+            <p>Lo sentimos, para ver sus notas debe acercarse a hacer arreglos en tesorería.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-xs-12">
+            <p>Su deuda es:<span style="font-weight: bold"> {{USER.deuda | currency:"$":0}}</span></p>
+          </div>
+        </div>
+        <div ng-show="USER.fecha_pension" class="row">
+          <div class="col-lg-12 col-xs-12">
+            <p>Fecha última actualización de pensión:<span style="font-weight: bold"> {{ USER.fecha_pension | date }}</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-if=" (USER.alumnos_can_see_notas &amp;&amp; hasRoleOrPerm(['alumno', 'acudiente']) ) || !hasRoleOrPerm(['alumno', 'acudiente'])" class="col-lg-12 margin-padding-lados-xs bounceInLeft animated">
+    <div class="widget">
+      <div class="widget-header bg-blue"><i class="widget-icon fa fa-bar-chart"></i>
+        <div class="widget-caption"> Alumno</div>
+        <div class="widget-buttons"><a href="" ng-init="minimized = false" ng-click="minimized = !minimized"><i ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimized]" class="fa"></i></a></div>
+      </div>
+      <div ng-class="{'ng-hide':minimized}" class="widget-body">
+        <div ng-if="!hasRoleOrPerm('alumno') &amp;&amp; USER.tipo!='Acudiente'" class="row">
+          <div class="col-lg-12 col-xs-12">
+            <div class="form-group">
+              <label style="margin-right: 9px">Grupo</label>
+              <ui-select ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;">
+                <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
+                <ui-select-choices repeat="grupo in grupos | filter: $select.search">
+                  <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
+                </ui-select-choices>
+              </ui-select>
             </div>
-            <div ng-repeat="unidad in asignatura.unidades | soloUnidadesConPerdidas:config.solo_notas_perdidas" class="row unidades-item animated">
-              <div class="col-lg-12 col-xs-12">
-                <div class="row">
-                  <div class="col-lg-10 col-xs-10 unidad-definicion">{{unidad.definicion_unidad}}</div>
-                  <div class="col-lg-1 col-xs-2 unidad-porc">{{unidad.porcentaje_unidad}}% - {{unidad.nota_unidad | number:0}}</div>
-                </div>
-                <div ng-repeat="subunidad in unidad.subunidades | soloSubunidadesPerdidas:config.solo_notas_perdidas" style="font-size: 9pt;" class="row subunidades-list">
-                  <div class="col-lg-12 col-xs-12">
-                    <div class="row">
-                      <div class="col-lg-10 col-xs-12 col-sm-10 subunidad-definicion">{{$index+1}}. {{subunidad.definicion_subunidad}}</div>
-                      <div class="col-lg-1 col-xs-4 col-sm-1 subunidad-porc">{{subunidad.porcentaje_subunidad}}%</div>
-                      <div ng-if="!hasRoleOrPerm(['admin', 'profesor'])" class="col-lg-1 col-xs-4 col-sm-1 subunidad-nota puntero"><span ng-class="{'nota-perdida-bold': subunidad.nota.nota&lt;USER.nota_minima_aceptada}" uib-tooltip="Valor nota: {{subunidad.nota.valor}}">{{subunidad.nota.nota}}</span><span ng-show="!subunidad.nota.nota &amp;&amp; subunidad.nota.nota!=0" uib-tooltip="Aún sin nota" class="nota-perdida"><i class="fa fa-warning"></i></span></div>
-                      <div ng-class="{'inputnota-perdida': subunidad.nota.nota &lt; USER.nota_minima_aceptada}" ng-if="hasRoleOrPerm(['admin', 'profesor'])" class="col-lg-1 col-xs-4 col-sm-1 no-padding">
-                        <input type="number" min="0" max="100" ng-model="subunidad.nota.nota" ng-disabled="periodos[periodo.numero-1].profes_pueden_editar_notas==0 &amp;&amp; !hasRoleOrPerm('Admin')" ng-change="cambiaNota(subunidad.nota, subunidad.nota.nota)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }">
+          </div>
+        </div>
+        <div ng-if="!hasRoleOrPerm('alumno') &amp;&amp; USER.tipo!='Acudiente'" class="row">
+          <div class="col-lg-12 col-xs-12">
+            <div class="form-group">
+              <label>Alumno</label>
+              <ui-select ng-model="datos.selected_alumno" on-select="selectAlumno($item)" style="width: 300px;">
+                <ui-select-match placeholder="Elige un alumno" allow-clear="true"><img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;">{{$select.selected.nombres}} {{$select.selected.apellidos}}</ui-select-match>
+                <ui-select-choices repeat="alumno in filtered_alumnos | filter: $select.search"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search"></small></ui-select-choices>
+              </ui-select><a href="" ng-click="verNotasAlumno()" class="btn btn-default">Ver notas</a>
+            </div>
+          </div>
+        </div>
+        <div ng-if="USER.tipo=='Acudiente'" class="row">
+          <div ng-repeat="alumno in mis_acudidos" class="col-lg-4 col-sm-6 col-xs-12">
+            <div ng-class="{ seleccionado: alumno.seleccionado }" ng-click="seleccionarAcudido(alumno)" class="acudido-item"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 60px; height: 60px;"><span style="display: inline-block; padding-left: 4px;">
+                <div>{{alumno.nombres}} {{alumno.apellidos}}</div>
+                <div>{{alumno.deuda | currency:'$':0}} -<span ng-show="alumno.pazysalvo"> Está a paz y salvo</span><span ng-show="!alumno.pazysalvo" style="color: red; font-weight: 800;"> NO Está a paz y salvo</span></div></span></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 col-xs-12">
+            <div class="form-group">
+              <div class="btn-group">
+                <label ng-model="config.solo_notas_perdidas" uib-btn-radio="'todas'" class="btn btn-primary">Todas las notas</label>
+                <label ng-model="config.solo_notas_perdidas" uib-btn-radio="'perdidas'" class="btn btn-primary">Sólo perdidas</label>
+              </div>
+            </div>
+            <div ng-if="USER.tipo=='Alumno' "><a ng-click="verMiBoletin()" href="">Ver mi boletín</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div ng-show="alumno_traido" class="widget">
+      <div class="widget-header">
+        <div class="widget-caption"> Nota faltante en el cuarto periodo</div>
+        <div class="widget-buttons"><a href="" ng-init="minimized = false" ng-click="minimized = !minimized"><i ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimized]" class="fa"></i></a></div>
+      </div>
+      <div ng-class="{'ng-hide':minimized}" style="text-align: center; overflow: auto;" class="widget-body">
+        <table class="table-bordered table-bordered2 table-striped table-striped2">
+          <tr style="background-color: #A7C7EB!important; font-weight: bold;">
+            <td ng-repeat="asignatura in alumno_traido.notas_tercer_per" style="padding: 4px"><span uib-tooltip="{{asignatura.materia}}">{{asignatura.alias}}</span></td>
+          </tr>
+          <tr>
+            <td ng-repeat="asignatura in alumno_traido.notas_tercer_per" style="padding: 6px" ng-class="{'nota-perdida-bold': asignatura.nota_final_year&lt;USER.nota_minima_aceptada}"><span style="" ng-show="asignatura.nota_faltante" uib-tooltip="Definitiva hasta 3per: {{ asignatura.nota_final_year }}">{{ asignatura.nota_faltante }}</span></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div ng-if="periodos_notas.length &gt; 0 &amp;&amp; USER.tipo=='Acudiente' "><a ng-click="verBoletin()" href="">Ver boletín</a></div>
+    <uib-accordion close-others="true">
+      <div uib-accordion-group is-open="$first" heading="Periodo {{periodo.numero}} ({{periodo.asignaturas | notasPerdidasAsignaturas}})" ng-repeat="periodo in periodos_notas" class="panel-default margin-padding-lados-xs panel-acordeon">
+        <!-- COMPORTAMIENTO-->
+        <div class="materia-item animated fadeInUp margin-padding-lados-xs">
+          <div style="font-size: 10pt; display: flex; align-items: center; border-radius: 5px;" uib-popover-template="views+'informes/infoDocentePop.tpl.html'" popover-popup-delay="500" popover-title="{{periodo.nota_comportamiento.nombres + ' ' + periodo.nota_comportamiento.apellidos}}" popover-animation="true" popover-trigger="'mouseenter'" popover-append-to-body="true" class="row materia-title">
+            <div class="col-lg-9 col-xs-9"><span class="materia-name">COMPORTAMIENTO</span><span class="materia-profesor">  - Prof.<span class="camel">  {{periodo.nota_comportamiento.nombres.toLowerCase()}} {{periodo.nota_comportamiento.apellidos.toLowerCase()}}</span></span></div>
+            <div ng-class="{'nota-perdida': periodo.nota_comportamiento.nota&lt;USER.nota_minima_aceptada}" class="col-sm-1 col-xs-2 no-padding">{{ asignatura.desempenio }}</div>
+            <div ng-if="!hasRoleOrPerm(['admin', 'profesor'])" class="col-lg-1 col-sm-1 col-xs-2 subunidad-nota puntero"><span ng-class="{'nota-perdida-bold': periodo.nota_comportamiento.nota&lt;USER.nota_minima_aceptada}">{{periodo.nota_comportamiento.nota}}</span><span ng-show="!periodo.nota_comportamiento.id &amp;&amp; periodo.nota_comportamiento.nota!=0" uib-tooltip="Aún sin nota" class="nota-perdida"><i class="fa fa-warning"></i></span></div>
+            <div ng-class="{'inputnota-perdida': periodo.nota_comportamiento.nota &lt; USER.nota_minima_aceptada}" ng-if="hasRoleOrPerm(['admin', 'profesor'])" style="padding-left: 0px;" class="col-lg-2 col-sm-3 col-md-3 col-xs-12">
+              <input type="number" min="0" max="{{escala_maxima.porc_final}}" ng-model="periodo.nota_comportamiento.nota" ng-change="cambiaNotaComport(periodo.nota_comportamiento, periodo)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" ng-disabled="(periodo.nota_comportamiento.titular_id!=USER.persona_id &amp;&amp; !hasRoleOrPerm(['admin'])) || (periodos[periodo.numero-1].profes_pueden_editar_notas==0 &amp;&amp; !hasRoleOrPerm('admin')) || hasRoleOrPerm(['profesor', 'alumno', 'acudiente'])" class="input-nota">
+            </div>
+          </div>
+        </div>
+        <!-- ASIGNATURAS-->
+        <div ng-repeat="asignatura in periodo.asignaturas | soloAsignaturasConPerdidas:config.solo_notas_perdidas" class="materia-item animated fadeInUp margin-padding-lados-xs">
+          <div style="font-size: 10pt; display: flex; align-items: center;" uib-popover-template="views+'informes/infoDocentePop.tpl.html'" popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" popover-trigger="'mouseenter'" popover-append-to-body="true" class="row materia-title">
+            <div class="col-lg-9 col-xs-9"><span class="materia-name">{{asignatura.materia}}</span><span ng-if="!hasRoleOrPerm('profesor')" class="materia-profesor">  - Prof.<span class="camel">  {{asignatura.nombres_profesor.toLowerCase()}} {{asignatura.apellidos_profesor.toLowerCase()}}</span></span></div>
+            <div ng-class="{'nota-perdida': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada}" class="col-sm-1 col-xs-2 no-padding">{{ asignatura.desempenio }}</div>
+            <div ng-if="!hasRoleOrPerm(['admin', 'profesor'])" class="col-lg-1 col-sm-1 col-xs-2 subunidad-nota puntero"><span ng-class="{'nota-perdida-bold': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada}">{{asignatura.nota_asignatura}}</span><span ng-show="!asignatura.nf_id &amp;&amp; asignatura.nota_asignatura!=0" uib-tooltip="Aún sin nota" class="nota-perdida"><i class="fa fa-warning"></i></span></div>
+            <div ng-class="{'inputnota-perdida': asignatura.nota_asignatura &lt; USER.nota_minima_aceptada}" ng-if="hasRoleOrPerm(['admin', 'profesor'])" style="padding-left: 0px;" class="col-lg-2 col-sm-3 col-md-3 col-xs-12">
+              <input type="number" min="0" max="{{escala_maxima.porc_final}}" ng-model="asignatura.nota_asignatura" ng-disabled="periodos[periodo.numero-1].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" ng-change="cambiaNotaDef(asignatura, asignatura.nota_asignatura, asignatura.nf_id, periodo.numero)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" class="input-nota">
+              <label for="manual-{{asignatura.asignatura_id}}" uib-tooltip="¿Es manual?" style="margin-bottom: 0px"><span style="font-size: 9pt">M</span>
+                <input id="manual-{{asignatura.asignatura_id}}" type="checkbox" ng-disabled="periodos[periodo.numero-1].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" ng-model="asignatura.manual" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaFinalManual(asignatura, asignatura.manual, asignatura.nf_id)" style="opacity: 1; position: unset;" class="no-margin-top">
+              </label>
+              <label for="recuperada-{{asignatura.asignatura_id}}" uib-tooltip="¿Asignatura recuperada?" style="margin-bottom: 0px"><span style="font-size: 9pt">R</span>
+                <input id="recuperada-{{asignatura.asignatura_id}}" type="checkbox" ng-disabled="periodos[periodo.numero-1].profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" ng-model="asignatura.recuperada" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaFinalRecuperada(asignatura, asignatura.recuperada, asignatura.nf_id)" style="opacity: 1; position: unset;" class="no-margin-top">
+              </label>
+            </div>
+          </div>
+          <div class="row unidades-list">
+            <div class="col-lg-12 col-xs-12">
+              <div class="row">
+                <div style="padding: 0px; text-align: center; margin-bottom: 5px;" class="col-lg-12 col-xs-12"><i class="fa fa-clock-o icon-tardanza"></i><span class="text-tardanza">Ausencias: {{::asignatura.total_ausencias}} / Tardanzas: {{::asignatura.total_tardanzas}}</span></div>
+              </div>
+              <div ng-repeat="unidad in asignatura.unidades | soloUnidadesConPerdidas:config.solo_notas_perdidas" class="row unidades-item animated">
+                <div class="col-lg-12 col-xs-12">
+                  <div class="row">
+                    <div class="col-lg-10 col-xs-10 unidad-definicion">{{unidad.definicion_unidad}}</div>
+                    <div class="col-lg-1 col-xs-2 unidad-porc">{{unidad.porcentaje_unidad}}% - {{unidad.nota_unidad | number:0}}</div>
+                  </div>
+                  <div ng-repeat="subunidad in unidad.subunidades | soloSubunidadesPerdidas:config.solo_notas_perdidas" style="font-size: 9pt;" class="row subunidades-list">
+                    <div class="col-lg-12 col-xs-12">
+                      <div class="row">
+                        <div class="col-lg-10 col-xs-12 col-sm-10 subunidad-definicion">{{$index+1}}. {{subunidad.definicion_subunidad}}</div>
+                        <div class="col-lg-1 col-xs-4 col-sm-1 subunidad-porc">{{subunidad.porcentaje_subunidad}}%</div>
+                        <div ng-if="!hasRoleOrPerm(['admin', 'profesor'])" class="col-lg-1 col-xs-4 col-sm-1 subunidad-nota puntero"><span ng-class="{'nota-perdida-bold': subunidad.nota.nota&lt;USER.nota_minima_aceptada}" uib-tooltip="Valor nota: {{subunidad.nota.valor}}">{{subunidad.nota.nota}}</span><span ng-show="!subunidad.nota.nota &amp;&amp; subunidad.nota.nota!=0" uib-tooltip="Aún sin nota" class="nota-perdida"><i class="fa fa-warning"></i></span></div>
+                        <div ng-class="{'inputnota-perdida': subunidad.nota.nota &lt; USER.nota_minima_aceptada}" ng-if="hasRoleOrPerm(['admin', 'profesor'])" class="col-lg-1 col-xs-4 col-sm-1 no-padding">
+                          <input type="number" min="0" max="100" ng-model="subunidad.nota.nota" ng-disabled="periodos[periodo.numero-1].profes_pueden_editar_notas==0 &amp;&amp; !hasRoleOrPerm('Admin')" ng-change="cambiaNota(subunidad.nota, subunidad.nota.nota)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }">
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div ng-show="::asignatura.frases.length&gt;0" class="row comentarios-asignatura">
-              <div class="col-lg-12 col-xs-12">
-                <div class="comentario-title"><i style="padding-right: 5px;" class="fa fa-comments-o"></i>Observaciones</div>
-                <div ng-repeat="frase in ::asignatura.frases" class="row comentario-item">{{::frase.frase}}<span ng-show="::frase.frase_id" class="tipo-frase">- {{::frase.tipo_frase}}</span></div>
+              <div ng-show="::asignatura.frases.length&gt;0" class="row comentarios-asignatura">
+                <div class="col-lg-12 col-xs-12">
+                  <div class="comentario-title"><i style="padding-right: 5px;" class="fa fa-comments-o"></i>Observaciones</div>
+                  <div ng-repeat="frase in ::asignatura.frases" class="row comentario-item">{{::frase.frase}}<span ng-show="::frase.frase_id" class="tipo-frase">- {{::frase.tipo_frase}}</span></div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </uib-accordion>
-</div>
-<div ng-if="!USER.alumnos_can_see_notas &amp;&amp; hasRoleOrPerm(['alumno', 'acudiente'])" class="col-lg-12">
-  <div class="widget">
-    <div class="widget-header bg-red"><i class="widget-icon fa fa-warning"></i>
-      <div class="widget-caption">Notas bloqueadas</div>
-    </div>
-    <div class="widget-body">
-      <div class="row">
-        <div class="col-lg-12 col-xs-12">
-          <p>Lo sentimos, pero el sistema ha sido bloqueado por un administrador y no puedes ver tus notas.</p>
+    </uib-accordion>
+  </div>
+  <div ng-if="!USER.alumnos_can_see_notas &amp;&amp; hasRoleOrPerm(['alumno', 'acudiente'])" class="col-lg-12">
+    <div class="widget">
+      <div class="widget-header bg-red"><i class="widget-icon fa fa-warning"></i>
+        <div class="widget-caption">Notas bloqueadas</div>
+      </div>
+      <div class="widget-body">
+        <div class="row">
+          <div class="col-lg-12 col-xs-12">
+            <p>Lo sentimos, pero el sistema ha sido bloqueado por un administrador y no puedes ver tus notas.</p>
+          </div>
         </div>
       </div>
     </div>

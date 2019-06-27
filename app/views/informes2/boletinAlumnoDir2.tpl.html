@@ -48,6 +48,8 @@
                         <div class="col-lg-1 col-xs-1">
                           <div ng-class="{'nota-perdida-bold': asignatura.nota_asignatura&lt;USER.nota_minima_aceptada &amp;&amp; config.show_rojos}">{{ ::asignatura.nota_asignatura }}<span uib-tooltip="Materia recuperada por el docente" ng-show="asignatura.recuperada">  R</span><span uib-tooltip="Nota puesta manualmente" ng-show="asignatura.manual" style="font-size: 7pt">  M</span></div>
                         </div>
+                        <!-- NOTAS FINALES PERIODOS-->
+                        <div style="border-top: 1px dashed; font-size: 7pt;" class="col-xs-12"><span ng-repeat="nota in ::asignatura.notas_finales" style="width: 80px; display: inline-block; font-weight: normal"><span>P{{ nota.periodo }}:</span><span style="font-weight: bolder"> {{ nota.nota }}</span><span uib-tooltip="Materia recuperada por el docente" ng-show="nota.recuperada">R</span><span uib-tooltip="Nota puesta manualmente" ng-show="nota.manual" style="font-size: 7pt">M</span></span><span style="width: 80px; display: inline-block; font-weight: normal" uib-tooltip="Promedio de definitivas hasta el momento"><span>Def:</span><span style="font-weight: bolder"> {{ asignatura.nota_definitiva_anio }}</span></span><span style="width: 80px; display: inline-block; font-weight: normal" ng-show="::USER.numero_periodo &gt; 2" uib-tooltip="Nota que debe sacar en el cuarto periodo para pasar la materia"><span ng-show="::USER.numero_periodo == 4">Faltaba:</span><span ng-show="::USER.numero_periodo &lt; 4">Falta:</span><span style="font-weight: bolder"> {{ asignatura.nota_faltante }}</span></span></div>
                       </div>
                       <div style="margin: 0px 0px 0px 5px;" class="row unidades-list">
                         <div class="col-lg-12 col-xs-12">
@@ -119,7 +121,7 @@
                   <div class="col-lg-3 col-xs-3"><b>Ausencias</b>  a clases: {{ ::alumno.ausencias_total.cant_ausencias_clases }}</div>
                 </div>
               </div>
-              <div ng-repeat="situacion in alumno.situaciones" class="row">
+              <div ng-repeat="situacion in alumno.situaciones" ng-if="::USER.mostrar_nota_comport_boletin" class="row">
                 <div class="col-lg-12 col-xs-12"><span class="bold">Per{{situacion.numero}}</span><span uib-tooltip="{{situacion.nombres_profesor + ' ' + situacion.apellidos_profesor}}"><span class="bold"> Situación tipo {{situacion.tipo_situacion}}:</span><span> {{situacion.descripcion}}</span></span></div>
               </div>
               <div ng-repeat="definicion in alumno.comportamiento.definiciones" class="row">

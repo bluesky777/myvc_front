@@ -1,11 +1,11 @@
 
 <div style="margin-bottom: 20px; background-color:#fff; padding: 30px;" class="row hidden-print">
-  <div class="col-xs-12 col-sm-3">Título encabezado:</div>
+  <div class="col-xs-12 col-sm-3">Título encabezado: (puedes usar código html)</div>
   <div class="col-xs-12 col-sm-9">
     <textarea ng-model="titulo_listado.texto" ng-model-options="{ updateOn: 'blur' }" style="width: 90%; height: 100px; " ng-change="cambia_texto_informativo()"></textarea><br>
   </div>
   <div class="col-xs-12 col-sm-3">
-    <label style="margin-right: 9px;">Columnas: (selecciona varias columnas usando Ctrl + Click</label>
+    <label style="margin-right: 9px;">Columnas: (selecciona varias columnas usando Ctrl + Click)</label>
   </div>
   <div class="col-xs-12 col-sm-9">
     <select multiple="multiple" ng-model="columnasDatos" ng-change="cambiaColumnasDatos(columnasDatos)" style="width: 90%; display: inline-block;" class="form-control">

@@ -1,232 +1,233 @@
-.col-lg-12.margin-padding-lados-xs.bounceInLeft.animated(ng-if="!USER.pazysalvo && hasRoleOrPerm(['alumno'])")
-	.widget
-		.widget-header.bg-red
-			i.widget-icon.fa.fa-warning
-			.widget-caption
-				| Notas bloqueadas
-		.widget-body
-			.row
-				.col-lg-12.col-xs-12
-					p Lo sentimos, para ver sus notas debe acercarse a hacer arreglos en tesorería.
-			.row
-				.col-lg-12.col-xs-12
-					p Su deuda es:
-						span(style="font-weight: bold")  {{USER.deuda | currency:"$":0}}
-			.row(ng-show="USER.fecha_pension")
-				.col-lg-12.col-xs-12
-					p Fecha última actualización de pensión:
-						span(style="font-weight: bold")  {{ USER.fecha_pension | date }}
+.row
+  .col-lg-12.margin-padding-lados-xs.bounceInLeft.animated(ng-if="!USER.pazysalvo && hasRoleOrPerm(['alumno'])")
+    .widget
+      .widget-header.bg-red
+        i.widget-icon.fa.fa-warning
+        .widget-caption
+          | Notas bloqueadas
+      .widget-body
+        .row
+          .col-lg-12.col-xs-12
+            p Lo sentimos, para ver sus notas debe acercarse a hacer arreglos en tesorería.
+        .row
+          .col-lg-12.col-xs-12
+            p Su deuda es:
+              span(style="font-weight: bold")  {{USER.deuda | currency:"$":0}}
+        .row(ng-show="USER.fecha_pension")
+          .col-lg-12.col-xs-12
+            p Fecha última actualización de pensión:
+              span(style="font-weight: bold")  {{ USER.fecha_pension | date }}
 
 
 
 
 
 
-.col-lg-12.margin-padding-lados-xs.bounceInLeft.animated(ng-if=" (USER.alumnos_can_see_notas && hasRoleOrPerm(['alumno', 'acudiente']) ) || !hasRoleOrPerm(['alumno', 'acudiente'])")
+  .col-lg-12.margin-padding-lados-xs.bounceInLeft.animated(ng-if=" (USER.alumnos_can_see_notas && hasRoleOrPerm(['alumno', 'acudiente']) ) || !hasRoleOrPerm(['alumno', 'acudiente'])")
 
-	.widget
-		.widget-header.bg-blue
-			i.widget-icon.fa.fa-bar-chart
-			.widget-caption
-				|  Alumno
-			.widget-buttons
-				a(href="" ng-init="minimized = false" ng-click="minimized = !minimized")
-					i.fa(ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimized]")
-		.widget-body(ng-class="{'ng-hide':minimized}")
-			.row(ng-if="!hasRoleOrPerm('alumno') && USER.tipo!='Acudiente'")
-				.col-lg-12.col-xs-12
-					.form-group
-						label(style="margin-right: 9px") Grupo
-						ui-select(ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;")
-							ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}}
-							ui-select-choices(repeat="grupo in grupos | filter: $select.search")
-								div(ng-bind-html="grupo.nombre | highlight: $select.search")
+    .widget
+      .widget-header.bg-blue
+        i.widget-icon.fa.fa-bar-chart
+        .widget-caption
+          |  Alumno
+        .widget-buttons
+          a(href="" ng-init="minimized = false" ng-click="minimized = !minimized")
+            i.fa(ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimized]")
+      .widget-body(ng-class="{'ng-hide':minimized}")
+        .row(ng-if="!hasRoleOrPerm('alumno') && USER.tipo!='Acudiente'")
+          .col-lg-12.col-xs-12
+            .form-group
+              label(style="margin-right: 9px") Grupo
+              ui-select(ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;")
+                ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}}
+                ui-select-choices(repeat="grupo in grupos | filter: $select.search")
+                  div(ng-bind-html="grupo.nombre | highlight: $select.search")
 
-			.row(ng-if="!hasRoleOrPerm('alumno') && USER.tipo!='Acudiente'")
-				.col-lg-12.col-xs-12
-					.form-group
-						label Alumno
-						ui-select( ng-model="datos.selected_alumno" on-select="selectAlumno($item)" style="width: 300px;")
-							ui-select-match(placeholder="Elige un alumno" allow-clear="true")
-								img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;")
-								| {{$select.selected.nombres}} {{$select.selected.apellidos}}
-							ui-select-choices(repeat="alumno in filtered_alumnos | filter: $select.search")
-								img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
-								small(ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
-						a.btn.btn-default(href="" ng-click="verNotasAlumno()") Ver notas
+        .row(ng-if="!hasRoleOrPerm('alumno') && USER.tipo!='Acudiente'")
+          .col-lg-12.col-xs-12
+            .form-group
+              label Alumno
+              ui-select( ng-model="datos.selected_alumno" on-select="selectAlumno($item)" style="width: 300px;")
+                ui-select-match(placeholder="Elige un alumno" allow-clear="true")
+                  img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;")
+                  | {{$select.selected.nombres}} {{$select.selected.apellidos}}
+                ui-select-choices(repeat="alumno in filtered_alumnos | filter: $select.search")
+                  img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
+                  small(ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
+              a.btn.btn-default(href="" ng-click="verNotasAlumno()") Ver notas
 
-			.row(ng-if="USER.tipo=='Acudiente'")
-				.col-lg-4.col-sm-6.col-xs-12(ng-repeat="alumno in mis_acudidos")
-					.acudido-item(ng-class="{ seleccionado: alumno.seleccionado }" ng-click="seleccionarAcudido(alumno)")
-						img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 60px; height: 60px;")
-						span(style="display: inline-block; padding-left: 4px;")
-							div {{alumno.nombres}} {{alumno.apellidos}}
-							div {{alumno.deuda | currency:'$':0}} -
-								span(ng-show="alumno.pazysalvo")  Está a paz y salvo
-								span(ng-show="!alumno.pazysalvo" style="color: red; font-weight: 800;")  NO Está a paz y salvo
+        .row(ng-if="USER.tipo=='Acudiente'")
+          .col-lg-4.col-sm-6.col-xs-12(ng-repeat="alumno in mis_acudidos")
+            .acudido-item(ng-class="{ seleccionado: alumno.seleccionado }" ng-click="seleccionarAcudido(alumno)")
+              img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 60px; height: 60px;")
+              span(style="display: inline-block; padding-left: 4px;")
+                div {{alumno.nombres}} {{alumno.apellidos}}
+                div {{alumno.deuda | currency:'$':0}} -
+                  span(ng-show="alumno.pazysalvo")  Está a paz y salvo
+                  span(ng-show="!alumno.pazysalvo" style="color: red; font-weight: 800;")  NO Está a paz y salvo
 
-			.row
-				.col-sm-6.col-xs-12
-					.form-group
-						.btn-group
-							label.btn.btn-primary(ng-model="config.solo_notas_perdidas" uib-btn-radio="'todas'") Todas las notas
-							label.btn.btn-primary(ng-model="config.solo_notas_perdidas" uib-btn-radio="'perdidas'") Sólo perdidas
-
-
-
-
-					div(ng-if="USER.tipo=='Alumno' ")
-						a(ng-click="verMiBoletin()" href="") Ver mi boletín
+        .row
+          .col-sm-6.col-xs-12
+            .form-group
+              .btn-group
+                label.btn.btn-primary(ng-model="config.solo_notas_perdidas" uib-btn-radio="'todas'") Todas las notas
+                label.btn.btn-primary(ng-model="config.solo_notas_perdidas" uib-btn-radio="'perdidas'") Sólo perdidas
 
 
 
-	.widget(ng-show="alumno_traido")
-		.widget-header
-			.widget-caption
-				|  Nota faltante en el cuarto periodo
-			.widget-buttons
-				a(href="" ng-init="minimized = false" ng-click="minimized = !minimized")
-					i.fa(ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimized]")
-		.widget-body(ng-class="{'ng-hide':minimized}" style="text-align: center; overflow: auto;")
 
-			table.table-bordered.table-bordered2.table-striped.table-striped2
-				tr(style="background-color: #A7C7EB!important; font-weight: bold;")
-					td(ng-repeat="asignatura in alumno_traido.notas_tercer_per" style="padding: 4px")
-						span(uib-tooltip="{{asignatura.materia}}") {{asignatura.alias}}
-				tr
-					td(ng-repeat="asignatura in alumno_traido.notas_tercer_per" style="padding: 6px" ng-class="{'nota-perdida-bold': asignatura.nota_final_year<USER.nota_minima_aceptada}")
-						span(style="" ng-show="asignatura.nota_faltante" uib-tooltip="Definitiva hasta 3per: {{ asignatura.nota_final_year }}")
-							| {{ asignatura.nota_faltante }}
-
-
-	div(ng-if="periodos_notas.length > 0 && USER.tipo=='Acudiente' ")
-		a(ng-click="verBoletin()" href="") Ver boletín
+            div(ng-if="USER.tipo=='Alumno' ")
+              a(ng-click="verMiBoletin()" href="") Ver mi boletín
 
 
 
-	uib-accordion(close-others="true")
+    .widget(ng-show="alumno_traido")
+      .widget-header
+        .widget-caption
+          |  Nota faltante en el cuarto periodo
+        .widget-buttons
+          a(href="" ng-init="minimized = false" ng-click="minimized = !minimized")
+            i.fa(ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimized]")
+      .widget-body(ng-class="{'ng-hide':minimized}" style="text-align: center; overflow: auto;")
 
-		.panel-default.margin-padding-lados-xs.panel-acordeon(uib-accordion-group is-open="$first"
-			heading="Periodo {{periodo.numero}} ({{periodo.asignaturas | notasPerdidasAsignaturas}})"
-			ng-repeat="periodo in periodos_notas")
+        table.table-bordered.table-bordered2.table-striped.table-striped2
+          tr(style="background-color: #A7C7EB!important; font-weight: bold;")
+            td(ng-repeat="asignatura in alumno_traido.notas_tercer_per" style="padding: 4px")
+              span(uib-tooltip="{{asignatura.materia}}") {{asignatura.alias}}
+          tr
+            td(ng-repeat="asignatura in alumno_traido.notas_tercer_per" style="padding: 6px" ng-class="{'nota-perdida-bold': asignatura.nota_final_year<USER.nota_minima_aceptada}")
+              span(style="" ng-show="asignatura.nota_faltante" uib-tooltip="Definitiva hasta 3per: {{ asignatura.nota_final_year }}")
+                | {{ asignatura.nota_faltante }}
 
 
-			// COMPORTAMIENTO
-			.materia-item.animated.fadeInUp.margin-padding-lados-xs
-				.row.materia-title(style="font-size: 10pt; display: flex; align-items: center; border-radius: 5px;" uib-popover-template="views+'informes/infoDocentePop.tpl.html'"
-							popover-popup-delay="500" popover-title="{{periodo.nota_comportamiento.nombres + ' ' + periodo.nota_comportamiento.apellidos}}" popover-animation="true"
-							popover-trigger="'mouseenter'" popover-append-to-body="true")
-					.col-lg-9.col-xs-9
-						span.materia-name COMPORTAMIENTO
-						span.materia-profesor   - Prof.
-							span.camel   {{periodo.nota_comportamiento.nombres.toLowerCase()}} {{periodo.nota_comportamiento.apellidos.toLowerCase()}}
-					.col-sm-1.col-xs-2.no-padding(ng-class="{'nota-perdida': periodo.nota_comportamiento.nota<USER.nota_minima_aceptada}")
-						| {{ asignatura.desempenio }}
-
-					.col-lg-1.col-sm-1.col-xs-2.subunidad-nota.puntero(ng-if="!hasRoleOrPerm(['admin', 'profesor'])")
-						span(ng-class="{'nota-perdida-bold': periodo.nota_comportamiento.nota<USER.nota_minima_aceptada}" ) {{periodo.nota_comportamiento.nota}}
-
-						span.nota-perdida(ng-show="!periodo.nota_comportamiento.id && periodo.nota_comportamiento.nota!=0" uib-tooltip="Aún sin nota")
-							i.fa.fa-warning
-
-					.col-lg-2.col-sm-3.col-md-3.col-xs-12(ng-class="{'inputnota-perdida': periodo.nota_comportamiento.nota < USER.nota_minima_aceptada}"
-						ng-if="hasRoleOrPerm(['admin', 'profesor'])" style="padding-left: 0px;")
-
-						input.input-nota(type="number" min="0" max="{{escala_maxima.porc_final}}"
-												ng-model="periodo.nota_comportamiento.nota"
-												ng-change="cambiaNotaComport(periodo.nota_comportamiento, periodo)"
-												ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
-												ng-disabled="(periodo.nota_comportamiento.titular_id!=USER.persona_id && !hasRoleOrPerm(['admin'])) || (periodos[periodo.numero-1].profes_pueden_editar_notas==0 && !hasRoleOrPerm('admin')) || hasRoleOrPerm(['profesor', 'alumno', 'acudiente'])")
+    div(ng-if="periodos_notas.length > 0 && USER.tipo=='Acudiente' ")
+      a(ng-click="verBoletin()" href="") Ver boletín
 
 
 
-			// ASIGNATURAS
-			.materia-item.animated.fadeInUp.margin-padding-lados-xs(ng-repeat="asignatura in periodo.asignaturas | soloAsignaturasConPerdidas:config.solo_notas_perdidas")
-				.row.materia-title(style="font-size: 10pt; display: flex; align-items: center;" uib-popover-template="views+'informes/infoDocentePop.tpl.html'"
-							popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true"
-							popover-trigger="'mouseenter'" popover-append-to-body="true")
-					.col-lg-9.col-xs-9
-						span.materia-name {{asignatura.materia}}
-						span.materia-profesor(ng-if="!hasRoleOrPerm('profesor')")   - Prof.
-							span.camel   {{asignatura.nombres_profesor.toLowerCase()}} {{asignatura.apellidos_profesor.toLowerCase()}}
-					.col-sm-1.col-xs-2.no-padding(ng-class="{'nota-perdida': asignatura.nota_asignatura<USER.nota_minima_aceptada}")
-						| {{ asignatura.desempenio }}
+    uib-accordion(close-others="true")
 
-					.col-lg-1.col-sm-1.col-xs-2.subunidad-nota.puntero(ng-if="!hasRoleOrPerm(['admin', 'profesor'])")
-						span(ng-class="{'nota-perdida-bold': asignatura.nota_asignatura<USER.nota_minima_aceptada}" ) {{asignatura.nota_asignatura}}
-
-						span.nota-perdida(ng-show="!asignatura.nf_id && asignatura.nota_asignatura!=0" uib-tooltip="Aún sin nota")
-							i.fa.fa-warning
-
-					.col-lg-2.col-sm-3.col-md-3.col-xs-12(ng-class="{'inputnota-perdida': asignatura.nota_asignatura < USER.nota_minima_aceptada}"
-						ng-if="hasRoleOrPerm(['admin', 'profesor'])" style="padding-left: 0px;")
-
-						input.input-nota(type="number" min="0" max="{{escala_maxima.porc_final}}"
-												ng-model="asignatura.nota_asignatura" ng-disabled="periodos[periodo.numero-1].profes_pueden_nivelar==0 && !hasRoleOrPerm('Admin')"
-												ng-change="cambiaNotaDef(asignatura, asignatura.nota_asignatura, asignatura.nf_id, periodo.numero)"
-												ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
-						label(for="manual-{{asignatura.asignatura_id}}" uib-tooltip="¿Es manual?" style="margin-bottom: 0px")
-							span(style="font-size: 9pt") M
-							input.no-margin-top(id="manual-{{asignatura.asignatura_id}}" type="checkbox" ng-disabled="periodos[periodo.numero-1].profes_pueden_nivelar==0 && !hasRoleOrPerm('Admin')" ng-model="asignatura.manual" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaFinalManual(asignatura, asignatura.manual, asignatura.nf_id)" style="opacity: 1; position: unset;")
-						label(for="recuperada-{{asignatura.asignatura_id}}" uib-tooltip="¿Asignatura recuperada?" style="margin-bottom: 0px")
-							span(style="font-size: 9pt") R
-							input.no-margin-top(id="recuperada-{{asignatura.asignatura_id}}" type="checkbox" ng-disabled="periodos[periodo.numero-1].profes_pueden_nivelar==0 && !hasRoleOrPerm('Admin')" ng-model="asignatura.recuperada" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaFinalRecuperada(asignatura, asignatura.recuperada, asignatura.nf_id)" style="opacity: 1; position: unset;")
-
-				.row.unidades-list
-					.col-lg-12.col-xs-12
-						.row
-							.col-lg-12.col-xs-12(style="padding: 0px; text-align: center; margin-bottom: 5px;")
-								i.fa.fa-clock-o.icon-tardanza
-								span.text-tardanza Ausencias: {{::asignatura.total_ausencias}} / Tardanzas: {{::asignatura.total_tardanzas}}
-
-						.row.unidades-item.animated(ng-repeat="unidad in asignatura.unidades | soloUnidadesConPerdidas:config.solo_notas_perdidas")
-							.col-lg-12.col-xs-12
-								.row
-									.col-lg-10.col-xs-10.unidad-definicion
-										| {{unidad.definicion_unidad}}
-									.col-lg-1.col-xs-2.unidad-porc
-										| {{unidad.porcentaje_unidad}}% - {{unidad.nota_unidad | number:0}}
-								.row.subunidades-list(ng-repeat="subunidad in unidad.subunidades | soloSubunidadesPerdidas:config.solo_notas_perdidas" style="font-size: 9pt;")
-									.col-lg-12.col-xs-12
-										.row
-											.col-lg-10.col-xs-12.col-sm-10.subunidad-definicion
-												| {{$index+1}}. {{subunidad.definicion_subunidad}}
-											.col-lg-1.col-xs-4.col-sm-1.subunidad-porc()
-												| {{subunidad.porcentaje_subunidad}}%
-
-											.col-lg-1.col-xs-4.col-sm-1.subunidad-nota.puntero(ng-if="!hasRoleOrPerm(['admin', 'profesor'])")
-												span(ng-class="{'nota-perdida-bold': subunidad.nota.nota<USER.nota_minima_aceptada}" uib-tooltip="Valor nota: {{subunidad.nota.valor}}") {{subunidad.nota.nota}}
-
-												span.nota-perdida(ng-show="!subunidad.nota.nota && subunidad.nota.nota!=0" uib-tooltip="Aún sin nota")
-													i.fa.fa-warning
-
-											.col-lg-1.col-xs-4.col-sm-1.no-padding(ng-class="{'inputnota-perdida': subunidad.nota.nota < USER.nota_minima_aceptada}"
-												ng-if="hasRoleOrPerm(['admin', 'profesor'])")
-
-												input(type="number" min="0" max="100"
-													ng-model="subunidad.nota.nota" ng-disabled="periodos[periodo.numero-1].profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')"
-													ng-change="cambiaNota(subunidad.nota, subunidad.nota.nota)"
-													ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
-
-						.row.comentarios-asignatura(ng-show="::asignatura.frases.length>0")
-							.col-lg-12.col-xs-12
-								.comentario-title
-									i.fa.fa-comments-o(style="padding-right: 5px;")
-									| Observaciones
-								.row.comentario-item(ng-repeat="frase in ::asignatura.frases")
-									| {{::frase.frase}}
-									span.tipo-frase(ng-show="::frase.frase_id") - {{::frase.tipo_frase}}
+      .panel-default.margin-padding-lados-xs.panel-acordeon(uib-accordion-group is-open="$first"
+        heading="Periodo {{periodo.numero}} ({{periodo.asignaturas | notasPerdidasAsignaturas}})"
+        ng-repeat="periodo in periodos_notas")
 
 
-.col-lg-12(ng-if="!USER.alumnos_can_see_notas && hasRoleOrPerm(['alumno', 'acudiente'])")
-	.widget
-		.widget-header.bg-red
-			i.widget-icon.fa.fa-warning
-			.widget-caption
-				| Notas bloqueadas
-		.widget-body
-			.row
-				.col-lg-12.col-xs-12
-					p Lo sentimos, pero el sistema ha sido bloqueado por un administrador y no puedes ver tus notas.
+        // COMPORTAMIENTO
+        .materia-item.animated.fadeInUp.margin-padding-lados-xs
+          .row.materia-title(style="font-size: 10pt; display: flex; align-items: center; border-radius: 5px;" uib-popover-template="views+'informes/infoDocentePop.tpl.html'"
+                popover-popup-delay="500" popover-title="{{periodo.nota_comportamiento.nombres + ' ' + periodo.nota_comportamiento.apellidos}}" popover-animation="true"
+                popover-trigger="'mouseenter'" popover-append-to-body="true")
+            .col-lg-9.col-xs-9
+              span.materia-name COMPORTAMIENTO
+              span.materia-profesor   - Prof.
+                span.camel   {{periodo.nota_comportamiento.nombres.toLowerCase()}} {{periodo.nota_comportamiento.apellidos.toLowerCase()}}
+            .col-sm-1.col-xs-2.no-padding(ng-class="{'nota-perdida': periodo.nota_comportamiento.nota<USER.nota_minima_aceptada}")
+              | {{ asignatura.desempenio }}
+
+            .col-lg-1.col-sm-1.col-xs-2.subunidad-nota.puntero(ng-if="!hasRoleOrPerm(['admin', 'profesor'])")
+              span(ng-class="{'nota-perdida-bold': periodo.nota_comportamiento.nota<USER.nota_minima_aceptada}" ) {{periodo.nota_comportamiento.nota}}
+
+              span.nota-perdida(ng-show="!periodo.nota_comportamiento.id && periodo.nota_comportamiento.nota!=0" uib-tooltip="Aún sin nota")
+                i.fa.fa-warning
+
+            .col-lg-2.col-sm-3.col-md-3.col-xs-12(ng-class="{'inputnota-perdida': periodo.nota_comportamiento.nota < USER.nota_minima_aceptada}"
+              ng-if="hasRoleOrPerm(['admin', 'profesor'])" style="padding-left: 0px;")
+
+              input.input-nota(type="number" min="0" max="{{escala_maxima.porc_final}}"
+                          ng-model="periodo.nota_comportamiento.nota"
+                          ng-change="cambiaNotaComport(periodo.nota_comportamiento, periodo)"
+                          ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }"
+                          ng-disabled="(periodo.nota_comportamiento.titular_id!=USER.persona_id && !hasRoleOrPerm(['admin'])) || (periodos[periodo.numero-1].profes_pueden_editar_notas==0 && !hasRoleOrPerm('admin')) || hasRoleOrPerm(['profesor', 'alumno', 'acudiente'])")
+
+
+
+        // ASIGNATURAS
+        .materia-item.animated.fadeInUp.margin-padding-lados-xs(ng-repeat="asignatura in periodo.asignaturas | soloAsignaturasConPerdidas:config.solo_notas_perdidas")
+          .row.materia-title(style="font-size: 10pt; display: flex; align-items: center;" uib-popover-template="views+'informes/infoDocentePop.tpl.html'"
+                popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true"
+                popover-trigger="'mouseenter'" popover-append-to-body="true")
+            .col-lg-9.col-xs-9
+              span.materia-name {{asignatura.materia}}
+              span.materia-profesor(ng-if="!hasRoleOrPerm('profesor')")   - Prof.
+                span.camel   {{asignatura.nombres_profesor.toLowerCase()}} {{asignatura.apellidos_profesor.toLowerCase()}}
+            .col-sm-1.col-xs-2.no-padding(ng-class="{'nota-perdida': asignatura.nota_asignatura<USER.nota_minima_aceptada}")
+              | {{ asignatura.desempenio }}
+
+            .col-lg-1.col-sm-1.col-xs-2.subunidad-nota.puntero(ng-if="!hasRoleOrPerm(['admin', 'profesor'])")
+              span(ng-class="{'nota-perdida-bold': asignatura.nota_asignatura<USER.nota_minima_aceptada}" ) {{asignatura.nota_asignatura}}
+
+              span.nota-perdida(ng-show="!asignatura.nf_id && asignatura.nota_asignatura!=0" uib-tooltip="Aún sin nota")
+                i.fa.fa-warning
+
+            .col-lg-2.col-sm-3.col-md-3.col-xs-12(ng-class="{'inputnota-perdida': asignatura.nota_asignatura < USER.nota_minima_aceptada}"
+              ng-if="hasRoleOrPerm(['admin', 'profesor'])" style="padding-left: 0px;")
+
+              input.input-nota(type="number" min="0" max="{{escala_maxima.porc_final}}"
+                          ng-model="asignatura.nota_asignatura" ng-disabled="periodos[periodo.numero-1].profes_pueden_nivelar==0 && !hasRoleOrPerm('Admin')"
+                          ng-change="cambiaNotaDef(asignatura, asignatura.nota_asignatura, asignatura.nf_id, periodo.numero)"
+                          ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+              label(for="manual-{{asignatura.asignatura_id}}" uib-tooltip="¿Es manual?" style="margin-bottom: 0px")
+                span(style="font-size: 9pt") M
+                input.no-margin-top(id="manual-{{asignatura.asignatura_id}}" type="checkbox" ng-disabled="periodos[periodo.numero-1].profes_pueden_nivelar==0 && !hasRoleOrPerm('Admin')" ng-model="asignatura.manual" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaFinalManual(asignatura, asignatura.manual, asignatura.nf_id)" style="opacity: 1; position: unset;")
+              label(for="recuperada-{{asignatura.asignatura_id}}" uib-tooltip="¿Asignatura recuperada?" style="margin-bottom: 0px")
+                span(style="font-size: 9pt") R
+                input.no-margin-top(id="recuperada-{{asignatura.asignatura_id}}" type="checkbox" ng-disabled="periodos[periodo.numero-1].profes_pueden_nivelar==0 && !hasRoleOrPerm('Admin')" ng-model="asignatura.recuperada" ng-true-value="1" ng-false-value="0" ng-change="toggleNotaFinalRecuperada(asignatura, asignatura.recuperada, asignatura.nf_id)" style="opacity: 1; position: unset;")
+
+          .row.unidades-list
+            .col-lg-12.col-xs-12
+              .row
+                .col-lg-12.col-xs-12(style="padding: 0px; text-align: center; margin-bottom: 5px;")
+                  i.fa.fa-clock-o.icon-tardanza
+                  span.text-tardanza Ausencias: {{::asignatura.total_ausencias}} / Tardanzas: {{::asignatura.total_tardanzas}}
+
+              .row.unidades-item.animated(ng-repeat="unidad in asignatura.unidades | soloUnidadesConPerdidas:config.solo_notas_perdidas")
+                .col-lg-12.col-xs-12
+                  .row
+                    .col-lg-10.col-xs-10.unidad-definicion
+                      | {{unidad.definicion_unidad}}
+                    .col-lg-1.col-xs-2.unidad-porc
+                      | {{unidad.porcentaje_unidad}}% - {{unidad.nota_unidad | number:0}}
+                  .row.subunidades-list(ng-repeat="subunidad in unidad.subunidades | soloSubunidadesPerdidas:config.solo_notas_perdidas" style="font-size: 9pt;")
+                    .col-lg-12.col-xs-12
+                      .row
+                        .col-lg-10.col-xs-12.col-sm-10.subunidad-definicion
+                          | {{$index+1}}. {{subunidad.definicion_subunidad}}
+                        .col-lg-1.col-xs-4.col-sm-1.subunidad-porc()
+                          | {{subunidad.porcentaje_subunidad}}%
+
+                        .col-lg-1.col-xs-4.col-sm-1.subunidad-nota.puntero(ng-if="!hasRoleOrPerm(['admin', 'profesor'])")
+                          span(ng-class="{'nota-perdida-bold': subunidad.nota.nota<USER.nota_minima_aceptada}" uib-tooltip="Valor nota: {{subunidad.nota.valor}}") {{subunidad.nota.nota}}
+
+                          span.nota-perdida(ng-show="!subunidad.nota.nota && subunidad.nota.nota!=0" uib-tooltip="Aún sin nota")
+                            i.fa.fa-warning
+
+                        .col-lg-1.col-xs-4.col-sm-1.no-padding(ng-class="{'inputnota-perdida': subunidad.nota.nota < USER.nota_minima_aceptada}"
+                          ng-if="hasRoleOrPerm(['admin', 'profesor'])")
+
+                          input(type="number" min="0" max="100"
+                            ng-model="subunidad.nota.nota" ng-disabled="periodos[periodo.numero-1].profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')"
+                            ng-change="cambiaNota(subunidad.nota, subunidad.nota.nota)"
+                            ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+              .row.comentarios-asignatura(ng-show="::asignatura.frases.length>0")
+                .col-lg-12.col-xs-12
+                  .comentario-title
+                    i.fa.fa-comments-o(style="padding-right: 5px;")
+                    | Observaciones
+                  .row.comentario-item(ng-repeat="frase in ::asignatura.frases")
+                    | {{::frase.frase}}
+                    span.tipo-frase(ng-show="::frase.frase_id") - {{::frase.tipo_frase}}
+
+
+  .col-lg-12(ng-if="!USER.alumnos_can_see_notas && hasRoleOrPerm(['alumno', 'acudiente'])")
+    .widget
+      .widget-header.bg-red
+        i.widget-icon.fa.fa-warning
+        .widget-caption
+          | Notas bloqueadas
+      .widget-body
+        .row
+          .col-lg-12.col-xs-12
+            p Lo sentimos, pero el sistema ha sido bloqueado por un administrador y no puedes ver tus notas.
 
 

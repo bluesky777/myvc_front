@@ -13,7 +13,7 @@
       <div ng-hide="unidades" style="font-size: 13pt;"><i class="fa fa-circle-o-notch fa-spin"></i> Cargando detalle de asignatura...</div>
       <div ng-show="unidades" style="height: 200px; border: 1px solid #aaa; overflow-y: auto; padding: 4px;">
         <div ng-repeat="unidad in unidades">
-          <div style="font-weight: bold; font-size: 12pt;">{{unidad.definicion}}</div>
+          <div style="font-weight: bold; font-size: 12pt;"><span style="font-size: 14pt; text-decoration: underline; background-color: #8ff08f;">Per {{unidad.numero_periodo}}:</span> {{unidad.definicion}}</div>
           <table class="table table-hover">
             <thead>
               <th>Id</th>

@@ -1,0 +1,352 @@
+
+<div ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical' }" class="salto-pagina">
+  <div class="row encabezado-planilla">
+    <div class="col-lg-12 col-xs-12">
+      <div class="row">
+        <div class="col-lg-2 col-xs-2"><img ng-src="{{::perfilPath + year.logo}}" style="width: 70px;" class="img-responsive logo-colegio menos-margin"></div>
+        <div class="col-lg-8 col-xs-8 title-encabezado-planilla">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="nombre-colegio">{{::year.nombre_colegio + ' - ' + year.abrev_colegio}} {{::USER.year}}</div>
+              <div style="font-size: 15pt" class="nombre-colegio">COMISIÓN DE EVALUACIÓN Y PROMOCIÓN</div>
+              <div class="descripcion-title">ACTA DE REUNIÓN FINAL</div>
+              <div class="descripcion-title">DEFINICIÓN DE PROMOCIÓN Y REPROBACIÓN AÑO LECTIVO {{::USER.year}}</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top: 20px" class="col-lg-12 col-xs-12">
+          <div class="row body-boletin">
+            <div class="col-lg-12 col-xs-12">
+              <div style="text-align: left">
+                Basado en el Sistema de Evaluación y Promoción del
+                {{::year.nombre_colegio}} de {{::year.ciudad}}, según el MEN la Ley 115 y el decreto 1290 del 23 de Abril del 2009,
+                 {{::year.resolucion}},
+                 siendo las
+                <div uib-timepicker ng-model="dato.hora_acta" hour-step="1" minute-step="5" show-meridian="true" class="hidden-print"></div><b>{{ dato.hora_acta | date:'HH:mma' }}</b><br class="hidden-print"><b> del día</b>
+                <input type="date" ng-model="dato.dia_acta" class="hidden-print"><b>{{dato.dia_acta | date:"dd 'de' MMMM"}} del año en curso,</b> se reúnen en sus instalaciones la comisión de evaluación y promoción. Dicha comisión analiza cada uno de los resultados académicos de los estudiantes, para tratar las promociones y reprobaciones respectivas. Esta definición se soporta en los procesos establecidos al igual que en los  informes académicos  en pleno conocimiento de los padres y de los distintos representantes y de la comunidad educativa en general.<br><br>
+                <div ng-bind-html="dato.texto_acta_eval"></div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-9 hidden-print">
+              <label style="background-color: aqua; padding: 5px;">Escriba un texto extra (opcional) para agregar al reporte:</label>
+              <textarea ng-model="dato.texto_acta_eval" ng-model-options="{ updateOn: 'blur' }" style="width: 90%; height: 100px; " ng-change="cambia_texto_informativo()"></textarea><br>
+            </div>
+            <div class="col-xs-12 col-sm-9 hidden-print">
+              <button ng-click="calcularDatos()" class="btn btn-primary">Calcular promedios y porcentajes</button>
+              <uib-progressbar value="porcentaje" ng-show="porcentaje &gt; -1" class="progress-xlg progress-striped active"><b>{{porcentaje}}% Completado</b></uib-progressbar>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div ng-repeat="grupo in ::grupos">
+  <div ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }">
+    <div class="row">
+      <div style="font-weight: bold !important;" class="col-xs-12 text-center">{{::grupo.nombre + ' - ' + grupo.nombres_titular + ' ' + grupo.apellidos_titular }}</div>
+      <div class="col-lg-12 col-xs-12">
+        <div class="row body-boletin">
+          <div style="padding:0px" class="col-lg-12 col-xs-12 materias">
+            <div class="materia-item">
+              <table class="table-bordered table-bordered2 table-striped table-striped2">
+                <tr style="background-color: #99caed !important;">
+                  <th rowspan="2">No</th>
+                  <th rowspan="2" class="text-center">Alumnos</th>
+                  <th rowspan="2" style="font-size: 8pt" class="text-center">
+                    <div>No</div>
+                    <div>matrícula</div>
+                  </th>
+                  <th rowspan="2" style="font-size: 8pt" class="text-center">
+                    <div>Sexo</div>
+                  </th>
+                  <th rowspan="2" style="font-size: 8pt" class="text-center">
+                    <div>Edad</div>
+                  </th>
+                  <th colspan="3" class="text-center">
+                    <div>Fechas</div>
+                  </th>
+                  <th rowspan="2" style="font-size: 8pt; min-width: 100px;" class="text-center">
+                    <div>Causa de retiro</div>
+                  </th>
+                  <th rowspan="2" style="font-size: 8pt" class="text-center">
+                    <div>Estrato</div>
+                  </th>
+                  <th rowspan="2" style="font-size: 8pt" class="text-center">
+                    <div>¿Finalizó</div>
+                    <div>año?</div>
+                  </th>
+                  <th rowspan="2" style="font-size: 8pt" class="text-center">
+                    <div>Promedio</div>
+                    <div>%</div>
+                  </th>
+                  <th rowspan="2" style="font-size: 8pt" class="text-center">
+                    <div>Promovido</div>
+                  </th>
+                  <th rowspan="2" style="font-size: 8pt" class="text-center">
+                    <div>Años estadía</div>
+                    <div>en institución</div>
+                  </th>
+                  <th rowspan="2" style="font-size: 8pt" class="text-center">
+                    <div>Religión</div>
+                  </th>
+                </tr>
+                <tr style="height: 25px; background-color: #99caed !important;" class="text-center">
+                  <th style="width: 65px;" class="text-center">Ingreso</th>
+                  <th style="width: 65px;" class="text-center">Retiro</th>
+                  <th class="text-center">Deserción</th>
+                </tr>
+                <tbody style="font-size: 9pt">
+                  <tr ng-repeat="alumno in ::grupo.alumnos" ng-click="editarAlumno(alumno)" uib-popover-template="views+'alumnos/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true" class="altura-22">
+                    <td>{{$index + 1}}</td>
+                    <td>
+                      <div ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative; vertical-align: middle;" class="ellipsis250 alumno-planilla">{{::alumno.apellidos}} {{::alumno.nombres}}<span ng-show="alumno.estado=='PREM'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;">(Prema)</span><span ng-show="alumno.estado=='DESE'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;">(Dese)</span><span ng-show="alumno.estado=='RETI'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;">(Reti)</span></div>
+                    </td>
+                    <td class="text-center"><span>{{ ::alumno.no_matricula }}</span></td>
+                    <td class="text-center"><span>{{ ::alumno.sexo }}</span></td>
+                    <td class="text-center"><span>{{ ::alumno.edad }}</span></td>
+                    <td class="text-center"><span>{{ ::alumno.fecha_matricula }}</span></td>
+                    <td class="text-center"><span ng-show="alumno.estado=='RETI'">{{ ::alumno.fecha_retiro }}</span></td>
+                    <td class="text-center"><span ng-show="alumno.estado=='DESE'">{{ ::alumno.fecha_retiro }}</span></td>
+                    <td class="text-center"><span>{{ ::alumno.razon_retiro }}</span></td>
+                    <td class="text-center"><span>{{ ::alumno.estrato }}</span></td>
+                    <td class="text-center"><span ng-show="alumno.estado=='RETI' || alumno.estado=='DESE'">No</span><span ng-show="alumno.estado=='PREM' || alumno.estado=='MATR' ">Si</span></td>
+                    <td class="text-center"><span ng-show="::alumno.promedio!=''">{{ ::alumno.promedio }}%</span></td>
+                    <td class="text-center"><span>{{ ::alumno.promovido }}</span></td>
+                    <td class="text-center"><span>{{ ::alumno.anios_in_cole }}</span></td>
+                    <td class="text-center"><span class="camel">{{::alumno.religion.toLowerCase()}}</span></td>
+                  </tr>
+                  <tr style="height: 17px;" class="altura-22">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }">
+    <div class="row">
+      <div style="font-weight: bold !important;" class="col-xs-12 text-center">Movimiento de estudiantes y resultados académicos por grados durante el año escolar {{::grupo.nombre }} - {{::USER.year}}</div>
+      <div class="col-lg-12 col-xs-12">
+        <div class="row body-boletin">
+          <div style="padding:0px" class="col-lg-12 col-xs-12 materias">
+            <div class="materia-item">
+              <table class="table-bordered table-bordered2 table-striped table-striped2">
+                <tr style="background-color: #99caed !important;">
+                  <th rowspan="2" style="width: 200px;" class="text-center">Concepto</th>
+                  <th rowspan="2" style="font-size: 8pt" class="text-center">
+                    <div>Cantidad</div>
+                  </th>
+                  <th colspan="2" style="font-size: 8pt" class="text-center">
+                    <div>Masculino</div>
+                  </th>
+                  <th colspan="2" style="font-size: 8pt" class="text-center">
+                    <div>Femenino</div>
+                  </th>
+                  <th rowspan="2" style="font-size: 8pt; width: 200px;" class="text-center">
+                    <div>Concepto</div>
+                  </th>
+                  <th rowspan="2" style="font-size: 8pt" class="text-center">
+                    <div>Cantidad</div>
+                  </th>
+                  <th colspan="2" style="font-size: 8pt" class="text-center">
+                    <div>Masculino</div>
+                  </th>
+                  <th colspan="2" style="font-size: 8pt" class="text-center">
+                    <div>Femenino</div>
+                  </th>
+                </tr>
+                <tr style="height: 25px; background-color: #99caed !important;" class="text-center">
+                  <th style="width: 65px;" class="text-center">Cant</th>
+                  <th style="width: 65px;" class="text-center">Porc %</th>
+                  <th style="width: 65px;" class="text-center">Cant</th>
+                  <th style="width: 65px;" class="text-center">Porc %</th>
+                  <th style="width: 65px;" class="text-center">Cant</th>
+                  <th style="width: 65px;" class="text-center">Porc %</th>
+                  <th style="width: 65px;" class="text-center">Cant</th>
+                  <th style="width: 65px;" class="text-center">Porc %</th>
+                </tr>
+                <tbody style="font-size: 9pt">
+                  <tr>
+                    <td>Total estudiantes que iniciaron año escolar</td>
+                    <td>{{  }}</td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td><span>Estudiantes promovidos con cero (0) asignaturas pendientes</span></td>
+                    <td>{{  }}</td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                  </tr>
+                  <tr>
+                    <td>Estudiantes  que ingresaron durante el año escolar</td>
+                    <td>{{  }}</td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td><span>Estudiantes promovidos con una (1) asignatura  pendiente</span></td>
+                    <td>{{  }}</td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                  </tr>
+                  <tr>
+                    <td>Estudiantes que terminaron el año escolar</td>
+                    <td>{{  }}</td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td><span>Estudiantes no promovidos con dos (2) asignaturas pendientes</span></td>
+                    <td>{{  }}</td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                  </tr>
+                  <tr>
+                    <td>Estudiantes desertores durante el año (no retiraron documentación)</td>
+                    <td>{{  }}</td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td><span>Estudiantes no promovidos con tres (3) asignaturas pendientes</span></td>
+                    <td>{{  }}</td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                  </tr>
+                  <tr>
+                    <td>Estudiantes retirados (retiraron documentación)</td>
+                    <td>{{  }}</td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td><span>Estudiantes no promovidos con cuatro (4) o más asignaturas pendientes</span></td>
+                    <td>{{  }}</td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                  </tr>
+                  <tr>
+                    <td>{{ }}</td>
+                    <td>{{  }}</td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td><span>Total de estudiantes NO promovidos</span></td>
+                    <td>{{  }}</td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                  </tr>
+                  <tr>
+                    <td>{{ }}</td>
+                    <td>{{  }}</td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td><span>Total estudiantes promovidos</span></td>
+                    <td>{{  }}</td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                    <td class="text-center"><span>{{  }}</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- Tabla de cantidades por periodos-->
+          <div style="padding:0px" class="col-lg-12 col-xs-12 materias">
+            <div class="materia-item">
+              <table class="table-bordered table-bordered2 table-striped table-striped2">
+                <tr style="background-color: #99caed !important;">
+                  <th style="width: 200px;" class="text-center">Periodos</th>
+                  <th style="font-size: 8pt" class="text-center">
+                    <div>Matriculados</div>
+                  </th>
+                  <th style="font-size: 8pt" class="text-center">
+                    <div>Retirados</div>
+                  </th>
+                  <th style="font-size: 8pt" class="text-center">
+                    <div>Desertores</div>
+                  </th>
+                  <th style="font-size: 8pt" class="text-center">
+                    <div>Total</div>
+                  </th>
+                </tr>
+                <tbody>
+                  <tr>
+                    <td style="width: 65px;" class="text-center">Per 1</td>
+                    <td style="width: 65px;" class="text-center">{{}}</td>
+                    <td style="width: 65px;" class="text-center">{{}}</td>
+                    <td style="width: 65px;" class="text-center">{{}}</td>
+                    <td style="width: 65px;" class="text-center">{{}}</td>
+                  </tr>
+                  <tr>
+                    <td style="width: 65px;" class="text-center">Per 2</td>
+                    <td style="width: 65px;" class="text-center">{{}}</td>
+                    <td style="width: 65px;" class="text-center">{{}}</td>
+                    <td style="width: 65px;" class="text-center">{{}}</td>
+                    <td style="width: 65px;" class="text-center">{{}}</td>
+                  </tr>
+                  <tr>
+                    <td style="width: 65px;" class="text-center">Per 3</td>
+                    <td style="width: 65px;" class="text-center">{{}}</td>
+                    <td style="width: 65px;" class="text-center">{{}}</td>
+                    <td style="width: 65px;" class="text-center">{{}}</td>
+                    <td style="width: 65px;" class="text-center">{{}}</td>
+                  </tr>
+                  <tr>
+                    <td style="width: 65px;" class="text-center">Per 4</td>
+                    <td style="width: 65px;" class="text-center">{{}}</td>
+                    <td style="width: 65px;" class="text-center">{{}}</td>
+                    <td style="width: 65px;" class="text-center">{{}}</td>
+                    <td style="width: 65px;" class="text-center">{{}}</td>
+                  </tr>
+                  <tr style="font-weight: bold;">
+                    <td style="width: 65px;" class="text-center">Total</td>
+                    <td style="width: 65px;" class="text-center">{{}}</td>
+                    <td style="width: 65px;" class="text-center">{{}}</td>
+                    <td style="width: 65px;" class="text-center">{{}}</td>
+                    <td style="width: 65px;" class="text-center">{{}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

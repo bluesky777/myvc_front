@@ -12,9 +12,10 @@ angular.module("myvcFrontApp")
 
   $scope.asignaturas = []
 
-  $scope.materias   = datosAsignaturas.materias
-  $scope.grupos     = datosAsignaturas.grupos
-  $scope.profesores = datosAsignaturas.profesores
+  $scope.materias     = datosAsignaturas.materias
+  $scope.grupos       = datosAsignaturas.grupos
+  $scope.profesores   = datosAsignaturas.profesores
+  $scope.perfilPath 	= App.images + 'perfil/'
 
 
   # Traemos la papelera
@@ -192,7 +193,7 @@ angular.module("myvcFrontApp")
           actual 			= $filter('filter')(foundMaterias, {id: cellValue}, true)
           return actual.length > 0;
       }
-      editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'id', editDropdownValueLabel: 'materia', enableCellEditOnFocus: true, minWidth: 120 }
+      editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'id', editDropdownValueLabel: 'materia', enableCellEditOnFocus: true, minWidth: 150 }
 
       { field: 'grupo_id',	displayName: 'Grupos',		editDropdownOptionsArray: datosAsignaturas.grupos,		cellFilter: 'mapGrupos:grid.appScope.grupos',
       filter: {
@@ -201,7 +202,7 @@ angular.module("myvcFrontApp")
           actual 			= $filter('filter')(foundG, {id: cellValue}, true)
           return actual.length > 0;
       }
-      editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'id', editDropdownValueLabel: 'nombre', enableCellEditOnFocus: true, minWidth: 70 }
+      editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'id', editDropdownValueLabel: 'nombre', enableCellEditOnFocus: true, minWidth: 80 }
 
       { field: 'profesor_id',	displayName: 'Profesor',	editDropdownOptionsArray: datosAsignaturas.profesores,	cellFilter: 'mapProfesores:grid.appScope.profesores', #  cellTemplate: '<div>{{row.entity.nombres + " " + row.entity.apellidos}}</div>',
       filter: {
@@ -214,7 +215,7 @@ angular.module("myvcFrontApp")
           )
           return foundP.length > 0;
       }
-      editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'profesor_id', editDropdownValueLabel: 'nombre_completo', enableCellEditOnFocus: true, minWidth: 120 }
+      editableCellTemplate: 'ui-grid/dropdownEditor', editDropdownIdLabel: 'profesor_id', editDropdownValueLabel: 'nombre_completo', enableCellEditOnFocus: true, minWidth: 140 }
 
       { field: 'creditos', displayName:'IH', type: 'number', minWidth: 50 }
       { field: 'lunes', displayName:'Lunes', minWidth: 50, cellTemplate: "==areas/botonLunes.tpl.html", enableCellEdit: false }
