@@ -1,0 +1,10 @@
+div(style="text-align:center; padding-top: 4px")
+
+	a.btn.btn-xs(ng-class="{'btn-danger':row.entity.nee, 'btn-primary':!row.entity.nee }"
+		ng-click="grid.appScope.toggleNEE(row.entity);"
+		uib-tooltip="¿Necesidades Educativas Especiales? {{ ::row.entity.nee_descripcion }}" tooltip-placement="left" href=""
+		tooltip-enable="row.entity.nee")
+
+		span(ng-hide="::row.entity.nee") No
+		span(ng-show="::row.entity.nee") Si
+

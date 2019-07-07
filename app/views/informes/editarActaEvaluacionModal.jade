@@ -1,5 +1,5 @@
 .modal-header
-  h3.modal-title.flipInY Detalles e historial de nota
+  h3.modal-title.flipInY Datos de alumno
 .modal-body
   div(style="padding-bottom: 30px;")
     h3(style="display: inline;") {{ alumno.nombres }} {{ alumno.apellidos }}
@@ -104,7 +104,7 @@
   .row
     .form-group.col-lg-4.col-sm-6
       label(for="alumno-razon_retiro") Razón retiro
-      input.form-control#alumno-razon_retiro(type="text" ng-model="alumno.razon_retiro" placeholder="Razón retiro" ng-change="guardarValor(alumno, 'Razón retiro', alumno.razon_retiro)" style="font-size: 12pt; color: #444; border: 1px solid #999;")
+      input.form-control#alumno-razon_retiro(type="text" ng-model="alumno.razon_retiro" placeholder="Razón retiro" ng-change="guardarValor(alumno, 'Razón retiro', alumno.razon_retiro)" style="color: #444; border: 1px solid #999;")
 
     .form-group.col-lg-4.col-sm-6
       label(for="alumno-estrato") Estrato

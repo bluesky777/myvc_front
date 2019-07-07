@@ -1,0 +1,10 @@
+
+<div class="row">
+  <div uib-tooltip="Necesidades Educativas Especiales" class="form-group col-lg-3 col-sm-4 col-xs-12"><span style="padding-top: 4px;" class="btn-group">
+      <label ng-model="alumno.nee" uib-btn-radio="0" ng-click="guardarValor(alumno, 'nee', alumno.nee)" class="btn btn-info shiny">NO tiene NEE</label>
+      <label ng-model="alumno.nee" uib-btn-radio="1" ng-click="guardarValor(alumno, 'nee', alumno.nee)" class="btn btn-info shiny">Tiene NEE</label></span></div>
+  <div class="form-group col-md-6 col-sm-6 col-xs-12">
+    <label class="sr-only">Descripción</label>
+    <textarea required ng-model="alumno.nee_descripcion" placeholder="Descripción (opcional)" uib-tooltip="Descripción (opcional)" tooltip-popup-delay="500" style="height: 50px; width: 100%;" ng-change="guardarValor(alumno, 'nee_descripcion', alumno.nee_descripcion)" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }" class="form-control"></textarea>
+  </div>
+</div><br><br>

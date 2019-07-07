@@ -57,7 +57,8 @@ angular.module('myvcFrontApp')
 
   if localStorage.tipo_boletin_final
     $scope.tipo_boletin_final 	= localStorage.tipo_boletin_final
-
+    if $scope.USER.tipo == 'Profesor'
+      $scope.tipo_boletin_final 	= 1
 
   $scope.eligirTipo = (n)->
     localStorage.tipo_boletin 	= n

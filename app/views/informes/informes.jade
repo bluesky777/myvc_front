@@ -1,409 +1,414 @@
 .row.hidden-print(ng-init="opened=true" ng-show="opened")
-	.col-lg-12.col-xs-12
-		.widget
-			.widget-header.bg-blue
-				i.widget-icon.fa.fa-bar-chart
-				.widget-caption
-					| Informes
-				.widget-buttons
-					a(href="" ng-init="minimized = false" ng-click="minimized = !minimized")
-						i.fa(ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimized]")
-					a(href="" ng-click="opened=false")
-						i.fa.fa-times
-			.widget-body(ng-class="{'ng-hide':minimized}")
-
-
-				.row(ng-show="::periodos_desactualizados" style="padding-bottom: 20px;" ng-if="::!hasRoleOrPerm(['psicólogo'])")
-
-					.col-lg-12(ng-repeat="periodo in ::periodos_desactualizados")
-
-						.alert.alert-warning.fade.in.radius-bordered
-							i.fa-fw.fa.fa-warning
-							| Notas finales desactualizadas
-							strong    Per {{periodo.numero}}
-
-						button.btn.btn-default(ng-repeat="grupo in ::periodo.grupos" ng-click="calcularGrupoPeriodo(grupo, periodo)" ng-disabled="grupo.desabilitado" uib-tooltip="{{grupo.nombre}}")
-							| {{grupo.abrev}}
-
-						button.btn.btn-primary(ng-click="calcularPeriodo(periodo)") Calcular periodo {{::periodo.numero}}
-
-				.row(style="padding-bottom: 20px;" ng-if="::!hasRoleOrPerm(['psicólogo'])")
-					.col-lg-12()
-						.btn-group
-							button.btn.btn-sm.btn-default.shiny(ng-click="calcularPeriodo(periodo)" ng-repeat="periodo in periodos_grupos" uib-tooltip="No es necesario a menos que veas alguna nota definitiva desactualizada.")
-								| Calcular definitivas per{{periodo.numero}}
-						uib-progressbar.progress-xlg.progress-striped.active(value="porcentaje" ng-show="porcentaje > -1")
-							b {{porcentaje}}% Completado
-
-
-				uib-tabset.widget-main(active="config.informe_tab_actual")
-					uib-tab(heading="Boletines" index="'boletines'" select="selectTab('boletines')")
-						.row(ng-if="false")
-							.col-lg-7.col-sm-12.col-xs-12
-								.form-group
-									label Calcular hasta el periodo:
-									input(type="number" ng-model="config.periodo_a_calcular" min="1" max="4")
-
-						br
-
-						.row(style="margin-bottom: 30px;")
-							.col-xs-12(ng-if="::hasRoleOrPerm(['psicólogo'])")
-								a.btn.btn-default(href="" ng-click="verSimat()") SIMAT {{USER.year}}
-
-							.col-lg-12.col-xs-12
-								| Tipo de boletín
-								.btn-group
-									button.btn.btn-default(ng-click="eligirTipo(1)" ng-class="{'active': tipo_boletin==1 }" uib-tooltip="Boletín muy detallado del periodo") Tipo 1
-									button.btn.btn-default(ng-click="eligirTipo(2)" ng-class="{'active': tipo_boletin==2 }" uib-tooltip="Boletín no tan largo") Tipo 2
-									button.btn.btn-default(ng-click="eligirTipo(3)" ng-class="{'active': tipo_boletin==3 }" uib-tooltip="Boletín corto con definitivas por periodos") Tipo 3
-									button.btn.btn-default(ng-click="eligirTipo(4)" ng-class="{'active': tipo_boletin==4 }" uib-tooltip="Para Preescolar") Tipo 4
-
-						hr.wide
-
-						span(ng-show="tipo_boletin")
-							.row(ng-show="tipo_boletin==4")
-								.col-lg-12.col-xs-12
-									.form-group
-										label Generar boletin final de preescolar
-										label
-											input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.generar_bol_final_prees")
-											span.text.si-no
-
-							.row
-								.col-lg-12.col-xs-12
-									.form-group
-										label(style="margin-right: 9px;") Grupo
-										ui-select(ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;")
-											ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}}
-											ui-select-choices(repeat="grupo in grupos | filter: $select.search")
-												div(ng-bind-html="grupo.nombre | highlight: $select.search")
-										a.btn.btn-default(href="" ng-click="verBoletinesGrupo(tipo_boletin)") Grupo completo
-							.row(ng-show="datos.grupo")
-								.col-lg-12.col-xs-12
-									.form-group
-										label Alumnos
-										ui-select( ng-model="datos.selected_alumnos" multiple on-select="selectAlumnos($item)" style="width: 100%;")
-											ui-select-match(placeholder="Alumnos del grupo {{datos.grupo.abrev}}" allow-clear="true")
-												img(ng-src="{{perfilPath + $item.foto_nombre}}" style="width:25px; height:25px;")
-												| {{$item.nombres}}
-											ui-select-choices(repeat="alumno in filtered_alumnos | filter: $select.search")
-												img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
-												small(ng-show="alumno.estado=='RETI'" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)</i>'")
-												small(ng-hide="alumno.estado=='RETI'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
-										a.btn.btn-default(href="" ng-click="verBoletinesAlumnos(tipo_boletin)") Cargar boletines
-
-							.row(ng-hide="datos.grupo || USER.tipo=='Profesor'")
-								.col-lg-12.col-xs-12
-									.form-group
-										label Alumno
-										ui-select( ng-model="datos.selected_alumno" on-select="selectAlumno($item)" style="width: 300px;")
-											ui-select-match(placeholder="Elige un alumno" allow-clear="true")
-												img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;")
-												| {{$select.selected.nombres}} {{$select.selected.apellidos}}
-											ui-select-choices(repeat="alumno in filtered_alumnos | filter: $select.search")
-												img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
-												small(ng-show="alumno.estado=='RETI'" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)</i>'")
-												small(ng-hide="alumno.estado=='RETI'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
-										a.btn.btn-default(href="" ng-click="verBoletinAlumno(tipo_boletin)") Cargar boletin
-							br
-
-							.row(ng-hide="USER.tipo=='Profesor'")
-								.col-lg-2.col-sm-4.col-xs-12
-									.form-group
-										label Mostrar foto
-										label
-											input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.mostrar_foto")
-											span.text.si-no
-								.col-lg-2.col-sm-4.col-xs-12(ng-if="::!hasRoleOrPerm(['psicólogo'])")
-									.form-group
-										label Firma rector
-										label
-											input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.show_firma_rector")
-											span.text.si-no
-								.col-lg-2.col-sm-4.col-xs-12(ng-if="::!hasRoleOrPerm(['psicólogo'])")
-									.form-group
-										label Firma titular
-										label
-											input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.show_firma_titular")
-											span.text.si-no
-								.col-lg-2.col-sm-4.col-xs-12
-									.form-group
-										label Mostrar rojos
-										label
-											input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.show_rojos")
-											span.text.si-no
-								.col-lg-2.col-sm-4.col-xs-12(ng-show="tipo_boletin==2")
-									.form-group
-										label Mostrar porcentajes
-										label
-											input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.show_porcentajes")
-											span.text.si-no
-								.col-lg-2.col-sm-4.col-xs-12(ng-show="tipo_boletin==2")
-									.form-group
-										label Mostrar tabla perdidas
-										label
-											input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.show_tabla_perdidas")
-											span.text.si-no
-
-
-							.row(ng-if="::!hasRoleOrPerm(['psicólogo'])")
-								.col-lg-12.col-xs-12
-									.form-group
-										label Imagen de fondo
-										ui-select(ng-model="config.imagen_fondo" on-select="putConfigCookie($item)" style="width: 300px; display: inline-block;")
-											ui-select-match(placeholder="Imagen de Fondo" allow-clear="true")
-												img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
-												| {{$select.selected.nombre}}
-											ui-select-choices(repeat="imagen in imgs_public | filter: $select.search")
-												img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
-												small(ng-bind-html="imagen.nombre | highlight: $select.search")
-
-										label Cantidad:
-										input(type="number" ng-model="config.cant_imagenes" min="1" max="30")
-
-						br
-						br
-						button.btn.btn-default(ng-click="pdfMaker()" ng-show="false")
-							|Prueba pdf
-
-					uib-tab(heading="Puestos" index="'puestos'" select="selectTab('puestos')" ng-if="::!hasRoleOrPerm(['psicólogo'])")
-						.row
-							.col-lg-7.col-sm-12.col-xs-12
-								.form-group
-									label Calcular hasta el periodo:
-									input(type="number" ng-model="config.periodo_a_calcular" min="1" max="4")
-
-						.form-group
-							label Grupo
-							ui-select(ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;")
-								ui-select-match(placeholder="Elige un grupo" allow-clear="true") {{$select.selected.nombre}}
-								ui-select-choices(repeat="grupo in grupos | filter: $select.search")
-									div(ng-bind-html="grupo.nombre | highlight: $select.search")
-							.btn-group
-								a.btn.btn-default(href="" ng-click="verPuestosPeriodo()") Puestos del periodo
-								a.btn.btn-success(href="" ng-click="verPuestosYear()") Puestos del año
-
-						.row(ng-if="USER.tipo!='Profesor'")
-							.col-lg-7.col-sm-12.col-xs-12
-								.btn-group
-									a.btn.btn-default(href="" ng-click="verTodosPuestosPeriodo()") Todos del periodo
-									a.btn.btn-success(href="" ng-click="verTodosPuestosYear()") Todos del año
-
-
-					uib-tab(heading="Planillas" index="'planillas'" select="selectTab('planillas')" ng-if="::!hasRoleOrPerm(['psicólogo'])")
-						.row
-							.col-lg-7.col-sm-12.col-xs-12
-								.form-group
-									label Calcular hasta el periodo:
-									input(type="number" ng-model="config.periodo_a_calcular" min="1" max="4")
-
-						br
-						.form-group
-							label Profesor
-							ui-select(ng-model="datos.profesor" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;")
-								ui-select-match(placeholder="Elige un profesor" allow-clear="true")
-									img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;")
-									| {{$select.selected.nombres + ' ' + $select.selected.apellidos}}
-								ui-select-choices(repeat="profe in profesores | filter: $select.search")
-									img(ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;")
-									small(ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
-
-							.btn-group(uib-dropdown)
-								a.btn.btn-default(href="" ng-click="verPlanillasProfe()") Ver planillas
-								a.btn.btn-default(href="" ng-click="verNotasPerdidasProfesor()" uib-tooltip="Acumuladas de los periodos") Notas perdidas
-								button.btn.btn-default(type="button" uib-dropdown-toggle)
-									.caret
-									.sr-only Notas perdidas
-								ul.dropdown-menu(uib-dropdown-menu role="menu" aria-labelledby="split-button")
-									li(role="menuitem")
-										a(ng-click="verNotasPerdidasProfesor(true)" href="" uib-tooltip="Sólo periodo seleccionado") Notas perdidas periodo
-
-						.form-group
-							label(style="margin-right: 13px;") Grupo
-							ui-select(ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;")
-								ui-select-match(placeholder="Elige un grupo" allow-clear="true") {{$select.selected.nombre}}
-								ui-select-choices(repeat="grupo in grupos | filter: $select.search")
-									div(ng-bind-html="grupo.nombre | highlight: $select.search")
-
-							a.btn.btn-default(href="" ng-click="verPlanillasGrupo()") Ver planillas
-
-
-						.btn-group(uib-dropdown)
-							a.btn.btn-default(href="" ng-click="verPlanillasControlTardanzas()" uib-tooltip="Usada para las tardanzas y ausencias en la entrada a la institución") Control entrada
-							a.btn.btn-default(href="" ng-click="verPlanillasAsistenciaClase()" uib-tooltip="Para las tardandas y tardanzas a cada clase") Planillas asistencias clases
-							a.btn.btn-default(href="" ng-click="verAusencias()") Ver ausencias
-							a.btn.btn-default(href="" ng-click="verNotasPerdidasTodos()" uib-tooltip="Acumuladas de los periodos - Todos los docentes") Notas perdidas todos
-							button.btn.btn-default(type="button" uib-dropdown-toggle)
-								.caret
-								.sr-only Notas perdidas
-							ul.dropdown-menu(uib-dropdown-menu role="menu" aria-labelledby="split-button")
-								li(role="menuitem")
-									a(ng-click="verNotasPerdidasTodos(true)" href="" uib-tooltip="Sólo periodo seleccionado - Todos los docentes") Todos - Notas perdidas periodo
-
-						br
-
-						.btn-group(uib-dropdown)
-							button#split-button.btn.btn-default(type="button" ng-click="verObservadorVertical()" uib-tooltip="Observador del alumno para imprimir") Observador vertical
-							button.btn.btn-default(type="button" uib-dropdown-toggle)
-								.caret
-								.sr-only Observador vertical
-							ul.dropdown-menu(uib-dropdown-menu role="menu" aria-labelledby="split-button")
-								li(role="menuitem")
-									a(ng-click="verObservadorVerticalTodos()" href="") Observador vertical - Todos
-
-						.btn-group
-							a.btn.btn-default(href="" ng-click="verSimat()") SIMAT {{USER.year}}
-							//a.btn.btn-default(href="" type="file" ngf-select="importarSimat($file, $invalidFiles)"
-								accept=".xls,.xlsx" ngf-max-size="1MB") Importar SIMAT {{USER.year}}
-
-						a.btn.btn-default(href="" ng-click="asistenciaPadres()") Asistencia Padres
-						a.btn.btn-default(href="" ng-click="listasPersonalizadas()") Listas personalizadas
-
-						br
-
-						a.btn.btn-default(href="" ng-click="mostrarUnidadesProfe()" uib-tooltip="Mostrar toda@s l@s {{USER.unidades_displayname}} del docente seleccionado") {{ USER.unidades_displayname }}
-
-
-						br
-
-						br
-
-						.row
-							.col-lg-2.col-sm-4.col-xs-12
-								.form-group
-									label Mostrar foto
-									label
-										input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.mostrar_foto")
-										span.text.si-no
-
-
-
-
-
-
-					uib-tab(heading="Finales" index="'finales'" select="selectTab('finales')" ng-if="::!hasRoleOrPerm(['psicólogo'])")
-						span(ng-include="'views/informes/tabFinales.tpl.html'")
-
-
-
-
-
-					uib-tab(heading="Varios" index="'varios'" select="selectTab('varios')" ng-if="::!hasRoleOrPerm(['psicólogo'])")
-
-						.row
-							.col-lg-12.col-xs-12
-								.form-group
-									label(style="margin-right: 9px;") Grupo
-									ui-select(ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;")
-										ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}}
-										ui-select-choices(repeat="grupo in grupos | filter: $select.search")
-											div(ng-bind-html="grupo.nombre | highlight: $select.search")
-									//a.btn.btn-default(href="" ng-click="verNotasActualesAlumnosGrupo()") Notas año actual
-						.row(ng-show="datos.grupo")
-							.col-lg-12.col-xs-12
-								.form-group
-									label Alumnos
-									ui-select( ng-model="datos.selected_alumnos" multiple on-select="selectAlumnos($item)" style="width: 100%;")
-										ui-select-match(placeholder="Alumnos del grupo {{datos.grupo.abrev}}" allow-clear="true")
-											img(ng-src="{{perfilPath + $item.foto_nombre}}" style="width:25px; height:25px;")
-											| {{$item.nombres}}
-										ui-select-choices(repeat="alumno in filtered_alumnos | filter: $select.search")
-											img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
-											small(ng-show="alumno.estado=='RETI'" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)</i>'")
-											small(ng-hide="alumno.estado=='RETI'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
-									a.btn.btn-default(href="" ng-click="verNotasActualesAlumnos()") Notas año actual
-									a.btn.btn-default(href="" ng-click="verNotasPerdidasActualesAlumnos()") Notas perdidas año actual
-
-						.row(ng-show="!datos.grupo")
-							.col-lg-12.col-xs-12
-								.form-group
-									label Alumno
-									ui-select( ng-model="datos.selected_alumno" on-select="selectAlumno($item)" style="width: 300px;")
-										ui-select-match(placeholder="Elige un alumno" allow-clear="true")
-											img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;")
-											| {{$select.selected.nombres}} {{$select.selected.apellidos}}
-										ui-select-choices(repeat="alumno in filtered_alumnos | filter: $select.search")
-											img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
-											small(ng-show="alumno.estado=='RETI'" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)</i>'")
-											small(ng-hide="alumno.estado=='RETI'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
-									a.btn.btn-default(href="" ng-click="verNotasActualesAlumno()") Notas año actual
-									a.btn.btn-default(href="" ng-click="verNotasPerdidasActualesAlumno()") Notas perdidas año actual
-
-						.row
-							.col-lg-12.col-xs-12
-								.btn-group
-									a.btn.btn-default(href="" ng-click="verListadoDocentes()") Listado docentes
-									a.btn.btn-default(href="" ng-click="excelListadoDocentes()" uib-tooltip="Exportar a Excel listado docentes")
-										i.fa.fa-file
-
-								a.btn.btn-default(href="" ng-click="verCantAlumnosEnGrupos()" uib-tooltip="Ver cantidad de alumnos por grupos") Alumnos en grupos
-
-								a.btn.btn-default(href="" ng-click="verCumpleanosPorMeses()" uib-tooltip="Ver cumpleaños por cada mes") Cumpleaños meses
-
-								a.btn.btn-default(href="" ng-click="verActaEvaluacionPromocion()" uib-tooltip="Ver acta de evaluación y promoción") Acta de evaluación y promoción
-
-						.row(ng-show="$state.is('panel.informes.cumpleanos_por_meses')" style="margin-top: 20px;")
-							.col-lg-12.col-xs-12
-								.form-group
-									label Imagen de fondo
-									ui-select(ng-model="config.imagen_fondo" on-select="putConfigCookie($item)" style="width: 300px; display: inline-block;")
-										ui-select-match(placeholder="Imagen de Fondo" allow-clear="true")
-											img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
-											| {{$select.selected.nombre}}
-										ui-select-choices(repeat="imagen in imgs_public | filter: $select.search")
-											img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
-											small(ng-bind-html="imagen.nombre | highlight: $select.search")
-
-										label Cantidad:
-										input(type="number" ng-model="config.cant_imagenes" min="1" max="30")
-
-
-
-
-
-
-
-
-
-				hr.wide
-				h5 Orientación de la página:
-				.control-group
-					.radio
-						label
-							input(type="radio" ng-model="config.orientacion" value="oficio_horizontal")
-							.text Oficio Horizontal
-					.radio
-						label
-							input(type="radio" ng-model="config.orientacion" value="carta_horizontal")
-							.text Carta horizontal
-					.radio
-						label
-							input(type="radio" ng-model="config.orientacion" value="vertical")
-							.text Vertical
-
-				div(ng-show="$state.is('panel.informes.puestos_todos_year') || $state.is('panel.informes.puestos_todos_periodo') || $state.is('panel.informes.puestos_grupo_year') || $state.is('panel.informes.puestos_grupo_periodo') ")
-					hr.wide
-					h5 Filtrar:
-					.control-group
-						.radio
-							label
-								| Mostrar alumnos con:
-								input(type="number" ng-model="filtrar.materias_perdidas" ng-value="0" min="0" max="20" ng-init="filtrar.materias_perdidas=0")
-								| materias perdidas o más.
-
-					button.btn.btn-primary(uib-tooltip="Sólo funciona con PUESTOS DEL AÑO calculados hasta el TERCER perido. Nota que falta en cuarto periodo."
-						ng-click="mostrar_nota_faltante()") Mostrar nota faltante:
-						span(ng-show="mostrar_faltante")  Si
-						span(ng-hide="mostrar_faltante")  No
-
-				hr.wide
-				h5 {{descripcion_informe}}
+  .col-lg-12.col-xs-12
+    .widget
+      .widget-header.bg-blue
+        i.widget-icon.fa.fa-bar-chart
+        .widget-caption
+          | Informes
+        .widget-buttons
+          a(href="" ng-init="minimized = false" ng-click="minimized = !minimized")
+            i.fa(ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimized]")
+          a(href="" ng-click="opened=false")
+            i.fa.fa-times
+      .widget-body(ng-class="{'ng-hide':minimized}")
+
+
+        .row(ng-show="::periodos_desactualizados" style="padding-bottom: 20px;" ng-if="::!hasRoleOrPerm(['psicólogo'])")
+
+          .col-lg-12(ng-repeat="periodo in ::periodos_desactualizados")
+
+            .alert.alert-warning.fade.in.radius-bordered
+              i.fa-fw.fa.fa-warning
+              | Notas finales desactualizadas
+              strong    Per {{periodo.numero}}
+
+            button.btn.btn-default(ng-repeat="grupo in ::periodo.grupos" ng-click="calcularGrupoPeriodo(grupo, periodo)" ng-disabled="grupo.desabilitado" uib-tooltip="{{grupo.nombre}}")
+              | {{grupo.abrev}}
+
+            button.btn.btn-primary(ng-click="calcularPeriodo(periodo)") Calcular periodo {{::periodo.numero}}
+
+        .row(style="padding-bottom: 20px;" ng-if="::!hasRoleOrPerm(['psicólogo'])")
+          .col-lg-12()
+            .btn-group
+              button.btn.btn-sm.btn-default.shiny(ng-click="calcularPeriodo(periodo)" ng-repeat="periodo in periodos_grupos" uib-tooltip="No es necesario a menos que veas alguna nota definitiva desactualizada.")
+                | Calcular definitivas per{{periodo.numero}}
+            uib-progressbar.progress-xlg.progress-striped.active(value="porcentaje" ng-show="porcentaje > -1")
+              b {{porcentaje}}% Completado
+
+
+        uib-tabset.widget-main(active="config.informe_tab_actual")
+          uib-tab(heading="Boletines" index="'boletines'" select="selectTab('boletines')")
+            .row(ng-if="false")
+              .col-lg-7.col-sm-12.col-xs-12
+                .form-group
+                  label Calcular hasta el periodo:
+                  input(type="number" ng-model="config.periodo_a_calcular" min="1" max="4")
+
+            br
+
+            .row(style="margin-bottom: 30px;")
+              .col-xs-12(ng-if="::hasRoleOrPerm(['psicólogo'])")
+                a.btn.btn-default(href="" ng-click="verSimat()") SIMAT {{USER.year}}
+
+              .col-lg-12.col-xs-12
+                | Tipo de boletín
+                .btn-group
+                  button.btn.btn-default(ng-click="eligirTipo(1)" ng-class="{'active': tipo_boletin==1 }" uib-tooltip="Boletín muy detallado del periodo") Tipo 1
+                  button.btn.btn-default(ng-click="eligirTipo(2)" ng-class="{'active': tipo_boletin==2 }" uib-tooltip="Boletín no tan largo") Tipo 2
+                  button.btn.btn-default(ng-click="eligirTipo(3)" ng-class="{'active': tipo_boletin==3 }" uib-tooltip="Boletín corto con definitivas por periodos") Tipo 3
+                  button.btn.btn-default(ng-click="eligirTipo(4)" ng-class="{'active': tipo_boletin==4 }" uib-tooltip="Para Preescolar") Tipo 4
+
+            hr.wide
+
+            span(ng-show="tipo_boletin")
+              .row(ng-show="tipo_boletin==4")
+                .col-lg-12.col-xs-12
+                  .form-group
+                    label Generar boletin final de preescolar
+                    label
+                      input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.generar_bol_final_prees")
+                      span.text.si-no
+
+              .row
+                .col-lg-12.col-xs-12
+                  .form-group
+                    label(style="margin-right: 9px;") Grupo
+                    ui-select(ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;")
+                      ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}}
+                      ui-select-choices(repeat="grupo in grupos | filter: $select.search")
+                        div(ng-bind-html="grupo.nombre | highlight: $select.search")
+                    a.btn.btn-default(href="" ng-click="verBoletinesGrupo(tipo_boletin)") Grupo completo
+              .row(ng-show="datos.grupo")
+                .col-lg-12.col-xs-12
+                  .form-group
+                    label Alumnos
+                    ui-select( ng-model="datos.selected_alumnos" multiple on-select="selectAlumnos($item)" style="width: 100%;")
+                      ui-select-match(placeholder="Alumnos del grupo {{datos.grupo.abrev}}" allow-clear="true")
+                        img(ng-src="{{perfilPath + $item.foto_nombre}}" style="width:25px; height:25px;")
+                        | {{$item.nombres}}
+                      ui-select-choices(repeat="alumno in filtered_alumnos | filter: $select.search")
+                        img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
+                        small(ng-show="alumno.estado=='DESE'" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (DESERTOR)</i>'")
+                        small(ng-show="alumno.estado=='RETI'" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)</i>'")
+                        small(ng-hide="alumno.estado=='RETI' || alumno.estado=='DESE'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
+                    a.btn.btn-default(href="" ng-click="verBoletinesAlumnos(tipo_boletin)") Cargar boletines
+
+              .row(ng-hide="datos.grupo || USER.tipo=='Profesor'")
+                .col-lg-12.col-xs-12
+                  .form-group
+                    label Alumno
+                    ui-select( ng-model="datos.selected_alumno" on-select="selectAlumno($item)" style="width: 300px;")
+                      ui-select-match(placeholder="Elige un alumno" allow-clear="true")
+                        img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;")
+                        | {{$select.selected.nombres}} {{$select.selected.apellidos}}
+                      ui-select-choices(repeat="alumno in filtered_alumnos | filter: $select.search")
+                        img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
+                        small(ng-show="alumno.estado=='DESE'" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (DESERTOR)</i>'")
+                        small(ng-show="alumno.estado=='RETI'" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)</i>'")
+                        small(ng-hide="alumno.estado=='RETI' || alumno.estado=='DESE'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
+                    a.btn.btn-default(href="" ng-click="verBoletinAlumno(tipo_boletin)") Cargar boletin
+              br
+
+              .row(ng-hide="USER.tipo=='Profesor'")
+                .col-lg-2.col-sm-4.col-xs-12
+                  .form-group
+                    label Mostrar foto
+                    label
+                      input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.mostrar_foto")
+                      span.text.si-no
+                .col-lg-2.col-sm-4.col-xs-12(ng-if="::!hasRoleOrPerm(['psicólogo'])")
+                  .form-group
+                    label Firma rector
+                    label
+                      input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.show_firma_rector")
+                      span.text.si-no
+                .col-lg-2.col-sm-4.col-xs-12(ng-if="::!hasRoleOrPerm(['psicólogo'])")
+                  .form-group
+                    label Firma titular
+                    label
+                      input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.show_firma_titular")
+                      span.text.si-no
+                .col-lg-2.col-sm-4.col-xs-12
+                  .form-group
+                    label Mostrar rojos
+                    label
+                      input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.show_rojos")
+                      span.text.si-no
+                .col-lg-2.col-sm-4.col-xs-12(ng-show="tipo_boletin==2")
+                  .form-group
+                    label Mostrar porcentajes
+                    label
+                      input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.show_porcentajes")
+                      span.text.si-no
+                .col-lg-2.col-sm-4.col-xs-12(ng-show="tipo_boletin==2")
+                  .form-group
+                    label Mostrar tabla perdidas
+                    label
+                      input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.show_tabla_perdidas")
+                      span.text.si-no
+
+
+              .row(ng-if="::!hasRoleOrPerm(['psicólogo'])")
+                .col-lg-12.col-xs-12
+                  .form-group
+                    label Imagen de fondo
+                    ui-select(ng-model="config.imagen_fondo" on-select="putConfigCookie($item)" style="width: 300px; display: inline-block;")
+                      ui-select-match(placeholder="Imagen de Fondo" allow-clear="true")
+                        img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
+                        | {{$select.selected.nombre}}
+                      ui-select-choices(repeat="imagen in imgs_public | filter: $select.search")
+                        img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
+                        small(ng-bind-html="imagen.nombre | highlight: $select.search")
+
+                    label Cantidad:
+                    input(type="number" ng-model="config.cant_imagenes" min="1" max="30")
+
+            br
+            br
+            button.btn.btn-default(ng-click="pdfMaker()" ng-show="false")
+              |Prueba pdf
+
+          uib-tab(heading="Puestos" index="'puestos'" select="selectTab('puestos')" ng-if="::!hasRoleOrPerm(['psicólogo'])")
+            .row
+              .col-lg-7.col-sm-12.col-xs-12
+                .form-group
+                  label Calcular hasta el periodo:
+                  input(type="number" ng-model="config.periodo_a_calcular" min="1" max="4")
+
+            .form-group
+              label Grupo
+              ui-select(ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;")
+                ui-select-match(placeholder="Elige un grupo" allow-clear="true") {{$select.selected.nombre}}
+                ui-select-choices(repeat="grupo in grupos | filter: $select.search")
+                  div(ng-bind-html="grupo.nombre | highlight: $select.search")
+              .btn-group
+                a.btn.btn-default(href="" ng-click="verPuestosPeriodo()") Puestos del periodo
+                a.btn.btn-success(href="" ng-click="verPuestosYear()") Puestos del año
+
+
+            .row(ng-if="$parent.USER.tipo!='Profesor'")
+              .col-lg-7.col-sm-12.col-xs-12
+                .btn-group
+                  a.btn.btn-default(href="" ng-click="verTodosPuestosPeriodo()") Todos del periodo
+                  a.btn.btn-success(href="" ng-click="verTodosPuestosYear()") Todos del año
+
+
+          uib-tab(heading="Planillas" index="'planillas'" select="selectTab('planillas')" ng-if="::!hasRoleOrPerm(['psicólogo'])")
+            .row
+              .col-lg-7.col-sm-12.col-xs-12
+                .form-group
+                  label Calcular hasta el periodo:
+                  input(type="number" ng-model="config.periodo_a_calcular" min="1" max="4")
+
+            br
+            .form-group
+              label Profesor
+              ui-select(ng-model="datos.profesor" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;")
+                ui-select-match(placeholder="Elige un profesor" allow-clear="true")
+                  img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;")
+                  | {{$select.selected.nombres + ' ' + $select.selected.apellidos}}
+                ui-select-choices(repeat="profe in profesores | filter: $select.search")
+                  img(ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;")
+                  small(ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
+
+              .btn-group(uib-dropdown)
+                a.btn.btn-default(href="" ng-click="verPlanillasProfe()") Ver planillas
+                a.btn.btn-default(href="" ng-click="verNotasPerdidasProfesor()" uib-tooltip="Acumuladas de los periodos") Notas perdidas
+                button.btn.btn-default(type="button" uib-dropdown-toggle)
+                  .caret
+                  .sr-only Notas perdidas
+                ul.dropdown-menu(uib-dropdown-menu role="menu" aria-labelledby="split-button")
+                  li(role="menuitem")
+                    a(ng-click="verNotasPerdidasProfesor(true)" href="" uib-tooltip="Sólo periodo seleccionado") Notas perdidas periodo
+
+            .form-group
+              label(style="margin-right: 13px;") Grupo
+              ui-select(ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;")
+                ui-select-match(placeholder="Elige un grupo" allow-clear="true") {{$select.selected.nombre}}
+                ui-select-choices(repeat="grupo in grupos | filter: $select.search")
+                  div(ng-bind-html="grupo.nombre | highlight: $select.search")
+
+              a.btn.btn-default(href="" ng-click="verPlanillasGrupo()") Ver planillas
+
+
+            .btn-group(uib-dropdown)
+              a.btn.btn-default(href="" ng-click="verPlanillasControlTardanzas()" uib-tooltip="Usada para las tardanzas y ausencias en la entrada a la institución") Control entrada
+              a.btn.btn-default(href="" ng-click="verPlanillasAsistenciaClase()" uib-tooltip="Para las tardandas y tardanzas a cada clase") Planillas asistencias clases
+              a.btn.btn-default(href="" ng-click="verAusencias()") Ver ausencias
+              a.btn.btn-default(href="" ng-click="verNotasPerdidasTodos()" uib-tooltip="Acumuladas de los periodos - Todos los docentes") Notas perdidas todos
+              button.btn.btn-default(type="button" uib-dropdown-toggle)
+                .caret
+                .sr-only Notas perdidas
+              ul.dropdown-menu(uib-dropdown-menu role="menu" aria-labelledby="split-button")
+                li(role="menuitem")
+                  a(ng-click="verNotasPerdidasTodos(true)" href="" uib-tooltip="Sólo periodo seleccionado - Todos los docentes") Todos - Notas perdidas periodo
+
+            br
+
+            .btn-group(uib-dropdown)
+              button#split-button.btn.btn-default(type="button" ng-click="verObservadorVertical()" uib-tooltip="Observador del alumno para imprimir") Observador vertical
+              button.btn.btn-default(type="button" uib-dropdown-toggle)
+                .caret
+                .sr-only Observador vertical
+              ul.dropdown-menu(uib-dropdown-menu role="menu" aria-labelledby="split-button")
+                li(role="menuitem")
+                  a(ng-click="verObservadorVerticalTodos()" href="") Observador vertical - Todos
+
+            .btn-group
+              a.btn.btn-default(href="" ng-click="verSimat()") SIMAT {{USER.year}}
+              //a.btn.btn-default(href="" type="file" ngf-select="importarSimat($file, $invalidFiles)"
+                accept=".xls,.xlsx" ngf-max-size="1MB") Importar SIMAT {{USER.year}}
+
+            a.btn.btn-default(href="" ng-click="asistenciaPadres()") Asistencia Padres
+            a.btn.btn-default(href="" ng-click="listasPersonalizadas()") Listas personalizadas
+
+            br
+
+            a.btn.btn-default(href="" ng-click="mostrarUnidadesProfe()" uib-tooltip="Mostrar toda@s l@s {{USER.unidades_displayname}} del docente seleccionado") {{ USER.unidades_displayname }}
+
+
+            br
+
+            br
+
+            .row
+              .col-lg-2.col-sm-4.col-xs-12
+                .form-group
+                  label Mostrar foto
+                  label
+                    input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="config.mostrar_foto")
+                    span.text.si-no
+
+
+
+
+
+
+          uib-tab(heading="Finales" index="'finales'" select="selectTab('finales')" ng-if="::!hasRoleOrPerm(['psicólogo'])")
+            span(ng-include="'views/informes/tabFinales.tpl.html'")
+
+
+
+
+
+          uib-tab(heading="Varios" index="'varios'" select="selectTab('varios')" ng-if="::!hasRoleOrPerm(['psicólogo'])")
+
+            .row
+              .col-lg-12.col-xs-12
+                .form-group
+                  label(style="margin-right: 9px;") Grupo
+                  ui-select(ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;")
+                    ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}}
+                    ui-select-choices(repeat="grupo in grupos | filter: $select.search")
+                      div(ng-bind-html="grupo.nombre | highlight: $select.search")
+                  //a.btn.btn-default(href="" ng-click="verNotasActualesAlumnosGrupo()") Notas año actual
+            .row(ng-show="datos.grupo")
+              .col-lg-12.col-xs-12
+                .form-group
+                  label Alumnos
+                  ui-select( ng-model="datos.selected_alumnos" multiple on-select="selectAlumnos($item)" style="width: 100%;")
+                    ui-select-match(placeholder="Alumnos del grupo {{datos.grupo.abrev}}" allow-clear="true")
+                      img(ng-src="{{perfilPath + $item.foto_nombre}}" style="width:25px; height:25px;")
+                      | {{$item.nombres}}
+                    ui-select-choices(repeat="alumno in filtered_alumnos | filter: $select.search")
+                      img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
+                      small(ng-show="alumno.estado=='DESE'" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (DESERTOR)</i>'")
+                      small(ng-show="alumno.estado=='RETI'" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)</i>'")
+                      small(ng-hide="alumno.estado=='RETI' || alumno.estado=='DESE'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
+                  a.btn.btn-default(href="" ng-click="verNotasActualesAlumnos()") Notas año actual
+                  a.btn.btn-default(href="" ng-click="verNotasPerdidasActualesAlumnos()") Notas perdidas año actual
+
+            .row(ng-show="!datos.grupo")
+              .col-lg-12.col-xs-12
+                .form-group
+                  label Alumno
+                  ui-select( ng-model="datos.selected_alumno" on-select="selectAlumno($item)" style="width: 300px;")
+                    ui-select-match(placeholder="Elige un alumno" allow-clear="true")
+                      img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;")
+                      | {{$select.selected.nombres}} {{$select.selected.apellidos}}
+                    ui-select-choices(repeat="alumno in filtered_alumnos | filter: $select.search")
+                      img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
+                      small(ng-show="alumno.estado=='DESE'" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (DESERTOR)</i>'")
+                      small(ng-show="alumno.estado=='RETI'" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)</i>'")
+                      small(ng-hide="alumno.estado=='RETI' || alumno.estado=='DESE'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
+                  a.btn.btn-default(href="" ng-click="verNotasActualesAlumno()") Notas año actual
+                  a.btn.btn-default(href="" ng-click="verNotasPerdidasActualesAlumno()") Notas perdidas año actual
+
+            .row
+              .col-lg-12.col-xs-12
+                .btn-group(ng-if="USER.tipo!='Profesor'")
+                  a.btn.btn-default(href="" ng-click="verListadoDocentes()") Listado docentes
+                  a.btn.btn-default(href="" ng-click="excelListadoDocentes()" uib-tooltip="Exportar a Excel listado docentes")
+                    i.fa.fa-file
+
+                a.btn.btn-default(href="" ng-click="verCantAlumnosEnGrupos()" uib-tooltip="Ver cantidad de alumnos por grupos") Alumnos en grupos
+
+                a.btn.btn-default(href="" ng-click="verCumpleanosPorMeses()" uib-tooltip="Ver cumpleaños por cada mes") Cumpleaños meses
+
+                a.btn.btn-default(href="" ng-click="verActaEvaluacionPromocion()" uib-tooltip="Ver acta de evaluación y promoción" ng-if="USER.tipo!='Profesor'") Acta de evaluación y promoción
+
+            .row(ng-show="$state.is('panel.informes.cumpleanos_por_meses')" style="margin-top: 20px;")
+              .col-lg-12.col-xs-12
+                .form-group
+                  label Imagen de fondo
+                  ui-select(ng-model="config.imagen_fondo" on-select="putConfigCookie($item)" style="width: 300px; display: inline-block;")
+                    ui-select-match(placeholder="Imagen de Fondo" allow-clear="true")
+                      img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
+                      | {{$select.selected.nombre}}
+                    ui-select-choices(repeat="imagen in imgs_public | filter: $select.search")
+                      img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
+                      small(ng-bind-html="imagen.nombre | highlight: $select.search")
+
+                    label Cantidad:
+                    input(type="number" ng-model="config.cant_imagenes" min="1" max="30")
+
+
+
+
+
+
+
+
+
+        hr.wide
+        h5 Orientación de la página:
+        .control-group
+          .radio
+            label
+              input(type="radio" ng-model="config.orientacion" value="oficio_horizontal")
+              .text Oficio Horizontal
+          .radio
+            label
+              input(type="radio" ng-model="config.orientacion" value="carta_horizontal")
+              .text Carta horizontal
+          .radio
+            label
+              input(type="radio" ng-model="config.orientacion" value="vertical")
+              .text Vertical
+
+        div(ng-show="$state.is('panel.informes.puestos_todos_year') || $state.is('panel.informes.puestos_todos_periodo') || $state.is('panel.informes.puestos_grupo_year') || $state.is('panel.informes.puestos_grupo_periodo') ")
+          hr.wide
+          h5 Filtrar:
+          .control-group
+            .radio
+              label
+                | Mostrar alumnos con:
+                input(type="number" ng-model="filtrar.materias_perdidas" ng-value="0" min="0" max="20" ng-init="filtrar.materias_perdidas=0")
+                | materias perdidas o más.
+
+          button.btn.btn-primary(uib-tooltip="Sólo funciona con PUESTOS DEL AÑO calculados hasta el TERCER perido. Nota que falta en cuarto periodo."
+            ng-click="mostrar_nota_faltante()") Mostrar nota faltante:
+            span(ng-show="mostrar_faltante")  Si
+            span(ng-hide="mostrar_faltante")  No
+
+        hr.wide
+        h5 {{descripcion_informe}}
 
 
 
 // ng-class="{'altura-informe': !$state.is('panel.informes.certificados_estudio') } "
 
 .informes-pages.altura-informe(ui-view="report_content" )
-	h5(style="text-align: center") Aquí saldrán tus reportes
+  h5(style="text-align: center") Aquí saldrán tus reportes
 
 

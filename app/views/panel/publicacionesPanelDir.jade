@@ -1,342 +1,342 @@
 uib-tabset.widget-main(active="panel_tab_actual" style="margin-bottom: 20px;")
-	uib-tab(heading="Publicaciones" index="'publicaciones'" select="selectTab('publicaciones')" classes="tab-encabezado-bigger")
+  uib-tab(heading="Publicaciones" index="'publicaciones'" select="selectTab('publicaciones')" classes="tab-encabezado-bigger")
 
-		// PUBLICACIONES ALUMNOS Y ACUDIENTES
-		.row(ng-if="IS_ALUM_ACUD")
+    // PUBLICACIONES ALUMNOS Y ACUDIENTES
+    .row(ng-if="IS_ALUM_ACUD")
 
-			.col-sm-4.col-xs-12(style="border-right: 1px solid #ccc;")
+      .col-sm-4.col-xs-12(style="border-right: 1px solid #ccc;")
 
-				div(ng-show="!changes_asked" style="text-align: center;")
-					i.fa.fa-spinner.fa-spin(style="font-size: 20pt")
+        div(ng-show="!changes_asked" style="text-align: center;")
+          i.fa.fa-spinner.fa-spin(style="font-size: 20pt")
 
-				div
-					div(ng-show="changes_asked.publicaciones.length == 0") No hay publicaciones
+        div
+          div(ng-show="changes_asked.publicaciones.length == 0") No hay publicaciones
 
-					.listado-mis-publicaciones(ng-show="changes_asked.publicaciones.length > 0" style="max-height: 400px;")
+          .listado-mis-publicaciones(ng-show="changes_asked.publicaciones.length > 0" style="max-height: 400px;")
 
-						.una-publicacion-mia.animated.fadeInUp(ng-repeat="publi in changes_asked.publicaciones"
-							ng-class="{'publicacion-eliminada': publi.deleted_at}" tooltip-popup-delay="600"
-							uib-tooltip="Última modificación: {{publi.updated_at}}" ng-click="verPublicacion(publi, $index)")
+            .una-publicacion-mia.animated.fadeInUp(ng-repeat="publi in changes_asked.publicaciones"
+              ng-class="{'publicacion-eliminada': publi.deleted_at}" tooltip-popup-delay="600"
+              uib-tooltip="Última modificación: {{publi.updated_at}}" ng-click="verPublicacion(publi, $index)")
 
-							img(ng-if="publi.imagen_nombre" ng-src="{{ perfilPath + publi.imagen_nombre }}" style="height: 50px; ")
-							span(ng-show="!publi.contenido") {{ publi.imagen_nombre }}
-							span(ng-show="publi.contenido" style="max-height: 100px; overflow: hidden"
-								ng-bind-html="publi.contenido_tr")
+              img(ng-if="publi.imagen_nombre" ng-src="{{ perfilPath + publi.imagen_nombre }}" style="height: 50px; ")
+              span(ng-show="!publi.contenido") {{ publi.imagen_nombre }}
+              span(ng-show="publi.contenido" style="max-height: 100px; overflow: hidden"
+                ng-bind-html="publi.contenido_tr")
 
 
-			.col-sm-8.col-xs-12
+      .col-sm-8.col-xs-12
 
-				// Publicaciones actuales
-				div.publicacion-actual(style="margin-right: 8px; margin-top: 10px;"
-					ng-show="publicaciones_actuales.length > 0" ng-repeat="publicacion_actual in publicaciones_actuales")
+        // Publicaciones actuales
+        div.publicacion-actual(style="margin-right: 8px; margin-top: 10px;"
+          ng-show="publicaciones_actuales.length > 0" ng-repeat="publicacion_actual in publicaciones_actuales")
 
-					div(ng-click="verPublicacionDetalle(publicacion_actual)")
-						img(ng-if="publicacion_actual.foto_autor" ng-src="{{ perfilPath + publicacion_actual.foto_autor }}" style="width: 50px; border-radius: 50%; ")
-						span {{ publicacion_actual.nombre_autor }}
-						span(style="font-style: italic; color: #999; float: right;")  {{ publicacion_actual.created_at }}
+          div(ng-click="verPublicacionDetalle(publicacion_actual)")
+            img(ng-if="publicacion_actual.foto_autor" ng-src="{{ perfilPath + publicacion_actual.foto_autor }}" style="width: 50px; border-radius: 50%; ")
+            span {{ publicacion_actual.nombre_autor }}
+            span(style="font-style: italic; color: #999; float: right;")  {{ publicacion_actual.created_at }}
 
-						.texto-publicacion-acompa(ng-bind-html="publicacion_actual.contenido_tr" ng-if="publicacion_actual.imagen_nombre && publicacion_actual.contenido.length>0")
+            .texto-publicacion-acompa(ng-bind-html="publicacion_actual.contenido_tr" ng-if="publicacion_actual.imagen_nombre && publicacion_actual.contenido.length>0")
 
-						.texto-publicacion-solo(ng-if="!publicacion_actual.imagen_nombre")
-							div(ng-bind-html="publicacion_actual.contenido_tr")
+            .texto-publicacion-solo(ng-if="!publicacion_actual.imagen_nombre")
+              div(ng-bind-html="publicacion_actual.contenido_tr")
 
-						div(ng-if="publicacion_actual.imagen_nombre" style="overflow: auto; max-height: 500px;")
-							img(ng-src="{{ perfilPath + publicacion_actual.imagen_nombre }}" style="width: 100%;")
+            div(ng-if="publicacion_actual.imagen_nombre" style="overflow: auto; max-height: 500px;")
+              img(ng-src="{{ perfilPath + publicacion_actual.imagen_nombre }}" style="width: 100%;")
 
 
-						div(style="margin-top: 10px;")
-							.comentarios-publi(ng-show="publicacion_actual.comentarios.length>0" style="white-space: nowrap; margin-bottom: 4px;")
-								img(ng-if="publicacion_actual.comentarios[0].foto_autor" ng-src="{{ perfilPath + publicacion_actual.comentarios[0].foto_autor }}" style="width: 40px; margin-top: -30px;")
-								img(ng-if="!publicacion_actual.comentarios[0].foto_autor" ng-src="{{ perfilPath + 'default_female.png' }}" style="width: 40px; margin-top: -30px;")
-								div(style="background-color: #eee; display: inline-block; padding: 4px; border-radius: 8px; width: 80%;")
-									div(style="color: #337ab7; white-space: normal;") {{ publicacion_actual.comentarios[0].nombre_autor }}:
-									div(style="white-space: normal;")  {{ publicacion_actual.comentarios[0].comentario }}
+            div(style="margin-top: 10px;")
+              .comentarios-publi(ng-show="publicacion_actual.comentarios.length>0" style="white-space: nowrap; margin-bottom: 4px;")
+                img(ng-if="publicacion_actual.comentarios[0].foto_autor" ng-src="{{ perfilPath + publicacion_actual.comentarios[0].foto_autor }}" style="width: 40px; margin-top: -30px;")
+                img(ng-if="!publicacion_actual.comentarios[0].foto_autor" ng-src="{{ perfilPath + 'default_female.png' }}" style="width: 40px; margin-top: -30px;")
+                div(style="background-color: #eee; display: inline-block; padding: 4px; border-radius: 8px; width: 80%;")
+                  div(style="color: #337ab7; white-space: normal;") {{ publicacion_actual.comentarios[0].nombre_autor }}:
+                  div(style="white-space: normal;")  {{ publicacion_actual.comentarios[0].comentario }}
 
-							div
-								a(href="") {{ publicacion_actual.comentarios.length }} comentarios.
+              div
+                a(href="") {{ publicacion_actual.comentarios.length }} comentarios.
 
-						hr
+            hr
 
 
 
 
-		// PUBLICACIONES ADMINISTRADOR
-		.row(ng-if="IS_PROF_ADMIN" ngf-drop="uploadFiles($files)" class="drop-box"
-			ngf-drag-over-class="'dragover'" ngf-multiple="false"
-			ngf-pattern="'image/*'")
+    // PUBLICACIONES ADMINISTRADOR
+    .row(ng-if="IS_PROF_ADMIN" ngf-drop="uploadFiles($files)" class="drop-box"
+      ngf-drag-over-class="'dragover'" ngf-multiple="false"
+      ngf-pattern="'image/*'")
 
-			.col-sm-4.col-xs-12(style="border-right: 1px solid #ccc;")
+      .col-sm-4.col-xs-12(style="border-right: 1px solid #ccc;")
 
-				div(ng-show="!changes_asked" style="text-align: center;")
-					i.fa.fa-spinner.fa-spin(style="font-size: 20pt")
+        div(ng-show="!changes_asked" style="text-align: center;")
+          i.fa.fa-spinner.fa-spin(style="font-size: 20pt")
 
-				a(href="" style="margin-top: 0; display: block; border-bottom: 1px solid #ccc; padding-bottom: 4px;"
-					ng-click="toggle_mis_publicaciones()") Mis publicaciones
+        a(href="" style="margin-top: 0; display: block; border-bottom: 1px solid #ccc; padding-bottom: 4px;"
+          ng-click="toggle_mis_publicaciones()") Mis publicaciones
 
-					span(ng-show="mostrar_mis_publicaciones") :
+          span(ng-show="mostrar_mis_publicaciones") :
 
-				div(ng-show="mostrar_mis_publicaciones")
-					div(ng-show="changes_asked.mis_publicaciones.length == 0") Aún no has publicado
+        div(ng-show="mostrar_mis_publicaciones")
+          div(ng-show="changes_asked.mis_publicaciones.length == 0") Aún no has publicado
 
-					.listado-mis-publicaciones(ng-show="changes_asked.mis_publicaciones.length > 0")
+          .listado-mis-publicaciones(ng-show="changes_asked.mis_publicaciones.length > 0")
 
-						.una-publicacion-mia(ng-repeat="publi in changes_asked.mis_publicaciones" ng-class="{'publicacion-eliminada': publi.deleted_at}"
-							uib-tooltip="Última modificación: {{publi.updated_at}}" tooltip-popup-delay="600" ng-click="verPublicacion(publi)")
+            .una-publicacion-mia(ng-repeat="publi in changes_asked.mis_publicaciones" ng-class="{'publicacion-eliminada': publi.deleted_at}"
+              uib-tooltip="Última modificación: {{publi.updated_at}}" tooltip-popup-delay="600" ng-click="verPublicacion(publi)")
 
-							a.btn.btn-danger.btn-sm(href="" ng-click="eliminarPublicacion(publi)" style="margin-right: 4px;"
-								uib-tooltip="Eliminar publicación" ng-show="!publi.deleted_at")
-								i.fa.fa-trash
-							a.btn.btn-info.btn-sm(href="" ng-click="restaurarPublicacion(publi)" style="margin-right: 4px;"
-								uib-tooltip="Restaurar publicación. Eliminada: {{publi.deleted_at}}" ng-show="publi.deleted_at")
-								i.fa.fa-refresh
+              a.btn.btn-danger.btn-sm(href="" ng-click="eliminarPublicacion(publi)" style="margin-right: 4px;"
+                uib-tooltip="Eliminar publicación" ng-show="!publi.deleted_at")
+                i.fa.fa-trash
+              a.btn.btn-info.btn-sm(href="" ng-click="restaurarPublicacion(publi)" style="margin-right: 4px;"
+                uib-tooltip="Restaurar publicación. Eliminada: {{publi.deleted_at}}" ng-show="publi.deleted_at")
+                i.fa.fa-refresh
 
-							img(ng-if="publi.imagen_nombre" ng-src="{{ perfilPath + publi.imagen_nombre }}" style="height: 50px")
-							span(ng-show="!publi.contenido") {{ publi.imagen_nombre }}
-							span(ng-show="publi.contenido" style="max-height: 100px; overflow: hidden"
-								ng-bind-html="publi.contenido_tr")
+              img(ng-if="publi.imagen_nombre" ng-src="{{ perfilPath + publi.imagen_nombre }}" style="height: 50px")
+              span(ng-show="!publi.contenido") {{ publi.imagen_nombre }}
+              span(ng-show="publi.contenido" style="max-height: 100px; overflow: hidden"
+                ng-bind-html="publi.contenido_tr")
 
 
-				a(href="" style="margin-top: 10px; display: block;" ng-click="toggle_publicaciones()") Publicaciones
-					span(ng-show="mostrar_publicaciones") :
+        a(href="" style="margin-top: 10px; display: block;" ng-click="toggle_publicaciones()") Publicaciones
+          span(ng-show="mostrar_publicaciones") :
 
-				div(ng-show="mostrar_publicaciones")
-					div(ng-show="changes_asked.publicaciones.length == 0") No hay publicaciones
-
-					.listado-mis-publicaciones(ng-show="changes_asked.publicaciones.length > 0")
-
-						.una-publicacion-mia(ng-repeat="publi in changes_asked.publicaciones" ng-class="{'publicacion-eliminada': publi.deleted_at}"
-							uib-tooltip="Última modificación: {{publi.updated_at}}" tooltip-popup-delay="600" ng-click="verPublicacion(publi)")
-
-							span(ng-if="publi.imagen_nombre")
-								img(ng-src="{{ perfilPath + publi.imagen_nombre }}" style="height: 50px")
-
-							span(ng-show="!publi.contenido") {{ publi.imagen_nombre }}
-							span(ng-show="publi.contenido" style="max-height: 100px; overflow: hidden"
-								ng-bind-html="publi.contenido_tr")
-
+        div(ng-show="mostrar_publicaciones")
+          div(ng-show="changes_asked.publicaciones.length == 0") No hay publicaciones
+
+          .listado-mis-publicaciones(ng-show="changes_asked.publicaciones.length > 0")
+
+            .una-publicacion-mia(ng-repeat="publi in changes_asked.publicaciones" ng-class="{'publicacion-eliminada': publi.deleted_at}"
+              uib-tooltip="Última modificación: {{publi.updated_at}}" tooltip-popup-delay="600" ng-click="verPublicacion(publi)")
+
+              span(ng-if="publi.imagen_nombre")
+                img(ng-src="{{ perfilPath + publi.imagen_nombre }}" style="height: 50px")
+
+              span(ng-show="!publi.contenido") {{ publi.imagen_nombre }}
+              span(ng-show="publi.contenido" style="max-height: 100px; overflow: hidden"
+                ng-bind-html="publi.contenido_tr")
+
 
-			.col-sm-8.col-xs-12
-				.escribe-publicacion(ng-show="!creando_publicacion" ng-click="mostrar_crear_publicacion()")
-					| Escribe aquí una publicación...
+      .col-sm-8.col-xs-12
+        .escribe-publicacion(ng-show="!creando_publicacion" ng-click="mostrar_crear_publicacion()")
+          | Escribe aquí una publicación...
 
-				div.new-publicacion.widget-body(ng-show="creando_publicacion" style="margin-right: 8px;")
-					div(ng-if="false" ckeditor="options" ng-model="$parent.new_publicacion.contenido"
-						ready="onReady()")
-
+        div.new-publicacion.widget-body(ng-show="creando_publicacion" style="margin-right: 8px;")
+          div(ng-if="false" ckeditor="options" ng-model="$parent.new_publicacion.contenido"
+            ready="onReady()")
+
 
-					form(ng-submit="crearPublicacion(new_publicacion)")
-						span Puedes usar etiquetas html
+          form(ng-submit="crearPublicacion(new_publicacion)")
+            span Puedes usar etiquetas html
 
-						textarea.form-control#textarea-new-publicacion(ng-model="new_publicacion.contenido"
-							placeholder="Escribe aquí una publicación..." style="font-size: 16pt;")
-
-						br
-						.btn.btn-success(ngf-select="uploadFiles($files)" ngf-multiple="false" ngf-pattern="'image/*'"
-							ngf-accept="'image/*'" ng-show="imgFiles.length==0 && !new_publicacion.imagen_nombre")
-							i.fa.fa-image
-							| Agregar imagen
+            textarea.form-control#textarea-new-publicacion(ng-model="new_publicacion.contenido"
+              placeholder="Escribe aquí una publicación..." style="font-size: 16pt;")
+
+            br
+            .btn.btn-success(ngf-select="uploadFiles($files)" ngf-multiple="false" ngf-pattern="'image/*'"
+              ngf-accept="'image/*'" ng-show="imgFiles.length==0 && !new_publicacion.imagen_nombre")
+              i.fa.fa-image
+              | Agregar imagen
 
-						div(ng-show="new_publicacion.imagen_nombre")
-							.row
-								.ticket-user.col-lg-4.col-xs-6
-									img.user-avatar(ng-src="{{ perfilPath + new_publicacion.imagen_nombre }}" style="width: 100%;")
-									span.user-name {{new_publicacion.imagen_nombre}}
-								.ticket-time.col-lg-5.col-sm-12.col-xs-12
-										.divider.hidden-md.hidden-sm.hidden-xs
+            div(ng-show="new_publicacion.imagen_nombre")
+              .row
+                .ticket-user.col-lg-4.col-xs-6
+                  img.user-avatar(ng-src="{{ perfilPath + new_publicacion.imagen_nombre }}" style="width: 100%;")
+                  span.user-name {{new_publicacion.imagen_nombre}}
+                .ticket-time.col-lg-5.col-sm-12.col-xs-12
+                    .divider.hidden-md.hidden-sm.hidden-xs
 
-										a.btn.btn-success(href="" ng-click="borrarImagen(new_publicacion)")
-											i.fa.fa-times
-											| Eliminar imagen
-						br
-						div
-							div(ng-show="errorMsg!=''") {{errorMsg}}
-							div(ng-repeat="file in imgFiles")
-								.row
-									.ticket-user.col-lg-5.col-sm-12
-										img.user-avatar(ng-src="{{file.dataUrl}}" style="width: 100%;")
-										span.user-name {{file.name}}
-										span.user-company - {{(file.size / 1000000) | number:2 }}MB
-									.ticket-time.col-lg-5.col-sm-12.col-xs-12
-										.divider.hidden-md.hidden-sm.hidden-xs
-										uib-progressbar.progress-xlg.progress-striped.active( value="file.porcentaje" style="margin-bottom: 10px;")
-											b(ng-show="file.porcentaje") {{file.porcentaje}}% Completado
-											span(ng-show="!file.porcentaje") Subiendo...
+                    a.btn.btn-success(href="" ng-click="borrarImagen(new_publicacion)")
+                      i.fa.fa-times
+                      | Eliminar imagen
+            br
+            div
+              div(ng-show="errorMsg!=''") {{errorMsg}}
+              div(ng-repeat="file in imgFiles")
+                .row
+                  .ticket-user.col-lg-5.col-sm-12
+                    img.user-avatar(ng-src="{{file.dataUrl}}" style="width: 100%;")
+                    span.user-name {{file.name}}
+                    span.user-company - {{(file.size / 1000000) | number:2 }}MB
+                  .ticket-time.col-lg-5.col-sm-12.col-xs-12
+                    .divider.hidden-md.hidden-sm.hidden-xs
+                    uib-progressbar.progress-xlg.progress-striped.active( value="file.porcentaje" style="margin-bottom: 10px;")
+                      b(ng-show="file.porcentaje") {{file.porcentaje}}% Completado
+                      span(ng-show="!file.porcentaje") Subiendo...
 
-										a.btn.btn-success(href="" ng-click="borrarImagen(new_publicacion.imagen)")
-											i.fa.fa-times
-											| Eliminar imagen
+                    a.btn.btn-success(href="" ng-click="borrarImagen(new_publicacion.imagen)")
+                      i.fa.fa-times
+                      | Eliminar imagen
 
 
-						br
-						label(for="publi_para_todos")
-							input#publi_para_todos(type="radio" value="publi_para_todos" ng-model="new_publicacion.publi_para")
-							span Pública
+            br
+            label(for="publi_para_todos")
+              input#publi_para_todos(type="radio" value="publi_para_todos" ng-model="new_publicacion.publi_para")
+              span Pública
 
-						label(for="publi_privada")
-							input#publi_privada(type="radio" value="publi_privada" ng-model="new_publicacion.publi_para")
-							span Privada
+            label(for="publi_privada")
+              input#publi_privada(type="radio" value="publi_privada" ng-model="new_publicacion.publi_para")
+              span Privada
 
-						div(ng-show="new_publicacion.publi_para == 'publi_privada' ")
-							label(for="publi_para_alumnos")
-								input#publi_para_alumnos(type="checkbox" ng-model="new_publicacion.para_alumnos" ng-true-value="1" ng-false-value="0")
-								span Para alumnos
-
-							label(for="publi_para_profes")
-								input#publi_para_profes(type="checkbox" ng-model="new_publicacion.para_profes" ng-true-value="1" ng-false-value="0")
-								span Para profesores
-
-							label(for="publi_para_acudientes")
-								input#publi_para_acudientes(type="checkbox" ng-model="new_publicacion.para_acudientes" ng-true-value="1" ng-false-value="0")
-								span Para acudientes
-
-						div(style="text-align: right;")
-							button.btn.btn-primary(type="submit" ng-disabled="!imagen_subida || $scope.guardando_publicacion" style="display: block;")
-								i.fa.fa-rss
-								span(ng-show="!new_publicacion.editar") Publicar
-								span(ng-show="new_publicacion.editar") Guardar
-
-
-				// Publicación actual
-				div.publicacion-actual.animated.fadeInUp(style="margin-right: 8px; margin-top: 10px;"
-					ng-show="publicacion_actual")
-
-					img(ng-if="publicacion_actual.foto_autor" ng-src="{{ perfilPath + publicacion_actual.foto_autor }}" style="width: 50px; border-radius: 50%;")
-					span(style="display: inline-block;") {{ publicacion_actual.nombre_autor }}
-					span(style="font-style: italic; color: #999; float: right;")  {{ publicacion_actual.created_at }}
-
-					div(ng-click="verPublicacionDetalle(publicacion_actual)")
-						.texto-publicacion-acompa(ng-bind-html="publicacion_actual.contenido_tr" ng-if="publicacion_actual.imagen_nombre && publicacion_actual.contenido.length>0")
-
-						.texto-publicacion-solo(ng-if="!publicacion_actual.imagen_nombre")
-							div(ng-bind-html="publicacion_actual.contenido_tr")
-
-						div(ng-if="publicacion_actual.imagen_nombre" style="overflow: auto; max-height: 500px;")
-							img(ng-src="{{ perfilPath + publicacion_actual.imagen_nombre }}" style="width: 100%;")
-
-
-						div(style="margin-top: 10px;")
-							.comentarios-publi(ng-show="publicacion_actual.comentarios.length>0" style="white-space: nowrap; margin-bottom: 4px;")
-
-								img(ng-if="publicacion_actual.comentarios[0].foto_autor" ng-src="{{ perfilPath + publicacion_actual.comentarios[0].foto_autor }}" style="width: 40px; margin-top: -30px;")
-								img(ng-if="!publicacion_actual.comentarios[0].foto_autor" ng-src="{{ perfilPath + 'default_female.png' }}" style="width: 40px; margin-top: -30px;")
-								div(style="background-color: #eee; display: inline-block; padding: 4px; border-radius: 8px; width: 80%;")
-									div(style="color: #337ab7; white-space: normal;") {{ publicacion_actual.comentarios[0].nombre_autor }}:
-									div(style="white-space: normal;")  {{ publicacion_actual.comentarios[0].comentario }}
-
-							div
-								a(href="" ng-show="publicacion_actual.comentarios.length") {{ publicacion_actual.comentarios.length }} comentarios.
-
-					button(type="button" ng-click="editarPublicacion(publicacion_actual)" aria-label="Editar publicidad"
-						ng-if="USER.persona_id==publicacion_actual.persona_id" style="float: right; font-size: 16pt; margin-top: -5px;" uib-tooltip="Editar" tooltip-placement="bottom" tooltip-append-to-body="true")
-						i.fa.fa-pencil
-
-					hr
-
-
-
-	// TAB CALENDAR
-	uib-tab(heading="Calendario" index="'calendario'" select="selectTab('calendario')" classes="tab-encabezado-bigger")
-
-		.row(style="min-height: 480px;")
-			.col-xs-12
-
-				p El calendario es el mismo para todos.
-
-				span(ng-if="IS_PROF_ADMIN")
-
-					.calendario-evento-panel(ng-show="mostrando_edit_evento")
-						a.close(ng-click="noMostrarEditEvento()")
-							i.fa.fa-times
-
-						form(ng-submit="guardarEvento(evento_actual)")
-							.row
-
-								.col-xs-12(style="margin-bottom: 7px;")
-									label(for="titulo-evento-actual") Título
-									input#titulo-evento-actual.form-control(ng-model="evento_actual.title" placeholder="Escribe evento...")
-
-								.form-group.col-xs-12(style="margin-bottom: 7px;")
-									label(for="fecha-start-event") Inicia
-									.controls
-										.input-group
-											span.input-group-addon
-												i.fa.fa-calendar
-											input.form-control.active#fecha-start-event(type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="evento_actual.start" is-open="data.isOpenStart" ng-click="data.isOpenStart = true" max-date="'2020-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha Inicio")
-
-							.row
-								.col-sm-6
-									.form-group(style="margin: 5px 0 5px;")
-										label Todo el día
-										label
-											input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="evento_actual.allDay")
-											span.text.si-no
-								.col-sm-6
-									.form-group(style="margin: 5px 0 5px;" uib-tooltip="No podrán verlo los alumnos ni acudientes" tooltip-popup-delay="400")
-										label Sólo profes
-										label
-											input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="evento_actual.solo_profes")
-											span.text.si-no
-
-								.form-group.col-xs-12(style="margin-bottom: 7px;" ng-show="!evento_actual.allDay")
-									label(for="fecha-end-event") Fin
-									.controls
-										.input-group
-											span.input-group-addon
-												i.fa.fa-calendar
-											input.form-control.active#fecha-end-event(type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="evento_actual.end" is-open="data.isOpenEnd" ng-click="data.isOpenEnd = true" max-date="'2020-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha Fin")
-
-								.col-xs-12
-									button.btn.btn-primary.shiny(type="submit" ng-show="!evento_actual.editar" ng-disabled="evento_actual.guardando") Crear
-									span(ng-show="evento_actual.editar")
-										button.btn.btn-danger.shiny.btn-sm(type="button" ng-click="eliminarEvento(evento_actual)" uib-tooltip="Eliminar evento")
-											i.fa.fa-times
-											| Eliminar
-										br
-										br
-
-										.btn-group(style="float: right;")
-											button.btn.btn-default.shiny(type="button" ng-click="cancelarEdicion()" ng-disabled="evento_actual.guardando")
-												| Cancelar
-											button.btn.btn-primary.shiny(type="submit" ng-disabled="evento_actual.guardando")
-												i.fa.fa-save
-												| Guardar
-
-								br
-								.col-xs-12
-									p Sólo profesores y administradores pueden editar eventos.
-
-
-					span()
-
-						button.btn.btn-primary(ng-click="mostrarEditEvento()" ng-show="!mostrando_edit_evento") Nuevo evento
-
-						button.btn.btn-default(ng-click="actualizarEventos()" style="margin-left: 20px" uib-tooltip="Mostrar calendario actualizado")
-							i.fa.fa-refresh
-							| Actualizar
-
-						form(ng-submit="actualizarCumplesEnCalendario()" style="display: inline-block;" ng-show="hasRoleOrPerm(['admin'])")
-							button.btn.btn-default(ng-disabled="actualizando_cumples || false" type="submit" uib-tooltip="Actualiza calendario con las fechas de cumpleaños de los alumnos y profesores")
-								| Sincronizar cumpleaños
-						br
-					hr
-
-				span(ng-if="IS_ALUM_ACUD")
-					button.btn.btn-default(ng-click="actualizarEventos()" style="margin-left: 20px" uib-tooltip="Mostrar calendario actualizado")
-						i.fa.fa-refresh
-						| Actualizar
-					br
-					br
-
-
-
-				// Calendario UI
-				.btn-toolbar(ng-if="false")
-					.btn-group
-						button.btn.btn-success.shiny(ng-click="changeView('agendaWeek')") Semana
-						button.btn.btn-success.shiny(ng-click="changeView('month')") Mes
-						button.btn.btn-success.shiny(ng-click="changeView('agendaDay')") Día
-
-				div(ng-if="eventos.length > 0")
-					div(ng-model="eventos" ng-if="eventos.length > 0" calendar="myCalendar" ui-calendar="uiConfig.calendar" )
-
-				br
+            div(ng-show="new_publicacion.publi_para == 'publi_privada' ")
+              label(for="publi_para_alumnos")
+                input#publi_para_alumnos(type="checkbox" ng-model="new_publicacion.para_alumnos" ng-true-value="1" ng-false-value="0")
+                span Para alumnos
+
+              label(for="publi_para_profes")
+                input#publi_para_profes(type="checkbox" ng-model="new_publicacion.para_profes" ng-true-value="1" ng-false-value="0")
+                span Para profesores
+
+              label(for="publi_para_acudientes")
+                input#publi_para_acudientes(type="checkbox" ng-model="new_publicacion.para_acudientes" ng-true-value="1" ng-false-value="0")
+                span Para acudientes
+
+            div(style="text-align: right;")
+              button.btn.btn-primary(type="submit" ng-disabled="!imagen_subida || $scope.guardando_publicacion" style="display: block;")
+                i.fa.fa-rss
+                span(ng-show="!new_publicacion.editar") Publicar
+                span(ng-show="new_publicacion.editar") Guardar
+
+
+        // Publicación actual
+        div.publicacion-actual.animated.fadeInUp(style="margin-right: 8px; margin-top: 10px;"
+          ng-show="publicacion_actual")
+
+          img(ng-if="publicacion_actual.foto_autor" ng-src="{{ perfilPath + publicacion_actual.foto_autor }}" style="width: 50px; border-radius: 50%;")
+          span(style="display: inline-block;") {{ publicacion_actual.nombre_autor }}
+          span(style="font-style: italic; color: #999; float: right;")  {{ publicacion_actual.created_at }}
+
+          div(ng-click="verPublicacionDetalle(publicacion_actual)")
+            .texto-publicacion-acompa(ng-bind-html="publicacion_actual.contenido_tr" ng-if="publicacion_actual.imagen_nombre && publicacion_actual.contenido.length>0")
+
+            .texto-publicacion-solo(ng-if="!publicacion_actual.imagen_nombre")
+              div(ng-bind-html="publicacion_actual.contenido_tr")
+
+            div(ng-if="publicacion_actual.imagen_nombre" style="overflow: auto; max-height: 500px;")
+              img(ng-src="{{ perfilPath + publicacion_actual.imagen_nombre }}" style="width: 100%;")
+
+
+            div(style="margin-top: 10px;")
+              .comentarios-publi(ng-show="publicacion_actual.comentarios.length>0" style="white-space: nowrap; margin-bottom: 4px;")
+
+                img(ng-if="publicacion_actual.comentarios[0].foto_autor" ng-src="{{ perfilPath + publicacion_actual.comentarios[0].foto_autor }}" style="width: 40px; margin-top: -30px;")
+                img(ng-if="!publicacion_actual.comentarios[0].foto_autor" ng-src="{{ perfilPath + 'default_female.png' }}" style="width: 40px; margin-top: -30px;")
+                div(style="background-color: #eee; display: inline-block; padding: 4px; border-radius: 8px; width: 80%;")
+                  div(style="color: #337ab7; white-space: normal;") {{ publicacion_actual.comentarios[0].nombre_autor }}:
+                  div(style="white-space: normal;")  {{ publicacion_actual.comentarios[0].comentario }}
+
+              div
+                a(href="" ng-show="publicacion_actual.comentarios.length") {{ publicacion_actual.comentarios.length }} comentarios.
+
+          button(type="button" ng-click="editarPublicacion(publicacion_actual)" aria-label="Editar publicidad"
+            ng-if="USER.persona_id==publicacion_actual.persona_id" style="float: right; font-size: 16pt; margin-top: -5px;" uib-tooltip="Editar" tooltip-placement="bottom" tooltip-append-to-body="true")
+            i.fa.fa-pencil
+
+          hr
+
+
+
+  // TAB CALENDAR
+  uib-tab(heading="Calendario" index="'calendario'" select="selectTab('calendario')" classes="tab-encabezado-bigger")
+
+    .row(style="min-height: 480px;")
+      .col-xs-12
+
+        .row(ng-if="IS_PROF_ADMIN")
+
+          .col-xs-12.col-sm-10(ng-show="mostrando_edit_evento")
+            .calendario-evento-panel
+              a.close(ng-click="noMostrarEditEvento()")
+                i.fa.fa-times
+
+
+              form(ng-submit="guardarEvento(evento_actual)")
+                .row
+
+                  .col-xs-12(style="margin-bottom: 7px;")
+                    label(for="titulo-evento-actual") Título
+                    input#titulo-evento-actual.form-control(ng-model="evento_actual.title" placeholder="Escribe evento...")
+
+                  .form-group.col-xs-12(style="margin-bottom: 7px;")
+                    label(for="fecha-start-event") Inicia
+                    .controls
+                      .input-group
+                        span.input-group-addon
+                          i.fa.fa-calendar
+                        input.form-control.active#fecha-start-event(type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="evento_actual.start" is-open="data.isOpenStart" ng-click="data.isOpenStart = true" max-date="'2020-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha Inicio")
+
+                .row
+                  .col-sm-6
+                    .form-group(style="margin: 5px 0 5px;")
+                      label Todo el día
+                      label
+                        input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="evento_actual.allDay")
+                        span.text.si-no
+                  .col-sm-6
+                    .form-group(style="margin: 5px 0 5px;" uib-tooltip="No podrán verlo los alumnos ni acudientes" tooltip-popup-delay="400")
+                      label Sólo profes
+                      label
+                        input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="evento_actual.solo_profes")
+                        span.text.si-no
+
+                  .form-group.col-xs-12(style="margin-bottom: 7px;" ng-show="!evento_actual.allDay")
+                    label(for="fecha-end-event") Fin
+                    .controls
+                      .input-group
+                        span.input-group-addon
+                          i.fa.fa-calendar
+                        input.form-control.active#fecha-end-event(type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="evento_actual.end" is-open="data.isOpenEnd" ng-click="data.isOpenEnd = true" max-date="'2020-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha Fin")
+
+                  .col-xs-12
+                    button.btn.btn-primary.shiny(type="submit" ng-show="!evento_actual.editar" ng-disabled="evento_actual.guardando") Crear
+                    span(ng-show="evento_actual.editar")
+                      button.btn.btn-danger.shiny.btn-sm(type="button" ng-click="eliminarEvento(evento_actual)" uib-tooltip="Eliminar evento")
+                        i.fa.fa-times
+                        | Eliminar
+
+                      .btn-group(style="float: right;")
+                        button.btn.btn-default.shiny(type="button" ng-click="cancelarEdicion()" ng-disabled="evento_actual.guardando")
+                          | Cancelar
+                        button.btn.btn-primary.shiny(type="submit" ng-disabled="evento_actual.guardando")
+                          i.fa.fa-save
+                          | Guardar
+
+                  br
+                  .col-xs-12
+                    p Sólo profesores y administradores pueden editar eventos.
+
+
+        .row(ng-if="IS_PROF_ADMIN")
+
+          .col-xs-12()
+
+            button.btn.btn-primary(ng-click="mostrarEditEvento()" ng-show="!mostrando_edit_evento") Nuevo evento
+
+            button.btn.btn-default(ng-click="actualizarEventos()" style="margin-left: 20px" uib-tooltip="Mostrar calendario actualizado")
+              i.fa.fa-refresh
+              | Actualizar
+
+            form(ng-submit="actualizarCumplesEnCalendario()" style="display: inline-block;" ng-show="hasRoleOrPerm(['admin'])")
+              button.btn.btn-default(ng-disabled="actualizando_cumples || false" type="submit" uib-tooltip="Actualiza calendario con las fechas de cumpleaños de los alumnos y profesores")
+                | Sincronizar cumpleaños
+            br
+          hr
+
+        span(ng-if="IS_ALUM_ACUD")
+          button.btn.btn-default(ng-click="actualizarEventos()" style="margin-left: 20px" uib-tooltip="Mostrar calendario actualizado")
+            i.fa.fa-refresh
+            | Actualizar
+          br
+          br
+
+
+
+        // Calendario UI
+        .btn-toolbar(ng-if="false")
+          .btn-group
+            button.btn.btn-success.shiny(ng-click="changeView('agendaWeek')") Semana
+            button.btn.btn-success.shiny(ng-click="changeView('month')") Mes
+            button.btn.btn-success.shiny(ng-click="changeView('agendaDay')") Día
+
+        div(ng-if="eventos.length > 0")
+          div(ng-model="eventos" ng-if="eventos.length > 0" calendar="myCalendar" ui-calendar="uiConfig.calendar" )
+
+        br

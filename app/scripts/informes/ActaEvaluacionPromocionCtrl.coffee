@@ -60,6 +60,22 @@ angular.module('myvcFrontApp')
 
 
 
+  $scope.verAlumnos = (alumnos)->
+    modalInstance = $modal.open({
+      templateUrl: '==informes/verAlumnosActaModal.tpl.html'
+      controller: 'VerAlumnosActaCtrl'
+      size: 'lg'
+      resolve:
+        alumnos: ()->
+          alumnos
+    })
+    modalInstance.result.then( (alum)->
+      console.log('Editado')
+    , ()->
+      # nada
+    )
+
+
 
 
   $scope.editarAlumno = (alumno)->
@@ -83,6 +99,70 @@ angular.module('myvcFrontApp')
 ])
 
 
+
+
+
+.controller('VerAlumnosActaCtrl', ['$scope', '$uibModalInstance', 'alumnos', '$http', 'toastr', 'App', ($scope, $modalInstance, alumnos, $http, toastr, App)->
+
+  $scope.perfilPath 	= App.images+'perfil/'
+  $scope.views 				= App.views
+  $scope.data         = {}
+  $scope.alumnos      = alumnos
+
+
+  for alumno in alumnos
+    if alumno.fecha_nac
+      alumno.fecha_nac = new Date(alumno.fecha_nac)
+
+    if alumno.fecha_matricula
+      alumno.fecha_matricula = new Date(alumno.fecha_matricula)
+
+    if alumno.fecha_retiro
+      alumno.fecha_retiro = new Date(alumno.fecha_retiro)
+
+    $scope.alumno 		  = alumno
+
+
+
+
+  $scope.guardarValor = (rowEntity, colDef, newValue, year_id)->
+    datos = {}
+
+    if colDef == "sexo"
+      newValue = newValue.toUpperCase()
+      if !(newValue == 'M' or newValue == 'F')
+        toastr.warning 'Debe usar M o F'
+        rowEntity.sexo = $scope.alum_copy['sexo']
+        return
+
+    if colDef == "estrato"
+      if newValue < 0 or newValue > 9
+        toastr.warning 'Valor no admitido'
+        rowEntity.estrato = $scope.alum_copy['estrato']
+        return
+
+
+    datos.alumno_id = rowEntity.alumno_id
+    datos.propiedad = colDef
+    datos.valor 		= newValue
+    datos.year_id 	= rowEntity.year_id
+
+    if year_id
+      datos.year_id = year_id
+
+    $http.put('::alumnos/guardar-valor', datos ).then((r)->
+      toastr.success 'Dato actualizado con éxito'
+    , (r2)->
+      rowEntity[colDef] = $scope.alum_copy[colDef]
+      toastr.error 'Cambio no guardado', 'Error'
+    )
+
+
+
+  $scope.ok = ()->
+    $modalInstance.close(alumno)
+
+])
 
 
 

@@ -61,7 +61,7 @@
                   <tr>
                     <th></th>
                     <th class="text-center">Frases</th>
-                    <th>Juicio</th>
+                    <th ng-show="::USER.mostrar_nota_comport_boletin">Juicio</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -72,7 +72,7 @@
                         <li ng-repeat="definicion in ::periodo.definiciones">{{definicion.frase}}</li>
                       </ul>
                     </td>
-                    <td>{{ periodo.nota.nota }} {{ periodo.nota.juicio }}</td>
+                    <td ng-show="::USER.mostrar_nota_comport_boletin">{{ periodo.nota.nota }} {{ periodo.nota.juicio }}</td>
                   </tr>
                 </tbody>
               </table>

@@ -81,6 +81,14 @@
 
 
 
+    .widget(ng-show="alumno_traido && alumno_traido.nee")
+      .widget-body(style="text-align: center; overflow: auto;")
+        .row(style="min-height: 50px;")
+          .col-sm-4.col-xs-12(uib-tooltip="Tiene Necesidades Educativas Especiales" style="background-color: red;") Tiene NEE
+          .col-sm-8.col-xs-12 {{ alumno_traido.nee_descripcion }}
+
+
+
     .widget(ng-show="alumno_traido")
       .widget-header
         .widget-caption

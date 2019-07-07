@@ -1,0 +1,19 @@
+.row
+
+  .form-group.col-lg-3.col-sm-4.col-xs-12(uib-tooltip="Necesidades Educativas Especiales")
+
+    span.btn-group(style="padding-top: 4px;")
+      label.btn.btn-info.shiny(ng-model="alumno.nee" uib-btn-radio="0" ng-click="guardarValor(alumno, 'nee', alumno.nee)") NO tiene NEE
+      label.btn.btn-info.shiny(ng-model="alumno.nee" uib-btn-radio="1" ng-click="guardarValor(alumno, 'nee', alumno.nee)") Tiene NEE
+
+
+  .form-group.col-md-6.col-sm-6.col-xs-12
+    label.sr-only Descripción
+    textarea.form-control(required ng-model="alumno.nee_descripcion" placeholder="Descripción (opcional)"
+      uib-tooltip="Descripción (opcional)" tooltip-popup-delay="500" style="height: 50px; width: 100%;"
+      ng-change="guardarValor(alumno, 'nee_descripcion', alumno.nee_descripcion)"
+      ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+
+br
+br

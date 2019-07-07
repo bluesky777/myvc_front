@@ -73,7 +73,7 @@
                     <label>Alumnos</label>
                     <ui-select ng-model="datos.selected_alumnos" multiple on-select="selectAlumnos($item)" style="width: 100%;">
                       <ui-select-match placeholder="Alumnos del grupo {{datos.grupo.abrev}}" allow-clear="true"><img ng-src="{{perfilPath + $item.foto_nombre}}" style="width:25px; height:25px;">{{$item.nombres}}</ui-select-match>
-                      <ui-select-choices repeat="alumno in filtered_alumnos | filter: $select.search"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;"><small ng-show="alumno.estado=='RETI'" ng-bind-html="'&lt;i&gt; -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)&lt;/i&gt;'"></small><small ng-hide="alumno.estado=='RETI'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search"></small></ui-select-choices>
+                      <ui-select-choices repeat="alumno in filtered_alumnos | filter: $select.search"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;"><small ng-show="alumno.estado=='DESE'" ng-bind-html="'&lt;i&gt; -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (DESERTOR)&lt;/i&gt;'"></small><small ng-show="alumno.estado=='RETI'" ng-bind-html="'&lt;i&gt; -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)&lt;/i&gt;'"></small><small ng-hide="alumno.estado=='RETI' || alumno.estado=='DESE'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search"></small></ui-select-choices>
                     </ui-select><a href="" ng-click="verBoletinesAlumnos(tipo_boletin)" class="btn btn-default">Cargar boletines</a>
                   </div>
                 </div>
@@ -84,7 +84,7 @@
                     <label>Alumno</label>
                     <ui-select ng-model="datos.selected_alumno" on-select="selectAlumno($item)" style="width: 300px;">
                       <ui-select-match placeholder="Elige un alumno" allow-clear="true"><img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;">{{$select.selected.nombres}} {{$select.selected.apellidos}}</ui-select-match>
-                      <ui-select-choices repeat="alumno in filtered_alumnos | filter: $select.search"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;"><small ng-show="alumno.estado=='RETI'" ng-bind-html="'&lt;i&gt; -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)&lt;/i&gt;'"></small><small ng-hide="alumno.estado=='RETI'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search"></small></ui-select-choices>
+                      <ui-select-choices repeat="alumno in filtered_alumnos | filter: $select.search"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;"><small ng-show="alumno.estado=='DESE'" ng-bind-html="'&lt;i&gt; -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (DESERTOR)&lt;/i&gt;'"></small><small ng-show="alumno.estado=='RETI'" ng-bind-html="'&lt;i&gt; -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)&lt;/i&gt;'"></small><small ng-hide="alumno.estado=='RETI' || alumno.estado=='DESE'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search"></small></ui-select-choices>
                     </ui-select><a href="" ng-click="verBoletinAlumno(tipo_boletin)" class="btn btn-default">Cargar boletin</a>
                   </div>
                 </div>
@@ -173,7 +173,7 @@
               </ui-select>
               <div class="btn-group"><a href="" ng-click="verPuestosPeriodo()" class="btn btn-default">Puestos del periodo</a><a href="" ng-click="verPuestosYear()" class="btn btn-success">Puestos del año</a></div>
             </div>
-            <div ng-if="USER.tipo!='Profesor'" class="row">
+            <div ng-if="$parent.USER.tipo!='Profesor'" class="row">
               <div class="col-lg-7 col-sm-12 col-xs-12">
                 <div class="btn-group"><a href="" ng-click="verTodosPuestosPeriodo()" class="btn btn-default">Todos del periodo</a><a href="" ng-click="verTodosPuestosYear()" class="btn btn-success">Todos del año</a></div>
               </div>
@@ -271,7 +271,7 @@
                   <label>Alumnos</label>
                   <ui-select ng-model="datos.selected_alumnos" multiple on-select="selectAlumnos($item)" style="width: 100%;">
                     <ui-select-match placeholder="Alumnos del grupo {{datos.grupo.abrev}}" allow-clear="true"><img ng-src="{{perfilPath + $item.foto_nombre}}" style="width:25px; height:25px;">{{$item.nombres}}</ui-select-match>
-                    <ui-select-choices repeat="alumno in filtered_alumnos | filter: $select.search"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;"><small ng-show="alumno.estado=='RETI'" ng-bind-html="'&lt;i&gt; -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)&lt;/i&gt;'"></small><small ng-hide="alumno.estado=='RETI'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search"></small></ui-select-choices>
+                    <ui-select-choices repeat="alumno in filtered_alumnos | filter: $select.search"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;"><small ng-show="alumno.estado=='DESE'" ng-bind-html="'&lt;i&gt; -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (DESERTOR)&lt;/i&gt;'"></small><small ng-show="alumno.estado=='RETI'" ng-bind-html="'&lt;i&gt; -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)&lt;/i&gt;'"></small><small ng-hide="alumno.estado=='RETI' || alumno.estado=='DESE'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search"></small></ui-select-choices>
                   </ui-select><a href="" ng-click="verNotasActualesAlumnos()" class="btn btn-default">Notas año actual</a><a href="" ng-click="verNotasPerdidasActualesAlumnos()" class="btn btn-default">Notas perdidas año actual</a>
                 </div>
               </div>
@@ -282,14 +282,14 @@
                   <label>Alumno</label>
                   <ui-select ng-model="datos.selected_alumno" on-select="selectAlumno($item)" style="width: 300px;">
                     <ui-select-match placeholder="Elige un alumno" allow-clear="true"><img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;">{{$select.selected.nombres}} {{$select.selected.apellidos}}</ui-select-match>
-                    <ui-select-choices repeat="alumno in filtered_alumnos | filter: $select.search"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;"><small ng-show="alumno.estado=='RETI'" ng-bind-html="'&lt;i&gt; -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)&lt;/i&gt;'"></small><small ng-hide="alumno.estado=='RETI'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search"></small></ui-select-choices>
+                    <ui-select-choices repeat="alumno in filtered_alumnos | filter: $select.search"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;"><small ng-show="alumno.estado=='DESE'" ng-bind-html="'&lt;i&gt; -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (DESERTOR)&lt;/i&gt;'"></small><small ng-show="alumno.estado=='RETI'" ng-bind-html="'&lt;i&gt; -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)&lt;/i&gt;'"></small><small ng-hide="alumno.estado=='RETI' || alumno.estado=='DESE'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search"></small></ui-select-choices>
                   </ui-select><a href="" ng-click="verNotasActualesAlumno()" class="btn btn-default">Notas año actual</a><a href="" ng-click="verNotasPerdidasActualesAlumno()" class="btn btn-default">Notas perdidas año actual</a>
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col-lg-12 col-xs-12">
-                <div class="btn-group"><a href="" ng-click="verListadoDocentes()" class="btn btn-default">Listado docentes</a><a href="" ng-click="excelListadoDocentes()" uib-tooltip="Exportar a Excel listado docentes" class="btn btn-default"><i class="fa fa-file"></i></a></div><a href="" ng-click="verCantAlumnosEnGrupos()" uib-tooltip="Ver cantidad de alumnos por grupos" class="btn btn-default">Alumnos en grupos</a><a href="" ng-click="verCumpleanosPorMeses()" uib-tooltip="Ver cumpleaños por cada mes" class="btn btn-default">Cumpleaños meses</a><a href="" ng-click="verActaEvaluacionPromocion()" uib-tooltip="Ver acta de evaluación y promoción" class="btn btn-default">Acta de evaluación y promoción</a>
+                <div ng-if="USER.tipo!='Profesor'" class="btn-group"><a href="" ng-click="verListadoDocentes()" class="btn btn-default">Listado docentes</a><a href="" ng-click="excelListadoDocentes()" uib-tooltip="Exportar a Excel listado docentes" class="btn btn-default"><i class="fa fa-file"></i></a></div><a href="" ng-click="verCantAlumnosEnGrupos()" uib-tooltip="Ver cantidad de alumnos por grupos" class="btn btn-default">Alumnos en grupos</a><a href="" ng-click="verCumpleanosPorMeses()" uib-tooltip="Ver cumpleaños por cada mes" class="btn btn-default">Cumpleaños meses</a><a href="" ng-click="verActaEvaluacionPromocion()" uib-tooltip="Ver acta de evaluación y promoción" ng-if="USER.tipo!='Profesor'" class="btn btn-default">Acta de evaluación y promoción</a>
               </div>
             </div>
             <div ng-show="$state.is('panel.informes.cumpleanos_por_meses')" style="margin-top: 20px;" class="row">

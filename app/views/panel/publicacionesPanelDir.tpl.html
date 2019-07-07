@@ -129,68 +129,75 @@
   <uib-tab heading="Calendario" index="'calendario'" select="selectTab('calendario')" classes="tab-encabezado-bigger">
     <div style="min-height: 480px;" class="row">
       <div class="col-xs-12">
-        <p>El calendario es el mismo para todos.</p><span ng-if="IS_PROF_ADMIN">
-          <div ng-show="mostrando_edit_evento" class="calendario-evento-panel"><a ng-click="noMostrarEditEvento()" class="close"><i class="fa fa-times"></i></a>
-            <form ng-submit="guardarEvento(evento_actual)">
-              <div class="row">
-                <div style="margin-bottom: 7px;" class="col-xs-12">
-                  <label for="titulo-evento-actual">Título</label>
-                  <input id="titulo-evento-actual" ng-model="evento_actual.title" placeholder="Escribe evento..." class="form-control">
-                </div>
-                <div style="margin-bottom: 7px;" class="form-group col-xs-12">
-                  <label for="fecha-start-event">Inicia</label>
-                  <div class="controls">
-                    <div class="input-group"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                      <input id="fecha-start-event" type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="evento_actual.start" is-open="data.isOpenStart" ng-click="data.isOpenStart = true" max-date="'2020-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha Inicio" class="form-control active">
+        <div ng-if="IS_PROF_ADMIN" class="row">
+          <div ng-show="mostrando_edit_evento" class="col-xs-12 col-sm-10">
+            <div class="calendario-evento-panel"><a ng-click="noMostrarEditEvento()" class="close"><i class="fa fa-times"></i></a>
+              <form ng-submit="guardarEvento(evento_actual)">
+                <div class="row">
+                  <div style="margin-bottom: 7px;" class="col-xs-12">
+                    <label for="titulo-evento-actual">Título</label>
+                    <input id="titulo-evento-actual" ng-model="evento_actual.title" placeholder="Escribe evento..." class="form-control">
+                  </div>
+                  <div style="margin-bottom: 7px;" class="form-group col-xs-12">
+                    <label for="fecha-start-event">Inicia</label>
+                    <div class="controls">
+                      <div class="input-group"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input id="fecha-start-event" type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="evento_actual.start" is-open="data.isOpenStart" ng-click="data.isOpenStart = true" max-date="'2020-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha Inicio" class="form-control active">
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="row">
-                <div class="col-sm-6">
-                  <div style="margin: 5px 0 5px;" class="form-group">
-                    <label>Todo el día</label>
-                    <label>
-                      <input type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="evento_actual.allDay" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
-                    </label>
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div style="margin: 5px 0 5px;" uib-tooltip="No podrán verlo los alumnos ni acudientes" tooltip-popup-delay="400" class="form-group">
-                    <label>Sólo profes</label>
-                    <label>
-                      <input type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="evento_actual.solo_profes" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
-                    </label>
-                  </div>
-                </div>
-                <div style="margin-bottom: 7px;" ng-show="!evento_actual.allDay" class="form-group col-xs-12">
-                  <label for="fecha-end-event">Fin</label>
-                  <div class="controls">
-                    <div class="input-group"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                      <input id="fecha-end-event" type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="evento_actual.end" is-open="data.isOpenEnd" ng-click="data.isOpenEnd = true" max-date="'2020-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha Fin" class="form-control active">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div style="margin: 5px 0 5px;" class="form-group">
+                      <label>Todo el día</label>
+                      <label>
+                        <input type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="evento_actual.allDay" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                      </label>
                     </div>
                   </div>
+                  <div class="col-sm-6">
+                    <div style="margin: 5px 0 5px;" uib-tooltip="No podrán verlo los alumnos ni acudientes" tooltip-popup-delay="400" class="form-group">
+                      <label>Sólo profes</label>
+                      <label>
+                        <input type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="evento_actual.solo_profes" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <div style="margin-bottom: 7px;" ng-show="!evento_actual.allDay" class="form-group col-xs-12">
+                    <label for="fecha-end-event">Fin</label>
+                    <div class="controls">
+                      <div class="input-group"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input id="fecha-end-event" type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="evento_actual.end" is-open="data.isOpenEnd" ng-click="data.isOpenEnd = true" max-date="'2020-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha Fin" class="form-control active">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xs-12">
+                    <button type="submit" ng-show="!evento_actual.editar" ng-disabled="evento_actual.guardando" class="btn btn-primary shiny">Crear</button><span ng-show="evento_actual.editar">
+                      <button type="button" ng-click="eliminarEvento(evento_actual)" uib-tooltip="Eliminar evento" class="btn btn-danger shiny btn-sm"><i class="fa fa-times"></i>Eliminar</button>
+                      <div style="float: right;" class="btn-group">
+                        <button type="button" ng-click="cancelarEdicion()" ng-disabled="evento_actual.guardando" class="btn btn-default shiny">Cancelar</button>
+                        <button type="submit" ng-disabled="evento_actual.guardando" class="btn btn-primary shiny"><i class="fa fa-save"></i>Guardar</button>
+                      </div></span>
+                  </div><br>
+                  <div class="col-xs-12">
+                    <p>Sólo profesores y administradores pueden editar eventos.</p>
+                  </div>
                 </div>
-                <div class="col-xs-12">
-                  <button type="submit" ng-show="!evento_actual.editar" ng-disabled="evento_actual.guardando" class="btn btn-primary shiny">Crear</button><span ng-show="evento_actual.editar">
-                    <button type="button" ng-click="eliminarEvento(evento_actual)" uib-tooltip="Eliminar evento" class="btn btn-danger shiny btn-sm"><i class="fa fa-times"></i>Eliminar</button><br><br>
-                    <div style="float: right;" class="btn-group">
-                      <button type="button" ng-click="cancelarEdicion()" ng-disabled="evento_actual.guardando" class="btn btn-default shiny">Cancelar</button>
-                      <button type="submit" ng-disabled="evento_actual.guardando" class="btn btn-primary shiny"><i class="fa fa-save"></i>Guardar</button>
-                    </div></span>
-                </div><br>
-                <div class="col-xs-12">
-                  <p>Sólo profesores y administradores pueden editar eventos.</p>
-                </div>
-              </div>
-            </form>
-          </div><span>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div ng-if="IS_PROF_ADMIN" class="row">
+          <div class="col-xs-12">
             <button ng-click="mostrarEditEvento()" ng-show="!mostrando_edit_evento" class="btn btn-primary">Nuevo evento</button>
             <button ng-click="actualizarEventos()" style="margin-left: 20px" uib-tooltip="Mostrar calendario actualizado" class="btn btn-default"><i class="fa fa-refresh"></i>Actualizar</button>
             <form ng-submit="actualizarCumplesEnCalendario()" style="display: inline-block;" ng-show="hasRoleOrPerm(['admin'])">
               <button ng-disabled="actualizando_cumples || false" type="submit" uib-tooltip="Actualiza calendario con las fechas de cumpleaños de los alumnos y profesores" class="btn btn-default">Sincronizar cumpleaños</button>
-            </form><br></span>
-          <hr></span><span ng-if="IS_ALUM_ACUD">
+            </form><br>
+          </div>
+          <hr>
+        </div><span ng-if="IS_ALUM_ACUD">
           <button ng-click="actualizarEventos()" style="margin-left: 20px" uib-tooltip="Mostrar calendario actualizado" class="btn btn-default"><i class="fa fa-refresh"></i>Actualizar</button><br><br></span>
         <!-- Calendario UI-->
         <div ng-if="false" class="btn-toolbar">

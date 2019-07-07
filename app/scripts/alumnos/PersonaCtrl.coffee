@@ -11,6 +11,10 @@ angular.module("myvcFrontApp")
   restrict: 'E'
   templateUrl: "#{App.views}alumnos/personaMatriculasDir.tpl.html"
 ])
+.directive('personaNeeDir',['App', (App)->
+  restrict: 'E'
+  templateUrl: "#{App.views}alumnos/personaNeeDir.tpl.html"
+])
 .directive('personaDatosExtrasDir',['App', (App)->
   restrict: 'E'
   templateUrl: "#{App.views}alumnos/personaDatosExtrasDir.tpl.html"

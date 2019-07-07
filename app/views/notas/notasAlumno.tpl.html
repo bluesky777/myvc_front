@@ -75,6 +75,14 @@
         </div>
       </div>
     </div>
+    <div ng-show="alumno_traido &amp;&amp; alumno_traido.nee" class="widget">
+      <div style="text-align: center; overflow: auto;" class="widget-body">
+        <div style="min-height: 50px;" class="row">
+          <div uib-tooltip="Tiene Necesidades Educativas Especiales" style="background-color: red;" class="col-sm-4 col-xs-12">Tiene NEE</div>
+          <div class="col-sm-8 col-xs-12">{{ alumno_traido.nee_descripcion }}</div>
+        </div>
+      </div>
+    </div>
     <div ng-show="alumno_traido" class="widget">
       <div class="widget-header">
         <div class="widget-caption"> Nota faltante en el cuarto periodo</div>

@@ -1,0 +1,182 @@
+.modal-header
+  h3.modal-title.flipInY Alumnos
+.modal-body
+
+  span(ng-if="false")
+
+    div(style="padding-bottom: 30px;")
+      h3(style="display: inline;") {{ alumno.nombres }} {{ alumno.apellidos }}
+
+    .row
+      .col-lg-12.col-xs-12
+        .row
+          .col-xs-4(uib-tooltip="Código de la nota") Código:
+          .col-xs-8
+            span(uib-tooltip="Código de la nota" style="font-style: italic;") {{ alumno.alumno_id }}
+            button.btn.btn-danger.btn-xs(ng-if="hasRoleOrPerm('Admin')" ng-click="eliminarNota()" uib-tooltip="Eliminar nota.") Eliminar
+
+        .row(style="font-weight: bold")
+          .col-xs-4 Número matrícula:
+          .col-xs-8 {{ alumno.no_matricula }}
+        .row
+          .col-xs-4 Código matrícula:
+          .col-xs-8 {{ alumno.matricula_id }}
+        .row
+          .col-xs-4 Fecha creación:
+          .col-xs-8 {{ alumno.created_at }}
+        .row
+          .col-xs-4 Creado por:
+          .col-xs-8
+            span(uib-tooltip="Nombre de usuario") {{ alumno.creado_por }} ({{ alumno.created_by }})
+
+    hr
+    .row
+      .form-group.col-lg-12.col-sm-12.text-center
+        button.btn.btn-success(ng-repeat="matricula in matriculas"
+          uib-tooltip="{{ matricula.fecha_matricula + ' - ' + matricula.estado + ' (id: ' + matricula.matricula_id + ')' }}")
+          | {{ matricula.nombre + ' - ' + matricula.year }}
+
+    hr
+
+    .row(style="margin-top: 30px")
+      .form-group.col-lg-4.col-sm-6
+        label(for="alumno-nombres") Nombres
+        input.form-control#alumno-nombres(type="text" ng-model="alumno.nombres" placeholder="Nombres" ng-change="guardarValor(alumno, 'nombres', alumno.nombres)" style="font-size: 12pt; color: #444; border: 1px solid #999;")
+
+      .form-group.col-lg-4.col-sm-6
+        label(for="alumno-apellidos") Apellidos
+        input#alumno-apellidos.form-control(type="text" ng-model="alumno.apellidos" placeholder="Apellidos" ng-change="guardarValor(alumno, 'apellidos', alumno.apellidos)" style="font-size: 12pt; color: #444; border: 1px solid #999;")
+      .form-group.col-lg-4.col-sm-6.col-xs-12(style="margin-bottom: 8px;")
+        label Sexo
+        .row
+          .col-lg-6.col-sm-4.col-xs-12
+            .radio
+              label
+                input.inverted(type="radio" name="sexo" value="M" ng-model="alumno.sexo" ng-change="guardarValor(alumno, 'sexo', alumno.sexo)")
+                span.text Masculino
+          .col-lg-6.col-sm-4.col-xs-12
+            .radio
+              label
+                input.inverted(type="radio" name="sexo" value="F" ng-model="alumno.sexo" ng-change="guardarValor(alumno, 'sexo', alumno.sexo)")
+                span.text Femenino
+
+    .row
+      .form-group.col-lg-4.col-sm-6
+        label(for="alumno-fecha_matricula") Fecha matrícula
+
+        .controls()
+          .input-group
+            span.input-group-addon
+              i.fa.fa-calendar
+            input.form-control.active#alumno-fecha_matricula(type="text" uib-datepicker-popup="dd-MMMM-yyyy"
+              ng-model="alumno.fecha_matricula" is-open="data.isOpenMatr" ng-click="data.isOpenMatr = true"
+              max-date="'2025-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy"
+              clear-text="Borrar" placeholder="Fecha matrícula"
+              ng-change="guardarValor(alumno, 'fecha_matricula', alumno.fecha_matricula)")
+
+
+      .form-group.col-lg-4.col-sm-6
+        label(for="alumno-fecha_matricula") Fecha retiro
+
+        .controls()
+          .input-group
+            span.input-group-addon
+              i.fa.fa-calendar
+            input.form-control.active#alumno-fecha_retiro(type="text" uib-datepicker-popup="dd-MMMM-yyyy"
+              ng-model="alumno.fecha_retiro" is-open="data.isOpenReti" ng-click="data.isOpenReti = true"
+              max-date="'2025-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy"
+              clear-text="Borrar" placeholder="Fecha retiro"
+              ng-change="guardarValor(alumno, 'fecha_retiro', alumno.fecha_retiro)")
+
+
+      .form-group.col-lg-4.col-sm-6
+        label(for="alumno-fecha_nac") Fecha nacimiento
+
+        .controls()
+          .input-group
+            span.input-group-addon
+              i.fa.fa-calendar
+            input.form-control.active#alumno-fecha_nac(type="text" uib-datepicker-popup="dd-MMMM-yyyy"
+              ng-model="alumno.fecha_nac" is-open="data.isOpenNac" ng-click="data.isOpenNac = true"
+              max-date="'2025-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy"
+              clear-text="Borrar" placeholder="Fecha nacimiento"
+              ng-change="guardarValor(alumno, 'fecha_nac', alumno.fecha_nac)")
+
+
+    .row
+      .form-group.col-lg-4.col-sm-6
+        label(for="alumno-razon_retiro") Razón retiro
+        input.form-control#alumno-razon_retiro(type="text" ng-model="alumno.razon_retiro" placeholder="Razón retiro" ng-change="guardarValor(alumno, 'Razón retiro', alumno.razon_retiro)" style="color: #444; border: 1px solid #999;")
+
+      .form-group.col-lg-4.col-sm-6
+        label(for="alumno-estrato") Estrato
+        input#alumno-estrato.form-control(type="number" ng-model="alumno.estrato" min="0" max="10"
+          ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
+          ng-change="guardarValor(alumno, 'estrato', alumno.estrato)")
+
+      .form-group.col-lg-4.col-sm-6
+        label(for="alumno-religion") Religión
+        input#alumno-religion.form-control(type="text" ng-model="alumno.religion"
+          ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
+          ng-change="guardarValor(alumno, 'religion', alumno.religion)")
+
+
+
+
+  .row
+    .col-lg-12.col-xs-12(style="overflow: auto;")
+      h4 Todos los alumnos:
+      table.table.table-hover.table-condensed.table-striped
+        thead
+          tr
+            th.text-center No
+            th.text-center
+              span(uib-tooltip="Código de alumno") Id
+            th.text-center Alumno
+            th.text-center
+            th.text-center Nro matrícula
+            th.text-center Sexo
+            th.text-center Creado en
+        tbody
+          tr(ng-repeat="alum in alumnos track by $index" )
+
+            td.text-center {{ $index+1 }}
+            td.text-center(style="padding-bottom: 0;")
+              | {{ alum.alumno_id }}
+              img(ng-src="{{perfilPath + alum.foto_nombre}}" style="width: 35px; height: 35px; margin-top: -9px;")
+
+            td(style="font-size: 8pt;")
+
+              .ellipsis250.alumno-planilla(ng-style="alum.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative; vertical-align: middle;"
+                uib-popover-template="views+'notas/popoverAlumInfo.tpl.html'"
+                popover-title="{{alum.nombres + ' ' + alum.apellidos}}"
+                popover-trigger="'mouseenter'" popover-popup-delay="500")
+
+                | {{::alum.apellidos}} {{::alumno.nombres}}
+                span(ng-show="alum.estado=='ASIS'" style="font-weight: bold; right: 0px; position: absolute; background-color: white; top: -2px;")
+                  | (Asis)
+                span(ng-show="alum.estado=='PREM'" style="font-weight: bold; right: 0px; position: absolute; background-color: white; top: -2px;")
+                  | (Prema)
+                span(ng-show="alum.estado=='DESE'" style="font-weight: bold; right: 0px; position: absolute; background-color: white; top: -2px;")
+                  | (Dese)
+                span(ng-show="alum.estado=='RETI'" style="font-weight: bold; right: 0px; position: absolute; background-color: white; top: -2px;")
+                  | (Reti)
+
+            td.text-center
+              span(ng-show="alum.deleted_at" uib-tooltip="Eliminado {{alum.deleted_at}}") Elimin
+            td.text-center {{ ::alum.no_matricula }}
+            td.text-center {{ ::alum.sexo }}
+            td
+              span(ng-show="alum.created_at!='0000-00-00 00:00:00'") {{ alum.created_at }}
+
+
+
+
+
+
+
+
+.modal-footer
+  button.btn.btn-labeled.btn-default(ng-click="ok()") Cerrar
+    i.btn-label.fa.fa-check
+

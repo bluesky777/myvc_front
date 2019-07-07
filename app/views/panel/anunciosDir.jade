@@ -1,205 +1,206 @@
 .row.hidden-print(ng-if="hasRoleOrPerm(['alumno'])")
-	.col-xs-12.col-md-12
-		.widget
-			.widget-header.bordered-bottom.bordered-themeprimary
-				i.widget-icon.fa.fa-money.themeprimary
-				span.widget-caption.themeprimary()
-					| Tesorería
+  .col-xs-12.col-md-12
+    .widget
+      .widget-header.bordered-bottom.bordered-themeprimary
+        i.widget-icon.fa.fa-money.themeprimary
+        span.widget-caption.themeprimary()
+          | Tesorería
 
-			.widget-body
-				.row
-					.col-lg-12.col-xs-12
-						p Notas bloqueadas desde tesorería:
-							span(style="font-weight: bold;" ng-show="USER.pazysalvo")  NO
-							span(style="font-weight: bold; color: red; font-size: 15pt" ng-hide="USER.pazysalvo")  SI
-				.row
-					.col-lg-12.col-xs-12
-						p Su deuda es:
-							span(style="font-weight: bold")  {{USER.deuda | currency:"$":0}}
-				.row(ng-show="USER.fecha_pension")
-					.col-lg-12.col-xs-12
-						p Fecha última actualización de pensión:
-							span(style="font-weight: bold")  {{ USER.fecha_pension | date }}
+      .widget-body
+        .row
+          .col-lg-12.col-xs-12
+            p Notas bloqueadas desde tesorería:
+              span(style="font-weight: bold;" ng-show="USER.pazysalvo")  NO
+              span(style="font-weight: bold; color: red; font-size: 15pt" ng-hide="USER.pazysalvo")  SI
+        .row
+          .col-lg-12.col-xs-12
+            p Su deuda es:
+              span(style="font-weight: bold")  {{USER.deuda | currency:"$":0}}
+        .row(ng-show="USER.fecha_pension")
+          .col-lg-12.col-xs-12
+            p Fecha última actualización de pensión:
+              span(style="font-weight: bold")  {{ USER.fecha_pension | date }}
 
 
 
 .row.hidden-print(ng-if="hasRoleOrPerm(['alumno'])")
-	.col-xs-12.col-md-12
-		.widget
-			.widget-header.bordered-bottom.bordered-themesecondary
-				i.widget-icon.fa.fa-tags.themesecondary
-				span.widget-caption.themesecondary()
-					| Disciplina
+  .col-xs-12.col-md-12
+    .widget
+      .widget-header.bordered-bottom.bordered-themesecondary
+        i.widget-icon.fa.fa-tags.themesecondary
+        span.widget-caption.themesecondary()
+          | Disciplina
 
-			.widget-body
-				.widget-main.no-padding
-					.row
-						.col-sm-12
+      .widget-body
+        .widget-main.no-padding
+          .row
+            .col-sm-12
 
-							table.table
-								thead
-									tr
-										th
-										th Tardanzas a la institución
-										th Ausencias a la institución
-										th Tardanzas a las clases
-										th Ausencias a las clases
-								tbody
-									tr(ng-repeat="periodo in changes_asked.ausencias_periodo")
-										td
-											span(style="font-weight: bold") Per{{periodo.numero}}
-										td.text-center {{ periodo.asistencia.cant_tardanzas_entrada }}
-										td.text-center {{ periodo.asistencia.cant_ausencias_entrada }}
-										td.text-center {{ periodo.asistencia.cant_tardanzas_clases }}
-										td.text-center {{ periodo.asistencia.cant_ausencias_clases }}
+              table.table
+                thead
+                  tr
+                    th
+                    th Tardanzas a la institución
+                    th Ausencias a la institución
+                    th Tardanzas a las clases
+                    th Ausencias a las clases
+                tbody
+                  tr(ng-repeat="periodo in changes_asked.ausencias_periodo")
+                    td
+                      span(style="font-weight: bold") Per{{periodo.numero}}
+                    td.text-center {{ periodo.asistencia.cant_tardanzas_entrada }}
+                    td.text-center {{ periodo.asistencia.cant_ausencias_entrada }}
+                    td.text-center {{ periodo.asistencia.cant_tardanzas_clases }}
+                    td.text-center {{ periodo.asistencia.cant_ausencias_clases }}
 
-					hr
-					.row
-						.col-sm-12
+          hr
+          .row
+            .col-sm-12
 
-							table.table
-								thead
-									tr
-										th
-										th.text-center Frases
-										th Juicio
-								tbody
-									tr(ng-repeat="periodo in ::changes_asked.comportamiento")
-										td
-											span(style="font-weight: bold") Per{{periodo.numero}}
-										td
-											ul
-												li(ng-repeat="definicion in ::periodo.definiciones")
-													| {{definicion.frase}}
-										td {{ periodo.nota.nota }} {{ periodo.nota.juicio }}
+              table.table
+                thead
+                  tr
+                    th
+                    th.text-center Frases
+                    th(ng-show="::USER.mostrar_nota_comport_boletin") Juicio
+                tbody
+                  tr(ng-repeat="periodo in ::changes_asked.comportamiento")
+                    td
+                      span(style="font-weight: bold") Per{{periodo.numero}}
+                    td
+                      ul
+                        li(ng-repeat="definicion in ::periodo.definiciones")
+                          | {{definicion.frase}}
+                    td(ng-show="::USER.mostrar_nota_comport_boletin")
+                      | {{ periodo.nota.nota }} {{ periodo.nota.juicio }}
 
-					hr
-					.row(ng-if="changes_asked.situaciones.length>0")
-						.col-sm-12
+          hr
+          .row(ng-if="changes_asked.situaciones.length>0")
+            .col-sm-12
 
-							table.table
-								thead
-									tr
-										th
-										th.text-center Situaciones
-										th Ordinales
-								tbody
-									tr(ng-repeat="situacion in ::changes_asked.situaciones | orderBy:['periodo','tipo']")
-										td
-											span.bold Per{{situacion.numero}}
-										td
-											div(uib-tooltip="Profesor: {{situacion.nombres_profesor + ' ' + situacion.apellidos_profesor}}")
-												span.bold.danger Situación tipo {{situacion.tipo_situacion}}:
-												span  {{situacion.descripcion}}
+              table.table
+                thead
+                  tr
+                    th
+                    th.text-center Situaciones
+                    th Ordinales
+                tbody
+                  tr(ng-repeat="situacion in ::changes_asked.situaciones | orderBy:['periodo','tipo']")
+                    td
+                      span.bold Per{{situacion.numero}}
+                    td
+                      div(uib-tooltip="Profesor: {{situacion.nombres_profesor + ' ' + situacion.apellidos_profesor}}")
+                        span.bold.danger Situación tipo {{situacion.tipo_situacion}}:
+                        span  {{situacion.descripcion}}
 
-										td
-											span(uib-tooltip="{{situacion.descrip_ord}} - pag. {{situacion.pagina}}")
-												| {{ situacion.ordinal }}
+                    td
+                      span(uib-tooltip="{{situacion.descrip_ord}} - pag. {{situacion.pagina}}")
+                        | {{ situacion.ordinal }}
 
 
 
 
 .row.hidden-print(ng-if="USER.tipo=='Acudiente'")
-	.col-xs-12.col-md-12(ng-repeat="alumno in changes_asked.alumnos")
+  .col-xs-12.col-md-12(ng-repeat="alumno in changes_asked.alumnos")
 
 
-		.widget
-			.widget-header.bordered-bottom.bordered-themeprimary
-				i.widget-icon.fa.fa-money.themeprimary
-				span.widget-caption.themeprimary()
-					img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="height: 35px;")
-					| Tesorería {{alumno.nombres}} {{alumno.apellidos}}
+    .widget
+      .widget-header.bordered-bottom.bordered-themeprimary
+        i.widget-icon.fa.fa-money.themeprimary
+        span.widget-caption.themeprimary()
+          img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="height: 35px;")
+          | Tesorería {{alumno.nombres}} {{alumno.apellidos}}
 
-			.widget-body
-				.row
-					.col-lg-12.col-xs-12
-						p Notas bloqueadas desde tesorería:
-							span(style="font-weight: bold;" ng-show="alumno.pazysalvo")  NO
-							span(style="font-weight: bold; color: red; font-size: 15pt" ng-hide="alumno.pazysalvo")  SI
-				.row
-					.col-lg-12.col-xs-12
-						p Su deuda es:
-							span(style="font-weight: bold")  {{alumno.deuda | currency:"$":0}}
-				.row(ng-show="alumno.fecha_pension")
-					.col-lg-12.col-xs-12
-						p Fecha última actualización de pensión:
-							span(style="font-weight: bold")  {{ alumno.fecha_pension | date }}
-
-
-		.widget
-			.widget-header.bordered-bottom.bordered-themesecondary
-				i.widget-icon.fa.fa-tags.themesecondary
-				span.widget-caption.themesecondary(uib-tooltip="")
-					img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="height: 35px;")
-					| {{alumno.nombre_grupo}} - {{alumno.nombres}} {{alumno.apellidos}} - Disciplina
-
-			.widget-body
-				.widget-main.no-padding
-
-					.row
-						.col-sm-12
-
-							table.table
-								thead
-									tr
-										th
-										th Tardanzas a la institución
-										th Ausencias a la institución
-										th Tardanzas a las clases
-										th Ausencias a las clases
-								tbody
-									tr(ng-repeat="periodo in ::alumno.ausencias_periodo")
-										td
-											span.bold Per{{periodo.numero}}
-										td.text-center {{ periodo.asistencia.cant_tardanzas_entrada }}
-										td.text-center {{ periodo.asistencia.cant_ausencias_entrada }}
-										td.text-center {{ periodo.asistencia.cant_tardanzas_clases }}
-										td.text-center {{ periodo.asistencia.cant_ausencias_clases }}
-
-					hr
-					.row
-						.col-sm-12
-
-							table.table
-								thead
-									tr
-										th
-										th.text-center Frases
-										th Juicio
-								tbody
-									tr(ng-repeat="periodo in ::alumno.comportamiento")
-										td
-											span.bold Per{{periodo.numero}}
-										td
-											ul
-												li(ng-repeat="definicion in ::periodo.definiciones")
-													| {{definicion.frase}}
-										td {{ periodo.nota.nota }} {{ periodo.nota.juicio }}
+      .widget-body
+        .row
+          .col-lg-12.col-xs-12
+            p Notas bloqueadas desde tesorería:
+              span(style="font-weight: bold;" ng-show="alumno.pazysalvo")  NO
+              span(style="font-weight: bold; color: red; font-size: 15pt" ng-hide="alumno.pazysalvo")  SI
+        .row
+          .col-lg-12.col-xs-12
+            p Su deuda es:
+              span(style="font-weight: bold")  {{alumno.deuda | currency:"$":0}}
+        .row(ng-show="alumno.fecha_pension")
+          .col-lg-12.col-xs-12
+            p Fecha última actualización de pensión:
+              span(style="font-weight: bold")  {{ alumno.fecha_pension | date }}
 
 
+    .widget
+      .widget-header.bordered-bottom.bordered-themesecondary
+        i.widget-icon.fa.fa-tags.themesecondary
+        span.widget-caption.themesecondary(uib-tooltip="")
+          img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="height: 35px;")
+          | {{alumno.nombre_grupo}} - {{alumno.nombres}} {{alumno.apellidos}} - Disciplina
 
-					hr
-					.row(ng-if="alumno.situaciones.length>0")
-						.col-sm-12
+      .widget-body
+        .widget-main.no-padding
 
-							table.table
-								thead
-									tr
-										th
-										th.text-center Situaciones
-										th Ordinales
-								tbody
-									tr(ng-repeat="situacion in ::alumno.situaciones | orderBy:['periodo','tipo']")
-										td
-											span.bold Per{{situacion.numero}}
-										td
-											div(uib-tooltip="Profesor: {{situacion.nombres_profesor + ' ' + situacion.apellidos_profesor}}")
-												span.bold.danger Situación tipo {{situacion.tipo_situacion}}:
-												span  {{situacion.descripcion}}
+          .row
+            .col-sm-12
 
-										td
-											span(uib-tooltip="{{situacion.descrip_ord}} - pag. {{situacion.pagina}}")
-												| {{ situacion.ordinal }}
+              table.table
+                thead
+                  tr
+                    th
+                    th Tardanzas a la institución
+                    th Ausencias a la institución
+                    th Tardanzas a las clases
+                    th Ausencias a las clases
+                tbody
+                  tr(ng-repeat="periodo in ::alumno.ausencias_periodo")
+                    td
+                      span.bold Per{{periodo.numero}}
+                    td.text-center {{ periodo.asistencia.cant_tardanzas_entrada }}
+                    td.text-center {{ periodo.asistencia.cant_ausencias_entrada }}
+                    td.text-center {{ periodo.asistencia.cant_tardanzas_clases }}
+                    td.text-center {{ periodo.asistencia.cant_ausencias_clases }}
+
+          hr
+          .row
+            .col-sm-12
+
+              table.table
+                thead
+                  tr
+                    th
+                    th.text-center Frases
+                    th Juicio
+                tbody
+                  tr(ng-repeat="periodo in ::alumno.comportamiento")
+                    td
+                      span.bold Per{{periodo.numero}}
+                    td
+                      ul
+                        li(ng-repeat="definicion in ::periodo.definiciones")
+                          | {{definicion.frase}}
+                    td {{ periodo.nota.nota }} {{ periodo.nota.juicio }}
+
+
+
+          hr
+          .row(ng-if="alumno.situaciones.length>0")
+            .col-sm-12
+
+              table.table
+                thead
+                  tr
+                    th
+                    th.text-center Situaciones
+                    th Ordinales
+                tbody
+                  tr(ng-repeat="situacion in ::alumno.situaciones | orderBy:['periodo','tipo']")
+                    td
+                      span.bold Per{{situacion.numero}}
+                    td
+                      div(uib-tooltip="Profesor: {{situacion.nombres_profesor + ' ' + situacion.apellidos_profesor}}")
+                        span.bold.danger Situación tipo {{situacion.tipo_situacion}}:
+                        span  {{situacion.descripcion}}
+
+                    td
+                      span(uib-tooltip="{{situacion.descrip_ord}} - pag. {{situacion.pagina}}")
+                        | {{ situacion.ordinal }}
 
 
 
@@ -215,341 +216,260 @@ publicaciones-panel-dir
 
 // Gráfico de docentes
 .row.comportamiento-boletin(style="padding-top: 5px; padding-bottom: 40px; height: 310px"
-	ng-if="hasRoleOrPerm(['admin', 'profesor', 'alumno']) && anchoWindow > 500")
-	.col-lg-12.col-xs-12(style="height: 140px;")
-		.row
-			.col-lg-12.col-xs-12(style="text-align: center; ")
-				.databox.databox-xxlg.databox-vertical.databox-shadowed.bg-white.radius-bordered.padding-5(style="height: 280px;")
-					.databox-top
-						.databox-row.row-12
-							.databox-cell.cell-12.text-center
-								.databox-number.number-xxlg.sonic-silver
-									| Asignaturas correctas
+  ng-if="hasRoleOrPerm(['admin', 'profesor', 'alumno']) && anchoWindow > 500")
+  .col-lg-12.col-xs-12(style="height: 140px;")
+    .row
+      .col-lg-12.col-xs-12(style="text-align: center; ")
+        .databox.databox-xxlg.databox-vertical.databox-shadowed.bg-white.radius-bordered.padding-5(style="height: 280px;")
+          .databox-top
+            .databox-row.row-12
+              .databox-cell.cell-12.text-center
+                .databox-number.number-xxlg.sonic-silver
+                  | Asignaturas correctas
 
-					.databox-bottom
-						.databox-row.row-12
-							nvd3(options='options' data='data' api="api")
+          .databox-bottom
+            .databox-row.row-12
+              nvd3(options='options' data='data' api="api")
 
 
 
 // Cuadros de Sesiones
 .row(ng-if="hasRoleOrPerm(['admin', 'profesor'])")
 
-	// Cuadros de Sesiones personales
-	.col-xs-12(ng-class="{'col-sm-6': hasRoleOrPerm(['admin'])}")
-		.widget
-			.widget-header.bordered-bottom.bordered-themeprimary
-				i.widget-icon.fa.fa-history.themeprimary
-				span.widget-caption.themeprimary(uib-tooltip="Aquí verás las últimas veces que entraste al sistema")
-					| Historial de sesiones
+  // Cuadros de Sesiones personales
+  .col-xs-12(ng-class="{'col-sm-6': hasRoleOrPerm(['admin'])}")
+    .widget
+      .widget-header.bordered-bottom.bordered-themeprimary
+        i.widget-icon.fa.fa-history.themeprimary
+        span.widget-caption.themeprimary(uib-tooltip="Aquí verás las últimas veces que entraste al sistema")
+          | Historial de sesiones
 
-			.widget-body
-				.widget-main.no-padding
-					h4(style="margin-top: 0;") Mis sesiones
-					div(style="height: 213px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px; margin-bottom: 10px; border-radius: 4px;")
-						.row.animated.flipInY(ng-repeat="historial in changes_asked.historial" ng-click="verDetalleDeMiSesion(historial)" style="border-bottom: 1px solid #ccc")
-							.col-xs-12.col-sm-5
-								b {{$index+1}}.
-								|   {{ historial.created_at }}
-							.col-xs-12.col-sm-7
-								b(ng-show="::historial.device_family!='Unknown'")   {{historial.device_family}} -
-								b(ng-show="::historial.cant_cambios>0" uib-tooltip="Cambios realizados durante la sesión" tooltip-append-to-body="true") {{historial.cant_cambios}} cambios -
-								|   {{ historial.entorno }}, {{ historial.platform_family }}, {{ historial.browser_family }}
+      .widget-body
+        .widget-main.no-padding
+          h4(style="margin-top: 0;") Mis sesiones
+          div(style="height: 213px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px; margin-bottom: 10px; border-radius: 4px;")
+            .row.animated.flipInY(ng-repeat="historial in changes_asked.historial" ng-click="verDetalleDeMiSesion(historial)" style="border-bottom: 1px solid #ccc")
+              .col-xs-12.col-sm-5
+                b {{$index+1}}.
+                |   {{ historial.created_at }}
+              .col-xs-12.col-sm-7
+                b(ng-show="::historial.device_family!='Unknown'")   {{historial.device_family}} -
+                b(ng-show="::historial.cant_cambios>0" uib-tooltip="Cambios realizados durante la sesión" tooltip-append-to-body="true") {{historial.cant_cambios}} cambios -
+                |   {{ historial.entorno }}, {{ historial.platform_family }}, {{ historial.browser_family }}
 
-					a(ng-click="mostrando_intentos_fallidos = !mostrando_intentos_fallidos" href="") Ver intentos fallidos
+          a(ng-click="mostrando_intentos_fallidos = !mostrando_intentos_fallidos" href="") Ver intentos fallidos
 
-					div(ng-show="mostrando_intentos_fallidos" style="height: 200px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px; border-radius: 4px;")
-						.row.animated.bounceInLeft(ng-repeat="intento in changes_asked.intentos_fallidos" style="border-bottom: 1px solid #ccc" ng-show="!intento.eliminada")
-							.col-xs-12.col-sm-4
-								b {{$index+1}}.
-								|   {{ intento.created_at }}
-								button.btn.btn-warning.btn-sm(ng-click="eliminarIntentoFallido(intento)")
-									i.fa.fa-times
-							.col-xs-12.col-sm-8
-								| {{ intento.descripcion }}
+          div(ng-show="mostrando_intentos_fallidos" style="height: 200px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px; border-radius: 4px;")
+            .row.animated.bounceInLeft(ng-repeat="intento in changes_asked.intentos_fallidos" style="border-bottom: 1px solid #ccc" ng-show="!intento.eliminada")
+              .col-xs-12.col-sm-4
+                b {{$index+1}}.
+                |   {{ intento.created_at }}
+                button.btn.btn-warning.btn-sm(ng-click="eliminarIntentoFallido(intento)")
+                  i.fa.fa-times
+              .col-xs-12.col-sm-8
+                | {{ intento.descripcion }}
 
-						.row.animated.bounceInLeft(style="font-style: italic" ng-show="profe_seleccionado.intentos_fallidos.length==0")
-							.col-xs-12
-								| No hay intentos fallidos
-
-
-	// Sesiones de los docentes
-	.col-xs-12.col-sm-6(ng-if="hasRoleOrPerm(['admin'])")
-		.widget
-			.widget-header.bordered-bottom.bordered-themeprimary
-				i.widget-icon.fa.fa-history.themeprimary
-				span.widget-caption.themeprimary(uib-tooltip="Historial de los docentes")
-					| Sesiones de
-					span(ng-hide="profe_seleccionado")   docentes
-					span(ng-show="profe_seleccionado")   {{ profe_seleccionado.profesor.nombres + ' ' + profe_seleccionado.profesor.apellidos }}
-
-			.widget-body
-				.widget-main.no-padding
-					span(ng-if="!profe_seleccionado")
-						div(style="height: 270px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px; border-radius: 4px;")
-							.row.animated.bounceInLeft(ng-repeat="historial in changes_asked.profes_actuales" ng-click="seleccionar_profe(historial)"
-								uib-popover-template="views+'panel/popoverDocenteInfo.tpl.html'"
-								popover-title="{{historial.nombres + ' ' + historial.apellidos}}"
-								popover-trigger="'mouseenter'" popover-popup-delay="500"
-								style="border-bottom: 1px solid #ccc; padding-bottom: 4px; padding-top: 4px;")
-
-								.col-xs-12.col-sm-6
-									.row
-										.col-xs-4(style="padding-right: 0")
-											b(style="width: 16px; display: inline-block;") {{$index+1}}
-											img(ng-src="{{perfilPath + historial.foto_nombre}}" style="width: 30px; height: 30px;")
-
-										.col-xs-8(style="padding-left: 0; padding-right: 0")
-											.nombresellipsis(style="margin-top: -2px;")   {{ historial.nombres + ' ' + historial.apellidos }}
-											div(style="font-size: 8pt; margin-top: -1px;" uib-tooltip="Último ingreso" tooltip-append-to-body="true")   {{historial.fecha_ingreso}}
-
-								.col-xs-12.col-sm-6(style="font-size: 9pt;")
-									b(ng-show="::historial.device_family!='Unknown' && historial.device_family!=null")   {{historial.device_family}} -
-									b(ng-hide="::historial.fecha_ingreso" style="font-style: italic; color: red;") (Nunca ha ingresado)
-									span(ng-show="::historial.fecha_ingreso")   {{ historial.entorno }}, {{ historial.platform_family }}, {{ historial.browser_family }}
+            .row.animated.bounceInLeft(style="font-style: italic" ng-show="profe_seleccionado.intentos_fallidos.length==0")
+              .col-xs-12
+                | No hay intentos fallidos
 
 
-					// Detalle del docente seleccionado
-					span(ng-if="profe_seleccionado")
-						a(href="" ng-click="desseleccionar_profe()") Atrás
-						div(style="height: 224px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px; margin-bottom: 10px; border-radius: 4px;")
-							.row.animated.bounceInRight(ng-repeat="historial in profe_seleccionado.historial" ng-click="verDetalleDeMiSesion(historial)" style="border-bottom: 1px solid #ccc")
-								.col-xs-12.col-sm-5
-									b {{$index+1}}.
-									|   {{ historial.created_at }}
-								.col-xs-12.col-sm-7
-									b(ng-show="::historial.device_family!='Unknown'")   {{historial.device_family}} -
-									b(ng-show="::historial.cant_cambios>0" uib-tooltip="Cambios realizados durante la sesión" tooltip-append-to-body="true") {{historial.cant_cambios}} cambios -
-									|   {{ historial.entorno }}, {{ historial.platform_family }}, {{ historial.browser_family }}
+  // Sesiones de los docentes
+  .col-xs-12.col-sm-6(ng-if="hasRoleOrPerm(['admin'])")
+    .widget
+      .widget-header.bordered-bottom.bordered-themeprimary
+        i.widget-icon.fa.fa-history.themeprimary
+        span.widget-caption.themeprimary(uib-tooltip="Historial de los docentes")
+          | Sesiones de
+          span(ng-hide="profe_seleccionado")   docentes
+          span(ng-show="profe_seleccionado")   {{ profe_seleccionado.profesor.nombres + ' ' + profe_seleccionado.profesor.apellidos }}
 
-						a(ng-click="mostrando_intentos_fallidos_docente = !mostrando_intentos_fallidos_docente" href="") Ver intentos fallidos
+      .widget-body
+        .widget-main.no-padding
+          span(ng-if="!profe_seleccionado")
+            div(style="height: 270px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px; border-radius: 4px;")
+              .row.animated.bounceInLeft(ng-repeat="historial in changes_asked.profes_actuales" ng-click="seleccionar_profe(historial)"
+                uib-popover-template="views+'panel/popoverDocenteInfo.tpl.html'"
+                popover-title="{{historial.nombres + ' ' + historial.apellidos}}"
+                popover-trigger="'mouseenter'" popover-popup-delay="500"
+                style="border-bottom: 1px solid #ccc; padding-bottom: 4px; padding-top: 4px;")
 
-						div(ng-show="mostrando_intentos_fallidos_docente" style="height: 200px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px; border-radius: 4px;")
-							.row.animated.bounceInLeft(ng-repeat="intento in profe_seleccionado.intentos_fallidos" style="border-bottom: 1px solid #ccc" ng-show="!intento.eliminada")
-								.col-xs-12.col-sm-4
-									b {{$index+1}}.
-									|   {{ intento.created_at }}
-									button.btn.btn-warning.btn-sm(ng-click="eliminarIntentoFallido(intento)")
-										i.fa.fa-times
-								.col-xs-12.col-sm-8
-									| {{ intento.descripcion }}
+                .col-xs-12.col-sm-6
+                  .row
+                    .col-xs-4(style="padding-right: 0")
+                      b(style="width: 16px; display: inline-block;") {{$index+1}}
+                      img(ng-src="{{perfilPath + historial.foto_nombre}}" style="width: 30px; height: 30px;")
 
-							.row.animated.bounceInLeft(style="font-style: italic" ng-show="profe_seleccionado.intentos_fallidos.length==0")
-								.col-xs-12
-									| No hay intentos fallidos
+                    .col-xs-8(style="padding-left: 0; padding-right: 0")
+                      .nombresellipsis(style="margin-top: -2px;")   {{ historial.nombres + ' ' + historial.apellidos }}
+                      div(style="font-size: 8pt; margin-top: -1px;" uib-tooltip="Último ingreso" tooltip-append-to-body="true")   {{historial.fecha_ingreso}}
 
-
-
-	.col-xs-12.col-md-12
-		.widget
-			.widget-header.bordered-bottom.bordered-themesecondary
-				i.widget-icon.fa.fa-tags.themesecondary
-				span.widget-caption.themesecondary(uib-tooltip="Hay alumnos que piden algunos cambios. Tú podrías aceptar o rechazar esas peticiones.")
-					| Pedidos que esperan tu aprobación
-
-			.widget-body
-				.widget-main.no-padding
+                .col-xs-12.col-sm-6(style="font-size: 9pt;")
+                  b(ng-show="::historial.device_family!='Unknown' && historial.device_family!=null")   {{historial.device_family}} -
+                  b(ng-hide="::historial.fecha_ingreso" style="font-style: italic; color: red;") (Nunca ha ingresado)
+                  span(ng-show="::historial.fecha_ingreso")   {{ historial.entorno }}, {{ historial.platform_family }}, {{ historial.browser_family }}
 
 
-					.tickets-container
-						ul.tickets-list
+          // Detalle del docente seleccionado
+          span(ng-if="profe_seleccionado")
+            a(href="" ng-click="desseleccionar_profe()") Atrás
+            div(style="height: 224px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px; margin-bottom: 10px; border-radius: 4px;")
+              .row.animated.bounceInRight(ng-repeat="historial in profe_seleccionado.historial" ng-click="verDetalleDeMiSesion(historial)" style="border-bottom: 1px solid #ccc")
+                .col-xs-12.col-sm-5
+                  b {{$index+1}}.
+                  |   {{ historial.created_at }}
+                .col-xs-12.col-sm-7
+                  b(ng-show="::historial.device_family!='Unknown'")   {{historial.device_family}} -
+                  b(ng-show="::historial.cant_cambios>0" uib-tooltip="Cambios realizados durante la sesión" tooltip-append-to-body="true") {{historial.cant_cambios}} cambios -
+                  |   {{ historial.entorno }}, {{ historial.platform_family }}, {{ historial.browser_family }}
 
-							li.ticket-item(ng-show="changes_asked.alumnos.length==0")
-								.row
-									.ticket-user(style="height: 40px;")
-										i No hay pedidos pendientes de alumnos
+            a(ng-click="mostrando_intentos_fallidos_docente = !mostrando_intentos_fallidos_docente" href="") Ver intentos fallidos
 
-							li.ticket-item(ng-repeat="change_asked in changes_asked.alumnos " ng-if="!change_asked.finalizado")
-								.row
-									.ticket-user.ticket-solicitud(ng-click="verDetalles(change_asked)")
-										img.user-avatar(ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}")
-										span.user-name {{change_asked.nombres + ' ' + change_asked.apellidos }}
-										span.user-company  de
-											b(style="padding-left: 4px") {{change_asked.grupo_nombre}}
-											|  ha solicitado unos cambios
-								.row(ng-show="change_asked.mostrando")
-									div(style="padding: 10px; white-space: nowrap; text-overflow: ellipsis; overflow-x: auto;")
-										table.table
-											tr(ng-if="change_asked.detalles.image_new_nombre && change_asked.detalles.image_id_accepted==null")
-												td
-													span(style="display: inline-block; width: 170px") Imagen perfil actual:
-													img.user-avatar(ng-src="{{perfilPath + change_asked.imagen_nombre }}" alt="{{ change_asked.imagen_nombre }}" style="width: 50px")
-												td
-													| Nueva:
-													img.user-avatar(ng-src="{{perfilPath + change_asked.detalles.image_new_nombre }}" alt="{{ change_asked.detalles.image_new_nombre }}" style="width: 50px")
-												td
-													button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'img_perfil')" uib-tooltip="Rechazar cambio")
-														i.fa.fa-times(style="color: #fff;")
-													button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'img_perfil', change_asked.detalles.image_id_new)" uib-tooltip="Aprobar cambio")
-														i.fa.fa-check(style="color: #fff;")
+            div(ng-show="mostrando_intentos_fallidos_docente" style="height: 200px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px; border-radius: 4px;")
+              .row.animated.bounceInLeft(ng-repeat="intento in profe_seleccionado.intentos_fallidos" style="border-bottom: 1px solid #ccc" ng-show="!intento.eliminada")
+                .col-xs-12.col-sm-4
+                  b {{$index+1}}.
+                  |   {{ intento.created_at }}
+                  button.btn.btn-warning.btn-sm(ng-click="eliminarIntentoFallido(intento)")
+                    i.fa.fa-times
+                .col-xs-12.col-sm-8
+                  | {{ intento.descripcion }}
 
-
-											tr(ng-if="change_asked.detalles.foto_new_nombre && change_asked.detalles.foto_id_accepted==null")
-												td
-													span(style="display: inline-block; width: 170px") Foto oficial actual:
-													img.user-avatar(ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}" style="width: 50px")
-												td
-													| Nueva:
-													img.user-avatar(ng-src="{{perfilPath + change_asked.detalles.foto_new_nombre }}" alt="{{ change_asked.detalles.foto_new_nombre }}" style="width: 50px")
-												td
-													button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'foto_oficial')" uib-tooltip="Rechazar cambio")
-														i.fa.fa-times(style="color: #fff;")
-													button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'foto_oficial', change_asked.detalles.foto_id_new)" uib-tooltip="Aprobar cambio")
-														i.fa.fa-check(style="color: #fff;")
-
-
-											tr(ng-if="change_asked.detalles.image_to_delete_id && change_asked.detalles.image_to_delete_accepted==null")
-												td
-													div Desea eliminar esta imagen,
-													div  la cual fue subida por un administrador:
-												td
-													img.user-avatar(ng-src="{{perfilPath + change_asked.detalles.image_to_delete_nombre }}" alt="{{ change_asked.detalles.image_to_delete_nombre }}" style="width: 50px")
-												td
-													button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'img_delete')" uib-tooltip="Rechazar cambio")
-														i.fa.fa-times(style="color: #fff;")
-													button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'img_delete', change_asked.detalles.image_to_delete_id)" uib-tooltip="Aprobar cambio")
-														i.fa.fa-check(style="color: #fff;")
-
-
-											tr(ng-if="change_asked.detalles.nombres_new && change_asked.detalles.nombres_accepted==null")
-												td
-													span(style="display: inline-block; width: 170px") Nombre actual:
-														b   {{change_asked.nombres}}
-												td
-													| Nuevo:
-													b   {{change_asked.detalles.nombres_new}}
-												td
-													button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'nombres')" uib-tooltip="Rechazar cambio")
-														i.fa.fa-times(style="color: #fff;")
-													button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'nombres', change_asked.detalles.nombres_new)" uib-tooltip="Aprobar cambio")
-														i.fa.fa-check(style="color: #fff;")
-
-
-											tr(ng-if="change_asked.detalles.apellidos_new && change_asked.detalles.apellidos_accepted==null")
-												td
-													span(style="display: inline-block; width: 170px") Apellido actual:
-														b   {{change_asked.apellidos}}
-												td
-													| Nuevo:
-													b   {{change_asked.detalles.apellidos_new}}
-												td
-													button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'apellidos')" uib-tooltip="Rechazar cambio")
-														i.fa.fa-times(style="color: #fff;")
-													button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'apellidos', change_asked.detalles.apellidos_new)" uib-tooltip="Aprobar cambio")
-														i.fa.fa-check(style="color: #fff;")
-
-
-											tr(ng-if="change_asked.detalles.sexo_new && change_asked.detalles.sexo_accepted==null")
-												td
-													span(style="display: inline-block; width: 170px") Sexo actual:
-														b   {{change_asked.sexo}}
-												td
-													| Nuevo:
-													b   {{change_asked.detalles.sexo_new}}
-												td
-													button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'sexo')" uib-tooltip="Rechazar cambio")
-														i.fa.fa-times(style="color: #fff;")
-													button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'sexo', change_asked.detalles.sexo_new)" uib-tooltip="Aprobar cambio")
-														i.fa.fa-check(style="color: #fff;")
-
-
-											tr(ng-if="change_asked.detalles.fecha_nac_new && change_asked.detalles.fecha_nac_accepted==null")
-												td
-													span(style="display: inline-block; width: 170px") Fecha nacimiento actual:
-														b   {{change_asked.fecha_nac}}
-												td
-													| Nuevo:
-													b   {{change_asked.detalles.fecha_nac_new}}
-												td
-													button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'fecha_nac')" uib-tooltip="Rechazar cambio")
-														i.fa.fa-times(style="color: #fff;")
-													button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'fecha_nac', change_asked.detalles.fecha_nac_new)" uib-tooltip="Aprobar cambio")
-														i.fa.fa-check(style="color: #fff;")
-
-
-									button.btn.btn-danger(uib-tooltip="Eliminar por completo estas peticiones" style="float:right; margin: 10px"
-										ng-click="eliminarSolicitudes(change_asked)") Ignorar solicitudes
+              .row.animated.bounceInLeft(style="font-style: italic" ng-show="profe_seleccionado.intentos_fallidos.length==0")
+                .col-xs-12
+                  | No hay intentos fallidos
 
 
 
+  .col-xs-12.col-md-12
+    .widget
+      .widget-header.bordered-bottom.bordered-themesecondary
+        i.widget-icon.fa.fa-tags.themesecondary
+        span.widget-caption.themesecondary(uib-tooltip="Hay alumnos que piden algunos cambios. Tú podrías aceptar o rechazar esas peticiones.")
+          | Pedidos que esperan tu aprobación
+
+      .widget-body
+        .widget-main.no-padding
 
 
+          .tickets-container
+            ul.tickets-list
+
+              li.ticket-item(ng-show="changes_asked.alumnos.length==0")
+                .row
+                  .ticket-user(style="height: 40px;")
+                    i No hay pedidos pendientes de alumnos
+
+              li.ticket-item(ng-repeat="change_asked in changes_asked.alumnos " ng-if="!change_asked.finalizado")
+                .row
+                  .ticket-user.ticket-solicitud(ng-click="verDetalles(change_asked)")
+                    img.user-avatar(ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}")
+                    span.user-name {{change_asked.nombres + ' ' + change_asked.apellidos }}
+                    span.user-company  de
+                      b(style="padding-left: 4px") {{change_asked.grupo_nombre}}
+                      |  ha solicitado unos cambios
+                .row(ng-show="change_asked.mostrando")
+                  div(style="padding: 10px; white-space: nowrap; text-overflow: ellipsis; overflow-x: auto;")
+                    table.table
+                      tr(ng-if="change_asked.detalles.image_new_nombre && change_asked.detalles.image_id_accepted==null")
+                        td
+                          span(style="display: inline-block; width: 170px") Imagen perfil actual:
+                          img.user-avatar(ng-src="{{perfilPath + change_asked.imagen_nombre }}" alt="{{ change_asked.imagen_nombre }}" style="width: 50px")
+                        td
+                          | Nueva:
+                          img.user-avatar(ng-src="{{perfilPath + change_asked.detalles.image_new_nombre }}" alt="{{ change_asked.detalles.image_new_nombre }}" style="width: 50px")
+                        td
+                          button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'img_perfil')" uib-tooltip="Rechazar cambio")
+                            i.fa.fa-times(style="color: #fff;")
+                          button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'img_perfil', change_asked.detalles.image_id_new)" uib-tooltip="Aprobar cambio")
+                            i.fa.fa-check(style="color: #fff;")
 
 
-							// Solicitudes de los docentes
-							li.ticket-item(ng-show="changes_asked.profesores.length==0 && USER.is_superuser")
-								.row
-									.ticket-user(style="height: 40px;")
-										i No hay pedidos pendientes de profesores
-
-							li.ticket-item(ng-repeat="change_asked in changes_asked.profesores "  ng-if="!change_asked.finalizado")
-								.row
-									.ticket-user
-										span
-											img.user-avatar(ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}")
-											span.user-name(uib-tooltip="{{change_asked.profesor_nombres + ' ' + change_asked.profesor_apellidos }}")   {{change_asked.profesor_nombres }}
-											span.user-company(ng-show="change_asked.materia_to_add_id")   ha pedido
-												b(style="padding: 0 4px")   {{ change_asked.nombre_materia_to_add }}
-												|   para
-												b(style="padding: 0 4px")   {{ change_asked.nombre_grupo_add }},
-												|   IH: {{change_asked.creditos_new}}
-
-											span.user-company(ng-show="change_asked.asignatura_to_remove_id")  Solicitó quitar
-												b(style="padding: 0 4px") {{ change_asked.nombre_materia_to_remove }}
-												| del grupo
-												b(style="padding: 0 4px") {{ change_asked.nombre_grupo_remove }}
-
-											span.user-company(ng-show="change_asked.detalles.image_new_nombre || change_asked.detalles.foto_new_nombre")
-												|  ha pedido cambios de imagen:
-
-										span(style="margin-top: -5px; position: absolute; right: 0;" ng-show="change_asked.materia_to_add_id || change_asked.asignatura_to_remove_id")
-											button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'asignatura')" uib-tooltip="Rechazar cambio")
-												i.fa.fa-times(style="color: #fff;")
-											button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'asignatura')" uib-tooltip="Aprobar cambio")
-												i.fa.fa-check(style="color: #fff;")
-
-								.row(ng-show="change_asked.detalles.image_new_nombre || change_asked.detalles.foto_new_nombre || change_asked.detalles.image_to_delete_id ")
-									div(style="padding: 10px; white-space: nowrap; text-overflow: ellipsis; overflow-x: auto;")
-										table.table
-											tr(ng-if="change_asked.detalles.image_new_nombre && change_asked.detalles.image_id_accepted==null")
-												td
-													span(style="display: inline-block; width: 170px") Imagen perfil actual:
-													img.user-avatar(ng-src="{{perfilPath + change_asked.imagen_nombre }}" alt="{{ change_asked.imagen_nombre }}" style="width: 50px")
-												td
-													| Nueva:
-													img.user-avatar(ng-src="{{perfilPath + change_asked.detalles.image_new_nombre }}" alt="{{ change_asked.detalles.image_new_nombre }}" style="width: 50px")
-												td
-													button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'img_perfil')" uib-tooltip="Rechazar cambio")
-														i.fa.fa-times(style="color: #fff;")
-													button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'img_perfil', change_asked.detalles.image_id_new)" uib-tooltip="Aprobar cambio")
-														i.fa.fa-check(style="color: #fff;")
+                      tr(ng-if="change_asked.detalles.foto_new_nombre && change_asked.detalles.foto_id_accepted==null")
+                        td
+                          span(style="display: inline-block; width: 170px") Foto oficial actual:
+                          img.user-avatar(ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}" style="width: 50px")
+                        td
+                          | Nueva:
+                          img.user-avatar(ng-src="{{perfilPath + change_asked.detalles.foto_new_nombre }}" alt="{{ change_asked.detalles.foto_new_nombre }}" style="width: 50px")
+                        td
+                          button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'foto_oficial')" uib-tooltip="Rechazar cambio")
+                            i.fa.fa-times(style="color: #fff;")
+                          button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'foto_oficial', change_asked.detalles.foto_id_new)" uib-tooltip="Aprobar cambio")
+                            i.fa.fa-check(style="color: #fff;")
 
 
-											tr(ng-if="change_asked.detalles.foto_new_nombre && change_asked.detalles.foto_id_accepted==null")
-												td
-													span(style="display: inline-block; width: 170px") Foto oficial actual:
-													img.user-avatar(ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}" style="width: 50px")
-												td
-													| Nueva:
-													img.user-avatar(ng-src="{{perfilPath + change_asked.detalles.foto_new_nombre }}" alt="{{ change_asked.detalles.foto_new_nombre }}" style="width: 50px")
-												td
-													button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'foto_oficial')" uib-tooltip="Rechazar cambio")
-														i.fa.fa-times(style="color: #fff;")
-													button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'foto_oficial', change_asked.detalles.foto_id_new)" uib-tooltip="Aprobar cambio")
-														i.fa.fa-check(style="color: #fff;")
+                      tr(ng-if="change_asked.detalles.image_to_delete_id && change_asked.detalles.image_to_delete_accepted==null")
+                        td
+                          div Desea eliminar esta imagen,
+                          div  la cual fue subida por un administrador:
+                        td
+                          img.user-avatar(ng-src="{{perfilPath + change_asked.detalles.image_to_delete_nombre }}" alt="{{ change_asked.detalles.image_to_delete_nombre }}" style="width: 50px")
+                        td
+                          button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'img_delete')" uib-tooltip="Rechazar cambio")
+                            i.fa.fa-times(style="color: #fff;")
+                          button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'img_delete', change_asked.detalles.image_to_delete_id)" uib-tooltip="Aprobar cambio")
+                            i.fa.fa-check(style="color: #fff;")
 
 
-											tr(ng-if="change_asked.detalles.image_to_delete_id && change_asked.detalles.image_to_delete_accepted==null")
-												td
-													div Desea eliminar esta imagen,
-													div   la cual fue subida por un administrador:
-												td
-													img.user-avatar(ng-src="{{perfilPath + change_asked.detalles.image_to_delete_nombre }}" alt="{{ change_asked.detalles.image_to_delete_nombre }}" style="width: 50px")
-												td
-													button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'img_delete')" uib-tooltip="Rechazar cambio")
-														i.fa.fa-times(style="color: #fff;")
-													button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'img_delete', change_asked.detalles.image_to_delete_id)" uib-tooltip="Aprobar cambio")
-														i.fa.fa-check(style="color: #fff;")
+                      tr(ng-if="change_asked.detalles.nombres_new && change_asked.detalles.nombres_accepted==null")
+                        td
+                          span(style="display: inline-block; width: 170px") Nombre actual:
+                            b   {{change_asked.nombres}}
+                        td
+                          | Nuevo:
+                          b   {{change_asked.detalles.nombres_new}}
+                        td
+                          button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'nombres')" uib-tooltip="Rechazar cambio")
+                            i.fa.fa-times(style="color: #fff;")
+                          button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'nombres', change_asked.detalles.nombres_new)" uib-tooltip="Aprobar cambio")
+                            i.fa.fa-check(style="color: #fff;")
+
+
+                      tr(ng-if="change_asked.detalles.apellidos_new && change_asked.detalles.apellidos_accepted==null")
+                        td
+                          span(style="display: inline-block; width: 170px") Apellido actual:
+                            b   {{change_asked.apellidos}}
+                        td
+                          | Nuevo:
+                          b   {{change_asked.detalles.apellidos_new}}
+                        td
+                          button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'apellidos')" uib-tooltip="Rechazar cambio")
+                            i.fa.fa-times(style="color: #fff;")
+                          button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'apellidos', change_asked.detalles.apellidos_new)" uib-tooltip="Aprobar cambio")
+                            i.fa.fa-check(style="color: #fff;")
+
+
+                      tr(ng-if="change_asked.detalles.sexo_new && change_asked.detalles.sexo_accepted==null")
+                        td
+                          span(style="display: inline-block; width: 170px") Sexo actual:
+                            b   {{change_asked.sexo}}
+                        td
+                          | Nuevo:
+                          b   {{change_asked.detalles.sexo_new}}
+                        td
+                          button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'sexo')" uib-tooltip="Rechazar cambio")
+                            i.fa.fa-times(style="color: #fff;")
+                          button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'sexo', change_asked.detalles.sexo_new)" uib-tooltip="Aprobar cambio")
+                            i.fa.fa-check(style="color: #fff;")
+
+
+                      tr(ng-if="change_asked.detalles.fecha_nac_new && change_asked.detalles.fecha_nac_accepted==null")
+                        td
+                          span(style="display: inline-block; width: 170px") Fecha nacimiento actual:
+                            b   {{change_asked.fecha_nac}}
+                        td
+                          | Nuevo:
+                          b   {{change_asked.detalles.fecha_nac_new}}
+                        td
+                          button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'fecha_nac')" uib-tooltip="Rechazar cambio")
+                            i.fa.fa-times(style="color: #fff;")
+                          button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'fecha_nac', change_asked.detalles.fecha_nac_new)" uib-tooltip="Aprobar cambio")
+                            i.fa.fa-check(style="color: #fff;")
+
+
+                  button.btn.btn-danger(uib-tooltip="Eliminar por completo estas peticiones" style="float:right; margin: 10px"
+                    ng-click="eliminarSolicitudes(change_asked)") Ignorar solicitudes
 
 
 
@@ -557,14 +477,95 @@ publicaciones-panel-dir
 
 
 
+              // Solicitudes de los docentes
+              li.ticket-item(ng-show="changes_asked.profesores.length==0 && USER.is_superuser")
+                .row
+                  .ticket-user(style="height: 40px;")
+                    i No hay pedidos pendientes de profesores
 
-	// Cantidad de Alumnos por grupos
-	.col-xs-12
-		.widget
-			.widget-body
-				.widget-main.no-padding
-					a(href="" ng-click="traerCatAlumnosPorGrupos()") Ver cantidad de alumnos por grupos
-					div(ng-if="grupos_cantidades" ng-include="srcCant")
+              li.ticket-item(ng-repeat="change_asked in changes_asked.profesores "  ng-if="!change_asked.finalizado")
+                .row
+                  .ticket-user
+                    span
+                      img.user-avatar(ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}")
+                      span.user-name(uib-tooltip="{{change_asked.profesor_nombres + ' ' + change_asked.profesor_apellidos }}")   {{change_asked.profesor_nombres }}
+                      span.user-company(ng-show="change_asked.materia_to_add_id")   ha pedido
+                        b(style="padding: 0 4px")   {{ change_asked.nombre_materia_to_add }}
+                        |   para
+                        b(style="padding: 0 4px")   {{ change_asked.nombre_grupo_add }},
+                        |   IH: {{change_asked.creditos_new}}
+
+                      span.user-company(ng-show="change_asked.asignatura_to_remove_id")  Solicitó quitar
+                        b(style="padding: 0 4px") {{ change_asked.nombre_materia_to_remove }}
+                        | del grupo
+                        b(style="padding: 0 4px") {{ change_asked.nombre_grupo_remove }}
+
+                      span.user-company(ng-show="change_asked.detalles.image_new_nombre || change_asked.detalles.foto_new_nombre")
+                        |  ha pedido cambios de imagen:
+
+                    span(style="margin-top: -5px; position: absolute; right: 0;" ng-show="change_asked.materia_to_add_id || change_asked.asignatura_to_remove_id")
+                      button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'asignatura')" uib-tooltip="Rechazar cambio")
+                        i.fa.fa-times(style="color: #fff;")
+                      button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'asignatura')" uib-tooltip="Aprobar cambio")
+                        i.fa.fa-check(style="color: #fff;")
+
+                .row(ng-show="change_asked.detalles.image_new_nombre || change_asked.detalles.foto_new_nombre || change_asked.detalles.image_to_delete_id ")
+                  div(style="padding: 10px; white-space: nowrap; text-overflow: ellipsis; overflow-x: auto;")
+                    table.table
+                      tr(ng-if="change_asked.detalles.image_new_nombre && change_asked.detalles.image_id_accepted==null")
+                        td
+                          span(style="display: inline-block; width: 170px") Imagen perfil actual:
+                          img.user-avatar(ng-src="{{perfilPath + change_asked.imagen_nombre }}" alt="{{ change_asked.imagen_nombre }}" style="width: 50px")
+                        td
+                          | Nueva:
+                          img.user-avatar(ng-src="{{perfilPath + change_asked.detalles.image_new_nombre }}" alt="{{ change_asked.detalles.image_new_nombre }}" style="width: 50px")
+                        td
+                          button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'img_perfil')" uib-tooltip="Rechazar cambio")
+                            i.fa.fa-times(style="color: #fff;")
+                          button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'img_perfil', change_asked.detalles.image_id_new)" uib-tooltip="Aprobar cambio")
+                            i.fa.fa-check(style="color: #fff;")
+
+
+                      tr(ng-if="change_asked.detalles.foto_new_nombre && change_asked.detalles.foto_id_accepted==null")
+                        td
+                          span(style="display: inline-block; width: 170px") Foto oficial actual:
+                          img.user-avatar(ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}" style="width: 50px")
+                        td
+                          | Nueva:
+                          img.user-avatar(ng-src="{{perfilPath + change_asked.detalles.foto_new_nombre }}" alt="{{ change_asked.detalles.foto_new_nombre }}" style="width: 50px")
+                        td
+                          button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'foto_oficial')" uib-tooltip="Rechazar cambio")
+                            i.fa.fa-times(style="color: #fff;")
+                          button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'foto_oficial', change_asked.detalles.foto_id_new)" uib-tooltip="Aprobar cambio")
+                            i.fa.fa-check(style="color: #fff;")
+
+
+                      tr(ng-if="change_asked.detalles.image_to_delete_id && change_asked.detalles.image_to_delete_accepted==null")
+                        td
+                          div Desea eliminar esta imagen,
+                          div   la cual fue subida por un administrador:
+                        td
+                          img.user-avatar(ng-src="{{perfilPath + change_asked.detalles.image_to_delete_nombre }}" alt="{{ change_asked.detalles.image_to_delete_nombre }}" style="width: 50px")
+                        td
+                          button.button-aprobar.bg-red(ng-click="rechazarCambio(change_asked, 'img_delete')" uib-tooltip="Rechazar cambio")
+                            i.fa.fa-times(style="color: #fff;")
+                          button.button-aprobar.bg-palegreen(ng-click="aprobarCambio(change_asked, 'img_delete', change_asked.detalles.image_to_delete_id)" uib-tooltip="Aprobar cambio")
+                            i.fa.fa-check(style="color: #fff;")
+
+
+
+
+
+
+
+
+  // Cantidad de Alumnos por grupos
+  .col-xs-12
+    .widget
+      .widget-body
+        .widget-main.no-padding
+          a(href="" ng-click="traerCatAlumnosPorGrupos()") Ver cantidad de alumnos por grupos
+          div(ng-if="grupos_cantidades" ng-include="srcCant")
 
 
 

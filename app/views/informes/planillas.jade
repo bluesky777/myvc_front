@@ -1,175 +1,178 @@
 div(ng-repeat="asignatura in ::asignaturas")
 
-	div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false || !asignatura.alumnos2 }")
-		.row
-			.col-lg-12.col-xs-12
-				.row.encabezado-planilla
-					.col-lg-12.col-xs-12
-						.row
-							.col-lg-2.col-xs-2
-								img.img-responsive.logo-colegio.menos-margin(ng-src="{{::perfilPath + year.logo}}" style="width: 70px;")
-							.col-lg-8.col-xs-8.title-encabezado-planilla
-								.row
-									.col-lg-12
-										.nombre-colegio
-											| {{::year.nombre_colegio + ' - ' + year.abrev_colegio}}
-										.descripcion-title
-											| Planilla de trabajo Per{{::USER.numero_periodo}}-{{::USER.year}}
-											b.camel  {{::asignatura.nombre_grupo}} - {{::asignatura.materia.toLowerCase() }}
-								.row
-									.col-lg-12
-										h5.nombre-profesor(style="padding: 0px; margin: 0px") {{::asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}
+  div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false || !asignatura.alumnos2 }")
+    .row
+      .col-lg-12.col-xs-12
+        .row.encabezado-planilla
+          .col-lg-12.col-xs-12
+            .row
+              .col-lg-2.col-xs-2
+                img.img-responsive.logo-colegio.menos-margin(ng-src="{{::perfilPath + year.logo}}" style="width: 70px;")
+              .col-lg-8.col-xs-8.title-encabezado-planilla
+                .row
+                  .col-lg-12
+                    .nombre-colegio
+                      | {{::year.nombre_colegio + ' - ' + year.abrev_colegio}}
+                    .descripcion-title
+                      | Planilla de trabajo Per{{::USER.numero_periodo}}-{{::USER.year}}
+                      b.camel  {{::asignatura.nombre_grupo}} - {{::asignatura.materia.toLowerCase() }}
+                .row
+                  .col-lg-12
+                    h5.nombre-profesor(style="padding: 0px; margin: 0px") {{::asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}
 
-							.col-lg-2.col-xs-2
-								img.img-responsive.foto-profe.menos-margin(ng-src="{{::perfilPath + asignatura.foto_nombre}}" ng-show="::config.mostrar_foto && asignatura.foto_id" style="float: right; width: 70px;")
+              .col-lg-2.col-xs-2
+                img.img-responsive.foto-profe.menos-margin(ng-src="{{::perfilPath + asignatura.foto_nombre}}" ng-show="::config.mostrar_foto && asignatura.foto_id" style="float: right; width: 70px;")
 
-				.row.body-boletin
-					.col-lg-12.col-xs-12.materias(style="padding:0px")
-						.materia-item
-							table.table-bordered.table-bordered2.table-striped.table-striped2
-								tr(style="background-color: #99caed !important;")
-									th(rowspan="2")
-										| No
-									th.text-center(rowspan="2")
-										| Alumnos
-									th.text-center(rowspan="2" style="font-size: 8pt")
-										div P1
-										div.def-per-planilla(style="font-weight:normal" ng-bind-html="::asignatura.definitiva_per1")
-									th.text-center(rowspan="2" style="font-size: 8pt")
-										div P2
-										div.def-per-planilla(style="font-weight:normal" ng-bind-html="::asignatura.definitiva_per2")
-									th.text-center(rowspan="2" style="font-size: 8pt")
-										div P3
-										div.def-per-planilla(style="font-weight:normal" ng-bind-html="::asignatura.definitiva_per3")
-									th.text-center(rowspan="2" style="font-size: 8pt")
-										div P4
-										div.def-per-planilla(style="font-weight:normal" ng-bind-html="::asignatura.definitiva_per4")
-									th(ng-repeat="unidad in ::unidadesdefault track by $index" colspan="5" style="font-size: 8pt")
-										| {{$index + 1}} {{unidad}}
-								tr(style="height: 25px; background-color: #99caed !important;")
-									th(ng-repeat="subuni in ::subunidadesdefault track by $index" style="width: 50px")
-										| {{::subuni}}
+        .row.body-boletin
+          .col-lg-12.col-xs-12.materias(style="padding:0px")
+            .materia-item
+              table.table-bordered.table-bordered2.table-striped.table-striped2
+                tr(style="background-color: #99caed !important;")
+                  th(rowspan="2")
+                    | No
+                  th.text-center(rowspan="2")
+                    | Alumnos
+                  th.text-center(rowspan="2" style="font-size: 8pt")
+                    div P1
+                    div.def-per-planilla(style="font-weight:normal" ng-bind-html="::asignatura.definitiva_per1")
+                  th.text-center(rowspan="2" style="font-size: 8pt")
+                    div P2
+                    div.def-per-planilla(style="font-weight:normal" ng-bind-html="::asignatura.definitiva_per2")
+                  th.text-center(rowspan="2" style="font-size: 8pt")
+                    div P3
+                    div.def-per-planilla(style="font-weight:normal" ng-bind-html="::asignatura.definitiva_per3")
+                  th.text-center(rowspan="2" style="font-size: 8pt")
+                    div P4
+                    div.def-per-planilla(style="font-weight:normal" ng-bind-html="::asignatura.definitiva_per4")
+                  th(ng-repeat="unidad in ::unidadesdefault track by $index" colspan="5" style="font-size: 8pt")
+                    | {{$index + 1}} {{unidad}}
+                tr(style="height: 25px; background-color: #99caed !important;")
+                  th(ng-repeat="subuni in ::subunidadesdefault track by $index" style="width: 50px")
+                    | {{::subuni}}
 
-								tbody(style="font-size: 9pt")
-									tr.altura-22(ng-repeat="alumno in ::asignatura.alumnos1")
-										td
-											| {{$index + 1}}
-										td
-											.ellipsis250.alumno-planilla(ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative; vertical-align: middle;")
-												| {{::alumno.apellidos}} {{::alumno.nombres}}
-												span(ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;")
-													| (Asis)
-												span(ng-show="alumno.estado=='PREM'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;")
-													| (Prema)
-										td.text-center
-											.def-per-planilla
-												span(ng-show="::alumno.periodos[0].nota_asignatura") {{ ::alumno.periodos[0].nota_asignatura }}
-										td.text-center
-											.def-per-planilla
-												span(ng-show="::alumno.periodos[1].nota_asignatura") {{ ::alumno.periodos[1].nota_asignatura }}
-										td.text-center
-											.def-per-planilla
-												span(ng-show="::alumno.periodos[2].nota_asignatura") {{ ::alumno.periodos[2].nota_asignatura }}
-										td.text-center
-											.def-per-planilla
-												span(ng-show="::alumno.periodos[3].nota_asignatura") {{ ::alumno.periodos[3].nota_asignatura }}
-										td(ng-repeat="subuni in ::subunidadesdefault track by $index" style="width: 50px")
-											| {{::subuni}}
-									tr.altura-22(style="height: 17px;")
-										td
-										td
-										td
-										td
-										td
-										td
-										td(ng-repeat="subuni in subunidadesdefault track by $index" style="width: 50px")
-											| {{::subuni}}
+                tbody(style="font-size: 9pt")
+                  tr.altura-22(ng-repeat="alumno in ::asignatura.alumnos1")
+                    td
+                      | {{$index + 1}}
+                    td
+                      .ellipsis250.alumno-planilla(ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative; vertical-align: middle;"
+                        uib-tooltip="{{::alumno.nee_descripcion}}")
+                        | {{::alumno.apellidos}} {{::alumno.nombres}}
+                        span(ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;")
+                          | (Asis)
+                        span(ng-show="alumno.estado=='PREM'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;")
+                          | (Prema)
+                        span(ng-show="alumno.nee" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: 6px; font-weight: bold;")
+                          | NEE
+                    td.text-center
+                      .def-per-planilla
+                        span(ng-show="::alumno.periodos[0].nota_asignatura") {{ ::alumno.periodos[0].nota_asignatura }}
+                    td.text-center
+                      .def-per-planilla
+                        span(ng-show="::alumno.periodos[1].nota_asignatura") {{ ::alumno.periodos[1].nota_asignatura }}
+                    td.text-center
+                      .def-per-planilla
+                        span(ng-show="::alumno.periodos[2].nota_asignatura") {{ ::alumno.periodos[2].nota_asignatura }}
+                    td.text-center
+                      .def-per-planilla
+                        span(ng-show="::alumno.periodos[3].nota_asignatura") {{ ::alumno.periodos[3].nota_asignatura }}
+                    td(ng-repeat="subuni in ::subunidadesdefault track by $index" style="width: 50px")
+                      | {{::subuni}}
+                  tr.altura-22(style="height: 17px;")
+                    td
+                    td
+                    td
+                    td
+                    td
+                    td
+                    td(ng-repeat="subuni in subunidadesdefault track by $index" style="width: 50px")
+                      | {{::subuni}}
 
 
 
 
-	div(ng-if="::asignatura.alumnos2" ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }")
-		.row
-			.col-lg-12.col-xs-12
-				.row.encabezado-planilla
-					.col-lg-12.col-xs-12
-						.row
-							.col-lg-2.col-xs-2
-								img.img-responsive.logo-colegio(ng-src="{{perfilPath + year.logo}}")
-							.col-lg-8.col-xs-8.title-encabezado-planilla
-								.row
-									.col-lg-12
-										.nombre-colegio
-											| {{::year.nombre_colegio + ' - ' + year.abrev_colegio}}
-										.descripcion-title
-											| Planilla de trabajo Per{{::USER.numero_periodo}}-{{::USER.year}}
-											b  {{::asignatura.nombre_grupo}} -
-												span.camel   {{::asignatura.materia.toLowerCase()}}
-								.row
-									.col-lg-12
-										h5.nombre-profesor(style="padding: 0px; margin: 0px") {{::asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}
+  div(ng-if="::asignatura.alumnos2" ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }")
+    .row
+      .col-lg-12.col-xs-12
+        .row.encabezado-planilla
+          .col-lg-12.col-xs-12
+            .row
+              .col-lg-2.col-xs-2
+                img.img-responsive.logo-colegio(ng-src="{{perfilPath + year.logo}}")
+              .col-lg-8.col-xs-8.title-encabezado-planilla
+                .row
+                  .col-lg-12
+                    .nombre-colegio
+                      | {{::year.nombre_colegio + ' - ' + year.abrev_colegio}}
+                    .descripcion-title
+                      | Planilla de trabajo Per{{::USER.numero_periodo}}-{{::USER.year}}
+                      b  {{::asignatura.nombre_grupo}} -
+                        span.camel   {{::asignatura.materia.toLowerCase()}}
+                .row
+                  .col-lg-12
+                    h5.nombre-profesor(style="padding: 0px; margin: 0px") {{::asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}
 
-							.col-lg-2.col-xs-2
-								img.img-responsive.foto-profe(ng-src="{{::perfilPath + asignatura.foto_nombre}}" ng-show="::config.mostrar_foto && asignatura.foto_id" style="float: right;")
+              .col-lg-2.col-xs-2
+                img.img-responsive.foto-profe(ng-src="{{::perfilPath + asignatura.foto_nombre}}" ng-show="::config.mostrar_foto && asignatura.foto_id" style="float: right;")
 
-				.row.body-boletin
-					.col-lg-12.col-xs-12.materias(style="padding:0px")
-						.materia-item
-							table.table-bordered.table-bordered2.table-striped.table-striped2
-								tr(style="background-color: #99caed !important;")
-									th(rowspan="2")
-										| No
-									th.text-center(rowspan="2")
-										| Alumnos
-									th.text-center(rowspan="2" style="font-size: 8pt")
-										div P1
-										div.def-per-planilla(style="font-weight:normal" ng-bind-html="::asignatura.definitiva_per1")
-									th.text-center(rowspan="2" style="font-size: 8pt")
-										div P2
-										div.def-per-planilla(style="font-weight:normal" ng-bind-html="::asignatura.definitiva_per2")
-									th.text-center(rowspan="2" style="font-size: 8pt")
-										div P3
-										div.def-per-planilla(style="font-weight:normal" ng-bind-html="::asignatura.definitiva_per3")
-									th.text-center(rowspan="2" style="font-size: 8pt")
-										div P4
-										div.def-per-planilla(style="font-weight:normal" ng-bind-html="::asignatura.definitiva_per4")
-									th(ng-repeat="unidad in ::unidadesdefault track by $index" colspan="5" style="font-size: 8pt")
-										| {{$index + 1}} {{unidad}}
-								tr(style="height: 25px; background-color: #99caed !important;")
-									th(ng-repeat="subuni in ::subunidadesdefault track by $index" style="width: 50px")
-										| {{::subuni}}
-								tbody(style="font-size: 9pt")
-									tr.altura-22(ng-repeat="alumno in ::asignatura.alumnos2")
-										td
-											| {{$index + 1 + asignatura.alumnos1.length }}
-										td
-											.ellipsis250.alumno-planilla(ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative; vertical-align: middle;")
-												| {{::alumno.apellidos}} {{::alumno.nombres}}
-												span(ng-show="alumno.estado=='ASIS'" style="font-size: 7pt; right: 0px; position: absolute; background-color: white; top: -2px;")
-													| (Asis)
-										td.text-center
-											.def-per-planilla
-												span(ng-show="::alumno.periodos[0].nota_asignatura") {{ ::alumno.periodos[0].nota_asignatura }}
-										td.text-center
-											.def-per-planilla
-												span(ng-show="::alumno.periodos[1].nota_asignatura") {{ ::alumno.periodos[1].nota_asignatura }}
-										td.text-center
-											.def-per-planilla
-												span(ng-show="::alumno.periodos[2].nota_asignatura") {{ ::alumno.periodos[2].nota_asignatura }}
-										td.text-center
-											.def-per-planilla
-												span(ng-show="::alumno.periodos[3].nota_asignatura") {{ ::alumno.periodos[3].nota_asignatura }}
-										td(ng-repeat="subuni in ::subunidadesdefault track by $index" style="width: 50px")
-											| {{::subuni}}
-									tr.altura-22(style="height: 17px;")
-										td
-										td
-										td
-										td
-										td
-										td
-										td(ng-repeat="subuni in subunidadesdefault track by $index" style="width: 50px")
-											| {{::subuni}}
+        .row.body-boletin
+          .col-lg-12.col-xs-12.materias(style="padding:0px")
+            .materia-item
+              table.table-bordered.table-bordered2.table-striped.table-striped2
+                tr(style="background-color: #99caed !important;")
+                  th(rowspan="2")
+                    | No
+                  th.text-center(rowspan="2")
+                    | Alumnos
+                  th.text-center(rowspan="2" style="font-size: 8pt")
+                    div P1
+                    div.def-per-planilla(style="font-weight:normal" ng-bind-html="::asignatura.definitiva_per1")
+                  th.text-center(rowspan="2" style="font-size: 8pt")
+                    div P2
+                    div.def-per-planilla(style="font-weight:normal" ng-bind-html="::asignatura.definitiva_per2")
+                  th.text-center(rowspan="2" style="font-size: 8pt")
+                    div P3
+                    div.def-per-planilla(style="font-weight:normal" ng-bind-html="::asignatura.definitiva_per3")
+                  th.text-center(rowspan="2" style="font-size: 8pt")
+                    div P4
+                    div.def-per-planilla(style="font-weight:normal" ng-bind-html="::asignatura.definitiva_per4")
+                  th(ng-repeat="unidad in ::unidadesdefault track by $index" colspan="5" style="font-size: 8pt")
+                    | {{$index + 1}} {{unidad}}
+                tr(style="height: 25px; background-color: #99caed !important;")
+                  th(ng-repeat="subuni in ::subunidadesdefault track by $index" style="width: 50px")
+                    | {{::subuni}}
+                tbody(style="font-size: 9pt")
+                  tr.altura-22(ng-repeat="alumno in ::asignatura.alumnos2")
+                    td
+                      | {{$index + 1 + asignatura.alumnos1.length }}
+                    td
+                      .ellipsis250.alumno-planilla(ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative; vertical-align: middle;")
+                        | {{::alumno.apellidos}} {{::alumno.nombres}}
+                        span(ng-show="alumno.estado=='ASIS'" style="font-size: 7pt; right: 0px; position: absolute; background-color: white; top: -2px;")
+                          | (Asis)
+                    td.text-center
+                      .def-per-planilla
+                        span(ng-show="::alumno.periodos[0].nota_asignatura") {{ ::alumno.periodos[0].nota_asignatura }}
+                    td.text-center
+                      .def-per-planilla
+                        span(ng-show="::alumno.periodos[1].nota_asignatura") {{ ::alumno.periodos[1].nota_asignatura }}
+                    td.text-center
+                      .def-per-planilla
+                        span(ng-show="::alumno.periodos[2].nota_asignatura") {{ ::alumno.periodos[2].nota_asignatura }}
+                    td.text-center
+                      .def-per-planilla
+                        span(ng-show="::alumno.periodos[3].nota_asignatura") {{ ::alumno.periodos[3].nota_asignatura }}
+                    td(ng-repeat="subuni in ::subunidadesdefault track by $index" style="width: 50px")
+                      | {{::subuni}}
+                  tr.altura-22(style="height: 17px;")
+                    td
+                    td
+                    td
+                    td
+                    td
+                    td
+                    td(ng-repeat="subuni in subunidadesdefault track by $index" style="width: 50px")
+                      | {{::subuni}}
 
 
 

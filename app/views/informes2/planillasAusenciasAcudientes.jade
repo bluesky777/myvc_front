@@ -1,202 +1,207 @@
 .row.hidden-print(style="margin-bottom: 20px" ng-show="$state.is('panel.informes.planillas-ausencias-acudientes')")
-	.col-xs-12
+  .col-xs-12
 
-		//div(ckeditor="editor_options" ng-model="texto_informativo.texto" ready="onEditorReady" ng-change="cambia_texto_informativo()")
+    //div(ckeditor="editor_options" ng-model="texto_informativo.texto" ready="onEditorReady" ng-change="cambia_texto_informativo()")
 
 
-		textarea(ng-model="texto_informativo.texto" ng-model-options="{ updateOn: 'blur' }"
-			style="width: 100%; height: 100px; " ng-change="cambia_texto_informativo()")
-		input(type="date" ng-model="fecha_hoy" class="form-control" style="width: 200px")
+    textarea(ng-model="texto_informativo.texto" ng-model-options="{ updateOn: 'blur' }"
+      style="width: 100%; height: 100px; " ng-change="cambia_texto_informativo()")
+    input(type="date" ng-model="fecha_hoy" class="form-control" style="width: 200px")
 
 
 
 div(ng-repeat="grupo in ::grupos_acud")
 
-	div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false || !asignatura.alumnos2 }")
-		.row
-			.col-lg-12.col-xs-12
-				.row.encabezado-planilla
-					.col-lg-12.col-xs-12
-						.row
-							.col-lg-2.col-xs-2
-								img.img-responsive.logo-colegio.menos-margin(ng-src="{{::perfilPath + year.logo}}" style="width: 70px;")
-							.col-lg-8.col-xs-8.title-encabezado-planilla
-								.row
-									.col-lg-12
-										.nombre-colegio
-											| {{::year.nombre_colegio + ' - ' + year.abrev_colegio}}
-										.descripcion-title
-											span.center(ng-bind-html="texto_informativo.texto" style="border: 0px; width: 100%; ")
-											| {{ fecha_hoy | date:"dd ' de ' MMMM" }}. Per{{::USER.numero_periodo}} - {{::USER.year}}.
+  div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false || !asignatura.alumnos2 }")
+    .row
+      .col-lg-12.col-xs-12
+        .row.encabezado-planilla
+          .col-lg-12.col-xs-12
+            .row
+              .col-lg-2.col-xs-2
+                img.img-responsive.logo-colegio.menos-margin(ng-src="{{::perfilPath + year.logo}}" style="width: 70px;")
+              .col-lg-8.col-xs-8.title-encabezado-planilla
+                .row
+                  .col-lg-12
+                    .nombre-colegio
+                      | {{::year.nombre_colegio + ' - ' + year.abrev_colegio}}
+                    .descripcion-title
+                      span.center(ng-bind-html="texto_informativo.texto" style="border: 0px; width: 100%; ")
+                      | {{ fecha_hoy | date:"dd ' de ' MMMM" }}. Per{{::USER.numero_periodo}} - {{::USER.year}}.
 
 
-								.row
-									.col-lg-12
-										h5.nombre-profesor(style="padding: 0px; margin: 0px") {{::grupo.nombres_titular + ' ' + grupo.apellidos_titular}} -
-											b.camel    {{::grupo.nombre}}
+                .row
+                  .col-lg-12
+                    h5.nombre-profesor(style="padding: 0px; margin: 0px") {{::grupo.nombres_titular + ' ' + grupo.apellidos_titular}} -
+                      b.camel    {{::grupo.nombre}}
 
-							.col-lg-2.col-xs-2
-								img.img-responsive.foto-profe.menos-margin(ng-src="{{::perfilPath + asignatura.foto_nombre}}" ng-show="::config.mostrar_foto && asignatura.foto_id" style="float: right; width: 70px;")
+              .col-lg-2.col-xs-2
+                img.img-responsive.foto-profe.menos-margin(ng-src="{{::perfilPath + asignatura.foto_nombre}}" ng-show="::config.mostrar_foto && asignatura.foto_id" style="float: right; width: 70px;")
 
-				.row.body-boletin
-					.col-lg-12.col-xs-12.materias(style="padding:0px")
-						.materia-item
-							table.table-bordered.table-bordered2.table-striped.table-striped2(style="margin: 0 auto; width: 100%")
-								tr(style="background-color: #99caed !important;")
-									td(style="width: 20px; font-weight: bold;")
-										| No
-									td.text-center(style="font-weight: bold;")
-										| Alumnos
-									td.text-center(style="width: 30%; font-weight: bold;")
-										| Acudientes
-									td.text-center(style="width: 40%; font-weight: bold;")
-										| Firma
+        .row.body-boletin
+          .col-lg-12.col-xs-12.materias(style="padding:0px")
+            .materia-item
+              table.table-bordered.table-bordered2.table-striped.table-striped2(style="margin: 0 auto; width: 100%")
+                tr(style="background-color: #99caed !important;")
+                  td(style="width: 20px; font-weight: bold;")
+                    | No
+                  td.text-center(style="font-weight: bold;")
+                    | Alumnos
+                  td.text-center(style="width: 40%; font-weight: bold;")
+                    | Acudientes
+                  td.text-center(style="width: 30%; font-weight: bold;")
+                    | Firma
 
-								tbody(style="font-size: 9pt")
-									tr.altura-tr-firma(ng-repeat="alumno in ::grupo.alumnos1")
-										td
-											| {{$index + 1}}
-										td
-											.ellipsis250.alumno-planilla(ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative; vertical-align: middle; width: 100%;")
-												| {{::alumno.apellidos}} {{::alumno.nombres}}
-												span(ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 4px; position: absolute; background-color: white; top: -2px;")
-													| (Asis)
-												span(ng-show="alumno.estado=='PREM'" style="font-size: 8pt; right: 4px; position: absolute; background-color: white; top: -2px;")
-													| (Prem)
-										td
-											div(ng-repeat="acud in ::alumno.acudientes" style="font-size: 8pt;") {{ ::acud.parentesco }}:  {{ ::acud.nombres }} {{ ::acud.apellidos }}
-												i.fa.fa-check(ng-show="::acud.is_acudiente" style="padding-left: 2px; font-size: 6pt;")
-										td.text-center
-											.def-per-planilla
+                tbody(style="font-size: 9pt")
+                  tr.altura-tr-firma(ng-repeat="alumno in ::grupo.alumnos1")
+                    td
+                      | {{$index + 1}}
+                    td
+                      .ellipsis250.alumno-planilla(ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative; vertical-align: middle; width: 100%;")
+                        | {{::alumno.apellidos}} {{::alumno.nombres}}
+                        span(ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 4px; position: absolute; background-color: white; top: -2px;")
+                          | (Asis)
+                        span(ng-show="alumno.estado=='PREM'" style="font-size: 8pt; right: 4px; position: absolute; background-color: white; top: -2px;")
+                          | (Prem)
+                    td
+                      div(ng-repeat="acud in ::alumno.acudientes" style="font-size: 8pt;")
+                        | {{ ::acud.parentesco }}:
+                        b  {{ ::acud.nombres }} {{ ::acud.apellidos }}
+                        i.fa.fa-check(ng-show="::acud.is_acudiente" style="padding-left: 2px; font-size: 6pt;")
+                        span(ng-show="acud.celular || acud.telefono")  ({{acud.celular}} - {{acud.telefono}})
+                        span(ng-show="acud.email")  - {{acud.email}}
 
-
-
-									tr.altura-tr-firma
-										td
-										td
-										td
-										td
+                    td.text-center
+                      .def-per-planilla
 
 
 
-
-	div(ng-if="::grupo.alumnos2" ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }")
-		.row
-			.col-lg-12.col-xs-12
-				.row.encabezado-planilla
-					.col-lg-12.col-xs-12
-						.row
-							.col-lg-2.col-xs-2
-								img.img-responsive.logo-colegio.menos-margin(ng-src="{{::perfilPath + year.logo}}" style="width: 50px;")
-							.col-lg-8.col-xs-8.title-encabezado-planilla
-								.row
-									.col-lg-12
-										.nombre-colegio
-											| {{::year.nombre_colegio + ' - ' + year.abrev_colegio}}
-										.descripcion-title
-											| Planilla asistencia padres Per{{::USER.numero_periodo}} - {{::USER.year}}.
-											b.camel  {{::grupo.nombre}}
-
-							.col-lg-2.col-xs-2
-								img.img-responsive.foto-profe.menos-margin(ng-src="{{::perfilPath + asignatura.foto_nombre}}" ng-show="::config.mostrar_foto && asignatura.foto_id" style="float: right; width: 70px;")
-
-				.row.body-boletin
-					.col-lg-12.col-xs-12.materias(style="padding:0px")
-						.materia-item
-							table.table-bordered.table-bordered2.table-striped.table-striped2(style="margin: 0 auto; width: 100%")
-								tr(style="background-color: #99caed !important;")
-									td(style="width: 20px; font-weight: bold;")
-										| No
-									td.text-center(style="font-weight: bold;")
-										| Alumnos
-									td.text-center(style="width: 30%; font-weight: bold;")
-										| Acudientes
-									td.text-center(style="width: 40%; font-weight: bold;")
-										| Firma
-
-								tbody(style="font-size: 9pt")
-									tr.altura-tr-firma(ng-repeat="alumno in ::grupo.alumnos2")
-										td
-											| {{$index + 1 + grupo.alumnos1.length }}
-										td
-											.ellipsis250.alumno-planilla(ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative; vertical-align: middle; width: 100%;")
-												| {{::alumno.apellidos}} {{::alumno.nombres}}
-												span(ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 4px; position: absolute; background-color: white; top: -2px;")
-													| (Asis)
-										td
-											div(ng-repeat="acud in ::alumno.acudientes" style="font-size: 8pt;") {{ ::acud.parentesco }}:  {{ ::acud.nombres }} {{ ::acud.apellidos }}
-												i.fa.fa-check(ng-show="::acud.is_acudiente" style="padding-left: 2px; font-size: 6pt;")
-										td.text-center
-											.def-per-planilla
-
-
-
-									tr.altura-tr-firma
-										td
-										td
-										td
-										td
+                  tr.altura-tr-firma
+                    td
+                    td
+                    td
+                    td
 
 
 
 
+  div(ng-if="::grupo.alumnos2" ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }")
+    .row
+      .col-lg-12.col-xs-12
+        .row.encabezado-planilla
+          .col-lg-12.col-xs-12
+            .row
+              .col-lg-2.col-xs-2
+                img.img-responsive.logo-colegio.menos-margin(ng-src="{{::perfilPath + year.logo}}" style="width: 50px;")
+              .col-lg-8.col-xs-8.title-encabezado-planilla
+                .row
+                  .col-lg-12
+                    .nombre-colegio
+                      | {{::year.nombre_colegio + ' - ' + year.abrev_colegio}}
+                    .descripcion-title
+                      | Planilla asistencia padres Per{{::USER.numero_periodo}} - {{::USER.year}}.
+                      b.camel  {{::grupo.nombre}}
 
-	div(ng-if="::grupo.alumnos3" ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }")
-		.row
-			.col-lg-12.col-xs-12
-				.row.encabezado-planilla
-					.col-lg-12.col-xs-12
-						.row
-							.col-lg-2.col-xs-2
-								img.img-responsive.logo-colegio.menos-margin(ng-src="{{::perfilPath + year.logo}}" style="width: 50px;")
-							.col-lg-8.col-xs-8.title-encabezado-planilla
-								.row
-									.col-lg-12
-										.nombre-colegio
-											| {{::year.nombre_colegio + ' - ' + year.abrev_colegio}}
-										.descripcion-title
-											| Planilla asistencia padres Per{{::USER.numero_periodo}} - {{::USER.year}}.
-											b.camel  {{::grupo.nombre}}
+              .col-lg-2.col-xs-2
+                img.img-responsive.foto-profe.menos-margin(ng-src="{{::perfilPath + asignatura.foto_nombre}}" ng-show="::config.mostrar_foto && asignatura.foto_id" style="float: right; width: 70px;")
 
-							.col-lg-2.col-xs-2
-								img.img-responsive.foto-profe.menos-margin(ng-src="{{::perfilPath + asignatura.foto_nombre}}" ng-show="::config.mostrar_foto && asignatura.foto_id" style="float: right; width: 70px;")
+        .row.body-boletin
+          .col-lg-12.col-xs-12.materias(style="padding:0px")
+            .materia-item
+              table.table-bordered.table-bordered2.table-striped.table-striped2(style="margin: 0 auto; width: 100%")
+                tr(style="background-color: #99caed !important;")
+                  td(style="width: 20px; font-weight: bold;")
+                    | No
+                  td.text-center(style="font-weight: bold;")
+                    | Alumnos
+                  td.text-center(style="width: 40%; font-weight: bold;")
+                    | Acudientes
+                  td.text-center(style="width: 30%; font-weight: bold;")
+                    | Firma
 
-				.row.body-boletin
-					.col-lg-12.col-xs-12.materias(style="padding:0px")
-						.materia-item
-							table.table-bordered.table-bordered2.table-striped.table-striped2(style="margin: 0 auto; width: 100%")
-								tr(style="background-color: #99caed !important;")
-									td(style="width: 20px; font-weight: bold;")
-										| No
-									td.text-center(style="font-weight: bold;")
-										| Alumnos
-									td.text-center(style="width: 30%; font-weight: bold;")
-										| Acudientes
-									td.text-center(style="width: 40%; font-weight: bold;")
-										| Firma
-
-								tbody(style="font-size: 9pt")
-									tr.altura-tr-firma(ng-repeat="alumno in ::grupo.alumnos3")
-										td
-											| {{$index + 1 + grupo.alumnos1.length + grupo.alumnos2.length }}
-										td
-											.ellipsis250.alumno-planilla(ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative; vertical-align: middle; width: 100%;")
-												| {{::alumno.apellidos}} {{::alumno.nombres}}
-												span(ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 4px; position: absolute; background-color: white; top: -2px;")
-													| (Asis)
-										td
-											div(ng-repeat="acud in ::alumno.acudientes" style="font-size: 8pt;") {{ ::acud.parentesco }}:  {{ ::acud.nombres }} {{ ::acud.apellidos }}
-												i.fa.fa-check(ng-show="::acud.is_acudiente" style="padding-left: 2px; font-size: 6pt;")
-										td.text-center
-											.def-per-planilla
-
+                tbody(style="font-size: 9pt")
+                  tr.altura-tr-firma(ng-repeat="alumno in ::grupo.alumnos2")
+                    td
+                      | {{$index + 1 + grupo.alumnos1.length }}
+                    td
+                      .ellipsis250.alumno-planilla(ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative; vertical-align: middle; width: 100%;")
+                        | {{::alumno.apellidos}} {{::alumno.nombres}}
+                        span(ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 4px; position: absolute; background-color: white; top: -2px;")
+                          | (Asis)
+                    td
+                      div(ng-repeat="acud in ::alumno.acudientes" style="font-size: 8pt;") {{ ::acud.parentesco }}:  {{ ::acud.nombres }} {{ ::acud.apellidos }}
+                        i.fa.fa-check(ng-show="::acud.is_acudiente" style="padding-left: 2px; font-size: 6pt;")
+                    td.text-center
+                      .def-per-planilla
 
 
-									tr.altura-tr-firma
-										td
-										td
-										td
-										td
+
+                  tr.altura-tr-firma
+                    td
+                    td
+                    td
+                    td
+
+
+
+
+
+  div(ng-if="::grupo.alumnos3" ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }")
+    .row
+      .col-lg-12.col-xs-12
+        .row.encabezado-planilla
+          .col-lg-12.col-xs-12
+            .row
+              .col-lg-2.col-xs-2
+                img.img-responsive.logo-colegio.menos-margin(ng-src="{{::perfilPath + year.logo}}" style="width: 50px;")
+              .col-lg-8.col-xs-8.title-encabezado-planilla
+                .row
+                  .col-lg-12
+                    .nombre-colegio
+                      | {{::year.nombre_colegio + ' - ' + year.abrev_colegio}}
+                    .descripcion-title
+                      | Planilla asistencia padres Per{{::USER.numero_periodo}} - {{::USER.year}}.
+                      b.camel  {{::grupo.nombre}}
+
+              .col-lg-2.col-xs-2
+                img.img-responsive.foto-profe.menos-margin(ng-src="{{::perfilPath + asignatura.foto_nombre}}" ng-show="::config.mostrar_foto && asignatura.foto_id" style="float: right; width: 70px;")
+
+        .row.body-boletin
+          .col-lg-12.col-xs-12.materias(style="padding:0px")
+            .materia-item
+              table.table-bordered.table-bordered2.table-striped.table-striped2(style="margin: 0 auto; width: 100%")
+                tr(style="background-color: #99caed !important;")
+                  td(style="width: 20px; font-weight: bold;")
+                    | No
+                  td.text-center(style="font-weight: bold;")
+                    | Alumnos
+                  td.text-center(style="width: 30%; font-weight: bold;")
+                    | Acudientes
+                  td.text-center(style="width: 40%; font-weight: bold;")
+                    | Firma
+
+                tbody(style="font-size: 9pt")
+                  tr.altura-tr-firma(ng-repeat="alumno in ::grupo.alumnos3")
+                    td
+                      | {{$index + 1 + grupo.alumnos1.length + grupo.alumnos2.length }}
+                    td
+                      .ellipsis250.alumno-planilla(ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative; vertical-align: middle; width: 100%;")
+                        | {{::alumno.apellidos}} {{::alumno.nombres}}
+                        span(ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 4px; position: absolute; background-color: white; top: -2px;")
+                          | (Asis)
+                    td
+                      div(ng-repeat="acud in ::alumno.acudientes" style="font-size: 8pt;") {{ ::acud.parentesco }}:  {{ ::acud.nombres }} {{ ::acud.apellidos }}
+                        i.fa.fa-check(ng-show="::acud.is_acudiente" style="padding-left: 2px; font-size: 6pt;")
+                    td.text-center
+                      .def-per-planilla
+
+
+
+                  tr.altura-tr-firma
+                    td
+                    td
+                    td
+                    td
 
 
 

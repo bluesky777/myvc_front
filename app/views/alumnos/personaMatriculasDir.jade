@@ -18,7 +18,7 @@
 					.form-group.col-md-3.col-sm-4.col-xs-12.si-padding-left-xs(style="padding-right: 0px; min-height: 50px;" uib-tooltip="{{requisito.descripcion_titulo}}" tooltip-popup-delay="500")
 						label {{requisito.requisito}}
 
-					.form-group.col-lg-3.col-md-3.col-sm-3.si-padding-left-xs(uib-tooltip="Estadoa actual" style="padding: 0;")
+					.form-group.col-lg-3.col-md-3.col-sm-3.si-padding-left-xs(uib-tooltip="Estado actual" style="padding: 0;")
 						span.btn-group(style="padding-left: 2px; padding-top: 4px;")
 							label.btn.btn-info(ng-model="requisito.estado" uib-btn-radio="'falta'" ng-click="guardarCambioRequisito(requisito)") Falta
 							label.btn.btn-info(ng-model="requisito.estado" uib-btn-radio="'ya'" ng-click="guardarCambioRequisito(requisito)") Ya

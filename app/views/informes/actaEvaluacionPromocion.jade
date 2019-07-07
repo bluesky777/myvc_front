@@ -181,7 +181,7 @@ div(ng-repeat="grupo in ::grupos")
               table.table-bordered.table-bordered2.table-striped.table-striped2
                 tr(style="background-color: #99caed !important;")
 
-                  th.text-center(rowspan="2" style="width: 200px;")
+                  th.text-center(rowspan="2" style="width: 300px;")
                     | Concepto
                   th.text-center(rowspan="2" style="font-size: 8pt")
                     div Cantidad
@@ -189,7 +189,7 @@ div(ng-repeat="grupo in ::grupos")
                     div Masculino
                   th.text-center(colspan="2" style="font-size: 8pt")
                     div Femenino
-                  th.text-center(rowspan="2" style="font-size: 8pt; width: 200px;")
+                  th.text-center(rowspan="2" style="font-size: 8pt; width: 300px;")
                     div Concepto
                   th.text-center(rowspan="2" style="font-size: 8pt")
                     div Cantidad
@@ -222,190 +222,177 @@ div(ng-repeat="grupo in ::grupos")
 
                     td
                       | Total estudiantes que iniciaron año escolar
+                    td.text-center(ng-click="verAlumnos(grupo.cant_matri_per1)" ng-class="{'nota-sobre':grupo.cant_matri_per1_sobre }" ng-mouseenter="grupo.cant_matri_per1_sobre=true;" ng-mouseleave="grupo.cant_matri_per1_sobre=false;")
+                      b {{ ::grupo.cant_matri_per1.length }}
+                    td.text-center
+                      span {{ ::grupo.cant_matri_per1_m }}
+                    td.text-center
+                      span(ng-show="::grupo.cant_matri_per1.length>0") {{ ::(grupo.cant_matri_per1_m *100 / grupo.cant_matri_per1.length) | number:0 }}%
+                    td.text-center
+                      span {{ ::grupo.cant_matri_per1.length - grupo.cant_matri_per1_m }}
+                    td.text-center
+                      span(ng-show="::grupo.cant_matri_per1.length>0") {{ ::(( (grupo.cant_matri_per1.length - grupo.cant_matri_per1_m) *100) / grupo.cant_matri_per1.length) | number:0 }}%
                     td
-                      | {{  }}
+                      span Estudiantes promovidos con
+                      b  cero (0)
+                      span  asignaturas pendientes
                     td.text-center
-                      span {{  }}
+                      | {{ ::grupo.promovidos_0_perdidas }}
                     td.text-center
-                      span {{  }}
+                      span {{ ::grupo.promovidos_0_perdidas_m }}
                     td.text-center
-                      span {{  }}
+                      span(ng-show="::grupo.promovidos_0_perdidas>0") {{ ::(grupo.promovidos_0_perdidas_m *100 / grupo.promovidos_0_perdidas) | number:0 }}%
                     td.text-center
-                      span {{  }}
-                    td
-                      span Estudiantes promovidos con cero (0) asignaturas pendientes
-                    td
-                      | {{  }}
+                      span {{ ::grupo.promovidos_0_perdidas_f }}
                     td.text-center
-                      span {{  }}
-                    td.text-center
-                      span {{  }}
-                    td.text-center
-                      span {{  }}
-                    td.text-center
-                      span {{  }}
+                      spann(ng-show="::grupo.promovidos_0_perdidas>0") {{ ::(grupo.promovidos_0_perdidas_f *100 / grupo.promovidos_0_perdidas) | number:0 }}%
 
                   tr
 
                     td
-                      | Estudiantes  que ingresaron durante el año escolar
+                      | Estudiantes que ingresaron durante el año escolar
+                    td.text-center
+                      | {{ ::grupo.cant_matri_despues }}
+                    td.text-center
+                      span {{ ::grupo.cant_matri_despues_m }}
+                    td.text-center
+                      span(ng-show="::grupo.cant_matri_despues>0") {{ ::(grupo.cant_matri_despues_m *100 / grupo.cant_matri_despues ) | number:0 }}%
+                    td.text-center
+                      span {{ ::grupo.cant_matri_despues - grupo.cant_matri_despues_m }}
+                    td.text-center
+                      span(ng-show="::grupo.cant_matri_despues>0") {{ ::(( (grupo.cant_matri_despues - grupo.cant_matri_despues_m) *100) / grupo.cant_matri_despues) | number:0 }}%
                     td
-                      | {{  }}
+                      span Estudiantes promovidos con
+                      b  una (1)
+                      span  asignatura  pendiente
                     td.text-center
-                      span {{  }}
+                      | {{ ::grupo.promovidos_1_perdidas }}
                     td.text-center
-                      span {{  }}
+                      span {{ ::grupo.promovidos_1_perdidas_m }}
                     td.text-center
-                      span {{  }}
+                      span(ng-show="::grupo.promovidos_1_perdidas>0") {{ ::(grupo.promovidos_1_perdidas_m *100 / grupo.promovidos_1_perdidas) | number:0 }}%
                     td.text-center
-                      span {{  }}
-                    td
-                      span Estudiantes promovidos con una (1) asignatura  pendiente
-                    td
-                      | {{  }}
+                      span {{ ::grupo.promovidos_1_perdidas_f }}
                     td.text-center
-                      span {{  }}
-                    td.text-center
-                      span {{  }}
-                    td.text-center
-                      span {{  }}
-                    td.text-center
-                      span {{  }}
+                      span(ng-show="::grupo.promovidos_1_perdidas>0") {{ ::(grupo.promovidos_1_perdidas_f *100 / grupo.promovidos_1_perdidas) | number:0 }}%
 
                   tr
 
                     td
                       | Estudiantes que terminaron el año escolar
+                    td.text-center(ng-click="verAlumnos(grupo.cant_terminaron)"
+                      ng-class="{'nota-sobre':grupo.cant_terminaron_sobre }" ng-mouseenter="grupo.cant_terminaron_sobre=true;" ng-mouseleave="grupo.cant_terminaron_sobre=false;")
+                      | {{ ::grupo.cant_terminaron.length }}
+                    td.text-center
+                      span {{ ::grupo.cant_terminaron_m }}
+                    td.text-center
+                      span(ng-show="::grupo.cant_terminaron.length>0") {{ ::(grupo.cant_terminaron_m *100 / grupo.cant_terminaron.length) | number:0 }}%
+                    td.text-center
+                      span {{ ::grupo.cant_terminaron_f }}
+                    td.text-center
+                      span(ng-show="::grupo.cant_terminaron.length>0") {{ ::(grupo.cant_terminaron_f *100 / grupo.cant_terminaron.length) | number:0 }}%
                     td
-                      | {{  }}
+                      span Estudiantes no promovidos con
+                      b  dos (2)
+                      span  asignaturas pendientes
                     td.text-center
-                      span {{  }}
+                      | {{ ::grupo.no_promovidos_2_perdidas }}
                     td.text-center
-                      span {{  }}
+                      span {{ ::grupo.no_promovidos_2_perdidas_m }}
                     td.text-center
-                      span {{  }}
+                      span(ng-show="::grupo.no_promovidos_2_perdidas>0") {{ ::(grupo.promovidos_2_perdidas_m *100 / grupo.no_promovidos_2_perdidas) | number:0 }}%
                     td.text-center
-                      span {{  }}
-                    td
-                      span Estudiantes no promovidos con dos (2) asignaturas pendientes
-                    td
-                      | {{  }}
+                      span {{ ::grupo.no_promovidos_2_perdidas_f }}
                     td.text-center
-                      span {{  }}
-                    td.text-center
-                      span {{  }}
-                    td.text-center
-                      span {{  }}
-                    td.text-center
-                      span {{  }}
+                      span(ng-show="::grupo.no_promovidos_2_perdidas>0") {{ ::(grupo.promovidos_2_perdidas_f *100 / grupo.no_promovidos_2_perdidas) | number:0 }}%
 
                   tr
 
                     td
                       | Estudiantes desertores durante el año (no retiraron documentación)
+                    td.text-center
+                      | {{ ::grupo.cant_desertores }}
+                    td.text-center
+                      span {{ ::grupo.cant_desertores_m }}
+                    td.text-center
+                      span(ng-show="::grupo.cant_desertores>0") {{ ::(grupo.cant_desertores_m *100 / grupo.cant_desertores) | number:0 }}%
+                    td.text-center
+                      span {{ ::grupo.cant_desertores_f }}
+                    td.text-center
+                      span(ng-show="::grupo.cant_desertores>0") {{ ::(grupo.cant_desertores_f *100 / grupo.cant_desertores) | number:0 }}%
                     td
-                      | {{  }}
+                      span Estudiantes no promovidos con
+                      b  tres (3)
+                      span  asignaturas pendientes
                     td.text-center
-                      span {{  }}
+                      | {{ ::grupo.no_promovidos_3_perdidas }}
                     td.text-center
-                      span {{  }}
+                      span {{ ::grupo.no_promovidos_3_perdidas_m }}
                     td.text-center
-                      span {{  }}
+                      spann(ng-show="::(grupo.no_promovidos_3_perdidas) > 0") {{ ::(grupo.no_promovidos_3_perdidas_m *100 / grupo.no_promovidos_3_perdidas) | number:0 }}%
                     td.text-center
-                      span {{  }}
-                    td
-                      span Estudiantes no promovidos con tres (3) asignaturas pendientes
-                    td
-                      | {{  }}
+                      span {{ ::grupo.no_promovidos_3_perdidas_f }}
                     td.text-center
-                      span {{  }}
-                    td.text-center
-                      span {{  }}
-                    td.text-center
-                      span {{  }}
-                    td.text-center
-                      span {{  }}
+                      span(ng-show="::(grupo.no_promovidos_3_perdidas) > 0") {{ ::(grupo.no_promovidos_3_perdidas_f *100 / grupo.no_promovidos_3_perdidas) | number:0 }}%
 
                   tr
 
                     td
                       | Estudiantes retirados (retiraron documentación)
+                    td.text-center
+                      | {{ ::grupo.cant_retirados }}
+                    td.text-center
+                      span {{ ::grupo.cant_retirados_m }}
+                    td.text-center
+                      span(ng-show="::grupo.cant_retirados>0") {{ ::(grupo.cant_retirados_m *100 / grupo.cant_retirados) | number:0 }}%
+                    td.text-center
+                      span {{ ::grupo.cant_retirados_f }}
+                    td.text-center
+                      span(ng-show="::grupo.cant_retirados>0") {{ ::(grupo.cant_retirados_f *100 / grupo.cant_retirados) | number:0 }}%
                     td
-                      | {{  }}
+                      span Estudiantes no promovidos con
+                      b  cuatro (4)
+                      span  o más asignaturas pendientes
                     td.text-center
-                      span {{  }}
+                      | {{ ::grupo.no_promovidos_4_perdidas }}
                     td.text-center
-                      span {{  }}
+                      span {{ ::grupo.no_promovidos_4_perdidas_m }}
                     td.text-center
-                      span {{  }}
+                      span(ng-show="::(grupo.no_promovidos_4_perdidas) > 0") {{ ::(grupo.no_promovidos_4_perdidas_m *100 / grupo.no_promovidos_4_perdidas) | number:0 }}%
                     td.text-center
-                      span {{  }}
-                    td
-                      span Estudiantes no promovidos con cuatro (4) o más asignaturas pendientes
-                    td
-                      | {{  }}
+                      span {{ ::grupo.no_promovidos_4_perdidas_f }}
                     td.text-center
-                      span {{  }}
-                    td.text-center
-                      span {{  }}
-                    td.text-center
-                      span {{  }}
-                    td.text-center
-                      span {{  }}
+                      span(ng-show="::(grupo.no_promovidos_4_perdidas) > 0") {{ ::(grupo.no_promovidos_4_perdidas_f *100 / grupo.no_promovidos_4_perdidas) | number:0 }}%
 
                   tr
 
-                    td
-                      | {{ }}
-                    td
-                      | {{  }}
+                    td(style="height: 30px;")
+                      span Total estudiantes
+                      b  PROMOVIDOS
                     td.text-center
-                      span {{  }}
+                      | {{ ::grupo.promovidos_0_perdidas + grupo.promovidos_1_perdidas }}
                     td.text-center
-                      span {{  }}
+                      span {{ ::grupo.promovidos_0_perdidas_m + grupo.promovidos_1_perdidas_m }}
                     td.text-center
-                      span {{  }}
+                      span(ng-show="::(grupo.promovidos_0_perdidas + grupo.promovidos_1_perdidas) > 0") {{ ::( (grupo.promovidos_0_perdidas_m + grupo.promovidos_1_perdidas_m) *100 / grupo.promovidos_0_perdidas + grupo.promovidos_1_perdidas) | number:0 }}%
                     td.text-center
-                      span {{  }}
-                    td
-                      span Total de estudiantes NO promovidos
-                    td
-                      | {{  }}
+                      span {{ ::grupo.promovidos_0_perdidas_f + grupo.promovidos_1_perdidas_f }}
                     td.text-center
-                      span {{  }}
-                    td.text-center
-                      span {{  }}
-                    td.text-center
-                      span {{  }}
-                    td.text-center
-                      span {{  }}
+                      span(ng-show="::(grupo.promovidos_0_perdidas + grupo.promovidos_1_perdidas) > 0") {{ ::( (grupo.promovidos_0_perdidas_f + grupo.promovidos_1_perdidas_f) *100 / (grupo.promovidos_0_perdidas + grupo.promovidos_1_perdidas)) | number:0 }}%
 
-                  tr
-
-                    td
-                      | {{ }}
-                    td
-                      | {{  }}
+                    td(style="height: 30px;")
+                      span Total de estudiantes
+                      b  NO PROMOVIDOS
                     td.text-center
-                      span {{  }}
+                      | {{ ::grupo.no_promovidos_2_perdidas + grupo.no_promovidos_3_perdidas + grupo.no_promovidos_4_perdidas }}
                     td.text-center
-                      span {{  }}
+                      span {{ ::grupo.no_promovidos_2_perdidas_m + grupo.no_promovidos_3_perdidas_m + grupo.no_promovidos_4_perdidas_m }}
                     td.text-center
-                      span {{  }}
+                      span(ng-show="::(grupo.no_promovidos_2_perdidas + grupo.no_promovidos_3_perdidas + grupo.no_promovidos_4_perdidas) > 0") {{ ::((grupo.no_promovidos_2_perdidas_m + grupo.no_promovidos_3_perdidas_m + grupo.no_promovidos_4_perdidas_m) *100 / (grupo.no_promovidos_2_perdidas + grupo.no_promovidos_3_perdidas + grupo.no_promovidos_4_perdidas)) | number:0 }}%
                     td.text-center
-                      span {{  }}
-                    td
-                      span Total estudiantes promovidos
-                    td
-                      | {{  }}
+                      span {{ ::grupo.no_promovidos_2_perdidas_f + grupo.no_promovidos_3_perdidas_f + grupo.no_promovidos_4_perdidas_f }}
                     td.text-center
-                      span {{  }}
-                    td.text-center
-                      span {{  }}
-                    td.text-center
-                      span {{  }}
-                    td.text-center
-                      span {{  }}
+                      span(ng-show="::(grupo.no_promovidos_2_perdidas + grupo.no_promovidos_3_perdidas + grupo.no_promovidos_4_perdidas) > 0") {{ ::((grupo.no_promovidos_2_perdidas_f + grupo.no_promovidos_3_perdidas_f + grupo.no_promovidos_4_perdidas_f) *100 / (grupo.no_promovidos_2_perdidas + grupo.no_promovidos_3_perdidas + grupo.no_promovidos_4_perdidas)) | number:0 }}%
 
 
 
@@ -414,7 +401,7 @@ div(ng-repeat="grupo in ::grupos")
 
 
           // Tabla de cantidades por periodos
-          .col-lg-12.col-xs-12.materias(style="padding:0px")
+          //.col-lg-12.col-xs-12.materias(style="padding:0px")
             .materia-item
               table.table-bordered.table-bordered2.table-striped.table-striped2
                 tr(style="background-color: #99caed !important;")
@@ -436,8 +423,9 @@ div(ng-repeat="grupo in ::grupos")
                   tr
                     td.text-center(style="width: 65px;")
                       | Per 1
-                    td.text-center(style="width: 65px;")
-                      | {{}}
+                    td.text-center.puntero(style="width: 65px;" ng-click="verAlumnos(grupo.cant_matri_per1)"
+                      ng-class="{'nota-sobre':grupo.cant_matri_per1_sobre }" ng-mouseenter="grupo.cant_matri_per1_sobre=true;" ng-mouseleave="grupo.cant_matri_per1_sobre=false;")
+                      | {{ ::grupo.cant_matri_per1.length }}
                     td.text-center(style="width: 65px;")
                       | {{}}
                     td.text-center(style="width: 65px;")
