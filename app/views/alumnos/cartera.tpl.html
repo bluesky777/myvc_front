@@ -16,7 +16,10 @@
               </ui-select-choices>
             </ui-select></span></div>
       </div>
-      <div style="margin: 20px 0px;"><a ng-click="traerSoloDeudores()" href="">Traer todos los deudores</a></div>
+      <div style="margin: 20px 0px;" class="row">
+        <div class="col-xs-12 col-sm-5"><a ng-click="traerSoloDeudores()" href="">Cargar todos los deudores</a></div>
+        <div class="col-xs-12 col-sm-7"><a ng-click="exportarSoloDeudores()" href=""><i class="fa fa-file"></i> Exportar deudores a Excel</a></div>
+      </div>
       <div style="min-height: 40px; border: 1px solid #ccc; margin-bottom: 10px; padding: 4px;">
         <div ng-hide="getSelectedRows().length &gt; 0" style="padding-left: 5px; padding-top: 5px;">Seleccione alumnos y aparecerán aquí varias opciones.</div>
         <div ng-show="getSelectedRows().length &gt; 0"><a ng-click="cambiarValorVarios(true, 'pazysalvo')" href="" style="margin-top: 5px; padding-right: 10px; display: inline-block; ">Establecer a paz y salvo</a><a ng-click="cambiarValorVarios(false, 'pazysalvo')" href="" style="margin-top: 5px; padding-right: 10px; display: inline-block; ">- Establecer como deudor</a><span style="padding-right: 10px; display: inline-block; ">
@@ -24,11 +27,13 @@
             <input type="date" style="margin-top: 5px; width: 130px;" ng-model="valorFecha"><a ng-click="cambiarValorVarios(valorFecha, 'fecha_pension')" href="">Cambiar fecha</a></span></div>
       </div>
       <div id="grid1" ui-grid="gridOptions" ui-grid-exporter ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-selection ui-grid-auto-resize style="height: 700px" class="grid"></div>
-      <button ng-click="imprimir()" class="btn btn-default"><i class="glyphicon glyphicon-print"></i>Imprimir</button>
+      <button ng-click="ver_indorme_listado_deudores()" class="btn btn-default">Ver listado deudores</button>
+      <button ng-show="viendo_informe_list_deudores" ng-click="imprimir()" class="btn btn-default"><i class="glyphicon glyphicon-print"></i>Imprimir</button>
     </div>
   </div>
 </div>
-<div ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }" class="show-on-print">
+<!-- Informe listado deudores-->
+<div ng-show="viendo_informe_list_deudores" ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': config.orientacion=='oficio_horizontal','page-vertical': config.orientacion=='vertical', 'salto-pagina': $last==false }">
   <div class="row">
     <div class="col-lg-12 col-xs-12">
       <div class="row encabezado-planilla">

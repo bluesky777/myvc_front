@@ -7,7 +7,6 @@ angular.module('myvcFrontApp')
 
 		deferred  = $q.defer()
 		$http.get(url, { responseType: "blob" }).then( (data)->
-				console.log 'Entraaaaaa', data
 				type          = data.headers('Content-Type');
 				disposition   = data.headers('Content-Disposition');
 				if (disposition)

@@ -49,7 +49,7 @@
                       <div ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative; vertical-align: middle; width: 100%;" class="ellipsis250 alumno-planilla">{{::alumno.apellidos}} {{::alumno.nombres}}<span ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 4px; position: absolute; background-color: white; top: -2px;">(Asis)</span><span ng-show="alumno.estado=='PREM'" style="font-size: 8pt; right: 4px; position: absolute; background-color: white; top: -2px;">(Prem)</span></div>
                     </td>
                     <td>
-                      <div ng-repeat="acud in ::alumno.acudientes" style="font-size: 8pt;">{{ ::acud.parentesco }}:<b> {{ ::acud.nombres }} {{ ::acud.apellidos }}</b><i ng-show="::acud.is_acudiente" style="padding-left: 2px; font-size: 6pt;" class="fa fa-check"></i><span ng-show="acud.celular || acud.telefono"> ({{acud.celular}} - {{acud.telefono}})</span><span ng-show="acud.email"> - {{acud.email}}</span></div>
+                      <div ng-repeat="acud in ::alumno.acudientes" style="font-size: 8pt;">{{ ::acud.parentesco }}:<b> {{ ::acud.nombres }} {{ ::acud.apellidos }}</b><i ng-show="::acud.is_acudiente" style="padding-left: 2px; font-size: 6pt;" class="fa fa-check"></i><span ng-show="acud.celular || acud.telefono"> ({{acud.celular}} - {{acud.telefono}})</span><span ng-show="acud.email"> {{acud.email}}</span></div>
                     </td>
                     <td class="text-center">
                       <div class="def-per-planilla"></div>

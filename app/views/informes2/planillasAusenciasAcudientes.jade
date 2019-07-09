@@ -69,7 +69,7 @@ div(ng-repeat="grupo in ::grupos_acud")
                         b  {{ ::acud.nombres }} {{ ::acud.apellidos }}
                         i.fa.fa-check(ng-show="::acud.is_acudiente" style="padding-left: 2px; font-size: 6pt;")
                         span(ng-show="acud.celular || acud.telefono")  ({{acud.celular}} - {{acud.telefono}})
-                        span(ng-show="acud.email")  - {{acud.email}}
+                        span(ng-show="acud.email")  {{acud.email}}
 
                     td.text-center
                       .def-per-planilla
