@@ -416,7 +416,7 @@ angular.module("myvcFrontApp")
       return
 
     if !row.id
-      toastr.info 'Sólo con acudientes creados'
+      toastr.info 'Solo con acudientes creados'
       return
 
     $http.post('::acudientes/crear-usuario', {acudiente: row}).then((r)->

@@ -1,62 +1,113 @@
 .login-container.animated.rotateIn
-	.loginbox.bg-white
-		.loginbox-title Entrar
-		.loginbox-social
-			.social-title Bienvenido a tu Virtual College
-			small
-				img(ng-src="{{logoPath}}" alt="")
+  .loginbox.bg-white(style="{{estilo_login}}")
+    .loginbox-title Entrar
+    .loginbox-social
+      .social-title Bienvenido a tu Virtual College
+      small
+        img(ng-src="{{logoPath}}" alt="")
 
-		.loginbox-or
-			.or-line
-			.or Datos
-		form(ng-submit="login(credentials)" name="loginForm")
-			.loginbox-textbox
-				input.form-control(type='text', placeholder='Usuario' ng-model="credentials.username" autofocus)
-			.loginbox-textbox
-				input.form-control(type='password', placeholder='Contraseña' ng-model="credentials.password")
-			.loginbox-forgot
-				a(href='' ng-click="olvida_pass = !olvida_pass") ¿Olvidaste tu contraseña?
-			.loginbox-submit
-				input.btn.btn-primary.btn-block(type='submit', value='Entrar')
-			.loginbox-signup
-				a(href='www.micolevirtual.com') MyVC
-		.logobox
-			.loginbox-title
-				a(href='http://lalvirtual.com/lal/' ng-if="host=='lalvirtual.com' || host=='localhost'") Ir a años anteriores
+    span(ng-show="!mostrando_prematricular")
+      .loginbox-or
+        .or-line
+        .or Datos
+      form(ng-submit="login(credentials)" name="loginForm")
+        .loginbox-textbox
+          input.form-control(type='text', placeholder='Usuario' ng-model="credentials.username" autofocus)
+        .loginbox-textbox
+          input.form-control(type='password', placeholder='Contraseña' ng-model="credentials.password")
+        .loginbox-forgot
+          a(href='' ng-click="olvida_pass = !olvida_pass") ¿Olvidaste tu contraseña?
+        .loginbox-submit
+          input.btn.btn-primary.btn-block.shiny(type='submit', value='Entrar')
+        .loginbox-signup
+          a(href='www.micolevirtual.com') MyVC
+      .logobox
+        .loginbox-title
+          a(ng-click='ir_prematricular()' href="" ng-if="year.prematr_nuevos == 1") Prematrícular {{ year.year + 1 }}
 
-				.loginbox-textbox(style="background-color: #fff; padding: 10px" ng-show="olvida_pass")
-					form(ng-submit="enviarPass(correo_electronico)")
-						input.form-control(type='email' style="margin-bottom: 6px" placeholder='Correo electrónico' ng-model="correo_electronico")
-						button.btn.btn-primary(type="submit") Restaurar contraseña
+          .loginbox-textbox(style="background-color: #fff; padding: 10px" ng-show="olvida_pass")
+            form(ng-submit="enviarPass(correo_electronico)")
+              input.form-control(type='email' style="margin-bottom: 6px" placeholder='Correo electrónico' ng-model="correo_electronico")
+              button.btn.btn-primary(type="submit") Restaurar contraseña
+
+
+    span(ng-show="mostrando_prematricular")
+      .loginbox-or
+        .or-line
+        .or(style="left: calc(50% - 65px); width: auto") Prematricular nuevo
+      form(ng-submit="login(credentials)" name="loginForm")
+        .loginbox-textbox
+          input.form-control(type='text', placeholder='Nombre' ng-model="credentials.nombres")
+        .loginbox-textbox
+          input.form-control(type='text', placeholder='Apellidos' ng-model="credentials.apellidos")
+
+        .loginbox-textbox
+          .row
+            .col-lg-6.col-sm-6.col-xs-12
+              .radio
+                label
+                  input.inverted(type="radio" name="sexo" value="M" ng-model="credentials.sexo")
+                  span.text Masculino
+            .col-lg-6.col-sm-6.col-xs-12
+              .radio
+                label
+                  input.inverted(type="radio" name="sexo" value="F" ng-model="credentials.sexo")
+                  span.text Femenino
+
+
+        .loginbox-textbox
+          span(uib-tooltip="Grupo para el año {{year.year+1}}" tooltip-placement="top" tooltip-popup-delay="400")
+            ui-select(ng-model="year.grupo_prematr" theme="select2" style="width: 100%;")
+              ui-select-match(placeholder="Grupo a prematricular" allow-clear="true") {{$select.selected.nombre}}
+              ui-select-choices(repeat="grupo in year.grados_sig | filter: $select.search")
+                div(ng-bind-html="grupo.nombre | highlight: $select.search")
+
+        .loginbox-textbox
+          input.form-control(type='text', placeholder='Celular' uib-tooltip="Celulares" ng-model="credentials.celular")
+
+        .loginbox-textbox
+          input.form-control(type='text', placeholder='Documento' uib-tooltip="Documento de identidad" ng-model="credentials.documento")
+
+        .loginbox-submit
+          button.btn.btn-primary.btn-block.shiny(type='button' ng-click="guardar_prematricula()")
+            i.fa.fa-save
+            | Prematricular
+
+      .logobox
+        .loginbox-title
+          a(ng-click='ir_prematricular()' href="" ng-if="year.prematr_nuevos == 1") Volver
+
+
+
 
 .row(ng-show="publicaciones.length > 0" style="display: flex; justify-content: center; align-items: center; " ng-class="{'mg-top-120': olvida_pass}")
-	.col-sm-8.col-xs-12
-		.widget(ng-repeat="publicacion_actual in publicaciones")
-			.widget-body
-				.widget-main.no-padding
+  .col-sm-8.col-xs-12
+    .widget(ng-repeat="publicacion_actual in publicaciones")
+      .widget-body
+        .widget-main.no-padding
 
-					.row
-						.col-xs-12
-							// Publicaciones actuales
-							div.publicacion-actual(style="margin-right: 8px; margin-top: 10px;")
+          .row
+            .col-xs-12
+              // Publicaciones actuales
+              div.publicacion-actual(style="margin-right: 8px; margin-top: 10px;")
 
-								div
-									.sin-focus(ng-click="verPublicacionDetalle(publicacion_actual)")
-										img(ng-if="publicacion_actual.foto_autor" ng-src="{{ perfilPath + publicacion_actual.foto_autor }}" style="width: 50px;")
-										span(style="font-weght: bold") {{ publicacion_actual.nombre_autor }}
-										span(style="font-style: italic; color: #999; float: right;")  {{ publicacion_actual.created_at }}
+                div
+                  .sin-focus(ng-click="verPublicacionDetalle(publicacion_actual)")
+                    img(ng-if="publicacion_actual.foto_autor" ng-src="{{ perfilPath + publicacion_actual.foto_autor }}" style="width: 50px;")
+                    span(style="font-weght: bold") {{ publicacion_actual.nombre_autor }}
+                    span(style="font-style: italic; color: #999; float: right;")  {{ publicacion_actual.created_at }}
 
-										.texto-publicacion-acompa(ng-bind-html="publicacion_actual.contenido" ng-if="publicacion_actual.imagen_nombre && publicacion_actual.contenido.length>0")
+                    .texto-publicacion-acompa(ng-bind-html="publicacion_actual.contenido" ng-if="publicacion_actual.imagen_nombre && publicacion_actual.contenido.length>0")
 
-										.texto-publicacion-solo(ng-if="!publicacion_actual.imagen_nombre")
-											div(ng-bind-html="publicacion_actual.contenido")
+                    .texto-publicacion-solo(ng-if="!publicacion_actual.imagen_nombre")
+                      div(ng-bind-html="publicacion_actual.contenido")
 
-									div(ng-if="publicacion_actual.imagen_nombre" style="overflow: auto; max-height: 500px;")
-										img(ng-src="{{ perfilPath + publicacion_actual.imagen_nombre }}" style="width: 100%;"
-											ng-click="abrirImagenBlank(perfilPath + publicacion_actual.imagen_nombre);")
+                  div(ng-if="publicacion_actual.imagen_nombre" style="overflow: auto; max-height: 500px;")
+                    img(ng-src="{{ perfilPath + publicacion_actual.imagen_nombre }}" style="width: 100%;"
+                      ng-click="abrirImagenBlank(perfilPath + publicacion_actual.imagen_nombre);")
 
 
-									div(style="margin-top: 10px;" ng-click="verPublicacionDetalle(publicacion_actual)")
-										a(href="") {{ publicacion_actual.comentarios }} comentarios.
+                  div(style="margin-top: 10px;" ng-click="verPublicacionDetalle(publicacion_actual)")
+                    a(href="") {{ publicacion_actual.comentarios }} comentarios.
 
 

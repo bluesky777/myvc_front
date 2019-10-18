@@ -39,14 +39,14 @@
           </div>
         </div>
       </div>
-      <div class="form-group col-lg-3 col-sm-3 col-xs-12">
+      <div ng-if="!hasRoleOrPerm(['alumno'])" class="form-group col-lg-3 col-sm-3 col-xs-12">
         <label for="alumno-celular">Celular</label>
         <input id="alumno-celular" type="text" ng-model="alumno.celular" placeholder="Celular" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }" ng-change="guardarValor(alumno, 'celular', alumno.celular)" class="form-control">
       </div>
       <div class="form-group col-lg-3 col-sm-3 col-xs-12">
         <div ng-click="cambiarGrupo()" ng-class="{'etiqueta-repitente': !alumno.is_active }" uib-tooltip="Si coloca desactivado, el estudiante no podrá ingresar al sistema con su usuario y contraseña." tooltip-popup-delay="100" style="margin: 20px 0px;" class="etiqueta-alumno"><span ng-show="alumno.is_active"> Activo</span><span ng-show="!alumno.is_active"> Desactivado</span></div>
       </div>
-      <div class="form-group col-lg-3 col-md-4 col-sm-3 col-xs-12">
+      <div ng-if="!hasRoleOrPerm(['alumno', 'acudiente'])" class="form-group col-lg-3 col-md-4 col-sm-3 col-xs-12">
         <label for="alumno-no-matr">Número Matrícula</label>
         <input id="alumno-no-matr" type="text" ng-model="alumno.no_matricula" placeholder="Número de matrícula" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }" ng-change="guardarValor(alumno, 'no_matricula', alumno.no_matricula)" class="form-control">
       </div>
@@ -57,7 +57,7 @@
       </div>
     </div>
     <hr>
-    <div class="row">
+    <div ng-if="!hasRoleOrPerm(['alumno', 'acudiente'])" class="row">
       <div style="margin-top: 15px;" class="form-group col-lg-3 col-sm-3"><span style="border: 1px solid #ccc; border-radius: 4px; padding: 15px;">
           <label>Paz y salvo</label>
           <label><a ng-class="{'btn-info':alumno.pazysalvo, 'btn-warning':!alumno.pazysalvo }" ng-click="cambiarPazysalvo(alumno);" uib-tooltip="NO está al día" href="" tooltip-enable="!alumno.pazysalvo" ng-model="alumno.pazysalvo" class="btn"><i ng-hide="alumno.pazysalvo" class="fa fa-times"></i><i ng-show="alumno.pazysalvo" class="fa fa-check"></i><span ng-hide="alumno.pazysalvo">No</span><span ng-show="alumno.pazysalvo">Si</span></a></label></span></div>

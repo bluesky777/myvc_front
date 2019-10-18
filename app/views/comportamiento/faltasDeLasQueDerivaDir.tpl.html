@@ -11,10 +11,10 @@
     <div>Deriva de las siguientes faltas (PERIODO 1):</div>
     <!-- Si es tipo 2 o 3, siempre mostramos las tipo 1-->
     <div ng-show="falta_edit.tipo_situacion==2" class="btn-group">
-      <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo1 | filter:{ 'tipo_situacion': 1 }" uib-btn-checkbox uib-tooltip="Per1 - t{{situac.tipo_situacion}}: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t1: {{ situac.descripcion }}</label>
+      <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo1 | filter:{ 'tipo_situacion': 1 }" uib-btn-checkbox ng-click="clickSituacionDerivante(situac)" uib-tooltip="Per1 - t{{situac.tipo_situacion}}: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t1: {{ situac.descripcion }}</label>
     </div>
     <div ng-show="falta_edit.tipo_situacion==3" class="btn-group">
-      <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo1 | filter:{'tipo_situacion': 2 }" uib-btn-checkbox uib-tooltip="Per1 - t{{situac.tipo_situacion}}: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t2: {{ situac.descripcion }}</label>
+      <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo1 | filter:{'tipo_situacion': 2 }" uib-btn-checkbox ng-click="clickSituacionDerivante(situac)" uib-tooltip="Per1 - t{{situac.tipo_situacion}}: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t2: {{ situac.descripcion }}</label>
     </div>
     <div ng-show="alumno.periodo1.length==0" class="italic">No tiene faltas en el periodo 1</div>
     <!-- Las faltas del periodo 2 aparecerán en el periodo 2, 3 y 4-->
@@ -22,10 +22,10 @@
       <div>Deriva de las siguientes faltas (PERIODO 2):</div>
       <!-- Si es tipo 2 o 3, siempre mostramos las tipo 1-->
       <div ng-show="falta_edit.tipo_situacion==2" class="btn-group">
-        <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo2 | filter:{ 'tipo_situacion': 1 }" uib-btn-checkbox uib-tooltip="Per2 - t1: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t1: {{ situac.descripcion }}</label>
+        <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo2 | filter:{ 'tipo_situacion': 1 }" uib-btn-checkbox ng-click="clickSituacionDerivante(situac)" uib-tooltip="Per2 - t1: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t1: {{ situac.descripcion }}</label>
       </div>
       <div ng-show="falta_edit.tipo_situacion==3" class="btn-group">
-        <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo2 | filter:{'tipo_situacion': 2 }" uib-btn-checkbox uib-tooltip="Per2 - t2: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t2: {{ situac.descripcion }}</label>
+        <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo2 | filter:{'tipo_situacion': 2 }" uib-btn-checkbox ng-click="clickSituacionDerivante(situac)" uib-tooltip="Per2 - t2: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t2: {{ situac.descripcion }}</label>
       </div>
       <div ng-show="alumno.periodo2.length==0">No tiene faltas en el periodo 2</div>
     </div>
@@ -34,10 +34,10 @@
       <div>Deriva de las siguientes faltas (PERIODO 3):</div>
       <!-- Si es tipo 2 o 3, siempre mostramos las tipo 1-->
       <div ng-show="falta_edit.tipo_situacion==2" class="btn-group">
-        <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo3 | filter:{ 'tipo_situacion': 1 }" uib-btn-checkbox uib-tooltip="Per3 - t1: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t1: {{ situac.descripcion }}</label>
+        <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo3 | filter:{ 'tipo_situacion': 1 }" uib-btn-checkbox ng-click="clickSituacionDerivante(situac)" uib-tooltip="Per3 - t1: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t1: {{ situac.descripcion }}</label>
       </div>
       <div ng-show="falta_edit.tipo_situacion==3" class="btn-group">
-        <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo3 | filter:{'tipo_situacion': 2 }" uib-btn-checkbox uib-tooltip="Per3 - t2: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t2: {{ situac.descripcion }}</label>
+        <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo3 | filter:{'tipo_situacion': 2 }" uib-btn-checkbox ng-click="clickSituacionDerivante(situac)" uib-tooltip="Per3 - t2: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t2: {{ situac.descripcion }}</label>
       </div>
       <div ng-show="alumno.periodo3.length==0">No tiene faltas en el periodo 3</div>
     </div>
@@ -46,10 +46,10 @@
       <div>Deriva de las siguientes faltas (PERIODO 4):</div>
       <!-- Si es tipo 2 o 3, siempre mostramos las tipo 1-->
       <div ng-show="falta_edit.tipo_situacion==2" class="btn-group">
-        <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo4 | filter:{ 'tipo_situacion': 1 }" uib-btn-checkbox uib-tooltip="Per4 - t1: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t1: {{ situac.descripcion }}</label>
+        <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo4 | filter:{ 'tipo_situacion': 1 }" uib-btn-checkbox ng-click="clickSituacionDerivante(situac)" uib-tooltip="Per4 - t1: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t1: {{ situac.descripcion }}</label>
       </div>
       <div ng-show="falta_edit.tipo_situacion==3" class="btn-group">
-        <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo4 | filter:{'tipo_situacion': 2 }" uib-btn-checkbox uib-tooltip="Per4 - t2: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t2: {{ situac.descripcion }}</label>
+        <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo4 | filter:{'tipo_situacion': 2 }" uib-btn-checkbox ng-click="clickSituacionDerivante(situac)" uib-tooltip="Per4 - t2: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t2: {{ situac.descripcion }}</label>
       </div>
       <div ng-show="alumno.periodo4.length==0">No tiene faltas en el periodo 4</div>
     </div>
@@ -59,10 +59,10 @@
       <div>Deriva de las siguientes faltas (PERIODO 1):</div>
       <!-- Si es tipo 2 o 3, siempre mostramos las tipo 1-->
       <div ng-show="falta_edit.tipo_situacion==2" class="btn-group">
-        <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo1 | filter:{ 'tipo_situacion': 1 }" uib-btn-checkbox uib-tooltip="Per1 - t1: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t1: {{ situac.descripcion }}</label>
+        <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo1 | filter:{ 'tipo_situacion': 1 }" uib-btn-checkbox ng-click="clickSituacionDerivante(situac)" uib-tooltip="Per1 - t1: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t1: {{ situac.descripcion }}</label>
       </div>
       <div ng-show="falta_edit.tipo_situacion==3" class="btn-group">
-        <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo1 | filter:{ 'tipo_situacion': 2 }" uib-btn-checkbox uib-tooltip="Per1 - t2: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t2: {{ situac.descripcion }}</label>
+        <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo1 | filter:{ 'tipo_situacion': 2 }" uib-btn-checkbox ng-click="clickSituacionDerivante(situac)" uib-tooltip="Per1 - t2: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t2: {{ situac.descripcion }}</label>
       </div>
       <div ng-show="alumno.periodo1.length==0">No tiene faltas en el periodo 1</div>
     </div>
@@ -70,10 +70,10 @@
       <div>Deriva de las siguientes faltas (PERIODO 2):</div>
       <!-- Si es tipo 2 o 3, siempre mostramos las tipo 1-->
       <div ng-show="falta_edit.tipo_situacion==2" class="btn-group">
-        <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo2 | filter:{ 'tipo_situacion': 1 }" uib-btn-checkbox uib-tooltip="Per2 - t1: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t1: {{ situac.descripcion }}</label>
+        <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo2 | filter:{ 'tipo_situacion': 1 }" uib-btn-checkbox ng-click="clickSituacionDerivante(situac)" uib-tooltip="Per2 - t1: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t1: {{ situac.descripcion }}</label>
       </div>
       <div ng-show="falta_edit.tipo_situacion==3" class="btn-group">
-        <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo2 | filter:{ 'tipo_situacion': 2 }" uib-btn-checkbox uib-tooltip="Per2 - t2: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t2: {{ situac.descripcion }}</label>
+        <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo2 | filter:{ 'tipo_situacion': 2 }" uib-btn-checkbox ng-click="clickSituacionDerivante(situac)" uib-tooltip="Per2 - t2: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t2: {{ situac.descripcion }}</label>
       </div>
       <div ng-show="alumno.periodo2.length==0">No tiene faltas en el periodo 2</div>
     </div>
@@ -81,10 +81,10 @@
       <div>Deriva de las siguientes faltas (PERIODO 3):</div>
       <!-- Si es tipo 2 o 3, siempre mostramos las tipo 1-->
       <div class="btn-group">
-        <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo3 | filter:{ 'tipo_situacion': 1 }" uib-btn-checkbox uib-tooltip="Per3 - t1: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t1: {{ situac.descripcion }}</label>
+        <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo3 | filter:{ 'tipo_situacion': 1 }" uib-btn-checkbox ng-click="clickSituacionDerivante(situac)" uib-tooltip="Per3 - t1: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t1: {{ situac.descripcion }}</label>
       </div>
       <div ng-show="falta_edit.tipo_situacion==3" class="btn-group">
-        <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo3 | filter:{ 'tipo_situacion': 2 }" uib-btn-checkbox uib-tooltip="Per3 - t2: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t2: {{ situac.descripcion }}</label>
+        <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo3 | filter:{ 'tipo_situacion': 2 }" uib-btn-checkbox ng-click="clickSituacionDerivante(situac)" uib-tooltip="Per3 - t2: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t2: {{ situac.descripcion }}</label>
       </div>
       <div ng-show="alumno.periodo3.length==0">No tiene faltas en el periodo 3</div>
     </div>
@@ -92,10 +92,10 @@
       <div>Deriva de las siguientes faltas (PERIODO 3):</div>
       <!-- Si es tipo 2 o 3, siempre mostramos las tipo 1-->
       <div class="btn-group">
-        <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo4 | filter:{ 'tipo_situacion': 1 }" uib-btn-checkbox uib-tooltip="Per4 - t1: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t1: {{ situac.descripcion }}</label>
+        <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo4 | filter:{ 'tipo_situacion': 1 }" uib-btn-checkbox ng-click="clickSituacionDerivante(situac)" uib-tooltip="Per4 - t1: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t1: {{ situac.descripcion }}</label>
       </div>
       <div ng-show="falta_edit.tipo_situacion==3" class="btn-group">
-        <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo4 | filter:{ 'tipo_situacion': 2 }" uib-btn-checkbox uib-tooltip="Per4 - t2: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t2: {{ situac.descripcion }}</label>
+        <label ng-model="situac.seleccionado" ng-repeat="situac in alumno.periodo4 | filter:{ 'tipo_situacion': 2 }" uib-btn-checkbox ng-click="clickSituacionDerivante(situac)" uib-tooltip="Per4 - t2: {{situac.descripcion}}" class="btn btn-sucess shiny label-falta-deriva">t2: {{ situac.descripcion }}</label>
       </div>
       <div ng-show="alumno.periodo4.length==0">No tiene faltas en el periodo 4</div>
     </div>

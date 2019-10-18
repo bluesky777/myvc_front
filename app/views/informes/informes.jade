@@ -219,7 +219,7 @@
                   .sr-only Notas perdidas
                 ul.dropdown-menu(uib-dropdown-menu role="menu" aria-labelledby="split-button")
                   li(role="menuitem")
-                    a(ng-click="verNotasPerdidasProfesor(true)" href="" uib-tooltip="Sólo periodo seleccionado") Notas perdidas periodo
+                    a(ng-click="verNotasPerdidasProfesor(true)" href="" uib-tooltip="Solo periodo seleccionado") Notas perdidas periodo
 
             .form-group
               label(style="margin-right: 13px;") Grupo
@@ -241,7 +241,7 @@
                 .sr-only Notas perdidas
               ul.dropdown-menu(uib-dropdown-menu role="menu" aria-labelledby="split-button")
                 li(role="menuitem")
-                  a(ng-click="verNotasPerdidasTodos(true)" href="" uib-tooltip="Sólo periodo seleccionado - Todos los docentes") Todos - Notas perdidas periodo
+                  a(ng-click="verNotasPerdidasTodos(true)" href="" uib-tooltip="Solo periodo seleccionado - Todos los docentes") Todos - Notas perdidas periodo
 
             br
 
@@ -396,7 +396,7 @@
                 input(type="number" ng-model="filtrar.materias_perdidas" ng-value="0" min="0" max="20" ng-init="filtrar.materias_perdidas=0")
                 | materias perdidas o más.
 
-          button.btn.btn-primary(uib-tooltip="Sólo funciona con PUESTOS DEL AÑO calculados hasta el TERCER perido. Nota que falta en cuarto periodo."
+          button.btn.btn-primary(uib-tooltip="Solo funciona con PUESTOS DEL AÑO calculados hasta el TERCER perido. Nota que falta en cuarto periodo."
             ng-click="mostrar_nota_faltante()") Mostrar nota faltante:
             span(ng-show="mostrar_faltante")  Si
             span(ng-hide="mostrar_faltante")  No

@@ -60,7 +60,7 @@ angular.module("myvcFrontApp")
 
 										pariente.subGridOptions.onRegisterApi = ( gridApi ) ->
 												gridApi.edit.on.afterCellEdit($scope, (rowEntity, colDef, newValue, oldValue)->
-														toastr.warning 'Desde aquí sólo podrás editar Acudientes', 'No guardado'
+														toastr.warning 'Desde aquí solo podrás editar Acudientes', 'No guardado'
 														$scope.$apply()
 												)
 

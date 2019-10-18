@@ -118,6 +118,7 @@ angular.module("myvcFrontApp")
 				$scope.gridOptions.data 	            = r.data.AlumnosActuales
 				$scope.gridOptionsSinMatricula.data 	= r.data.AlumnosSinMatricula
 				$scope.AlumnosFormularios 	          = r.data.AlumnosFormularios
+				$scope.AlumnosPrematriculadosA 	      = r.data.AlumnosPrematriculadosA
 
 				for alumno in $scope.gridOptions.data
 					#console.log alumno.fecha_retiro, new Date(alumno.fecha_retiro.replace( /(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3"))
@@ -409,7 +410,7 @@ angular.module("myvcFrontApp")
 		if row.tipo == 'Acudiente'
 
 			if !row.id
-				toastr.info 'Sólo con acudientes creados'
+				toastr.info 'Solo con acudientes creados'
 				return
 
 			$http.post('::acudientes/crear-usuario', {acudiente: row}).then((r)->
@@ -474,7 +475,7 @@ angular.module("myvcFrontApp")
 	btGrid2 = ''
 	#btGrid2 = '<a uib-tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-trash "></i></a>'
 	bt2 	= '<span style="padding-left: 2px; padding-top: 4px;" class="btn-group">' + btGrid1 + btGrid2 + '</span>'
-	btMatricular = "==directives/botonesMatricularMas.tpl.html"
+	btMatricular = "==directives/botonesPrematricularMas.tpl.html"
 	btPazysalvo = "==directives/botonPazysalvo.tpl.html"
 	btIsNuevo = "==directives/botonIsNuevo.tpl.html"
 	btIsRepitente = "==directives/botonIsRepitente.tpl.html"
@@ -526,7 +527,7 @@ angular.module("myvcFrontApp")
 			{ field: 'apellidos', minWidth: 110, filter: { condition: Acentos.buscarEnGrid }}
 			{ name: 'edicion', displayName:'Edit', width: 54, enableSorting: false, enableFiltering: false, cellTemplate: bt2, enableCellEdit: false, enableColumnMenu: true}
 			{ field: 'sexo', displayName: 'Sex', width: 40 }
-			{ field: 'grupo_id', displayName: 'Matrícula', enableCellEdit: false, cellTemplate: btMatricular, minWidth: 230, enableFiltering: false }
+			{ field: 'grupo_id', displayName: 'Matrícula', enableCellEdit: false, cellTemplate: btMatricular, minWidth: 270, enableFiltering: false }
 			{ field: 'prematriculado', displayName: 'Fech prematriculado', cellFilter: "date:mediumDate", type: 'date', minWidth: 120 }
 			{ field: 'fecha_matricula', displayName: 'Fecha matrícula', cellFilter: "date:mediumDate", type: 'date', minWidth: 100 }
 			{ field: 'no_matricula', displayName: '# matrícula', minWidth: 80, enableColumnMenu: true }

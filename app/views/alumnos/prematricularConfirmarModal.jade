@@ -1,0 +1,17 @@
+.modal-header
+  h3.modal-title ¿Seguro que desea prematricular? {{USER.year}}
+.modal-body
+  .row
+    .col-lg-12.col-xs-12
+      h5 Id: {{alumno.alumno_id}}
+      h4(style="text-overflow: ellipsis; font-weight: bold") {{alumno.nombres}} {{alumno.apellidos}}
+
+      div(style="color: red; font-weight: bold")
+        | No podrá modificar después (solo en secretaría).
+
+
+
+.modal-footer
+  button.btn.btn-yellow(ng-click="cancel()") Cancelar
+  button.btn.btn-labeled.btn-primary(ng-click="ok()") Prematricular
+    i.btn-label.fa.fa-save

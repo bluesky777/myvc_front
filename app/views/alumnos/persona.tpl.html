@@ -7,8 +7,8 @@
       <!--.form-group.col-lg-3.col-sm-4.col-md-3.col-xs-12
       label Todos los años
       label
-      	input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="dato.todos_anios")
-      	span.text.si-no
+        input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="dato.todos_anios")
+        span.text.si-no
       
       -->
       <div class="form-group col-lg-4 col-md-6 col-sm-6">
@@ -28,31 +28,33 @@
     <persona-basico-dir></persona-basico-dir>
   </div>
 </div>
-<form role="form">
-  <uib-tabset>
-    <uib-tab heading="Matriculas" classes="tab-encabezado-bigger">
-      <!-- Información de las matrículas-->
-      <persona-matriculas-dir></persona-matriculas-dir>
-    </uib-tab>
-    <uib-tab heading="NEE" classes="tab-encabezado-bigger">
-      <persona-nee-dir></persona-nee-dir>
-    </uib-tab>
-    <uib-tab heading="Datos" classes="tab-encabezado-bigger">
-      <persona-datos-extras-dir></persona-datos-extras-dir>
-    </uib-tab>
-    <uib-tab heading="Enfermería" classes="tab-encabezado-bigger" select="cargarEnfermeria()">
-      <persona-enfermeria-dir></persona-enfermeria-dir>
-    </uib-tab>
-    <uib-tab heading="Acudientes" classes="tab-encabezado-bigger" select="cargarAcudientes()">
-      <persona-acudientes-dir></persona-acudientes-dir>
-    </uib-tab>
-  </uib-tabset>
-</form>
-<div class="widget">
-  <div class="widget-body">
-    <button type="button" ng-click="verTodosLosCertificados()" class="btn btn-primary">Ver todos los certificados</button>
+<div ng-if="!hasRoleOrPerm(['alumno', 'acudiente'])">
+  <form role="form">
+    <uib-tabset>
+      <uib-tab heading="Matriculas" classes="tab-encabezado-bigger">
+        <!-- Información de las matrículas-->
+        <persona-matriculas-dir></persona-matriculas-dir>
+      </uib-tab>
+      <uib-tab heading="NEE" classes="tab-encabezado-bigger">
+        <persona-nee-dir></persona-nee-dir>
+      </uib-tab>
+      <uib-tab heading="Datos" classes="tab-encabezado-bigger">
+        <persona-datos-extras-dir></persona-datos-extras-dir>
+      </uib-tab>
+      <uib-tab heading="Enfermería" classes="tab-encabezado-bigger" select="cargarEnfermeria()">
+        <persona-enfermeria-dir></persona-enfermeria-dir>
+      </uib-tab>
+      <uib-tab heading="Acudientes" classes="tab-encabezado-bigger" select="cargarAcudientes()">
+        <persona-acudientes-dir></persona-acudientes-dir>
+      </uib-tab>
+    </uib-tabset>
+  </form>
+  <div class="widget">
+    <div class="widget-body">
+      <button type="button" ng-click="verTodosLosCertificados()" class="btn btn-primary">Ver todos los certificados</button>
+    </div>
   </div>
-</div>
-<div ui-view="report_content" class="informes-pages altura-informe">
-  <h5 style="text-align: center">Aquí saldrán los reportes</h5>
+  <div ui-view="report_content" class="informes-pages altura-informe">
+    <h5 style="text-align: center">Aquí saldrán los reportes</h5>
+  </div>
 </div>

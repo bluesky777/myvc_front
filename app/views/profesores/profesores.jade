@@ -10,12 +10,12 @@
 			.form-title Todos los profesores:
 
 
-				#grid1.grid(ui-grid="gridOptions" ui-grid-exporter ui-grid-edit ui-grid-resize-columns ui-grid-auto-resize ui-grid-cellnav)
+				#grid1.grid(ui-grid="gridOptions" ui-grid-exporter ui-grid-edit ui-grid-resize-columns ui-grid-auto-resize ui-grid-cellnav ui-grid-selection ui-grid-pinning style="height: 400px")
 
 			br
 			br
 			.form-title Profesores contratados este año {{USER.year}}:
-			#grid2.grid(ui-grid="gridCurrentOptions" ui-grid-exporter ui-grid-edit ui-grid-resize-columns ui-grid-cellnav)
+			#grid2.grid(ui-grid="gridCurrentOptions" ui-grid-exporter ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-auto-resize)
 
 			.footer
 				| Puedes ver todos los profesores de años anteriores y el presente.

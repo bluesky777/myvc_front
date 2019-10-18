@@ -1,81 +1,81 @@
 .row(ui-view="edit_alumno")
 
 .widget
-	.widget-header.bordered-bottom
-		span.widget-caption Buscar persona
-	.widget-body
-		form.row
+  .widget-header.bordered-bottom
+    span.widget-caption Buscar persona
+  .widget-body
+    form.row
 
-			//.form-group.col-lg-3.col-sm-4.col-md-3.col-xs-12
-					label Todos los años
-					label
-						input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="dato.todos_anios")
-						span.text.si-no
+      //.form-group.col-lg-3.col-sm-4.col-md-3.col-xs-12
+          label Todos los años
+          label
+            input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-model="dato.todos_anios")
+            span.text.si-no
 
-			.form-group.col-lg-4.col-md-6.col-sm-6
-				input.form-control(type="text" ng-model="dato.txt_buscar" placeholder="Buscar alumno"
-					typeahead-min-length="2"
-					typeahead-on-select="ir_a_persona($item, $model, $label)"
-					uib-typeahead="persona_check as persona_check.nombres for persona_check in personaCheck($viewValue)"
-					typeahead-loading="loadingPersonas" typeahead-no-results="noResults"
-					typeahead-wait-ms="300" typeahead-template-url="{{templateTypeahead}}")
+      .form-group.col-lg-4.col-md-6.col-sm-6
+        input.form-control(type="text" ng-model="dato.txt_buscar" placeholder="Buscar alumno"
+          typeahead-min-length="2"
+          typeahead-on-select="ir_a_persona($item, $model, $label)"
+          uib-typeahead="persona_check as persona_check.nombres for persona_check in personaCheck($viewValue)"
+          typeahead-loading="loadingPersonas" typeahead-no-results="noResults"
+          typeahead-wait-ms="300" typeahead-template-url="{{templateTypeahead}}")
 
-				i.fa.fa-refresh(ng-show="loadingPersonas" style="font-size: 7pt")
-				div(ng-show="noResults" style="font-size: 7pt")
-					i.fa.fa-check
-					| No encontrado.
+        i.fa.fa-refresh(ng-show="loadingPersonas" style="font-size: 7pt")
+        div(ng-show="noResults" style="font-size: 7pt")
+          i.fa.fa-check
+          | No encontrado.
 
-		.row(ng-if="::hasRoleOrPerm(['admin', 'secretario', 'rector'])")
-			.form-group.col-lg-4.col-md-6.col-sm-6
-				a.btn.btn-info.shiny(href="" ng-click="crear_alumno()" uib-tooltip="Ingresa datos de un nuevo alumno")
-					i.fa.fa-plus
-					|   Crear alumno
-
-.widget
-	.widget-header.bordered-bottom.bordered-blue
-		span.widget-caption Alumno
-	.widget-body
-
-		// Información básica de la persona, fotos, nombres, etc.
-		persona-basico-dir
-
-
-
-form(role="form")
-
-	uib-tabset
-		uib-tab(heading="Matriculas" classes="tab-encabezado-bigger")
-
-			// Información de las matrículas
-			persona-matriculas-dir
-
-
-		uib-tab(heading="NEE" classes="tab-encabezado-bigger")
-			persona-nee-dir
-
-
-		uib-tab(heading="Datos" classes="tab-encabezado-bigger")
-			persona-datos-extras-dir
-
-
-		uib-tab(heading="Enfermería" classes="tab-encabezado-bigger" select="cargarEnfermeria()")
-			persona-enfermeria-dir
-
-
-		uib-tab(heading="Acudientes" classes="tab-encabezado-bigger" select="cargarAcudientes()")
-			persona-acudientes-dir
-
-
-
-
-
+    .row(ng-if="::hasRoleOrPerm(['admin', 'secretario', 'rector'])")
+      .form-group.col-lg-4.col-md-6.col-sm-6
+        a.btn.btn-info.shiny(href="" ng-click="crear_alumno()" uib-tooltip="Ingresa datos de un nuevo alumno")
+          i.fa.fa-plus
+          |   Crear alumno
 
 .widget
-	.widget-body
+  .widget-header.bordered-bottom.bordered-blue
+    span.widget-caption Alumno
+  .widget-body
 
-		button.btn.btn-primary(type="button" ng-click="verTodosLosCertificados()")
-			| Ver todos los certificados
+    // Información básica de la persona, fotos, nombres, etc.
+    persona-basico-dir
 
-.informes-pages.altura-informe(ui-view="report_content" )
-	h5(style="text-align: center") Aquí saldrán los reportes
+
+div(ng-if="!hasRoleOrPerm(['alumno', 'acudiente'])")
+  form(role="form" )
+
+    uib-tabset
+      uib-tab(heading="Matriculas" classes="tab-encabezado-bigger")
+
+        // Información de las matrículas
+        persona-matriculas-dir
+
+
+      uib-tab(heading="NEE" classes="tab-encabezado-bigger")
+        persona-nee-dir
+
+
+      uib-tab(heading="Datos" classes="tab-encabezado-bigger")
+        persona-datos-extras-dir
+
+
+      uib-tab(heading="Enfermería" classes="tab-encabezado-bigger" select="cargarEnfermeria()")
+        persona-enfermeria-dir
+
+
+      uib-tab(heading="Acudientes" classes="tab-encabezado-bigger" select="cargarAcudientes()")
+        persona-acudientes-dir
+
+
+
+
+
+
+  .widget
+    .widget-body
+
+      button.btn.btn-primary(type="button" ng-click="verTodosLosCertificados()")
+        | Ver todos los certificados
+
+  .informes-pages.altura-informe(ui-view="report_content" )
+    h5(style="text-align: center") Aquí saldrán los reportes
 

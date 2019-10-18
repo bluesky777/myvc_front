@@ -2,224 +2,249 @@
 
 
 .row
-	.col-xs-12.col-md-12
-		.well.with-header.with-footer.animated.bounceIn
-			.header.bordered-yellow
-				span(style="font-size: 12pt") Alumnos en grupos {{USER.year+1}} (incluyendo matriculados)
-				a.btn.btn-info.shiny(href="" ng-click="crear_alumno()" uib-tooltip="Ingresa datos de un nuevo alumno" style="float: right;")
-					i.fa.fa-plus
-					span.hidden-xs
-						|   Crear alumno
+  .col-xs-12.col-md-12
+    .well.with-header.with-footer.animated.bounceIn
+      .header.bordered-yellow
+        span(style="font-size: 12pt") Alumnos en grupos {{USER.year+1}} (incluyendo matriculados)
+        a.btn.btn-info.shiny(href="" ng-click="crear_alumno()" uib-tooltip="Ingresa datos de un nuevo alumno" style="float: right;")
+          i.fa.fa-plus
+          span.hidden-xs
+            |   Crear alumno
 
-				a.btn.btn-default.shiny(ui-sref="panel.requisitos" uib-tooltip="Requisitos para poder matricularse" style="float: right;")
-					i.fa.fa-file
-					span.hidden-xs
-						|   Requisitos
+        a.btn.btn-default.shiny(ui-sref="panel.requisitos" uib-tooltip="Requisitos para poder matricularse" style="float: right;")
+          i.fa.fa-file
+          span.hidden-xs
+            |   Requisitos
 
-			.row(style="overflow: auto")
-				.col-sm-7.col-xs-12
-					table.table.table-condensed.table-striped.table-hover.table-responsive
-						thead
-							tr
-								th.txtcentro No
-								th.txtcentro(style="min-width: min-width: 150px;") Grupo
-								th.txtcentro
-									span(uib-tooltip="Alumnos que llevaron formulario" tooltip-append-to-body="true") Formul
-								th.txtcentro
-									span(uib-tooltip="Prematriculados" tooltip-append-to-body="true") Prematr
-								th.txtcentro
-									span(uib-tooltip="Asistentes" tooltip-append-to-body="true") Asis
-								th.txtcentro
-									span(uib-tooltip="Matriculados totalmente" tooltip-append-to-body="true") Matricu
-								th.txtcentro
-									span(uib-tooltip="Sin prematricular del año pasado" tooltip-append-to-body="true") Sin prematr
-								th.txtcentro
-									span(uib-tooltip="Edite valor en 'Editar grupos'" tooltip-append-to-body="true") Cupo
-								th.txtcentro
-									span(uib-tooltip="Alumnos faltantes para llenar cupo" tooltip-append-to-body="true") Faltan
+      .row(style="overflow: auto")
+        .col-sm-7.col-xs-12
+          table.table.table-condensed.table-striped.table-hover.table-responsive
+            thead
+              tr
+                th.txtcentro No
+                th.txtcentro(style="min-width: min-width: 150px;") Grupo
+                th.txtcentro
+                  span(uib-tooltip="Alumnos que llevaron formulario" tooltip-append-to-body="true") Formul
+                th.txtcentro
+                  span(uib-tooltip="Prematriculados" tooltip-append-to-body="true") Prematr
+                th.txtcentro
+                  span(uib-tooltip="Asistentes" tooltip-append-to-body="true") Asis
+                th.txtcentro
+                  span(uib-tooltip="Matriculados totalmente" tooltip-append-to-body="true") Matricu
+                th.txtcentro
+                  span(uib-tooltip="Sin prematricular del año pasado" tooltip-append-to-body="true") Sin prematr
+                th.txtcentro
+                  span(uib-tooltip="Edite valor en 'Editar grupos'" tooltip-append-to-body="true") Cupo
+                th.txtcentro
+                  span(uib-tooltip="Alumnos faltantes para llenar cupo" tooltip-append-to-body="true") Faltan
 
-						tbody.filasestrechas
-							tr(ng-repeat="grupo in grupos" ng-click="selectGrupo(grupo)" ng-class="{ active: grupo.active, info: grupo.active }")
-								td(ng-class="{info: grupo.active}") {{ $index+1 }}
-								td(ng-class="{info: grupo.active}") {{ grupo.nombre }}
-								td.txtcentro(ng-class="{info: grupo.active}") {{ grupo.cant_formularios }}
-								td.txtcentro(ng-class="{info: grupo.active}")
-									| {{ grupo.cantidad }}
-								td.txtcentro(ng-class="{info: grupo.active}" uib-tooltip="Asistentes" tooltip-append-to-body="true")
-									| {{ grupo.cant_asistentes }}
-								td.txtcentro(ng-class="{info: grupo.active}" uib-tooltip="Matriculados totalmente" tooltip-append-to-body="true")
-									| {{ grupo.cant_matriculados }}
-								td.txtcentro(ng-class="{info: grupo.active}" uib-tooltip="Sin prematricular del año pasado"
-									tooltip-append-to-body="true" tooltip-popup-delay="400") {{ grupo.sin_matricular }}
-								td.txtcentro(ng-class="{info: grupo.active}" uib-tooltip="Edite valor en 'Editar grupos' {{USER.year+1}}"
-									tooltip-append-to-body="true" tooltip-popup-delay="400") {{ grupo.cupo }}
-								td.txtcentro(ng-class="{info: grupo.active}" uib-tooltip="Alumnos faltantes para llenar cupo {{USER.year+1}}"
-									tooltip-append-to-body="true" tooltip-popup-delay="400")
-									| {{ grupo.cant_faltantes }}
+            tbody.filasestrechas
+              tr(ng-repeat="grupo in grupos | orderBy:'orden'" ng-click="selectGrupo(grupo)" ng-class="{ active: grupo.active, info: grupo.active }")
+                td(ng-class="{info: grupo.active}") {{ $index+1 }}
+                td(ng-class="{info: grupo.active}") {{ grupo.nombre }}
+                td.txtcentro(ng-class="{info: grupo.active}") {{ grupo.cant_formularios }}
+                td.txtcentro(ng-class="{info: grupo.active}")
+                  | {{ grupo.cantidad }}
+                td.txtcentro(ng-class="{info: grupo.active}" uib-tooltip="Asistentes" tooltip-append-to-body="true")
+                  | {{ grupo.cant_asistentes }}
+                td.txtcentro(ng-class="{info: grupo.active}" uib-tooltip="Matriculados totalmente" tooltip-append-to-body="true")
+                  | {{ grupo.cant_matriculados }}
+                td.txtcentro(ng-class="{info: grupo.active}" uib-tooltip="Sin prematricular del año pasado"
+                  tooltip-append-to-body="true" tooltip-popup-delay="400") {{ grupo.sin_matricular }}
+                td.txtcentro(ng-class="{info: grupo.active}" uib-tooltip="Edite valor en 'Editar grupos' {{USER.year+1}}"
+                  tooltip-append-to-body="true" tooltip-popup-delay="400") {{ grupo.cupo }}
+                td.txtcentro(ng-class="{info: grupo.active}" uib-tooltip="Alumnos faltantes para llenar cupo {{USER.year+1}}"
+                  tooltip-append-to-body="true" tooltip-popup-delay="400")
+                  | {{ grupo.cant_faltantes }}
 
-						tfoot
-							tr
-								td
-								td
-									.bold Total
-								td.txtcentro
-									.bold {{ total_formularios }}
-								td.txtcentro
-									.bold {{ total_prematriculados }}
-								td.txtcentro
-									.bold {{ total_asistentes }}
-								td.txtcentro
-									.bold {{ total_matriculados }}
-								td.txtcentro
-									.bold {{ total_sin_prematric }}
-								td.txtcentro
-									.bold {{ total_cupo }}
-								td.txtcentro
-									.bold {{ total_taltantes }}
-
-
-				.col-sm-5.col-xs-12
-					h4(style="font-weight: 600!important") {{total_formularios}} formularios vendidos a:
-					table.table.table-condensed.table-striped.table-hover.table-responsive
-						thead
-							tr
-								th.txtcentro No
-								th.txtcentro(style="min-width: min-width: 150px;") Alumno
-								th.txtcentro Celular
-
-						tbody.filasestrechas
-							tr(ng-repeat="alumno in AlumnosFormularios")
-								td {{ $index+1 }}
-								td {{ alumno.apellidos }} {{ alumno.nombres }}
-								td {{ alumno.celular }}
-
-			br
-			a(href="" ng-click="verObservacionesRequisitos()") Ver observaciones hechas en los requisitos de matrículas.
-			div.caja-observaciones-requisitos(ng-show="viendo_requisitos")
-
-				span.hidden-print Elija el requisito:
-				br
-				button.btn.btn-default.btn-sm.hidden-print(ng-click="requisitoSeleccionado(requisito)" ng-repeat="requisito in requisitos")
-					| {{ requisito.requisito }}
-
-				//| Observaciones que se han hecho:
-					button.btn.btn-default.btn-sm(ng-click="observacionSeleccionada(observacion)" ng-repeat="observacion in observaciones_requisitos")
-						| {{ observacion.descripcion }}
-
-				table.table.table-condensed.table-striped.table-hover.table-responsive(ng-show="viendo_observaciones_requisitos")
-					thead
-							tr
-								th.txtcentro No
-								th.txtcentro(style="min-width: min-width: 150px;") Alumno
-								th.txtcentro Celular
-								th.txtcentro Grupo
-									input.hidden-print(type="text" ng-model="filtrar_abrev_grupo" style="width: 40px;")
-								th.txtcentro Observación
-									input.hidden-print(type="text" ng-model="filtrar_observacion")
-
-						tbody.filasestrechas
-							tr(ng-repeat="alumno in alumnos_observaciones | filter:{abrev_grupo: filtrar_abrev_grupo, descripcion: filtrar_observacion}")
-								td {{ $index+1 }}
-								td {{ alumno.apellidos }} {{ alumno.nombres }}
-								td {{ alumno.celular }}
-								td.txtcentro.bold {{ alumno.abrev_grupo }}
-								td
-									span.visible-print {{ alumno.descripcion }}
-									span.hidden-print
-										textarea.form-control(required ng-model="alumno.descripcion" placeholder="Descripción (opcional)"
-											uib-tooltip="Descripción (opcional)" tooltip-popup-delay="500" style="height: 50px; width: 100%;"
-											ng-change="guardarCambioRequisito(alumno)"
-											ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
-
-			hr
-			br
-			br
-
-			span.hidden-print
-				p Mueva las columnas para mayor comodidad y oculte las que desee:
-				#grid1.grid(ui-grid="gridOptions" ui-grid-exporter ui-grid-move-columns ui-grid-expandable ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-auto-resize ui-grid-pinning style="height: 600px")
+            tfoot
+              tr
+                td
+                td
+                  .bold Total
+                td.txtcentro
+                  .bold {{ total_formularios }}
+                td.txtcentro
+                  .bold {{ total_prematriculados }}
+                td.txtcentro
+                  .bold {{ total_asistentes }}
+                td.txtcentro
+                  .bold {{ total_matriculados }}
+                td.txtcentro
+                  .bold {{ total_sin_prematric }}
+                td.txtcentro
+                  .bold {{ total_cupo }}
+                td.txtcentro
+                  .bold {{ total_taltantes }}
 
 
-				hr.wide
+        .col-sm-5.col-xs-12
+          .row
+            .col-xs-12
+              h4(style="font-weight: 600!important") {{total_formularios}} formularios vendidos a:
+              table.table.table-condensed.table-striped.table-hover.table-responsive
+                thead
+                  tr
+                    th.txtcentro No
+                    th.txtcentro(style="min-width: min-width: 150px;") Alumno
+                    th.txtcentro Celular
 
-				h4(style="margin-top: 15px; color: #115a98;") Alumnos de este año {{ USER.year }}:
-					a(href="" ng-click="mostrar_pasado=!mostrar_pasado" style="margin-left: 20px")
-						i.fa.fa-eye
-
-				div(ng-if="mostrar_pasado")
-					#grid1.grid(ui-grid="gridOptionsSinMatricula" ui-grid-resize-columns ui-grid-selection ui-grid-auto-resize style="height: 400px")
-
-
-
-				hr.wide
-
-				.row
-					.col-sm-6.col-xs-12
-						form(ng-submit="buscar_por('nombre')")
-							div Buscar en todo el sistema(retirados, de otros años, etc.):
-								.input-group
-									input.form-control(type="text" name="buscar" placeholder="Buscar..." ng-model="texto_a_buscar")
-									.input-group-btn
-										button.btn.btn-default(type="submit") Por nombre
-										button.btn.btn-default(type="button" ng-click="buscar_por('apellido')") Por Apellido
+                tbody.filasestrechas
+                  tr(ng-repeat="alumno in AlumnosFormularios")
+                    td {{ $index+1 }}
+                    td
+                      span(uib-tooltip="Documento: {{ alumno.documento }}") {{ alumno.apellidos }} {{ alumno.nombres }}
+                    td {{ alumno.celular }}
 
 
+            .col-xs-12(style="margin-top: 30px;")
+              h4(style="font-weight: 600!important") Prematriculados por acudientes({{AlumnosPrematriculadosA.length}})
+              table.table.table-condensed.table-striped.table-hover.table-responsive
+                thead
+                  tr
+                    th.txtcentro No
+                    th.txtcentro(style="min-width: min-width: 150px;") Alumno
+                    th.txtcentro
+                      span(uib-tooltip="¿Es nuevo?") Nue
+                    th.txtcentro Celular
 
-				table.table.table-striped(ng-show="alumnos_encontrados.length>0" style="max-height: 700px; overflow-y: scroll; display: block;")
-					thead
-						tr
-							th(style="max-width: 25px") No
-							th.text-center(style="min-width: 170px") Matrícula
-							th.text-center Apellidos
-							th.text-center Nombres
-							th.text-center(style="max-width: 20px; padding: 0px 0px 8px;")
-								i(style="font-weight: bold;").fa.fa-venus-mars
-							th.text-center(uib-tooltip="Grupo en este año" tooltip-append-to-body="true") Gru
-							th.text-center(style="min-width: 120px; text-align: center;") Creado en
-							th.text-center Modificado
-							th.text-center Eliminado
+                tbody.filasestrechas
+                  tr(ng-repeat="alumno in AlumnosPrematriculadosA")
+                    td {{ $index+1 }}
+                    td
+                      span(uib-tooltip="Documento: {{ alumno.documento }}") {{ alumno.apellidos }} {{ alumno.nombres }}
+                    td.txtcentro
+                      span(ng-show="alumno.nuevo" uib-tooltip="¿Es nuevo?") Si
+                      span(ng-show="!alumno.nuevo" uib-tooltip="¿Es nuevo?") No
+                    td {{ alumno.celular }}
 
-					tbody.filasestrechas
-						tr(ng-repeat="alumno in alumnos_encontrados track by $index" ng-class="{'filagris': alumno.grupo_id!=dato_f.grupo.id, 'filawarning': alumno.estado=='ASIS' }")
-							td {{ $index+1 }}
-							td.text-center
+      br
+      a(href="" ng-click="verObservacionesRequisitos()") Ver observaciones hechas en los requisitos de matrículas.
+      div.caja-observaciones-requisitos(ng-show="viendo_requisitos")
 
-								.btn-group
-									a.btn.btn-default.btn-xs(ui-sref="panel.prematriculas.matricula_detalles({alumno_id: alumno.alumno_id})" uib-tooltip="Ver matrículas" tooltip-append-to-body="true")
-										i.fa.fa-pencil
-									a.btn.btn-default.btn-xs(ng-click="matricularUno(alumno)" uib-tooltip="Matricular en {{dato.grupo.abrev}}" tooltip-append-to-body="true" tooltip-) Matri en {{dato.grupo.abrev}}
-									a.btn.btn-default.btn-xs(ng-click="matricularEn(alumno)" uib-tooltip="Matricular en..." tooltip-append-to-body="true" tooltip-) Matri en...
+        span.hidden-print Elija el requisito:
+        br
+        button.btn.btn-default.btn-sm.hidden-print(ng-click="requisitoSeleccionado(requisito)" ng-repeat="requisito in requisitos")
+          | {{ requisito.requisito }}
 
-							td
-								div( uib-popover-template="views+'alumnos/popoverAlumnoInfo.tpl.html'"
-									popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}"
-									popover-trigger="'mouseenter'" popover-popup-delay="500")
+        //| Observaciones que se han hecho:
+          button.btn.btn-default.btn-sm(ng-click="observacionSeleccionada(observacion)" ng-repeat="observacion in observaciones_requisitos")
+            | {{ observacion.descripcion }}
 
-									img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 20px; height: 20px; margin-top: -3px;")
-									| {{ alumno.apellidos }}
-							td
-								| {{ alumno.nombres }}
+        table.table.table-condensed.table-striped.table-hover.table-responsive(ng-show="viendo_observaciones_requisitos")
+          thead
+              tr
+                th.txtcentro No
+                th.txtcentro(style="min-width: min-width: 150px;") Alumno
+                th.txtcentro Celular
+                th.txtcentro Grupo
+                  input.hidden-print(type="text" ng-model="filtrar_abrev_grupo" style="width: 40px;")
+                th.txtcentro Observación
+                  input.hidden-print(type="text" ng-model="filtrar_observacion")
 
-							td {{ alumno.sexo }}
-							td.text-center(style="background-color: #a8cbea!important;" uib-tooltip="{{alumno.estado}} - {{alumno.nombre_grupo}}" tooltip-append-to-body="true")
-								| {{ alumno.abrev_grupo }}
-							td.text-center(style="font-size: 7pt") {{ alumno.created_at }}
-							td.text-center(style="font-size: 7pt") {{ alumno.updated_at }}
-							td.text-center(style="font-size: 7pt" ng-class="{danger: alumno.deleted_at}")
-								| {{ alumno.deleted_at }}
-								button.btn.btn-default.btn-xs(uib-tooltip="Sacar de papelera"
-									ng-click="restaurar(alumno)" ng-show="alumno.deleted_at")
-									i.fa.fa-refresh
+            tbody.filasestrechas
+              tr(ng-repeat="alumno in alumnos_observaciones | filter:{abrev_grupo: filtrar_abrev_grupo, descripcion: filtrar_observacion}")
+                td {{ $index+1 }}
+                td {{ alumno.apellidos }} {{ alumno.nombres }}
+                td {{ alumno.celular }}
+                td.txtcentro.bold {{ alumno.abrev_grupo }}
+                td
+                  span.visible-print {{ alumno.descripcion }}
+                  span.hidden-print
+                    textarea.form-control(required ng-model="alumno.descripcion" placeholder="Descripción (opcional)"
+                      uib-tooltip="Descripción (opcional)" tooltip-popup-delay="500" style="height: 50px; width: 100%;"
+                      ng-change="guardarCambioRequisito(alumno)"
+                      ng-model-options="{ updateOn: 'default blur', debounce: {'default': 1000, 'blur': 0} }")
+
+      hr
+      br
+      br
+
+      span.hidden-print
+        p Mueva las columnas para mayor comodidad y oculte las que desee:
+        #grid1.grid(ui-grid="gridOptions" ui-grid-exporter ui-grid-move-columns ui-grid-expandable ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-auto-resize ui-grid-pinning style="height: 600px")
+
+
+        hr.wide
+
+        h4(style="margin-top: 15px; color: #115a98;") Alumnos de este año {{ USER.year }}:
+          a(href="" ng-click="mostrar_pasado=!mostrar_pasado" style="margin-left: 20px")
+            i.fa.fa-eye
+
+        div(ng-if="mostrar_pasado")
+          #grid1.grid(ui-grid="gridOptionsSinMatricula" ui-grid-resize-columns ui-grid-selection ui-grid-auto-resize style="height: 400px")
 
 
 
+        hr.wide
+
+        .row
+          .col-sm-6.col-xs-12
+            form(ng-submit="buscar_por('nombre')")
+              div Buscar en todo el sistema(retirados, de otros años, etc.):
+                .input-group
+                  input.form-control(type="text" name="buscar" placeholder="Buscar..." ng-model="texto_a_buscar")
+                  .input-group-btn
+                    button.btn.btn-default(type="submit") Por nombre
+                    button.btn.btn-default(type="button" ng-click="buscar_por('apellido')") Por Apellido
+
+
+
+        table.table.table-striped(ng-show="alumnos_encontrados.length>0" style="max-height: 700px; overflow-y: scroll; display: block;")
+          thead
+            tr
+              th(style="max-width: 25px") No
+              th.text-center(style="min-width: 170px") Matrícula
+              th.text-center Apellidos
+              th.text-center Nombres
+              th.text-center(style="max-width: 20px; padding: 0px 0px 8px;")
+                i(style="font-weight: bold;").fa.fa-venus-mars
+              th.text-center(uib-tooltip="Grupo en este año" tooltip-append-to-body="true") Gru
+              th.text-center(style="min-width: 120px; text-align: center;") Creado en
+              th.text-center Modificado
+              th.text-center Eliminado
+
+          tbody.filasestrechas
+            tr(ng-repeat="alumno in alumnos_encontrados track by $index" ng-class="{'filagris': alumno.grupo_id!=dato_f.grupo.id, 'filawarning': alumno.estado=='ASIS' }")
+              td {{ $index+1 }}
+              td.text-center
+
+                .btn-group
+                  a.btn.btn-default.btn-xs(ui-sref="panel.prematriculas.matricula_detalles({alumno_id: alumno.alumno_id})" uib-tooltip="Ver matrículas" tooltip-append-to-body="true")
+                    i.fa.fa-pencil
+                  a.btn.btn-default.btn-xs(ng-click="matricularUno(alumno)" uib-tooltip="Matricular en {{dato.grupo.abrev}}" tooltip-append-to-body="true" tooltip-) Matri en {{dato.grupo.abrev}}
+                  a.btn.btn-default.btn-xs(ng-click="matricularEn(alumno)" uib-tooltip="Matricular en..." tooltip-append-to-body="true" tooltip-) Matri en...
+
+              td
+                div( uib-popover-template="views+'alumnos/popoverAlumnoInfo.tpl.html'"
+                  popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}"
+                  popover-trigger="'mouseenter'" popover-popup-delay="500")
+
+                  img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 20px; height: 20px; margin-top: -3px;")
+                  | {{ alumno.apellidos }}
+              td
+                | {{ alumno.nombres }}
+
+              td {{ alumno.sexo }}
+              td.text-center(style="background-color: #a8cbea!important;" uib-tooltip="{{alumno.estado}} - {{alumno.nombre_grupo}}" tooltip-append-to-body="true")
+                | {{ alumno.abrev_grupo }}
+              td.text-center(style="font-size: 7pt") {{ alumno.created_at }}
+              td.text-center(style="font-size: 7pt") {{ alumno.updated_at }}
+              td.text-center(style="font-size: 7pt" ng-class="{danger: alumno.deleted_at}")
+                | {{ alumno.deleted_at }}
+                button.btn.btn-default.btn-xs(uib-tooltip="Sacar de papelera"
+                  ng-click="restaurar(alumno)" ng-show="alumno.deleted_at")
+                  i.fa.fa-refresh
 
 
 
 
 
-				.footer
-					| Prematriculas optimizadas para eficiencia superior.
+
+
+
+        .footer
+          | Prematriculas optimizadas para eficiencia superior.
 
 
 .row.page-body(ui-view="matricula_detalle")

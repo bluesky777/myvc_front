@@ -50,7 +50,7 @@
 								input.inverted(type="radio" name="sexo" value="F" ng-model="alumno.sexo" ng-change="guardarValor(alumno, 'sexo', alumno.sexo)")
 								span.text Femenino
 
-			.form-group.col-lg-3.col-sm-3.col-xs-12
+			.form-group.col-lg-3.col-sm-3.col-xs-12(ng-if="!hasRoleOrPerm(['alumno'])")
 				label(for="alumno-celular") Celular
 				input#alumno-celular.form-control(type="text" ng-model="alumno.celular" placeholder="Celular"
 					ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
@@ -64,7 +64,7 @@
 					span(ng-show="!alumno.is_active")  Desactivado
 
 
-			.form-group.col-lg-3.col-md-4.col-sm-3.col-xs-12
+			.form-group.col-lg-3.col-md-4.col-sm-3.col-xs-12(ng-if="!hasRoleOrPerm(['alumno', 'acudiente'])")
 				label(for="alumno-no-matr") Número Matrícula
 				input.form-control#alumno-no-matr(type="text" ng-model="alumno.no_matricula" placeholder="Número de matrícula"
 					ng-model-options="{ updateOn: 'default blur', debounce: {'default': 800, 'blur': 0} }"
@@ -83,7 +83,7 @@
 
 
 		hr
-		.row
+		.row(ng-if="!hasRoleOrPerm(['alumno', 'acudiente'])")
 			.form-group.col-lg-3.col-sm-3(style="margin-top: 15px;")
 				span(style="border: 1px solid #ccc; border-radius: 4px; padding: 15px;")
 					label Paz y salvo

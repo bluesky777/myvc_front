@@ -1,5 +1,6 @@
 <span style="padding-left: 2px; padding-top: 4px;" class="btn-group">
   <label ng-model="row.entity.estado" uib-btn-radio="'PREM'" ng-click="grid.appScope.setPrematriculado(row.entity)" uib-tooltip="Prematriculado" tooltip-placement="right" class="btn btn-default btn-xs">Prem</label>
+  <label ng-model="row.entity.estado" uib-btn-radio="'PREA'" ng-click="grid.appScope.setPrematriculado(row.entity)" uib-tooltip="Prematriculado por el acudiente" tooltip-placement="right" class="btn btn-default btn-xs">PreA</label>
   <label ng-model="row.entity.estado" uib-btn-radio="'MATR'" ng-click="grid.appScope.reMatricularUno(row.entity)" class="btn btn-info btn-xs">Matr</label>
   <label ng-model="row.entity.estado" uib-btn-radio="'ASIS'" ng-click="grid.appScope.setAsistente(row.entity)" class="btn btn-info btn-xs">Asis</label>
   <label ng-model="row.entity.estado" uib-btn-radio="'RETI'" ng-click="grid.appScope.retirar(row.entity)" uib-tooltip="Retirar" tooltip-placement="right" tooltip-popup-delay="500" class="btn btn-info btn-xs">Reti</label>

@@ -21,7 +21,7 @@
               </tr>
             </thead>
             <tbody class="filasestrechas">
-              <tr ng-repeat="grupo in grupos" ng-click="selectGrupo(grupo)" ng-class="{ active: grupo.active, info: grupo.active }">
+              <tr ng-repeat="grupo in grupos | orderBy:'orden'" ng-click="selectGrupo(grupo)" ng-class="{ active: grupo.active, info: grupo.active }">
                 <td ng-class="{info: grupo.active}">{{ $index+1 }}</td>
                 <td ng-class="{info: grupo.active}">{{ grupo.nombre }}</td>
                 <td ng-class="{info: grupo.active}" class="txtcentro">{{ grupo.cant_formularios }}</td>
@@ -65,30 +65,55 @@
           </table>
         </div>
         <div class="col-sm-5 col-xs-12">
-          <h4 style="font-weight: 600!important">{{total_formularios}} formularios vendidos a:</h4>
-          <table class="table table-condensed table-striped table-hover table-responsive">
-            <thead>
-              <tr>
-                <th class="txtcentro">No</th>
-                <th style="min-width: min-width: 150px;" class="txtcentro">Alumno</th>
-                <th class="txtcentro">Celular</th>
-              </tr>
-            </thead>
-            <tbody class="filasestrechas">
-              <tr ng-repeat="alumno in AlumnosFormularios">
-                <td>{{ $index+1 }}</td>
-                <td>{{ alumno.apellidos }} {{ alumno.nombres }}</td>
-                <td>{{ alumno.celular }}</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="row">
+            <div class="col-xs-12">
+              <h4 style="font-weight: 600!important">{{total_formularios}} formularios vendidos a:</h4>
+              <table class="table table-condensed table-striped table-hover table-responsive">
+                <thead>
+                  <tr>
+                    <th class="txtcentro">No</th>
+                    <th style="min-width: min-width: 150px;" class="txtcentro">Alumno</th>
+                    <th class="txtcentro">Celular</th>
+                  </tr>
+                </thead>
+                <tbody class="filasestrechas">
+                  <tr ng-repeat="alumno in AlumnosFormularios">
+                    <td>{{ $index+1 }}</td>
+                    <td><span uib-tooltip="Documento: {{ alumno.documento }}">{{ alumno.apellidos }} {{ alumno.nombres }}</span></td>
+                    <td>{{ alumno.celular }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="margin-top: 30px;" class="col-xs-12">
+              <h4 style="font-weight: 600!important">Prematriculados por acudientes({{AlumnosPrematriculadosA.length}})</h4>
+              <table class="table table-condensed table-striped table-hover table-responsive">
+                <thead>
+                  <tr>
+                    <th class="txtcentro">No</th>
+                    <th style="min-width: min-width: 150px;" class="txtcentro">Alumno</th>
+                    <th class="txtcentro"><span uib-tooltip="¿Es nuevo?">Nue</span></th>
+                    <th class="txtcentro">Celular</th>
+                  </tr>
+                </thead>
+                <tbody class="filasestrechas">
+                  <tr ng-repeat="alumno in AlumnosPrematriculadosA">
+                    <td>{{ $index+1 }}</td>
+                    <td><span uib-tooltip="Documento: {{ alumno.documento }}">{{ alumno.apellidos }} {{ alumno.nombres }}</span></td>
+                    <td class="txtcentro"><span ng-show="alumno.nuevo" uib-tooltip="¿Es nuevo?">Si</span><span ng-show="!alumno.nuevo" uib-tooltip="¿Es nuevo?">No</span></td>
+                    <td>{{ alumno.celular }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div><br><a href="" ng-click="verObservacionesRequisitos()">Ver observaciones hechas en los requisitos de matrículas.</a>
       <div ng-show="viendo_requisitos" class="caja-observaciones-requisitos"><span class="hidden-print">Elija el requisito:</span><br>
         <button ng-click="requisitoSeleccionado(requisito)" ng-repeat="requisito in requisitos" class="btn btn-default btn-sm hidden-print">{{ requisito.requisito }}</button>
         <!--| Observaciones que se han hecho:
         button.btn.btn-default.btn-sm(ng-click="observacionSeleccionada(observacion)" ng-repeat="observacion in observaciones_requisitos")
-        	| {{ observacion.descripcion }}
+          | {{ observacion.descripcion }}
         
         -->
         <table ng-show="viendo_observaciones_requisitos" class="table table-condensed table-striped table-hover table-responsive">
