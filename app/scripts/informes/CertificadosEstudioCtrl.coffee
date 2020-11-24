@@ -6,7 +6,7 @@ angular.module("myvcFrontApp")
 	$scope.year           = alumnos[1]
 	$scope.alumnos        = alumnos[2]
 	$scope.escalas_val    = alumnos[3]
-	console.log(alumnos[3])
+	
 
 	$scope.$stateParams 	= $stateParams
 
@@ -27,6 +27,12 @@ angular.module("myvcFrontApp")
 		, (r2)->
 			toastr.error 'Cambio no guardado', 'Error'
 		)
+
+
+	$scope.espaciado = false
+	if alumnos[2].length > 0
+		if alumnos[2][0].asignaturas.length < 13
+			$scope.espaciado = true
 
 
 	if $scope.requested_alumnos

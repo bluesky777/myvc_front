@@ -35,7 +35,7 @@ div(style="display: table; min-height: 28cm ; position: relative; " ng-class="{'
 
 
 
-						.row.descripcion-encabezado(style="margin-top: 4px; ")
+						.row.descripcion-encabezado(style="margin-top: 4px; " ng-class="{'espaciado': espaciado}")
 							.col-lg-12.col-xs-12
 
 								.grupo-alumno(ng-if="$parent.$state.is('panel.informes.certificados_estudio_periodo')")
@@ -69,7 +69,7 @@ div(style="display: table; min-height: 28cm ; position: relative; " ng-class="{'
 									span(ng-if="::alumno.asignaturas.length>16")
 										|   Hacen constar
 
-									div.text-center(style="font-size: 11pt;" ng-if="::alumno.asignaturas.length<=16")
+									div.text-center.hace-constar(style="font-size: 11pt;" ng-if="::alumno.asignaturas.length<=16" ng-class="{'espaciado': espaciado}")
 										b   HACEN CONSTAR
 
 
@@ -99,12 +99,12 @@ div(style="display: table; min-height: 28cm ; position: relative; " ng-class="{'
 											span(ng-show="alumno.no_matricula")   {{ alumno.no_matricula }}
 											span(ng-hide="alumno.no_matricula")   {{ alumno.documento | formatNumberDocumento }}
 
-				.row(uib-popover-template="views+'informes/infoTitularPop.tpl.html'"
+				.row.certi-nro-matri(uib-popover-template="views+'informes/infoTitularPop.tpl.html'" ng-class="{'espaciado': espaciado}"
 					popover-popup-delay="400" popover-title="{{grupo.nombres_profesor + ' ' + grupo.apellidos_profesor}}" popover-animation="true"
 					popover-trigger="'mouseenter'" style="font-weight: bold;" popover-append-to-body="true")
 
 					.col-lg-6.col-xs-6(style="font-size: 10pt;" ng-if="::alumno.asignaturas.length<=16 || year.contador_folios.length > 0")
-						| No Matrícula:
+						| Nro Matrícula:
 						span(ng-show="alumno.no_matricula")   {{ alumno.no_matricula }}
 						span(ng-hide="alumno.no_matricula")   {{ alumno.documento | formatNumberDocumento }}
 
@@ -238,9 +238,9 @@ div(style="display: table; min-height: 28cm ; position: relative; " ng-class="{'
 
 
 
-				.row.footer-boletin
+				.row.footer-boletin 
 					.col-lg-12.col-xs-12
-					.row
+					.row.firma-rector(ng-class="{'espaciado': espaciado}")
 						.col-lg-6.col-xs-6.rector-firma
 							img(ng-show="config.show_firma_rector" ng-src="{{perfilPath + year.rector_firma}}")
 

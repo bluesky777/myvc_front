@@ -80,7 +80,7 @@
                   <div>{{::$index+1}}</div>
                 </td>
                 <td ng-click="filaNotaRapida(alumno, $index)" style="padding: 0 5px;" class="fixed-cell nombres-notas">
-                  <div uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true" ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" class="nombresellipsis"><img ng-src="{{perfilPath + alumno.userData.foto_nombre}}" style="width: 30px; height: 30px;">{{alumno.apellidos + ' ' + alumno.nombres}}<span ng-show="alumno.estado=='ASIS'" style="font-size: 8pt">(Asis)</span><span ng-show="alumno.estado=='PREM'" style="font-size: 8pt">(Prem)</span></div>
+                  <div uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true" ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" class="nombresellipsis"><img ng-src="{{perfilPath + alumno.userData.foto_nombre}}" style="width: 30px; height: 30px;"><span ng-if="::alumno.nee" style="padding: 2px; color: #2169ed; position: relative;" uib-tooltip="Necesidades Educativas Especiales"><i class="fa fa-star"></i><span style="position: absolute; bottom: -6px; font-size: 9px; left: 0px;">NEE</span></span>{{alumno.apellidos + ' ' + alumno.nombres}}<span ng-show="alumno.estado=='ASIS'" style="font-size: 8pt">(Asis)</span><span ng-show="alumno.estado=='PREM'" style="font-size: 8pt">(Prem)</span></div>
                 </td>
                 <!-- Ausencias-->
                 <td class="td-ausencia">

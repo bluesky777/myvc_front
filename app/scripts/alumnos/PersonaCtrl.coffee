@@ -309,6 +309,14 @@ angular.module("myvcFrontApp")
       toastr.success('Asignado.')
     )
 
+
+
+  $btGrid1 = '<a uib-tooltip="Cambiar" ng-show="row.entity.nombres" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.cambiarAcudiente(row.entity, row.entity)" tooltip-append-to-body="true"><i class="fa fa-edit "></i></a>';
+  $btGrid2 = '<a uib-tooltip="Quitar parentesco" ng-show="row.entity.nombres" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.quitarAcudiente(row.entity, row.entity)" tooltip-append-to-body="true"><i class="fa fa-trash "></i></a>';
+  $btGrid3 = '<a uib-tooltip="Asignar también a otro alumno" class="btn btn-default btn-xs shiny" ng-click="grid.appScope.asignarAOtro(row.entity)" tooltip-append-to-body="true" style="height: 24px;">Compartir con...</a>';
+  $btEdit = '<span style="padding-left: 2px; padding-top: 4px;" class="btn-group">' + $btGrid1 + $btGrid2 + $btGrid3 + '</span>';
+
+
   columna_editable  = {name: 'edicion'}
   columna_usu       = {name: 'usuario'}
   editable          = !AuthService.hasRoleOrPerm(['psicólogo', 'enfermero']);
@@ -318,12 +326,6 @@ angular.module("myvcFrontApp")
 
   if editable
     columna_usu       = { name: "Usuario", field: "username", minWidth: 135, cellTemplate: "==directives/botonesResetPassword.tpl.html", editableCellTemplate: "==alumnos/botonEditUsername.tpl.html" }
-
-
-  $btGrid1 = '<a uib-tooltip="Cambiar" ng-show="row.entity.nombres" tooltip-placement="left" class="btn btn-default btn-xs shiny icon-only info" ng-click="grid.appScope.cambiarAcudiente(row.entity, row.entity)" tooltip-append-to-body="true"><i class="fa fa-edit "></i></a>';
-  $btGrid2 = '<a uib-tooltip="Quitar parentesco" ng-show="row.entity.nombres" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.quitarAcudiente(row.entity, row.entity)" tooltip-append-to-body="true"><i class="fa fa-trash "></i></a>';
-  $btGrid3 = '<a uib-tooltip="Asignar también a otro alumno" class="btn btn-default btn-xs shiny" ng-click="grid.appScope.asignarAOtro(row.entity)" tooltip-append-to-body="true" style="height: 24px;">Compartir con...</a>';
-  $btEdit = '<span style="padding-left: 2px; padding-top: 4px;" class="btn-group">' + $btGrid1 + $btGrid2 + $btGrid3 + '</span>';
 
 
   $scope.gridOptionsAcudientes =

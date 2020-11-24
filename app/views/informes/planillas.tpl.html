@@ -56,7 +56,10 @@
                   <tr ng-repeat="alumno in ::asignatura.alumnos1" class="altura-22">
                     <td>{{$index + 1}}</td>
                     <td>
-                      <div ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative; vertical-align: middle;" uib-tooltip="{{::alumno.nee_descripcion}}" class="ellipsis250 alumno-planilla">{{::alumno.apellidos}} {{::alumno.nombres}}<span ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;">(Asis)</span><span ng-show="alumno.estado=='PREM'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;">(Prema)</span><span ng-show="alumno.nee" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: 6px; font-weight: bold;">NEE</span></div>
+                      <div ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative; vertical-align: middle;" uib-tooltip="{{::alumno.nee_descripcion}}" class="ellipsis250 alumno-planilla"><span ng-if="::alumno.nee" style="padding: 2px; color: #2169ed; position: relative;" uib-tooltip="Necesidades Educativas Especiales"><i class="fa fa-star"></i></span>{{::alumno.apellidos}} {{::alumno.nombres}}<span ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;">(Asis)</span><span ng-show="alumno.estado=='PREM'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;">(Prema)</span>
+                        <!--span(ng-show="alumno.nee" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: 6px; font-weight: bold;")| NEE
+                        -->
+                      </div>
                     </td>
                     <td class="text-center">
                       <div class="def-per-planilla"><span ng-show="::alumno.periodos[0].nota_asignatura">{{ ::alumno.periodos[0].nota_asignatura }}</span></div>

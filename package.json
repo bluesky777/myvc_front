@@ -8,10 +8,11 @@
   },
   "license": "MIT",
   "dependencies": {
-    "hoek": "^5.0.3"
+    "hoek": "^5.0.3",
+    "natives": "^1.1.6"
   },
   "devDependencies": {
-    "grunt": "^1.0.3",
+    "grunt": "^1.0.4",
     "grunt-autoprefixer": "^3.0.4",
     "grunt-concurrent": "^2.3.1",
     "grunt-contrib-clean": "^1.1.0",

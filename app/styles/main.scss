@@ -1996,7 +1996,7 @@ tr { page-break-inside: avoid }
     background-color: #fff;
 }
 .inmovible .nombres-notas .nombresellipsis{
-  width: 200px;
+  width: 250px;
 }
 .etiqueta-alumno{
   margin: 20px 10px;
@@ -2117,3 +2117,19 @@ body.modal-open .datepicker {
   }
 }
 
+
+.hace-constar.espaciado{
+	margin: 15px;
+}
+
+.firma-rector.espaciado{
+	margin-top: 70px;
+}
+.certi-nro-matri.espaciado{
+	margin-top: 30px;
+}
+/*
+.descripcion-encabezado.espaciado{
+	margin-top: 15px;
+}
+*/

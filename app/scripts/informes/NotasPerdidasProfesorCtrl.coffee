@@ -75,6 +75,7 @@ angular.module('myvcFrontApp')
 		{campo: 'ninguno', valor: 'Ninguna'}
 		{campo: 'documento', valor: 'Documento'}
 		{campo: 'telefonos', valor: 'Teléfonos'}
+		{campo: 'username', valor: 'Nombre de usuario'}
 		{campo: 'ciudad_nac_nombre', valor: 'Ciudad nacimiento'}
 		{campo: 'es_urbana', valor: 'Urbanidad'}
 		{campo: 'direccion', valor: 'Dirección'}
@@ -86,7 +87,9 @@ angular.module('myvcFrontApp')
 		{campo: 'eps', valor: 'EPS'}
 	]
 
-	$scope.columnasDatosTd = [$scope.campos[1]]
+
+	$scope.columnasDatosTd 	= [$scope.campos[1]]
+	$scope.columnasDatos 	= ["documento"]
 
 	$scope.columnasArray = new Array($scope.columnas)
 
@@ -113,15 +116,18 @@ angular.module('myvcFrontApp')
 			for campo in $scope.campos
 				if campo.campo == col
 					res.push(campo)
+			
+			###
 			if col == 'ninguno'
 				ninguno = true
+			###
 
 		if ninguno == true
 			$scope.columnasDatos = []
 		else
 			$scope.columnasDatosTd = res
-
-		console.log($scope.columnasDatosTd)
+		
+		console.log(cols, $scope.columnasDatosTd)
 
 
 
@@ -169,6 +175,34 @@ angular.module('myvcFrontApp')
 
 	$scope.onEditorReady = ()->
 		console.log 'Editor listo'
+
+	$scope.USER = Perfil.User()
+
+	$scope.perfilPath = App.images+'perfil/'
+
+
+	$scope.$emit 'cambia_descripcion', 'Observador del alumno '
+
+])
+
+
+
+
+.controller('VerObservadorHorizontalCtrl',['$scope', 'App', 'Perfil', 'grupos_observador', '$state', '$http', '$stateParams', ($scope, App, Perfil, grupos_observador, $state, $http, $stateParams)->
+	$scope.grupo 		= grupos_observador.data.grupo
+	$scope.imagenes 	= grupos_observador.data.imagenes
+	$scope.filasFirst 	= [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
+	
+	
+	$scope.observ 		= {
+		encabezado_margin_top: 150
+		encabezado_margin_left: 200
+	}
+	
+	for img in $scope.imagenes
+		if img.nombre.includes('fondo-observador.png')
+			$scope.observ.imagen = img
+
 
 	$scope.USER = Perfil.User()
 

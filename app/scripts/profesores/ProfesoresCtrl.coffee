@@ -53,7 +53,8 @@ angular.module("myvcFrontApp")
       enableHiding: false, cellTemplate: '<div class="ui-grid-cell-contents" style="padding: 0px;"><img ng-src="{{grid.appScope.perfilPath + row.entity.foto_nombre}}" style="width: 35px" />{{row.entity.nombres}}</div>' }
       { field: 'apellidos', minWidth: 150 }
       { field: 'id', displayName:'Id', width: 50, enableFiltering: false, enableCellEdit: false}
-      { name: 'edicion', displayName:'Edición', width: 50, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2, enableCellEdit: false}
+      #{ name: 'edicion', displayName:'Edición', width: 50, enableSorting: false, enableFiltering: false, cellTemplate: btGrid1 + btGrid2, enableCellEdit: false}
+      { name: 'edicion', displayName:'Edición', width: 50, enableSorting: false, enableFiltering: false, cellTemplate: btGrid2, enableCellEdit: false}
       { field: 'sexo', displayName: 'Sex', width: 40 }
       { field: 'num_doc', displayName: 'Documento', minWidth: 130, cellFilter: 'formatNumberDocumento' }
       { field: 'titulo', minWidth: 200 }

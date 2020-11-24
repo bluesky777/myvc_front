@@ -22,8 +22,21 @@
 			.form-group
 				selector-grupo-dir
 
-
-			p Mueva las columnas para mayor comodidad y oculte las que desee:
+			div(style="border: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238);")
+				button.btn.btn-default(ng-click="cambiarVariasClaves()") Cambiar claves y usuarios
+				div(ng-show="cambiandoClave" style="padding: 5px; ")
+					input.form-control(ng-model="clave_cambiar" type="text" placeholder="Escriba contraseña" style="width: 257px")
+					input.btn.btn-default(ng-click="guardarClaves()" type="button" value="Cambiar a grupo" uib-tooltip="Cambiar contraseña SOLO a grupo")
+					input.btn.btn-default(ng-click="guardarClavesTodosAlumnos()" type="button" value="Cambiar a todos"  uib-tooltip="Cambiar a TODOS los ALUMNOS del plantel")
+					br
+					input.btn.btn-default(ng-click="guardarClavesTodosAcudientes()" type="button" value="Cambiar a los acudientes"  uib-tooltip="Cambiar a TODOS los acudientes del plantel" style="width: 257px")
+					br
+					div(style="margin-top: 20px;") Establecer documento como usuario a todos los grupos (los que no tengan documento NO serán modificados y los errores por documentos duplicados serán ignorados):
+					input.btn.btn-default(ng-click="PonerDocumentoComoUsernameAlumnos()" type="button" value="Establecer documento a alumnos")
+					input.btn.btn-default(ng-click="PonerDocumentoComoUsernameAcudientes()" type="button" value="Establecer documento a acudientes")
+						
+				
+			p(style="margin-top: 8px") Mueva las columnas para mayor comodidad y oculte las que desee:
 			#grid1.grid(ui-grid="gridOptions" ui-grid-exporter ui-grid-move-columns ui-grid-expandable ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-auto-resize ui-grid-pinning style="height: 600px")
 
 

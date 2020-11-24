@@ -191,7 +191,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 							|  manejan el ingreso o no al siguiente nivel escolar.
 
 
-				.col-lg-12.col-xs-12(style="margin-bottom: 20px; font-size: 11pt;" ng-if="alumno.recuperaciones.length>0 && year.cant_asignatura_pierde_year>0")
+				.col-lg-12.col-xs-12(style="margin-bottom: 20px; font-size: 11pt;" ng-if="alumno.recuperaciones.length>0")
 					.row(ng-repeat="recuperacion in alumno.recuperaciones")
 						.col-lg-1.col-xs-1
 						.col-lg-4.col-xs-4

@@ -51,7 +51,10 @@ angular.module('myvcFrontApp', [
 	#frontapp 	= dominio + 'myvc_front/'
 
 	dominio 	= location.protocol + '//' + location.hostname + '/'
-
+	
+	if location.hostname == 'localhost'
+		dominio 	= location.protocol + '//' + location.hostname + ':8080/'
+		
 	server 		= dominio + '5myvc/public/'
 	frontapp 	= location.origin + '/myvc_front/'
 

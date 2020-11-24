@@ -15,7 +15,7 @@
             <div style="padding: 0;" ng-if="::!$parent.hasRoleOrPerm(['psicólogo', 'profesor'])" class="col-lg-8 col-xs-8 title-encabezado-boletin">
               <div class="nombre-colegio">{{ ::year.nombre_colegio }} - {{ ::year.abrev_colegio }}</div>
               <div class="resolucion-colegio"><span ng-bind-html="::year.encabezado_certificado" ng-if="::year.encabezado_certificado!=null &amp;&amp; year.encabezado_certificado!='' "></span><span ng-hide="::year.encabezado_certificado!=null &amp;&amp; year.encabezado_certificado!=''">{{::year.resolucion}}</span></div>
-              <div class="title-descripcion">Boletin periodo {{ ::USER.numero_periodo }} - {{ ::USER.year }}</div>
+              <div class="title-descripcion">Boletin periodo {{ ::year.periodo }} - {{ ::USER.year }}</div>
             </div>
             <div style="padding: 0;" class="col-lg-2 col-xs-2"><img ng-src="{{::perfilPath}}{{::alumno.foto_nombre}}" ng-show="config.mostrar_foto &amp;&amp; alumno.foto_id" class="img-responsive foto-alumno"></div>
           </div>

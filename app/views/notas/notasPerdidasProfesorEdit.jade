@@ -62,9 +62,15 @@
 									td
 										.nombresellipsis( uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'"
 											popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}"
-											popover-trigger="'mouseenter'" popover-popup-delay="500"
+											popover-trigger="'mouseenter'" popover-popup-delay="500"  
 											ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}")
-
+											
+											
+											span(ng-if="::alumno.nee" style="padding: 2px; color: #2169ed; position: relative; top: -4px;" uib-tooltip="Necesidades Educativas Especiales")
+												i.fa.fa-star
+												span(style="position: absolute; bottom: -6px; font-size: 9px; left: 0px;") NEE
+												
+											
 											| {{alumno.apellidos + ' ' + alumno.nombres}}
 
 									td

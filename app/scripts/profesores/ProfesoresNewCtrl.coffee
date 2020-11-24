@@ -6,6 +6,7 @@ angular.module("myvcFrontApp")
 
 	$scope.profesor =
 		'sexo'			: 'M'
+		'password'		: '1234567'
 		'fecha_nac'		: new Date('1990-01-01')
 
 

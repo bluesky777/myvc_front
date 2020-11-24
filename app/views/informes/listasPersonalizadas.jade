@@ -17,6 +17,7 @@
       option(value="{{campo.campo}}" ng-repeat="campo in campos") {{ campo.valor }}
       // sdc
         option(value="documento") Documento
+        option(value="username") Nombre de usuario
         option(value="telefonos") Teléfonos
         option(value="ciudad_nac_nombre") Ciudad nacimiento
         option(value="es_urbano") Urbanidad
@@ -76,7 +77,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
                 | No
               th.text-center(style="width: 190px")
                 | Nombres
-              th(ng-repeat="columna in columnasDatosTd" style="text-align: center; width: 30px;")
+              th(ng-repeat="columna in columnasDatosTd" style="text-align: center; width: 30px;" ng-if="columna.valor!='Ninguna' ")
                 | {{columna.valor}}
               th.text-center(ng-repeat="i in columnasArray track by $index")
                 input.hidden-print(type="text" ng-model="i.titulo")
@@ -101,7 +102,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
                     | (Prem)
 
 
-              td.text-center(ng-repeat="columna in columnasDatosTd")
+              td.text-center(ng-repeat="columna in columnasDatosTd" ng-if="columna.valor!='Ninguna' ")
                 span(ng-show="columna.campo=='documento'") {{ alumno.documento | formatNumberDocumento }}
                 span(ng-show="columna.campo!='documento'") {{ alumno[columna.campo] }}
 

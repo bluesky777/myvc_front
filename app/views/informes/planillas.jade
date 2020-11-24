@@ -57,12 +57,18 @@ div(ng-repeat="asignatura in ::asignaturas")
                     td
                       .ellipsis250.alumno-planilla(ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative; vertical-align: middle;"
                         uib-tooltip="{{::alumno.nee_descripcion}}")
+                        
+                        
+                        span(ng-if="::alumno.nee" style="padding: 2px; color: #2169ed; position: relative;" uib-tooltip="Necesidades Educativas Especiales")
+                          i.fa.fa-star
+                          
+                          
                         | {{::alumno.apellidos}} {{::alumno.nombres}}
                         span(ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;")
                           | (Asis)
                         span(ng-show="alumno.estado=='PREM'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;")
                           | (Prema)
-                        span(ng-show="alumno.nee" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: 6px; font-weight: bold;")
+                        //span(ng-show="alumno.nee" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: 6px; font-weight: bold;")
                           | NEE
                     td.text-center
                       .def-per-planilla

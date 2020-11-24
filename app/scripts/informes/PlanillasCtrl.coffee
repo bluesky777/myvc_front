@@ -22,15 +22,15 @@ angular.module('myvcFrontApp')
 	for asign in $scope.asignaturas
 		asign.alumnos_temp = asign.alumnos
 
-		if asign.alumnos_temp.length < 32
+		if asign.alumnos_temp.length < 34
 			asign.alumnos1 = asign.alumnos_temp
 
-		else if asign.alumnos_temp.length < 37
+		else if asign.alumnos_temp.length < 38
 			asign.alumnos1 = asign.alumnos_temp.splice(0, 27)
 			asign.alumnos2 = asign.alumnos_temp.splice(0, 20)
 
-		else if asign.alumnos_temp.length < 62
-			asign.alumnos1 = asign.alumnos_temp.splice(0, 31)
+		else if asign.alumnos_temp.length < 65
+			asign.alumnos1 = asign.alumnos_temp.splice(0, 33)
 			asign.alumnos2 = asign.alumnos_temp.splice(0, 32)
 
 

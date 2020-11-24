@@ -9,7 +9,19 @@
       <div class="form-group">
         <selector-grupo-dir></selector-grupo-dir>
       </div>
-      <p>Mueva las columnas para mayor comodidad y oculte las que desee:</p>
+      <div style="border: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238);">
+        <button ng-click="cambiarVariasClaves()" class="btn btn-default">Cambiar claves y usuarios</button>
+        <div ng-show="cambiandoClave" style="padding: 5px; ">
+          <input ng-model="clave_cambiar" type="text" placeholder="Escriba contraseña" style="width: 257px" class="form-control">
+          <input ng-click="guardarClaves()" type="button" value="Cambiar a grupo" uib-tooltip="Cambiar contraseña SOLO a grupo" class="btn btn-default">
+          <input ng-click="guardarClavesTodosAlumnos()" type="button" value="Cambiar a todos" uib-tooltip="Cambiar a TODOS los ALUMNOS del plantel" class="btn btn-default"><br>
+          <input ng-click="guardarClavesTodosAcudientes()" type="button" value="Cambiar a los acudientes" uib-tooltip="Cambiar a TODOS los acudientes del plantel" style="width: 257px" class="btn btn-default"><br>
+          <div style="margin-top: 20px;">Establecer documento como usuario a todos los grupos (los que no tengan documento NO serán modificados y los errores por documentos duplicados serán ignorados):</div>
+          <input ng-click="PonerDocumentoComoUsernameAlumnos()" type="button" value="Establecer documento a alumnos" class="btn btn-default">
+          <input ng-click="PonerDocumentoComoUsernameAcudientes()" type="button" value="Establecer documento a acudientes" class="btn btn-default">
+        </div>
+      </div>
+      <p style="margin-top: 8px">Mueva las columnas para mayor comodidad y oculte las que desee:</p>
       <div id="grid1" ui-grid="gridOptions" ui-grid-exporter ui-grid-move-columns ui-grid-expandable ui-grid-edit ui-grid-resize-columns ui-grid-cellnav ui-grid-auto-resize ui-grid-pinning style="height: 600px" class="grid"></div>
       <hr class="wide">
       <h4 style="margin-top: 15px">Alumnos retirados {{ USER.year }}:<a href="" ng-click="mostrar_retirados=!mostrar_retirados" style="margin-left: 20px"><i class="fa fa-eye"></i></a></h4>

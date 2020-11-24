@@ -102,6 +102,10 @@
 			hr.wide
 			.row
 				.form-group.col-lg-4.col-sm-6.col-xs-12
+					label(for="acudiente-new-celular") Celular
+					input#acudiente-new-celular.form-control(type="text" ng-model="acudiente.celular" placeholder="Celular")
+
+				.form-group.col-lg-4.col-sm-6.col-xs-12
 					label Pais documento
 					ui-select(ng-model="acudiente.pais_doc" on-select="paisSelecionado($item, $model)" style="width: 100%;")
 						ui-select-match(placeholder="Pais documento" allow-clear="true") {{$select.selected.pais}} ({{$select.selected.abrev}})
@@ -126,36 +130,38 @@
 
 
 
-			hr.wide
-			.row
-				.form-group.col-lg-4.col-sm-6.col-xs-12(style="margin-bottom: 12px;")
-					label(for="acudiente-new-fecha-nac") Fecha de nacimiento
-					.controls
-						.input-group
-							span.input-group-addon
-								i.fa.fa-calendar
-							input.form-control.active#acudiente-new-fecha-nac(type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="acudiente.fecha_nac" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2020-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha nacimiento")
+			//
+				hr.wide
+				.row
+					
+					.form-group.col-lg-4.col-sm-6.col-xs-12(style="margin-bottom: 12px;")
+						label(for="acudiente-new-fecha-nac") Fecha de nacimiento
+						.controls
+							.input-group
+								span.input-group-addon
+									i.fa.fa-calendar
+								input.form-control.active#acudiente-new-fecha-nac(type="text" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="acudiente.fecha_nac" is-open="data.isOpen" ng-click="data.isOpen = true" max-date="'2020-12-12'" datepicker-options="dateOptions" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Fecha nacimiento")
+				
+					.form-group.col-lg-4.col-sm-6.col-xs-12
+						label Pais nacimiento
+						ui-select(ng-model="acudiente.pais_nac" on-select="paisNacSelect($item, $model)" style="width: 100%;")
+							ui-select-match(placeholder="Pais nacimiento" allow-clear="true") {{$select.selected.pais}} ({{$select.selected.abrev}})
+							ui-select-choices(repeat="pais in paises | filter: $select.search")
+								div(ng-bind-html="pais.pais | highlight: $select.search")
+								small {{ pais.departamento | highlight: $select.search}}
+					.form-group.col-lg-4.col-sm-6.col-xs-12
+						label Departamento nac
+						ui-select(ng-model="acudiente.departamento_nac" on-select="departNacSelect($item, $model)" style="width: 100%;")
+							ui-select-match(placeholder="Departamento nacimiento" allow-clear="true") {{$select.selected.departamento}}
+							ui-select-choices(repeat="departamento in departamentosNac | filter: $select.search")
+								div(ng-bind-html="departamento.departamento | highlight: $select.search")
 
-				.form-group.col-lg-4.col-sm-6.col-xs-12
-					label Pais nacimiento
-					ui-select(ng-model="acudiente.pais_nac" on-select="paisNacSelect($item, $model)" style="width: 100%;")
-						ui-select-match(placeholder="Pais nacimiento" allow-clear="true") {{$select.selected.pais}} ({{$select.selected.abrev}})
-						ui-select-choices(repeat="pais in paises | filter: $select.search")
-							div(ng-bind-html="pais.pais | highlight: $select.search")
-							small {{ pais.departamento | highlight: $select.search}}
-				.form-group.col-lg-4.col-sm-6.col-xs-12
-					label Departamento nac
-					ui-select(ng-model="acudiente.departamento_nac" on-select="departNacSelect($item, $model)" style="width: 100%;")
-						ui-select-match(placeholder="Departamento nacimiento" allow-clear="true") {{$select.selected.departamento}}
-						ui-select-choices(repeat="departamento in departamentosNac | filter: $select.search")
-							div(ng-bind-html="departamento.departamento | highlight: $select.search")
-
-				.form-group.col-lg-4.col-sm-6.col-xs-12
-					label Ciudad nacimiento
-					ui-select(ng-model="acudiente.ciudad_nac" style="width: 100%;")
-						ui-select-match(placeholder="Ciudad nacimiento" allow-clear="true") {{$select.selected.ciudad}}
-						ui-select-choices(repeat="ciudad in ciudadesNac | filter: $select.search")
-							div(ng-bind-html="ciudad.ciudad | highlight: $select.search")
+					.form-group.col-lg-4.col-sm-6.col-xs-12
+						label Ciudad nacimiento
+						ui-select(ng-model="acudiente.ciudad_nac" style="width: 100%;")
+							ui-select-match(placeholder="Ciudad nacimiento" allow-clear="true") {{$select.selected.ciudad}}
+							ui-select-choices(repeat="ciudad in ciudadesNac | filter: $select.search")
+								div(ng-bind-html="ciudad.ciudad | highlight: $select.search")
 
 
 

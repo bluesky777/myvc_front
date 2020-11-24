@@ -12,6 +12,7 @@
       <option value="{{campo.campo}}" ng-repeat="campo in campos">{{ campo.valor }}</option>
       <!-- sdc
       option(value="documento") Documento
+      option(value="username") Nombre de usuario
       option(value="telefonos") Teléfonos
       option(value="ciudad_nac_nombre") Ciudad nacimiento
       option(value="es_urbano") Urbanidad
@@ -63,7 +64,7 @@
             <tr>
               <th style="width: 20px">No</th>
               <th style="width: 190px" class="text-center">Nombres</th>
-              <th ng-repeat="columna in columnasDatosTd" style="text-align: center; width: 30px;">{{columna.valor}}</th>
+              <th ng-repeat="columna in columnasDatosTd" style="text-align: center; width: 30px;" ng-if="columna.valor!='Ninguna' ">{{columna.valor}}</th>
               <th ng-repeat="i in columnasArray track by $index" class="text-center">
                 <input type="text" ng-model="i.titulo" class="hidden-print">
                 <div class="show-on-print">{{i.titulo}}</div>
@@ -76,7 +77,7 @@
               <td style="width: 190px">
                 <div uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true" ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative; vertical-align: middle;" class="nombresellipsis ellipsis250">{{ alumno.apellidos }} {{ alumno.nombres }}<span ng-show="alumno.estado=='ASIS'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;">(Asis)</span><span ng-show="alumno.estado=='PREM'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;">(Prem)</span></div>
               </td>
-              <td ng-repeat="columna in columnasDatosTd" class="text-center"><span ng-show="columna.campo=='documento'">{{ alumno.documento | formatNumberDocumento }}</span><span ng-show="columna.campo!='documento'">{{ alumno[columna.campo] }}</span></td>
+              <td ng-repeat="columna in columnasDatosTd" ng-if="columna.valor!='Ninguna' " class="text-center"><span ng-show="columna.campo=='documento'">{{ alumno.documento | formatNumberDocumento }}</span><span ng-show="columna.campo!='documento'">{{ alumno[columna.campo] }}</span></td>
               <td ng-repeat="i in columnasArray track by $index" style="min-width: 50px"></td>
             </tr>
           </tbody>

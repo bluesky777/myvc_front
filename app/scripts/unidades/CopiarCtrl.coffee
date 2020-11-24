@@ -55,7 +55,8 @@ angular.module('myvcFrontApp')
 
 			if localStorage.asignatura_a_copiar
 				$scope.asignatura_a_copiar = JSON.parse(localStorage.asignatura_a_copiar)
-
+				delete localStorage.asignatura_a_copiar
+				
 				if $scope.asignatura_a_copiar.profesor_id
 
 					for profe in $scope.profesores

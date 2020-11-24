@@ -104,9 +104,15 @@
 										popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true"
 										ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}")
 										img(ng-src="{{perfilPath + alumno.userData.foto_nombre}}" style="width: 30px; height: 30px;")
+										
+										span(ng-if="::alumno.nee" style="padding: 2px; color: #2169ed; position: relative;" uib-tooltip="Necesidades Educativas Especiales")
+											i.fa.fa-star
+											span(style="position: absolute; bottom: -6px; font-size: 9px; left: 0px;") NEE
+											
 										| {{alumno.apellidos + ' ' + alumno.nombres}}
 										span(ng-show="alumno.estado=='ASIS'" style="font-size: 8pt") (Asis)
 										span(ng-show="alumno.estado=='PREM'" style="font-size: 8pt") (Prem)
+
 
 								// Ausencias
 								td.td-ausencia

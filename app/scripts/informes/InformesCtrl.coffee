@@ -43,7 +43,8 @@ angular.module('myvcFrontApp')
   if $state.params.grupo_id
     $tempParam 				      = parseInt($state.params.grupo_id)
     $scope.datos.grupo 		  = $filter('filter')($scope.grupos, {id: $tempParam}, true)[0]
-    $scope.filtered_alumnos = $filter('filter')(alumnos, {grupo_id: $tempParam}, true)
+    $scope.filtered_alumnos = $filter('orderBy')( $filter('filter')(alumnos, {grupo_id: $tempParam}, true) , 'apellidos')
+
 
   # Profesor seleccionado
   if $state.params.profesor_id
@@ -214,6 +215,8 @@ angular.module('myvcFrontApp')
     if !$scope.datos.grupo.id
       toastr.warning 'Debes seleccionar el grupo'
       return
+    delete localStorage.alumno_boletin
+    localStorage.grupo_boletines = 'Boletines ' + $scope.datos.grupo.nombre
     $scope.config.orientacion = 'vertical'
     $state.go 'panel.informes.boletines_periodo'+tipo, {grupo_id: $scope.datos.grupo.id, periodo_a_calcular: $scope.USER.numero_periodo}, {reload: true}
 
@@ -221,6 +224,14 @@ angular.module('myvcFrontApp')
     if tipo == '1' or tipo == 1
       tipo = ''
     if $scope.datos.selected_alumnos.length > 0
+      
+      if $scope.datos.selected_alumnos.length == 1
+        delete localStorage.grupo_boletines
+        localStorage.alumno_boletin = $scope.datos.selected_alumnos[0].apellidos + ' ' + $scope.datos.selected_alumnos[0].nombres + ' - ' + $scope.datos.grupo.abrev + ' Per' + $scope.USER.numero_periodo 
+      else 
+        delete localStorage.alumno_boletin
+        localStorage.grupo_boletines = 'Boletines ' + $scope.datos.grupo.nombre
+      
       $scope.config.orientacion = 'vertical'
       $cookies.putObject 'requested_alumnos', $scope.datos.selected_alumnos
       $state.go 'panel.informes.boletines_periodo'+tipo, {grupo_id: $scope.datos.grupo.id, periodo_a_calcular: $scope.USER.numero_periodo}, {reload: true}
@@ -232,6 +243,10 @@ angular.module('myvcFrontApp')
     if tipo == '1' or tipo == 1
       tipo = ''
     $cookies.remove 'requested_alumnos'
+    
+    delete localStorage.grupo_boletines
+    localStorage.alumno_boletin = $scope.datos.selected_alumno.apellidos + ' ' + $scope.datos.selected_alumno.nombres + ' - ' + $scope.datos.grupo.abrev + ' Per' + $scope.USER.numero_periodo 
+    
     if $scope.datos.selected_alumno
       $cookies.putObject 'requested_alumno', [$scope.datos.selected_alumno]
       $state.go 'panel.informes'
@@ -434,6 +449,16 @@ angular.module('myvcFrontApp')
     $state.go 'panel.informes.ver_observador_vertical', {grupo_id: $scope.datos.grupo.id}, {reload: true}
 
 
+
+  $scope.verObservadorHorizontal = ()->
+    #DownloadServ.download('::simat/alumnos', 'Grupos alumnos.xls')
+    if !$scope.datos.grupo.id
+      toastr.warning 'Debes seleccionar el grupo'
+      return
+
+    $state.go 'panel.informes.ver_observador_horizontal', {grupo_id: $scope.datos.grupo.id}, {reload: true}
+
+
   $scope.verObservadorVerticalTodos = ()->
     $state.go 'panel.informes.ver_observador_vertical_todos', {reload: true}
 
@@ -486,7 +511,7 @@ angular.module('myvcFrontApp')
 
   $scope.selectGrupo = (item)->
     if item
-      $scope.filtered_alumnos = $filter('filter')(alumnos, {grupo_id: item.id}, true)
+      $scope.filtered_alumnos = $filter('orderBy')( $filter('filter')(alumnos, {grupo_id: item.id}, true) , 'apellidos')
     else
       $scope.filtered_alumnos = alumnos
 
@@ -552,7 +577,10 @@ angular.module('myvcFrontApp')
       return
 
     datos = {grupo_id: $scope.datos.grupo.id, periodos_a_calcular: $scope.config.periodos_a_calcular};
-
+    
+    delete localStorage.alumno_boletin
+    localStorage.grupo_boletines = 'Boletines finales ' + $scope.datos.grupo.nombre
+        
     if $scope.tipo_boletin_final == 2 || $scope.tipo_boletin_final == '2'
       datos.year_selected = true
 
@@ -564,6 +592,13 @@ angular.module('myvcFrontApp')
     if $scope.datos.selected_alumnos.length > 0
       $cookies.putObject 'requested_alumnos', $scope.datos.selected_alumnos
 
+      if $scope.datos.selected_alumnos.length == 1
+        delete localStorage.grupo_boletines
+        localStorage.alumno_boletin = $scope.datos.selected_alumnos[0].apellidos + ' ' + $scope.datos.selected_alumnos[0].nombres + ' - ' + $scope.datos.grupo.abrev + ' Per' + $scope.USER.numero_periodo 
+      else 
+        delete localStorage.alumno_boletin
+        localStorage.grupo_boletines = 'Boletines finales ' + $scope.datos.grupo.nombre
+      
       datos = {grupo_id: $scope.datos.grupo.id, periodos_a_calcular: $scope.config.periodos_a_calcular}
       if $scope.tipo_boletin_final == 2 || $scope.tipo_boletin_final == '2'
         datos.year_selected = true
@@ -578,6 +613,10 @@ angular.module('myvcFrontApp')
     if $scope.datos.selected_alumno
       $cookies.remove 'requested_alumnos'
       $cookies.putObject 'requested_alumno', [$scope.datos.selected_alumno]
+      
+      delete localStorage.grupo_boletines
+      localStorage.alumno_boletin = $scope.datos.selected_alumno.apellidos + ' ' + $scope.datos.selected_alumno.nombres + ' - ' + $scope.datos.grupo.abrev + ' Per' + $scope.USER.numero_periodo 
+        
       $state.go 'panel.informes'
       $interval ()->
         datos = {grupo_id: $scope.datos.grupo.id, periodos_a_calcular: $scope.config.periodos_a_calcular}

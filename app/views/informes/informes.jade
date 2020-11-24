@@ -85,12 +85,12 @@
                     ui-select( ng-model="datos.selected_alumnos" multiple on-select="selectAlumnos($item)" style="width: 100%;")
                       ui-select-match(placeholder="Alumnos del grupo {{datos.grupo.abrev}}" allow-clear="true")
                         img(ng-src="{{perfilPath + $item.foto_nombre}}" style="width:25px; height:25px;")
-                        | {{$item.nombres}}
+                        | {{$item.apellidos}} {{$item.nombres}}
                       ui-select-choices(repeat="alumno in filtered_alumnos | filter: $select.search")
                         img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
-                        small(ng-show="alumno.estado=='DESE'" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (DESERTOR)</i>'")
-                        small(ng-show="alumno.estado=='RETI'" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)</i>'")
-                        small(ng-hide="alumno.estado=='RETI' || alumno.estado=='DESE'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
+                        small(ng-show="alumno.estado=='DESE'" ng-bind-html="'<i> -- ' + (alumno.apellidos + ' ' + alumno.nombres | highlight: $select.search) + ' -- (DESERTOR)</i>'")
+                        small(ng-show="alumno.estado=='RETI'" ng-bind-html="'<i> -- ' + (alumno.apellidos + ' ' + alumno.nombres | highlight: $select.search) + ' -- (RETIRADO)</i>'")
+                        small(ng-hide="alumno.estado=='RETI' || alumno.estado=='DESE'" ng-bind-html="alumno.apellidos + ' ' + alumno.nombres | highlight: $select.search")
                     a.btn.btn-default(href="" ng-click="verBoletinesAlumnos(tipo_boletin)") Cargar boletines
 
               .row(ng-hide="datos.grupo || USER.tipo=='Profesor'")
@@ -100,12 +100,12 @@
                     ui-select( ng-model="datos.selected_alumno" on-select="selectAlumno($item)" style="width: 300px;")
                       ui-select-match(placeholder="Elige un alumno" allow-clear="true")
                         img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;")
-                        | {{$select.selected.nombres}} {{$select.selected.apellidos}}
+                        | {{$select.selected.apellidos}} {{$select.selected.nombres}}
                       ui-select-choices(repeat="alumno in filtered_alumnos | filter: $select.search")
                         img(ng-src="{{perfilPath + alumno.foto_nombre}}" style="width:25px; height:25px;")
-                        small(ng-show="alumno.estado=='DESE'" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (DESERTOR)</i>'")
-                        small(ng-show="alumno.estado=='RETI'" ng-bind-html="'<i> -- ' + (alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search) + ' -- (RETIRADO)</i>'")
-                        small(ng-hide="alumno.estado=='RETI' || alumno.estado=='DESE'" ng-bind-html="alumno.nombres + ' ' + alumno.apellidos | highlight: $select.search")
+                        small(ng-show="alumno.estado=='DESE'" ng-bind-html="'<i> -- ' + (alumno.apellidos + ' ' + alumno.nombres | highlight: $select.search) + ' -- (DESERTOR)</i>'")
+                        small(ng-show="alumno.estado=='RETI'" ng-bind-html="'<i> -- ' + (alumno.apellidos + ' ' + alumno.nombres | highlight: $select.search) + ' -- (RETIRADO)</i>'")
+                        small(ng-hide="alumno.estado=='RETI' || alumno.estado=='DESE'" ng-bind-html="alumno.apellidos + ' ' + alumno.nombres | highlight: $select.search")
                     a.btn.btn-default(href="" ng-click="verBoletinAlumno(tipo_boletin)") Cargar boletin
               br
 
@@ -253,6 +253,8 @@
               ul.dropdown-menu(uib-dropdown-menu role="menu" aria-labelledby="split-button")
                 li(role="menuitem")
                   a(ng-click="verObservadorVerticalTodos()" href="") Observador vertical - Todos
+
+              a.btn.btn-default(href="" ng-click="verObservadorHorizontal()") Observador horizontal
 
             .btn-group
               a.btn.btn-default(href="" ng-click="verSimat()") SIMAT {{USER.year}}

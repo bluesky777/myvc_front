@@ -14,6 +14,7 @@ angular.module("myvcFrontApp")
 			'apellidos'		: ''
 			'sexo'			: 'M'
 			'documento'		: ''
+			'password'		: '1234567'
 			'fecha_nac'		: new Date('2000-06-26')
 			'tipo_sangre'	: {}
 			'eps'			: ''
@@ -114,14 +115,17 @@ angular.module("myvcFrontApp")
 		$scope.guardando = true
 
 		if !alumno.grupo and proceso=='matriculando'
+			$scope.guardando = false
 			toastr.warning 'Debe seleccionar el grupo.'
 			return
 
 		if !alumno.grupo_sig and proceso=='prematriculando'
+			$scope.guardando = false
 			toastr.warning 'Debe seleccionar el grupo.'
 			return
 
 		if alumno.nombres.length == 0
+			$scope.guardando = false
 			toastr.warning 'Debe copiar el nombre.'
 			return
 

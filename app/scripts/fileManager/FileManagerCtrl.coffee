@@ -258,6 +258,15 @@ angular.module("myvcFrontApp")
 			toastr.error 'Imagen no rotada'
 		)
 
+	$scope.rotarImagenIzquierda = (imagen)->
+		$http.put('::images-users/rotar-imagen-izquierda/'+imagen.id).then((r)->
+			imagen.nombre = ''
+			toastr.success 'Imagen rotada'
+			imagen.nombre = r.data + '?' + new Date().getTime()
+		, (r2)->
+			toastr.error 'Imagen no rotada'
+		)
+
 
 	$scope.publicarImagen = (imagen)->
 		$http.put('::myimages/publicar-imagen/'+imagen.id).then((r)->

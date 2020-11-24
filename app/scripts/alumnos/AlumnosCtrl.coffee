@@ -149,6 +149,71 @@ angular.module("myvcFrontApp")
 
 
 
+  $scope.cambiandoClave = false
+  $scope.cambiarVariasClaves = ()->
+    $scope.cambiandoClave = !$scope.cambiandoClave
+  
+  $scope.guardarClaves = ()->
+    if !$scope.dato.grupo.id > 0 
+      toastr.info "Primero debes elegir el grupo"
+
+    $http.put('::alumnos/cambiar-claves', { clave: $scope.clave_cambiar, grupo_id: $scope.dato.grupo.id }).then((r)->
+      toastr.success 'Claves cambiadas'
+    , (r2)->
+      toastr.error 'Hubo un problema cambiando las claves', 'Error'
+    )
+
+
+
+  $scope.guardarClavesTodosAlumnos = ()->
+    resp = confirm('¿Seguro que quiere cambiar la contraseña a TODOS los alumnos?')
+    if resp
+
+      $http.put('::cambiar-usuarios/poner-password-todos-alumnos', { clave: $scope.clave_cambiar }).then((r)->
+        toastr.success 'Claves cambiadas'
+      , (r2)->
+        toastr.error 'Hubo un problema cambiando las claves', 'Error'
+      )
+
+
+
+  $scope.guardarClavesTodosAcudientes = ()->
+    resp = confirm('¿Seguro que quiere cambiar la contraseña a TODOS los ACUDIENTES?')
+    if resp
+
+      $http.put('::cambiar-usuarios/poner-password-todos-acudientes', { clave: $scope.clave_cambiar }).then((r)->
+        toastr.success 'Claves cambiadas'
+      , (r2)->
+        toastr.error 'Hubo un problema cambiando las claves', 'Error'
+      )
+
+
+
+
+  $scope.PonerDocumentoComoUsernameAlumnos = ()->
+    resp = confirm('¿Seguro que quiere establecer documento de identidad como usuario a TODOS los alumnos?')
+    if resp
+
+      $http.put('::cambiar-usuarios/poner-documento-como-username-alumnos').then((r)->
+        toastr.success 'Usuarios de alumnos cambiados'
+      , (r2)->
+        toastr.error 'Hubo un problema cambiando los usuarios', 'Error'
+      )
+
+
+
+  $scope.PonerDocumentoComoUsernameAcudientes = ()->
+    resp = confirm('¿Seguro que quiere establecer documento de identidad como usuario a TODOS los ACUDIENTES?')
+    if resp
+
+      $http.put('::cambiar-usuarios/poner-documento-como-username-acudientes').then((r)->
+        toastr.success 'Usuarios de acudientes cambiados'
+      , (r2)->
+        toastr.error 'Hubo un problema cambiando los usuarios', 'Error'
+      )
+
+
+
 
   $scope.editar = (row)->
     #$state.go('panel.cartera.editar', {alumno_id: row.alumno_id})

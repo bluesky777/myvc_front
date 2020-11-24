@@ -463,6 +463,25 @@ angular.module('myvcFrontApp')
 
 
 
+		.state 'panel.informes.ver_observador_horizontal',
+			url: '/ver_observador_horizontal/:grupo_id'
+			params:
+				grupo_id: {value: null}
+			views:
+				'report_content':
+					templateUrl: "==informes/verObservadorHorizontal.tpl.html"
+					controller: 'VerObservadorHorizontalCtrl' # En NotasPerdidasProfesorCtrl.coffee
+					resolve:
+						grupos_observador: ['$http', '$stateParams', ($http, $stateParams)->
+							$http.put('::observador-horizontal/horizontal/'+$stateParams.grupo_id)
+						]
+			data:
+				displayName: 'Observador'
+				icon_fa: 'fa fa-print'
+				pageTitle: 'Observador - MyVc'
+
+
+
 		.state 'panel.informes.ver_observador_vertical_todos',
 			url: '/ver_observador_vertical_todos'
 			views:
