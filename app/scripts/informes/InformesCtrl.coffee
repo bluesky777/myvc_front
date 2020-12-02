@@ -15,6 +15,7 @@ angular.module('myvcFrontApp')
     show_porcentajes: true
     show_tabla_perdidas: true
     show_firma_titular: true
+    show_firma_secretario: true
     show_datos: true
     periodo_a_calcular: $scope.USER.numero_periodo
     generar_bol_final_prees: false
