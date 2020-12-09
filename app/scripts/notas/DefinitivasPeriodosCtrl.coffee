@@ -100,6 +100,18 @@ angular.module('myvcFrontApp')
 
 
 
+	$scope.arreglarDuplicados = (per)->
+		periodo = $scope.periodos[per];
+		$http.get('::definitivas_periodos/arreglar-duplicados?periodo_id='+periodo.id).then((r)->
+			console.log(r);
+		, (r2)->
+			if r2.status == 400
+				toastr.warning 'Parece que no tienes permisos', 'Lo sentimos'
+			else
+				toastr.error 'No pudimos guardar la nota ' + nota, '', {timeOut: 8000}
+		)
+
+
 	$scope.cambiaNotaRecuFinal = (alumno, nota, rf_id)->
 		if nota > $scope.escala_maxima.porc_final or nota == 'undefined' or nota == undefined
 			toastr.error 'No puede ser mayor de ' + $scope.escala_maxima.porc_final, 'NO guardada', {timeOut: 8000}

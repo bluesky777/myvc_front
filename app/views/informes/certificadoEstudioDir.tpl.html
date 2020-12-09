@@ -54,7 +54,7 @@
                   <!-- por ahora igual a ver si Francisco me pide cambiarlo--><span ng-show="::year.cant_areas_pierde_year &gt; 0">ESCALA VALORATIVA</span><span ng-show="::year.cant_asignatura_pierde_year &gt; 0">ESCALA VALORATIVA</span>
                 </td>
               </tr>
-              <tr ng-if="::area.asignaturas.length&gt;1" ng-repeat-start="area in ::alumno.areas | orderBy:'orden' track by $index">
+              <tr ng-if="::area.asignaturas.length&gt;1 || ::year.show_asignaturas_en_finales" ng-repeat-start="area in ::alumno.areas | orderBy:'orden' track by $index">
                 <td class="text-center"><span ng-show="area.asignaturas.length&gt;1">{{ $index + 1 }}</span></td>
                 <td><b>{{ ::area.area_nombre }}</b></td>
                 <td class="txtcentro"><span ng-show="::year.cant_areas_pierde_year&gt;0">{{ ::area.creditos }}</span></td>
@@ -131,6 +131,10 @@
           <div class="row">
             <div class="col-lg-6 col-xs-6 nombre-rector-firma">{{year.nombres_rector}} {{year.apellidos_rector}}</div>
             <div class="col-lg-6 col-xs-6 nombre-titular-firma">{{year.nombres_secretario}} {{year.apellidos_secretario}}</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 col-xs-6">{{year.rector_documento}}</div>
+            <div class="col-lg-6 col-xs-6">{{year.secretario_documento}}</div>
           </div>
           <div class="row">
             <div ng-show="::year.sexo_rector=='M'" style="margin-top: -5px;" class="col-lg-6 col-xs-6">Rector</div>

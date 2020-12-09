@@ -1,0 +1,483 @@
+
+<div ng-if="hasRoleOrPerm(['alumno'])" class="row hidden-print">
+  <div class="col-xs-12 col-md-12">
+    <div class="widget">
+      <div class="widget-header bordered-bottom bordered-themeprimary"><i class="widget-icon fa fa-money themeprimary"></i><span class="widget-caption themeprimary">Tesorería</span></div>
+      <div class="widget-body">
+        <div class="row">
+          <div class="col-lg-12 col-xs-12">
+            <p>Notas bloqueadas desde tesorería:<span style="font-weight: bold;" ng-show="USER.pazysalvo"> NO</span><span style="font-weight: bold; color: red; font-size: 15pt" ng-hide="USER.pazysalvo"> SI</span></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-xs-12">
+            <p>Su deuda es:<span style="font-weight: bold"> {{USER.deuda | currency:"$":0}}</span></p>
+          </div>
+        </div>
+        <div ng-show="USER.fecha_pension" class="row">
+          <div class="col-lg-12 col-xs-12">
+            <p>Fecha última actualización de pensión:<span style="font-weight: bold"> {{ USER.fecha_pension | date }}</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div ng-if="hasRoleOrPerm(['alumno'])" class="row hidden-print">
+  <div class="col-xs-12 col-md-12">
+    <div class="widget">
+      <div class="widget-header bordered-bottom bordered-themesecondary"><i class="widget-icon fa fa-tags themesecondary"></i><span class="widget-caption themesecondary">Disciplina</span></div>
+      <div class="widget-body">
+        <div class="widget-main no-padding">
+          <div class="row">
+            <div class="col-sm-12">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Tardanzas a la institución</th>
+                    <th>Ausencias a la institución</th>
+                    <th>Tardanzas a las clases</th>
+                    <th>Ausencias a las clases</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="periodo in changes_asked.ausencias_periodo">
+                    <td><span style="font-weight: bold">Per{{periodo.numero}}</span></td>
+                    <td class="text-center">{{ periodo.asistencia.cant_tardanzas_entrada }}</td>
+                    <td class="text-center">{{ periodo.asistencia.cant_ausencias_entrada }}</td>
+                    <td class="text-center">{{ periodo.asistencia.cant_tardanzas_clases }}</td>
+                    <td class="text-center">{{ periodo.asistencia.cant_ausencias_clases }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-12">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th class="text-center">Frases</th>
+                    <th ng-show="::USER.mostrar_nota_comport_boletin">Juicio</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="periodo in ::changes_asked.comportamiento">
+                    <td><span style="font-weight: bold">Per{{periodo.numero}}</span></td>
+                    <td>
+                      <ul>
+                        <li ng-repeat="definicion in ::periodo.definiciones">{{definicion.frase}}</li>
+                      </ul>
+                    </td>
+                    <td ng-show="::USER.mostrar_nota_comport_boletin">{{ periodo.nota.nota }} {{ periodo.nota.juicio }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <hr>
+          <div ng-if="changes_asked.situaciones.length&gt;0" class="row">
+            <div class="col-sm-12">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th class="text-center">Situaciones</th>
+                    <th>Ordinales</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="situacion in ::changes_asked.situaciones | orderBy:['periodo','tipo']">
+                    <td><span class="bold">Per{{situacion.numero}}</span></td>
+                    <td>
+                      <div uib-tooltip="Profesor: {{situacion.nombres_profesor + ' ' + situacion.apellidos_profesor}}"><span class="bold danger">Situación tipo {{situacion.tipo_situacion}}:</span><span> {{situacion.descripcion}}</span></div>
+                    </td>
+                    <td><span uib-tooltip="{{situacion.descrip_ord}} - pag. {{situacion.pagina}}">{{ situacion.ordinal }}</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- PREMATRICULAS-->
+<div ng-if="::USER.prematr_antiguos &amp;&amp; USER.tipo=='Acudiente'" class="widget">
+  <div class="widget-header bordered-bottom bordered-themesecondary"><span class="widget-caption themesecondary"> PREMATRÍCULAS {{::USER.year + 1}}</span></div>
+  <div class="widget-body">
+    <div ng-repeat="alumno in changes_asked.alumnos" style="margin: 10px 0;" class="row">
+      <div class="col-sm-6 col-xs-12"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="height: 35px;"> {{alumno.nombres}} {{alumno.apellidos}}</div><span ng-if="alumno.prematricula.estado=='PREM' || alumno.prematricula.estado=='PREA' || alumno.prematricula.estado=='MATR' || alumno.prematricula.estado=='ASIS'  || alumno.prematricula.estado=='RETI'  || alumno.prematricula.estado=='DESE' ">
+        <div uib-tooltip="Acérquese a secretaría para cambiar" class="col-sm-4 col-xs-12">Estado:<span style="font-weight: bold"><span ng-show="alumno.prematricula.estado=='PREM' || alumno.prematricula.estado=='PREA'"> PREMATRICULADO</span><span ng-show="alumno.prematricula.estado=='MATR'"> MATRICULADO</span><span ng-show="alumno.prematricula.estado=='ASIS'"> ASISTENTE</span><span ng-show="alumno.prematricula.estado=='DESE'"> DESERTOR</span><span ng-show="alumno.prematricula.estado=='RETI'"> RETIRADO</span></span></div></span><span ng-hide="alumno.prematricula.estado=='PREM' || alumno.prematricula.estado=='PREA' || alumno.prematricula.estado=='MATR' || alumno.prematricula.estado=='ASIS'  || alumno.prematricula.estado=='RETI'  || alumno.prematricula.estado=='DESE'">
+        <div class="col-sm-4 col-xs-12"><span uib-tooltip="Grupo para el año {{::USER.year + 1}}" tooltip-placement="top" tooltip-popup-delay="400">
+            <ui-select ng-model="alumno.grupo_prematr" theme="select2" style="width: 100%;">
+              <ui-select-match placeholder="Grupo a prematricular" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
+              <ui-select-choices repeat="grupo in changes_asked.grados_sig | filter: $select.search">
+                <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
+              </ui-select-choices>
+            </ui-select></span></div>
+        <div class="col-sm-2 col-xs-12">
+          <input ng-click="prematricular(alumno)" value="Prematricular" style="margin-left: 4px;" type="button" class="btn btn-primary shiny">
+        </div></span>
+    </div>
+  </div>
+</div>
+<div ng-if="USER.tipo=='Acudiente'" class="row hidden-print">
+  <div ng-repeat="alumno in changes_asked.alumnos" class="col-xs-12 col-md-12">
+    <div class="widget">
+      <div class="widget-header bordered-bottom bordered-themeprimary"><span class="widget-caption themeprimary"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="height: 35px;"> {{alumno.nombres}} {{alumno.apellidos}}</span></div>
+      <div class="widget-body">
+        <div class="row">
+          <div class="col-lg-12 col-xs-12">
+            <div class="widget">
+              <div class="widget-header bordered-bottom"><i class="widget-icon fa fa-money themeprimary"></i><span class="widget-caption themeprimary"> Tesorería</span></div>
+              <div class="widget-body">
+                <div class="row">
+                  <div class="col-lg-12 col-xs-12">
+                    <p>Notas bloqueadas desde tesorería:<span style="font-weight: bold;" ng-show="alumno.pazysalvo"> NO</span><span style="font-weight: bold; color: red; font-size: 15pt" ng-hide="alumno.pazysalvo"> SI</span></p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12 col-xs-12">
+                    <p>Su deuda es:<span style="font-weight: bold"> {{alumno.deuda | currency:"$":0}}</span></p>
+                  </div>
+                </div>
+                <div ng-show="alumno.fecha_pension" class="row">
+                  <div class="col-lg-12 col-xs-12">
+                    <p>Fecha última actualización de pensión:<span style="font-weight: bold"> {{ alumno.fecha_pension | date }}</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="widget">
+              <div class="widget-header bordered-bottom"><i class="widget-icon fa fa-tags themeprimary"></i><span uib-tooltip="" class="widget-caption themeprimary"> Disciplina</span></div>
+              <div class="widget-body">
+                <div class="widget-main no-padding">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th></th>
+                            <th>Tardanzas a la institución</th>
+                            <th>Ausencias a la institución</th>
+                            <th>Tardanzas a las clases</th>
+                            <th>Ausencias a las clases</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="periodo in ::alumno.ausencias_periodo">
+                            <td><span class="bold">Per{{periodo.numero}}</span></td>
+                            <td class="text-center">{{ periodo.asistencia.cant_tardanzas_entrada }}</td>
+                            <td class="text-center">{{ periodo.asistencia.cant_ausencias_entrada }}</td>
+                            <td class="text-center">{{ periodo.asistencia.cant_tardanzas_clases }}</td>
+                            <td class="text-center">{{ periodo.asistencia.cant_ausencias_clases }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th></th>
+                            <th class="text-center">Frases</th>
+                            <th>Juicio</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="periodo in ::alumno.comportamiento">
+                            <td><span class="bold">Per{{periodo.numero}}</span></td>
+                            <td>
+                              <ul>
+                                <li ng-repeat="definicion in ::periodo.definiciones">{{definicion.frase}}</li>
+                              </ul>
+                            </td>
+                            <td>{{ periodo.nota.nota }} {{ periodo.nota.juicio }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <hr>
+                  <div ng-if="alumno.situaciones.length&gt;0" class="row">
+                    <div class="col-sm-12">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th></th>
+                            <th class="text-center">Situaciones</th>
+                            <th>Ordinales</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="situacion in ::alumno.situaciones | orderBy:['periodo','tipo']">
+                            <td><span class="bold">Per{{situacion.numero}}</span></td>
+                            <td>
+                              <div uib-tooltip="Profesor: {{situacion.nombres_profesor + ' ' + situacion.apellidos_profesor}}"><span class="bold danger">Situación tipo {{situacion.tipo_situacion}}:</span><span> {{situacion.descripcion}}</span></div>
+                            </td>
+                            <td><span uib-tooltip="{{situacion.descrip_ord}} - pag. {{situacion.pagina}}">{{ situacion.ordinal }}</span></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<horario-hoy-panel-dir></horario-hoy-panel-dir>
+<publicaciones-panel-dir></publicaciones-panel-dir>
+<!-- Gráfico de docentes-->
+<div style="padding-top: 5px; padding-bottom: 40px; height: 310px" ng-if="hasRoleOrPerm(['admin', 'profesor', 'alumno']) &amp;&amp; anchoWindow &gt; 500" class="row comportamiento-boletin">
+  <div style="height: 140px;" class="col-lg-12 col-xs-12">
+    <div class="row">
+      <div style="text-align: center; " class="col-lg-12 col-xs-12">
+        <div style="height: 280px;" class="databox databox-xxlg databox-vertical databox-shadowed bg-white radius-bordered padding-5">
+          <div class="databox-top">
+            <div class="databox-row row-12">
+              <div class="databox-cell cell-12 text-center">
+                <div class="databox-number number-xxlg sonic-silver">Asignaturas correctas</div>
+              </div>
+            </div>
+          </div>
+          <div class="databox-bottom">
+            <div class="databox-row row-12">
+              <nvd3 options="options" data="data" api="api"></nvd3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Cuadros de Sesiones-->
+<div ng-if="hasRoleOrPerm(['admin', 'profesor'])" class="row">
+  <!-- Cuadros de Sesiones personales-->
+  <div ng-class="{'col-sm-6': hasRoleOrPerm(['admin'])}" class="col-xs-12">
+    <div class="widget">
+      <div class="widget-header bordered-bottom bordered-themeprimary"><i class="widget-icon fa fa-history themeprimary"></i><span uib-tooltip="Aquí verás las últimas veces que entraste al sistema" class="widget-caption themeprimary">Historial de sesiones</span></div>
+      <div class="widget-body">
+        <div class="widget-main no-padding">
+          <h4 style="margin-top: 0;">Mis sesiones</h4>
+          <div style="height: 213px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px; margin-bottom: 10px; border-radius: 4px;">
+            <div ng-repeat="historial in changes_asked.historial" ng-click="verDetalleDeMiSesion(historial)" style="border-bottom: 1px solid #ccc" class="row animated flipInY">
+              <div class="col-xs-12 col-sm-5"><b>{{$index+1}}.</b>  {{ historial.created_at }}</div>
+              <div class="col-xs-12 col-sm-7"><b ng-show="::historial.device_family!='Unknown'">  {{historial.device_family}} -</b><b ng-show="::historial.cant_cambios&gt;0" uib-tooltip="Cambios realizados durante la sesión" tooltip-append-to-body="true">{{historial.cant_cambios}} cambios -</b>  {{ historial.entorno }}, {{ historial.platform_family }}, {{ historial.browser_family }}</div>
+            </div>
+          </div><a ng-click="mostrando_intentos_fallidos = !mostrando_intentos_fallidos" href="">Ver intentos fallidos</a>
+          <div ng-show="mostrando_intentos_fallidos" style="height: 200px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px; border-radius: 4px;">
+            <div ng-repeat="intento in changes_asked.intentos_fallidos" style="border-bottom: 1px solid #ccc" ng-show="!intento.eliminada" class="row animated bounceInLeft">
+              <div class="col-xs-12 col-sm-4"><b>{{$index+1}}.</b>  {{ intento.created_at }}
+                <button ng-click="eliminarIntentoFallido(intento)" class="btn btn-warning btn-sm"><i class="fa fa-times"></i></button>
+              </div>
+              <div class="col-xs-12 col-sm-8">{{ intento.descripcion }}</div>
+            </div>
+            <div style="font-style: italic" ng-show="profe_seleccionado.intentos_fallidos.length==0" class="row animated bounceInLeft">
+              <div class="col-xs-12">No hay intentos fallidos</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Sesiones de los docentes-->
+  <div ng-if="hasRoleOrPerm(['admin'])" class="col-xs-12 col-sm-6">
+    <div class="widget">
+      <div class="widget-header bordered-bottom bordered-themeprimary"><i class="widget-icon fa fa-history themeprimary"></i><span uib-tooltip="Historial de los docentes" class="widget-caption themeprimary">Sesiones de<span ng-hide="profe_seleccionado">  docentes</span><span ng-show="profe_seleccionado">  {{ profe_seleccionado.profesor.nombres + ' ' + profe_seleccionado.profesor.apellidos }}</span></span></div>
+      <div class="widget-body">
+        <div class="widget-main no-padding"><span ng-if="!profe_seleccionado">
+            <div style="height: 270px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px; border-radius: 4px;">
+              <div ng-repeat="historial in changes_asked.profes_actuales" ng-click="seleccionar_profe(historial)" uib-popover-template="views+'panel/popoverDocenteInfo.tpl.html'" popover-title="{{historial.nombres + ' ' + historial.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" style="border-bottom: 1px solid #ccc; padding-bottom: 4px; padding-top: 4px;" class="row animated bounceInLeft">
+                <div class="col-xs-12 col-sm-6">
+                  <div class="row">
+                    <div style="padding-right: 0" class="col-xs-4"><b style="width: 16px; display: inline-block;">{{$index+1}}</b><img ng-src="{{perfilPath + historial.foto_nombre}}" style="width: 30px; height: 30px;"></div>
+                    <div style="padding-left: 0; padding-right: 0" class="col-xs-8">
+                      <div style="margin-top: -2px;" class="nombresellipsis">  {{ historial.nombres + ' ' + historial.apellidos }}</div>
+                      <div style="font-size: 8pt; margin-top: -1px;" uib-tooltip="Último ingreso" tooltip-append-to-body="true">  {{historial.fecha_ingreso}}</div>
+                    </div>
+                  </div>
+                </div>
+                <div style="font-size: 9pt;" class="col-xs-12 col-sm-6"><b ng-show="::historial.device_family!='Unknown' &amp;&amp; historial.device_family!=null">  {{historial.device_family}} -</b><b ng-hide="::historial.fecha_ingreso" style="font-style: italic; color: red;">(Nunca ha ingresado)</b><span ng-show="::historial.fecha_ingreso">  {{ historial.entorno }}, {{ historial.platform_family }}, {{ historial.browser_family }}</span></div>
+              </div>
+            </div></span>
+          <!-- Detalle del docente seleccionado--><span ng-if="profe_seleccionado"><a href="" ng-click="desseleccionar_profe()">Atrás</a>
+            <div style="height: 224px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px; margin-bottom: 10px; border-radius: 4px;">
+              <div ng-repeat="historial in profe_seleccionado.historial" ng-click="verDetalleDeMiSesion(historial)" style="border-bottom: 1px solid #ccc" class="row animated bounceInRight">
+                <div class="col-xs-12 col-sm-5"><b>{{$index+1}}.</b>  {{ historial.created_at }}</div>
+                <div class="col-xs-12 col-sm-7"><b ng-show="::historial.device_family!='Unknown'">  {{historial.device_family}} -</b><b ng-show="::historial.cant_cambios&gt;0" uib-tooltip="Cambios realizados durante la sesión" tooltip-append-to-body="true">{{historial.cant_cambios}} cambios -</b>  {{ historial.entorno }}, {{ historial.platform_family }}, {{ historial.browser_family }}</div>
+              </div>
+            </div><a ng-click="mostrando_intentos_fallidos_docente = !mostrando_intentos_fallidos_docente" href="">Ver intentos fallidos</a>
+            <div ng-show="mostrando_intentos_fallidos_docente" style="height: 200px; overflow: auto; background-color: #ffffff; border: 1px solid #ccc; padding: 5px; border-radius: 4px;">
+              <div ng-repeat="intento in profe_seleccionado.intentos_fallidos" style="border-bottom: 1px solid #ccc" ng-show="!intento.eliminada" class="row animated bounceInLeft">
+                <div class="col-xs-12 col-sm-4"><b>{{$index+1}}.</b>  {{ intento.created_at }}
+                  <button ng-click="eliminarIntentoFallido(intento)" class="btn btn-warning btn-sm"><i class="fa fa-times"></i></button>
+                </div>
+                <div class="col-xs-12 col-sm-8">{{ intento.descripcion }}</div>
+              </div>
+              <div style="font-style: italic" ng-show="profe_seleccionado.intentos_fallidos.length==0" class="row animated bounceInLeft">
+                <div class="col-xs-12">No hay intentos fallidos</div>
+              </div>
+            </div></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-md-12">
+    <div class="widget">
+      <div class="widget-header bordered-bottom bordered-themesecondary"><i class="widget-icon fa fa-tags themesecondary"></i><span uib-tooltip="Hay alumnos que piden algunos cambios. Tú podrías aceptar o rechazar esas peticiones." class="widget-caption themesecondary">Pedidos que esperan tu aprobación</span></div>
+      <div class="widget-body">
+        <div class="widget-main no-padding">
+          <div class="tickets-container">
+            <ul class="tickets-list">
+              <li ng-show="changes_asked.alumnos.length==0" class="ticket-item">
+                <div class="row">
+                  <div style="height: 40px;" class="ticket-user"><i>No hay pedidos pendientes de alumnos</i></div>
+                </div>
+              </li>
+              <li ng-repeat="change_asked in changes_asked.alumnos " ng-if="!change_asked.finalizado" class="ticket-item">
+                <div class="row">
+                  <div ng-click="verDetalles(change_asked)" class="ticket-user ticket-solicitud"><img ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}" class="user-avatar"><span class="user-name">{{change_asked.nombres + ' ' + change_asked.apellidos }}</span><span class="user-company"> de<b style="padding-left: 4px">{{change_asked.grupo_nombre}}</b> ha solicitado unos cambios</span></div>
+                </div>
+                <div ng-show="change_asked.mostrando" class="row">
+                  <div style="padding: 10px; white-space: nowrap; text-overflow: ellipsis; overflow-x: auto;">
+                    <table class="table">
+                      <tr ng-if="change_asked.detalles.image_new_nombre &amp;&amp; change_asked.detalles.image_id_accepted==null">
+                        <td><span style="display: inline-block; width: 170px">Imagen perfil actual:</span><img ng-src="{{perfilPath + change_asked.imagen_nombre }}" alt="{{ change_asked.imagen_nombre }}" style="width: 50px" class="user-avatar"></td>
+                        <td>Nueva:<img ng-src="{{perfilPath + change_asked.detalles.image_new_nombre }}" alt="{{ change_asked.detalles.image_new_nombre }}" style="width: 50px" class="user-avatar"></td>
+                        <td>
+                          <button ng-click="rechazarCambio(change_asked, 'img_perfil')" uib-tooltip="Rechazar cambio" class="button-aprobar bg-red"><i style="color: #fff;" class="fa fa-times"></i></button>
+                          <button ng-click="aprobarCambio(change_asked, 'img_perfil', change_asked.detalles.image_id_new)" uib-tooltip="Aprobar cambio" class="button-aprobar bg-palegreen"><i style="color: #fff;" class="fa fa-check"></i></button>
+                        </td>
+                      </tr>
+                      <tr ng-if="change_asked.detalles.foto_new_nombre &amp;&amp; change_asked.detalles.foto_id_accepted==null">
+                        <td><span style="display: inline-block; width: 170px">Foto oficial actual:</span><img ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}" style="width: 50px" class="user-avatar"></td>
+                        <td>Nueva:<img ng-src="{{perfilPath + change_asked.detalles.foto_new_nombre }}" alt="{{ change_asked.detalles.foto_new_nombre }}" style="width: 50px" class="user-avatar"></td>
+                        <td>
+                          <button ng-click="rechazarCambio(change_asked, 'foto_oficial')" uib-tooltip="Rechazar cambio" class="button-aprobar bg-red"><i style="color: #fff;" class="fa fa-times"></i></button>
+                          <button ng-click="aprobarCambio(change_asked, 'foto_oficial', change_asked.detalles.foto_id_new)" uib-tooltip="Aprobar cambio" class="button-aprobar bg-palegreen"><i style="color: #fff;" class="fa fa-check"></i></button>
+                        </td>
+                      </tr>
+                      <tr ng-if="change_asked.detalles.image_to_delete_id &amp;&amp; change_asked.detalles.image_to_delete_accepted==null">
+                        <td>
+                          <div>Desea eliminar esta imagen,</div>
+                          <div> la cual fue subida por un administrador:</div>
+                        </td>
+                        <td><img ng-src="{{perfilPath + change_asked.detalles.image_to_delete_nombre }}" alt="{{ change_asked.detalles.image_to_delete_nombre }}" style="width: 50px" class="user-avatar"></td>
+                        <td>
+                          <button ng-click="rechazarCambio(change_asked, 'img_delete')" uib-tooltip="Rechazar cambio" class="button-aprobar bg-red"><i style="color: #fff;" class="fa fa-times"></i></button>
+                          <button ng-click="aprobarCambio(change_asked, 'img_delete', change_asked.detalles.image_to_delete_id)" uib-tooltip="Aprobar cambio" class="button-aprobar bg-palegreen"><i style="color: #fff;" class="fa fa-check"></i></button>
+                        </td>
+                      </tr>
+                      <tr ng-if="change_asked.detalles.nombres_new &amp;&amp; change_asked.detalles.nombres_accepted==null">
+                        <td><span style="display: inline-block; width: 170px">Nombre actual:<b>  {{change_asked.nombres}}</b></span></td>
+                        <td>Nuevo:<b>  {{change_asked.detalles.nombres_new}}</b></td>
+                        <td>
+                          <button ng-click="rechazarCambio(change_asked, 'nombres')" uib-tooltip="Rechazar cambio" class="button-aprobar bg-red"><i style="color: #fff;" class="fa fa-times"></i></button>
+                          <button ng-click="aprobarCambio(change_asked, 'nombres', change_asked.detalles.nombres_new)" uib-tooltip="Aprobar cambio" class="button-aprobar bg-palegreen"><i style="color: #fff;" class="fa fa-check"></i></button>
+                        </td>
+                      </tr>
+                      <tr ng-if="change_asked.detalles.apellidos_new &amp;&amp; change_asked.detalles.apellidos_accepted==null">
+                        <td><span style="display: inline-block; width: 170px">Apellido actual:<b>  {{change_asked.apellidos}}</b></span></td>
+                        <td>Nuevo:<b>  {{change_asked.detalles.apellidos_new}}</b></td>
+                        <td>
+                          <button ng-click="rechazarCambio(change_asked, 'apellidos')" uib-tooltip="Rechazar cambio" class="button-aprobar bg-red"><i style="color: #fff;" class="fa fa-times"></i></button>
+                          <button ng-click="aprobarCambio(change_asked, 'apellidos', change_asked.detalles.apellidos_new)" uib-tooltip="Aprobar cambio" class="button-aprobar bg-palegreen"><i style="color: #fff;" class="fa fa-check"></i></button>
+                        </td>
+                      </tr>
+                      <tr ng-if="change_asked.detalles.sexo_new &amp;&amp; change_asked.detalles.sexo_accepted==null">
+                        <td><span style="display: inline-block; width: 170px">Sexo actual:<b>  {{change_asked.sexo}}</b></span></td>
+                        <td>Nuevo:<b>  {{change_asked.detalles.sexo_new}}</b></td>
+                        <td>
+                          <button ng-click="rechazarCambio(change_asked, 'sexo')" uib-tooltip="Rechazar cambio" class="button-aprobar bg-red"><i style="color: #fff;" class="fa fa-times"></i></button>
+                          <button ng-click="aprobarCambio(change_asked, 'sexo', change_asked.detalles.sexo_new)" uib-tooltip="Aprobar cambio" class="button-aprobar bg-palegreen"><i style="color: #fff;" class="fa fa-check"></i></button>
+                        </td>
+                      </tr>
+                      <tr ng-if="change_asked.detalles.fecha_nac_new &amp;&amp; change_asked.detalles.fecha_nac_accepted==null">
+                        <td><span style="display: inline-block; width: 170px">Fecha nacimiento actual:<b>  {{change_asked.fecha_nac}}</b></span></td>
+                        <td>Nuevo:<b>  {{change_asked.detalles.fecha_nac_new}}</b></td>
+                        <td>
+                          <button ng-click="rechazarCambio(change_asked, 'fecha_nac')" uib-tooltip="Rechazar cambio" class="button-aprobar bg-red"><i style="color: #fff;" class="fa fa-times"></i></button>
+                          <button ng-click="aprobarCambio(change_asked, 'fecha_nac', change_asked.detalles.fecha_nac_new)" uib-tooltip="Aprobar cambio" class="button-aprobar bg-palegreen"><i style="color: #fff;" class="fa fa-check"></i></button>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <button uib-tooltip="Eliminar por completo estas peticiones" style="float:right; margin: 10px" ng-click="eliminarSolicitudes(change_asked)" class="btn btn-danger">Ignorar solicitudes</button>
+                </div>
+              </li>
+              <!-- Solicitudes de los docentes-->
+              <li ng-show="changes_asked.profesores.length==0 &amp;&amp; USER.is_superuser" class="ticket-item">
+                <div class="row">
+                  <div style="height: 40px;" class="ticket-user"><i>No hay pedidos pendientes de profesores</i></div>
+                </div>
+              </li>
+              <li ng-repeat="change_asked in changes_asked.profesores " ng-if="!change_asked.finalizado" class="ticket-item">
+                <div class="row">
+                  <div class="ticket-user"><span><img ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}" class="user-avatar"><span uib-tooltip="{{change_asked.profesor_nombres + ' ' + change_asked.profesor_apellidos }}" class="user-name">  {{change_asked.profesor_nombres }}</span><span ng-show="change_asked.materia_to_add_id" class="user-company">  ha pedido<b style="padding: 0 4px">  {{ change_asked.nombre_materia_to_add }}</b>  para<b style="padding: 0 4px">  {{ change_asked.nombre_grupo_add }},</b>  IH: {{change_asked.creditos_new}}</span><span ng-show="change_asked.asignatura_to_remove_id" class="user-company"> Solicitó quitar<b style="padding: 0 4px">{{ change_asked.nombre_materia_to_remove }}</b>del grupo<b style="padding: 0 4px">{{ change_asked.nombre_grupo_remove }}</b></span><span ng-show="change_asked.detalles.image_new_nombre || change_asked.detalles.foto_new_nombre" class="user-company"> ha pedido cambios de imagen:</span></span><span style="margin-top: -5px; position: absolute; right: 0;" ng-show="change_asked.materia_to_add_id || change_asked.asignatura_to_remove_id">
+                      <button ng-click="rechazarCambio(change_asked, 'asignatura')" uib-tooltip="Rechazar cambio" class="button-aprobar bg-red"><i style="color: #fff;" class="fa fa-times"></i></button>
+                      <button ng-click="aprobarCambio(change_asked, 'asignatura')" uib-tooltip="Aprobar cambio" class="button-aprobar bg-palegreen"><i style="color: #fff;" class="fa fa-check"></i></button></span></div>
+                </div>
+                <div ng-show="change_asked.detalles.image_new_nombre || change_asked.detalles.foto_new_nombre || change_asked.detalles.image_to_delete_id " class="row">
+                  <div style="padding: 10px; white-space: nowrap; text-overflow: ellipsis; overflow-x: auto;">
+                    <table class="table">
+                      <tr ng-if="change_asked.detalles.image_new_nombre &amp;&amp; change_asked.detalles.image_id_accepted==null">
+                        <td><span style="display: inline-block; width: 170px">Imagen perfil actual:</span><img ng-src="{{perfilPath + change_asked.imagen_nombre }}" alt="{{ change_asked.imagen_nombre }}" style="width: 50px" class="user-avatar"></td>
+                        <td>Nueva:<img ng-src="{{perfilPath + change_asked.detalles.image_new_nombre }}" alt="{{ change_asked.detalles.image_new_nombre }}" style="width: 50px" class="user-avatar"></td>
+                        <td>
+                          <button ng-click="rechazarCambio(change_asked, 'img_perfil')" uib-tooltip="Rechazar cambio" class="button-aprobar bg-red"><i style="color: #fff;" class="fa fa-times"></i></button>
+                          <button ng-click="aprobarCambio(change_asked, 'img_perfil', change_asked.detalles.image_id_new)" uib-tooltip="Aprobar cambio" class="button-aprobar bg-palegreen"><i style="color: #fff;" class="fa fa-check"></i></button>
+                        </td>
+                      </tr>
+                      <tr ng-if="change_asked.detalles.foto_new_nombre &amp;&amp; change_asked.detalles.foto_id_accepted==null">
+                        <td><span style="display: inline-block; width: 170px">Foto oficial actual:</span><img ng-src="{{perfilPath + change_asked.foto_nombre }}" alt="{{ change_asked.foto_nombre }}" style="width: 50px" class="user-avatar"></td>
+                        <td>Nueva:<img ng-src="{{perfilPath + change_asked.detalles.foto_new_nombre }}" alt="{{ change_asked.detalles.foto_new_nombre }}" style="width: 50px" class="user-avatar"></td>
+                        <td>
+                          <button ng-click="rechazarCambio(change_asked, 'foto_oficial')" uib-tooltip="Rechazar cambio" class="button-aprobar bg-red"><i style="color: #fff;" class="fa fa-times"></i></button>
+                          <button ng-click="aprobarCambio(change_asked, 'foto_oficial', change_asked.detalles.foto_id_new)" uib-tooltip="Aprobar cambio" class="button-aprobar bg-palegreen"><i style="color: #fff;" class="fa fa-check"></i></button>
+                        </td>
+                      </tr>
+                      <tr ng-if="change_asked.detalles.image_to_delete_id &amp;&amp; change_asked.detalles.image_to_delete_accepted==null">
+                        <td>
+                          <div>Desea eliminar esta imagen,</div>
+                          <div>  la cual fue subida por un administrador:</div>
+                        </td>
+                        <td><img ng-src="{{perfilPath + change_asked.detalles.image_to_delete_nombre }}" alt="{{ change_asked.detalles.image_to_delete_nombre }}" style="width: 50px" class="user-avatar"></td>
+                        <td>
+                          <button ng-click="rechazarCambio(change_asked, 'img_delete')" uib-tooltip="Rechazar cambio" class="button-aprobar bg-red"><i style="color: #fff;" class="fa fa-times"></i></button>
+                          <button ng-click="aprobarCambio(change_asked, 'img_delete', change_asked.detalles.image_to_delete_id)" uib-tooltip="Aprobar cambio" class="button-aprobar bg-palegreen"><i style="color: #fff;" class="fa fa-check"></i></button>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Cantidad de Alumnos por grupos-->
+  <div class="col-xs-12">
+    <div class="widget">
+      <div class="widget-body">
+        <div class="widget-main no-padding"><a href="" ng-click="traerCatAlumnosPorGrupos()">Ver cantidad de alumnos por grupos</a>
+          <div ng-if="grupos_cantidades" ng-include="srcCant"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

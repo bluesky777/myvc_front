@@ -12,7 +12,12 @@
 							ng-click="selectAsignatura(asignatura)" uib-tooltip="{{asignatura.nombre_grupo}}. {{ asignatura.materia }}" tooltip-append-to-body="true")
 							| {{ asignatura.abrev_grupo }}. {{ asignatura.alias_materia }}
 
-
+			div
+				a(href="" ng-click="arreglarDuplicados(0)" style="padding-right: 10px") Arreglar duplicados per 1
+				a(href="" ng-click="arreglarDuplicados(1)" style="padding-right: 10px") Arreglar duplicados per 2
+				a(href="" ng-click="arreglarDuplicados(2)" style="padding-right: 10px") Arreglar duplicados per 3
+				a(href="" ng-click="arreglarDuplicados(3)") Arreglar duplicados per 4
+			
 			div.table-responsive(ng-show="dato.asignatura.alumnos")
 
 				.row

@@ -147,7 +147,7 @@ div(style="display: table; min-height: 28cm ; position: relative; " ng-class="{'
 											| ESCALA VALORATIVA
 
 
-								tr(ng-if="::area.asignaturas.length>1" ng-repeat-start="area in ::alumno.areas | orderBy:'orden' track by $index")
+								tr(ng-if="::area.asignaturas.length>1 || ::year.show_asignaturas_en_finales" ng-repeat-start="area in ::alumno.areas | orderBy:'orden' track by $index")
 									td.text-center
 										span(ng-show="area.asignaturas.length>1") {{ $index + 1 }}
 									td
@@ -255,6 +255,14 @@ div(style="display: table; min-height: 28cm ; position: relative; " ng-class="{'
 
 						.col-lg-6.col-xs-6.nombre-titular-firma
 							| {{year.nombres_secretario}} {{year.apellidos_secretario}}
+
+
+					.row
+						.col-lg-6.col-xs-6
+							| {{year.rector_documento}}
+
+						.col-lg-6.col-xs-6
+							| {{year.secretario_documento}}
 
 
 					.row

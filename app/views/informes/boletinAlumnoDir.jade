@@ -23,7 +23,7 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
                 span(ng-bind-html="::year.encabezado_certificado" ng-if="::year.encabezado_certificado!=null && year.encabezado_certificado!='' ")
                 span(ng-hide="::year.encabezado_certificado!=null && year.encabezado_certificado!=''") {{::year.resolucion}}
               .title-descripcion
-                | Boletin periodo {{ ::year.periodo }} - {{ ::USER.year }}
+                | Boletin periodo {{ ::USER.numero_periodo }} - {{ ::USER.year }}
             .col-lg-2.col-xs-2(style="padding: 0;")
               img.img-responsive.foto-alumno(ng-src="{{::perfilPath}}{{::alumno.foto_nombre}}" ng-show="config.mostrar_foto && alumno.foto_id")
 
