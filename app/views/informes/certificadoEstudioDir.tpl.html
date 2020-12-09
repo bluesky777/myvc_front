@@ -45,13 +45,13 @@
             <table style="margin: 0 auto; width: 100%; font-size: 8pt;" class="table-bordered table-bordered2 table-striped table-striped2">
               <tr style="background-color: #99caed !important; font-weight: bold;">
                 <td style="width: 30px;" class="txtcentro">NO</td>
-                <td style="width: 310px" class="txtcentro"><span ng-show="::year.cant_areas_pierde_year &gt; 0">ÁREAS</span><span ng-show="::year.cant_asignatura_pierde_year &gt; 0">ÁREAS / ASIGNATURAS</span></td>
+                <td style="width: 310px" class="txtcentro"><span ng-show="::year.cant_areas_pierde_year &gt; 0 &amp;&amp; year.cant_asignatura_pierde_year == 0">ÁREAS</span><span ng-show="::year.cant_asignatura_pierde_year &gt; 0">ÁREAS / ASIGNATURAS</span></td>
                 <td style="width: 65px" class="txtcentro">IH</td>
                 <td style="width: 140px" class="txtcentro">
-                  <!-- por ahora igual a ver si Francisco me pide cambiarlo--><span ng-show="::year.cant_areas_pierde_year &gt; 0">ESCALA NACIONAL</span><span ng-show="::year.cant_asignatura_pierde_year &gt; 0">ESCALA NACIONAL</span>
+                  <!-- por ahora igual a ver si Francisco me pide cambiarlo--><span ng-show="::year.cant_areas_pierde_year &gt; 0 &amp;&amp; year.cant_asignatura_pierde_year == 0">ESCALA NACIONAL</span><span ng-show="::year.cant_asignatura_pierde_year &gt; 0">ESCALA NACIONAL</span>
                 </td>
                 <td style="width: 65px; border-left: 2px solid !important;" class="txtcentro">
-                  <!-- por ahora igual a ver si Francisco me pide cambiarlo--><span ng-show="::year.cant_areas_pierde_year &gt; 0">ESCALA VALORATIVA</span><span ng-show="::year.cant_asignatura_pierde_year &gt; 0">ESCALA VALORATIVA</span>
+                  <!-- por ahora igual a ver si Francisco me pide cambiarlo--><span ng-show="::year.cant_areas_pierde_year &gt; 0 &amp;&amp; year.cant_asignatura_pierde_year == 0">ESCALA VALORATIVA</span><span ng-show="::year.cant_asignatura_pierde_year &gt; 0">ESCALA VALORATIVA</span>
                 </td>
               </tr>
               <tr ng-if="::area.asignaturas.length&gt;1 || ::year.show_asignaturas_en_finales" ng-repeat-start="area in ::alumno.areas | orderBy:'orden' track by $index">
@@ -132,7 +132,7 @@
             <div class="col-lg-6 col-xs-6 nombre-rector-firma">{{year.nombres_rector}} {{year.apellidos_rector}}</div>
             <div class="col-lg-6 col-xs-6 nombre-titular-firma">{{year.nombres_secretario}} {{year.apellidos_secretario}}</div>
           </div>
-          <div class="row">
+          <div ng-show="config.show_cedulas" class="row">
             <div class="col-lg-6 col-xs-6">{{year.rector_documento}}</div>
             <div class="col-lg-6 col-xs-6">{{year.secretario_documento}}</div>
           </div>

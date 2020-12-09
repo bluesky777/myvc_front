@@ -143,7 +143,14 @@ span(ng-show="tipo_boletin_final")
 
           .col-lg-2.col-sm-4.col-xs-12
             .form-group
-              label Mostrar datos
+              label Datos cabecera
+              label
+                input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-click="putConfigCookie()" ng-model="config.show_datos")
+                span.text.si-no
+                
+          .col-lg-2.col-sm-4.col-xs-12
+            .form-group
+              label Mostrar cédulas
               label
                 input.checkbox-slider.slider-icon.colored-blue(type="checkbox" ng-click="putConfigCookie()" ng-model="config.show_datos")
                 span.text.si-no

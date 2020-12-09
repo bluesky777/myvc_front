@@ -126,7 +126,7 @@ div(style="display: table; min-height: 28cm ; position: relative; " ng-class="{'
 								tr(style="background-color: #99caed !important; font-weight: bold;")
 									td.txtcentro(style="width: 30px;") NO
 									td.txtcentro(style="width: 310px")
-										span(ng-show="::year.cant_areas_pierde_year > 0")
+										span(ng-show="::year.cant_areas_pierde_year > 0 && year.cant_asignatura_pierde_year == 0")
 											| ÁREAS
 										span(ng-show="::year.cant_asignatura_pierde_year > 0")
 											| ÁREAS / ASIGNATURAS
@@ -134,14 +134,14 @@ div(style="display: table; min-height: 28cm ; position: relative; " ng-class="{'
 									td.txtcentro(style="width: 65px") IH
 									td.txtcentro(style="width: 140px")
 										// por ahora igual a ver si Francisco me pide cambiarlo
-										span(ng-show="::year.cant_areas_pierde_year > 0")
+										span(ng-show="::year.cant_areas_pierde_year > 0 && year.cant_asignatura_pierde_year == 0")
 											| ESCALA NACIONAL
 										span(ng-show="::year.cant_asignatura_pierde_year > 0")
 											| ESCALA NACIONAL
 
 									td.txtcentro(style="width: 65px; border-left: 2px solid !important;")
 										// por ahora igual a ver si Francisco me pide cambiarlo
-										span(ng-show="::year.cant_areas_pierde_year > 0")
+										span(ng-show="::year.cant_areas_pierde_year > 0 && year.cant_asignatura_pierde_year == 0")
 											| ESCALA VALORATIVA
 										span(ng-show="::year.cant_asignatura_pierde_year > 0")
 											| ESCALA VALORATIVA
@@ -257,7 +257,7 @@ div(style="display: table; min-height: 28cm ; position: relative; " ng-class="{'
 							| {{year.nombres_secretario}} {{year.apellidos_secretario}}
 
 
-					.row
+					.row(ng-show="config.show_cedulas")
 						.col-lg-6.col-xs-6
 							| {{year.rector_documento}}
 

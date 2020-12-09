@@ -135,7 +135,15 @@
           </div>
           <div class="col-lg-2 col-sm-4 col-xs-12">
             <div class="form-group">
-              <label>Mostrar datos</label>
+              <label>Datos cabecera</label>
+              <label>
+                <input type="checkbox" ng-click="putConfigCookie()" ng-model="config.show_datos" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+              </label>
+            </div>
+          </div>
+          <div class="col-lg-2 col-sm-4 col-xs-12">
+            <div class="form-group">
+              <label>Mostrar cédulas</label>
               <label>
                 <input type="checkbox" ng-click="putConfigCookie()" ng-model="config.show_datos" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
               </label>
