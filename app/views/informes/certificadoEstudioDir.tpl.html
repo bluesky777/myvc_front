@@ -22,12 +22,12 @@
             </div>
             <div style="margin-top: 4px; " ng-class="{'espaciado': espaciado}" class="row descripcion-encabezado">
               <div class="col-lg-12 col-xs-12">
-                <div ng-if="$parent.$state.is('panel.informes.certificados_estudio_periodo')" class="grupo-alumno"><span ng-show="year.sexo_rector=='M'">El suscrito recto del</span><span ng-show="year.sexo_rector=='F'">La suscrita rectora del</span><b>   {{ year.nombre_colegio }}</b>  que,<b>  {{alumno.nombres + ' ' + alumno.apellidos}}</b>, identificado con {{ alumno.tipo_doc_abrev }}<b>  {{ alumno.documento | formatNumberDocumento }},</b><span>   ha cursado en este plantel educativo las áreas correspondientes al grado</span><b class="camel">  {{ grupo.nombre_grupo.toLowerCase() }}</b>  de la {{ grupo.nivel_educativo}}
-                    académica<i> hasta el periodo</i><b> {{ config.periodo_a_calcular }} de {{ USER.year }}</b> obteniendo los siguientes resultados:
-                </div>
+                <div ng-if="$parent.$state.is('panel.informes.certificados_estudio_periodo')" class="grupo-alumno"><span ng-show="year.sexo_rector=='M'">El suscrito rector del</span><span ng-show="year.sexo_rector=='F'">La suscrita rectora del</span><b>   {{ year.nombre_colegio }}</b>  que,<b>  {{alumno.nombres + ' ' + alumno.apellidos}},</b>  identificado con {{ alumno.tipo_doc_abrev }}<b>  {{ alumno.documento | formatNumberDocumento }},</b><span>   ha cursado en este plantel educativo las áreas correspondientes al grado</span><b class="camel">  {{ grupo.nombre_grupo.toLowerCase() }}</b>  de la {{ grupo.nivel_educativo}}<i> hasta el periodo</i><b> {{ config.periodo_a_calcular }} de {{ USER.year }}</b> obteniendo los siguientes resultados:</div>
                 <div ng-if=" !$parent.$state.is('panel.informes.certificados_estudio_periodo')" class="grupo-alumno"><span ng-show="year.sexo_rector=='M'">Los suscritos rector y</span><span ng-show="year.sexo_rector=='F'">Los suscritos rectora y</span><span ng-show="year.sexo_secretario=='M'"> secretario del</span><span ng-show="year.sexo_secretario=='F'"> secretaria del</span><b>  {{ year.nombre_colegio }}</b>  , de carácter {{ year.caracter }}, calendario {{ year.calendario }}, jornada {{ year.jornada }}.<span ng-if="::alumno.asignaturas.length&gt;16">  Hacen constar</span>
-                  <div style="font-size: 11pt;" ng-if="::alumno.asignaturas.length&lt;=16" ng-class="{'espaciado': espaciado}" class="text-center hace-constar"><b>  HACEN CONSTAR</b></div><span ng-class="{'margin-espacio-cert': year.cant_areas_pierde_year&gt;0}">  Que,<b>  {{alumno.nombres + ' ' + alumno.apellidos}}</b>, identificado con {{ alumno.tipo_doc_abrev }}<b>  {{ alumno.documento | formatNumberDocumento }},</b><span ng-hide="(year.cant_areas_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_areas == 0) || (year.cant_asignatura_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_asig == 0)" style="font-weight:bold"><span ng-show="(year.cant_areas_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_areas &gt; 0 &amp;&amp; year.cant_areas_pierde_year &gt; alumno.cant_lost_areas) || (year.cant_asignatura_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_asig &gt; 0 &amp;&amp; year.cant_asignatura_pierde_year &gt; alumno.cant_lost_asig)">  aprobó con áreas pendientes</span><span ng-show="(year.cant_areas_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_areas == year.cant_areas_pierde_year) || (year.cant_asignatura_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_asig == year.cant_asignatura_pierde_year)">  NO aprobó</span></span><span ng-show="(year.cant_areas_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_areas == 0) || (year.cant_asignatura_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_asig == 0)">   cursó y aprobó</span>  en éste plantel educativo las áreas correspondientes al grado<b class="camel">  {{grupo.nombre_grupo.toLowerCase()}}</b>  de la {{grupo.nivel_educativo}}
-                      académica durante el año<b> {{USER.year}},</b> obteniendo los siguientes resultados:<span ng-if="::alumno.asignaturas.length&gt;16 &amp;&amp; year.contador_folios.length == 0" style="position: absolute; right: 20px; font-weight: bold;">No Matrícula:<span ng-show="alumno.no_matricula">  {{ alumno.no_matricula }}</span><span ng-hide="alumno.no_matricula">  {{ alumno.documento | formatNumberDocumento }}</span></span></span>
+                  <div style="font-size: 11pt;" ng-if="::alumno.asignaturas.length&lt;=16" ng-class="{'espaciado': espaciado}" class="text-center hace-constar"><b>  HACEN CONSTAR</b></div><span ng-class="{'margin-espacio-cert': year.cant_areas_pierde_year&gt;0}">  Que,<b>  {{alumno.nombres + ' ' + alumno.apellidos}}</b>, identificado con {{ alumno.tipo_doc_abrev }}<b>  {{ alumno.documento | formatNumberDocumento }},</b><span ng-hide="(year.cant_areas_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_areas &lt;= 0) || (year.cant_asignatura_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_asig &lt;= 0)" style="font-weight:bold"><span ng-show="::year.mensaje_aprobo_con_pendientes"><span ng-show="(year.cant_areas_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_areas &gt; 0 &amp;&amp; year.cant_areas_pierde_year &gt; alumno.cant_lost_areas) || (year.cant_asignatura_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_asig &gt; 0 &amp;&amp; year.cant_asignatura_pierde_year &gt; alumno.cant_lost_asig)">  aprobó con áreas pendientes</span><span ng-show="(year.cant_areas_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_areas &gt;= year.cant_areas_pierde_year) || (year.cant_asignatura_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_asig &gt;= year.cant_asignatura_pierde_year)">  NO aprobó</span></span>
+                      <!-- Instival quiere 2 mensajes basado en asignaturas.--><span ng-show="::year.mensaje_aprobo_con_pendientes == 0"><span ng-show="::alumno.cant_lost_areas &gt; 0 || alumno.cant_lost_asig &gt; 0">  NO aprobó</span></span></span><span ng-show="(year.cant_areas_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_areas &lt;= 0) || (year.cant_asignatura_pierde_year &gt; 0 &amp;&amp; alumno.cant_lost_asig &lt;= 0)" style="font-weight:bold">
+                      <!-- Si quiere mensaje de Pendiente, es porque tampoco le importa si perdió alguna asignatura siendo área.	--><span ng-show="::year.mensaje_aprobo_con_pendientes">  cursó y aprobó</span><span ng-show="::year.mensaje_aprobo_con_pendientes == 0"><span ng-show="::alumno.cant_lost_asig &gt; 0">  NO aprobó</span><span ng-show="::alumno.cant_lost_asig &lt;= 0">  cursó y aprobó</span></span></span>  en éste plantel educativo las áreas correspondientes al grado<b class="camel">  {{grupo.nombre_grupo.toLowerCase()}}</b>  de la {{grupo.nivel_educativo}}
+                      durante el año<b> {{USER.year}},</b> obteniendo los siguientes resultados:<span ng-if="::alumno.asignaturas.length&gt;16 &amp;&amp; year.contador_folios.length == 0" style="position: absolute; right: 20px; font-weight: bold; margin-top: 12px;">Nro Matrícula:<span ng-show="alumno.no_matricula">  {{ alumno.no_matricula }}</span><span ng-hide="alumno.no_matricula">  {{ alumno.documento | formatNumberDocumento }}</span></span></span>
                 </div>
               </div>
             </div>
@@ -45,23 +45,23 @@
             <table style="margin: 0 auto; width: 100%; font-size: 8pt;" class="table-bordered table-bordered2 table-striped table-striped2">
               <tr style="background-color: #99caed !important; font-weight: bold;">
                 <td style="width: 30px;" class="txtcentro">NO</td>
-                <td style="width: 310px" class="txtcentro"><span ng-show="::year.cant_areas_pierde_year &gt; 0 &amp;&amp; year.cant_asignatura_pierde_year == 0">ÁREAS</span><span ng-show="::year.cant_asignatura_pierde_year &gt; 0">ÁREAS / ASIGNATURAS</span></td>
+                <td style="width: 310px" class="txtcentro"><span>ÁREAS</span><span ng-show="::year.cant_asignatura_pierde_year &gt; 0 || year.show_subasignaturas_en_finales == 1"> / ASIGNATURAS</span></td>
                 <td style="width: 65px" class="txtcentro">IH</td>
                 <td style="width: 140px" class="txtcentro">
-                  <!-- por ahora igual a ver si Francisco me pide cambiarlo--><span ng-show="::year.cant_areas_pierde_year &gt; 0 &amp;&amp; year.cant_asignatura_pierde_year == 0">ESCALA NACIONAL</span><span ng-show="::year.cant_asignatura_pierde_year &gt; 0">ESCALA NACIONAL</span>
+                  <!-- por ahora igual a ver si Francisco me pide cambiarlo--><span ng-show="::year.cant_areas_pierde_year &gt; 0 &amp;&amp; year.cant_asignatura_pierde_year == 0">ESCALA NACIONAL</span>
                 </td>
                 <td style="width: 65px; border-left: 2px solid !important;" class="txtcentro">
-                  <!-- por ahora igual a ver si Francisco me pide cambiarlo--><span ng-show="::year.cant_areas_pierde_year &gt; 0 &amp;&amp; year.cant_asignatura_pierde_year == 0">ESCALA VALORATIVA</span><span ng-show="::year.cant_asignatura_pierde_year &gt; 0">ESCALA VALORATIVA</span>
+                  <!-- por ahora igual a ver si Francisco me pide cambiarlo--><span ng-show="::year.cant_areas_pierde_year &gt; 0 &amp;&amp; year.cant_asignatura_pierde_year == 0">ESCALA VALORATIVA</span>
                 </td>
               </tr>
-              <tr ng-if="::area.asignaturas.length&gt;1 || ::year.show_asignaturas_en_finales" ng-repeat-start="area in ::alumno.areas | orderBy:'orden' track by $index">
+              <tr ng-if="::area.asignaturas.length&gt;1 || year.cant_asignatura_pierde_year" ng-repeat-start="area in ::alumno.areas | orderBy:'orden' track by $index">
                 <td class="text-center"><span ng-show="area.asignaturas.length&gt;1">{{ $index + 1 }}</span></td>
                 <td><b>{{ ::area.area_nombre }}</b></td>
                 <td class="txtcentro"><span ng-show="::year.cant_areas_pierde_year&gt;0">{{ ::area.creditos }}</span></td>
                 <td ng-class="{'nota-perdida-puestos': area.area_nota&lt;USER.nota_minima_aceptada}" class="text-center"><span ng-show="::year.cant_areas_pierde_year&gt;0">D.</span> {{ ::area.area_desempenio }}</td>
                 <td ng-class="{'nota-perdida-puestos': area.area_nota&lt;USER.nota_minima_aceptada}" class="text-center">{{ ::area.area_nota }}</td>
               </tr>
-              <tr ng-repeat-end ng-repeat="asignatura in ::area.asignaturas" ng-if="::(year.cant_areas_pierde_year&gt;0 &amp;&amp; area.asignaturas.length==1) || (year.cant_asignatura_pierde_year&gt;0)">
+              <tr ng-repeat-end ng-repeat="asignatura in ::area.asignaturas" ng-if="::(year.cant_areas_pierde_year&gt;0 &amp;&amp; area.asignaturas.length==1) || (year.cant_asignatura_pierde_year&gt;0) || (year.show_subasignaturas_en_finales &amp;&amp; area.asignaturas.length&gt;=1)">
                 <!--td.text-center {{ asignatura.indice }}-->
                 <td class="text-center"><span ng-show="area.asignaturas.length==1">{{ $parent.$parent.$index + 1 }}</span></td>
                 <td>
@@ -109,12 +109,10 @@
           </div>
         </div>
         <div class="row">
-          <div style="margin-bottom: 20px; font-size: 11pt;" ng-if="alumno.recuperaciones.length&gt;0 &amp;&amp; year.cant_asignatura_pierde_year&gt;0" class="col-lg-12 col-xs-12">
-            <div ng-repeat="recuperacion in alumno.recuperaciones" class="row">
-              <div class="col-lg-1 col-xs-1"></div>
-              <div class="col-lg-4 col-xs-4">Su calificación en la nivelación de</div>
-              <div style="padding: 0" class="col-lg-5 col-xs-5"><b> {{ recuperacion.materia }}</b><span>  es</span></div>
-              <div class="col-lg-2 col-xs-2"><b> {{ recuperacion.nota }}</b></div>
+          <div style="margin-top: -5px; font-size: 9pt;" ng-if="alumno.recuperaciones.length&gt;0" class="col-lg-12 col-xs-12">
+            <div ng-repeat="recuperacion in alumno.recuperaciones" ng-show="recuperacion.mostrar_en_certificado" class="row">
+              <div style="width: 5%" class="col-lg-1 col-xs-1"></div>
+              <div class="col-lg-9 col-xs-9">Su calificación en la nivelación de<b> {{ recuperacion.materia }}</b><span>  es</span><b> {{ recuperacion.nota }}</b></div>
             </div>
           </div>
           <div class="col-lg-12 col-xs-12">

@@ -2,7 +2,7 @@
 
 angular.module("myvcFrontApp")
 
-.controller('NivelesNewCtrl', ['$scope', '$http', 'toastr', ($scope, $http, toastr)->
+.controller('NivelesNewCtrl', ['$scope', '$http', 'toastr', '$state', ($scope, $http, toastr, $state)->
 
 	$scope.nivel = {
 		'orden': 0
@@ -16,8 +16,9 @@ angular.module("myvcFrontApp")
 			$scope.nivel.orden = $scope.nivel.orden + 1
 
 	$scope.crear = ()->
-		$http.post('::niveles_educativos', $scope.nivel).then((r)->
-			toastr.success 'Se hizo el post del nivel'
+		$http.post('::niveles_educativos/store', $scope.nivel).then((r)->
+			toastr.success 'Nivel creado.'
+			$state.go('panel.niveles', {}, {reload: true})
 		, (r2)->
 			toastr.error 'Falló al intentar guardar'
 		)

@@ -8,7 +8,7 @@ h6.row-title.before-blue.animated.flipInY(ng-if="profesor_id")
 		.well.with-header
 			.header.bordered-blue Solicitar cambios en la carga académica
 			label Grupo
-				ui-select(ng-model="dato.grupo" theme="select2" style="width: 180px;")
+				ui-select(ng-model="dato.grupo" theme="select2" style="width: 180px; z-index: 9999 !important")
 					ui-select-match(placeholder="Grupo" allow-clear="true") {{$select.selected.nombre}}
 					ui-select-choices(repeat="grupo in grupos | filter: $select.search")
 						div(ng-bind-html="grupo.nombre | highlight: $select.search")

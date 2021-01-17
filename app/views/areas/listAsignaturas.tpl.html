@@ -5,7 +5,7 @@
     <div class="well with-header">
       <div class="header bordered-blue">Solicitar cambios en la carga académica</div>
       <label>Grupo
-        <ui-select ng-model="dato.grupo" theme="select2" style="width: 180px;">
+        <ui-select ng-model="dato.grupo" theme="select2" style="width: 180px; z-index: 9999 !important">
           <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
           <ui-select-choices repeat="grupo in grupos | filter: $select.search">
             <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>

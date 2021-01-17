@@ -615,6 +615,7 @@ angular.module("myvcFrontApp")
       { field: 'nuevo', displayName: 'Nuevo?', cellTemplate: btIsNuevo, minWidth: 60, enableCellEdit: false }
       { field: 'repitente', displayName: 'Repitente?', cellTemplate: btIsRepitente, minWidth: 60, enableCellEdit: false }
       { field: 'egresado', displayName: 'Egresado?', cellTemplate: btIsEgresado, minWidth: 60, enableCellEdit: false }
+      { field: 'promovido', displayName: 'Promovido?', minWidth: 60 }
       { field: 'is_active', displayName: 'Activo?', cellTemplate: btIsActive, minWidth: 60, enableCellEdit: false }
       { field: 'nee', displayName: 'NEE?', cellTemplate: btNEE, minWidth: 60, enableCellEdit: false }
       { field: 'religion', displayName: 'Religión', minWidth: 70, editableCellTemplate: btEditReligion }

@@ -2,6 +2,14 @@
 <div class="modal-header">
   <h3 class="modal-title">¿Seguro que deseas aceptar el pedido?</h3>
 </div>
+<div ng-if="asked.asignatura_actual.nombres" class="modal-body">
+  <div class="row">
+    <div class="col-lg-6 col-xs-12 text-center">
+      <h4>Esta asignatura ya la tiene el docente: </h4><span style="font-weight: bold">{{ ::asked.asignatura_actual.nombres }} {{ ::asked.asignatura_actual.apellidos }}</span>
+      <h4>¿Desea cambiar el docente por el actual?</h4>
+    </div>
+  </div>
+</div>
 <div ng-if="asked.foto_nombre_asked" class="modal-body">
   <div class="row">
     <div class="col-lg-6 col-xs-12 text-center">

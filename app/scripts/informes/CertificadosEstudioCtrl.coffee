@@ -33,6 +33,18 @@ angular.module("myvcFrontApp")
 	if alumnos[2].length > 0
 		if alumnos[2][0].asignaturas.length < 13
 			$scope.espaciado = true
+			
+	
+	for alum in alumnos[2]
+		for area in alum.areas
+			for asign in area.asignaturas
+				for recupera in alum.recuperaciones
+					if asign.asignatura_id == recupera.asignatura_id
+						if $scope.year.show_subasignaturas_en_finales or $scope.year.cant_asignatura_pierde_year or area.asignaturas.length==1
+							recupera.mostrar_en_certificado = true
+							
+						
+			
 
 
 	if $scope.requested_alumnos

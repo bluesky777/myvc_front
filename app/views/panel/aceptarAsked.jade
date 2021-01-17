@@ -2,6 +2,15 @@
 	h3.modal-title ¿Seguro que deseas aceptar el pedido?
 
 
+.modal-body(ng-if="asked.asignatura_actual.nombres")
+	.row
+		.col-lg-6.col-xs-12.text-center
+			h4 Esta asignatura ya la tiene el docente: 
+			span(style="font-weight: bold") {{ ::asked.asignatura_actual.nombres }} {{ ::asked.asignatura_actual.apellidos }}
+			h4 ¿Desea cambiar el docente por el actual?
+
+
+
 .modal-body(ng-if="asked.foto_nombre_asked")
 	.row
 		.col-lg-6.col-xs-12.text-center

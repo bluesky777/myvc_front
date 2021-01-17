@@ -388,18 +388,18 @@ angular.module("myvcFrontApp")
 			{ field: 'username', filter: { condition: uiGridConstants.filter.CONTAINS }, displayName: 'Usuario', cellTemplate: btUsuario, editableCellTemplate: btEditUsername, minWidth: 135 }
 			{ field: 'deuda', displayName: 'Deuda', type: 'number', cellFilter: 'currency:"$":0', minWidth: 70 }
 			{ field: 'pazysalvo', displayName: 'A paz?', cellTemplate: btPazysalvo, minWidth: 60, enableCellEdit: false }
+			{ field: 'telefono', displayName: 'Teléfono', minWidth: 80 }
 			{ field: 'religion', displayName: 'Religión', minWidth: 70, editableCellTemplate: btEditReligion }
 			{ field: 'tipo_doc', displayName: 'Tipo documento', minWidth: 120, cellTemplate: btTipoDoc, enableCellEdit: false }
 			{ field: 'documento', minWidth: 100, cellFilter: 'formatNumberDocumento' }
 			{ field: 'ciudad_doc', displayName: 'Ciud Docu', minWidth: 120, cellTemplate: btCiudadDoc, enableCellEdit: false }
+			{ field: 'direccion', displayName: 'Dirección', minWidth: 70 }
+			{ field: 'barrio', minWidth: 70 }
 			{ field: 'tipo_sangre', displayName: 'RH', minWidth: 70 }
 			{ field: 'estrato', minWidth: 70, type: 'number' }
 			{ field: 'fecha_nac', displayName:'Nacimiento', cellFilter: "date:mediumDate", type: 'date', minWidth: 100}
 			{ field: 'ciudad_nac', displayName: 'Ciud Nacimi', minWidth: 120, cellTemplate: btCiudadNac, enableCellEdit: false }
-			{ field: 'direccion', displayName: 'Dirección', minWidth: 70 }
-			{ field: 'barrio', minWidth: 70 }
 			{ field: 'ciudad_resid', displayName: 'Ciud Resid', minWidth: 120, cellTemplate: btCiudadResid, enableCellEdit: false }
-			{ field: 'telefono', displayName: 'Teléfono', minWidth: 80 }
 			{ field: 'eps', displayName: 'EPS', minWidth: 100, editableCellTemplate: btEditEPS }
 		],
 		multiSelect: false,

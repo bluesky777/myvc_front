@@ -39,18 +39,17 @@ div(style="display: table; min-height: 28cm ; position: relative; " ng-class="{'
 							.col-lg-12.col-xs-12
 
 								.grupo-alumno(ng-if="$parent.$state.is('panel.informes.certificados_estudio_periodo')")
-									span(ng-show="year.sexo_rector=='M'") El suscrito recto del
+									span(ng-show="year.sexo_rector=='M'") El suscrito rector del
 									span(ng-show="year.sexo_rector=='F'") La suscrita rectora del
 									b    {{ year.nombre_colegio }}
 									|   que,
-									b   {{alumno.nombres + ' ' + alumno.apellidos}}
-									| , identificado con {{ alumno.tipo_doc_abrev }}
+									b   {{alumno.nombres + ' ' + alumno.apellidos}},
+									|   identificado con {{ alumno.tipo_doc_abrev }}
 									b   {{ alumno.documento | formatNumberDocumento }},
 									span
 										|    ha cursado en este plantel educativo las áreas correspondientes al grado
 									b.camel   {{ grupo.nombre_grupo.toLowerCase() }}
 									|   de la {{ grupo.nivel_educativo}}
-									|   académica
 									i  hasta el periodo
 									b  {{ config.periodo_a_calcular }} de {{ USER.year }}
 									|  obteniendo los siguientes resultados:
@@ -78,24 +77,40 @@ div(style="display: table; min-height: 28cm ; position: relative; " ng-class="{'
 										b   {{alumno.nombres + ' ' + alumno.apellidos}}
 										| , identificado con {{ alumno.tipo_doc_abrev }}
 										b   {{ alumno.documento | formatNumberDocumento }},
-										span(ng-hide="(year.cant_areas_pierde_year > 0 && alumno.cant_lost_areas == 0) || (year.cant_asignatura_pierde_year > 0 && alumno.cant_lost_asig == 0)" style="font-weight:bold")
+										span(ng-hide="(year.cant_areas_pierde_year > 0 && alumno.cant_lost_areas <= 0) || (year.cant_asignatura_pierde_year > 0 && alumno.cant_lost_asig <= 0)" style="font-weight:bold")
+											
+											span(ng-show="::year.mensaje_aprobo_con_pendientes")
+												span(ng-show="(year.cant_areas_pierde_year > 0 && alumno.cant_lost_areas > 0 && year.cant_areas_pierde_year > alumno.cant_lost_areas) || (year.cant_asignatura_pierde_year > 0 && alumno.cant_lost_asig > 0 && year.cant_asignatura_pierde_year > alumno.cant_lost_asig)")
+													|   aprobó con áreas pendientes
+												span(ng-show="(year.cant_areas_pierde_year > 0 && alumno.cant_lost_areas >= year.cant_areas_pierde_year) || (year.cant_asignatura_pierde_year > 0 && alumno.cant_lost_asig >= year.cant_asignatura_pierde_year)")
+													|   NO aprobó
+											
+											// Instival quiere 2 mensajes basado en asignaturas.
+											span(ng-show="::year.mensaje_aprobo_con_pendientes == 0")
+												span(ng-show="::alumno.cant_lost_areas > 0 || alumno.cant_lost_asig > 0")
+													|   NO aprobó
+											
+										span(ng-show="(year.cant_areas_pierde_year > 0 && alumno.cant_lost_areas <= 0) || (year.cant_asignatura_pierde_year > 0 && alumno.cant_lost_asig <= 0)" style="font-weight:bold")
 
-											span(ng-show="(year.cant_areas_pierde_year > 0 && alumno.cant_lost_areas > 0 && year.cant_areas_pierde_year > alumno.cant_lost_areas) || (year.cant_asignatura_pierde_year > 0 && alumno.cant_lost_asig > 0 && year.cant_asignatura_pierde_year > alumno.cant_lost_asig)")
-												|   aprobó con áreas pendientes
-											span(ng-show="(year.cant_areas_pierde_year > 0 && alumno.cant_lost_areas == year.cant_areas_pierde_year) || (year.cant_asignatura_pierde_year > 0 && alumno.cant_lost_asig == year.cant_asignatura_pierde_year)")
-												|   NO aprobó
-
-										span(ng-show="(year.cant_areas_pierde_year > 0 && alumno.cant_lost_areas == 0) || (year.cant_asignatura_pierde_year > 0 && alumno.cant_lost_asig == 0)")
-											|    cursó y aprobó
+											// Si quiere mensaje de Pendiente, es porque tampoco le importa si perdió alguna asignatura siendo área.	
+											span(ng-show="::year.mensaje_aprobo_con_pendientes")
+												|   cursó y aprobó
+											
+											span(ng-show="::year.mensaje_aprobo_con_pendientes == 0")
+												span(ng-show="::alumno.cant_lost_asig > 0")
+													|   NO aprobó
+												span(ng-show="::alumno.cant_lost_asig <= 0")
+													|   cursó y aprobó
+											
 										|   en éste plantel educativo las áreas correspondientes al grado
 										b.camel   {{grupo.nombre_grupo.toLowerCase()}}
 										|   de la {{grupo.nivel_educativo}}
-										|   académica durante el año
+										|   durante el año
 										b  {{USER.year}},
 										|  obteniendo los siguientes resultados:
 
-										span(ng-if="::alumno.asignaturas.length>16 && year.contador_folios.length == 0" style="position: absolute; right: 20px; font-weight: bold;")
-											| No Matrícula:
+										span(ng-if="::alumno.asignaturas.length>16 && year.contador_folios.length == 0" style="position: absolute; right: 20px; font-weight: bold; margin-top: 12px;")
+											| Nro Matrícula:
 											span(ng-show="alumno.no_matricula")   {{ alumno.no_matricula }}
 											span(ng-hide="alumno.no_matricula")   {{ alumno.documento | formatNumberDocumento }}
 
@@ -126,28 +141,24 @@ div(style="display: table; min-height: 28cm ; position: relative; " ng-class="{'
 								tr(style="background-color: #99caed !important; font-weight: bold;")
 									td.txtcentro(style="width: 30px;") NO
 									td.txtcentro(style="width: 310px")
-										span(ng-show="::year.cant_areas_pierde_year > 0 && year.cant_asignatura_pierde_year == 0")
+										span
 											| ÁREAS
-										span(ng-show="::year.cant_asignatura_pierde_year > 0")
-											| ÁREAS / ASIGNATURAS
+										span(ng-show="::year.cant_asignatura_pierde_year > 0 || year.show_subasignaturas_en_finales == 1")
+											|  / ASIGNATURAS
 
 									td.txtcentro(style="width: 65px") IH
 									td.txtcentro(style="width: 140px")
 										// por ahora igual a ver si Francisco me pide cambiarlo
 										span(ng-show="::year.cant_areas_pierde_year > 0 && year.cant_asignatura_pierde_year == 0")
 											| ESCALA NACIONAL
-										span(ng-show="::year.cant_asignatura_pierde_year > 0")
-											| ESCALA NACIONAL
 
 									td.txtcentro(style="width: 65px; border-left: 2px solid !important;")
 										// por ahora igual a ver si Francisco me pide cambiarlo
 										span(ng-show="::year.cant_areas_pierde_year > 0 && year.cant_asignatura_pierde_year == 0")
 											| ESCALA VALORATIVA
-										span(ng-show="::year.cant_asignatura_pierde_year > 0")
-											| ESCALA VALORATIVA
 
 
-								tr(ng-if="::area.asignaturas.length>1 || ::year.show_asignaturas_en_finales" ng-repeat-start="area in ::alumno.areas | orderBy:'orden' track by $index")
+								tr(ng-if="::area.asignaturas.length>1 || year.cant_asignatura_pierde_year" ng-repeat-start="area in ::alumno.areas | orderBy:'orden' track by $index")
 									td.text-center
 										span(ng-show="area.asignaturas.length>1") {{ $index + 1 }}
 									td
@@ -161,8 +172,7 @@ div(style="display: table; min-height: 28cm ; position: relative; " ng-class="{'
 									td.text-center(ng-class="{'nota-perdida-puestos': area.area_nota<USER.nota_minima_aceptada}") {{ ::area.area_nota }}
 
 
-
-								tr(ng-repeat-end ng-repeat="asignatura in ::area.asignaturas" ng-if="::(year.cant_areas_pierde_year>0 && area.asignaturas.length==1) || (year.cant_asignatura_pierde_year>0)")
+								tr(ng-repeat-end ng-repeat="asignatura in ::area.asignaturas" ng-if="::(year.cant_areas_pierde_year>0 && area.asignaturas.length==1) || (year.cant_asignatura_pierde_year>0) || (year.show_subasignaturas_en_finales && area.asignaturas.length>=1)")
 									//td.text-center {{ asignatura.indice }}
 									td.text-center
 										span(ng-show="area.asignaturas.length==1") {{ $parent.$parent.$index + 1 }}
@@ -219,16 +229,15 @@ div(style="display: table; min-height: 28cm ; position: relative; " ng-class="{'
 
 
 				.row
-					.col-lg-12.col-xs-12(style="margin-bottom: 20px; font-size: 11pt;" ng-if="alumno.recuperaciones.length>0 && year.cant_asignatura_pierde_year>0")
-						.row(ng-repeat="recuperacion in alumno.recuperaciones")
-							.col-lg-1.col-xs-1
-							.col-lg-4.col-xs-4
+					.col-lg-12.col-xs-12(style="margin-top: -5px; font-size: 9pt;" ng-if="alumno.recuperaciones.length>0")
+						.row(ng-repeat="recuperacion in alumno.recuperaciones" ng-show="recuperacion.mostrar_en_certificado")
+							.col-lg-1.col-xs-1(style="width: 5%")
+							.col-lg-9.col-xs-9
 								| Su calificación en la nivelación de
-							.col-lg-5.col-xs-5(style="padding: 0")
 								b  {{ recuperacion.materia }}
 								span   es
-							.col-lg-2.col-xs-2
 								b  {{ recuperacion.nota }}
+								
 
 					.col-lg-12.col-xs-12
 						div(ng-if="::year.frase_final_certificado" ng-class="{'margin-espacio-cert': year.cant_areas_pierde_year>0}")
