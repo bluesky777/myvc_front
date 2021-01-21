@@ -890,6 +890,26 @@ angular.module("myvcFrontApp")
     )
 
 
+  $scope.setPrematriculado = (fila)->
+
+    $http.put('::matriculas/prematricular', {alumno_id: fila.alumno_id, grupo_id: $scope.dato.grupo.id, anio_sig: 0}).then((r)->
+      console.log 'Cambios guardados'
+      $scope.traerAlumnnosConGradosAnterior()
+    , (r2)->
+      toastr.error 'No se pudo crear asistente', 'Error'
+    )
+
+
+  $scope.setPrematriculadoA = (fila)->
+
+    $http.put('::matriculas/prematricular', {alumno_id: fila.alumno_id, grupo_id: $scope.dato.grupo.id, anio_sig: 0, estado: 'PREA'}).then((r)->
+      console.log 'Cambios guardados'
+      $scope.traerAlumnnosConGradosAnterior()
+    , (r2)->
+      toastr.error 'No se pudo crear asistente', 'Error'
+    )
+
+
   $scope.setNewAsistente = (fila)->
 
     $http.put('::matriculas/set-new-asistente', {alumno_id: fila.alumno_id, grupo_id: $scope.dato.grupo.id}).then((r)->

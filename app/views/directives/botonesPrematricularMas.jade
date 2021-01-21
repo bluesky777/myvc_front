@@ -1,6 +1,6 @@
 span.btn-group(style="padding-left: 2px; padding-top: 4px;")
 		label.btn.btn-default.btn-xs(ng-model="row.entity.estado" uib-btn-radio="'PREM'" ng-click="grid.appScope.setPrematriculado(row.entity)" uib-tooltip="Prematriculado" tooltip-placement="right") Prem
-		label.btn.btn-default.btn-xs(ng-model="row.entity.estado" uib-btn-radio="'PREA'" ng-click="grid.appScope.setPrematriculado(row.entity)"  uib-tooltip="Prematriculado por el acudiente" tooltip-placement="right") PreA
+		label.btn.btn-default.btn-xs(ng-model="row.entity.estado" uib-btn-radio="'PREA'" ng-click="grid.appScope.setPrematriculadoA(row.entity)"  uib-tooltip="Prematriculado por el acudiente" tooltip-placement="right") PreA
 		label.btn.btn-info.btn-xs(ng-model="row.entity.estado" uib-btn-radio="'MATR'" ng-click="grid.appScope.reMatricularUno(row.entity)") Matr
 		label.btn.btn-info.btn-xs(ng-model="row.entity.estado" uib-btn-radio="'ASIS'" ng-click="grid.appScope.setAsistente(row.entity)") Asis
 		label.btn.btn-info.btn-xs(ng-model="row.entity.estado" uib-btn-radio="'RETI'" ng-click="grid.appScope.retirar(row.entity)" uib-tooltip="Retirar" tooltip-placement="right" tooltip-popup-delay="500") Reti
