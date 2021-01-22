@@ -320,6 +320,19 @@ angular.module("myvcFrontApp")
     )
 
 
+  $scope.cambiarPromovido = (row)->
+    modalInstance = $modal.open({
+      templateUrl: '==alumnos/cambiarPromovido.tpl.html'
+      controller: 'CambiarPromovidoModalCtrl'
+      resolve:
+        persona: ()->
+          row
+    })
+    modalInstance.result.then( (alum)->
+      row = alum
+    )
+
+
   $scope.cambiarCiudad = (row, tipo_ciudad)->
     modalInstance = $modal.open({
       templateUrl: '==alumnos/cambiarCiudadModal.tpl.html'
@@ -551,6 +564,7 @@ angular.module("myvcFrontApp")
   btIsNuevo       = "==directives/botonIsNuevo.tpl.html"
   btIsRepitente   = "==directives/botonIsRepitente.tpl.html"
   btIsEgresado    = "==directives/botonIsEgresado.tpl.html"
+  btPromovido     = "==directives/botonPromovido.tpl.html"
   btIsActive      = "==directives/botonIsActive.tpl.html"
   btNEE           = "==directives/botonNEE.tpl.html"
   btUsuario       = "==directives/botonesResetPassword.tpl.html"
@@ -594,6 +608,7 @@ angular.module("myvcFrontApp")
       crearUsuario: 				$scope.crearUsuario
       resetPass: 						$scope.resetPass
       cambiarCiudad: 				$scope.cambiarCiudad
+      cambiarPromovido: 		$scope.cambiarPromovido
       cambiaUsernameCheck: 	$scope.cambiaUsernameCheck
 
     columnDefs: [
@@ -607,6 +622,7 @@ angular.module("myvcFrontApp")
       { name: 'edicion', displayName:'Edit', width: 54, enableSorting: false, enableFiltering: false, cellTemplate: bt2, enableCellEdit: false, enableColumnMenu: true}
       { field: 'sexo', displayName: 'Sex', width: 40 }
       { field: 'grupo_id', displayName: 'Matrícula', enableCellEdit: false, cellTemplate: btMatricular, minWidth: 270, enableFiltering: false }
+      { field: 'promovido', displayName: 'Promovido?', minWidth: 80, cellTemplate: btPromovido, enableCellEdit: false }
       { field: 'fecha_matricula', displayName: 'Fecha matrícula', cellFilter: "date:mediumDate", type: 'date', minWidth: 100 }
       { field: 'no_matricula', displayName: '# matrícula', minWidth: 80, enableColumnMenu: true }
       { field: 'username', filter: { condition: Acentos.buscarEnGrid }, displayName: 'Usuario', cellTemplate: btUsuario, editableCellTemplate: btEditUsername, minWidth: 135 }
@@ -614,8 +630,7 @@ angular.module("myvcFrontApp")
       { field: 'pazysalvo', displayName: 'A paz?', cellTemplate: btPazysalvo, minWidth: 60, enableCellEdit: false }
       { field: 'nuevo', displayName: 'Nuevo?', cellTemplate: btIsNuevo, minWidth: 60, enableCellEdit: false }
       { field: 'repitente', displayName: 'Repitente?', cellTemplate: btIsRepitente, minWidth: 60, enableCellEdit: false }
-      { field: 'egresado', displayName: 'Egresado?', cellTemplate: btIsEgresado, minWidth: 60, enableCellEdit: false }
-      { field: 'promovido', displayName: 'Promovido?', minWidth: 60 }
+      { field: 'egresado', displayName: 'Egresado?', cellTemplate: btIsEgresado, minWidth: 60, enableCellEdit: false }      
       { field: 'is_active', displayName: 'Activo?', cellTemplate: btIsActive, minWidth: 60, enableCellEdit: false }
       { field: 'nee', displayName: 'NEE?', cellTemplate: btNEE, minWidth: 60, enableCellEdit: false }
       { field: 'religion', displayName: 'Religión', minWidth: 70, editableCellTemplate: btEditReligion }
@@ -854,7 +869,7 @@ angular.module("myvcFrontApp")
 
     $http.put('::matriculas/re-matricularuno', datos).then((r)->
       r = r.data
-      toastr.success 'Alumno rematriculado', 'Matriculado'
+      toastr.success 'Alumno rematriculado.', 'Matriculado'
       return row
     , (r2)->
       toastr.error 'No se pudo matricular el alumno.', 'Error'
@@ -884,7 +899,7 @@ angular.module("myvcFrontApp")
   $scope.setAsistente = (fila)->
 
     $http.put('::matriculas/set-asistente', {matricula_id: fila.matricula_id, grupo_id: $scope.dato.grupo.grupo_id}).then((r)->
-      toastr.success 'Guardado como asistente'
+      toastr.success 'Guardado como asistente.'
     , (r2)->
       toastr.error 'No se pudo guardar como asistente', 'Error'
     )
@@ -893,20 +908,20 @@ angular.module("myvcFrontApp")
   $scope.setPrematriculado = (fila)->
 
     $http.put('::matriculas/prematricular', {alumno_id: fila.alumno_id, grupo_id: $scope.dato.grupo.id, anio_sig: 0}).then((r)->
-      console.log 'Cambios guardados'
+      toastr.success 'Guardado como Prematriculado.'
       $scope.traerAlumnnosConGradosAnterior()
     , (r2)->
-      toastr.error 'No se pudo crear asistente', 'Error'
+      toastr.error 'No se pudo crear asistente.', 'Error'
     )
 
 
   $scope.setPrematriculadoA = (fila)->
 
     $http.put('::matriculas/prematricular', {alumno_id: fila.alumno_id, grupo_id: $scope.dato.grupo.id, anio_sig: 0, estado: 'PREA'}).then((r)->
-      console.log 'Cambios guardados'
+      toastr.success 'Prematriculado por acudiente en la plataforma.'
       $scope.traerAlumnnosConGradosAnterior()
     , (r2)->
-      toastr.error 'No se pudo crear asistente', 'Error'
+      toastr.error 'No se pudo crear asistente.', 'Error'
     )
 
 
