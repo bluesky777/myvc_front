@@ -67,6 +67,42 @@ angular.module('myvcFrontApp')
     localStorage.tipo_boletin 	= n
     $scope.tipo_boletin 				= n
 
+
+
+  $scope.calcularPromovido = ()->
+    console.log($scope.grupos)
+
+    $scope.porcentajePromov   = 0
+    $scope.bloqueadoPromov   = true
+
+    $scope.grupo_temp_calculado_promov = true
+    $scope.grupo_temp_indce_promov     = 0
+
+    $scope.intervalo_promov = $interval(()->
+
+      if $scope.grupo_temp_calculado_promov
+
+        $scope.grupo_temp_calculado_promov = false
+        grupo 							      = $scope.grupos[$scope.grupo_temp_indce_promov]
+        $scope.porcentajePromov 	= parseInt(($scope.grupo_temp_indce_promov+1) * 100 / $scope.grupos.length)
+
+        $http.put('::promovidos/calcular-grupo', {grupo_id: grupo.grupo_id}).then((r)->
+          toastr.success grupo.nombre + ' calculado con éxito'
+          $scope.grupo_temp_calculado_promov = true
+          $scope.grupo_temp_indce_promov     = $scope.grupo_temp_indce_promov + 1
+          if $scope.grupo_temp_indce_promov == $scope.grupos.length
+            $interval.cancel($scope.intervalo_promov)
+
+        , (r2)->
+          $scope.grupo_temp_calculado_promov = true
+          toastr.warning 'No se pudo calcular ' + grupo.nombre + '. Intentaremos de nuevo.'
+        )
+
+    , 20)
+
+
+
+
   $scope.eligirTipoFinal = (n)->
     localStorage.tipo_boletin_final 	= n
     $scope.tipo_boletin_final 				= n

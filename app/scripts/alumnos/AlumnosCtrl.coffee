@@ -322,6 +322,7 @@ angular.module("myvcFrontApp")
 
   $scope.cambiarPromovido = (row)->
     modalInstance = $modal.open({
+      animation: false
       templateUrl: '==alumnos/cambiarPromovido.tpl.html'
       controller: 'CambiarPromovidoModalCtrl'
       resolve:
@@ -330,6 +331,7 @@ angular.module("myvcFrontApp")
     })
     modalInstance.result.then( (alum)->
       row = alum
+      console.log(alum)
     )
 
 
@@ -622,7 +624,7 @@ angular.module("myvcFrontApp")
       { name: 'edicion', displayName:'Edit', width: 54, enableSorting: false, enableFiltering: false, cellTemplate: bt2, enableCellEdit: false, enableColumnMenu: true}
       { field: 'sexo', displayName: 'Sex', width: 40 }
       { field: 'grupo_id', displayName: 'Matrícula', enableCellEdit: false, cellTemplate: btMatricular, minWidth: 270, enableFiltering: false }
-      { field: 'promovido', displayName: 'Promovido?', minWidth: 80, cellTemplate: btPromovido, enableCellEdit: false }
+      { field: 'promovido', displayName: 'Promovido?', minWidth: 120, cellTemplate: btPromovido, enableCellEdit: false }
       { field: 'fecha_matricula', displayName: 'Fecha matrícula', cellFilter: "date:mediumDate", type: 'date', minWidth: 100 }
       { field: 'no_matricula', displayName: '# matrícula', minWidth: 80, enableColumnMenu: true }
       { field: 'username', filter: { condition: Acentos.buscarEnGrid }, displayName: 'Usuario', cellTemplate: btUsuario, editableCellTemplate: btEditUsername, minWidth: 135 }

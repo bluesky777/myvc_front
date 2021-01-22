@@ -5,7 +5,7 @@
 		.col-lg-12.col-xs-12
 			h4(style="text-overflow: ellipsis") {{persona.nombres}} {{persona.apellidos}}
 			
-			.row(ng-repeat="opcion in opciones_promo")
+			.row(ng-repeat="opcion in opciones_promo" uib-tooltip="{{opcion.descripcion}}")
 				.col-sm-1.col-xs-0
 				.col-sm-10.col-xs-12
 					button.btn.btn-default.btn-block(type="button" ng-class="{disabled: opcion.disabled}" ng-click="setPromovido(opcion)") {{opcion.valor}}
@@ -15,4 +15,4 @@
 								
 
 .modal-footer
-	button.btn.btn-labeled.btn-primary(ng-click="cancel()") Cerrar
+	button.btn.btn-primary(ng-click="cancel()") Cerrar

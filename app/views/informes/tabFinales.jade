@@ -1,5 +1,10 @@
-.row(style="margin-bottom: 30px;")
-  .col-lg-12.col-xs-12
+.row
+  .col-lg-12.col-xs-12(style="margin-bottom: 10px;")
+    button.btn.btn-default.shiny(ng-click="calcularPromovido()") Calcular promovidos
+    uib-progressbar.progress-xlg.progress-striped.active(value="porcentajePromov" ng-show="porcentajePromov > -1")
+      b {{porcentajePromov}}% Completado
+    
+  .col-lg-12.col-xs-12(style="padding-bottom: 10px;")
     | Tipo de informe
     .btn-group
       button.btn.btn-default(ng-click="eligirTipoFinal(1)" ng-class="{'active': tipo_boletin_final==1 }" uib-tooltip="Con firma del titular") Boletín final

@@ -1,6 +1,10 @@
 
-<div style="margin-bottom: 30px;" class="row">
-  <div class="col-lg-12 col-xs-12">Tipo de informe
+<div class="row">
+  <div style="margin-bottom: 10px;" class="col-lg-12 col-xs-12">
+    <button ng-click="calcularPromovido()" class="btn btn-default shiny">Calcular promovidos</button>
+    <uib-progressbar value="porcentajePromov" ng-show="porcentajePromov &gt; -1" class="progress-xlg progress-striped active"><b>{{porcentajePromov}}% Completado</b></uib-progressbar>
+  </div>
+  <div style="padding-bottom: 10px;" class="col-lg-12 col-xs-12">Tipo de informe
     <div class="btn-group">
       <button ng-click="eligirTipoFinal(1)" ng-class="{'active': tipo_boletin_final==1 }" uib-tooltip="Con firma del titular" class="btn btn-default">Boletín final</button>
       <button ng-click="eligirTipoFinal(2)" ng-class="{'active': tipo_boletin_final==2 }" uib-tooltip="Con firma de secretario(a)" ng-if="::USER.tipo!='Profesor'" class="btn btn-default">Libros finales</button>
