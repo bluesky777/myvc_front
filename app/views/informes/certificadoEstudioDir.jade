@@ -77,30 +77,13 @@ div(style="display: table; min-height: 28cm ; position: relative; " ng-class="{'
 										b   {{alumno.nombres + ' ' + alumno.apellidos}}
 										| , identificado con {{ alumno.tipo_doc_abrev }}
 										b   {{ alumno.documento | formatNumberDocumento }},
-										span(ng-hide="(year.cant_areas_pierde_year > 0 && alumno.cant_lost_areas <= 0) || (year.cant_asignatura_pierde_year > 0 && alumno.cant_lost_asig <= 0)" style="font-weight:bold")
-											
-											span(ng-show="::year.mensaje_aprobo_con_pendientes")
-												span(ng-show="(year.cant_areas_pierde_year > 0 && alumno.cant_lost_areas > 0 && year.cant_areas_pierde_year > alumno.cant_lost_areas) || (year.cant_asignatura_pierde_year > 0 && alumno.cant_lost_asig > 0 && year.cant_asignatura_pierde_year > alumno.cant_lost_asig)")
-													|   aprobó con áreas pendientes
-												span(ng-show="(year.cant_areas_pierde_year > 0 && alumno.cant_lost_areas >= year.cant_areas_pierde_year) || (year.cant_asignatura_pierde_year > 0 && alumno.cant_lost_asig >= year.cant_asignatura_pierde_year)")
-													|   NO aprobó
-											
-											// Instival quiere 2 mensajes basado en asignaturas.
-											span(ng-show="::year.mensaje_aprobo_con_pendientes == 0")
-												span(ng-show="::alumno.cant_lost_areas > 0 || alumno.cant_lost_asig > 0")
-													|   NO aprobó
-											
-										span(ng-show="(year.cant_areas_pierde_year > 0 && alumno.cant_lost_areas <= 0) || (year.cant_asignatura_pierde_year > 0 && alumno.cant_lost_asig <= 0)" style="font-weight:bold")
-
-											// Si quiere mensaje de Pendiente, es porque tampoco le importa si perdió alguna asignatura siendo área.	
-											span(ng-show="::year.mensaje_aprobo_con_pendientes")
-												|   cursó y aprobó
-											
-											span(ng-show="::year.mensaje_aprobo_con_pendientes == 0")
-												span(ng-show="::alumno.cant_lost_asig > 0")
-													|   NO aprobó
-												span(ng-show="::alumno.cant_lost_asig <= 0")
-													|   cursó y aprobó
+										span(ng-show="::alumno.promovido == 'Promovido (manual)' || alumno.promovido == 'Promovido (calculado)' " style="font-weight:bold")
+											|  cursó y aprobó
+										span(ng-show="::alumno.promovido == 'No promovido (manual)' || alumno.promovido == 'No promovido (calculado)' " style="font-weight:bold")
+											|  NO aprobó
+										span(ng-show="::alumno.promovido == 'Promoción pendiente (manual)' || alumno.promovido == 'Promoción pendiente (calculado)' ")
+											|  aprobó con áreas pendientes
+										
 											
 										|   en éste plantel educativo las áreas correspondientes al grado
 										b.camel   {{grupo.nombre_grupo.toLowerCase()}}
@@ -158,7 +141,7 @@ div(style="display: table; min-height: 28cm ; position: relative; " ng-class="{'
 											| ESCALA VALORATIVA
 
 
-								tr(ng-if="::area.asignaturas.length>1 || year.cant_asignatura_pierde_year" ng-repeat-start="area in ::alumno.areas | orderBy:'orden' track by $index")
+								tr(ng-if="::area.asignaturas.length>1" ng-repeat-start="area in ::alumno.areas | orderBy:'orden' track by $index")
 									td.text-center
 										span(ng-show="area.asignaturas.length>1") {{ $index + 1 }}
 									td

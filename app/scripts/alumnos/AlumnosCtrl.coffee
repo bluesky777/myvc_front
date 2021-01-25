@@ -331,7 +331,6 @@ angular.module("myvcFrontApp")
     })
     modalInstance.result.then( (alum)->
       row = alum
-      console.log(alum)
     )
 
 

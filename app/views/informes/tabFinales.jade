@@ -12,7 +12,7 @@
         | Libros finales
       button.btn.btn-default(ng-click="eligirTipoFinal(3)" ng-class="{'active': tipo_boletin_final==3 }" uib-tooltip="Calcula todos los periodos" ng-if="::USER.tipo!='Profesor'")
         | Certificado final
-      button.btn.btn-default(ng-click="eligirTipoFinal(4)" ng-class="{'active': tipo_boletin_final==4 }" uib-tooltip="Calcula hasta el periodo que usted elija" ng-if="::USER.tipo!='Profesor'")
+      button.btn.btn-default(disabled ng-click="eligirTipoFinal(4)" ng-class="{'active': tipo_boletin_final==4 }" uib-tooltip="Calcula hasta el periodo que usted elija" ng-if="::USER.tipo!='Profesor'")
         | Certificado periodos
 
 hr.wide

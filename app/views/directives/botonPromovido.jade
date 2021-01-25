@@ -1,3 +1,5 @@
 div(style="padding-left: 2px; padding-top: 4px; overflow: hidden;")
-    button.btn.btn-info.btn-xs(ng-click="grid.appScope.cambiarPromovido(row.entity)" style="min-height: 15px;") {{ row.entity.promovido }}
+    button.btn.btn-info.btn-xs(ng-click="grid.appScope.cambiarPromovido(row.entity)" 
+        ng-class="{ 'btn-danger': row.entity.promovido=='No promovido (calculado)' || row.entity.promovido=='No promovido (manual)', 'btn-warning': row.entity.promovido=='Promoción pendiente (calculado)' || row.entity.promovido=='Promoción pendiente (manual)', row.entity.promovido=='Automático' }"
+        style="min-height: 15px;") {{ row.entity.promovido }}
     

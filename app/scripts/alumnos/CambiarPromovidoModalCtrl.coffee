@@ -13,10 +13,11 @@ angular.module("myvcFrontApp")
 	]
 
 	$scope.setPromovido = (opcion)->
-		console.log(opcion);
+	
 		if opcion.disabled == false
 			$http.put('::matriculas/set-promovido', {valor: opcion.valor, matricula_id: persona.matricula_id}).then( (r)->
 				toastr.success 'Actualizado: ' + opcion.valor
+				persona.promovido = opcion.valor
 				$modalInstance.close(persona)
 			, (r2)->
 				toastr.error 'No se pudo actualizar', 'Error'
