@@ -24,39 +24,6 @@ angular.module('myvcFrontApp')
     )
 
 
-  $scope.calcularDatos = ()->
-
-    if $scope.calcular_blocked
-      return
-
-    $scope.porcentaje   = 0
-    $scope.calcular_blocked   = true
-
-    $scope.grupo_temp_calculado = true
-    $scope.grupo_temp_indce     = 0
-
-    $scope.intervalo = $interval(()->
-
-      if $scope.grupo_temp_calculado
-
-        $scope.grupo_temp_calculado = false
-        grupo 							= $scope.grupos[$scope.grupo_temp_indce]
-        $scope.porcentaje 	= parseInt(($scope.grupo_temp_indce+1) * 100 / $scope.grupos.length)
-
-        $http.put('::actas-evaluacion/calcular-datos', {grupo_id: grupo.id}).then((r)->
-          toastr.success grupo.nombre + ' calculado con éxito'
-          $scope.grupo_temp_calculado = true
-          $scope.grupo_temp_indce     = $scope.grupo_temp_indce + 1
-          if $scope.grupo_temp_indce == $scope.grupos.length
-            $interval.cancel($scope.intervalo)
-
-        , (r2)->
-          $scope.grupo_temp_calculado = true
-          toastr.warning 'No se pudo calcular ' + grupo.nombre + '. Intentaremos de nuevo.'
-        )
-
-    , 20)
-
 
 
 

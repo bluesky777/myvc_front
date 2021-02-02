@@ -44,11 +44,6 @@ div.salto-pagina(ng-class="{'page-carta-horizontal': config.orientacion=='carta_
                 style="width: 90%; height: 100px; " ng-change="cambia_texto_informativo()")
               br
 
-            .col-xs-12.col-sm-9.hidden-print
-              button.btn.btn-primary(ng-click="calcularDatos()")
-                | Calcular promedios y porcentajes
-              uib-progressbar.progress-xlg.progress-striped.active(value="porcentaje" ng-show="porcentaje > -1")
-                b {{porcentaje}}% Completado
 
 
 div(ng-repeat="grupo in ::grupos")

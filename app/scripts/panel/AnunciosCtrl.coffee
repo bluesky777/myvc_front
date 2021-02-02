@@ -392,6 +392,18 @@ angular.module('myvcFrontApp')
     return
 
 
+  $scope.verUniformes = (alumno)->
+    alumno.mostrandoUniformes = !alumno.mostrandoUniformes
+    return
+
+  $scope.verAgregarUniforme = (alumno)->
+    alumno.new_uni = {
+      fecha_hora: new Date()
+    }
+    alumno.creandoUniforme = !alumno.creandoUniforme
+    return
+
+
 
   $scope.volverClases = ()->
     $scope.pasandoNotas = false

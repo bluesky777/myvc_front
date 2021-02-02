@@ -31,10 +31,6 @@
               <label style="background-color: aqua; padding: 5px;">Escriba un texto extra (opcional) para agregar al reporte:</label>
               <textarea ng-model="dato.texto_acta_eval" ng-model-options="{ updateOn: 'blur' }" style="width: 90%; height: 100px; " ng-change="cambia_texto_informativo()"></textarea><br>
             </div>
-            <div class="col-xs-12 col-sm-9 hidden-print">
-              <button ng-click="calcularDatos()" class="btn btn-primary">Calcular promedios y porcentajes</button>
-              <uib-progressbar value="porcentaje" ng-show="porcentaje &gt; -1" class="progress-xlg progress-striped active"><b>{{porcentaje}}% Completado</b></uib-progressbar>
-            </div>
           </div>
         </div>
       </div>

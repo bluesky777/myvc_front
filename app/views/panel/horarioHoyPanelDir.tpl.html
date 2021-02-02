@@ -43,7 +43,10 @@
         <div style="padding: 4px; border: 1px solid #ccc; transition: all 0.5s" ng-class="{ 'alum-mostrando-ausencias': alumno.mostrandoFallas }" class="row">
           <div class="col-xs-12 col-sm-7"><span>{{::$index+1}}.</span><span uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true" class="nombresellipsis"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 30px; height: 30px;">{{ alumno.apellidos }} {{ alumno.nombres }}</span></div>
           <div class="col-xs-12 col-sm-5">
-            <button ng-click="cambiarNota(alumno, alumno.nota)" uib-tooltip="Nota" tooltip-popup-delay="100" ng-if="subunidad_actual" ng-class="{'inputnota-perdida': alumno.nota.nota &lt; nota_minima_aceptada, 'inputnota-superior': alumno.nota.nota &gt;= escala_maxima.porc_inicial }" class="btn btn-default">{{ alumno.nota.nota }}</button>
+            <button ng-click="cambiarNota(alumno, alumno.nota)" uib-tooltip="Nota" tooltip-popup-delay="100" ng-if="subunidad_actual" style="width: 50px;" ng-class="{'inputnota-perdida': alumno.nota.nota &lt; nota_minima_aceptada, 'inputnota-superior': alumno.nota.nota &gt;= escala_maxima.porc_inicial }" class="btn btn-default">{{ alumno.nota.nota }}</button>
+            <button ng-click="verUniformes(alumno)" style="padding-right: 9px;" uib-tooltip="Registro de uniforme" class="btn btn-default"><i class="fa fa-user-o"></i>
+              <div ng-show="alumno.uniformes_count&gt;0" style="background-color: cornflowerblue; padding-top: 3px; position: absolute;" class="badge badge-success">{{ alumno.uniformes_count }}</div>
+            </button>
             <button ng-click="verTardanzasAusencias(alumno)" ng-class="{'btn-warning': alumno.falla_hoy=='tardanza', 'btn-danger': alumno.falla_hoy=='ausencia' }" style="padding-left: 2px; padding-right: 4px;" uib-tooltip="Ausencias: {{ alumno.ausencias_count }} - Tardanzas: {{ alumno.ausencias_count }}" class="btn btn-default"><i class="fa fa-clock-o"></i>A: {{ alumno.ausencias_count }}
                - T: {{ alumno.tardanzas_count }}
             </button>
@@ -59,7 +62,7 @@
         <div ng-show="alumno.mostrandoFallas" class="row">
           <div style="border-left: 5px solid #0085ff; border-right: 5px solid #0085ff" class="col-lg-12 col-xs-12">
             <div ng-show="alumno.tardanzas_count == 0 &amp;&amp; alumno.ausencias_count == 0" style="border: 1px solid #bbb;" class="row animated bounceIn">
-              <div style="font-style: italic" class="col-sm-1 col-xs-2 no-padding-xs">No tiene ausencias / tardanzas</div>
+              <div style="font-style: italic" class="col-sm-12 col-xs-2 no-padding-xs">No tiene ausencias / tardanzas</div>
             </div>
             <div ng-repeat="falla in alumno.tardanzas" style="border: 1px solid #bbb;" class="row animated bounceIn">
               <div class="col-sm-1 col-xs-2 no-padding-xs">
@@ -115,6 +118,44 @@
                 <button ng-click="eliminarAusencia(falla, alumno)" style="margin-top: 33px" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button>
               </div>
             </div>
+          </div>
+        </div>
+        <!-- UNIFORME-->
+        <div ng-show="alumno.mostrandoUniformes" class="row">
+          <div style="border-left: 5px solid #0085ff; border-right: 5px solid #0085ff" class="col-lg-12 col-xs-12">
+            <div ng-show="!alumno.creandoUniforme" style="border: 1px solid #bbb;" class="row">
+              <div class="col-sm-12 col-xs-2 no-padding-xs">
+                <button type="button" ng-click="verAgregarUniforme(alumno)" class="btn btn-default"><i class="fa fa-plus"></i>Agregar falla de uniforme</button>
+              </div>
+            </div>
+            <div ng-show="alumno.creandoUniforme" style="border: 1px solid #bbb;" class="row animated bounceIn">
+              <div class="col-sm-10 col-xs-12">
+                <div style="display: block;" class="btn-group">
+                  <label ng-model="alumno.new_uni.contrario" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox class="btn btn-primary">Contrario</label>
+                  <label ng-model="uniforme.sin_uniforme" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox class="btn btn-primary">Sin uniforme</label>
+                  <label ng-model="uniforme.incompleto" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox class="btn btn-primary">Incompleto</label>
+                  <label ng-model="uniforme.cabello" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox class="btn btn-primary">Cabello</label>
+                  <label ng-model="uniforme.accesorios" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox class="btn btn-primary">Accesorios</label>
+                </div>
+              </div>
+              <div class="col-sm-2 col-xs-12">
+                <button type="button" ng-model="uniforme.excusado" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0" class="btn btn-primary">
+                   
+                  Excusado<i ng-show="uniforme.excusado" class="fa fa-check"></i>
+                </button>
+              </div>
+              <div class="col-sm-3 col-xs-6 no-padding">
+                <div style="margin-top: 28px;" class="controls">
+                  <div class="input-group"><span ng-click="alumno.new_uni.isOpen = true" class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input type="text" uib-datepicker-popup="dd-MM-yyyy" ng-model="alumno.new_uni.fecha_hora" is-open="alumno.new_uni.isOpen" alt-input-formats="['M!/d!/yyyy', 'yyyy-M!-d!', 'M!-d!-yyyy', 'yyyy/M!/d!']" ng-click="alumno.new_uni.isOpen = true" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Escribe 'MM-dd-yyyy' o 'yyyy-dd-MM'" style="padding: 6px 2px;" datepicker-append-to-body="true" class="form-control active">
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-3 col-xs-6 no-padding">
+                <div uib-timepicker ng-model="alumno.new_uni.fecha_hora" meridians="['AM', 'PM']"></div>
+              </div>
+            </div>
+            <div ng-repeat="uniforme in alumno.uniformes" style="border: 1px solid #bbb;" class="row animated bounceIn"></div>
           </div>
         </div>
       </div>
