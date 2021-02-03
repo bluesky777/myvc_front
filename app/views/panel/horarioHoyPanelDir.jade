@@ -108,9 +108,9 @@
 							button.btn.btn-default(ng-click="verUniformes(alumno)" style="padding-right: 9px;"
 								uib-tooltip="Registro de uniforme")
 								i.fa.fa-user-o
-								.badge.badge-success(ng-show="alumno.uniformes_count>0"
-									style="background-color: cornflowerblue; padding-top: 3px; position: absolute;")
-									| {{ alumno.uniformes_count }}
+									.badge.badge-success(ng-show="alumno.uniformes_count>0" ng-class="{'warning': alumno.uniforme_hoy }"
+										style="background-color: cornflowerblue; padding-top: 3px; position: absolute;")
+										| {{ alumno.uniformes_count }}
 
 
 							button.btn.btn-default(ng-click="verTardanzasAusencias(alumno)"
@@ -146,7 +146,7 @@
 					.col-lg-12.col-xs-12(style="border-left: 5px solid #0085ff; border-right: 5px solid #0085ff")
 
 						.row.animated.bounceIn(ng-show="alumno.tardanzas_count == 0 && alumno.ausencias_count == 0" style="border: 1px solid #bbb;")
-							.col-sm-12.col-xs-2.no-padding-xs(style="font-style: italic")
+							.col-sm-12.col-xs-12.no-padding-xs(style="font-style: italic")
 								| No tiene ausencias / tardanzas
 
 						.row.animated.bounceIn(ng-repeat="falla in alumno.tardanzas" style="border: 1px solid #bbb;")
@@ -215,34 +215,29 @@
 
 				// UNIFORME
 				.row(ng-show="alumno.mostrandoUniformes")
-					.col-lg-12.col-xs-12(style="border-left: 5px solid #0085ff; border-right: 5px solid #0085ff")
+					.col-lg-12.col-xs-12(style="border-left: 5px solid #4caf50; border-right: 5px solid #4caf50")
 
-						.row(ng-show="!alumno.creandoUniforme" style="border: 1px solid #bbb;" )
-							.col-sm-12.col-xs-2.no-padding-xs
+						.row(ng-show="!alumno.creandoUniforme" style="border: 1px solid #bbb; background-color: #f9f5d5" )
+							.col-sm-12.col-xs-2.no-padding-xs(style="padding-bottom: 10px; padding-top: 10px;")
 								button.btn.btn-default(type="button" ng-click="verAgregarUniforme(alumno)")
 									i.fa.fa-plus
 									| Agregar falla de uniforme
 
-						.row.animated.bounceIn(ng-show="alumno.creandoUniforme" style="border: 1px solid #bbb;")
-							.col-sm-10.col-xs-12
+						.row(ng-show="alumno.creandoUniforme" style="border: 1px solid #bbb; background-color: #f9f5d5;")
+							.col-sm-10.col-xs-12(style="padding-top: 10px")
 								.btn-group(style="display: block;")
-									label.btn.btn-primary(ng-model="alumno.new_uni.contrario" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox 
-										) Contrario
-									label.btn.btn-primary(ng-model="uniforme.sin_uniforme" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox 
-										) Sin uniforme
-									label.btn.btn-primary(ng-model="uniforme.incompleto" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox 
-										) Incompleto
-									label.btn.btn-primary(ng-model="uniforme.cabello" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox 
-										) Cabello
-									label.btn.btn-primary(ng-model="uniforme.accesorios" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox 
-										) Accesorios
+									label.btn.btn-primary(ng-model="alumno.new_uni.contrario" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) Contrario
+									label.btn.btn-primary(ng-model="alumno.new_uni.sin_uniforme" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) Sin uniforme
+									label.btn.btn-primary(ng-model="alumno.new_uni.incompleto" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) Incompleto
+									label.btn.btn-primary(ng-model="alumno.new_uni.cabello" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) Cabello
+									label.btn.btn-primary(ng-model="alumno.new_uni.accesorios" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) Accesorios
 
-							.col-sm-2.col-xs-12
-								button.btn.btn-primary(type="button" ng-model="uniforme.excusado" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0") 
+							.col-sm-2.col-xs-12(style="padding-top: 10px")
+								button.btn.btn-info.shiny(type="button" ng-model="uniforme.excusado" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0") 
 									| Excusado
 									i.fa.fa-check(ng-show="uniforme.excusado")
 
-							.col-sm-3.col-xs-6.no-padding
+							.col-sm-3.col-xs-6
 								.controls(style="margin-top: 28px;")
 									.input-group
 										span.input-group-addon(ng-click="alumno.new_uni.isOpen = true")
@@ -254,9 +249,79 @@
 											datepicker-append-to-body="true")
 							.col-sm-3.col-xs-6.no-padding
 								div(uib-timepicker ng-model="alumno.new_uni.fecha_hora" meridians="['AM', 'PM']")
-
-
-
-						.row.animated.bounceIn(ng-repeat="uniforme in alumno.uniformes" style="border: 1px solid #bbb;")
 							
+							.col-sm-12.col-xs-12.form-group.definicion-add-unidad
+								label.sr-only Escriba descripción
+								textarea.form-control(ng-model="alumno.new_uni.descripcion" placeholder="Escriba una descrición, descargo, etc."
+									uib-tooltip="Descripción" tooltip-popup-delay="500" style="height: 50px; width: 100%;")
+
+								
+							.col-sm-12.col-xs-6.center
+								button.btn.btn-default.shiny(ng-click="cancelarGuardarUniforme(alumno)" type="button") Cancelar
+								button.btn.btn-primary.shiny(ng-click="guardarUniforme(alumno)" type="button") Guardar
+
+
+
+						.row(ng-repeat="uniforme in alumno.uniformes" style="border: 1px solid #bbb; margin-left: 10px; margin-right: 10px; padding-top: 5px; padding-bottom: 5px;")
+							span(ng-show="!uniforme.editando")
+								.col-sm-1.col-xs-1(style="font-size: 7pt; padding-right: 0px;")
+									| {{uniforme.id}} 
+								.col-sm-5.col-xs-11(uib-tooltip="{{ uniforme.descripcion }}")
+									| {{uniforme.fecha_hora | date:'MMM d hh:mm a'}}
+								.col-sm-4.col-xs-12
+									.row
+										a.badge.badge-success(href="" ng-show="uniforme.excusado") Excusado
+										a.badge.badge-primary(href="" ng-show="uniforme.contrario") Contrario
+										a.badge.badge-primary(href="" ng-show="uniforme.sin_uniforme") Sin uniforme
+										a.badge.badge-primary(href="" ng-show="uniforme.incompleto") Incompleto
+										a.badge.badge-primary(href="" ng-show="uniforme.cabello") Cabello
+										a.badge.badge-primary(href="" ng-show="uniforme.accesorios") Accesorios
+								
+								.col-sm-2.col-xs-12.no-padding
+									button.btn.btn-default.btn-xs(ng-click="editarUniforme(uniforme, alumno)" style="padding-right: 9px;"
+										uib-tooltip="Editar uniforme")
+										i.fa.fa-pencil
+									button.btn.btn-danger.btn-xs(ng-click="eliminarUniforme(uniforme, alumno)" style="padding-right: 9px;"
+										uib-tooltip="Eliminar uniforme")
+										i.fa.fa-times
+							
+							
+							// EDITANDO UNIFORME	
+							span(ng-show="uniforme.editando")
+								.col-sm-10.col-xs-12(style="padding-top: 10px")
+									.btn-group(style="display: block;")
+										label.btn.btn-primary(ng-model="uniforme.contrario" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) Contrario
+										label.btn.btn-primary(ng-model="uniforme.sin_uniforme" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) Sin uniforme
+										label.btn.btn-primary(ng-model="uniforme.incompleto" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) Incompleto
+										label.btn.btn-primary(ng-model="uniforme.cabello" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) Cabello
+										label.btn.btn-primary(ng-model="uniforme.accesorios" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) Accesorios
+
+								.col-sm-2.col-xs-12(style="padding-top: 10px")
+									button.btn.btn-info.shiny(type="button" ng-model="uniforme.excusado" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0") 
+										| Excusado
+										i.fa.fa-check(ng-show="uniforme.excusado")
+
+								.col-sm-3.col-xs-6
+									.controls(style="margin-top: 28px;")
+										.input-group
+											span.input-group-addon(ng-click="uniforme.isOpen = true")
+												i.fa.fa-calendar
+											input.form-control.active(type="text" uib-datepicker-popup="dd-MM-yyyy" ng-model="uniforme.fecha_hora"
+												is-open="uniforme.isOpen" alt-input-formats="['M!/d!/yyyy', 'yyyy-M!-d!', 'M!-d!-yyyy', 'yyyy/M!/d!']"
+												ng-click="uniforme.isOpen = true" close-text="Aceptar" current-text="Hoy" clear-text="Borrar"
+												placeholder="Escribe 'MM-dd-yyyy' o 'yyyy-dd-MM'" style="padding: 6px 2px;"
+												datepicker-append-to-body="true")
+								.col-sm-3.col-xs-6.no-padding
+									div(uib-timepicker ng-model="uniforme.fecha_hora" meridians="['AM', 'PM']")
+									
+								.col-sm-12.col-xs-12.form-group.definicion-add-unidad
+									label.sr-only Escriba descripción
+									textarea.form-control(ng-model="uniforme.descripcion" placeholder="Escriba una descrición, descargo, etc."
+										uib-tooltip="Descripción" tooltip-popup-delay="500" style="height: 50px; width: 100%;")
+
+								.col-sm-12.col-xs-6.center
+									button.btn.btn-default.shiny(ng-click="cancelarGuardarUniformeEditado(uniforme)" type="button") Cancelar
+									button.btn.btn-primary.shiny(ng-click="guardarUniformeEditado(uniforme, alumno)" type="button") Actualizar
+
+								
 

@@ -303,6 +303,9 @@ angular.module('myvcFrontApp')
       $scope.pasandoNotas       = true
 
       for alumno in $scope.alumnos_subunidad
+        for uniforme in alumno.uniformes
+          uniforme.fecha_hora = new Date(uniforme.fecha_hora.replace(/-/g, '\/'))
+          
         $scope.verificarFallaHoy(alumno)
 
     ,() ->
@@ -313,6 +316,7 @@ angular.module('myvcFrontApp')
   $scope.verificarFallaHoy = (alumno)->
     d = new Date()
     alumno.falla_hoy = ''
+    alumno.uniforme_hoy = false
 
     for tardanza in alumno.tardanzas
       if tardanza.fecha_hora
@@ -329,6 +333,15 @@ angular.module('myvcFrontApp')
 
         if d.toDateString() == ausencia.fecha_hora.toDateString()
           alumno.falla_hoy = 'ausencia'
+
+    for uniforme in alumno.uniformes
+      if uniforme.fecha_hora
+        if uniforme.fecha_hora.replace
+          uniforme.fecha_hora   = new Date(uniforme.fecha_hora.replace(/-/g, '\/'))
+
+        if d.toDateString() == uniforme.fecha_hora.toDateString()
+          alumno.uniforme_hoy = true
+
 
 
   $scope.cargarAlumnosSubunidad = (subunidad, asignatura, grupo_id, asignatura_id)->
@@ -391,7 +404,9 @@ angular.module('myvcFrontApp')
     alumno.mostrandoFallas = !alumno.mostrandoFallas
     return
 
-
+  
+  
+  # Ver uniformes de alumno
   $scope.verUniformes = (alumno)->
     alumno.mostrandoUniformes = !alumno.mostrandoUniformes
     return
@@ -402,6 +417,95 @@ angular.module('myvcFrontApp')
     }
     alumno.creandoUniforme = !alumno.creandoUniforme
     return
+
+  $scope.cancelarGuardarUniforme = (alumno)->
+    alumno.guardando_uniforme = false
+    alumno.creandoUniforme = false
+
+
+  # Crear uniforme en la nube
+  $scope.guardarUniforme = (alumno)->
+    if alumno.guardando_uniforme
+      return
+
+    alumno.guardando_uniforme = true
+  
+    alumno.new_uni.alumno_id = alumno.alumno_id
+    alumno.new_uni.asignatura_id = $scope.asignatura_actual.asignatura_id
+    alumno.new_uni.materia = $scope.asignatura_actual.materia
+    alumno.new_uni.fecha_hora = alumno.new_uni.fecha_hora.yyyymmdd() + ' ' + window.fixHora(alumno.new_uni.fecha_hora);
+
+    $http.put('::uniformes/agregar', alumno.new_uni ).then((r)->
+      alumno.uniforme_hoy = true
+      alumno.guardando_uniforme = false
+      r.data.uniforme.fecha_hora = new Date(r.data.uniforme.fecha_hora.replace(/-/g, '\/'))
+      alumno.uniformes.push(r.data.uniforme)
+      alumno.uniformes_count++
+      alumno.creandoUniforme = false
+    ,() ->
+      toastr.error('Error agregando uniformes')
+      alumno.guardando_uniforme = false
+      alumno.creandoUniforme = false
+    )
+    return
+    
+    
+  $scope.editarUniforme = (uniforme, alumno)->
+    uniforme.editando = !uniforme.editando
+
+    
+  $scope.cancelarGuardarUniformeEditado = (uniforme)->
+    uniforme.guardando = false
+    uniforme.editando = false
+
+
+  $scope.guardarUniformeEditado = (uniforme, alumno)->
+    if uniforme.guardando
+      return
+
+    uniforme.guardando = true
+
+    $http.put('::uniformes/actualizar', uniforme ).then((r)->
+      uniforme.guardando = false
+      toastr.success('Uniforme actualizado.')
+      uniforme.editando = false
+    ,() ->
+      toastr.error('Error actualizado uniforme.')
+      uniforme.guardando = false
+    )
+    return
+    
+    
+    
+  # Función no utilizada
+  $scope.guardarValorUniforme = (uniforme, propiedad, valor, alumno)->
+
+    datos =
+      uniforme_id: uniforme.id
+      fecha_hora: $filter('date')(uniforme.fecha_hora, 'yyyy-MM-dd HH:mm:ss')
+
+    $http.put('::uniformes/guardar-cambios-uniforme', datos).then((r)->
+      $scope.verificarFallaHoy(alumno);
+    , (r2)->
+      toastr.warning 'No se pudo cambiar.', 'Problema'
+    )
+    
+    
+  $scope.eliminarUniforme = (uniforme, alumno)->
+    res = confirm('¿Seguro que deseas eliminar este registro de uniforme?')
+    
+    if res
+      $http.put('::uniformes/eliminar', {uniforme_id: uniforme.id, alumno_id: alumno.alumno_id, asignatura_id: $scope.asignatura_actual.asignatura_id }).then((r)->
+        alumno.uniformes = r.data.uniformes
+        alumno.uniformes_count = r.data.uniformes_count
+        $scope.verificarFallaHoy(alumno);
+      , (r2)->
+        toastr.warning 'No se pudo cambiar.', 'Problema'
+      )
+
+
+    
+    
 
 
 
