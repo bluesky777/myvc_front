@@ -20,7 +20,7 @@
                 i.fa.fa-map-marker
 
 
-            .row(style="overflow: auto")
+            .row(style="overflow: auto; padding-top: 10px;")
                 .col-xs-12
 
 
@@ -65,6 +65,9 @@
 
                                     td.border-right-dddd
                                         .btn-group.posi-unset
+                                            button.btn.btn-warning.shiny.posi-unset.padding-lr-6(ng-click="toggleMostrarDetalle(alumno, 'mostrando_per1_unifor')" uib-tooltip="Deficiencias en el uniforme")
+                                                i.fa.fa-user
+                                                | {{ alumno.uniformes_per1.length }}
                                             button.btn.btn-warning.posi-unset.padding-lr-6(ng-click="toggleMostrarDetalle(alumno, 'mostrando_per1_tard')" uib-tooltip="Llegadas tarde a la institución")
                                                 i.fa.fa-clock-o
                                                 | {{ alumno.tardanzas_per1.length }}
@@ -80,6 +83,19 @@
                                             i.fa.fa-plus
 
                                         // FATAS DETALLADAS PER 1
+                                        // Uniformes
+                                        .faltas-detalle-box(ng-if="alumno.mostrando_per1_unifor" style="background-color: #ffe586"
+                                            ng-click="verUniformesModal(alumno, 1)")
+
+                                            .title-faltas Uniformes
+                                            button.btn.btn-xs(ng-repeat="uniforme in alumno.uniformes_per1" style="width: 55px"
+                                                ng-disabled="::USER.profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')")
+
+                                                span(ng-hide="uniforme.fecha_hora")
+                                                    i.fa.fa-user
+                                                span(ng-show="uniforme.fecha_hora") {{ uniforme.fecha_hora | date:'d MMM' }}
+
+                                        // Tardanzas
                                         .faltas-detalle-box(ng-if="alumno.mostrando_per1_tard" style="background-color: #ffe586")
                                             .title-faltas Tardanzas
                                             button.btn.btn-xs(ng-repeat="tardanza in alumno.tardanzas_per1"
@@ -92,7 +108,7 @@
                                                     i.fa.fa-clock-o
                                                 span(ng-show="tardanza.fecha_hora") {{ tardanza.fecha_hora | date:'d MMM' }}
 
-
+                                        // Faltas
                                         .faltas-detalle-box(ng-if="alumno.mostrando_per1_t1" ng-click="verFaltasModal(alumno, alumno.periodo1, 1, 1)")
                                             .title-faltas {{ config.faltas_tipo1_displayname }}
                                             div(ng-repeat="falta in alumno.periodo1 | filter:{'tipo_situacion': 1}" style="border-bottom: 1px solid #aaa;")
@@ -114,6 +130,9 @@
 
                                     td.border-right-dddd
                                         .btn-group.posi-unset
+                                            button.btn.btn-warning.shiny.posi-unset.padding-lr-6(ng-click="toggleMostrarDetalle(alumno, 'mostrando_per2_unifor')" uib-tooltip="Deficiencias en el uniforme")
+                                                i.fa.fa-user
+                                                | {{ alumno.uniformes_per2.length }}
                                             button.btn.btn-warning.posi-unset.padding-lr-6(ng-click="toggleMostrarDetalle(alumno, 'mostrando_per2_tard')" uib-tooltip="Llegadas tarde a la institución")
                                                 i.fa.fa-clock-o
                                                 | {{ alumno.tardanzas_per2.length }}
@@ -131,6 +150,19 @@
 
 
                                         // FATAS DETALLADAS PER 2
+                                        // Uniformes
+                                        .faltas-detalle-box(ng-if="alumno.mostrando_per2_unifor" style="background-color: #ffe586"
+                                            ng-click="verUniformesModal(alumno, 2)")
+
+                                            .title-faltas Uniformes
+                                            button.btn.btn-xs(ng-repeat="uniforme in alumno.uniformes_per2" style="width: 55px"
+                                                ng-disabled="::USER.profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')")
+
+                                                span(ng-hide="uniforme.fecha_hora")
+                                                    i.fa.fa-user
+                                                span(ng-show="uniforme.fecha_hora") {{ uniforme.fecha_hora | date:'d MMM' }}
+
+                                        // Tardanzas
                                         .faltas-detalle-box(ng-if="alumno.mostrando_per2_tard" style="background-color: #ffe586")
                                             .title-faltas Tardanzas
                                             button.btn.btn-xs(ng-repeat="tardanza in alumno.tardanzas_per2"
@@ -166,6 +198,9 @@
 
                                     td.border-right-dddd
                                         .btn-group.posi-unset
+                                            button.btn.btn-warning.shiny.posi-unset.padding-lr-6(ng-click="toggleMostrarDetalle(alumno, 'mostrando_per3_unifor')" uib-tooltip="Deficiencias en el uniforme")
+                                                i.fa.fa-user
+                                                | {{ alumno.uniformes_per3.length }}
                                             button.btn.btn-warning.posi-unset.padding-lr-6(ng-click="toggleMostrarDetalle(alumno, 'mostrando_per3_tard')" uib-tooltip="Llegadas tarde a la institución")
                                                 i.fa.fa-clock-o
                                                 | {{ alumno.tardanzas_per3.length }}
@@ -183,6 +218,19 @@
 
 
                                         // FATAS DETALLADAS PER 3
+                                        // Uniformes
+                                        .faltas-detalle-box(ng-if="alumno.mostrando_per3_unifor" style="background-color: #ffe586"
+                                            ng-click="verUniformesModal(alumno, 3)")
+
+                                            .title-faltas Uniformes
+                                            button.btn.btn-xs(ng-repeat="uniforme in alumno.uniformes_per3" style="width: 55px"
+                                                ng-disabled="::USER.profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')")
+
+                                                span(ng-hide="uniforme.fecha_hora")
+                                                    i.fa.fa-user
+                                                span(ng-show="uniforme.fecha_hora") {{ uniforme.fecha_hora | date:'d MMM' }}
+
+                                        // Tardanzas
                                         .faltas-detalle-box(ng-if="alumno.mostrando_per3_tard" style="background-color: #ffe586")
                                             .title-faltas Tardanzas
                                             button.btn.btn-xs(ng-repeat="tardanza in alumno.tardanzas_per3"
@@ -218,6 +266,9 @@
 
                                     td.border-right-dddd
                                         .btn-group.posi-unset
+                                            button.btn.btn-warning.shiny.posi-unset.padding-lr-6(ng-click="toggleMostrarDetalle(alumno, 'mostrando_per4_unifor')" uib-tooltip="Deficiencias en el uniforme")
+                                                i.fa.fa-user
+                                                | {{ alumno.uniformes_per4.length }}
                                             button.btn.btn-warning.posi-unset.padding-lr-6(ng-click="toggleMostrarDetalle(alumno, 'mostrando_per4_tard')" uib-tooltip="Llegadas tarde a la institución")
                                                 i.fa.fa-clock-o
                                                 | {{ alumno.tardanzas_per4.length }}
@@ -235,6 +286,19 @@
 
 
                                         // FATAS DETALLADAS PER 4
+                                        // Uniformes
+                                        .faltas-detalle-box(ng-if="alumno.mostrando_per4_unifor" style="background-color: #ffe586"
+                                            ng-click="verUniformesModal(alumno, 4)")
+
+                                            .title-faltas Uniformes
+                                            button.btn.btn-xs(ng-repeat="uniforme in alumno.uniformes_per4" style="width: 55px"
+                                                ng-disabled="::USER.profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')")
+
+                                                span(ng-hide="uniforme.fecha_hora")
+                                                    i.fa.fa-user
+                                                span(ng-show="uniforme.fecha_hora") {{ uniforme.fecha_hora | date:'d MMM' }}
+
+                                        // Tardanzas
                                         .faltas-detalle-box(ng-if="alumno.mostrando_per4_tard" style="background-color: #ffe586")
                                             .title-faltas Tardanzas
                                             button.btn.btn-xs(ng-repeat="tardanza in alumno.tardanzas_per4"

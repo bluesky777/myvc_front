@@ -9,6 +9,10 @@ angular.module("myvcFrontApp")
   $scope.currentasignatura = {grupo: undefined, profesor: undefined}
   $scope.currenasignaturaEdit = {}
   $scope.copiando = false
+  $scope.show_materias_todas = false
+
+  if $scope.USER.show_materias_todas
+    $scope.show_materias_todas = parseInt($scope.USER.show_materias_todas)
 
   $scope.asignaturas = []
 
@@ -36,6 +40,16 @@ angular.module("myvcFrontApp")
         asignatura.restaurando = false
         toastr.error 'Error restaurando', 'Problema'
       )
+
+
+
+  $scope.cambiarMostrarTodasMaterias = (can)->
+
+    $http.put('::years/mostrar-todas-materias', {can: can, year_id: $scope.USER.year_id}).then((r)->
+      toastr.success r.data
+    , (r2)->
+      toastr.error 'No guardado.', 'Problema'
+    )
 
 
 

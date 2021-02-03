@@ -1,5 +1,5 @@
 
-<div ng-if="USER.tipo=='Profesor'" style="padding-top: 60px !important;" class="well with-header animated bounceIn">
+<div ng-if="::USER.tipo=='Profesor' || (USER.tipo=='Usuario' &amp;&amp; USER.profesor_id!=null) " style="padding-top: 60px !important;" class="well with-header animated bounceIn">
   <div class="header bordered-blue"><span ng-show="!pasandoNotas"><span ng-show="mostrandoHoy">Clases de hoy<a ng-click="mostrarClasesDeManana()" href="" style="float: right;">Mañana...</a></span><span ng-show="!mostrandoHoy"><a ng-click="mostrarClasesDeHoy()" href=""> ...Hoy</a><span style="float: right;">Clases de mañana</span></span></span><span ng-show="pasandoNotas" style="font-weight: bold;">{{ asignatura_actual.abrev_grupo }}. {{ asignatura_actual.materia }}</span></div>
   <div class="row">
     <div ng-hide="pasandoNotas" class="col-xs-12"><span ng-if="mostrandoHoy">
@@ -138,19 +138,19 @@
                 </div>
               </div>
               <div style="padding-top: 10px" class="col-sm-2 col-xs-12">
-                <button type="button" ng-model="uniforme.excusado" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0" class="btn btn-info shiny">
+                <button type="button" ng-model="uniforme.new_uni.excusado" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0" class="btn btn-info shiny">
                    
-                  Excusado<i ng-show="uniforme.excusado" class="fa fa-check"></i>
+                  Excusado<i ng-show="uniforme.new_uni.excusado" class="fa fa-check"></i>
                 </button>
               </div>
-              <div class="col-sm-3 col-xs-6">
+              <div class="col-sm-6 col-xs-6">
                 <div style="margin-top: 28px;" class="controls">
                   <div class="input-group"><span ng-click="alumno.new_uni.isOpen = true" class="input-group-addon"><i class="fa fa-calendar"></i></span>
                     <input type="text" uib-datepicker-popup="dd-MM-yyyy" ng-model="alumno.new_uni.fecha_hora" is-open="alumno.new_uni.isOpen" alt-input-formats="['M!/d!/yyyy', 'yyyy-M!-d!', 'M!-d!-yyyy', 'yyyy/M!/d!']" ng-click="alumno.new_uni.isOpen = true" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Escribe 'MM-dd-yyyy' o 'yyyy-dd-MM'" style="padding: 6px 2px;" datepicker-append-to-body="true" class="form-control active">
                   </div>
                 </div>
               </div>
-              <div class="col-sm-3 col-xs-6 no-padding">
+              <div class="col-sm-6 col-xs-6 no-padding">
                 <div uib-timepicker ng-model="alumno.new_uni.fecha_hora" meridians="['AM', 'PM']"></div>
               </div>
               <div class="col-sm-12 col-xs-12 form-group definicion-add-unidad">
@@ -188,14 +188,14 @@
                     Excusado<i ng-show="uniforme.excusado" class="fa fa-check"></i>
                   </button>
                 </div>
-                <div class="col-sm-3 col-xs-6">
+                <div class="col-sm-6 col-xs-6">
                   <div style="margin-top: 28px;" class="controls">
                     <div class="input-group"><span ng-click="uniforme.isOpen = true" class="input-group-addon"><i class="fa fa-calendar"></i></span>
                       <input type="text" uib-datepicker-popup="dd-MM-yyyy" ng-model="uniforme.fecha_hora" is-open="uniforme.isOpen" alt-input-formats="['M!/d!/yyyy', 'yyyy-M!-d!', 'M!-d!-yyyy', 'yyyy/M!/d!']" ng-click="uniforme.isOpen = true" close-text="Aceptar" current-text="Hoy" clear-text="Borrar" placeholder="Escribe 'MM-dd-yyyy' o 'yyyy-dd-MM'" style="padding: 6px 2px;" datepicker-append-to-body="true" class="form-control active">
                     </div>
                   </div>
                 </div>
-                <div class="col-sm-3 col-xs-6 no-padding">
+                <div class="col-sm-6 col-xs-6 no-padding">
                   <div uib-timepicker ng-model="uniforme.fecha_hora" meridians="['AM', 'PM']"></div>
                 </div>
                 <div class="col-sm-12 col-xs-12 form-group definicion-add-unidad">

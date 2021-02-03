@@ -1,6 +1,6 @@
 angular.module('myvcFrontApp')
 
-.directive('sidebarMenu',['$rootScope', 'AuthService', '$http', '$uibModal', 'Perfil', 'ProfesoresServ', '$window', '$state', '$interval', ($rootScope, AuthService, $http, $modal, Perfil, ProfesoresServ, $window, $state, $interval)->
+.directive('sidebarMenu',['$rootScope', 'AuthService', '$http', '$uibModal', 'Perfil', 'toastr', 'ProfesoresServ', '$window', '$state', '$interval', ($rootScope, AuthService, $http, $modal, Perfil, toastr, ProfesoresServ, $window, $state, $interval)->
 
 	restrict: 'E'
 	replace: true

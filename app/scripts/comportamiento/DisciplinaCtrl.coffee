@@ -2,7 +2,7 @@
 
 angular.module('myvcFrontApp')
 
-.controller('DisciplinaCtrl', ['$scope', 'toastr', '$http', '$uibModal', '$state', '$filter', 'App', 'AuthService', 'escalas', 'EscalasValorativasServ', 'ComportamientoServ', 'ProfesoresServ', '$cookies', ($scope, toastr, $http, $modal, $state, $filter, App, AuthService, escalas, EscalasValorativasServ, ComportamientoServ, ProfesoresServ, $cookies)->
+.controller('DisciplinaCtrl', ['$scope', 'toastr', '$http', '$uibModal', '$state', '$filter', 'App', 'AuthService', 'escalas', 'EscalasValorativasServ', 'ProfesoresServ', '$cookies', ($scope, toastr, $http, $modal, $state, $filter, App, AuthService, escalas, EscalasValorativasServ, ProfesoresServ, $cookies)->
 
   AuthService.verificar_acceso()
 
@@ -39,6 +39,16 @@ angular.module('myvcFrontApp')
 
     $http.put('::disciplina/alumnos', {grupo_id: grupo_id}).then((r)->
       $scope.alumnos = r.data.alumnos
+      for alumno in $scope.alumnos
+        for unif in alumno.uniformes_per1
+          unif.fecha_hora = new Date(unif.fecha_hora.replace(/-/g, '\/'))
+        for unif in alumno.uniformes_per2
+          unif.fecha_hora = new Date(unif.fecha_hora.replace(/-/g, '\/'))
+        for unif in alumno.uniformes_per3
+          unif.fecha_hora = new Date(unif.fecha_hora.replace(/-/g, '\/'))
+        for unif in alumno.uniformes_per4
+          unif.fecha_hora = new Date(unif.fecha_hora.replace(/-/g, '\/'))
+
     , (r2)->
       toastr.error('No se trajo los alumnos')
     )
@@ -105,6 +115,32 @@ angular.module('myvcFrontApp')
       #console.log($scope.alumnos)
     )
 
+
+
+  $scope.verUniformesModal = (alumno, per_num)->
+
+    modalInstance = $modal.open({
+      templateUrl: '==comportamiento/uniformesAlumnoPeriodoModal.tpl.html'
+      controller: 'verUniformesAlumnoPeriodoModal'
+      size: 'lg'
+      scope: $scope
+      resolve:
+        alumno: ()->
+          alumno
+        per_num: ()->
+          per_num
+        periodos: ()->
+          $scope.periodos
+        config: ()->
+          $scope.config
+        profesores: ()->
+          $scope.profesores
+    })
+    modalInstance.result.then( (ficha)->
+      #console.log($scope.alumnos)
+    , ()->
+      #console.log($scope.alumnos)
+    )
 
 
   $scope.toggleInmovible = ()->

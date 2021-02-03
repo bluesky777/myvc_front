@@ -1,4 +1,4 @@
-.well.with-header.animated.bounceIn(ng-if="USER.tipo=='Profesor'" style="padding-top: 60px !important;")
+.well.with-header.animated.bounceIn(ng-if="::USER.tipo=='Profesor' || (USER.tipo=='Usuario' && USER.profesor_id!=null) " style="padding-top: 60px !important;")
 	.header.bordered-blue
 		span(ng-show="!pasandoNotas")
 			span(ng-show="mostrandoHoy") Clases de hoy
@@ -233,11 +233,11 @@
 									label.btn.btn-primary(ng-model="alumno.new_uni.accesorios" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) Accesorios
 
 							.col-sm-2.col-xs-12(style="padding-top: 10px")
-								button.btn.btn-info.shiny(type="button" ng-model="uniforme.excusado" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0") 
+								button.btn.btn-info.shiny(type="button" ng-model="uniforme.new_uni.excusado" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0") 
 									| Excusado
-									i.fa.fa-check(ng-show="uniforme.excusado")
+									i.fa.fa-check(ng-show="uniforme.new_uni.excusado")
 
-							.col-sm-3.col-xs-6
+							.col-sm-6.col-xs-6
 								.controls(style="margin-top: 28px;")
 									.input-group
 										span.input-group-addon(ng-click="alumno.new_uni.isOpen = true")
@@ -247,7 +247,7 @@
 											ng-click="alumno.new_uni.isOpen = true" close-text="Aceptar" current-text="Hoy" clear-text="Borrar"
 											placeholder="Escribe 'MM-dd-yyyy' o 'yyyy-dd-MM'" style="padding: 6px 2px;"
 											datepicker-append-to-body="true")
-							.col-sm-3.col-xs-6.no-padding
+							.col-sm-6.col-xs-6.no-padding
 								div(uib-timepicker ng-model="alumno.new_uni.fecha_hora" meridians="['AM', 'PM']")
 							
 							.col-sm-12.col-xs-12.form-group.definicion-add-unidad
@@ -301,7 +301,7 @@
 										| Excusado
 										i.fa.fa-check(ng-show="uniforme.excusado")
 
-								.col-sm-3.col-xs-6
+								.col-sm-6.col-xs-6
 									.controls(style="margin-top: 28px;")
 										.input-group
 											span.input-group-addon(ng-click="uniforme.isOpen = true")
@@ -311,7 +311,7 @@
 												ng-click="uniforme.isOpen = true" close-text="Aceptar" current-text="Hoy" clear-text="Borrar"
 												placeholder="Escribe 'MM-dd-yyyy' o 'yyyy-dd-MM'" style="padding: 6px 2px;"
 												datepicker-append-to-body="true")
-								.col-sm-3.col-xs-6.no-padding
+								.col-sm-6.col-xs-6.no-padding
 									div(uib-timepicker ng-model="uniforme.fecha_hora" meridians="['AM', 'PM']")
 									
 								.col-sm-12.col-xs-12.form-group.definicion-add-unidad
