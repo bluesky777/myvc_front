@@ -10,7 +10,7 @@
           <button type="button" ng-click="verAgregarUniforme(alumno)" class="btn btn-default"><i class="fa fa-plus"></i>Agregar falla de uniforme</button>
         </div>
       </div>
-      <div ng-show="alumno.creandoUniforme" style="border: 1px solid #bbb; background-color: #f9f5d5;" class="row">
+      <div ng-show="alumno.creandoUniforme" style="border: 1px solid #bbb; background-color: #f9f5d5; padding-bottom:10px;" class="row">
         <div style="padding-top: 10px" class="col-sm-10 col-xs-12">
           <div style="display: block;" class="btn-group">
             <label ng-model="alumno.new_uni.contrario" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox class="btn btn-primary">Contrario</label>
@@ -21,9 +21,9 @@
           </div>
         </div>
         <div style="padding-top: 10px" class="col-sm-2 col-xs-12">
-          <button type="button" ng-model="uniforme.new_uni.excusado" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0" class="btn btn-info shiny">
+          <button type="button" ng-model="alumno.new_uni.excusado" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0" class="btn btn-info shiny">
              
-            Excusado<i ng-show="uniforme.new_uni.excusado" class="fa fa-check"></i>
+            Excusado<i ng-show="alumno.new_uni.excusado" class="fa fa-check"></i>
           </button>
         </div>
         <div class="col-sm-6 col-xs-6">
@@ -61,8 +61,8 @@
             <button ng-click="editarUniforme(uniforme, alumno)" style="padding-right: 9px;" uib-tooltip="Editar uniforme" class="btn btn-default btn-xs"><i class="fa fa-pencil"></i></button>
             <button ng-click="eliminarUniforme(uniforme, alumno)" style="padding-right: 9px;" uib-tooltip="Eliminar uniforme" class="btn btn-danger btn-xs"><i class="fa fa-times"></i></button>
           </div></span>
-        <!-- EDITANDO UNIFORME	--><span ng-show="uniforme.editando">
-          <div style="padding-top: 10px" class="col-sm-10 col-xs-12">
+        <!-- EDITANDO UNIFORME	--><span ng-show="uniforme.editando" style="padding-bottom:10px;">
+          <div style="padding-top: 10px; padding-bottom:10px;" class="col-sm-10 col-xs-12">
             <div style="display: block;" class="btn-group">
               <label ng-model="uniforme.contrario" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox class="btn btn-primary">Contrario</label>
               <label ng-model="uniforme.sin_uniforme" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox class="btn btn-primary">Sin uniforme</label>

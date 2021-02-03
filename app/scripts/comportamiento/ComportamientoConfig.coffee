@@ -22,13 +22,13 @@ angular.module('myvcFrontApp')
           controller: 'PanelHeaderCtrl'
           resolve:
             titulo: [->
-              'Comportamiento'
+              'Disciplina'
             ]
       data:
-        displayName: 'Comportamiento'
+        displayName: 'Disciplina'
         icon_fa: 'fa fa-user'
         needed_permissions: [PERMISSIONS.can_work_like_teacher, PERMISSIONS.can_work_like_admin]
-        pageTitle: 'Comportamiento - MyVc'
+        pageTitle: 'Disciplina - MyVc'
 
 
 

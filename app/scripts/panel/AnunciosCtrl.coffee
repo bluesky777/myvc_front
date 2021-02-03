@@ -7,7 +7,8 @@ angular.module('myvcFrontApp')
   $scope.perfilPath             = App.images+'perfil/'
   $scope.views 			            = App.views
   $scope.srcCant 				        = $scope.views + 'informes2/verCantAlumnosPorGrupos.tpl.html'
-  $scope.fileReaderSupported 	  = window.FileReader != null && (window.FileAPI == null || FileAPI.html5 != false);
+  #$scope.fileReaderSupported 	  = window.FileReader != null && (window.FileAPI == null || FileAPI.html5 != false);
+  $scope.fileReaderSupported 	  = window.FileReader != null && (window.FileAPI == null);
   $scope.imgFiles               = []
   $scope.imagen_subida          = true
   $scope.mostrar_publicaciones  = true

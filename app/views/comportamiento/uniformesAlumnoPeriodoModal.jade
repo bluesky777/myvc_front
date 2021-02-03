@@ -10,7 +10,7 @@
 						i.fa.fa-plus
 						| Agregar falla de uniforme
 
-			.row(ng-show="alumno.creandoUniforme" style="border: 1px solid #bbb; background-color: #f9f5d5;")
+			.row(ng-show="alumno.creandoUniforme" style="border: 1px solid #bbb; background-color: #f9f5d5; padding-bottom:10px;")
 				.col-sm-10.col-xs-12(style="padding-top: 10px")
 					.btn-group(style="display: block;")
 						label.btn.btn-primary(ng-model="alumno.new_uni.contrario" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) Contrario
@@ -20,9 +20,9 @@
 						label.btn.btn-primary(ng-model="alumno.new_uni.accesorios" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) Accesorios
 
 				.col-sm-2.col-xs-12(style="padding-top: 10px")
-					button.btn.btn-info.shiny(type="button" ng-model="uniforme.new_uni.excusado" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0") 
+					button.btn.btn-info.shiny(type="button" ng-model="alumno.new_uni.excusado" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0") 
 						| Excusado
-						i.fa.fa-check(ng-show="uniforme.new_uni.excusado")
+						i.fa.fa-check(ng-show="alumno.new_uni.excusado")
 
 				.col-sm-6.col-xs-6
 					.controls(style="margin-top: 28px;")
@@ -76,8 +76,8 @@
 				
 				
 				// EDITANDO UNIFORME	
-				span(ng-show="uniforme.editando")
-					.col-sm-10.col-xs-12(style="padding-top: 10px")
+				span(ng-show="uniforme.editando" style="padding-bottom:10px;")
+					.col-sm-10.col-xs-12(style="padding-top: 10px; padding-bottom:10px;")
 						.btn-group(style="display: block;")
 							label.btn.btn-primary(ng-model="uniforme.contrario" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) Contrario
 							label.btn.btn-primary(ng-model="uniforme.sin_uniforme" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) Sin uniforme

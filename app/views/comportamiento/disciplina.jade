@@ -88,12 +88,17 @@
                                             ng-click="verUniformesModal(alumno, 1)")
 
                                             .title-faltas Uniformes
-                                            button.btn.btn-xs(ng-repeat="uniforme in alumno.uniformes_per1" style="width: 55px"
-                                                ng-disabled="::USER.profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')")
+                                            div(ng-repeat="uniforme in alumno.uniformes_per1" style="padding: 4px; border: 1px solid #888; border-radius: 4px; background-color: #e8f7fb; margin-right: 3px" uib-tooltip="{{uniforme.materia}}")
 
-                                                span(ng-hide="uniforme.fecha_hora")
-                                                    i.fa.fa-user
-                                                span(ng-show="uniforme.fecha_hora") {{ uniforme.fecha_hora | date:'d MMM' }}
+                                                
+                                                span {{ uniforme.fecha_hora | date:'d MMM' }} 
+                                                .badge.badge-success(ng-show="uniforme.excusado" uib-tooltip="Excusado") Excusa
+                                                    i.fa.fa-check 
+                                                .badge.badge-primary(ng-show="uniforme.contrario" uib-tooltip="Contrario") Contrar
+                                                .badge.badge-primary(ng-show="uniforme.sin_uniforme" uib-tooltip="Sin uniforme") Sin uni
+                                                .badge.badge-primary(ng-show="uniforme.incompleto" uib-tooltip="Incompleto") Incompl
+                                                .badge.badge-primary(ng-show="uniforme.cabello" uib-tooltip="Cabello") Cabello
+                                                .badge.badge-primary(ng-show="uniforme.accesorios" uib-tooltip="Accesorios") Accesor
 
                                         // Tardanzas
                                         .faltas-detalle-box(ng-if="alumno.mostrando_per1_tard" style="background-color: #ffe586")

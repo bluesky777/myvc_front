@@ -107,7 +107,7 @@
 
 							button.btn.btn-default(ng-click="verUniformes(alumno)" style="padding-right: 9px;"
 								uib-tooltip="Registro de uniforme")
-								i.fa.fa-user-o
+								i.fa.fa-user
 									.badge.badge-success(ng-show="alumno.uniformes_count>0" ng-class="{'warning': alumno.uniforme_hoy }"
 										style="background-color: cornflowerblue; padding-top: 3px; position: absolute;")
 										| {{ alumno.uniformes_count }}
@@ -233,9 +233,9 @@
 									label.btn.btn-primary(ng-model="alumno.new_uni.accesorios" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) Accesorios
 
 							.col-sm-2.col-xs-12(style="padding-top: 10px")
-								button.btn.btn-info.shiny(type="button" ng-model="uniforme.new_uni.excusado" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0") 
+								button.btn.btn-info.shiny(type="button" ng-model="alumno.new_uni.excusado" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0") 
 									| Excusado
-									i.fa.fa-check(ng-show="uniforme.new_uni.excusado")
+									i.fa.fa-check(ng-show="alumno.new_uni.excusado")
 
 							.col-sm-6.col-xs-6
 								.controls(style="margin-top: 28px;")

@@ -28,7 +28,8 @@ angular.module("myvcFrontApp")
 	$scope.perfilPath 			= App.images + 'perfil/'
 	$scope.imgFiles 			= []
 	$scope.errorMsg 			= ''
-	$scope.fileReaderSupported 	= window.FileReader != null && (window.FileAPI == null || FileAPI.html5 != false);
+	#$scope.fileReaderSupported = window.FileReader != null && (window.FileAPI == null || FileAPI.html5 != false);
+	$scope.fileReaderSupported 	= window.FileReader != null && (window.FileAPI == null);
 	$scope.dato.usuarioElegido 	= []
 	$scope.dato.tipo_a_cambiar 	= 'alumno'
 	$scope.usuariosall 			= []

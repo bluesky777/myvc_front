@@ -44,7 +44,7 @@
           <div class="col-xs-12 col-sm-7"><span>{{::$index+1}}.</span><span uib-popover-template="views+'notas/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true" class="nombresellipsis"><img ng-src="{{perfilPath + alumno.foto_nombre}}" style="width: 30px; height: 30px;">{{ alumno.apellidos }} {{ alumno.nombres }}</span></div>
           <div class="col-xs-12 col-sm-5">
             <button ng-click="cambiarNota(alumno, alumno.nota)" uib-tooltip="Nota" tooltip-popup-delay="100" ng-if="subunidad_actual" style="width: 50px;" ng-class="{'inputnota-perdida': alumno.nota.nota &lt; nota_minima_aceptada, 'inputnota-superior': alumno.nota.nota &gt;= escala_maxima.porc_inicial }" class="btn btn-default">{{ alumno.nota.nota }}</button>
-            <button ng-click="verUniformes(alumno)" style="padding-right: 9px;" uib-tooltip="Registro de uniforme" class="btn btn-default"><i class="fa fa-user-o">
+            <button ng-click="verUniformes(alumno)" style="padding-right: 9px;" uib-tooltip="Registro de uniforme" class="btn btn-default"><i class="fa fa-user">
                 <div ng-show="alumno.uniformes_count&gt;0" ng-class="{'warning': alumno.uniforme_hoy }" style="background-color: cornflowerblue; padding-top: 3px; position: absolute;" class="badge badge-success">{{ alumno.uniformes_count }}</div></i></button>
             <button ng-click="verTardanzasAusencias(alumno)" ng-class="{'btn-warning': alumno.falla_hoy=='tardanza', 'btn-danger': alumno.falla_hoy=='ausencia' }" style="padding-left: 2px; padding-right: 4px;" uib-tooltip="Ausencias: {{ alumno.ausencias_count }} - Tardanzas: {{ alumno.ausencias_count }}" class="btn btn-default"><i class="fa fa-clock-o"></i>A: {{ alumno.ausencias_count }}
                - T: {{ alumno.tardanzas_count }}
@@ -138,9 +138,9 @@
                 </div>
               </div>
               <div style="padding-top: 10px" class="col-sm-2 col-xs-12">
-                <button type="button" ng-model="uniforme.new_uni.excusado" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0" class="btn btn-info shiny">
+                <button type="button" ng-model="alumno.new_uni.excusado" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0" class="btn btn-info shiny">
                    
-                  Excusado<i ng-show="uniforme.new_uni.excusado" class="fa fa-check"></i>
+                  Excusado<i ng-show="alumno.new_uni.excusado" class="fa fa-check"></i>
                 </button>
               </div>
               <div class="col-sm-6 col-xs-6">
