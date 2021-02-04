@@ -13,6 +13,7 @@
       <div ng-show="alumno.creandoUniforme" style="border: 1px solid #bbb; background-color: #f9f5d5; padding-bottom:10px;" class="row">
         <div style="padding-top: 10px" class="col-sm-10 col-xs-12">
           <div style="display: block;" class="btn-group">
+            <label ng-model="alumno.new_uni.camara" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox class="btn btn-primary"> <i class="fa fa-camera"></i>Cámara</label>
             <label ng-model="alumno.new_uni.contrario" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox class="btn btn-primary">Contrario</label>
             <label ng-model="alumno.new_uni.sin_uniforme" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox class="btn btn-primary">Sin uniforme</label>
             <label ng-model="alumno.new_uni.incompleto" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox class="btn btn-primary">Incompleto</label>
@@ -55,7 +56,7 @@
           <div style="font-size: 7pt; padding-right: 0px;" class="col-sm-1 col-xs-1">{{uniforme.id}} </div>
           <div uib-tooltip="{{ uniforme.descripcion }}" class="col-sm-5 col-xs-11">{{uniforme.fecha_hora | date:'MMM d hh:mm a'}}</div>
           <div class="col-sm-4 col-xs-12">
-            <div class="row"><a href="" ng-show="uniforme.excusado" class="badge badge-success">Excusado</a><a href="" ng-show="uniforme.contrario" class="badge badge-primary">Contrario</a><a href="" ng-show="uniforme.sin_uniforme" class="badge badge-primary">Sin uniforme</a><a href="" ng-show="uniforme.incompleto" class="badge badge-primary">Incompleto</a><a href="" ng-show="uniforme.cabello" class="badge badge-primary">Cabello</a><a href="" ng-show="uniforme.accesorios" class="badge badge-primary">Accesorios</a></div>
+            <div class="row"><a href="" ng-show="uniforme.excusado" class="badge badge-success">Excusado</a><a href="" ng-show="uniforme.camara" class="badge badge-primary"> <i class="fa fa-camera"></i>Cámara</a><a href="" ng-show="uniforme.contrario" class="badge badge-primary">Contrario</a><a href="" ng-show="uniforme.sin_uniforme" class="badge badge-primary">Sin uniforme</a><a href="" ng-show="uniforme.incompleto" class="badge badge-primary">Incompleto</a><a href="" ng-show="uniforme.cabello" class="badge badge-primary">Cabello</a><a href="" ng-show="uniforme.accesorios" class="badge badge-primary">Accesorios</a></div>
           </div>
           <div class="col-sm-2 col-xs-12 no-padding">
             <button ng-click="editarUniforme(uniforme, alumno)" style="padding-right: 9px;" uib-tooltip="Editar uniforme" class="btn btn-default btn-xs"><i class="fa fa-pencil"></i></button>
@@ -64,6 +65,7 @@
         <!-- EDITANDO UNIFORME	--><span ng-show="uniforme.editando" style="padding-bottom:10px;">
           <div style="padding-top: 10px; padding-bottom:10px;" class="col-sm-10 col-xs-12">
             <div style="display: block;" class="btn-group">
+              <label ng-model="uniforme.camara" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox class="btn btn-primary"> <i class="fa fa-camera"></i>Cámara</label>
               <label ng-model="uniforme.contrario" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox class="btn btn-primary">Contrario</label>
               <label ng-model="uniforme.sin_uniforme" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox class="btn btn-primary">Sin uniforme</label>
               <label ng-model="uniforme.incompleto" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox class="btn btn-primary">Incompleto</label>

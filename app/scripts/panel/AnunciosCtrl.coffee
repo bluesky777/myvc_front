@@ -138,7 +138,6 @@ angular.module('myvcFrontApp')
       id:     null
 
   $scope.eliminarEvento = (evento)->
-    console.log evento
     if evento.guardando
       return
 

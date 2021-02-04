@@ -33,7 +33,7 @@
 
 						// UNIDADES
 						div(ng-repeat="unidad in asignatura.unidades" style="border: 1px solid #aaa; padding: 2px; margin-bottom: 10px; margin-top: 5px; border-radius: 4px; background-color: aliceblue;")
-							div(style="max-height: 50px; overflow: hidden;")
+							div(style="max-height: 50px; overflow: hidden; margin: 8px 4px 8px 10px;")
 								| {{$index+1}}. {{ unidad.definicion }}
 
 
@@ -43,7 +43,7 @@
 									| {{$index+1}}. {{ subunidad.definicion }}
 
 							div(style="text-align: right")
-								a(ng-click="crearSubunidad()" href=""
+								a(ui-sref="panel.unidades({asignatura_id: asignatura.asignatura_id})" href=""
 									ng-hide="::USER.profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')")
 									| Crear {{SUBUNIDAD}}
 
@@ -77,7 +77,7 @@
 									| {{$index+1}}. {{ subunidad.definicion }}
 
 							div(style="text-align: right")
-								a(ng-click="crearSubunidad()" href=""
+								a(ui-sref="panel.unidades({asignatura_id: asignatura.asignatura_id})" href=""
 									ng-hide="::USER.profes_pueden_editar_notas==0 && !hasRoleOrPerm('Admin')")
 									| Crear {{SUBUNIDAD}}
 
@@ -106,8 +106,8 @@
 									| {{ alumno.nota.nota }}
 
 							button.btn.btn-default(ng-click="verUniformes(alumno)" style="padding-right: 9px;"
-								uib-tooltip="Registro de uniforme")
-								i.fa.fa-user
+								uib-tooltip="Registro de uniforme o cámara")
+								i.fa.fa-book
 									.badge.badge-success(ng-show="alumno.uniformes_count>0" ng-class="{'warning': alumno.uniforme_hoy }"
 										style="background-color: cornflowerblue; padding-top: 3px; position: absolute;")
 										| {{ alumno.uniformes_count }}
@@ -143,7 +143,7 @@
 
 				// TARDANZAS - AUSENCIAS
 				.row(ng-show="alumno.mostrandoFallas")
-					.col-lg-12.col-xs-12(style="border-left: 5px solid #0085ff; border-right: 5px solid #0085ff")
+					.col-lg-12.col-xs-12(style="border-left: 5px solid #0085ff; border-right: 5px solid #0085ff;")
 
 						.row.animated.bounceIn(ng-show="alumno.tardanzas_count == 0 && alumno.ausencias_count == 0" style="border: 1px solid #bbb;")
 							.col-sm-12.col-xs-12.no-padding-xs(style="font-style: italic")
@@ -215,17 +215,20 @@
 
 				// UNIFORME
 				.row(ng-show="alumno.mostrandoUniformes")
-					.col-lg-12.col-xs-12(style="border-left: 5px solid #4caf50; border-right: 5px solid #4caf50")
+					.col-lg-12.col-xs-12(style="border-left: 5px solid #4caf50; border-right: 5px solid #4caf50; padding-bottom: 10px;")
 
 						.row(ng-show="!alumno.creandoUniforme" style="border: 1px solid #bbb; background-color: #f9f5d5" )
 							.col-sm-12.col-xs-2.no-padding-xs(style="padding-bottom: 10px; padding-top: 10px;")
 								button.btn.btn-default(type="button" ng-click="verAgregarUniforme(alumno)")
 									i.fa.fa-plus
-									| Agregar falla de uniforme
+									| Agregar falla de uniforme o cámara
 
-						.row(ng-show="alumno.creandoUniforme" style="border: 1px solid #bbb; background-color: #f9f5d5;")
+						.row(ng-show="alumno.creandoUniforme" style="border: 1px solid #bbb; background-color: #f9f5d5; padding-bottom: 5px;")
 							.col-sm-10.col-xs-12(style="padding-top: 10px")
 								.btn-group(style="display: block;")
+									label.btn.btn-primary(ng-model="alumno.new_uni.camara" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) 
+										i.fa.fa-camera
+										| Cámara
 									label.btn.btn-primary(ng-model="alumno.new_uni.contrario" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) Contrario
 									label.btn.btn-primary(ng-model="alumno.new_uni.sin_uniforme" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) Sin uniforme
 									label.btn.btn-primary(ng-model="alumno.new_uni.incompleto" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) Incompleto
@@ -271,6 +274,9 @@
 								.col-sm-4.col-xs-12
 									.row
 										a.badge.badge-success(href="" ng-show="uniforme.excusado") Excusado
+										a.badge.badge-primary(href="" ng-show="uniforme.camara") 
+											i.fa.fa-camera
+											| Cámara
 										a.badge.badge-primary(href="" ng-show="uniforme.contrario") Contrario
 										a.badge.badge-primary(href="" ng-show="uniforme.sin_uniforme") Sin uniforme
 										a.badge.badge-primary(href="" ng-show="uniforme.incompleto") Incompleto
@@ -290,6 +296,9 @@
 							span(ng-show="uniforme.editando")
 								.col-sm-10.col-xs-12(style="padding-top: 10px")
 									.btn-group(style="display: block;")
+										label.btn.btn-primary(ng-model="uniforme.camara" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) 
+											i.fa.fa-camera
+											| Cámara
 										label.btn.btn-primary(ng-model="uniforme.contrario" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) Contrario
 										label.btn.btn-primary(ng-model="uniforme.sin_uniforme" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) Sin uniforme
 										label.btn.btn-primary(ng-model="uniforme.incompleto" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) Incompleto

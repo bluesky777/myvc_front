@@ -13,6 +13,9 @@
 			.row(ng-show="alumno.creandoUniforme" style="border: 1px solid #bbb; background-color: #f9f5d5; padding-bottom:10px;")
 				.col-sm-10.col-xs-12(style="padding-top: 10px")
 					.btn-group(style="display: block;")
+						label.btn.btn-primary(ng-model="alumno.new_uni.camara" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) 
+							i.fa.fa-camera
+							| Cámara
 						label.btn.btn-primary(ng-model="alumno.new_uni.contrario" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) Contrario
 						label.btn.btn-primary(ng-model="alumno.new_uni.sin_uniforme" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) Sin uniforme
 						label.btn.btn-primary(ng-model="alumno.new_uni.incompleto" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) Incompleto
@@ -60,6 +63,9 @@
 					.col-sm-4.col-xs-12
 						.row
 							a.badge.badge-success(href="" ng-show="uniforme.excusado") Excusado
+							a.badge.badge-primary(href="" ng-show="uniforme.camara") 
+								i.fa.fa-camera
+								| Cámara
 							a.badge.badge-primary(href="" ng-show="uniforme.contrario") Contrario
 							a.badge.badge-primary(href="" ng-show="uniforme.sin_uniforme") Sin uniforme
 							a.badge.badge-primary(href="" ng-show="uniforme.incompleto") Incompleto
@@ -79,6 +85,9 @@
 				span(ng-show="uniforme.editando" style="padding-bottom:10px;")
 					.col-sm-10.col-xs-12(style="padding-top: 10px; padding-bottom:10px;")
 						.btn-group(style="display: block;")
+							label.btn.btn-primary(ng-model="uniforme.camara" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) 
+								i.fa.fa-camera
+								| Cámara
 							label.btn.btn-primary(ng-model="uniforme.contrario" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) Contrario
 							label.btn.btn-primary(ng-model="uniforme.sin_uniforme" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) Sin uniforme
 							label.btn.btn-primary(ng-model="uniforme.incompleto" btn-checkbox-false="0" btn-checkbox-true="1" uib-btn-checkbox) Incompleto

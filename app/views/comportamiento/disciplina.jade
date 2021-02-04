@@ -87,13 +87,15 @@
                                         .faltas-detalle-box(ng-if="alumno.mostrando_per1_unifor" style="background-color: #ffe586"
                                             ng-click="verUniformesModal(alumno, 1)")
 
-                                            .title-faltas Uniformes
+                                            .title-faltas Uniforme / Cam
                                             div(ng-repeat="uniforme in alumno.uniformes_per1" style="padding: 4px; border: 1px solid #888; border-radius: 4px; background-color: #e8f7fb; margin-right: 3px" uib-tooltip="{{uniforme.materia}}")
 
                                                 
                                                 span {{ uniforme.fecha_hora | date:'d MMM' }} 
                                                 .badge.badge-success(ng-show="uniforme.excusado" uib-tooltip="Excusado") Excusa
                                                     i.fa.fa-check 
+                                                .badge.badge-primary(ng-show="uniforme.camara" uib-tooltip="Cámara") Cam
+                                                    i.fa.fa-camera 
                                                 .badge.badge-primary(ng-show="uniforme.contrario" uib-tooltip="Contrario") Contrar
                                                 .badge.badge-primary(ng-show="uniforme.sin_uniforme" uib-tooltip="Sin uniforme") Sin uni
                                                 .badge.badge-primary(ng-show="uniforme.incompleto" uib-tooltip="Incompleto") Incompl

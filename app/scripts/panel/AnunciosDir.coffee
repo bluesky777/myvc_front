@@ -35,6 +35,16 @@ angular.module('myvcFrontApp')
 
         , 500)
 
+        if scope.changes_asked.alumnos.length > 0
+          for alumno in scope.changes_asked.alumnos
+            for uniforme in alumno.uniformes
+              uniforme.fecha_hora = new Date(uniforme.fecha_hora.replace(/-/g, '\/'))
+  
+        else
+          for uniforme in scope.changes_asked.uniformes
+            uniforme.fecha_hora = new Date(uniforme.fecha_hora.replace(/-/g, '\/'))
+
+
         # Publicaciones
         for publi in scope.changes_asked.publicaciones
           publi.contenido_tr = $sce.trustAsHtml(publi.contenido)

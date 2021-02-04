@@ -6,7 +6,7 @@
       <div class="widget-body">
         <div class="row">
           <div class="col-lg-12 col-xs-12">
-            <p>Notas bloqueadas desde tesorería:<span style="font-weight: bold;" ng-show="USER.pazysalvo"> NO</span><span style="font-weight: bold; color: red; font-size: 15pt" ng-hide="USER.pazysalvo"> SI</span></p>
+            <p><span style="font-weight: bold;" ng-show="USER.pazysalvo">Estás a paz y salvo en tesorería.</span><span style="font-weight: bold; color: red; font-size: 15pt" ng-hide="USER.pazysalvo"> Notas bloqueadas porque NO estás a paz y salvo en tesorería.</span></p>
           </div>
         </div>
         <div class="row">
@@ -48,6 +48,37 @@
                     <td class="text-center">{{ periodo.asistencia.cant_ausencias_entrada }}</td>
                     <td class="text-center">{{ periodo.asistencia.cant_tardanzas_clases }}</td>
                     <td class="text-center">{{ periodo.asistencia.cant_ausencias_clases }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-12">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th class="text-center">{{ changes_asked.uniformes.length }} Faltas por uniforme o cámara</th>
+                    <th class="text-center">Materia</th>
+                    <th style="width: 20%;" class="text-center">Descripción</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="uniforme in ::changes_asked.uniformes">
+                    <td><span style="font-weight: bold">Per{{uniforme.numero}}</span></td>
+                    <td>{{uniforme.fecha_hora | date:'dd MMM hh:mm a'}}
+                      <div ng-show="uniforme.excusado" uib-tooltip="Presentó excusa" class="badge badge-success">Excusa<i class="fa fa-check"> </i></div>
+                      <div ng-show="uniforme.camara" uib-tooltip="Cámara" class="badge badge-primary">Cámara<i class="fa fa-camera"> </i></div>
+                      <div ng-show="uniforme.contrario" uib-tooltip="Uniforme contrario" class="badge badge-primary">Contrario</div>
+                      <div ng-show="uniforme.sin_uniforme" uib-tooltip="Sin uniforme" class="badge badge-primary">Sin uni</div>
+                      <div ng-show="uniforme.incompleto" uib-tooltip="Uniforme incompleto" class="badge badge-primary">Incompleto</div>
+                      <div ng-show="uniforme.cabello" class="badge badge-primary">Cabello</div>
+                      <div ng-show="uniforme.accesorios" class="badge badge-primary">Accesorios</div>
+                    </td>
+                    <td>{{ uniforme.materia }}</td>
+                    <td>{{ uniforme.descripcion }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -138,7 +169,7 @@
               <div class="widget-body">
                 <div class="row">
                   <div class="col-lg-12 col-xs-12">
-                    <p>Notas bloqueadas desde tesorería:<span style="font-weight: bold;" ng-show="alumno.pazysalvo"> NO</span><span style="font-weight: bold; color: red; font-size: 15pt" ng-hide="alumno.pazysalvo"> SI</span></p>
+                    <p><span style="font-weight: bold;" ng-show="alumno.pazysalvo">Estás a paz y salvo en tesorería.</span><span style="font-weight: bold; color: red; font-size: 15pt" ng-hide="alumno.pazysalvo"> Notas bloqueadas porque NO estás a paz y salvo en tesorería.</span></p>
                   </div>
                 </div>
                 <div class="row">
@@ -176,6 +207,37 @@
                             <td class="text-center">{{ periodo.asistencia.cant_ausencias_entrada }}</td>
                             <td class="text-center">{{ periodo.asistencia.cant_tardanzas_clases }}</td>
                             <td class="text-center">{{ periodo.asistencia.cant_ausencias_clases }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th></th>
+                            <th class="text-center">{{ alumno.uniformes.length }} Faltas por uniforme o cámara</th>
+                            <th class="text-center">Materia</th>
+                            <th style="width: 20%;" class="text-center">Descripción</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="uniforme in ::alumno.uniformes">
+                            <td><span style="font-weight: bold">Per{{uniforme.numero}}</span></td>
+                            <td>{{uniforme.fecha_hora | date:'dd MMM hh:mm a'}}
+                              <div ng-show="uniforme.excusado" uib-tooltip="Presentó excusa" class="badge badge-success">Excusa<i class="fa fa-check"> </i></div>
+                              <div ng-show="uniforme.camara" uib-tooltip="Cámara" class="badge badge-primary">Cámara<i class="fa fa-camera"> </i></div>
+                              <div ng-show="uniforme.contrario" uib-tooltip="Uniforme contrario" class="badge badge-primary">Contrario</div>
+                              <div ng-show="uniforme.sin_uniforme" uib-tooltip="Sin uniforme" class="badge badge-primary">Sin uni</div>
+                              <div ng-show="uniforme.incompleto" uib-tooltip="Uniforme incompleto" class="badge badge-primary">Incompleto</div>
+                              <div ng-show="uniforme.cabello" class="badge badge-primary">Cabello</div>
+                              <div ng-show="uniforme.accesorios" class="badge badge-primary">Accesorios</div>
+                            </td>
+                            <td>{{ uniforme.materia }}</td>
+                            <td>{{ uniforme.descripcion }}</td>
                           </tr>
                         </tbody>
                       </table>
