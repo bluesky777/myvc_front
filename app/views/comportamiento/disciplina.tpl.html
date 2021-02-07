@@ -59,7 +59,7 @@
                       <div class="title-faltas">Uniforme / Cam</div>
                       <div ng-repeat="uniforme in alumno.uniformes_per1" style="padding: 4px; border: 1px solid #888; border-radius: 4px; background-color: #e8f7fb; margin-right: 3px" uib-tooltip="{{uniforme.materia}}"><span>{{ uniforme.fecha_hora | date:'d MMM' }} </span>
                         <div ng-show="uniforme.excusado" uib-tooltip="Excusado" class="badge badge-success">Excusa<i class="fa fa-check"> </i></div>
-                        <div ng-show="uniforme.camara" uib-tooltip="Cámara" class="badge badge-primary">Cam<i class="fa fa-camera"> </i></div>
+                        <div ng-show="uniforme.camara" uib-tooltip="Sin cámara" class="badge badge-primary">Cam<i class="fa fa-camera"> </i></div>
                         <div ng-show="uniforme.contrario" uib-tooltip="Contrario" class="badge badge-primary">Contrar</div>
                         <div ng-show="uniforme.sin_uniforme" uib-tooltip="Sin uniforme" class="badge badge-primary">Sin uni</div>
                         <div ng-show="uniforme.incompleto" uib-tooltip="Incompleto" class="badge badge-primary">Incompl</div>

@@ -101,7 +101,7 @@ div(ng-repeat="grupo in ::grupos")
 
                 tbody(style="font-size: 9pt")
                   tr.altura-22(ng-repeat="alumno in ::grupo.alumnos" ng-click="editarAlumno(alumno)" uib-popover-template="views+'alumnos/popoverAlumnoInfo.tpl.html'"
-                    popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}"
+                    popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" ng-class="{'acta-alumno-no-promovido': alumno.promovido=='No' }"
                     popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true")
 
                     td

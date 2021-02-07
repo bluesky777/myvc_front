@@ -93,7 +93,7 @@
                   <th class="text-center">Deserción</th>
                 </tr>
                 <tbody style="font-size: 9pt">
-                  <tr ng-repeat="alumno in ::grupo.alumnos" ng-click="editarAlumno(alumno)" uib-popover-template="views+'alumnos/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true" class="altura-22">
+                  <tr ng-repeat="alumno in ::grupo.alumnos" ng-click="editarAlumno(alumno)" uib-popover-template="views+'alumnos/popoverAlumnoInfo.tpl.html'" popover-title="{{alumno.nombres + ' ' + alumno.apellidos}}" ng-class="{'acta-alumno-no-promovido': alumno.promovido=='No' }" popover-trigger="'mouseenter'" popover-popup-delay="500" popover-append-to-body="true" class="altura-22">
                     <td>{{$index + 1}}</td>
                     <td>
                       <div ng-style="alumno.estado=='ASIS' ? {'font-style': 'italic'} : {}" style="position: relative; vertical-align: middle;" class="ellipsis250 alumno-planilla">{{::alumno.apellidos}} {{::alumno.nombres}}<span ng-show="alumno.estado=='PREM'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;">(Prema)</span><span ng-show="alumno.estado=='DESE'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;">(Dese)</span><span ng-show="alumno.estado=='RETI'" style="font-size: 8pt; right: 0px; position: absolute; background-color: white; top: -2px;">(Reti)</span></div>

@@ -1,0 +1,15 @@
+.modal-header(style="background-color: #f2fd42;")
+    h3.modal-title.flipInY ¿Qué grados desea calcular?
+.modal-body
+
+    span Estas operaciones se basan en todas las notas del año, recuperaciones, etc. Tenga paciencia por favor.
+    uib-progressbar.progress-xlg.progress-striped.active(value="porcentajePromov" ng-show="porcentajePromov > -1")
+        b {{porcentajePromov}}% Completado
+
+    button.btn.btn-default.btn-block(ng-repeat="grupo in grupos" ng-click="calcularGrupo(grupo)") {{grupo.nombre}}
+
+    button.btn.btn-primary.btn-block(ng-click="calcularTodos()") Calcular todos
+
+.modal-footer
+    button.btn.btn-labeled.btn-default(ng-click="ok()") Aceptar
+        i.btn-label.fa.fa-check

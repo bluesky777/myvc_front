@@ -37,8 +37,9 @@ angular.module('myvcFrontApp')
 
         if scope.changes_asked.alumnos.length > 0
           for alumno in scope.changes_asked.alumnos
-            for uniforme in alumno.uniformes
-              uniforme.fecha_hora = new Date(uniforme.fecha_hora.replace(/-/g, '\/'))
+            if alumno.uniformes
+              for uniforme in alumno.uniformes
+                uniforme.fecha_hora = new Date(uniforme.fecha_hora.replace(/-/g, '\/'))
   
         else
           for uniforme in scope.changes_asked.uniformes

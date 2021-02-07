@@ -1,5 +1,5 @@
 angular.module('myvcFrontApp')
-.controller('InformesCtrl', ['$scope', '$http', '$state', '$stateParams', '$filter', 'App', 'AuthService', 'ProfesoresServ', 'informes_datos', 'alumnos', '$timeout', '$cookies', 'toastr', '$interval', 'DownloadServ', 'Upload', ($scope, $http, $state, $stateParams, $filter, App, AuthService, ProfesoresServ, informes_datos, alumnos, $timeout, $cookies, toastr, $interval, DownloadServ, Upload) ->
+.controller('InformesCtrl', ['$scope', '$http', '$state', '$uibModal', '$stateParams', '$filter', 'App', 'AuthService', 'ProfesoresServ', 'informes_datos', 'alumnos', '$timeout', '$cookies', 'toastr', '$interval', 'DownloadServ', 'Upload', ($scope, $http, $state, $modal, $stateParams, $filter, App, AuthService, ProfesoresServ, informes_datos, alumnos, $timeout, $cookies, toastr, $interval, DownloadServ, Upload) ->
 
   AuthService.verificar_acceso()
   $scope.rowsAlum = []
@@ -70,36 +70,20 @@ angular.module('myvcFrontApp')
 
 
   $scope.calcularPromovido = ()->
-    console.log($scope.grupos)
-
-    $scope.porcentajePromov   = 0
-    $scope.bloqueadoPromov   = true
-
-    $scope.grupo_temp_calculado_promov = true
-    $scope.grupo_temp_indce_promov     = 0
-
-    $scope.intervalo_promov = $interval(()->
-
-      if $scope.grupo_temp_calculado_promov
-
-        $scope.grupo_temp_calculado_promov = false
-        grupo 							      = $scope.grupos[$scope.grupo_temp_indce_promov]
-        $scope.porcentajePromov 	= parseInt(($scope.grupo_temp_indce_promov+1) * 100 / $scope.grupos.length)
-
-        $http.put('::promovidos/calcular-grupo', {grupo_id: grupo.grupo_id}).then((r)->
-          toastr.success grupo.nombre + ' calculado con éxito'
-          $scope.grupo_temp_calculado_promov = true
-          $scope.grupo_temp_indce_promov     = $scope.grupo_temp_indce_promov + 1
-          if $scope.grupo_temp_indce_promov == $scope.grupos.length
-            $interval.cancel($scope.intervalo_promov)
-
-        , (r2)->
-          $scope.grupo_temp_calculado_promov = true
-          toastr.warning 'No se pudo calcular ' + grupo.nombre + '. Intentaremos de nuevo.'
-        )
-
-    , 20)
-
+    modalInstance = $modal.open({
+      templateUrl: '==informes2/calcularPromovidosModal.tpl.html'
+      controller: 'CalcularPromovidosModalCtrl'
+      resolve:
+        USER: ()->
+          $scope.USER
+        grupos: ()->
+          $scope.grupos
+    })
+    modalInstance.result.then( (alum)->
+      # nada
+    , ()->
+      # nada
+    )
 
 
 
