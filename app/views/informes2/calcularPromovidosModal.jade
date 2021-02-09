@@ -6,7 +6,7 @@
     uib-progressbar.progress-xlg.progress-striped.active(value="porcentajePromov" ng-show="porcentajePromov > -1")
         b {{porcentajePromov}}% Completado
 
-    button.btn.btn-default.btn-block(ng-repeat="grupo in grupos" ng-click="calcularGrupo(grupo)") {{grupo.nombre}}
+    button.btn.btn-default.btn-block(ng-repeat="grupo in grupos | orderBy:'orden'" ng-click="calcularGrupo(grupo)") {{grupo.nombre}}
 
     button.btn.btn-primary.btn-block(ng-click="calcularTodos()") Calcular todos
 

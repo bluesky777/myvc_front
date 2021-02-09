@@ -21,7 +21,7 @@
               <label style="margin-right: 9px;">Grupo</label>
               <ui-select ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;">
                 <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
-                <ui-select-choices repeat="grupo in grupos | filter: $select.search">
+                <ui-select-choices repeat="grupo in grupos | filter: $select.search | orderBy:'orden'">
                   <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
                 </ui-select-choices>
               </ui-select><a href="" ng-click="verBoletinesFinalesGrupo()" class="btn btn-default">Grupo completo</a>
@@ -82,7 +82,7 @@
               <label>Grupo</label>
               <ui-select ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;">
                 <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
-                <ui-select-choices repeat="grupo in grupos | filter: $select.search">
+                <ui-select-choices repeat="grupo in grupos | filter: $select.search | orderBy:'orden'">
                   <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
                 </ui-select-choices>
               </ui-select><a href="" ng-click="verCertificadosEstudioGrupo()" class="btn btn-default">Grupo completo</a>
@@ -167,7 +167,7 @@
               <label>Grupo</label>
               <ui-select ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;">
                 <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
-                <ui-select-choices repeat="grupo in grupos | filter: $select.search">
+                <ui-select-choices repeat="grupo in grupos | filter: $select.search | orderBy:'orden'">
                   <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
                 </ui-select-choices>
               </ui-select><a href="" ng-click="verCertificadosEstudioGrupo(config.periodo_a_calcular)" class="btn btn-default">Grupo completo</a>

@@ -386,12 +386,14 @@ angular.module('myvcFrontApp')
     d = d.toDateString()
 
     for ausencia in alumno.tardanzas
-      if d == ausencia.fecha_hora.toDateString()
-        $scope.eliminarAusencia(ausencia, alumno, true);
+      if ausencia.fecha_hora
+        if d == ausencia.fecha_hora.toDateString()
+          $scope.eliminarAusencia(ausencia, alumno, true);
 
     for ausencia in alumno.ausencias
-      if d == ausencia.fecha_hora.toDateString()
-        $scope.eliminarAusencia(ausencia, alumno, true);
+      if ausencia.fecha_hora
+        if d == ausencia.fecha_hora.toDateString()
+          $scope.eliminarAusencia(ausencia, alumno, true);
 
     $timeout(()->
       alumno.quitandoAusenciaHoy = false
@@ -573,8 +575,9 @@ angular.module('myvcFrontApp')
         alumno.ausencias = $filter('filter')(alumno.ausencias, { id: '!'+ausencia.id })
 
         d = new Date()
-        if d.toDateString() == ausencia.fecha_hora.toDateString()
-          alumno.falla_hoy = 'tardanza'
+        if ausencia.fecha_hora
+          if d.toDateString() == ausencia.fecha_hora.toDateString()
+            alumno.falla_hoy = 'tardanza'
 
       if new_tipo == 'ausencia'
         ausencia.tipo = 'ausencia'
@@ -586,8 +589,9 @@ angular.module('myvcFrontApp')
 
 
         d = new Date()
-        if d.toDateString() == ausencia.fecha_hora.toDateString()
-          alumno.falla_hoy = 'ausencia'
+        if ausencia.fecha_hora
+          if d.toDateString() == ausencia.fecha_hora.toDateString()
+            alumno.falla_hoy = 'ausencia'
 
     , (r2)->
       toastr.warning 'No se pudo cambiar el tipo.', 'Problema'

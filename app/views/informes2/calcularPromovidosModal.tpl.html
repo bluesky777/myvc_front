@@ -4,7 +4,7 @@
 </div>
 <div class="modal-body"><span>Estas operaciones se basan en todas las notas del año, recuperaciones, etc. Tenga paciencia por favor.</span>
   <uib-progressbar value="porcentajePromov" ng-show="porcentajePromov &gt; -1" class="progress-xlg progress-striped active"><b>{{porcentajePromov}}% Completado</b></uib-progressbar>
-  <button ng-repeat="grupo in grupos" ng-click="calcularGrupo(grupo)" class="btn btn-default btn-block">{{grupo.nombre}}</button>
+  <button ng-repeat="grupo in grupos | orderBy:'orden'" ng-click="calcularGrupo(grupo)" class="btn btn-default btn-block">{{grupo.nombre}}</button>
   <button ng-click="calcularTodos()" class="btn btn-primary btn-block">Calcular todos</button>
 </div>
 <div class="modal-footer">

@@ -60,7 +60,7 @@
                     <label style="margin-right: 9px;">Grupo</label>
                     <ui-select ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;">
                       <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
-                      <ui-select-choices repeat="grupo in grupos | filter: $select.search">
+                      <ui-select-choices repeat="grupo in grupos | filter: $select.search | orderBy:'orden'">
                         <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
                       </ui-select-choices>
                     </ui-select><a href="" ng-click="verBoletinesGrupo(tipo_boletin)" class="btn btn-default">Grupo completo</a>
@@ -167,7 +167,7 @@
               <label>Grupo</label>
               <ui-select ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;">
                 <ui-select-match placeholder="Elige un grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
-                <ui-select-choices repeat="grupo in grupos | filter: $select.search">
+                <ui-select-choices repeat="grupo in grupos | filter: $select.search | orderBy:'orden'">
                   <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
                 </ui-select-choices>
               </ui-select>
@@ -208,7 +208,7 @@
               <label style="margin-right: 13px;">Grupo</label>
               <ui-select ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;">
                 <ui-select-match placeholder="Elige un grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
-                <ui-select-choices repeat="grupo in grupos | filter: $select.search">
+                <ui-select-choices repeat="grupo in grupos | filter: $select.search | orderBy:'orden'">
                   <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
                 </ui-select-choices>
               </ui-select><a href="" ng-click="verPlanillasGrupo()" class="btn btn-default">Ver planillas</a>
@@ -257,7 +257,7 @@
                   <label style="margin-right: 9px;">Grupo</label>
                   <ui-select ng-model="datos.grupo" on-select="selectGrupo($item)" style="width: 300px; display: inline-block;">
                     <ui-select-match placeholder="Grupo" allow-clear="true">{{$select.selected.nombre}}</ui-select-match>
-                    <ui-select-choices repeat="grupo in grupos | filter: $select.search">
+                    <ui-select-choices repeat="grupo in grupos | filter: $select.search | orderBy:'orden'">
                       <div ng-bind-html="grupo.nombre | highlight: $select.search"></div>
                     </ui-select-choices>
                   </ui-select>
