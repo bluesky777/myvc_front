@@ -12,12 +12,12 @@
 					i.fa.fa-arrow-left
 					| Volver a asignaturas
 
-				a.btn.btn-primary.btn-lg.flipInY.animated(ng-show="inicializado" uib-tooltip="¡Copia todo a otras materias!" ng-click="copiarUnidades()" href="")
+				a.btn.btn-primary.btn-lg.shiny.flipInY.animated(ng-show="inicializado" uib-tooltip="Copia de otro periodo o materia" ng-click="copiarUnidade()" href="")
 					i.fa.fa-copy
-					| Copiar
+					| Traer {{UNIDAD}} 
 
 
-				a.btn.btn-primary.btn-lg.flipInY.animated(href="" ng-click="ir_a_notas({asignatura_id: asignatura_id, profesor_id: profesor_id })")
+				a.btn.btn-primary.btn-lg.shiny.flipInY.animated(href="" ng-click="ir_a_notas({asignatura_id: asignatura_id, profesor_id: profesor_id })")
 					i.fa.fa-apple
 					| NOTAS
 

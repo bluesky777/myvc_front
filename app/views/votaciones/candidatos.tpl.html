@@ -18,8 +18,8 @@
                       <label>Participante</label>
                       <ui-select ng-model="aspiracion.newParticip" style="width: 100%;">
                         <ui-select-match placeholder="Seleccione aspirante" allow-clear="true">{{$select.selected.nombres}} - {{$select.selected.username}}</ui-select-match>
-                        <ui-select-choices repeat="particip in allinscritos | filter: $select.search">
-                          <div ng-bind-html="'&lt;small&gt;&lt;i&gt;'+particip.tipo +':&lt;/i&gt;&lt;/small&gt; '+particip.nombres +' '+ particip.apellidos | highlight: $select.search"></div>
+                        <ui-select-choices group-by="'grupo'" repeat="particip in allinscritos | filter: $select.search">
+                          <div ng-bind-html="particip.nombres +' '+ particip.apellidos | highlight: $select.search"></div>
                         </ui-select-choices>
                       </ui-select>
                       <div class="form-group">

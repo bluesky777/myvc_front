@@ -26,8 +26,8 @@
 											label Participante
 											ui-select(ng-model="aspiracion.newParticip" style="width: 100%;")
 												ui-select-match(placeholder="Seleccione aspirante" allow-clear="true") {{$select.selected.nombres}} - {{$select.selected.username}}
-												ui-select-choices(repeat="particip in allinscritos | filter: $select.search")
-													div(ng-bind-html="'<small><i>'+particip.tipo +':</i></small> '+particip.nombres +' '+ particip.apellidos | highlight: $select.search")
+												ui-select-choices(group-by="'grupo'" repeat="particip in allinscritos | filter: $select.search")
+													div(ng-bind-html="particip.nombres +' '+ particip.apellidos | highlight: $select.search")
 											.form-group
 												input.form-control(type="textbox" placeholder="Plancha" ng-model="aspiracion.newParticip.plancha")
 												input.form-control(type="textbox" placeholder="Número" ng-model="aspiracion.newParticip.numero")

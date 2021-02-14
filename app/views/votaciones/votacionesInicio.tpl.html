@@ -1,8 +1,8 @@
 
-<div class="mail-header hidden-print">
+<div class="hidden-print">
   <div style="padding-top:2px; padding-left: 4px; " class="btn-group"><a ui-sref-active="active" ui-sref="panel.actividades.votaciones.config" ng-if="hasRoleOrPerm(['profesor', 'admin'])" class="btn btn-default">Configurar</a><a ui-sref-active="active" ui-sref="panel.actividades.votaciones.participantes" ng-if="hasRoleOrPerm(['profesor', 'admin'])" class="btn btn-default">Participantes</a><a ui-sref-active="active" ui-sref="panel.actividades.votaciones.candidatos" ng-if="hasRoleOrPerm(['profesor', 'admin'])" class="btn btn-default">Candidatos</a><a ui-sref-active="active" ui-sref="panel.actividades.votaciones.votar" class="btn btn-default">Votar</a><a ui-sref-active="active" ui-sref="panel.actividades.votaciones.resultados" class="btn btn-default">Resultados</a><a ui-sref-active="active" ui-sref="panel.actividades.votaciones.tarjetones" class="btn btn-default">Tarjetones</a></div>
 </div>
-<div ui-view="votaciones_view" class="mail-body">
+<div ui-view="votaciones_view">
   <div style="padding: 5px; " class="row">
     <div class="col-lg-6 col-sm-12 col-xs-12">
       <div class="well">

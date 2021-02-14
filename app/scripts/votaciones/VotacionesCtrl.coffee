@@ -179,7 +179,7 @@ angular.module("myvcFrontApp")
 				angular.forEach($scope.gridOptions.data, (value, key)->
 					value.actual = 0
 				)
-
+			$scope.votacion = {}
 			$scope.gridOptions.data.push r
 
 		, (r2)->
@@ -189,6 +189,7 @@ angular.module("myvcFrontApp")
 	$scope.guardar = ()->
 		$http.post('::votaciones/update/'+$scope.votacionEdit.id, $scope.votacionEdit).then((r)->
 			toastr.success 'Se hizo el put de la votación'
+			$scope.editing = false
 		, (r2)->
 			toastr.error 'Falló al intentar guardar'
 		)

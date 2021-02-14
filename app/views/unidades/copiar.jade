@@ -102,7 +102,7 @@
 													ui-select-match(placeholder="Elija profesor" allow-clear="true")
 														img(ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;")
 														small(ng-bind-html="$select.selected.nombres + ' ' + $select.selected.apellidos | highlight: $select.search ")
-													ui-select-choices(repeat="profe in (profesores| filter: $select.search) track by profe.id ")
+													ui-select-choices(repeat="profe in (profesores | orderBy:'nombres' | filter: $select.search) track by profe.id ")
 														img(ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;")
 														small(ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search")
 								.row

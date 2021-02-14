@@ -114,6 +114,27 @@ angular.module('myvcFrontApp')
 
 
 
+	$scope.copiarUnidade = ()->
+		$scope.asignatura.periodo_id      = $scope.USER.periodo_id
+		$scope.asignatura.year_id         = $scope.USER.year_id
+		
+		modalInstance = $uibModal.open({
+			templateUrl: '==unidades/copiarUnidadModal.tpl.html'
+			controller: 'CopiarUnidadModalCtrl'
+			resolve:
+				USER: ()->
+					$scope.USER
+				asignatura: ()->
+					$scope.asignatura
+		})
+		modalInstance.result.then( (alum)->
+			$scope.gridOptions.data = $filter('filter')($scope.gridOptions.data, {alumno_id: '!'+alum.alumno_id})
+		, ()->
+			# nada
+		)
+
+
+
 	$scope.copiarUnidades = ()->
 		$scope.asignatura.periodo_id      = $scope.USER.periodo_id
 		$scope.asignatura.year_id         = $scope.USER.year_id
@@ -135,10 +156,6 @@ angular.module('myvcFrontApp')
 			unidad.subunidades.unidad_id = unidad.id # El ordenador me borra esta propiedad a cada rato, por eso la pongo aquí
 
 		$scope.unidades.porc_unidades 	= sum
-
-
-
-
 
 
 
@@ -241,9 +258,6 @@ angular.module('myvcFrontApp')
 		$scope.calcularPorcUnidades()
 
 
-
-
-
 	$scope.onStartSortUnidades= ($item, $part, $index, $helper)->
 		console.log $item, $part
 
@@ -253,11 +267,6 @@ angular.module('myvcFrontApp')
 		$timeout(()->
 			elemento.anim_bloqueada   = true
 		, 2000)
-
-
-
-
-
 
 
 	$scope.activar_crear_subunidad = true
@@ -465,6 +474,143 @@ angular.module('myvcFrontApp')
 		, (r2)->
 			toastr.warning 'No se pudo eliminar la subunidad.', 'Problema'
 		)
+		$modalInstance.close(subunidad)
+
+	$scope.cancel = ()->
+		$modalInstance.dismiss('cancel')
+
+])
+
+
+.controller('CopiarUnidadModalCtrl', ['$scope', '$state', '$uibModalInstance', 'asignatura', 'USER', '$http', 'toastr', 'App', '$filter', ($scope, $state, $modalInstance, asignatura, USER, $http, toastr, App, $filter)->
+	$scope.asignatura 		= asignatura
+	$scope.UNIDAD			= USER.unidad_displayname
+	$scope.GENERO_UNI 		= USER.genero_unidad
+	$scope.SUBUNIDAD		= USER.subunidad_displayname
+	$scope.GENERO_SUB 		= USER.genero_subunidad
+	$scope.UNIDADES			= USER.unidades_displayname
+	$scope.SUBUNIDADES 		= USER.subunidades_displayname
+	$scope.configuracion 	= {copiar_subunidades: true, copiar_notas: true}
+	$scope.views 			= App.views
+	
+	$http.get('::profesores/conyears').then((r)->
+		$scope.profesores = r.data
+	,(r)->
+		toastr.error 'No se pudo traer los profes con años', r
+	)
+	
+	
+	
+	# ORIGEN
+	$scope.profesorSelect = ($item, $model)->
+		$scope.years_copy               = $item.years
+		$scope.configuracion.year_from  = $scope.years_copy[$scope.years_copy.length-1]
+
+		if $scope.configuracion.periodo_from
+			$scope.configuracion.periodo_from = $scope.configuracion.year_from.periodos[0]
+			$scope.periodoSelect($scope.configuracion.periodo_from)
+		else
+			$scope.periodos = $scope.configuracion.year_from.periodos
+
+	$scope.yearSelect = ($item, $model)->
+		$scope.periodos = $item.periodos
+		if $scope.asignatura_a_copiar
+			if $scope.asignatura_a_copiar.periodo_id
+
+				for periodo in $scope.periodos
+					if periodo.id == $scope.asignatura_a_copiar.periodo_id
+						$scope.configuracion.periodo_from = periodo
+						$scope.periodoSelect(periodo)
+
+
+	$scope.periodoSelect = ($item, $model)->
+
+		if $scope.asignatura_a_copiar
+			profesor_id = $scope.asignatura_a_copiar.profesor_id
+		else
+			profesor_id = $scope.configuracion.profesor_from.id
+
+		$http.get('::asignaturas/list-asignaturas-year/'+profesor_id+'/'+$scope.configuracion.periodo_from.id).then((r)->
+			$scope.asignaturas = r.data
+
+			if $scope.asignatura_a_copiar
+				if $scope.asignatura_a_copiar.asignatura_id
+
+					for asignatu in $scope.asignaturas
+						if asignatu.asignatura_id == $scope.asignatura_a_copiar.asignatura_id
+							$scope.configuracion.asignatura_from = asignatu
+							$scope.asignaturaSelect asignatu
+
+
+			if $scope.configuracion.asignatura_from
+				asig_id = $scope.configuracion.asignatura_from.asignatura_id
+				asig_found = $filter('filter')($scope.asignaturas, {asignatura_id: asig_id})[0]
+				$scope.configuracion.asignatura_from = asig_found
+
+				$scope.asignaturaSelect asig_found
+
+		, (r2)->
+			toastr.error 'No se pudo traer las asignaturas origen'
+		)
+
+	$scope.asignaturaSelect = ($item, $model)->
+		if $item and $item.unidades
+			for unidad in $item.unidades.items
+				unidad.seleccionada = true
+			$scope.unidades = $item.unidades
+		else
+			$scope.unidades = []
+		
+		$scope.activar_btn_copiar = true
+		
+
+
+	# COPIAR
+	$scope.copiar = ()->
+		if !$scope.activar_btn_copiar
+			return
+
+		$scope.activar_btn_copiar = false
+
+		unidades_a_copiar = $filter('filter')($scope.unidades.items, {seleccionada: true})
+		unidades_ids = []
+
+		angular.forEach unidades_a_copiar, (value, key) ->
+			unidades_ids.push value.id
+
+
+		datos =
+			copiar_subunidades: 		$scope.configuracion.copiar_subunidades
+			copiar_notas:				$scope.configuracion.copiar_notas
+			asignatura_to_id:			asignatura.asignatura_id
+			periodo_from_id: 			$scope.configuracion.periodo_from.id
+			periodo_to_id: 				asignatura.periodo_id
+			unidades_ids: 				unidades_ids
+			grupo_from_id:				$scope.configuracion.asignatura_from.grupo_id
+			grupo_to_id:				asignatura.grupo_id
+
+
+
+		$http.put('::periodos/copiar', datos).then((r)->
+			r = r.data
+			toastr.success 'Copiado con éxito'
+			$scope.activar_btn_copiar = true
+			$scope.resultado = 'Unidades copiadas: ' + r.unidades_copiadas +
+								' - Subunidades copiadas: ' + r.subunidades_copiadas +
+								' - Notas copidas: ' + r.notas_copiadas
+
+			$state.go 'panel.unidades', {asignatura_id: asignatura.asignatura_id}, {reload: true}
+
+
+		, (r2)->
+			toastr.error 'No se pudieron copiar los datos'
+			$scope.activar_btn_copiar = true
+		)
+
+	
+
+	$scope.ok = ()->
+
 		$modalInstance.close(subunidad)
 
 	$scope.cancel = ()->

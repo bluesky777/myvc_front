@@ -1,37 +1,43 @@
 
 <div style="bbackground-color: #fbfbfb;" class="mail-container">
-  <div class="mail-sidebar hidden-print">
+  <div ng-if="false" class="mail-sidebar hidden-print">
     <ul style="max-height: 360px; overflow: scroll;" class="mail-menu">
       <li ng-repeat="grupo in grupos" ng-class="{ 'active': grupo.id == grupo_id }"><a href="" ui-sref="panel.actividades({grupo_id: grupo.id})">{{grupo.nombre}}</a></li>
     </ul>
-    <ul style="height: 300px; overflow: scroll;" class="mail-menu">
-      <li class="divider"></li>
-      <li ui-sref-active="active"><a href="" ui-sref="panel.actividades({compartidas: true})"><i class="fa fa-share-alt"></i>Compartidas</a></li>
-      <li ui-sref-active="active"><a href="" ui-sref="panel.actividades.votaciones"><i class="fa fa-legal"></i><span class="badge badge-default badge-square pull-right">6</span>Votaciones</a></li>
-    </ul>
+    <!--ul.mail-menu(style="height: 300px; overflow: scroll;")
+    li.divider
+    
+    
+    li(ui-sref-active="active")
+        a(href="" ui-sref="panel.actividades({compartidas: true})")
+            i.fa.fa-share-alt
+            | Compartidas
+    li(ui-sref-active="active")
+        a(href="" ui-sref="panel.actividades.votaciones")
+            i.fa.fa-legal
+            //span.badge.badge-default.badge-square.pull-right 6
+            | Votaciones
+    
+    -->
   </div>
   <div ui-view="actividades_content">
     <div ng-repeat="asignatura in mis_asignaturas | orderBy:'orden' ">
-      <div class="mail-header">
-        <ul style="width: 90%" class="header-buttons">
-          <li><a uib-tooltip="Crear actividad" ng-click="crear(asignatura.asignatura_id)" class="tooltip-primary"><i class="fa fa-plus"></i></a></li>
-          <li style="width: 90%" uib-popover-template="views+'informes/infoDocentePop.tpl.html'" popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-trigger="'mouseenter'">
-            <h6 style="font-weight: bolder !important">{{ asignatura.materia }}</h6>
-          </li>
-        </ul>
-      </div>
-      <div class="mail-body">
-        <div class="mail-list">
-          <li ng-repeat="actividad in asignatura.actividades " style="height: 38px;" class="list-item">
-            <div class="item-check">
-              <label>
-                <input type="checkbox"><span class="text"></span>
-              </label>
-            </div>
-            <div style="width: 80%;" class="item-sender"><a href="" ui-sref="panel.respuestas({actividad_id: actividad.id})" class="col-name">{{ actividad.descripcion }}<span ng-hide="actividad.descripcion" style="font">(Sin descripción)</span></a></div>
-            <div style="top: 5px;" class="item-menu"><a href="" uib-tooltip="Editar" ui-sref="panel.editar_actividad({ actividad_id: actividad.id })" tooltip-placement="left" tooltip-popup-delay="500" class="btn-mail tooltip-primary"><i class="fa fa-pencil"></i></a><a href="" uib-tooltip="Eliminar" ng-click="eliminarActividad(actividad, asignatura)" tooltip-placement="left" style="margin-left: 4px;" tooltip-popup-delay="500" class="btn-mail tooltip-danger"><i class="fa fa-times"></i></a></div>
-          </li>
-        </div>
+      <ul style="width: 90%" class="header-buttons">
+        <li><a uib-tooltip="Crear actividad" ng-click="crear(asignatura.asignatura_id)" class="tooltip-primary"><i class="fa fa-plus"></i></a></li>
+        <li style="width: 90%" uib-popover-template="views+'informes/infoDocentePop.tpl.html'" popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-trigger="'mouseenter'">
+          <h6 style="font-weight: bolder !important">{{ asignatura.materia }}</h6>
+        </li>
+      </ul>
+      <div class="mail-list">
+        <li ng-repeat="actividad in asignatura.actividades " style="height: 38px;" class="list-item">
+          <div class="item-check">
+            <label>
+              <input type="checkbox"><span class="text"></span>
+            </label>
+          </div>
+          <div style="width: 80%;" class="item-sender"><a href="" ui-sref="panel.respuestas({actividad_id: actividad.id})" class="col-name">{{ actividad.descripcion }}<span ng-hide="actividad.descripcion" style="font">(Sin descripción)</span></a></div>
+          <div style="top: 5px;" class="item-menu"><a href="" uib-tooltip="Editar" ui-sref="panel.editar_actividad({ actividad_id: actividad.id })" tooltip-placement="left" tooltip-popup-delay="500" class="btn-mail tooltip-primary"><i class="fa fa-pencil"></i></a><a href="" uib-tooltip="Eliminar" ng-click="eliminarActividad(actividad, asignatura)" tooltip-placement="left" style="margin-left: 4px;" tooltip-popup-delay="500" class="btn-mail tooltip-danger"><i class="fa fa-times"></i></a></div>
+        </li>
       </div>
     </div>
   </div>
@@ -124,44 +130,41 @@
   </div>
   <div ng-if="!compartidas &amp;&amp; !$state.includes('panel.actividades.votaciones')">
     <div ng-hide="AuthService.hasRoleOrPerm('admin')" style="border-top: 3px solid #ccc;">
-      <div class="mail-header">
-        <ul style="width: 90%" class="header-buttons">
-          <li><a href="" uib-tooltip="Mostrar otras" ng-click="mostrandoOtras=!mostrandoOtras" class="tooltip-primary"><i ng-class="{'fa-chevron-down': mostrandoOtras, 'fa-chevron-right': !mostrandoOtras }" class="fa"></i></a></li>
-          <li style="width: 90%">
-            <h6 ng-show="!mostrandoOtras">Otras materias:</h6>
-          </li>
-        </ul>
-      </div>
+      <!--.mail-header-->
+      <ul style="width: 90%" class="header-buttons">
+        <li><a href="" uib-tooltip="Mostrar otras" ng-click="mostrandoOtras=!mostrandoOtras" class="tooltip-primary"><i ng-class="{'fa-chevron-down': mostrandoOtras, 'fa-chevron-right': !mostrandoOtras }" class="fa"></i></a></li>
+        <li style="width: 90%">
+          <h6 ng-show="!mostrandoOtras">Otras materias:</h6>
+        </li>
+      </ul>
     </div>
     <div ng-show="mostrandoOtras">
       <div ng-repeat="asignatura in otras_asignaturas | orderBy:'orden' ">
-        <div class="mail-header">
-          <ul style="width: 90%" class="header-buttons">
-            <li ng-if="AuthService.hasRoleOrPerm('admin')"><a href="" uib-tooltip="Crear actividad" class="tooltip-primary"><i class="fa fa-plus"></i></a></li>
-            <li style="width: 90%" uib-popover-template="views+'informes/infoDocentePop.tpl.html'" popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" popover-trigger="'mouseenter'">
-              <h6>{{ asignatura.materia }}</h6>
-            </li>
-          </ul>
-          <!--ul.header-buttons.pull-right
-          li
-              a.tooltip-primary(href="")
-                  i.fa.fa-angle-left
-          
-          
-          -->
-        </div>
-        <div class="mail-body">
-          <div class="mail-list">
-            <li ng-repeat="actividad in actividades " style="height: 38px;" class="list-item">
-              <div class="item-check">
-                <label>
-                  <input type="checkbox"><span class="text"></span>
-                </label>
-              </div>
-              <div class="item-sender"><a href="" class="col-name">{{ actividad }}</a></div>
-              <div class="item-menu"><a href=""><i class="fa fa-pencil"></i></a><a href=""><i class="fa fa-times"></i></a></div>
-            </li>
-          </div>
+        <!--.mail-header-->
+        <ul style="width: 90%" class="header-buttons">
+          <li ng-if="AuthService.hasRoleOrPerm('admin')"><a href="" uib-tooltip="Crear actividad" class="tooltip-primary"><i class="fa fa-plus"></i></a></li>
+          <li style="width: 90%" uib-popover-template="views+'informes/infoDocentePop.tpl.html'" popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true" popover-trigger="'mouseenter'">
+            <h6>{{ asignatura.materia }}</h6>
+          </li>
+        </ul>
+        <!--ul.header-buttons.pull-right
+        li
+            a.tooltip-primary(href="")
+                i.fa.fa-angle-left
+        
+        
+        -->
+        <!--.mail-body-->
+        <div class="mail-list">
+          <li ng-repeat="actividad in actividades " style="height: 38px;" class="list-item">
+            <div class="item-check">
+              <label>
+                <input type="checkbox"><span class="text"></span>
+              </label>
+            </div>
+            <div class="item-sender"><a href="" class="col-name">{{ actividad }}</a></div>
+            <div class="item-menu"><a href=""><i class="fa fa-pencil"></i></a><a href=""><i class="fa fa-times"></i></a></div>
+          </li>
         </div>
       </div>
     </div>

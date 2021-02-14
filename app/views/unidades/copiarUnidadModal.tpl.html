@@ -1,0 +1,121 @@
+
+<div class="modal-header">
+  <h3 class="modal-title">Copiar de...</h3>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-xs-12 col-md-6 col-lg-6">
+      <div class="well with-header with-footer">
+        <div class="header bordered-yellow">Elige de lo que deseas copiar<span style="font-weight: bold; font-size: 12pt">  - ORIGEN</span></div>
+        <form class="form-horizontal">
+          <div class="row">
+            <div class="col-lg-12">
+              <!--.form-group(ng-if="hasRoleOrPerm('admin')")-->
+              <div class="form-group">
+                <label class="col-md-3 col-lg-3 control-label to-left">Profesor</label>
+                <div class="col-md-9 col-lg-9">
+                  <ui-select ng-model="configuracion.profesor_from" on-select="profesorSelect($item, $model)" theme="select2" style="width: 100%;">
+                    <ui-select-match placeholder="Elija profesor" allow-clear="true"><img ng-src="{{perfilPath + $select.selected.foto_nombre}}" style="width:25px; height:25px;">{{$select.selected.nombres + ' ' + $select.selected.apellidos}}</ui-select-match>
+                    <ui-select-choices repeat="profe in (profesores | orderBy:'nombres' | filter: $select.search) track by profe.id "><img ng-src="{{perfilPath + profe.foto_nombre}}" style="width:25px; height:25px;"><small ng-bind-html="profe.nombres + ' ' + profe.apellidos | highlight: $select.search"></small></ui-select-choices>
+                  </ui-select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 col-lg-6">
+              <div class="form-group">
+                <label class="col-md-3 col-lg-3 control-label to-left">Año</label>
+                <div class="col-md-9 col-lg-9">
+                  <ui-select ng-model="configuracion.year_from" on-select="yearSelect($item, $model)" theme="select2" style="width: 100%;">
+                    <ui-select-match placeholder="Elija año">{{$select.selected.year}}</ui-select-match>
+                    <ui-select-choices repeat="year in (years_copy| filter: $select.search) track by year.id ">
+                      <div ng-bind-html="year.year | highlight: $select.search"></div>
+                    </ui-select-choices>
+                  </ui-select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+              <div class="form-group">
+                <label class="col-md-3 col-lg-3 control-label">Periodo</label>
+                <div class="col-md-9 col-lg-9">
+                  <ui-select ng-model="configuracion.periodo_from" on-select="periodoSelect($item, $model)" theme="select2" style="width: 100%;">
+                    <ui-select-match placeholder="Elija periodo">Per {{$select.selected.numero}}</ui-select-match>
+                    <ui-select-choices repeat="periodo in periodos | filter: $select.search">
+                      <div ng-bind-html="'Per ' + periodo.numero | highlight: $select.search"></div>
+                    </ui-select-choices>
+                  </ui-select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-group">
+                <label class="col-md-3 col-lg-3 control-label to-left">Asignatura</label>
+                <div class="col-md-9 col-lg-9">
+                  <ui-select ng-model="configuracion.asignatura_from" on-select="asignaturaSelect($item, $model)" theme="select2" style="width: 100%;">
+                    <ui-select-match placeholder="Elija asignatura" allow-clear="true">{{$select.selected.abrev_grupo + ' - ' + $select.selected.materia}}</ui-select-match>
+                    <ui-select-choices repeat="asignatura in (asignaturas| filter: $select.search) track by asignatura.asignatura_id ">
+                      <div ng-bind-html="asignatura.abrev_grupo + ' - ' + asignatura.materia | highlight: $select.search"></div>
+                    </ui-select-choices>
+                  </ui-select>
+                </div>
+              </div>
+            </div>
+          </div><br>
+          <div ng-show="unidades.items.length" class="row">
+            <div class="col-md-12 col-lg-12">
+              <hr class="wide">
+              <h5>{{USER.unidades_displayname}}({{unidades.items.length}}) a copiar:</h5>
+              <div class="mail-container">
+                <div style="margin-left: 0px; overflow: visible" class="mail-body">
+                  <ul class="mail-list">
+                    <li ng-repeat="unidad in unidades.items track by $index" class="list-item">
+                      <div class="item-check">
+                        <label>
+                          <input type="checkbox" ng-model="unidad.seleccionada"><span class="text"></span>
+                        </label>
+                      </div>
+                      <div style="width: 90%!important; left: 40px;" class="item-sender"><a href="" uib-popover-template="views + 'unidades/popoverInfoUnidadCopiada.tpl.html'" popover-title="{{SUBUNIDADES}}" popover-trigger="'mouseenter'" class="col-name">{{unidad.definicion}}</a></div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div ng-show="!unidades.items.length" class="row">
+            <div class="col-md-12 col-lg-12">
+              <h5>No hay {{USER.unidades_displayname}} para copiar.</h5>
+            </div>
+          </div>
+          <div ng-show="unidades.items.length" class="row">
+            <div class="col-md-12 col-lg-12"><br><br>
+              <div class="form-group">
+                <label>Copiar con {{USER.subunidades_displayname}}</label>
+                <label>
+                  <input type="checkbox" ng-model="configuracion.copiar_subunidades" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                </label>
+              </div>
+              <div uib-tooltip="Solo aplica si el grupo de origen es el mismo que el de destino" class="form-group">
+                <label>Copiar con notas</label>
+                <label>
+                  <input type="checkbox" style="width: 155px;" ng-model="configuracion.copiar_notas" ng-disabled="configuracion.asignatura_from.grupo_id!=configuracion.asignatura_to.grupo_id &amp;&amp; configuracion.asignatura_to.grupo_id != undefined" class="checkbox-slider slider-icon colored-blue"><span class="text si-no"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer"><a ng-click="copiar()" ng-disabled="!activar_btn_copiar" class="btn btn-primary btn-lg shiny"><i class="fa fa-copy"></i>Copiar<i class="fa fa-arrow-right"></i></a>
+  <button ng-click="cancel()" class="btn btn-yellow btn-lg shiny">Cancelar</button>
+  <div class="row">
+    <div class="col-md-12 col-lg-12"><br>
+      <p>{{resultado}}</p>
+    </div>
+  </div>
+</div>

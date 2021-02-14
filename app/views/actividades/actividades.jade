@@ -1,13 +1,13 @@
 .mail-container(style="bbackground-color: #fbfbfb;")
 
-    .mail-sidebar.hidden-print
+    .mail-sidebar.hidden-print(ng-if="false")
         ul.mail-menu(style="max-height: 360px; overflow: scroll;")
             li(ng-repeat="grupo in grupos" ng-class="{ 'active': grupo.id == grupo_id }" )
                 a(href="" ui-sref="panel.actividades({grupo_id: grupo.id})")
 
                     | {{grupo.nombre}}
 
-        ul.mail-menu(style="height: 300px; overflow: scroll;")
+        //ul.mail-menu(style="height: 300px; overflow: scroll;")
             li.divider
 
 
@@ -18,47 +18,46 @@
             li(ui-sref-active="active")
                 a(href="" ui-sref="panel.actividades.votaciones")
                     i.fa.fa-legal
-                    span.badge.badge-default.badge-square.pull-right 6
+                    //span.badge.badge-default.badge-square.pull-right 6
                     | Votaciones
 
     div(ui-view="actividades_content")
         div(ng-repeat="asignatura in mis_asignaturas | orderBy:'orden' ")
-            .mail-header
-                ul.header-buttons(style="width: 90%")
-                    li( )
-                        a.tooltip-primary(uib-tooltip="Crear actividad" ng-click="crear(asignatura.asignatura_id)")
-                            i.fa.fa-plus
 
-                    li(style="width: 90%" uib-popover-template="views+'informes/infoDocentePop.tpl.html'"
-                        popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}"
-                        popover-trigger="'mouseenter'")
+            ul.header-buttons(style="width: 90%")
+                li( )
+                    a.tooltip-primary(uib-tooltip="Crear actividad" ng-click="crear(asignatura.asignatura_id)")
+                        i.fa.fa-plus
 
-                        h6(style="font-weight: bolder !important")
-                            | {{ asignatura.materia }}
+                li(style="width: 90%" uib-popover-template="views+'informes/infoDocentePop.tpl.html'"
+                    popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}"
+                    popover-trigger="'mouseenter'")
 
-
-
-            .mail-body
-                .mail-list
-                    li.list-item(ng-repeat="actividad in asignatura.actividades " style="height: 38px;")
-                        .item-check
-                            label
-                                input(type="checkbox")
-                                span.text
-
-                        .item-sender(style="width: 80%;")
-                            a.col-name(href="" ui-sref="panel.respuestas({actividad_id: actividad.id})") {{ actividad.descripcion }}
-                                span(ng-hide="actividad.descripcion" style="font") (Sin descripción)
+                    h6(style="font-weight: bolder !important")
+                        | {{ asignatura.materia }}
 
 
-                        .item-menu(style="top: 5px;")
-                            a.btn-mail.tooltip-primary(href="" uib-tooltip="Editar" ui-sref="panel.editar_actividad({ actividad_id: actividad.id })"
-                                tooltip-placement="left" tooltip-popup-delay="500")
-                                i.fa.fa-pencil
 
-                            a.btn-mail.tooltip-danger(href="" uib-tooltip="Eliminar" ng-click="eliminarActividad(actividad, asignatura)"
-                                tooltip-placement="left" style="margin-left: 4px;" tooltip-popup-delay="500")
-                                i.fa.fa-times
+            .mail-list
+                li.list-item(ng-repeat="actividad in asignatura.actividades " style="height: 38px;")
+                    .item-check
+                        label
+                            input(type="checkbox")
+                            span.text
+
+                    .item-sender(style="width: 80%;")
+                        a.col-name(href="" ui-sref="panel.respuestas({actividad_id: actividad.id})") {{ actividad.descripcion }}
+                            span(ng-hide="actividad.descripcion" style="font") (Sin descripción)
+
+
+                    .item-menu(style="top: 5px;")
+                        a.btn-mail.tooltip-primary(href="" uib-tooltip="Editar" ui-sref="panel.editar_actividad({ actividad_id: actividad.id })"
+                            tooltip-placement="left" tooltip-popup-delay="500")
+                            i.fa.fa-pencil
+
+                        a.btn-mail.tooltip-danger(href="" uib-tooltip="Eliminar" ng-click="eliminarActividad(actividad, asignatura)"
+                            tooltip-placement="left" style="margin-left: 4px;" tooltip-popup-delay="500")
+                            i.fa.fa-times
 
 
     // *********************************************
@@ -179,51 +178,51 @@
 
     div(ng-if="!compartidas && !$state.includes('panel.actividades.votaciones')")
         div(ng-hide="AuthService.hasRoleOrPerm('admin')" style="border-top: 3px solid #ccc;")
-            .mail-header
-                ul.header-buttons(style="width: 90%")
-                    li
-                        a.tooltip-primary(href="" uib-tooltip="Mostrar otras" ng-click="mostrandoOtras=!mostrandoOtras")
-                            i.fa(ng-class="{'fa-chevron-down': mostrandoOtras, 'fa-chevron-right': !mostrandoOtras }")
-                    li(style="width: 90%")
-                        h6(ng-show="!mostrandoOtras")
-                            | Otras materias:
+            //.mail-header
+            ul.header-buttons(style="width: 90%")
+                li
+                    a.tooltip-primary(href="" uib-tooltip="Mostrar otras" ng-click="mostrandoOtras=!mostrandoOtras")
+                        i.fa(ng-class="{'fa-chevron-down': mostrandoOtras, 'fa-chevron-right': !mostrandoOtras }")
+                li(style="width: 90%")
+                    h6(ng-show="!mostrandoOtras")
+                        | Otras materias:
 
         div(ng-show="mostrandoOtras")
             div(ng-repeat="asignatura in otras_asignaturas | orderBy:'orden' ")
-                .mail-header
-                    ul.header-buttons(style="width: 90%")
-                        li(ng-if="AuthService.hasRoleOrPerm('admin')")
-                            a.tooltip-primary(href="" uib-tooltip="Crear actividad")
-                                i.fa.fa-plus
-                        li(style="width: 90%"
-                            uib-popover-template="views+'informes/infoDocentePop.tpl.html'"
-                            popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true"
-                            popover-trigger="'mouseenter'")
+                //.mail-header
+                ul.header-buttons(style="width: 90%")
+                    li(ng-if="AuthService.hasRoleOrPerm('admin')")
+                        a.tooltip-primary(href="" uib-tooltip="Crear actividad")
+                            i.fa.fa-plus
+                    li(style="width: 90%"
+                        uib-popover-template="views+'informes/infoDocentePop.tpl.html'"
+                        popover-popup-delay="500" popover-title="{{asignatura.nombres_profesor + ' ' + asignatura.apellidos_profesor}}" popover-animation="true"
+                        popover-trigger="'mouseenter'")
 
-                            h6
-                                | {{ asignatura.materia }}
+                        h6
+                            | {{ asignatura.materia }}
 
-                    //ul.header-buttons.pull-right
-                        li
-                            a.tooltip-primary(href="")
-                                i.fa.fa-angle-left
+                //ul.header-buttons.pull-right
+                    li
+                        a.tooltip-primary(href="")
+                            i.fa.fa-angle-left
 
 
-                .mail-body
-                    .mail-list
-                        li.list-item(ng-repeat="actividad in actividades " style="height: 38px;")
-                            .item-check
-                                label
-                                    input(type="checkbox")
-                                    span.text
+                //.mail-body
+                .mail-list
+                    li.list-item(ng-repeat="actividad in actividades " style="height: 38px;")
+                        .item-check
+                            label
+                                input(type="checkbox")
+                                span.text
 
-                            .item-sender
-                                a.col-name(href="") {{ actividad }}
+                        .item-sender
+                            a.col-name(href="") {{ actividad }}
 
-                            .item-menu
-                                a(href="")
-                                    i.fa.fa-pencil
+                        .item-menu
+                            a(href="")
+                                i.fa.fa-pencil
 
-                                a(href="")
-                                    i.fa.fa-times
+                            a(href="")
+                                i.fa.fa-times
 

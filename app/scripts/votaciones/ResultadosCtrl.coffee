@@ -12,7 +12,7 @@ angular.module("myvcFrontApp")
 
 	$scope.imagesPath = App.images + 'perfil/'
 
-	$http.put('::votos/show').then((r)->
+	$http.put('::votos/show', { permitir: false }).then((r)->
 		$scope.votaciones = r.data.votaciones
 		$scope.year       = r.data.year
 	, (r2)->
@@ -37,7 +37,7 @@ angular.module("myvcFrontApp")
 	$scope.imagesPath = App.images + 'perfil/'
 
 
-	$http.put('::votos/show').then((r)->
+	$http.put('::votos/show', { permitir: true }).then((r)->
 		$scope.votaciones = r.data.votaciones
 		$scope.year       = r.data.year
 	, (r2)->

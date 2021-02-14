@@ -17,6 +17,7 @@ angular.module("myvcFrontApp")
 		fecha_fin: ''
 	}
 
+	###
 	$scope.eliminar = (row)->
 
 		$http.delete('::participantes/destroy/'+row.id).then((r)->
@@ -25,7 +26,7 @@ angular.module("myvcFrontApp")
 		, (r2)->
 			toastr.error 'No se pudo eliminar.'
 		)
-
+	
 
 	$scope.cambiarLocked = (row)->
 		$http.put('::participantes/set-locked', {id: row.id, locked: row.locked}).then((r)->
@@ -33,7 +34,7 @@ angular.module("myvcFrontApp")
 		, (r2)->
 			toastr.error 'No se pudo cambiar bloqueo.'
 		)
-
+	
 
 
 	btGrid2 = '<a uib-tooltip="X Eliminar" tooltip-placement="right" class="btn btn-default btn-xs shiny icon-only danger" ng-click="grid.appScope.eliminar(row.entity)"><i class="fa fa-times "></i></a>'
@@ -57,15 +58,15 @@ angular.module("myvcFrontApp")
 		#filterOptions: $scope.filterOptions,
 		onRegisterApi: ( gridApi ) ->
 			$scope.gridApi = gridApi
-
+	###
 
 
 	$http.put('::participantes/datos').then((data)->
 		data = data.data
-		$scope.gridOptions.data = data.participante;
+		#$scope.gridOptions.data = data.participante;
 		$scope.grupos 			= data.grupos;
 		$scope.votacion 		= data.votacion;
-		$scope.datos.grupo_profes_acudientes = data.partic_gr;
+		#$scope.datos.grupo_profes_acudientes = data.partic_gr;
 	, (r2)->
 		toastr.warning 'Asegúrate de tener al menos un evento como actual.'
 	)
