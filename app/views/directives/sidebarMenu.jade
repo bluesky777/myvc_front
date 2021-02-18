@@ -97,7 +97,7 @@
 
 
 		<!--Notas vista por un Alumno-->
-		li(ui-sref-active="active" ng-if="hasRoleOrPerm('alumno')")
+		li(ui-sref-active="active" ng-if="hasRoleOrPerm('alumno') || $parent.USER.tipo=='Alumno' ")
 			a(ui-sref="panel.notas_alumno")
 				i.menu-icon.fa.fa-apple
 				span.menu-text Mis Notas

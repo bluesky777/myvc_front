@@ -17,12 +17,12 @@ angular.module('myvcFrontApp')
 	$scope.config 			    = {solo_notas_perdidas: 'todas'}
 
 
-	if !$scope.hasRoleOrPerm(['alumno', 'acudiente'])
+	if !($scope.hasRoleOrPerm(['alumno', 'acudiente']) || $scope.USER.tipo=='Alumno')
 		$http.get('::grupos').then((r)->
 			r = r.data
 			$scope.grupos = r
 		)
-	else if $scope.hasRoleOrPerm(['alumno', 'acudiente'])
+	else if ($scope.hasRoleOrPerm(['alumno', 'acudiente']) || $scope.USER.tipo=='Alumno')
 		console.log($scope.mis_acudidos);
 
 	EscalasValorativasServ.escalas().then((r)->

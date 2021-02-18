@@ -52,7 +52,7 @@ angular.module('myvcFrontApp')
 					EscalasValorativasServ.escalas()
 				]
 				asignaturas_definitivas: ['$http', 'AuthService', '$stateParams', ($http, AuthService, $stateParams)->
-					if AuthService.hasRoleOrPerm(['alumno', 'acudiente'])
+					if (AuthService.hasRoleOrPerm(['alumno', 'acudiente']))
 						return 'Sin alumnos'
 					if $stateParams.profesor_id
 						$http.get('::definitivas_periodos', {params: {profesor_id: $stateParams.profesor_id}})
@@ -112,7 +112,7 @@ angular.module('myvcFrontApp')
 						]
 			resolve:
 				alumnos: ['$http', 'AuthService', 'resolved_user', ($http, AuthService, resolved_user)->
-					if AuthService.hasRoleOrPerm(['alumno', 'acudiente'])
+					if (AuthService.hasRoleOrPerm(['alumno', 'acudiente']) || resolved_user.tipo=='Alumno')
 						return 'Sin alumnos'
 					$http.get('::alumnos/sin-matriculas')
 				]

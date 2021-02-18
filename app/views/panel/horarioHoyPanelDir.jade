@@ -39,7 +39,7 @@
 
 							// Subunidades
 							div(ng-repeat="subunidad in unidad.subunidades" style="margin-left: 20px;")
-								button.btn.btn-default.btn-block.subunidad-horario(ng-click="cargarAlumnosSubunidad(subunidad, asignatura, asignatura.grupo_id, asignatura.asignatura_id)")
+								button.btn.btn-default.btn-block.subunidad-horario(style="text-align: left;" ng-click="cargarAlumnosSubunidad(subunidad, asignatura, asignatura.grupo_id, asignatura.asignatura_id)")
 									| {{$index+1}}. {{ subunidad.definicion }}
 
 							div(style="text-align: right")
@@ -73,7 +73,7 @@
 
 							// Subunidades
 							div(ng-repeat="subunidad in unidad.subunidades" style="margin-left: 20px;")
-								button.btn.btn-default.btn-block.subunidad-horario(ng-click="cargarAlumnosSubunidad(subunidad, asignatura, asignatura.grupo_id, asignatura.asignatura_id)")
+								button.btn.btn-default.btn-block.subunidad-horario(style="text-align: left;" ng-click="cargarAlumnosSubunidad(subunidad, asignatura, asignatura.grupo_id, asignatura.asignatura_id)")
 									| {{$index+1}}. {{ subunidad.definicion }}
 
 							div(style="text-align: right")

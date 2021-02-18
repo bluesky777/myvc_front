@@ -38,7 +38,7 @@
         </li>
       </ul>
     </li><!--Notas vista por un Alumno-->
-    <li ui-sref-active="active" ng-if="hasRoleOrPerm('alumno')"><a ui-sref="panel.notas_alumno"><i class="menu-icon fa fa-apple"></i><span class="menu-text">Mis Notas</span></a></li><!--Notas vista por un Acudiente-->
+    <li ui-sref-active="active" ng-if="hasRoleOrPerm('alumno') || $parent.USER.tipo=='Alumno' "><a ui-sref="panel.notas_alumno"><i class="menu-icon fa fa-apple"></i><span class="menu-text">Mis Notas</span></a></li><!--Notas vista por un Acudiente-->
     <li ui-sref-active="active" ng-if="$parent.USER.tipo=='Acudiente'"><a ui-sref="panel.notas_alumno"><i class="menu-icon fa fa-apple"></i><span class="menu-text">Notas</span></a></li>
     <!--li(ui-sref-active="active" ng-if="hasRoleOrPerm('alumno') && false")
     a(ui-sref="panel.mis_actividades" stop-event="click")

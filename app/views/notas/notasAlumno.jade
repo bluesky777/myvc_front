@@ -1,5 +1,5 @@
 .row
-  .col-lg-12.margin-padding-lados-xs.bounceInLeft.animated(ng-if="!USER.pazysalvo && hasRoleOrPerm(['alumno'])")
+  .col-lg-12.margin-padding-lados-xs.bounceInLeft.animated(ng-if="!USER.pazysalvo && (hasRoleOrPerm(['alumno']) || USER.tipo=='Alumno')")
     .widget
       .widget-header.bg-red
         i.widget-icon.fa.fa-warning
@@ -23,7 +23,7 @@
 
 
 
-  .col-lg-12.margin-padding-lados-xs.bounceInLeft.animated(ng-if=" (USER.alumnos_can_see_notas && hasRoleOrPerm(['alumno', 'acudiente']) ) || !hasRoleOrPerm(['alumno', 'acudiente'])")
+  .col-lg-12.margin-padding-lados-xs.bounceInLeft.animated(ng-if=" (USER.alumnos_can_see_notas && (hasRoleOrPerm(['alumno', 'acudiente']) || USER.tipo=='Alumno') ) || !hasRoleOrPerm(['alumno', 'acudiente'])")
 
     .widget
       .widget-header.bg-blue
@@ -34,7 +34,7 @@
           a(href="" ng-init="minimized = false" ng-click="minimized = !minimized")
             i.fa(ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimized]")
       .widget-body(ng-class="{'ng-hide':minimized}")
-        .row(ng-if="!hasRoleOrPerm('alumno') && USER.tipo!='Acudiente'")
+        .row(ng-if="!hasRoleOrPerm('alumno') && USER.tipo!='Acudiente' && USER.tipo!='Alumno'")
           .col-lg-12.col-xs-12
             .form-group
               label(style="margin-right: 9px") Grupo
@@ -43,7 +43,7 @@
                 ui-select-choices(repeat="grupo in grupos | filter: $select.search")
                   div(ng-bind-html="grupo.nombre | highlight: $select.search")
 
-        .row(ng-if="!hasRoleOrPerm('alumno') && USER.tipo!='Acudiente'")
+        .row(ng-if="!hasRoleOrPerm('alumno') && USER.tipo!='Acudiente' && USER.tipo!='Alumno'")
           .col-lg-12.col-xs-12
             .form-group
               label Alumno
@@ -227,7 +227,7 @@
                     span.tipo-frase(ng-show="::frase.frase_id") - {{::frase.tipo_frase}}
 
 
-  .col-lg-12(ng-if="!USER.alumnos_can_see_notas && hasRoleOrPerm(['alumno', 'acudiente'])")
+  .col-lg-12(ng-if="!USER.alumnos_can_see_notas && (hasRoleOrPerm(['alumno', 'acudiente']) || USER.tipo=='Alumno')")
     .widget
       .widget-header.bg-red
         i.widget-icon.fa.fa-warning
