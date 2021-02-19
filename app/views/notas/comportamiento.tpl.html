@@ -58,7 +58,7 @@
                   </div>
                   <form ng-show="alumno.escrita=='escribir'" ng-submit="addFraseEscrita(alumno)" style="display: inline-block; " class="form-inline col-xs-12 col-sm-9">
                     <div style="width: 100%;" class="form-group">
-                      <textarea required ng-model="alumno.newfrase_escrita" placeholder="Escriba la frase" uib-tooltip="Frase" style="height: 35px; width: 85%" typeahead-min-length="2" typeahead-wait-ms="300" uib-typeahead="frase for frase in fraseCheck($viewValue) | limitTo:10" class="form-control textarea-altura-xs"></textarea><a ng-click="addFraseEscrita(alumno)" type="submit" ng-disabled="alumno.agregando_frase" ng-if="::USER.profes_pueden_editar_notas==1 || hasRoleOrPerm('Admin')" class="btn btn-primary shiny">Agregar</a>
+                      <textarea required ng-model="alumno.newfrase_escrita" placeholder="Escriba la frase" uib-tooltip="Frase" style="height: 35px; width: 80%" typeahead-min-length="2" typeahead-wait-ms="300" uib-typeahead="frase for frase in fraseCheck($viewValue) | limitTo:10" class="form-control textarea-altura-xs"></textarea><a ng-click="addFraseEscrita(alumno)" type="submit" ng-disabled="alumno.agregando_frase" ng-if="::USER.profes_pueden_editar_notas==1 || hasRoleOrPerm('Admin')" class="btn btn-primary shiny">Agregar</a>
                     </div>
                   </form><span ng-show="alumno.escrita=='elegir'" style="display: inline-block; " class="col-xs-12 col-sm-9">
                     <ui-select ng-model="alumno.tipo_frase" theme="select2" style="min-width: 100px;">
@@ -73,6 +73,128 @@
                         <div ng-bind-html="frase.tipo_frase + ' - ' + frase.frase | highlight: $select.search"></div>
                       </ui-select-choices>
                     </ui-select><a ng-click="addFrase(alumno)" ng-disabled="alumno.agregando_frase" ng-if="::USER.profes_pueden_editar_notas==1 || hasRoleOrPerm('Admin')" class="btn btn-primary">Agregar</a></span>
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <div class="widget">
+                        <div class="widget-header bordered-top bordered-pink"><i class="widget-icon fa fa-book"></i><span class="widget-caption">Libro rojo</span>
+                          <div class="widget-buttons buttons-bordered">Periodo:</div>
+                          <div class="widget-buttons buttons-bordered">
+                            <div class="btn-group"> 
+                              <button ng-click="selectPeriodo(1, alumno)" ng-class="{ 'shiny': alumno.periodoLibro == 1 }" class="btn btn-default">1
+                                <div ng-show="alumno.libro.per1_conta&gt;0" style="background-color: cornflowerblue; position: absolute; margin-left: -3px; margin-top: -5px;" class="badge">{{alumno.libro.per1_conta}}</div>
+                              </button>
+                              <button ng-click="selectPeriodo(2, alumno)" ng-class="{ 'shiny': alumno.periodoLibro == 2 }" class="btn btn-default">2
+                                <div ng-show="alumno.libro.per2_conta&gt;0" style="background-color: cornflowerblue; position: absolute; margin-left: -3px; margin-top: -5px;" class="badge">{{alumno.libro.per2_conta}}</div>
+                              </button>
+                              <button ng-click="selectPeriodo(3, alumno)" ng-class="{ 'shiny': alumno.periodoLibro == 3 }" class="btn btn-default">3
+                                <div ng-show="alumno.libro.per3_conta&gt;0" style="background-color: cornflowerblue; position: absolute; margin-left: -3px; margin-top: -5px;" class="badge">{{alumno.libro.per3_conta}}</div>
+                              </button>
+                              <button ng-click="selectPeriodo(4, alumno)" ng-class="{ 'shiny': alumno.periodoLibro == 4 }" class="btn btn-default">4
+                                <div ng-show="alumno.libro.per4_conta&gt;0" style="background-color: cornflowerblue; position: absolute; margin-left: -3px; margin-top: -5px;" class="badge">{{alumno.libro.per4_conta}}</div>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="widget-body"><span ng-show="alumno.periodoLibro==1">
+                            <div class="row"> 
+                              <div class="col-xs-12 col-sm-2"> 
+                                <label for="{{alumno.alumno_id}}-per1_col1">Convivencia</label>
+                              </div>
+                              <div class="col-xs-12 col-sm-10">
+                                <textarea id="{{alumno.alumno_id}}-per1_col1" ng-model="alumno.libro.per1_col1" placeholder="Describa aquí" style="height: 45px;" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 2000, 'blur': 0} }" ng-change="cambiaLibro(alumno.libro.per1_col1, alumno, 'per1_col1')" class="form-control textarea-altura-xs"></textarea>
+                              </div>
+                            </div>
+                            <div class="row"> 
+                              <div class="col-xs-12 col-sm-2"> 
+                                <label for="{{alumno.id}}-per1_col2">Académico</label>
+                              </div>
+                              <div class="col-xs-12 col-sm-10">
+                                <textarea id="{{alumno.alumno_id}}-per1_col2" ng-model="alumno.libro.per1_col2" placeholder="Describa aquí" style="height: 45px;" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 2000, 'blur': 0} }" ng-change="cambiaLibro(alumno.libro.per1_col2, alumno, 'per1_col2')" class="form-control textarea-altura-xs"></textarea>
+                              </div>
+                            </div>
+                            <div class="row"> 
+                              <div class="col-xs-12 col-sm-2"> 
+                                <label for="{{alumno.id}}-per1_col3">Compromiso</label>
+                              </div>
+                              <div class="col-xs-12 col-sm-10">
+                                <textarea id="{{alumno.alumno_id}}-per1_col3" ng-model="alumno.libro.per1_col3" placeholder="Describa aquí" style="height: 45px" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 2000, 'blur': 0} }" ng-change="cambiaLibro(alumno.libro.per1_col3, alumno, 'per1_col3')" class="form-control textarea-altura-xs"></textarea>
+                              </div>
+                            </div></span><span ng-show="alumno.periodoLibro==2">
+                            <div class="row"> 
+                              <div class="col-xs-12 col-sm-2"> 
+                                <label for="{{alumno.alumno_id}}-per2_col1">Convivencia</label>
+                              </div>
+                              <div class="col-xs-12 col-sm-10">
+                                <textarea id="{{alumno.alumno_id}}-per2_col1" ng-model="alumno.libro.per2_col1" placeholder="Describa aquí" style="height: 45px;" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 2000, 'blur': 0} }" ng-change="cambiaLibro(alumno.libro.per2_col1, alumno, 'per2_col1')" class="form-control textarea-altura-xs"></textarea>
+                              </div>
+                            </div>
+                            <div class="row"> 
+                              <div class="col-xs-12 col-sm-2"> 
+                                <label for="{{alumno.id}}-per2_col2">Académico</label>
+                              </div>
+                              <div class="col-xs-12 col-sm-10">
+                                <textarea id="{{alumno.alumno_id}}-per2_col2" ng-model="alumno.libro.per2_col2" placeholder="Describa aquí" style="height: 45px;" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 2000, 'blur': 0} }" ng-change="cambiaLibro(alumno.libro.per2_col2, alumno, 'per2_col2')" class="form-control textarea-altura-xs"></textarea>
+                              </div>
+                            </div>
+                            <div class="row"> 
+                              <div class="col-xs-12 col-sm-2"> 
+                                <label for="{{alumno.id}}-per2_col3">Compromiso</label>
+                              </div>
+                              <div class="col-xs-12 col-sm-10">
+                                <textarea id="{{alumno.alumno_id}}-per2_col3" ng-model="alumno.libro.per2_col3" placeholder="Describa aquí" style="height: 45px" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 2000, 'blur': 0} }" ng-change="cambiaLibro(alumno.libro.per2_col3, alumno, 'per2_col3')" class="form-control textarea-altura-xs"></textarea>
+                              </div>
+                            </div></span><span ng-show="alumno.periodoLibro==3">
+                            <div class="row"> 
+                              <div class="col-xs-12 col-sm-2"> 
+                                <label for="{{alumno.alumno_id}}-per3_col1">Convivencia</label>
+                              </div>
+                              <div class="col-xs-12 col-sm-10">
+                                <textarea id="{{alumno.alumno_id}}-per3_col1" ng-model="alumno.libro.per3_col1" placeholder="Describa aquí" style="height: 45px;" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 2000, 'blur': 0} }" ng-change="cambiaLibro(alumno.libro.per3_col1, alumno, 'per3_col1')" class="form-control textarea-altura-xs"></textarea>
+                              </div>
+                            </div>
+                            <div class="row"> 
+                              <div class="col-xs-12 col-sm-2"> 
+                                <label for="{{alumno.id}}-per3_col2">Académico</label>
+                              </div>
+                              <div class="col-xs-12 col-sm-10">
+                                <textarea id="{{alumno.alumno_id}}-per3_col2" ng-model="alumno.libro.per3_col2" placeholder="Describa aquí" style="height: 45px;" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 2000, 'blur': 0} }" ng-change="cambiaLibro(alumno.libro.per3_col2, alumno, 'per3_col2')" class="form-control textarea-altura-xs"></textarea>
+                              </div>
+                            </div>
+                            <div class="row"> 
+                              <div class="col-xs-12 col-sm-2"> 
+                                <label for="{{alumno.id}}-per3_col3">Compromiso</label>
+                              </div>
+                              <div class="col-xs-12 col-sm-10">
+                                <textarea id="{{alumno.alumno_id}}-per3_col3" ng-model="alumno.libro.per3_col3" placeholder="Describa aquí" style="height: 45px" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 2000, 'blur': 0} }" ng-change="cambiaLibro(alumno.libro.per3_col3, alumno, 'per3_col3')" class="form-control textarea-altura-xs"></textarea>
+                              </div>
+                            </div></span><span ng-show="alumno.periodoLibro==4">
+                            <div class="row"> 
+                              <div class="col-xs-12 col-sm-2"> 
+                                <label for="{{alumno.alumno_id}}-per4_col1">Convivencia</label>
+                              </div>
+                              <div class="col-xs-12 col-sm-10">
+                                <textarea id="{{alumno.alumno_id}}-per4_col1" ng-model="alumno.libro.per4_col1" placeholder="Describa aquí" style="height: 45px;" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 2000, 'blur': 0} }" ng-change="cambiaLibro(alumno.libro.per4_col1, alumno, 'per4_col1')" class="form-control textarea-altura-xs"></textarea>
+                              </div>
+                            </div>
+                            <div class="row"> 
+                              <div class="col-xs-12 col-sm-2"> 
+                                <label for="{{alumno.id}}-per4_col2">Académico</label>
+                              </div>
+                              <div class="col-xs-12 col-sm-10">
+                                <textarea id="{{alumno.alumno_id}}-per4_col2" ng-model="alumno.libro.per4_col2" placeholder="Describa aquí" style="height: 45px;" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 2000, 'blur': 0} }" ng-change="cambiaLibro(alumno.libro.per4_col2, alumno, 'per4_col2')" class="form-control textarea-altura-xs"></textarea>
+                              </div>
+                            </div>
+                            <div class="row"> 
+                              <div class="col-xs-12 col-sm-2"> 
+                                <label for="{{alumno.id}}-per4_col3">Compromiso</label>
+                              </div>
+                              <div class="col-xs-12 col-sm-10">
+                                <textarea id="{{alumno.alumno_id}}-per4_col3" ng-model="alumno.libro.per4_col3" placeholder="Describa aquí" style="height: 45px" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 2000, 'blur': 0} }" ng-change="cambiaLibro(alumno.libro.per4_col3, alumno, 'per4_col3')" class="form-control textarea-altura-xs"></textarea>
+                              </div>
+                            </div></span></div>
+                      </div>
+                    </div>
+                  </div>
                 </td>
                 <td>
                   <input ng-model="alumno.nota.nota" type="number" min="0" max="{{escala_maxima.porc_final}}" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0} }" ng-change="cambiaNota(alumno.nota)" ng-if="::USER.profes_pueden_editar_notas==1 || hasRoleOrPerm('Admin')"><span ng-if="::USER.profes_pueden_editar_notas==0 &amp;&amp; !hasRoleOrPerm('Admin')">{{alumno.nota.nota}}</span>

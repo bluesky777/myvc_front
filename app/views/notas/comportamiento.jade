@@ -83,7 +83,7 @@
                   form.form-inline.col-xs-12.col-sm-9(ng-show="alumno.escrita=='escribir'" ng-submit="addFraseEscrita(alumno)" style="display: inline-block; ")
                     .form-group(style="width: 100%;")
 
-                      textarea.form-control.textarea-altura-xs(required ng-model="alumno.newfrase_escrita" placeholder="Escriba la frase" uib-tooltip="Frase" style="height: 35px; width: 85%"
+                      textarea.form-control.textarea-altura-xs(required ng-model="alumno.newfrase_escrita" placeholder="Escriba la frase" uib-tooltip="Frase" style="height: 35px; width: 80%"
                         typeahead-min-length="2" typeahead-wait-ms="300"
                         uib-typeahead="frase for frase in fraseCheck($viewValue) | limitTo:10")
 
@@ -101,7 +101,142 @@
                       ui-select-choices(repeat="frase in frases | porTipoFrase: alumno.tipo_frase.tipo_frase | filter: $select.search")
                         div(ng-bind-html="frase.tipo_frase + ' - ' + frase.frase | highlight: $select.search")
                     a.btn.btn-primary(ng-click="addFrase(alumno)" ng-disabled="alumno.agregando_frase" ng-if="::USER.profes_pueden_editar_notas==1 || hasRoleOrPerm('Admin')") Agregar
+                  
+                  .row
+                    .col-xs-12
+                      .widget
+                        .widget-header.bordered-top.bordered-pink
+                          i.widget-icon.fa.fa-book
+                          span.widget-caption Libro rojo
+                          .widget-buttons.buttons-bordered Periodo:
+                          .widget-buttons.buttons-bordered
+                            .btn-group 
+                              button.btn.btn-default(ng-click="selectPeriodo(1, alumno)" ng-class="{ 'shiny': alumno.periodoLibro == 1 }") 1
+                                .badge(ng-show="alumno.libro.per1_conta>0" style="background-color: cornflowerblue; position: absolute; margin-left: -3px; margin-top: -5px;") {{alumno.libro.per1_conta}}
+                              button.btn.btn-default(ng-click="selectPeriodo(2, alumno)" ng-class="{ 'shiny': alumno.periodoLibro == 2 }") 2
+                                .badge(ng-show="alumno.libro.per2_conta>0" style="background-color: cornflowerblue; position: absolute; margin-left: -3px; margin-top: -5px;") {{alumno.libro.per2_conta}}
+                              button.btn.btn-default(ng-click="selectPeriodo(3, alumno)" ng-class="{ 'shiny': alumno.periodoLibro == 3 }") 3
+                                .badge(ng-show="alumno.libro.per3_conta>0" style="background-color: cornflowerblue; position: absolute; margin-left: -3px; margin-top: -5px;") {{alumno.libro.per3_conta}}
+                              button.btn.btn-default(ng-click="selectPeriodo(4, alumno)" ng-class="{ 'shiny': alumno.periodoLibro == 4 }") 4
+                                .badge(ng-show="alumno.libro.per4_conta>0" style="background-color: cornflowerblue; position: absolute; margin-left: -3px; margin-top: -5px;") {{alumno.libro.per4_conta}}
+                        .widget-body
+                          span(ng-show="alumno.periodoLibro==1")
+                            .row 
+                              .col-xs-12.col-sm-2 
+                                label(for="{{alumno.alumno_id}}-per1_col1") Convivencia
+                              .col-xs-12.col-sm-10
+                                textarea.form-control.textarea-altura-xs(id="{{alumno.alumno_id}}-per1_col1" ng-model="alumno.libro.per1_col1" 
+                                  placeholder="Describa aquí" style="height: 45px;" 
+                                  ng-model-options="{ updateOn: 'default blur', debounce: {'default': 2000, 'blur': 0} }"
+                                  ng-change="cambiaLibro(alumno.libro.per1_col1, alumno, 'per1_col1')")
 
+                            .row 
+                              .col-xs-12.col-sm-2 
+                                label(for="{{alumno.id}}-per1_col2") Académico
+                              .col-xs-12.col-sm-10
+                                textarea.form-control.textarea-altura-xs(id="{{alumno.alumno_id}}-per1_col2" ng-model="alumno.libro.per1_col2"
+                                  placeholder="Describa aquí" style="height: 45px;" 
+                                  ng-model-options="{ updateOn: 'default blur', debounce: {'default': 2000, 'blur': 0} }"
+                                  ng-change="cambiaLibro(alumno.libro.per1_col2, alumno, 'per1_col2')")
+
+                            .row 
+                              .col-xs-12.col-sm-2 
+                                label(for="{{alumno.id}}-per1_col3") Compromiso
+                              .col-xs-12.col-sm-10
+                                textarea.form-control.textarea-altura-xs(id="{{alumno.alumno_id}}-per1_col3" ng-model="alumno.libro.per1_col3" 
+                                  placeholder="Describa aquí" style="height: 45px"
+                                  ng-model-options="{ updateOn: 'default blur', debounce: {'default': 2000, 'blur': 0} }"
+                                  ng-change="cambiaLibro(alumno.libro.per1_col3, alumno, 'per1_col3')")
+
+                          
+                          
+                          span(ng-show="alumno.periodoLibro==2")
+                            .row 
+                              .col-xs-12.col-sm-2 
+                                label(for="{{alumno.alumno_id}}-per2_col1") Convivencia
+                              .col-xs-12.col-sm-10
+                                textarea.form-control.textarea-altura-xs(id="{{alumno.alumno_id}}-per2_col1" ng-model="alumno.libro.per2_col1" 
+                                  placeholder="Describa aquí" style="height: 45px;" 
+                                  ng-model-options="{ updateOn: 'default blur', debounce: {'default': 2000, 'blur': 0} }"
+                                  ng-change="cambiaLibro(alumno.libro.per2_col1, alumno, 'per2_col1')")
+
+                            .row 
+                              .col-xs-12.col-sm-2 
+                                label(for="{{alumno.id}}-per2_col2") Académico
+                              .col-xs-12.col-sm-10
+                                textarea.form-control.textarea-altura-xs(id="{{alumno.alumno_id}}-per2_col2" ng-model="alumno.libro.per2_col2"
+                                  placeholder="Describa aquí" style="height: 45px;" 
+                                  ng-model-options="{ updateOn: 'default blur', debounce: {'default': 2000, 'blur': 0} }"
+                                  ng-change="cambiaLibro(alumno.libro.per2_col2, alumno, 'per2_col2')")
+
+                            .row 
+                              .col-xs-12.col-sm-2 
+                                label(for="{{alumno.id}}-per2_col3") Compromiso
+                              .col-xs-12.col-sm-10
+                                textarea.form-control.textarea-altura-xs(id="{{alumno.alumno_id}}-per2_col3" ng-model="alumno.libro.per2_col3" 
+                                  placeholder="Describa aquí" style="height: 45px"
+                                  ng-model-options="{ updateOn: 'default blur', debounce: {'default': 2000, 'blur': 0} }"
+                                  ng-change="cambiaLibro(alumno.libro.per2_col3, alumno, 'per2_col3')")
+
+                          
+                          span(ng-show="alumno.periodoLibro==3")
+                            .row 
+                              .col-xs-12.col-sm-2 
+                                label(for="{{alumno.alumno_id}}-per3_col1") Convivencia
+                              .col-xs-12.col-sm-10
+                                textarea.form-control.textarea-altura-xs(id="{{alumno.alumno_id}}-per3_col1" ng-model="alumno.libro.per3_col1" 
+                                  placeholder="Describa aquí" style="height: 45px;" 
+                                  ng-model-options="{ updateOn: 'default blur', debounce: {'default': 2000, 'blur': 0} }"
+                                  ng-change="cambiaLibro(alumno.libro.per3_col1, alumno, 'per3_col1')")
+
+                            .row 
+                              .col-xs-12.col-sm-2 
+                                label(for="{{alumno.id}}-per3_col2") Académico
+                              .col-xs-12.col-sm-10
+                                textarea.form-control.textarea-altura-xs(id="{{alumno.alumno_id}}-per3_col2" ng-model="alumno.libro.per3_col2"
+                                  placeholder="Describa aquí" style="height: 45px;" 
+                                  ng-model-options="{ updateOn: 'default blur', debounce: {'default': 2000, 'blur': 0} }"
+                                  ng-change="cambiaLibro(alumno.libro.per3_col2, alumno, 'per3_col2')")
+
+                            .row 
+                              .col-xs-12.col-sm-2 
+                                label(for="{{alumno.id}}-per3_col3") Compromiso
+                              .col-xs-12.col-sm-10
+                                textarea.form-control.textarea-altura-xs(id="{{alumno.alumno_id}}-per3_col3" ng-model="alumno.libro.per3_col3" 
+                                  placeholder="Describa aquí" style="height: 45px"
+                                  ng-model-options="{ updateOn: 'default blur', debounce: {'default': 2000, 'blur': 0} }"
+                                  ng-change="cambiaLibro(alumno.libro.per3_col3, alumno, 'per3_col3')")
+
+                          
+                          span(ng-show="alumno.periodoLibro==4")
+                            .row 
+                              .col-xs-12.col-sm-2 
+                                label(for="{{alumno.alumno_id}}-per4_col1") Convivencia
+                              .col-xs-12.col-sm-10
+                                textarea.form-control.textarea-altura-xs(id="{{alumno.alumno_id}}-per4_col1" ng-model="alumno.libro.per4_col1" 
+                                  placeholder="Describa aquí" style="height: 45px;" 
+                                  ng-model-options="{ updateOn: 'default blur', debounce: {'default': 2000, 'blur': 0} }"
+                                  ng-change="cambiaLibro(alumno.libro.per4_col1, alumno, 'per4_col1')")
+
+                            .row 
+                              .col-xs-12.col-sm-2 
+                                label(for="{{alumno.id}}-per4_col2") Académico
+                              .col-xs-12.col-sm-10
+                                textarea.form-control.textarea-altura-xs(id="{{alumno.alumno_id}}-per4_col2" ng-model="alumno.libro.per4_col2"
+                                  placeholder="Describa aquí" style="height: 45px;" 
+                                  ng-model-options="{ updateOn: 'default blur', debounce: {'default': 2000, 'blur': 0} }"
+                                  ng-change="cambiaLibro(alumno.libro.per4_col2, alumno, 'per4_col2')")
+
+                            .row 
+                              .col-xs-12.col-sm-2 
+                                label(for="{{alumno.id}}-per4_col3") Compromiso
+                              .col-xs-12.col-sm-10
+                                textarea.form-control.textarea-altura-xs(id="{{alumno.alumno_id}}-per4_col3" ng-model="alumno.libro.per4_col3" 
+                                  placeholder="Describa aquí" style="height: 45px"
+                                  ng-model-options="{ updateOn: 'default blur', debounce: {'default': 2000, 'blur': 0} }"
+                                  ng-change="cambiaLibro(alumno.libro.per4_col3, alumno, 'per4_col3')")
+
+                          
 
                 td
                   input(ng-model="alumno.nota.nota" type="number" min="0" max="{{escala_maxima.porc_final}}"

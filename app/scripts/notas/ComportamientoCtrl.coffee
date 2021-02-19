@@ -5,6 +5,7 @@ angular.module('myvcFrontApp')
 
 	$scope.perfilPath 	= App.images+'perfil/'
 	$scope.profesor_id 	= localStorage.profesor_id
+	
 
 	$scope.frases 	= comportamiento[0]
 	$scope.alumnos 	= comportamiento[1]
@@ -36,8 +37,51 @@ angular.module('myvcFrontApp')
 				return item.frase
 			)
 		)
+		
+	################################
+	# LIBRO ROJO
+		
+	$scope.comprobadorLibro = (alumno)->
+		# para el badge
+		alumno.libro.per1_conta = 0
+		alumno.libro.per1_conta = if alumno.libro.per1_col1 then alumno.libro.per1_conta+1 else alumno.libro.per1_conta
+		alumno.libro.per1_conta = if alumno.libro.per1_col2 then alumno.libro.per1_conta+1 else alumno.libro.per1_conta
+		alumno.libro.per1_conta = if alumno.libro.per1_col3 then alumno.libro.per1_conta+1 else alumno.libro.per1_conta
 
+		alumno.libro.per2_conta = 0
+		alumno.libro.per2_conta = if alumno.libro.per2_col1 then alumno.libro.per2_conta+1 else alumno.libro.per2_conta
+		alumno.libro.per2_conta = if alumno.libro.per2_col2 then alumno.libro.per2_conta+1 else alumno.libro.per2_conta
+		alumno.libro.per2_conta = if alumno.libro.per2_col3 then alumno.libro.per2_conta+1 else alumno.libro.per2_conta
 
+		alumno.libro.per3_conta = 0
+		alumno.libro.per3_conta = if alumno.libro.per3_col1 then alumno.libro.per3_conta+1 else alumno.libro.per3_conta
+		alumno.libro.per3_conta = if alumno.libro.per3_col2 then alumno.libro.per3_conta+1 else alumno.libro.per3_conta
+		alumno.libro.per3_conta = if alumno.libro.per3_col3 then alumno.libro.per3_conta+1 else alumno.libro.per3_conta
+
+		alumno.libro.per4_conta = 0
+		alumno.libro.per4_conta = if alumno.libro.per4_col1 then alumno.libro.per4_conta+1 else alumno.libro.per4_conta
+		alumno.libro.per4_conta = if alumno.libro.per4_col2 then alumno.libro.per4_conta+1 else alumno.libro.per4_conta
+		alumno.libro.per4_conta = if alumno.libro.per4_col3 then alumno.libro.per4_conta+1 else alumno.libro.per4_conta
+
+		
+	for alumno in $scope.alumnos
+		alumno.periodoLibro = 1 # Cambiar por el USER.periodo
+		$scope.comprobadorLibro(alumno)
+		
+	$scope.selectPeriodo = (per, alum)->
+		alum.periodoLibro = per
+		
+	$scope.cambiaLibro = (valor, alum, campo)->
+		$http.put('::nota_comportamiento/guardar-libro', {valor: valor, campo: campo, libro_id: alum.libro.id}).then((r)->
+			$scope.comprobadorLibro(alum)
+			toastr.success 'Cambios guardados'
+		, (item)->
+			toastr.error 'Error guardando libro' 
+		)
+
+	
+	################################
+	# Comportamiento boletín
 	$scope.addFrase = (alumno)->
 
 		alumno.agregando_frase = true
