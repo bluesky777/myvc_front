@@ -14,7 +14,7 @@
               <div style="max-height: 50px; overflow: hidden; margin: 8px 4px 8px 10px;">{{$index+1}}. {{ unidad.definicion }}</div>
               <!-- Subunidades-->
               <div ng-repeat="subunidad in unidad.subunidades" style="margin-left: 20px;">
-                <button ng-click="cargarAlumnosSubunidad(subunidad, asignatura, asignatura.grupo_id, asignatura.asignatura_id)" class="btn btn-default btn-block subunidad-horario">{{$index+1}}. {{ subunidad.definicion }}</button>
+                <button style="text-align: left;" ng-click="cargarAlumnosSubunidad(subunidad, asignatura, asignatura.grupo_id, asignatura.asignatura_id)" class="btn btn-default btn-block subunidad-horario">{{$index+1}}. {{ subunidad.definicion }}</button>
               </div>
               <div style="text-align: right"><a ui-sref="panel.unidades({asignatura_id: asignatura.asignatura_id})" href="" ng-hide="::USER.profes_pueden_editar_notas==0 &amp;&amp; !hasRoleOrPerm('Admin')">Crear {{SUBUNIDAD}}</a></div>
             </div>
@@ -31,7 +31,7 @@
               <div style="max-height: 50px; overflow: hidden;">{{$index+1}}. {{ unidad.definicion }}</div>
               <!-- Subunidades-->
               <div ng-repeat="subunidad in unidad.subunidades" style="margin-left: 20px;">
-                <button ng-click="cargarAlumnosSubunidad(subunidad, asignatura, asignatura.grupo_id, asignatura.asignatura_id)" class="btn btn-default btn-block subunidad-horario">{{$index+1}}. {{ subunidad.definicion }}</button>
+                <button style="text-align: left;" ng-click="cargarAlumnosSubunidad(subunidad, asignatura, asignatura.grupo_id, asignatura.asignatura_id)" class="btn btn-default btn-block subunidad-horario">{{$index+1}}. {{ subunidad.definicion }}</button>
               </div>
               <div style="text-align: right"><a ui-sref="panel.unidades({asignatura_id: asignatura.asignatura_id})" href="" ng-hide="::USER.profes_pueden_editar_notas==0 &amp;&amp; !hasRoleOrPerm('Admin')">Crear {{SUBUNIDAD}}</a></div>
             </div>

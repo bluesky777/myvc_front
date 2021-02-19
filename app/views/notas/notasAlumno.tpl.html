@@ -1,6 +1,6 @@
 
 <div class="row">
-  <div ng-if="!USER.pazysalvo &amp;&amp; hasRoleOrPerm(['alumno'])" class="col-lg-12 margin-padding-lados-xs bounceInLeft animated">
+  <div ng-if="!USER.pazysalvo &amp;&amp; (hasRoleOrPerm(['alumno']) || USER.tipo=='Alumno')" class="col-lg-12 margin-padding-lados-xs bounceInLeft animated">
     <div class="widget">
       <div class="widget-header bg-red"><i class="widget-icon fa fa-warning"></i>
         <div class="widget-caption">Notas bloqueadas</div>
@@ -24,14 +24,14 @@
       </div>
     </div>
   </div>
-  <div ng-if=" (USER.alumnos_can_see_notas &amp;&amp; hasRoleOrPerm(['alumno', 'acudiente']) ) || !hasRoleOrPerm(['alumno', 'acudiente'])" class="col-lg-12 margin-padding-lados-xs bounceInLeft animated">
+  <div ng-if=" (USER.alumnos_can_see_notas &amp;&amp; (hasRoleOrPerm(['alumno', 'acudiente']) || USER.tipo=='Alumno') ) || !hasRoleOrPerm(['alumno', 'acudiente'])" class="col-lg-12 margin-padding-lados-xs bounceInLeft animated">
     <div class="widget">
       <div class="widget-header bg-blue"><i class="widget-icon fa fa-bar-chart"></i>
         <div class="widget-caption"> Alumno</div>
         <div class="widget-buttons"><a href="" ng-init="minimized = false" ng-click="minimized = !minimized"><i ng-class="{false: 'fa-minus', true: 'fa-plus'}[minimized]" class="fa"></i></a></div>
       </div>
       <div ng-class="{'ng-hide':minimized}" class="widget-body">
-        <div ng-if="!hasRoleOrPerm('alumno') &amp;&amp; USER.tipo!='Acudiente'" class="row">
+        <div ng-if="!hasRoleOrPerm('alumno') &amp;&amp; USER.tipo!='Acudiente' &amp;&amp; USER.tipo!='Alumno'" class="row">
           <div class="col-lg-12 col-xs-12">
             <div class="form-group">
               <label style="margin-right: 9px">Grupo</label>
@@ -44,7 +44,7 @@
             </div>
           </div>
         </div>
-        <div ng-if="!hasRoleOrPerm('alumno') &amp;&amp; USER.tipo!='Acudiente'" class="row">
+        <div ng-if="!hasRoleOrPerm('alumno') &amp;&amp; USER.tipo!='Acudiente' &amp;&amp; USER.tipo!='Alumno'" class="row">
           <div class="col-lg-12 col-xs-12">
             <div class="form-group">
               <label>Alumno</label>
@@ -166,7 +166,7 @@
       </div>
     </uib-accordion>
   </div>
-  <div ng-if="!USER.alumnos_can_see_notas &amp;&amp; hasRoleOrPerm(['alumno', 'acudiente'])" class="col-lg-12">
+  <div ng-if="!USER.alumnos_can_see_notas &amp;&amp; (hasRoleOrPerm(['alumno', 'acudiente']) || USER.tipo=='Alumno')" class="col-lg-12">
     <div class="widget">
       <div class="widget-header bg-red"><i class="widget-icon fa fa-warning"></i>
         <div class="widget-caption">Notas bloqueadas</div>

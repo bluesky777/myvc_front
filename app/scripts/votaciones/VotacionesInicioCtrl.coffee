@@ -12,7 +12,7 @@ angular.module("myvcFrontApp")
 	$scope.USER = resolved_user
 
 	if $state.is 'panel.actividades.votaciones'
-		if $scope.hasRoleOrPerm(['alumno', 'acudiente'])
+		if ($scope.hasRoleOrPerm(['alumno', 'acudiente']) || $scope.USER.tipo=='Alumno')
 			$state.go 'panel.actividades.votaciones.votar'
 
 		if $scope.hasRoleOrPerm(['admin', 'profesor'])

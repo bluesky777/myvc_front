@@ -42,8 +42,9 @@ angular.module('myvcFrontApp')
                 uniforme.fecha_hora = new Date(uniforme.fecha_hora.replace(/-/g, '\/'))
   
         else
-          for uniforme in scope.changes_asked.uniformes
-            uniforme.fecha_hora = new Date(uniforme.fecha_hora.replace(/-/g, '\/'))
+          if scope.changes_asked.uniformes
+            for uniforme in scope.changes_asked.uniformes
+              uniforme.fecha_hora = new Date(uniforme.fecha_hora.replace(/-/g, '\/'))
 
 
         # Publicaciones
@@ -55,7 +56,7 @@ angular.module('myvcFrontApp')
             publi.contenido_tr = $sce.trustAsHtml(publi.contenido)
 
 
-        if AuthService.hasRoleOrPerm(['alumno', 'acudiente'])
+        if (AuthService.hasRoleOrPerm(['alumno', 'acudiente']) || scope.USER.tipo=='Alumno')
           scope.publicaciones_actuales   = [ scope.changes_asked.publicaciones[0] ]
 
           if scope.changes_asked.publicaciones.length > 1

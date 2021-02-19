@@ -1,4 +1,4 @@
-.row.hidden-print(ng-if="hasRoleOrPerm(['alumno'])")
+.row.hidden-print(ng-if="hasRoleOrPerm(['alumno']) || USER.tipo=='Alumno'")
   .col-xs-12.col-md-12
     .widget
       .widget-header.bordered-bottom.bordered-themeprimary
@@ -23,7 +23,7 @@
 
 
 
-.row.hidden-print(ng-if="hasRoleOrPerm(['alumno'])")
+.row.hidden-print(ng-if="hasRoleOrPerm(['alumno']) || USER.tipo=='Alumno' ")
   .col-xs-12.col-md-12
     .widget
       .widget-header.bordered-bottom.bordered-themesecondary
@@ -329,7 +329,7 @@ publicaciones-panel-dir
 
 // Gráfico de docentes
 .row.comportamiento-boletin(style="padding-top: 5px; padding-bottom: 40px; height: 310px"
-  ng-if="hasRoleOrPerm(['admin', 'profesor', 'alumno']) && anchoWindow > 500")
+  ng-if="hasRoleOrPerm(['admin', 'profesor']) && anchoWindow > 500")
   .col-lg-12.col-xs-12(style="height: 140px;")
     .row
       .col-lg-12.col-xs-12(style="text-align: center; ")
