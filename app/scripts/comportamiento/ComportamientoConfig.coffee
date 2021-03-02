@@ -49,6 +49,26 @@ angular.module('myvcFrontApp')
 
 
 
+    .state 'panel.disciplina.ver-observador-completo',
+      url: '/ver-observador-completo/:grupo_id'
+      params:
+        grupo_id: { value: null }
+      views:
+        'report_content':
+          templateUrl: "==comportamiento/verObservadorCompleto.tpl.html"
+          controller: 'VerObservadorCompletoCtrl'
+          resolve:
+            grupo: ['$http', '$stateParams', ($http, $stateParams)->
+              console.log('observador completo pregunta')
+              $http.put('::comportamiento/observador-completo', {grupo_id: $stateParams.grupo_id})
+            ]
+      data:
+        displayName: 'Observador del grupo'
+        icon_fa: 'fa fa-print'
+        pageTitle: 'Observador del grupo - MyVc'
+
+
+
     .state 'panel.ordinales',
       url: '^/ordinales'
       views:

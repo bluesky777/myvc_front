@@ -1,0 +1,117 @@
+.row.hidden-print(style="background-color: #fff; padding: 10px; padding-bottom: 50px; margin-bottom: 20px;")
+
+	.col-lg-12.col-xs-12
+		.row
+			.col-sm-6
+				.form-group
+
+					label Imagen (por defecto 'fondo-observador.png')
+					ui-select(ng-model="observ.imagen" on-select="imagenSelect($item, $model)" theme="select2" style="min-width: 300px;")
+						ui-select-match(placeholder="Encabezado" allow-clear="true")
+							img(ng-src="{{perfilPath + $select.selected.nombre}}" style="width:25px; height:25px;")
+							small(ng-bind-html="' ' + $select.selected.nombre ")
+						ui-select-choices(repeat="imagen in imagenes | filter: {nombre: $select.search}")
+							img(ng-src="{{perfilPath + imagen.nombre}}" style="width:25px; height:25px;")
+							small(ng-bind-html="' ' + imagen.nombre | highlight: $select.search")
+		.row
+			.col-sm-2
+				.form-group
+					span.input-icon.icon-right(uib-tooltip="Margen superior del contenido")
+						input#encab-margintop-certif.form-control(ng-model="observ.encabezado_margin_top" type='number')
+						i.fa.fa-arrow-up.blue
+			.col-sm-2
+				.form-group
+					span.input-icon.icon-right(uib-tooltip="Margen izquierdo del contenido")
+						input#encab-marginleft-certif.form-control(ng-model="observ.encabezado_margin_left" type='number')
+						i.fa.fa-arrow-left.blue
+
+
+
+div(ng-repeat="alumno in grupo.alumnos")
+	div.salto-pagina(style="display: table; min-height: 20cm ; position: relative; " ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 'page-oficio-horizontal': (config.orientacion=='oficio_horizontal' || config.orientacion=='vertical') }")
+		span
+			img.encabezado-membrete(ng-src="{{perfilPath + observ.imagen.nombre}}"
+				style="width: 36cm; position: absolute" ng-if="observ.imagen.nombre")
+		.row
+			div(ng-style="{ 'margin-top' : observ.encabezado_margin_top+'px', 'margin-left' : observ.encabezado_margin_left+'px' }")
+				.col-lg-12.col-xs-12
+					.row.encabezado-boletin(style="padding-bottom: 0px;")
+						.col-lg-12.col-xs-12(style="padding: 0;")
+							.row
+								.col-lg-2.col-xs-2(ng-if="!observ.imagen")
+									img.img-responsive.logo-colegio( ng-src="{{perfilPath + $parent.year_actual.logo}}" style="width: 150px; margin-top: -35px;")
+								div.title-encabezado-boletin(ng-class="{'col-xs-8': !observ.imagen, 'col-xs-10': observ.imagen}" style=" text-align: center;")
+									div(style="font-size: 15pt; font-weight: bold;")
+										| OBSERVADOR DEL ESTUDIANTE
+									div(style="font-size: 20pt; font-style: italic; font-weight: bold")
+										span(style="color: #253383!important;") {{alumno.apellidos}} {{alumno.nombres}}
+										
+									.row(style="text-align: left; margin-top: -5px;")
+										.col-xs-6
+											| Grado: 
+											span(style="font-weight: bold") {{ grupo.nombre }} - {{ USER.year }}
+										.col-xs-6(style="text-align: right;")
+											| Dirección: 
+											span
+												| {{ alumno.direccion }}
+										.col-xs-6
+											| Teléfono: 
+											span
+												span(ng-if="::alumno.celular") {{ alumno.celular }}
+												span(ng-if="::alumno.celular && alumno.telefono")  - 
+												span(ng-if="::alumno.telefono")  {{ alumno.telefono }}
+										.col-xs-6(style="text-align: right;")
+											| {{ alumno.tipo_doc }}: 
+											span {{ alumno.documento }}
+									.row(style="text-align: left;")
+										.col-xs-12
+											| Acudiente: 
+											span(ng-show="alumno.acudientes.length > 0") {{ alumno.acudientes[0].nombres }} {{ alumno.acudientes[0].apellidos }}
+											span(ng-show="alumno.acudientes.length > 1")  - {{ alumno.acudientes[1].nombres }} {{ alumno.acudientes[1].apellidos }}
+										
+								.col-lg-2.col-xs-2(style="padding: 0; margin-top: -35px;")
+									img.img-responsive.foto-alumno(style="width: 160px" ng-src="{{perfilPath + alumno.foto_nombre}}" ng-show="config.mostrar_foto && alumno.foto_id")
+
+
+
+
+							.row(style="margin-top: 4px; ")
+								.col-lg-12.col-xs-12
+									table.table.table-bordered.table-bordered2.table-striped
+										thead
+											tr
+												th.text-center(style="width: 2%;") Per
+												th.text-center(style="width: 2%;") Fecha
+												th.text-center(style="width: 10%;") Seguimiento convivencia
+												th.text-center(style="width: 10%") Seguimiento académico
+												th.text-center(style="width: 10%") Compromiso
+										tbody
+											tr(ng-repeat="nota in alumno.notas" style="height: 22px")
+												td {{ nota.numero }}
+												td {{ nota.fecha_fin }}
+												td 
+													div {{ alumno.libro['per' +nota.numero+ '_col1'] }}
+													ul(ng-show="nota.definiciones.length>0")
+														li(ng-repeat="definicion in nota.definiciones") {{ definicion.frase }}
+												td 
+													div {{ alumno.libro['per' +nota.numero+ '_col2'] }}
+												td 
+													div {{ alumno.libro['per' +nota.numero+ '_col3'] }}
+													
+
+
+
+							.row(style="margin-top: 4px; ")
+								.col-lg-12.col-xs-12
+									| TITULAR: 
+									span(style="border-bottom: 1px solid #000; width: 18%; height: 20px; display: inline-block; margin-right: 4px")
+									| RECTORÍA: 
+									span(style="border-bottom: 1px solid #000; width: 18%; height: 20px; display: inline-block;")
+
+
+
+
+
+
+
+

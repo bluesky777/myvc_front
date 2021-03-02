@@ -28,6 +28,8 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 								th.text-center(style="font-size: 8pt")
 									| Sexo
 								th.text-center
+									| Usuario
+								th.text-center
 									| Título
 								th.text-center
 									| Tipo doc
@@ -39,8 +41,6 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 									| Fecha nac
 								th.text-center
 									| Ciudad nac
-								th.text-center
-									| Usuario
 								th.text-center
 									| Estado civil
 								th.text-center
@@ -59,6 +59,8 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 									| {{ ::profesor.nombres }} {{ ::profesor.apellidos }}
 								td.text-center
 									| {{ ::profesor.sexo }}
+								td.text-center(style="font-size: 8pt")
+									| {{ ::profesor.username }}
 								td.text-center
 									| {{ ::profesor.titulo }}
 								td.text-center
@@ -71,8 +73,6 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 									| {{ ::profesor.fecha_nac }}
 								td.text-center
 									| {{ ::profesor.ciudad_nac_nombre }}
-								td.text-center(style="font-size: 8pt")
-									| {{ ::profesor.username }}
 								td.text-center
 									| {{ ::profesor.estado_civil }}
 								td.text-center(style="font-size: 8pt")

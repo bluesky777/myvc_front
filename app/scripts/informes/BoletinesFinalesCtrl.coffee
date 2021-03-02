@@ -1,11 +1,12 @@
 angular.module("myvcFrontApp")
 
-.controller('BoletinesFinalesCtrl', ['$scope', 'alumnosDat', 'escalas', '$cookies', ($scope, alumnos, escalas, $cookies)->
+.controller('BoletinesFinalesCtrl', ['$scope', 'alumnosDat', 'escalas', '$cookies', '$state', ($scope, alumnos, escalas, $cookies, $state)->
 
 	$scope.grupo        = alumnos[0]
 	$scope.year         = alumnos[1]
 	$scope.alumnos      = alumnos[2]
 	$scope.escalas_val  = alumnos[3]
+	$scope.$state		= $state
 
 	$scope.escalas = escalas
 

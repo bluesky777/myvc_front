@@ -10,10 +10,10 @@
               <div class="btn-group"><a href="" ng-click="cargarAlumnosAsistencia(asignatura, asignatura.grupo_id, asignatura.asignatura_id)" style="margin-top: 5px;" class="btn btn-success shiny">Asistencia</a><a href="" ui-sref="panel.unidades({asignatura_id: asignatura.asignatura_id})" style="margin-top: 5px;" class="btn btn-primary shiny">Ir a {{UNIDADES}}</a></div>
             </div>
             <!-- UNIDADES-->
-            <div ng-repeat="unidad in asignatura.unidades" style="border: 1px solid #aaa; padding: 2px; margin-bottom: 10px; margin-top: 5px; border-radius: 4px; background-color: aliceblue;">
+            <div ng-repeat="unidad in asignatura.unidades | orderBy:'orden'" style="border: 1px solid #aaa; padding: 2px; margin-bottom: 10px; margin-top: 5px; border-radius: 4px; background-color: aliceblue;">
               <div style="max-height: 50px; overflow: hidden; margin: 8px 4px 8px 10px;">{{$index+1}}. {{ unidad.definicion }}</div>
               <!-- Subunidades-->
-              <div ng-repeat="subunidad in unidad.subunidades" style="margin-left: 20px;">
+              <div ng-repeat="subunidad in unidad.subunidades  | orderBy:'orden'" style="margin-left: 20px;">
                 <button style="text-align: left;" ng-click="cargarAlumnosSubunidad(subunidad, asignatura, asignatura.grupo_id, asignatura.asignatura_id)" class="btn btn-default btn-block subunidad-horario">{{$index+1}}. {{ subunidad.definicion }}</button>
               </div>
               <div style="text-align: right"><a ui-sref="panel.unidades({asignatura_id: asignatura.asignatura_id})" href="" ng-hide="::USER.profes_pueden_editar_notas==0 &amp;&amp; !hasRoleOrPerm('Admin')">Crear {{SUBUNIDAD}}</a></div>

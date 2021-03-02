@@ -18,8 +18,10 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 							.resolucion-colegio
 								span(ng-bind-html="::year.encabezado_certificado" ng-if="::year.encabezado_certificado!=null && year.encabezado_certificado!='' ")
 								span(ng-hide="::year.encabezado_certificado!=null && year.encabezado_certificado!=''") {{::year.resolucion}}
-							.title-descripcion
+							.title-descripcion(ng-show="$parent.tipo_boletin_final==1")
 								| Boletin FINAL {{USER.year}}
+							.title-descripcion(ng-show="$parent.tipo_boletin_final==2 || $parent.tipo_boletin_final==3")
+								| Libro FINAL {{USER.year}}
 						.col-lg-2.col-xs-2(style="padding: 0;")
 							img.img-responsive.foto-alumno(ng-src="{{perfilPath + alumno.foto_nombre}}" ng-show="config.mostrar_foto && alumno.foto_id")
 
@@ -72,12 +74,24 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 							td
 								b {{ ::area.area_nombre }}
 
-							td
-							td
-							td
-							td
-							td
-							td
+							td.text-center(style="font-style: italic; font-size: 8pt;")
+								span(ng-if="::(year.cant_areas_pierde_year>0 && area.asignaturas.length==1) || (year.cant_asignatura_pierde_year>0) && (area.ausencias>0)")
+									| {{ ::area.ausencias }}
+							td.text-center
+								span(ng-if="::(year.cant_areas_pierde_year>0 && area.asignaturas.length==1) || (year.cant_asignatura_pierde_year>0)")
+									| {{ ::area.creditos }}
+							td.text-center
+								span(ng-if="::(year.cant_areas_pierde_year>0 && area.asignaturas.length==1) || (year.cant_asignatura_pierde_year>0)")
+									| {{ ::area.per1 | number:0 }}
+							td.text-center
+								span(ng-if="::(year.cant_areas_pierde_year>0 && area.asignaturas.length==1) || (year.cant_asignatura_pierde_year>0)")
+									| {{ ::area.per2 | number:0 }}
+							td.text-center
+								span(ng-if="::(year.cant_areas_pierde_year>0 && area.asignaturas.length==1) || (year.cant_asignatura_pierde_year>0)")
+									| {{ ::area.per3 | number:0 }}
+							td.text-center
+								span(ng-if="::(year.cant_areas_pierde_year>0 && area.asignaturas.length==1) || (year.cant_asignatura_pierde_year>0)")
+									| {{ ::area.per4 | number:0 }}
 							td.text-center.italic(ng-class="{'nota-perdida-puestos': area.area_nota<USER.nota_minima_aceptada}" style="font-weight: bold;")
 								| {{ ::area.area_desempenio }}
 							td.text-center.italic(ng-class="{'nota-perdida-puestos': area.area_nota<USER.nota_minima_aceptada}" style="font-weight: bold;")

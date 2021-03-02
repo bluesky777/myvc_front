@@ -26,13 +26,13 @@
                 <th class="text-center">Grupo</th>
                 <th class="text-center">Docente</th>
                 <th style="font-size: 8pt" class="text-center">Sexo</th>
+                <th class="text-center">Usuario</th>
                 <th class="text-center">Título</th>
                 <th class="text-center">Tipo doc</th>
                 <th class="text-center">Documento</th>
                 <th class="text-center">Ciudad Docu</th>
                 <th class="text-center">Fecha nac</th>
                 <th class="text-center">Ciudad nac</th>
-                <th class="text-center">Usuario</th>
                 <th class="text-center">Estado civil</th>
                 <th class="text-center">Dirección</th>
                 <th class="text-center">Celular</th>
@@ -43,13 +43,13 @@
                 <td class="text-center"><b>{{ profesor.grupos }}</b></td>
                 <td>{{ ::profesor.nombres }} {{ ::profesor.apellidos }}</td>
                 <td class="text-center">{{ ::profesor.sexo }}</td>
+                <td style="font-size: 8pt" class="text-center">{{ ::profesor.username }}</td>
                 <td class="text-center">{{ ::profesor.titulo }}</td>
                 <td class="text-center">{{ ::profesor.abrev }}</td>
                 <td class="text-center">{{ ::profesor.num_doc }}</td>
                 <td class="text-center">{{ ::profesor.ciudad_doc_nombre }}</td>
                 <td class="text-center">{{ ::profesor.fecha_nac }}</td>
                 <td class="text-center">{{ ::profesor.ciudad_nac_nombre }}</td>
-                <td style="font-size: 8pt" class="text-center">{{ ::profesor.username }}</td>
                 <td class="text-center">{{ ::profesor.estado_civil }}</td>
                 <td style="font-size: 8pt" class="text-center">{{ ::profesor.direccion }}</td>
                 <td style="font-size: 8pt" class="text-center">{{ ::profesor.celular }}</td>

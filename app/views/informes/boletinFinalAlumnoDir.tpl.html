@@ -10,7 +10,8 @@
             <div style="padding: 0;" class="col-lg-8 col-xs-8 title-encabezado-boletin">
               <div class="nombre-colegio">{{year.nombre_colegio + ' - ' + year.abrev_colegio}}</div>
               <div class="resolucion-colegio"><span ng-bind-html="::year.encabezado_certificado" ng-if="::year.encabezado_certificado!=null &amp;&amp; year.encabezado_certificado!='' "></span><span ng-hide="::year.encabezado_certificado!=null &amp;&amp; year.encabezado_certificado!=''">{{::year.resolucion}}</span></div>
-              <div class="title-descripcion">Boletin FINAL {{USER.year}}</div>
+              <div ng-show="$parent.tipo_boletin_final==1" class="title-descripcion">Boletin FINAL {{USER.year}}</div>
+              <div ng-show="$parent.tipo_boletin_final==2 || $parent.tipo_boletin_final==3" class="title-descripcion">Libro FINAL {{USER.year}}</div>
             </div>
             <div style="padding: 0;" class="col-lg-2 col-xs-2"><img ng-src="{{perfilPath + alumno.foto_nombre}}" ng-show="config.mostrar_foto &amp;&amp; alumno.foto_id" class="img-responsive foto-alumno"></div>
           </div>
@@ -45,12 +46,12 @@
             <tr ng-if="::area.asignaturas.length&gt;1" ng-repeat-start="area in ::alumno.areas | orderBy:'orden' track by $index">
               <td class="text-center"><span ng-show="area.asignaturas.length&gt;1">{{ $index + 1 }}</span></td>
               <td><b>{{ ::area.area_nombre }}</b></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <td style="font-style: italic; font-size: 8pt;" class="text-center"><span ng-if="::(year.cant_areas_pierde_year&gt;0 &amp;&amp; area.asignaturas.length==1) || (year.cant_asignatura_pierde_year&gt;0) &amp;&amp; (area.ausencias&gt;0)">{{ ::area.ausencias }}</span></td>
+              <td class="text-center"><span ng-if="::(year.cant_areas_pierde_year&gt;0 &amp;&amp; area.asignaturas.length==1) || (year.cant_asignatura_pierde_year&gt;0)">{{ ::area.creditos }}</span></td>
+              <td class="text-center"><span ng-if="::(year.cant_areas_pierde_year&gt;0 &amp;&amp; area.asignaturas.length==1) || (year.cant_asignatura_pierde_year&gt;0)">{{ ::area.per1 | number:0 }}</span></td>
+              <td class="text-center"><span ng-if="::(year.cant_areas_pierde_year&gt;0 &amp;&amp; area.asignaturas.length==1) || (year.cant_asignatura_pierde_year&gt;0)">{{ ::area.per2 | number:0 }}</span></td>
+              <td class="text-center"><span ng-if="::(year.cant_areas_pierde_year&gt;0 &amp;&amp; area.asignaturas.length==1) || (year.cant_asignatura_pierde_year&gt;0)">{{ ::area.per3 | number:0 }}</span></td>
+              <td class="text-center"><span ng-if="::(year.cant_areas_pierde_year&gt;0 &amp;&amp; area.asignaturas.length==1) || (year.cant_asignatura_pierde_year&gt;0)">{{ ::area.per4 | number:0 }}</span></td>
               <td ng-class="{'nota-perdida-puestos': area.area_nota&lt;USER.nota_minima_aceptada}" style="font-weight: bold;" class="text-center italic">{{ ::area.area_desempenio }}</td>
               <td ng-class="{'nota-perdida-puestos': area.area_nota&lt;USER.nota_minima_aceptada}" style="font-weight: bold;" class="text-center italic">{{ ::area.area_nota }}</td>
             </tr>

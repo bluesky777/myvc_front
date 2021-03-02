@@ -150,6 +150,10 @@ angular.module('myvcFrontApp')
       $('td.fixed-cell').css( {'transform': 'translate(0, 0)'});
 
 
+  $scope.irComportamientoGrupo = ()->
+    $state.go('panel.comportamiento', {grupo_id: $scope.datos.grupo.id})
+
+
 
 
   $http.put('::grupos/con-disciplina').then((r)->
@@ -211,6 +215,9 @@ angular.module('myvcFrontApp')
 
   $scope.verSituacionesPorGrupos = ()->
     $state.go 'panel.disciplina.ver-situaciones-por-grupos', {reload: true}
+
+  $scope.verObservadorGrupo = ()->
+    $state.go 'panel.disciplina.ver-observador-completo', {grupo_id: $scope.datos.grupo.id}, {reload: true}
 
 
 

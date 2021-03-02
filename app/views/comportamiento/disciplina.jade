@@ -18,6 +18,10 @@
             button.btn.btn-default(ng-class="{'active': inmovible_activado==true}" ng-click="toggleInmovible()" uib-tooltip="Ver la columna nombre siempre. (el diseño aún está en construcción pero ya es funcional)")
                 span(style="padding-right: 3px") Nombre inmovible
                 i.fa.fa-map-marker
+                
+            button.btn.btn-primary(ng-click="irComportamientoGrupo()" uib-tooltip="Ir al comportamiento hecho por el titular")
+                span(style="padding-right: 3px") Ir a comportamiento {{grupo.nombre}}
+
 
 
             .row(style="overflow: auto; padding-top: 10px;")
@@ -349,6 +353,9 @@
 
             button.btn.btn-default(ng-click="verSituacionesPorGrupos()" uib-tooltip="Listado de alumnos con situaciones por grados")
                 | Situaciones por grupo
+                
+            button.btn.btn-default(ng-click="verObservadorGrupo()" uib-tooltip="Ver el libro rojo del grupo entero")
+                | Observador del grupo
 
             hr.wide
             h5 Orientación de la página:

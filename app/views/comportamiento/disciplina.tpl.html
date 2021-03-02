@@ -7,6 +7,7 @@
         <selector-grupo-dir></selector-grupo-dir>
       </div>
       <button ng-class="{'active': inmovible_activado==true}" ng-click="toggleInmovible()" uib-tooltip="Ver la columna nombre siempre. (el diseño aún está en construcción pero ya es funcional)" class="btn btn-default"><span style="padding-right: 3px">Nombre inmovible</span><i class="fa fa-map-marker"></i></button>
+      <button ng-click="irComportamientoGrupo()" uib-tooltip="Ir al comportamiento hecho por el titular" class="btn btn-primary"><span style="padding-right: 3px">Ir a comportamiento {{grupo.nombre}}</span></button>
       <div style="overflow: auto; padding-top: 10px;" class="row">
         <div class="col-xs-12">
           <div ng-show="datos.grupo.nombre" fixed-column-table fixed-columns="2" class="table-responsive">
@@ -195,6 +196,7 @@
         </div>
       </div><br><br>
       <button ng-click="verSituacionesPorGrupos()" uib-tooltip="Listado de alumnos con situaciones por grados" class="btn btn-default">Situaciones por grupo</button>
+      <button ng-click="verObservadorGrupo()" uib-tooltip="Ver el libro rojo del grupo entero" class="btn btn-default">Observador del grupo</button>
       <hr class="wide">
       <h5>Orientación de la página:</h5>
       <div class="control-group">

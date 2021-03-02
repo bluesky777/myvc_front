@@ -57,11 +57,11 @@ angular.module("myvcFrontApp")
       { name: 'edicion', displayName:'Edición', width: 50, enableSorting: false, enableFiltering: false, cellTemplate: btGrid2, enableCellEdit: false}
       { field: 'sexo', displayName: 'Sex', width: 40 }
       { field: 'num_doc', displayName: 'Documento', minWidth: 130, cellFilter: 'formatNumberDocumento' }
-      { field: 'titulo', minWidth: 200 }
-      { field: 'fecha_nac', displayName: 'Nacimiento', cellFilter: "date:mediumDate", type: 'date', minWidth: 100}
       { field: 'username', filter: { condition: uiGridConstants.filter.CONTAINS }, displayName: 'Usuario', cellTemplate: btUsuario, editableCellTemplate: btEditUsername, minWidth: 135 }
-      { field: 'email_usu', displayName:'Email', minWidth: 250  }
+      { field: 'fecha_nac', displayName: 'Nacimiento', cellFilter: "date:mediumDate", type: 'date', minWidth: 100}
       { field: 'celular', minWidth: 100 }
+      { field: 'titulo', minWidth: 200 }
+      { field: 'email_usu', displayName:'Email', minWidth: 250  }
       { field: 'direccion', minWidth: 200 }
     ]
     multiSelect: false,
@@ -138,8 +138,8 @@ angular.module("myvcFrontApp")
       { field: 'nombres', enableHiding: false, minWidth: 100 }
       { field: 'apellidos', minWidth: 100 }
       { field: 'sexo', displayName: 'Sex', width: 40 }
-      { field: 'fecha_nac', displayName: 'Nacimiento', minWidth: 100  }
       { field: 'username', filter: { condition: uiGridConstants.filter.CONTAINS }, displayName: 'Usuario', cellTemplate: btUsuario, editableCellTemplate: btEditUsername, minWidth: 135 }
+      { field: 'fecha_nac', displayName: 'Nacimiento', minWidth: 100  }
       { field: 'email_usu', displayName:'Email', minWidth: 250  }
       { field: 'celular', minWidth: 100 }
     ]
