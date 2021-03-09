@@ -75,22 +75,22 @@ div(ng-class="{'page-carta-horizontal': config.orientacion=='carta_horizontal', 
 								b {{ ::area.area_nombre }}
 
 							td.text-center(style="font-style: italic; font-size: 8pt;")
-								span(ng-if="::(year.cant_areas_pierde_year>0 && area.asignaturas.length==1) || (year.cant_asignatura_pierde_year>0) && (area.ausencias>0)")
+								span(ng-if="::(year.cant_areas_pierde_year>0 && area.asignaturas.length>1) && (area.ausencias>0)")
 									| {{ ::area.ausencias }}
 							td.text-center
-								span(ng-if="::(year.cant_areas_pierde_year>0 && area.asignaturas.length==1) || (year.cant_asignatura_pierde_year>0)")
+								span(ng-if="::(year.cant_areas_pierde_year>0 && area.asignaturas.length>1)")
 									| {{ ::area.creditos }}
 							td.text-center
-								span(ng-if="::(year.cant_areas_pierde_year>0 && area.asignaturas.length==1) || (year.cant_asignatura_pierde_year>0)")
+								span(ng-if="::(year.cant_areas_pierde_year>0 && area.asignaturas.length>1)")
 									| {{ ::area.per1 | number:0 }}
 							td.text-center
-								span(ng-if="::(year.cant_areas_pierde_year>0 && area.asignaturas.length==1) || (year.cant_asignatura_pierde_year>0)")
+								span(ng-if="::(year.cant_areas_pierde_year>0 && area.asignaturas.length>1)")
 									| {{ ::area.per2 | number:0 }}
 							td.text-center
-								span(ng-if="::(year.cant_areas_pierde_year>0 && area.asignaturas.length==1) || (year.cant_asignatura_pierde_year>0)")
+								span(ng-if="::(year.cant_areas_pierde_year>0 && area.asignaturas.length>1)")
 									| {{ ::area.per3 | number:0 }}
 							td.text-center
-								span(ng-if="::(year.cant_areas_pierde_year>0 && area.asignaturas.length==1) || (year.cant_asignatura_pierde_year>0)")
+								span(ng-if="::(year.cant_areas_pierde_year>0 && area.asignaturas.length>1)")
 									| {{ ::area.per4 | number:0 }}
 							td.text-center.italic(ng-class="{'nota-perdida-puestos': area.area_nota<USER.nota_minima_aceptada}" style="font-weight: bold;")
 								| {{ ::area.area_desempenio }}
