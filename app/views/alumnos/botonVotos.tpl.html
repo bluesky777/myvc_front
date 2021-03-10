@@ -1,0 +1,2 @@
+
+<div ng-repeat="aspiracion in row.entity.aspiraciones" uib-tooltip="{{ aspiracion.aspiracion }}: {{ aspiracion.votos[0].created_at | date:'d MMM hh:mm a' }}" tooltip-placement="right" ng-class="{'badge-success': aspiracion.votos.length &gt; 0, 'badge-warning': aspiracion.votos.length == 0}" class="badge">{{ aspiracion.abrev }}: {{ aspiracion.votos.length }}</div>

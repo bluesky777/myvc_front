@@ -2,10 +2,11 @@
 
 angular.module("myvcFrontApp")
 
-.controller('ParticipantesCtrl', ['$scope', '$filter', '$http', 'toastr', ($scope, $filter, $http, toastr)->
+.controller('ParticipantesCtrl', ['$scope', '$filter', '$http', 'toastr', 'Acentos', ($scope, $filter, $http, toastr, Acentos)->
 
     $scope.participantes	= []
     $scope.dato	= {grupo: ''}
+    $scope.gridOptions 		= {}
 
 
     $scope.votacion = {
@@ -46,7 +47,14 @@ angular.module("myvcFrontApp")
         grupo.active = true
     
         $http.put('::participantes/votantes', {grupo_id: grupo.id, votacion_id: $scope.votacion.id}).then((r)->
+            
+            for parti in r.data.participantes
+                for aspir in parti.aspiraciones
+                    for voto in aspir.votos
+                        voto.created_at = new Date(voto.created_at.replace(/-/g, '\/'))
+        
             $scope.participantes = r.data.participantes
+            $scope.gridOptions.data = r.data.participantes
         , (r2)->
             toastr.error 'Error al traer participantes.'
         )
@@ -62,6 +70,42 @@ angular.module("myvcFrontApp")
             toastr.error 'Error al intentar guardar Inscripciones.'
             $scope.guardando_inscrip = false
         )
+
+
+    btUsuario       = "==directives/botonesResetPassword.tpl.html"
+    btEditUsername  = "==alumnos/botonEditUsername.tpl.html"
+    btEditEPS       = "==alumnos/botonEditEps.tpl.html"
+    btVotos         = "==alumnos/botonVotos.tpl.html"
+    appendPopover1 = "'==alumnos/popoverAlumnoGrid.tpl.html'"
+    appendPopover2 = "'mouseenter'"
+    append3 = "' '"
+    appendPopover = 'uib-popover-template="views+' + appendPopover1 + '" popover-trigger="'+appendPopover2+'" popover-title="{{ row.entity.nombres + ' + append3 + ' + row.entity.apellidos }}" popover-popup-delay="500" popover-append-to-body="true"'
+
+
+
+    $scope.gridOptions =
+        showGridFooter: true,
+        showColumnFooter: true,
+        showFooter: true,
+        enableSorting: true,
+        enableFiltering: true,
+        enebleGridColumnMenu: false,
+        columnDefs: [
+            { field: 'no', pinnedLeft:true, cellTemplate: '<div class="ui-grid-cell-contents">{{grid.renderContainers.body.visibleRowCache.indexOf(row) + 1}}</div>', width: 40, enableCellEdit: false }
+            { field: 'nombres', minWidth: 130, pinnedLeft:true,
+            filter: {
+                condition: Acentos.buscarEnGrid
+            }
+            enableHiding: false, cellTemplate: '<div class="ui-grid-cell-contents" style="padding: 0px;" ' + appendPopover + '><img ng-src="{{grid.appScope.perfilPath + row.entity.foto_nombre}}" style="width: 35px" />{{row.entity.nombres}}</div>' }
+            { field: 'apellidos', minWidth: 110, filter: { condition: Acentos.buscarEnGrid }}
+            { name: 'Votos', cellTemplate: btVotos, minWidth: 200 }
+            { field: 'sexo', displayName: 'Sex', width: 40 }
+            { field: 'username', filter: { condition: Acentos.buscarEnGrid }, displayName: 'Usuario', cellTemplate: btUsuario, editableCellTemplate: btEditUsername, minWidth: 135 }
+            { field: 'documento', minWidth: 100, cellFilter: 'formatNumberDocumento' }
+            { field: 'celular', displayName: 'Celular', minWidth: 80 }
+        ],
+        multiSelect: false,
+
 
     return
 ])
