@@ -19,18 +19,23 @@ angular.module('myvcFrontApp')
 	$scope.unidades = []
 
 
-	$http.get('::unidades/de-asignatura-periodo/' + $scope.asignatura_id + '/' + $scope.USER.periodo_id).then((r)->
-		if r.data.length > 0
-			for unidad in r.data
+	$http.put('::unidades/de-asignatura-periodo/' + $scope.asignatura_id + '/' + $scope.USER.periodo_id).then((r)->
+		
+		$scope.anios_pasados = r.data.anios_pasados
+		$scope.mostrar_poco_anteriores = true
+		
+		if r.data.unidades.length > 0
+			for unidad in r.data.unidades
 				unidad.anim_bloqueada = false
 				unidad.subunidades = $filter('orderBy')(unidad.subunidades, 'orden')
 				$scope.bloquear_animacion(unidad)
 
-				for subuni in unidad.subunidades
-					subuni.anim_bloqueada = false
-					$scope.bloquear_animacion(subuni)
+				if unidad
+					for subuni in unidad.subunidades
+						subuni.anim_bloqueada = false
+						$scope.bloquear_animacion(subuni)
 
-			$scope.unidades = r.data
+			$scope.unidades = r.data.unidades
 			$scope.unidades = $filter('orderBy')($scope.unidades, 'orden')
 
 			$scope.calcularPorcUnidades()

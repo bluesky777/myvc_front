@@ -10,6 +10,23 @@
       <div ng-show="::USER.profes_pueden_editar_notas==0 &amp;&amp; USER.profes_pueden_nivelar==0 &amp;&amp; !hasRoleOrPerm('Admin')" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px" class="alert alert-info fade in radius-bordered"><i class="fa-fw fa fa-info"></i>Este periodo está bloqueado. No puedes editar indicadores o Nivelar notas finales.</div>
       <div ng-show="::USER.profes_pueden_editar_notas==0 &amp;&amp; USER.profes_pueden_nivelar==1 &amp;&amp; !hasRoleOrPerm('Admin')" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px" class="alert alert-info fade in radius-bordered"><i class="fa-fw fa fa-info"></i>Este periodo está bloqueado. No puedes editar notas pero puedes Nivelar notas finales.</div>
       <div ng-show="::USER.profes_pueden_editar_notas==0 &amp;&amp; USER.profes_pueden_nivelar==1 &amp;&amp; hasRoleOrPerm('Admin')" style="margin-top: 10px; margin-bottom: 8px; margin-left: 30px" class="alert alert-info fade in radius-bordered"><i class="fa-fw fa fa-info"></i>Este periodo está bloqueado. Pero como administrador, tú puedes editarlo.</div>
+      <div class="widget">
+        <div class="widget-header"><i class="fa fa-copy widget-icon"></i><span class="widget-caption">Indicadores de años pasados</span></div>
+        <div ng-class="{'mostrar_poco_anteriores': mostrar_poco_anteriores}" style="overflow: auto" class="widget-body">
+          <div ng-repeat="anio in anios_pasados" ng-show="anio.unidades.length &gt; 0"><span style="font-weight: bold">{{ anio.year }} Per{{ anio.numero_periodo }}:</span>
+            <div ng-repeat="unidad in anio.unidades"><span>{{$index+1}}. {{ unidad.definicion }}</span>
+              <div ng-repeat="subunidad in unidad.subunidades" style="padding-left: 15px; font-size: 9pt; color: #888; text-overflow: ellipsis; overflow: hidden; width: 100%; white-space: nowrap;">
+                 
+                {{$index+1}}. {{ subunidad.definicion }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="widget-header">
+          <div class="widget-caption"><a href="" ng-click="mostrar_poco_anteriores=!mostrar_poco_anteriores"><span ng-show="mostrar_poco_anteriores">Mostrar todo</span><span ng-show="!mostrar_poco_anteriores">Mostrar menos</span></a></div>
+        </div>
+      </div>
+      <h5 class="row-title before-blue">Crear nuevo</h5>
       <!-- Formulario crear--><span ng-hide="no_asignatura">
         <form ng-submit="crearUnidad()" role="form" ng-show="::USER.profes_pueden_editar_notas || hasRoleOrPerm('Admin')" class="form-inline row">
           <div class="form-group definicion-add-unidad col-md-8 col-sm-8 col-xs-12 si-padding-left-xs">

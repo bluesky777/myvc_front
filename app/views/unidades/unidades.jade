@@ -36,6 +36,29 @@
 				| Este periodo está bloqueado. Pero como administrador, tú puedes editarlo.
 
 
+
+			.widget
+				.widget-header
+					i.fa.fa-copy.widget-icon
+					span.widget-caption Indicadores de años pasados
+				.widget-body(ng-class="{'mostrar_poco_anteriores': mostrar_poco_anteriores}" style="overflow: auto")
+					div(ng-repeat="anio in anios_pasados" ng-show="anio.unidades.length > 0")
+						span(style="font-weight: bold") {{ anio.year }} Per{{ anio.numero_periodo }}:
+
+						div(ng-repeat="unidad in anio.unidades")
+							span {{$index+1}}. {{ unidad.definicion }}
+							div(ng-repeat="subunidad in unidad.subunidades"
+								style="padding-left: 15px; font-size: 9pt; color: #888; text-overflow: ellipsis; overflow: hidden; width: 100%; white-space: nowrap;") 
+								| {{$index+1}}. {{ subunidad.definicion }}
+				.widget-header
+					.widget-caption
+						a(href="" ng-click="mostrar_poco_anteriores=!mostrar_poco_anteriores")
+							span(ng-show="mostrar_poco_anteriores") Mostrar todo
+							span(ng-show="!mostrar_poco_anteriores") Mostrar menos
+
+			h5.row-title.before-blue
+				| Crear nuevo
+
 			// Formulario crear
 			span(ng-hide="no_asignatura")
 				form.form-inline.row(ng-submit="crearUnidad()" role="form" ng-show="::USER.profes_pueden_editar_notas || hasRoleOrPerm('Admin')")
